@@ -2,22 +2,90 @@
 <html lang="it">
 
 <head>
-    <title>PetMatch</title> 
-    <meta charset="utf-8"> 
+    <title>PetMatch</title>
+    <meta charset="utf-8">
     <meta name="description" content="Pagina dedicata alle nazionali di pallavolo femminile e maschile 
     (Italvolley) che hanno vinto i mondiali e le olimpiadi">
     <meta name="keywords" content="adotta, animali, sostenitori, amico a quattro zampe">
     <meta name="author" content="Angela Canazza, Angela Favaro, Laura Venturini, Daniela Erba, Linor Sadè">
-    <link rel="stylesheet" href="style.css" media="screen"> 
+    <link rel="stylesheet" href="style.css" media="screen">
     <link rel="stylesheet" href="mini.css" media="screen and (max-width:800px)">
     <link rel="stylesheet" href="print.css" media="print">
-    <link rel="preconnect" href="https://fonts.googleapis.com"> 
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100..900&display=swap" rel="stylesheet">
 </head>
+
 <body>
-    
+    <header>
+        <img src="../assets/logo.svg" id="logo" alt="">
+        <h1>PetMatch</h1>
+    </header>
+
+    <nav id="menu">
+        <ul>
+            <li lang="en" id="currentLink">Home</li>
+            <li><a href="animali.html">Animali</a></li>
+            <li><a href="eventi.html">Eventi</a></li>
+            <li><a href="comeFunziona.html">Come funziona</a></li>
+            <li><a href="chiSiamo.html">Chi siamo</a></li>
+            <li><a href="lavoraConNoi.html">Lavora con noi</a></li>
+        </ul>
+    </nav>
+
+    <div class="header-buttons">
+        <label class="switch">
+            <input type="checkbox">
+            <span class="slider">
+                <img src="../assets/theme.svg" id="theme" alt="">
+            </span>
+        </label>
+        <a class="preferred-button" href="preferiti.html">
+            <img src="../assets/preferred.svg" id="preferred" alt="preferiti">
+        </a>
+        <a class="profile-button" href="profilo.html"></a>
+    </div>
+
+    <nav id="breadcrumb">
+        <p>Home</p>
+    </nav>
+
+    <footer>
+        <nav aria-label="Menù su di noi">
+            <h4>SU DI NOI</h4>
+            <ul>
+                <li><a href="chiSiamo.html"> Chi siamo</a></li>
+                <li><a href="eventi.html">I nostri eventi</a></li>
+                <li><a href="animali.html">I nostri animali</a></li>
+            </ul>
+        </nav>
+        <nav aria-label="Menù lavora con noi">
+            <h4>VUOI LAVORARE CON NOI?</h4>
+            <ul>
+                <li><a href="lavoraConNoi.html#volontario"> Diventa un nostro volontario</a></li>
+                <li><a href="lavoraConNoi.html#sostenitore"> Diventa un nostro sostenitore</a></li>
+            </ul>
+        </nav>
+        <nav aria-label="Menù contattaci">
+            <h4>CONTATTACI</h4>
+            <ul>
+                <li><a href="mailto:matchpet48@gmail.com" target="_blank">matchpet48@gmail.com</a></li>
+                <li><a href="tel:+390000000000"> +39 000 000 0000</a></li>
+            </ul>
+        </nav>
+        <nav aria-label="Menù contattaci">
+            <img src="../assets/logo.svg" id="logo" alt="">
+            <h4>SEGUICI SU</h4>
+            <ul>
+                <li>
+                    <a href="https://www.instagram.com/petmatch_shelter" target="_blank"> @petmatch_shelter 
+                        <img src="../assets/Instagram.svg" id="instagram" alt="">
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </footer>
+
 </body>
+
 </html>
-
-
