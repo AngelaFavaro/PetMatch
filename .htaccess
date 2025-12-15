@@ -1,0 +1,11 @@
+RewriteEngine On 
+
+RewriteRule ^$ index.php [L]
+RewriteRule ^index\.php$ - [L]
+
+RewriteRule ^src/css/ - [L]
+RewriteRule ^src/js - [L]
+RewriteRule ^assets/images - [L]
+RewriteRule ^assets/icons - [L]
+
+RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
