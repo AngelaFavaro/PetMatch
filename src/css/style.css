@@ -57,10 +57,9 @@ h4{
     font-size: 1.1em;
 }
 
-main#content{
-    /* se cambi questo valore vai a vedere la pagina 404, non so come altro fare altrimenti */
+/* main#content{
     margin: 10% auto;
-}
+} */
 
 /*==================PULSANTI==================*/
 a.orange-button{
@@ -86,10 +85,11 @@ a.orange-button{
 
 /* Stile per allineare l'immagine ai numeri */
 #error-title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14rem;
+    margin-top: 0.6em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14rem;
 
 }
 
@@ -193,3 +193,33 @@ footer h4 {
     margin-left: auto;
     margin-right: auto;
 } */
+
+
+
+/* ================== =========== AREA RISERVATA ADMIN================== ============*/
+
+body#admin-body{
+    background-color: var(--footercolor);
+}
+div#admin-area article h2{
+     font-size: 1.5em; 
+}
+
+div#admin-area{
+    margin-left: 20%;
+
+    padding: 1em;
+}
+/* ================== MENU ADMIN==================*/
+
+nav#menu-admin {
+    float: left;
+    width: 20%;
+    padding: 0.8em;
+    /* height: 100%; */
+    overflow: hidden;
+}
+
+body#admin-body main {
+    background-color: var(--bgcolor);;
+}

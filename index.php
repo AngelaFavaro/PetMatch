@@ -8,6 +8,11 @@ $routes = [
     'home' => [
         'file' => __DIR__ . '/src/php/index.php'
     ],
+    'area-riservata' => [
+        'file' => __DIR__ . '/src/php/admin/area-riservata.php'
+        //qui penso che servano altri parametri ma al momento sto facendo la pagina statica -linor
+    ]
+    /* decommentare quando si vogliono aggiungere le altre pagine
     'accedi' => [
         'file' => __DIR__ . '/src/php/accedi.php'
     ],
@@ -46,8 +51,8 @@ $routes = [
     ],
     'animali-preferiti' => [
         'file' => __DIR__ . '/src/php/animali.php',
-        /**  non so come fare qui, forse fa pagina animali.php posso controllare l'url completo per vedere
-         * se l'utente ha chiesto la pagina di preferiti, altrimenti si può aggiungere un parametro pagina=preferiti ma non so se è il massimo*/
+        //  non so come fare qui, forse fa pagina animali.php posso controllare l'url completo per vedere
+        // se l'utente ha chiesto la pagina di preferiti, altrimenti si può aggiungere un parametro pagina=preferiti ma non so se è il massimo
     ],
     'animali-preferiti/cani' => [
         'file' => __DIR__ . '/src/php/animali.php',
@@ -60,7 +65,7 @@ $routes = [
         'params' => [//in questo modo è come se l'utente avesse scritto animali.php?pagina=preferiti&tipo=gatti
             'tipo' => 'gatti'
         ]
-    ]
+    ]*/
 ];
 
 
