@@ -33,7 +33,7 @@ a:visited{
 } */
 .container{
     max-width: 1200px;
-    max-height: 100%;
+    /* max-height: 100%; */
     margin: auto;
 }
 
@@ -66,7 +66,7 @@ a.orange-button{
     display: block;
     text-align: center;
     margin: 2em auto;
-    width: 45%;
+    width: fit-content;
     background-color: var(--buttoncolor);
     color: var(--txtcolor);
     padding: 0.7em 1.5em;
@@ -188,11 +188,6 @@ footer h4 {
     background-size: auto 100%; /* da tenere assolutamente altrimenti si taglia */
 }
 
-/* footer img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-} */
 
 
 
@@ -203,12 +198,12 @@ body#admin-body{
 }
 div#admin-area article h2{
      font-size: 1.5em; 
+     font-weight: 600;
 }
 
 div#admin-area{
-    /*! margin-left: 20%; */
-
-    padding: 1em;
+    padding: 3em;
+    max-width: 1200px;
 }
 /* ================== MENU ADMIN==================*/
 
@@ -222,6 +217,53 @@ nav#menu-admin {
 
 body#admin-body main {
     background-color: var(--bgcolor);
-    margin-left:25%;
+    margin-left:20%;
     padding-bottom: 100%;
+}
+
+
+nav#menu-admin img {
+    width: 12em;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+nav#menu-admin li {
+  /*! margin-bottom: 2em; */
+  padding: 1.3em;
+}
+
+nav#menu-admin li#currentLink {
+    background-color: var(--bgcolor);
+    border-radius: 2em 0em 0em 2em;
+    color: var(--txtcolor);
+}
+
+nav#menu-admin li#currentLink a{
+    font-weight: 700;
+}
+
+/*========================================================
+NAVIGATION HELP
+========================================================
+*/
+
+.navigationHelp {
+	position: absolute;
+	text-indent: -999em;
+}
+
+.navigationHelp:focus{
+	position: static;
+	text-indent: 0em;
+}
+
+#menu a:link, .navigationHelp:link {
+	color: var(--linkcolor);
+}
+
+#menu a:visited, .navigationHelp:visited{
+	color: var(--visitedcolor);
 }
