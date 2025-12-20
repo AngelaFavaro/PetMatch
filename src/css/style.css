@@ -206,7 +206,7 @@ div#admin-area article h2{
 }
 
 div#admin-area{
-    margin-left: 20%;
+    /*! margin-left: 20%; */
 
     padding: 1em;
 }
@@ -221,5 +221,7 @@ nav#menu-admin {
 }
 
 body#admin-body main {
-    background-color: var(--bgcolor);;
+    background-color: var(--bgcolor);
+    margin-left:25%;
+    padding-bottom: 100%;
 }
