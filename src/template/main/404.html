@@ -1,15 +1,26 @@
 <main id="content">
     <img src="./assets/images/zzz_light_theme.svg" alt="">
-    <img src="./assets/images/resting-dog_light_theme.svg" alt="">
-    <h1>Qui non c'è nulla...solo un cane che dorme tranquillo</h1>
-    <h2>La pagina che hai cercato non ha prodotto risultati.</h2>
-    <div>
+
+    <!-- potremmo renderla direttamente un'immagine, poi col css le diamo il significato di h1,
+    per ora lascio così -->
+    <h1 id="error-title">
+        <span aria-hidden="true">4</span>
+        <img src="./assets/images/resting-dog_light_theme.svg" alt="" aria-hidden="true" id="zero-image">
+        <span aria-hidden="true">4</span>
+        <span class="sr-only">404</span>
+    </h1>
+
+    <div id="error-message">
+        <h2>Qui non c'è nulla...solo un cane che dorme tranquillo</h2>
+        <h3>La pagina che hai cercato non ha prodotto risultati.</h3>
+    </div>
+    <div id="error-info">
         <p>Alcune possibili cause:</p>
         <ul>
-            <li>Il link è stato scritto male o incollato parzialmente</li>
-            <li>La pagina è stata spostata o eliminata</li>
-            <li>Non hai accesso alla pagina...forse devi accedere?</li>
+            <li>Il link <strong>è stato scritto male o incollato parzialmente</strong></li>
+            <li>La pagina è stata <strong>spostata o eliminata</strong></li>
+            <li><strong>Non hai accesso alla pagina...</strong> forse devi accedere?</li>
         </ul>
-        <a class="button" href="./home">Torna alla Home</a>
+        <a class="orange-button" href="./home">Torna alla home</a>
     </div>
 </main>

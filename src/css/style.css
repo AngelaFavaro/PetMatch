@@ -1,0 +1,99 @@
+* {
+	padding: 0em;
+	margin: 0em;
+}
+
+:root{
+    --bgcolor: #FFF6D7;
+    --txtcolor: #481515;
+    --buttoncolor: #EA654C;
+    --buttoncolor-hover: #481515;
+    --linkcolor:#EA654C;
+    /* --visitedcolor: #????; */
+}
+
+
+html{
+    font-size: 100%;
+    line-height: 1.5em;
+    font-family: "Parkinsans", Roboto, sans-serif;
+    background-color: var(--bgcolor);
+    color: var(--txtcolor);
+}
+
+/* se troppo grandi per altre pagine allora avvisate linor prima di trovare altre soluzioni */
+h2{
+    font-size: 2.3em; 
+}
+h3{
+    font-size: 1.3em;
+}
+
+/*==================PULSANTI==================*/
+.orange-button{
+    display: block;
+    text-align: center;
+    margin: 2em auto;
+    width: 35%;
+    background-color: var(--buttoncolor);
+    color: var(--txtcolor);
+    padding: 0.7em 1.5em;
+    border-radius: 2em;
+    font-weight: 600;
+    transition: background-color 0.4s ease;
+}
+
+.orange-button:hover {
+    background-color: var(--buttoncolor-hover); 
+    color: var(--linkcolor);
+}
+
+/*==================ERRORE 404==================*/
+
+
+/* Stile per allineare l'immagine ai numeri */
+#error-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14rem;
+
+}
+
+#zero-image {
+  height: 0.9em;
+  width: auto;
+  margin: 0 0.1em;
+}
+
+#error-info{
+    margin: 2em auto;
+    width: 25%;
+}
+
+#error-message{
+    /* spazio tra i contenuti dentro a error-message: */
+    margin: 2em auto;
+    text-align: left;
+    width: fit-content;
+}
+
+#error-message > h2,h3 {
+  margin-bottom: 0.5em;
+}
+
+#error-message > h3 {
+    font-weight: 550;
+}
+/* ==================SOLO PER SCREEN READER================== */
+
+/* Gli elementi con questa classe sono visibili solo agli screen reader */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  border: 0;
+}
