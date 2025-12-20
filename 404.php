@@ -24,7 +24,6 @@ $paginaHTML = str_replace('[description]', $description, $paginaHTML);
 $paginaHTML = str_replace('[keywords]', $keywords, $paginaHTML);
 $paginaHTML = str_replace('[breadcrumb]', $breadcrumb, $paginaHTML);
 $paginaHTML = str_replace('[header]', $header, $paginaHTML);
-$paginaHTML = str_replace('[nav]', $nav, $paginaHTML);
 $paginaHTML = str_replace('[main]', $main, $paginaHTML);
 $paginaHTML = str_replace('[footer]', $footer, $paginaHTML);
 
