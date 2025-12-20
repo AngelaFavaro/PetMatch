@@ -75,7 +75,6 @@ main#content{
 }
 
 #error-message{
-    /* spazio tra i contenuti dentro a error-message: */
     margin: 2em auto;
     text-align: left;
     width: fit-content;
