@@ -12,6 +12,11 @@
     /* --visitedcolor: #????; */
 }
 
+body{
+    max-width: 1200px;
+    max-height: 100%;
+    margin: auto;
+}
 
 html{
     font-size: 100%;
@@ -29,12 +34,16 @@ h3{
     font-size: 1.3em;
 }
 
+main#content{
+    margin: 15% auto;
+}
+
 /*==================PULSANTI==================*/
 .orange-button{
     display: block;
     text-align: center;
     margin: 2em auto;
-    width: 35%;
+    width: 45%;
     background-color: var(--buttoncolor);
     color: var(--txtcolor);
     padding: 0.7em 1.5em;
@@ -60,15 +69,9 @@ h3{
 
 }
 
-#zero-image {
-  height: 0.9em;
-  width: auto;
-  margin: 0 0.1em;
-}
-
 #error-info{
     margin: 2em auto;
-    width: 25%;
+    width: 35%;
 }
 
 #error-message{
@@ -84,6 +87,37 @@ h3{
 
 #error-message > h3 {
     font-weight: 550;
+}
+
+/* Il contenitore deve stare in linea con i numeri 4 */
+.image-container {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+#zero-image {
+    height: 0.9em;
+    width: auto;
+    margin: 0 0.1em;
+}
+
+#zzz {
+    position: absolute;
+    top: -0.2em;
+    right: -0.3em;
+    font-size: 0.3em;
+    letter-spacing: 0.1em;
+    transform: rotate(5deg);
+}
+
+@keyframes sleep {
+    0%, 100% { opacity: 0.5; transform: rotate(5deg) scale(0.9); }
+    50% { opacity: 1; transform: rotate(5deg) scale(1.1); }
+}
+
+#zzz {
+    animation: sleep 4s infinite ease-in-out;
 }
 /* ==================SOLO PER SCREEN READER================== */
 

@@ -1,11 +1,14 @@
 <main id="content">
-    <img src="./assets/images/zzz_light_theme.svg" alt="">
-
+    
     <!-- potremmo renderla direttamente un'immagine, poi col css le diamo il significato di h1,
-    per ora lascio così -->
+    per ora lascio così (ovviamente le zzz non si muoverebbero più) -->
     <h1 id="error-title">
         <span aria-hidden="true">4</span>
-        <img src="./assets/images/resting-dog_light_theme.svg" alt="" aria-hidden="true" id="zero-image">
+        <div class="image-container">
+            <!-- <img src="./assets/images/zzz_light_theme.svg" alt=""> -->
+            <span id="zzz" aria-hidden="true">zzz</span>
+            <img src="./assets/images/resting-dog_light_theme.svg" alt="" aria-hidden="true" id="zero-image">
+        </div>
         <span aria-hidden="true">4</span>
         <span class="sr-only">404</span>
     </h1>
@@ -21,6 +24,6 @@
             <li>La pagina è stata <strong>spostata o eliminata</strong></li>
             <li><strong>Non hai accesso alla pagina...</strong> forse devi accedere?</li>
         </ul>
-        <a class="orange-button" href="./home">Torna alla home</a>
+        <a class="orange-button" href="./home">Torna alla <span lang="en">home</span></a>
     </div>
 </main>
