@@ -46,6 +46,9 @@ html{
 }
 
 /* se troppo grandi per altre pagine allora avvisate linor prima di trovare altre soluzioni */
+h1{
+    font-size: 2.7em; 
+}
 h2{
     font-size: 2.3em; 
 }
@@ -202,15 +205,23 @@ div#admin-area article h2{
 }
 
 div#admin-area{
-    padding: 3em;
+    padding: 8em;
     max-width: 1200px;
 }
+
+div#admin-area article {
+  padding:2em 1em;
+  border: 1px solid var(--txtcolor);
+  border-radius:1.5em;
+  margin: 2em 0em;
+}
+
 /* ================== MENU ADMIN==================*/
 
 nav#menu-admin {
     float: left;
-    width: 20%;
-    padding: 0.8em;
+    width: 19.3%;
+    padding: 1em 0em 1em 1em;
     /* height: 100%; */
     overflow: hidden;
 }
@@ -218,8 +229,9 @@ nav#menu-admin {
 body#admin-body main {
     background-color: var(--bgcolor);
     margin-left:20%;
-    padding-bottom: 100%;
+    min-height: 100vh;
 }
+
 
 
 nav#menu-admin img {
@@ -245,6 +257,15 @@ nav#menu-admin li#currentLink a{
     font-weight: 700;
 }
 
+nav#menu-admin span{
+    color: var(--bgcolor);
+    font-weight: 700;
+}
+
+nav#menu-admin ul{
+    margin-top:0.5em;
+    margin-bottom: 2em;
+}
 /*========================================================
 NAVIGATION HELP
 ========================================================
