@@ -251,8 +251,10 @@ p.n-query{
     margin-bottom: 0.5em;
 }
 /* ================== MENU ADMIN==================*/
+.menu-toggle { display: none; } /* Nascondi tasto su desktop */
 
 nav#menu-admin {
+    transition: 0.3s;
     float: left;
     width: 20%;
     padding: 1em 0em 1em 1em;
