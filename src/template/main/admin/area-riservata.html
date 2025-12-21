@@ -1,6 +1,6 @@
 <div id="admin-area">
     <h1>Ciao [nomeAdmin]!</h1> <!--TODO -->
-    <article id="">
+    <article aria-label="Le tue attività da completare">
         <h2>DA COMPLETARE</h2>
         <ul id="to-do-list">
             <li>
@@ -12,34 +12,69 @@
             <li>
                 <a href="" >
                     <p class="n-query">[n]</p>
-                    <p class="query-type">ANIMALI SENZA ADMIN</p>
+                    <p class="query-type">APPUNTI DA PRENDERE</p>
                 </a>
             </li>
             <li>
                 <a href="" >
                     <p class="n-query">[n]</p>
-                    <p class="query-type">ANIMALI SENZA ADMIN</p>
+                    <p class="query-type">ACCOGLIENZE</p>
                 </a>
             </li>
             <li>
                 <a href="" >
                     <p class="n-query">[n]</p>
-                    <p class="query-type">ANIMALI SENZA ADMIN</p>
+                    <p class="query-type">ADOZIONI DA VALUTARE</p>
                 </a>
             </li>
             <li>
                 <a href="" >
                     <p class="n-query">[n]</p>
-                    <p class="query-type">ANIMALI SENZA ADMIN</p>
+                    <p class="query-type">TRASPORTI DA ORGANIZZARE</p>
                 </a>
             </li>
         </ul>
         
     </article>
-    <article>
-        <h2>LE TUE STATISTICHE</h2>
-    </article>
-    <article>
-        <h2>LE TUE INFORMAZIONI</h2>
-    </article>
+    <div id="row2">
+        <article id="statistics-area" aria-label="Le tue statistiche">
+            <h2>LE TUE STATISTICHE</h2>
+            <ul id="statistics-list">
+                <li>
+                    <p class="n-query">[N]</p>
+                    <P class="query-type">ADOZIONI COMPLETATE</P>
+                </li>
+                <li>
+                    <p class="n-query">[N]</p>
+                    <P class="query-type">RICHIESTE VISIONATE</P>
+                </li>
+                <li>
+                    <p>
+                        <p class="n-query">[N]</p>
+                        <P class="query-type">IN CORSO DI ADOZIONE</P>
+                    </p>
+                </li>
+            </ul>
+        </article>
+        <article id="admin-info" aria-label="Le tue informazioni personali">
+            <div class="header-info">
+                <h2>LE TUE INFORMAZIONI</h2>
+                <!-- TODO da mettere collegamento-->
+                <a href="./">
+                    <img src="./assets/icons/edit-pencil.svg" alt="Modificare le informazioni">
+                </a>
+            </div>
+
+            <div id="info-container">
+                <img src="./assets/images/linor.jpg" alt="Foto di [nome]" class="circle-foto">
+                
+                <div class="text-details">
+                    <p><strong>Nome:</strong> [nomeAdmin]</p>
+                    <p><strong>Cognome:</strong> [cognomeAdmin]</p>
+                    <p><strong>Email:</strong> [emailAdmin]</p>
+                </div>
+            </div>
+        </article>
+    </div>
+    
 </div>
