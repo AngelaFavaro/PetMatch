@@ -205,7 +205,7 @@ div#admin-area article h2{
 }
 
 div#admin-area{
-    padding: 8em;
+    padding: 6em;
     max-width: 1200px;
 }
 
@@ -217,29 +217,36 @@ div#admin-area article {
 }
 
 ul#to-do-list a{
+    text-decoration: none;
     display: inline-block;
     /*! text-align: center; */ /*! margin: 2em auto; */
     width: fit-content;
     background-color: var(--buttoncolor);
     color: var(--txtcolor);
-    padding: 1em 2em;
-    border-radius: 1.5em;
+    padding: 1.8em 1.2em 1.2em 1.2em;
+    border-radius: 1.2em;
     font-weight: 600;
     transition: background-color 0.4s ease;
 }
+
+
 #to-do-list{
     margin: 0 -10px;
     display: flex;
     list-style: none;
     flex-wrap: wrap;
-    padding: 2em 0em 2em 2em;
+    padding: 1em 1em;
 }
 #to-do-list li{
     padding: 0.2em;
-    flex: 1 1 200px;
+    flex: 1 1 100px;
 }
 p.query-type{
     font-size: 0.8em;
+}
+p.n-query{
+    font-size:2em;
+    font-weight: 700;
 }
 /* ================== MENU ADMIN==================*/
 
