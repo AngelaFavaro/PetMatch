@@ -265,7 +265,11 @@ nav#menu-admin {
 body#admin-body main {
     background-color: var(--bgcolor);
     margin-left:20%;
+}
+
+main#content{
     min-height: 100vh;
+    padding-top:2em;
 }
 
 
@@ -364,4 +368,29 @@ div#row2 article{
 
 #menu a:visited, .navigationHelp:visited{
 	color: var(--visitedcolor);
+}
+
+
+/* ================== BREADCRUMB==================*/
+nav#breadcrumb{
+    margin: auto;
+    display: block;
+    text-align: center;
+    width: fit-content;
+    background-color: var(--footercolor);
+    color: var(--bgcolor);
+    padding: 0.7em 1.5em;
+    border-radius: 2em;
+    font-weight: 400;
+    /* transition: background-color 0.4s ease; */
+}
+
+nav#breadcrumb a{
+    color: var(--linkcolor);
+    font-weight: 600;
+}
+
+
+nav#breadcrumb a:visited{
+    color: var(--visitedcolor);
 }

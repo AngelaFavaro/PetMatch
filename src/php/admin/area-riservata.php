@@ -1,5 +1,5 @@
 <?php
-
+include './src/utils.php';
 $paginaHTML = file_get_contents('./src/template/layout-admin.html');
 if ($paginaHTML === false) {
 	$paginaHTML = "<p>Errore: template layout.html non trovato o non leggibile.</p>";
@@ -14,7 +14,7 @@ $nav = file_get_contents('./src/template/partials/nav-admin.html');
 
 $footer = file_get_contents('./src/template/partials/footer.html');
 
-$breadcrumb = "";
+$breadcrumb = getBreadcrumb('area-riservata', $pagine);
 
 $main = file_get_contents('./src/template/main/admin/area-riservata.html');
 
