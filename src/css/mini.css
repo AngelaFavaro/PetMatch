@@ -7,7 +7,7 @@ nav#menu-admin {
     max-height: 0;
     overflow: hidden;
     background-color: transparent; 
-    transition: max-height 0.3s ease, background-color 0.3s ease;
+    /* transition: max-height 0.3s ease, background-color 0.3s ease; */
     z-index: 1000;
     visibility: hidden;
 }
@@ -20,7 +20,7 @@ nav#menu-admin {
 
 body#admin-body main {
     margin-left: 0;
-    transition: margin-top 0.3s ease;
+    /* transition: margin-top 0.3s ease; */
 }
 
 .menu-toggle {
