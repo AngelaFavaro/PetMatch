@@ -59,7 +59,7 @@ h4{
 a.orange-button{
     display: block;
     text-align: center;
-    margin: 2em auto;
+    margin: auto;
     width: fit-content;
     background-color: var(--buttoncolor);
     color: var(--txtcolor);
@@ -254,12 +254,15 @@ p.n-query{
 .menu-toggle { display: none; } /* Nascondi tasto su desktop */
 
 nav#menu-admin {
+    display: flex;
+    flex-direction: column;
     transition: 0.3s;
     float: left;
     width: 20%;
     padding: 1em 0em 1em 1em;
     /* height: 100%; */
     overflow: hidden;
+    height: 100vh;
 }
 
 body#admin-body main {
@@ -310,6 +313,10 @@ nav#menu-admin ul{
     margin-bottom: 2em;
 }
 
+nav#menu-admin a#logout{
+    /* margin-top: 14em; */
+    margin-top: auto;
+}
 div#row2{
     display: flex;
     flex-wrap: wrap;
