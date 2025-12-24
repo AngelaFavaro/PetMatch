@@ -64,7 +64,7 @@ a.orange-button{
     background-color: var(--buttoncolor);
     color: var(--txtcolor);
     padding: 0.7em 1.5em;
-    border-radius: 2em;
+    border-radius: 1em;
     font-weight: 600;
     transition: background-color 0.4s ease;
 }
@@ -292,7 +292,7 @@ nav#menu-admin li {
 
 nav#menu-admin li#currentLink {
     background-color: var(--bgcolor);
-    border-radius: 2em 0em 0em 2em;
+    border-radius: 1em 0em 0em 2em;
     color: var(--txtcolor);
 }
 nav#menu-admin li a:visited{
@@ -339,7 +339,7 @@ div#row2 article{
     float: right;
 }
 
-#info-container {
+#generic-info-container {
     display: flex;
     flex-wrap: wrap;
 }
@@ -361,7 +361,7 @@ div#row2 article{
 .text-details{
     margin: auto 2em;
 }
-.header-info, #info-container{
+.header-info, #generic-info-container{
     margin-bottom: 1em;
 }
 
@@ -382,7 +382,6 @@ div#row2 article{
 
 .tab button.active {
     padding-bottom: 0.3em;
-    font-weight: 600;
     border: 1px solid var(--txtcolor);
     border-bottom: none;
 }
@@ -391,8 +390,16 @@ div#row2 article{
    border-bottom: 1px solid var(--txtcolor);
 }
 
-button h2{
+.tabcontent#Richiedente .orange-button{
+    margin: 0em 0em 2em auto;
+}
+
+#animale-richiesta .orange-button{
+    margin: 0em auto 2em 0em;
+}
+#details-container h2{
     font-size: 1.2em;
+    /* margin-bottom: 1em; */
     color: var(--txtcolor);
 }
 
@@ -409,6 +416,11 @@ button h2{
 
 }
 
+p#altre-richieste{
+    text-align: center;
+}
+
+
 /* todo mamma mia linor, modifica sta roba che diventa illeggibile (devi
 modificare div#admin-area article che è più specifico di #details-container article quindi hai dovuto scriverlo così) */
 div#admin-area #details-container article{
@@ -419,10 +431,19 @@ div#admin-area #details-container article{
     border-top: none;
 }
 
+div#admin-area #details-container article#animale-richiesta{
+    margin: 0em;
+    border-radius: 1em;
+    border-bottom-left-radius: 0em;
+    border-bottom-right-radius: 0em;
+    border-top: 1px solid var(--txtcolor);
+    width: 100%;
+}
+
 #details-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 9em;
+    gap: 6em;
     align-items: flex-start;
     margin: 2em 0em;
 }
@@ -470,7 +491,7 @@ nav#breadcrumb{
     background-color: var(--footercolor);
     color: var(--bgcolor);
     padding: 0.7em 1.5em;
-    border-radius: 2em;
+    border-radius: 1em;
     font-weight: 400;
     /* transition: background-color 0.4s ease; */
 }
