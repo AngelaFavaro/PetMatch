@@ -10,7 +10,7 @@
 $pagine = [
     'home' => [
         'file' => __DIR__ . '/src/php/index.php',
-        'label' => 'Home',
+        'label' => 'Home', //la label e' quella che viene mostrata nella breadcrumb
         'url' => './home',
         'parent' => null 
     ],
@@ -19,6 +19,18 @@ $pagine = [
         'label' => 'Area personale',
         'url' => './area-riservata',
         'parent' => 'home'
+    ],
+    'richieste-adozione' => [
+        'file' => __DIR__ . '/src/php/admin/richieste-adozione.php',
+        'label' => 'Richieste di adozione',
+        'url' => './richieste-adozione',
+        'parent' => 'home'
+    ],
+    'dettagli-richiesta' => [
+        'file' => __DIR__ . '/src/php/admin/dettagli-richiesta.php',
+        'label' => 'Dettagli richiesta',
+        'url' => './dettagli-richiesta',
+        'parent' => 'richieste-adozione'
     ]
 ];
 

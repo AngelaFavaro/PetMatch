@@ -350,6 +350,14 @@ div#row2 article{
     object-fit: cover;
     clip-path: circle(50%);
 }
+
+.square-foto {
+    width: 9em;
+    height: 9em;
+    object-fit: cover;
+    /* clip-path: square(50%); */
+}
+
 .text-details{
     margin: auto 2em;
 }
@@ -357,6 +365,56 @@ div#row2 article{
     margin-bottom: 1em;
 }
 
+
+/*================= DETTAGLI RICHIESTE DI ADOZIONE ==================*/
+ /* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+} 
+
+#details-container{
+    display:flex;
+    flex-wrap: wrap;
+
+}
+
+#details-container article{
+    flex: 1 1 200px;
+    gap: 1em;
+    /* margin-right: 1em;
+    margin-bottom: 1em; */
+}
 /*================NAVIGATION HELP ==================*/
 
 .navigationHelp {

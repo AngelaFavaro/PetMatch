@@ -1,0 +1,54 @@
+<div id="admin-area">
+    <h1>Dettagli richiesta di adozione</h1> <!--TODO -->
+    <div id="details-container">
+
+        <!-- <article id="tabs-container"> -->
+            <div class="tab">
+                <button class="tablinks" onclick="openTab(event, 'Richiesta')">Informazioni richiesta</button>
+                <button class="tablinks" onclick="openTab(event, 'Richiedente')">Informazioni richiedente</button>
+            </div>
+    
+            <article id="Richiesta" class="tabcontent">
+                <!-- <h2>Informazioni Richiesta</h2> -->
+                <p><strong>Data richiesta:</strong> [data]</p>
+                <p><strong>Lettera di presentazione:</strong> [contentoLettera]</p>
+                <p><strong>Trasporto:</strong> [trasporto]</p>
+            </article>
+    
+            <article id="Richiedente" class="tabcontent">
+                <!-- <h2>Informazioni Richiedente</h2> -->
+    
+                <div id="info-container">
+                    <img src="./assets/images/linor.jpg" alt="Foto di [nome]" class="circle-foto">
+                    
+                    <div class="text-details">
+                        <p><strong>Nome:</strong> [nome]</p>
+                        <p><strong>Cognome:</strong> [cognome]</p>
+                        <p><strong>Telefono:</strong> [telefono]</p>
+                        <p><strong>Email:</strong> [email]</p>
+                        <p><strong>Indirizzo:</strong> [indirizzo]</p>
+                    </div>
+                </div>
+                
+                <p id="altre-richieste">Ha altre [n] richieste in corso di valutazione</p>
+                <a href="./profilo-utente?email=[email]" class="orange-button">Vedi profilo</a>
+            </article>
+        <!-- </article> -->
+    
+        <article id="animale-richiesta">
+            <div id="info-container">
+                <img src="./assets/images/cane.png" alt="Foto di [nomeAnimale]" class="square-foto">
+                
+                <div class="text-details">
+                    <p><strong>Nome:</strong> [nomeAnimale]</p>
+                    <p><strong>Sesso:</strong> [sessoAnimale]</p>
+                    <p><strong>Età:</strong> [etaAnimale]</p>
+                    <p><strong>Razza:</strong> [razzaAnimale]</p>
+                    <p><strong>Trasporto:</strong> [trasportoAnimale]</p>
+                </div>
+            </div>
+    
+        </article>
+    </div>
+
+</div>
