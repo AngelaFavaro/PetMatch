@@ -12,6 +12,7 @@
     --linkcolor:#FFF6D7;
     --footercolor: #481515;
     --visitedcolor: #EA654C;
+    --darkbgcolor: #E4D4BA;
 }
 
 a{
@@ -203,9 +204,9 @@ div#admin-area{
 }
 
 div#admin-area article {
-  padding:2em 1em 0em 1em;
+  padding:2em 2em 0em 2em;
   border: 1px solid var(--txtcolor);
-  border-radius:1.5em;
+  border-radius:1em;
   margin: 2em 0em;
 }
 
@@ -236,8 +237,8 @@ ul#statistics-list li{
     border: 1px solid var(--txtcolor);
 }
 #to-do-list a, #statistics-list a{
-   width:100%; /*riempie tutto il li*/
-   color: var(--txtcolor);
+    width:100%; /*riempie tutto il li*/
+    color: var(--txtcolor);
     text-decoration: none;
 }
 
@@ -292,7 +293,7 @@ nav#menu-admin li {
 
 nav#menu-admin li#currentLink {
     background-color: var(--bgcolor);
-    border-radius: 1em 0em 0em 2em;
+    border-radius: 2em 0em 0em 2em;
     color: var(--txtcolor);
 }
 nav#menu-admin li a:visited{
@@ -377,7 +378,7 @@ div#row2 article{
   border: none;
   padding: 14px 16px;
   transition: 0.3s;
-  flex: 1;
+  flex: 1; /* questo serve per far si che i tab siano grandi uguali e riempiano lo spazio*/
 }
 
 .tab button.active {
@@ -461,6 +462,51 @@ div#admin-area #details-container article#animale-richiesta{
     padding: 20px;
 }
 
+div#admin-area article#stato-trasporto{
+    background-color: var(--darkbgcolor);
+} 
+
+#top-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#stato-trasporto p{
+    float: left;
+    margin-right: 2em;
+}
+#stato-trasporto a{
+    float: right;
+}
+#top-container a.orange-button{
+    margin: auto 0em 0em auto;
+}
+
+#bottom-container a.orange-button{
+    margin: auto 0em 0em auto;
+}
+
+.note{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+/* .header-note{
+    gap: 1em;
+} */
+.header-note h2{
+    float: left;
+    font-size: 1.3em;
+}
+.header-note a{
+    float: right;
+}
+
+#bottom-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+}
 /*================NAVIGATION HELP ==================*/
 
 .navigationHelp {
