@@ -119,7 +119,7 @@ CREATE TABLE TRASPORTI(
     CAP VARCHAR(5) NOT NULL,
     DataArrivo DATE NOT NULL,
     DataPartenza DATE NOT NULL,
-    
+    CHECK (DataArrivo >= DataPartenza),
     FOREIGN KEY (Email, IDanimale) REFERENCES RICHIESTE_ADOZIONI (Email, IDanimale) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
