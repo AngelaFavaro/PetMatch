@@ -375,8 +375,6 @@ div#row2 article{
 .tab button {
   background-color: inherit;
   border: none;
-  outline: none;
-  cursor: pointer;
   padding: 14px 16px;
   transition: 0.3s;
   flex: 1;
@@ -387,6 +385,15 @@ div#row2 article{
     font-weight: 600;
     border: 1px solid var(--txtcolor);
     border-bottom: none;
+}
+
+.tab button {
+   border-bottom: 1px solid var(--txtcolor);
+}
+
+button h2{
+    font-size: 1.2em;
+    color: var(--txtcolor);
 }
 
 .tabcontent {
@@ -409,6 +416,7 @@ div#admin-area #details-container article{
     gap: 1em;
     margin: 0em;
     border-radius: 0em;
+    border-top: none;
 }
 
 #details-container {
@@ -416,6 +424,7 @@ div#admin-area #details-container article{
     flex-wrap: wrap;
     gap: 9em;
     align-items: flex-start;
+    margin: 2em 0em;
 }
 
 .tabs-container {
