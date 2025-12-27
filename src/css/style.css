@@ -30,7 +30,7 @@ a:visited{
 }
 
 html{
-    font-size: 80%;
+    font-size: 90%;
     line-height: 1.5em;
     font-family: "Parkinsans", Roboto, sans-serif;
     background-color: var(--bgcolor);
@@ -38,7 +38,7 @@ html{
 }
 /* se troppo grandi per altre pagine allora avvisate linor prima di trovare altre soluzioni */
 h1{
-    font-size: 2.7em; 
+    font-size: 2.5em; 
     line-height: normal;
 }
 h2{
