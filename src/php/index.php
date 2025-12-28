@@ -13,7 +13,7 @@ $nav = file_get_contents('./src/template/partials/nav.html');
 
 $footer = file_get_contents('./src/template/partials/footer.html');
 
-$breadcrumb = getBreadcrumb('Home', $pagine);
+$breadcrumb = getBreadcrumb('home', $pagine);
 
 $main = file_get_contents('./src/template/main/index.html');
 
