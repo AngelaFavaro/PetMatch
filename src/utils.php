@@ -9,13 +9,13 @@
 /* Definizione delle pagine esistenti, aggiungerne altre quando possibile*/
 $pagine = [
     'home' => [
-        'file' => __DIR__ . '/src/php/index.php',
+        // 'file' => __DIR__ . '/src/php/index.php',
         'label' => 'Home',
         'url' => './home',
         'parent' => null 
     ],
     'area-riservata' => [
-        'file' => __DIR__ . '/src/php/admin/area-riservata.php',
+        // 'file' => __DIR__ . '/src/php/admin/area-riservata.php',
         'label' => 'Area personale',
         'url' => './area-riservata',
         'parent' => 'home'
