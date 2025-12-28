@@ -12,6 +12,7 @@
     --linkcolor:#FFF6D7;
     --footercolor: #481515;
     --visitedcolor: #EA654C;
+    --darkbgcolor: #E4D4BA;
 }
 
 a{
@@ -29,7 +30,7 @@ a:visited{
 }
 
 html{
-    font-size: 100%;
+    font-size: 90%;
     line-height: 1.5em;
     font-family: "Parkinsans", Roboto, sans-serif;
     background-color: var(--bgcolor);
@@ -37,7 +38,7 @@ html{
 }
 /* se troppo grandi per altre pagine allora avvisate linor prima di trovare altre soluzioni */
 h1{
-    font-size: 2.7em; 
+    font-size: 2.5em; 
     line-height: normal;
 }
 h2{
@@ -66,7 +67,7 @@ a.orange-button{
     background-color: var(--buttoncolor);
     color: var(--txtcolor);
     padding: 0.7em 1.5em;
-    border-radius: 2em;
+    border-radius: 1em;
     font-weight: 600;
     transition: background-color 0.4s ease;
 }
@@ -205,9 +206,9 @@ div#admin-area{
 }
 
 div#admin-area article {
-  padding:2em 1em 0em 1em;
+  padding:2em 2em 0em 2em;
   border: 1px solid var(--txtcolor);
-  border-radius:1.5em;
+  border-radius:1em;
   margin: 2em 0em;
 }
 
@@ -238,8 +239,8 @@ ul#statistics-list li{
     border: 1px solid var(--txtcolor);
 }
 #to-do-list a, #statistics-list a{
-   width:100%; /*riempie tutto il li*/
-   color: var(--txtcolor);
+    width:100%; /*riempie tutto il li*/
+    color: var(--txtcolor);
     text-decoration: none;
 }
 
@@ -341,7 +342,7 @@ div#row2 article{
     float: right;
 }
 
-#info-container {
+#generic-info-container {
     display: flex;
     flex-wrap: wrap;
 }
@@ -352,13 +353,162 @@ div#row2 article{
     object-fit: cover;
     clip-path: circle(50%);
 }
+
+.square-foto {
+    width: 9em;
+    height: 9em;
+    object-fit: cover;
+    /* clip-path: square(50%); */
+}
+
 .text-details{
     margin: auto 2em;
 }
-.header-info, #info-container{
+.header-info, #generic-info-container{
     margin-bottom: 1em;
 }
 
+
+/*================= DETTAGLI RICHIESTE DI ADOZIONE ==================*/
+.tab {
+    overflow: hidden;
+    display: flex;
+}
+
+.tab button {
+  background-color: inherit;
+  border: none;
+  padding: 14px 16px;
+  transition: 0.3s;
+  flex: 1; /* questo serve per far si che i tab siano grandi uguali e riempiano lo spazio*/
+}
+
+.tab button.active {
+    padding-bottom: 0.3em;
+    border: 1px solid var(--txtcolor);
+    border-bottom: none;
+}
+
+.tab button {
+   border-bottom: 1px solid var(--txtcolor);
+}
+
+.tabcontent#Richiedente .orange-button{
+    margin: 0em 0em 2em auto;
+}
+
+#animale-richiesta .orange-button{
+    margin: 0em auto 2em 0em;
+}
+#details-container h2{
+    font-size: 1.2em;
+    /* margin-bottom: 1em; */
+    color: var(--txtcolor);
+}
+
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+} 
+
+#details-container{
+    display:flex;
+    flex-wrap: wrap;
+
+}
+
+p#altre-richieste{
+    text-align: center;
+}
+
+
+/* todo mamma mia linor, modifica sta roba che diventa illeggibile (devi
+modificare div#admin-area article che è più specifico di #details-container article quindi hai dovuto scriverlo così) */
+div#admin-area #details-container article{
+    flex: 1 1 200px;
+    gap: 1em;
+    margin: 0em;
+    border-radius: 0em;
+    border-top: none;
+}
+
+div#admin-area #details-container article#animale-richiesta{
+    margin: 0em;
+    border-radius: 1em;
+    border-bottom-left-radius: 0em;
+    border-bottom-right-radius: 0em;
+    border-top: 1px solid var(--txtcolor);
+    width: 100%;
+}
+
+#details-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6em;
+    align-items: flex-start;
+    margin: 2em 0em;
+}
+
+.tabs-container {
+    flex: 2;
+    min-width: 300px;
+}
+
+#animale-richiesta {
+    flex: 1;
+    min-width: 250px;
+    border: 1px solid var(--txtcolor);
+    border-radius: 20px;
+    padding: 20px;
+}
+
+div#admin-area article#stato-trasporto{
+    background-color: var(--darkbgcolor);
+} 
+
+#top-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#stato-trasporto p{
+    float: left;
+    margin-right: 2em;
+}
+#stato-trasporto a{
+    float: right;
+}
+#top-container a.orange-button{
+    margin: auto 0em 0em auto;
+}
+
+#bottom-container a.orange-button{
+    margin: auto 0em 0em auto;
+}
+
+.note{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+/* .header-note{
+    gap: 1em;
+} */
+.header-note h2{
+    float: left;
+    font-size: 1.3em;
+}
+.header-note a{
+    float: right;
+}
+
+#bottom-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+}
 /*================NAVIGATION HELP ==================*/
 
 .navigationHelp {
@@ -389,7 +539,7 @@ nav#breadcrumb{
     background-color: var(--footercolor);
     color: var(--bgcolor);
     padding: 0.7em 1.5em;
-    border-radius: 2em;
+    border-radius: 1em;
     font-weight: 400;
     /* transition: background-color 0.4s ease; */
 }
