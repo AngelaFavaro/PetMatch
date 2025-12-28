@@ -2,7 +2,7 @@
 
 /**da fare (vedi ItaVolley):
     - array in cui vengono definite le pagine esistenti (utili per nav, footer e breadcrumb)
-    - funzione che crea la nav per admin e per utente normale (credo)
+    - funzione che crea la nav per admin e per utente normale (per utente è l'header)
     - funzione che crea il footer (ossia da modificare solo la parte del link circolare alla home se l'utente è già in quella pagina)
 */
 
@@ -18,6 +18,13 @@ $pagine = [
         'file' => __DIR__ . '/src/php/admin/area-riservata.php',
         'label' => 'Area personale',
         'url' => './area-riservata',
+        'parent' => 'home'
+    ],
+    [
+    'lavora-con-noi' => [
+        'file' => __DIR__ . '/src/php/lavora-con-noi.php',
+        'label' => 'Lavora con Noi',
+        'url' => './lavora-con-noi',
         'parent' => 'home'
     ]
 ];
