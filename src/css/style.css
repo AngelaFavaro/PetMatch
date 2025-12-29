@@ -9,6 +9,8 @@
     --txtcolor: #481515;
     --buttoncolor: #EA654C;
     --buttoncolor-hover: #481515;
+    --text-buttoncolor: #481515;
+    --text-buttoncolor-hover: #FFF6D7;
     --linkcolor:#FFF6D7;
     --footercolor: #481515;
     --visitedcolor: #EA654C;
@@ -19,6 +21,7 @@
 
 a{
     color: var(--linkcolor);
+    font-weight: 400;
 }
 
 a:visited{
@@ -37,7 +40,13 @@ html{
     font-family: "Parkinsans", Roboto, sans-serif;
     background-color: var(--bgcolor);
     color: var(--txtcolor);
+    font-weight: lighter;
 }
+
+strong{
+    font-weight:600;
+}
+
 /* se troppo grandi per altre pagine allora avvisate linor prima di trovare altre soluzioni */
 h1{
     font-size: 2em; 
@@ -61,23 +70,42 @@ h4{
 
 
 /*==================PULSANTI==================*/
-a.orange-button{
+a.orange-button, a.brown-button{
     display: block;
     text-align: center;
     margin: auto;
     width: fit-content;
-    background-color: var(--buttoncolor);
-    color: var(--txtcolor);
     padding: 0.7em 1.5em;
     border-radius: 2em;
     font-weight: 600;
     text-decoration: none;
-    transition: background-color 0.4s ease;
+    transition: background-color 0.6s ease;
 }
 
 .orange-button:hover {
     background-color: var(--buttoncolor-hover); 
     color: var(--linkcolor);
+}
+
+a.orange-button{
+    background-color: var(--buttoncolor);
+    color: var(--txtcolor);
+}
+
+a.brown-button{
+    background-color: var(--text-buttoncolor);
+    color: var(--linkcolor);
+    margin: 0.7em auto 0.7em auto;
+    text-decoration: underline;
+}
+
+a.brown-button:visited{
+    color: var(--visitedcolor);
+}
+
+.brown-button:hover {
+    background-color: var(--text-buttoncolor-hover); 
+    color: var(--text-buttoncolor);
 }
 
 /*==================ERRORE 404==================*/
@@ -180,13 +208,11 @@ header h1{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap; 
-    
-    max-width: 1200px;      
+    flex-wrap: wrap;   
     width: 100%;            
     margin: 0 auto;        
     
-    padding: 1em 2em;       
+    padding: 1em 0em;       
     box-sizing: border-box;
 }
 
@@ -235,6 +261,7 @@ header h1{
 #osso li,
 #tema-preferiti-profilo li {
     padding: 0;
+    text-align: center;
 }
 
 /* ==================OSSO================== */
@@ -391,6 +418,439 @@ footer h4 {
     height: 60px; /* Altezza fissa del ciuffo */
     background-image: url('../../assets/images/grass.svg'); /* Immagine del ciuffo d'erba */
     background-size: auto 100%; /* da tenere assolutamente altrimenti si taglia */
+}
+
+/* ================== =========== PAGINE UTENTE================== ============*/
+/* ================== HOME ==================*/
+
+#home p{
+    padding-bottom: 0.5em;
+}
+
+#introduction-home {
+    background-color: var(--headercolor);
+    margin-top: -6em;
+    padding-top: 7em;
+    color: var(--bgcolor);
+}
+
+#introduction-home .container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+
+#introduction-home .column-user {
+    flex: 1 1 60%;
+    box-sizing: border-box; 
+}
+
+#introduction-home .column-user + .column-user{
+    flex: 1 1 35%;
+    clear: all;
+    position: relative;
+    padding-bottom: 3em;
+}
+
+#subtitle-home{
+    font-weight: lighter;
+}
+
+#introduction-home + .container{
+    display: flex;
+}
+
+#house{
+    flex: 0 0 15%;
+}
+
+#second-chapter-home{
+    flex: 1 1 85%;
+    margin: 10% 0 5% 15%;
+}
+
+#second-chapter-home h2{
+    margin-bottom: 1em;
+    font-weight: 500;
+}
+
+#second-chapter-home h2 strong{
+    font-weight: bold;
+}
+
+#home .container a.brown-button{
+    margin-right: 0;
+}
+
+
+
+/* IMMAGINI DECORATIVE */
+#cat-decorator{
+    width: 25%;
+    height: auto;             
+    margin-top: 0.5em;          
+    margin-left: -2em;
+    float: left;  
+    pointer-events: none;
+}
+
+#cat-decorator + a{
+    float: left;
+    margin-top: 2em;
+}
+
+#paw-1, #paw-2, #paw-3, #paw-4 {
+    position: absolute;       
+    width: 3em;              
+    height: auto;
+    transform: rotate(230deg); 
+    pointer-events: none;         
+}
+
+#paw-1 {
+    top: 55%;
+    right: 10%;
+}
+
+#paw-2 {
+    top: 75%;
+    right: 50%;
+}
+
+#paw-3 {
+    bottom: -20%;
+    right: 30%;
+}
+
+#paw-4 {
+    bottom: -30%;
+    right: 65%;
+}
+
+#adoption-timeline{
+    padding:2em 0 2em 0;
+    background-color: var(--headercolor);
+    color:var(--bgcolor);
+}
+
+#timeline-home{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    align-items: flex-start;
+    margin-top: 3em;
+}
+
+/*linea tratteggiata*/
+  #timeline-home::before {
+    content: '';
+    position: absolute;
+    top: 1.5em; 
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background-image: linear-gradient(to right, var(--buttoncolor) 50%, transparent 50%);
+    background-size: 20px 100%;
+    z-index: 0;
+  }
+
+#timeline-home li {
+    position: relative; 
+    text-align: center;
+    z-index: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 0 0 18%;
+}
+
+.number{
+    font-weight: bold;
+}
+
+.circle {
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    margin-bottom: 0.5em;
+    display: flex;
+    transition: 0.3s;
+}
+
+.popup {
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    background-color: var(--bgcolor); 
+    padding: 1em;
+    border-radius: 1%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    color: var(--txtcolor);
+    text-align: left;
+    pointer-events: none;
+    
+    /* Stato iniziale: Nascosto */
+    opacity: 0;
+    margin-top: 10px; /* Per animazione salita */
+    transition: 0.3s;
+}
+
+.popup::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0 10px 10px 10px;
+    border-style: solid;
+    border-color: transparent transparent var(--bgcolor) transparent;
+}
+
+#timeline-home .circle:hover{
+    background-color: var(--buttoncolor);
+    transform: scale(1.1);
+}
+
+/* 2. Il popup appare */
+#timeline-home .circle:hover ~ dl .popup,
+#timeline-home .number:hover ~ dl .popup,
+#timeline-home dt:hover + .popup,
+#timeline-home .popup:hover {
+    
+    opacity: 1;
+    margin-top: 0;
+    pointer-events: auto; /*così si può passare sopra con il pointer senza che il popup si chiuda*/
+}
+
+.popup img{
+    width: 100%;
+    pointer-events: none; 
+}
+
+
+#section-events{
+    background-image: url('../../assets/images/cat-bg.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position:top;
+    height: fit-content;
+    color: var(--bgcolor);
+    padding: 3em 3em 0 3em;
+}
+
+#section-events h2{
+    padding: 8% 0 1% 0;
+}
+#section-events h3{
+    font-weight: 400;
+}
+
+.polaroid{
+    width: 30%;
+    background-color: white;
+    padding: 0.5em 0.5em 3em 0.5em;
+    margin: 2em;
+}
+
+#section-events .polaroid{
+    display: inline-block;
+    vertical-align: middle;
+    width: 20%; 
+    margin: 5% 2% 5% 8%;
+    transform: rotate(-8deg);
+}
+
+#section-events p{
+    display: inline-block;
+    vertical-align: middle;
+    width: 65%;
+    margin-left:3%;
+}
+
+#rope{
+    margin-top:-15%;
+    margin-left:-4%;
+    margin-bottom: -5%;
+    width: 108%;
+    pointer-events: none;
+}
+
+#events-list .polaroid{
+    color: var(--txtcolor);
+    width: 14%;
+    padding-top: 1em;
+    transform-origin: top center;
+    --base-rot: 0deg;
+}
+
+#events-list .polaroid:first-child:before,
+#events-list .polaroid:nth-child(2):before,
+#events-list .polaroid:nth-child(3):before,
+#events-list .polaroid:last-child:before{
+    content: "";
+    position: absolute;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 50px;
+    height: 50px;
+    top:-22%;
+    left: 30%;
+    z-index: 3;
+}
+
+#events-list .polaroid:first-child:before,
+#events-list .polaroid:nth-child(3):before{
+    background-image: url('../../assets/images/white-clip.svg'); 
+}
+
+#events-list .polaroid:nth-child(2):before,
+#events-list .polaroid:last-child:before{
+    background-image: url('../../assets/images/orange-clip.svg'); 
+    
+}
+
+#events-list .polaroid:first-child{
+    transform: rotate(10deg);
+    margin-top:-1%;
+}
+
+#events-list .polaroid:nth-child(2){
+    transform: rotate(3deg);
+}
+
+#events-list .polaroid:nth-child(3){
+    transform: rotate(-3deg);
+}
+
+#events-list .polaroid:last-child{
+    transform: rotate(-10deg);
+    margin-top:-4%;
+}
+
+/* Definizione del movimento a dondolo */
+@keyframes swingGeneric {
+    0%   { transform: rotate(var(--base-rot)); } /* Parte dalla posizione attuale */
+    20%  { transform: rotate(calc(var(--base-rot) + 8deg)); } /* Prima spinta a destra */
+    40%  { transform: rotate(calc(var(--base-rot) - 6deg)); } /* Ritorno a sinistra */
+    60%  { transform: rotate(calc(var(--base-rot) + 3deg)); } /* Spinta minore destra */
+    80%  { transform: rotate(calc(var(--base-rot) - 1deg)); } /* Quasi fermo */
+    100% { transform: rotate(var(--base-rot)); } /* Torna alla posizione originale */
+}
+
+/* La classe che attiverà l'animazione */
+.is-swinging {
+    animation: swingGeneric 1.2s ease-in-out forwards;
+}
+
+#sponsor{
+    background-image: url('../../assets/images/sponsor-bg.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position:top;
+    height:fit-content;
+    padding-top: 3em;
+
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: space-between;
+    text-align: center;
+    gap: 1em;
+}
+
+#sponsor img {
+    width: 165px; 
+    padding:1em;
+    height: auto; 
+    object-fit: contain; 
+    margin-bottom:12.5%;
+}
+
+#sponsor img:nth-child(3){
+    margin-right:2.5em;
+}
+
+#sponsor img:nth-child(4){
+    margin-left:2.5em;
+}
+
+#sponsor + .container a{
+    margin-top:-8%;
+}
+
+/* MEDIA SCREEN */
+
+@media screen and (max-width: 1200px) {
+    
+    #paw-1, #paw-2, #paw-3, #paw-4 {
+        display: none;
+    }
+
+    #introduction-home .column-user + .column-user{
+        padding-bottom: 0;
+    }
+
+    .container{
+        padding: 1em;
+    }
+
+    #cat-decorator{
+        padding-left: 2em;
+    }
+
+    #sponsor{
+        background-size:0;
+        background-color: var(--buttoncolor);
+        padding:1em;
+        position: relative;
+    }
+
+    #sponsor::before,
+    #sponsor::after{
+        content: '';
+        position: absolute;
+        height: 2px;
+        width: 100%;
+        background-image: linear-gradient(to right, var(--headercolor) 50%, transparent 50%);
+        background-size: 40px 100%;
+    }
+
+    #sponsor::before{
+        top: 1.5em; 
+        left:0;
+    }
+
+    #sponsor::after{
+        bottom: 1.5em; 
+        left:0;
+    }
+
+    #sponsor img,
+    #sponsor img:nth-child(3),
+    #sponsor img:nth-child(4)
+    {
+        margin:0;
+    }
+
+    #sponsor + .container a{
+    margin-top:0;
+}
+}
+
+@media screen and (max-width: 800px) {
+    
+    #house,#cat-decorator {
+        display: none;
+    }
+
+    #second-chapter-home{
+        flex:100%;
+        margin: 0;
+    }
+
 }
 
 
@@ -590,7 +1050,8 @@ div#row2 article{
 
 /* ================== BREADCRUMB==================*/
 nav#breadcrumb{
-    margin: auto;
+    margin: 0.5em auto 2em auto ;
+    border: 1px solid var(--bgcolor);
     display: block;
     text-align: center;
     width: fit-content;
@@ -599,6 +1060,8 @@ nav#breadcrumb{
     padding: 0.7em 1.5em;
     border-radius: 2em;
     font-weight: 400;
+    position: relative;
+    z-index: 10;
     /* transition: background-color 0.4s ease; */
 }
 

@@ -5,3 +5,4 @@ const menu = document.getElementById('menu-admin');
 menuBtn.addEventListener('click', () => {
     menu.classList.toggle('active');
 });
+
