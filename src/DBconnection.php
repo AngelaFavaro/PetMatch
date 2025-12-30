@@ -149,7 +149,15 @@ class DBAccess {
         }
 
         // prima controlla se la richiesta era in valutazione, se sì imposta stato Respinta e la data di fine, altrimenti Annullata
-        if($statoPrecedente === 'In valutazione'){
+        if($statoPrecedente === 'Nuova') {
+            $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Respinta' WHERE Email = ? AND IDanimale = ?";
+            $stmt = mysqli_prepare($this->connection, $query);
+            if($stmt === false){
+                return false;
+            }
+            mysqli_stmt_bind_param($stmt, 'si', $emailRichiedente, $idAnimale);
+            
+        } else {
             $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Annullata', DataFineValutazione=? WHERE Email = ? AND IDanimale = ?";
             $stmt = mysqli_prepare($this->connection, $query);
             if($stmt === false){
@@ -157,16 +165,8 @@ class DBAccess {
             }
             $oggi = date('Y-m-d');
             mysqli_stmt_bind_param($stmt, 'ssi',$oggi, $emailRichiedente, $idAnimale);
-            
-        } else {
-            $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Respinta' WHERE Email = ? AND IDanimale = ?";
-            $stmt = mysqli_prepare($this->connection, $query);
-            if($stmt === false){
-                return false;
-            }
-            mysqli_stmt_bind_param($stmt, 'si', $emailRichiedente, $idAnimale);
         }
-
+        
         $result = mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
         return $result;

@@ -12,7 +12,7 @@ function loadTemplate(string $path, string $default = ''): string {
 }
 
 /**
- * Escape stringa per output HTML
+ * Escape stringa per output HTML serve a prevenire XSS ossia Cross Site Scripting ossia l'inserimento di codice malevolo in pagine web visualizzate da altri utenti
  */
 function e(string $s): string {
     return htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
