@@ -351,7 +351,6 @@ header h1{
 #tema-preferiti-profilo {
     display: flex;
     list-style: none;
-    margin: 0;
     padding: 0;
     align-items: center; 
 }
@@ -731,7 +730,7 @@ footer h4 {
     background-position:top;
     height: fit-content;
     color: var(--bgcolor);
-    padding: 3em 3em 0 3em;
+    padding: 3em;
 }
 
 #section-events h2{
@@ -745,21 +744,20 @@ footer h4 {
     width: 30%;
     background-color: white;
     padding: 0.5em 0.5em 3em 0.5em;
-    margin: 2em;
 }
 
-#section-events .polaroid{
+#section-events img.polaroid{
     display: inline-block;
     vertical-align: middle;
-    width: 20%; 
-    margin: 5% 2% 5% 8%;
-    transform: rotate(-8deg);
+    margin: 1.5em 1.5em 2em 1.5em;
+    width: 30%;
+    transform: rotate(-9deg);
 }
 
 #section-events p{
     display: inline-block;
     vertical-align: middle;
-    width: 65%;
+    width: 55%;
     margin-left:3%;
 }
 
@@ -771,18 +769,24 @@ footer h4 {
     pointer-events: none;
 }
 
+#events-list{
+    display: flex;
+    gap: 2em;
+    margin-top: 5%;
+    padding-right: 1em;
+    padding-left: 1em;
+}
+
 #events-list .polaroid{
+    flex: 1 1 20%;
     color: var(--txtcolor);
-    width: 14%;
     padding-top: 1em;
     transform-origin: top center;
     --base-rot: 0deg;
+    margin:auto;
 }
 
-#events-list .polaroid:first-child:before,
-#events-list .polaroid:nth-child(2):before,
-#events-list .polaroid:nth-child(3):before,
-#events-list .polaroid:last-child:before{
+#events-list .polaroid:before{
     content: "";
     position: absolute;
     background-size: contain;
@@ -790,7 +794,7 @@ footer h4 {
     width: 50px;
     height: 50px;
     top:-22%;
-    left: 30%;
+    left: 38%;
     z-index: 3;
 }
 
@@ -807,7 +811,7 @@ footer h4 {
 
 #events-list .polaroid:first-child{
     transform: rotate(10deg);
-    margin-top:-1%;
+    margin-top:-4%;
 }
 
 #events-list .polaroid:nth-child(2){
@@ -1032,10 +1036,104 @@ label{
 
 }
 
+@media screen and (max-width: 850px) {
+
+    #timeline-home {
+        position: relative;
+        padding: 0;
+        margin-top: 2em;
+        display: block;
+    }
+
+    #timeline-home::before {
+        top: 0em; 
+        bottom: 4.5em; 
+        margin:auto;
+        width: 2px;
+        height: auto;
+        max-height: 550px;
+        background-image: linear-gradient(to top, var(--buttoncolor) 50%, transparent 50%);
+        background-size: 100% 20px;
+    }
+
+    #timeline-home li {
+        width: 100%;
+    }
+    
+    #timeline-home dl, .number {
+        width: 35%; 
+        text-align: right;
+        box-sizing: border-box;
+        margin-right:50%;
+        top:-3em;
+        position: relative;
+    }
+
+    .circle {
+        z-index: 2;
+        margin: 0; 
+        justify-content: center;
+    }
+
+    .popup {
+        margin: 0 0 0 10px;
+        transform: translateX(100%) translateY(-50%);
+    }
+
+    .popup::before {
+        top: 40%;
+        left: 0;
+        transform: translateY(50%) rotate(45deg);
+        border-width: 10px 10px 10px 0;
+    }
+
+    #timeline-home .circle:hover ~ dl .popup,
+    #timeline-home .number:hover ~ dl .popup,
+    #timeline-home dt:hover + .popup,
+    #timeline-home .popup:hover {
+    
+        margin-left: 0;
+    }
+
+    #section-events img.polaroid,
+    #events-list .polaroid:last-child{
+        display: none;
+    }
+
+    #section-events p{
+        display: block;
+        margin:1em 0 1em 0;
+        width: 100%;
+    }
+
+    #events-list .polaroid:first-child,
+    #events-list .polaroid:nth-child(3)
+    {
+        margin-top: -2%;
+    }
+
+    #events-list .polaroid:nth-child(2){
+        transform: rotate(0deg);
+    }
+
+    #events-list .polaroid:nth-child(3){
+        transform: rotate(-10deg);
+    }
+}
+
+
 @media screen and (max-width: 800px) {
     
     #second-chapter-home img ,#cat-decorator {
         display: none;
+    }
+
+    #events-list .polaroid:nth-child(3){
+        display: none;
+    }
+
+    #events-list .polaroid:nth-child(2){
+        transform: rotate(-4deg);
     }
 
 }
