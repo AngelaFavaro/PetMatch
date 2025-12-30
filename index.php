@@ -11,7 +11,10 @@ $routes = [
     'area-riservata' => [
         'file' => __DIR__ . '/src/php/admin/area-riservata.php'
         //qui penso che servano altri parametri ma al momento sto facendo la pagina statica -linor
-    ]
+    ],
+    'form-affidamento' => [
+        'file' => __DIR__ . '/src/php/getInput/form-affidamento.php'
+    ],
     /* decommentare quando si vogliono aggiungere le altre pagine
     'accedi' => [
         'file' => __DIR__ . '/src/php/accedi.php'

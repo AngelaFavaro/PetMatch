@@ -1,6 +1,6 @@
 <main id="home">
     <div id="introduction-home">
-        <div class="container">
+        <div class="column-container">
             <div class="column-user">
                 <h1>Adotta anche a distanza: 
                     <div id="subtitle-home"> del trasporto ci occupiamo noi</div>
@@ -24,13 +24,15 @@
         </div>
     </div>
 
-    <div class="container">
-        <img src="./assets/images/house.svg" id="house" alt="" />
-        <div id="second-chapter-home">
-            <h2><strong>Oltre 5.000</strong> animali hanno trovato casa!</h2>
-            <p>Grazie al nostro progetto, migliaia di animali hanno finalmente trovato l’amore che meritano!</p>
-            <p>Le nostre procedure di adozione vi aiutano a <em>incontrare l’amico a quattro zampe più adatto a voi</em>, tenendo conto delle vostre caratteristiche e del vostro stile di vita. Allo stesso tempo, garantiamo che <em>ogni animale trovi la famiglia più in sintonia con le sue esigenze e il suo carattere.</em></p>
-            <p><strong>Saremo sempre al vostro fianco durante tutto il percorso</strong> e, per qualsiasi necessità, non esitate a contattarci!</p>
+    <div id="second-chapter-home">
+        <div class="column-container">
+            <img src="./assets/images/house.svg" class="column-user" alt="" />
+            <div class="column-user">
+                <h2><strong>Oltre 5.000</strong> animali hanno trovato casa!</h2>
+                <p>Grazie al nostro progetto, migliaia di animali hanno finalmente trovato l’amore che meritano!</p>
+                <p>Le nostre procedure di adozione vi aiutano a <em>incontrare l’amico a quattro zampe più adatto a voi</em>, tenendo conto delle vostre caratteristiche e del vostro stile di vita. Allo stesso tempo, garantiamo che <em>ogni animale trovi la famiglia più in sintonia con le sue esigenze e il suo carattere.</em></p>
+                <p><strong>Saremo sempre al vostro fianco durante tutto il percorso</strong> e, per qualsiasi necessità, non esitate a contattarci!</p>
+            </div>
         </div>
     </div>
 
@@ -169,7 +171,7 @@
         <h2>I nostri sostenitori</h2>
     </div>
     <div id="sponsor">
-        <div class="container">
+        <div class="column-container">
             <img src="./assets/images/archimedeCard.png" alt="logo archimede card" />
             <img src="./assets/images/paolottiExpress.png" alt="logo paolotti express" />
             <img src="./assets/images/pollaioPay.png" alt="logo pollaio pay" />
@@ -183,27 +185,40 @@
         <a href="./lavora-con-noi" class="brown-button">Vuoi diventare nostro sostenitore? →</a>
     </div>
 
-    <!-- TODO vorresti affidarci un animale? -->
+    <div id="affidamento-home">
+        <div class="column-container">
+            <div id="content-affidamento">
+                <h2>Vorresti affidarci un animale?</h2>
+                <p>Compila il modulo con tutte le informazioni richieste. Riceverai un nostro riscontro via mail, indicativamente entro 2 settimane.</p>
+                <p>Dubbi o problemi? valuta di <a href="mailto:matchpet48@gmail.com" target="_blank">contattarci</a></p>
+            </div>
+            <form method="post" action="home" id="form-affidamento">
+                <fieldset>
+                    <legend>Compila il form, presto verrai contattato!</legend>
+                    <div>
+                        <label for="name">Nome e Cognome: </label>
+                        <input type="text" name="name" id="name" placeholder="Mario Rossi">
+                    </div>
+                    <div>
+                        <label for="email">Email: </label>
+                        <input type="email" name="email" id="email" placeholder="nome@esempio.com">
+                    </div>
+                    
+                    <div id="messaggiForm-home">
+                        [messaggiForm]
+                    </div>
+
+                    <div>
+                    <input type="submit" id="sendForm" class="orange-button" value="Invia il Form">
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+    <a href = "#header-menu" class="torna-su-button">
+        <img src="./assets/icons/torna-su.svg" class="static" alt="torna su"/>
+        <img src="./assets/icons/torna-su.gif" class="active" alt=""/>
+    </a>
 
 </main>
-
-<script>
-    const polaroids = document.querySelectorAll('#events-list .polaroid');
-
-    polaroids.forEach(card => {
-        card.addEventListener('mouseenter', () => { //evento che scatta quando passo sopra con il mouse
-            var style = window.getComputedStyle(card); //serve per leggere la rotazione attuale della polaroid
-            var matrix = new DOMMatrixReadOnly(style.transform); //estrae l'angolo dalla matrice di trasformazione
-            var currentRotation = Math.round(Math.atan2(matrix.b, matrix.a) * (180/Math.PI));
-            card.style.setProperty('--base-rot', currentRotation + 'deg'); //modifico i gradi
-
-            //se passo due volte velocemente fa ripartire l'animazione
-            card.classList.remove('is-swinging');
-            card.classList.add('is-swinging'); //chiama is-swinging nel css che fa partire swingGeneric
-        });
-
-        card.addEventListener('animationend', () => { //animazione che scatta quando un animazione css con @keyframe finisce il ciclo
-            card.classList.remove('is-swinging');
-        });
-    });
-</script>
