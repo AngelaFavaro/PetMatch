@@ -28,3 +28,36 @@ function openTab(evt, tabName) {
   document.getElementById(tabName).style.display = "block";
   evt.currentTarget.className += " active";
 }
+
+
+const editBtn = document.getElementById('edit-note');
+const note = document.getElementById('note-text');
+
+let originalText = '';
+
+editBtn.addEventListener('click', e => {
+    e.preventDefault();
+    originalText = note.innerText;
+    note.contentEditable = 'true';
+    note.classList.add('editing');
+    note.focus();
+});
+
+note.addEventListener('blur', () => {
+    note.contentEditable = 'false';
+    note.classList.remove('editing');
+
+    const nuovoTesto = note.innerText.trim();
+    if (nuovoTesto === originalText) return; // niente POST inutile
+
+    fetch(window.location.href, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+            salva_note: 1,
+            note: nuovoTesto,
+            email: note.dataset.email,
+            id_animale: note.dataset.idAnimale
+        })
+    });
+});

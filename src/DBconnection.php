@@ -59,7 +59,8 @@ class DBAccess {
 				u.Nome AS nome_richiedente,
 				u.Cognome AS cognome_richiedente,
 				u.Telefono AS telefono_richiedente,
-				CONCAT_WS(', ', u.Via, u.Citta, u.CAP) AS indirizzo_richiedente
+				CONCAT_WS(', ', u.Via, u.Citta, u.CAP) AS indirizzo_richiedente,
+				ra.Appunti AS appunti
 			FROM RICHIESTE_ADOZIONI ra
 			JOIN UTENTI u ON u.Email = ra.Email
 			JOIN ANIMALI a ON a.IDanimale = ra.IDanimale
@@ -106,7 +107,8 @@ class DBAccess {
             'nome-richiedente' => $row['nome_richiedente'],
             'cognome-richiedente' => $row['cognome_richiedente'],
             'telefono-richiedente' => $row['telefono_richiedente'],
-            'indirizzo-richiedente' => $row['indirizzo_richiedente']
+            'indirizzo-richiedente' => $row['indirizzo_richiedente'],
+            'appunti' => $row['appunti']
         ];
 
 		
@@ -130,6 +132,23 @@ class DBAccess {
         return $result;
     }
 	
+    public function aggiornaNote($emailRichiedente, $idAnimale, $note): bool {
+        if (!$this->connection){ //se la connessione non è aperta
+            return false;
+        }
+
+        $query = "UPDATE RICHIESTE_ADOZIONI SET Appunti = ? WHERE Email = ? AND IDanimale = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 'ssi', $note, $emailRichiedente, $idAnimale);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
 }
 
 

@@ -492,7 +492,7 @@ div#admin-area article#stato-trasporto{
 #stato-trasporto a{
     float: right;
 }
-#top-container a.orange-button, #top-container form.orange-button{
+#top-container a.orange-button, #top-container form{
     margin: auto 0em 0em auto;
 }
 
@@ -521,7 +521,16 @@ div#admin-area article#stato-trasporto{
     display: flex;
     flex-wrap: wrap;
     gap: 2em;
+
 }
+
+
+.note p.editing {
+    border: 1px dashed #f90;
+    padding: 0.5rem;
+    background-color: #fff8f0;
+}
+
 /*================NAVIGATION HELP ==================*/
 
 .navigationHelp {
