@@ -30,7 +30,7 @@ a:visited{
 }
 
 html{
-    font-size: 100%;
+    font-size: 90%;
     line-height: 1.5em;
     font-family: "Parkinsans", Roboto, sans-serif;
     background-color: var(--bgcolor);
@@ -204,12 +204,16 @@ div#admin-area{
 }
 
 div#admin-area article {
-  padding:2em 2em 0em 2em;
+  padding:1em 1em 1em 1em;
   border: 1px solid var(--txtcolor);
   border-radius:1em;
   margin: 2em 0em;
 }
 
+
+div#admin-area article#query, div#admin-area article#row2-container{
+    padding: 2em 2em 0em 2em;
+}
 /* stesso pattern usato per le section del footer*/
 ul#to-do-list, ul#statistics-list {
     margin: 0 -10px;
@@ -392,7 +396,7 @@ div#row2 article{
 }
 
 .tabcontent#Richiedente .orange-button{
-    margin: 0em 0em 2em auto;
+    margin: 0em 0em 0em auto;
 }
 
 #animale-richiesta .orange-button{
@@ -454,7 +458,7 @@ div#admin-area #details-container article#animale-richiesta{
     min-width: 300px;
 }
 
-#animale-richiesta {
+div#admin-area article#animale-richiesta {
     flex: 1;
     min-width: 250px;
     border: 1px solid var(--txtcolor);
@@ -464,6 +468,8 @@ div#admin-area #details-container article#animale-richiesta{
 
 div#admin-area article#stato-trasporto{
     background-color: var(--darkbgcolor);
+    width: 60%;
+    padding: 1em 1em;
 } 
 
 #top-container{
@@ -472,6 +478,7 @@ div#admin-area article#stato-trasporto{
 }
 
 #stato-trasporto p{
+    padding-top: 0.7em;
     float: left;
     margin-right: 2em;
 }
@@ -490,6 +497,7 @@ div#admin-area article#stato-trasporto{
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    width: 60%;
 }
 /* .header-note{
     gap: 1em;
