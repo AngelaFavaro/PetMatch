@@ -57,7 +57,7 @@ h4{
 
 
 /*==================PULSANTI==================*/
-a.orange-button{
+.orange-button{
     display: block;
     text-align: center;
     margin: auto;
@@ -416,9 +416,10 @@ div#row2 article{
 } 
 
 #details-container{
-    display:flex;
+    display: flex;
     flex-wrap: wrap;
-
+    gap: 2em;
+    align-items: flex-start;
 }
 
 p#altre-richieste{
@@ -454,21 +455,27 @@ div#admin-area #details-container article#animale-richiesta{
 }
 
 .tabs-container {
-    flex: 2;
-    min-width: 300px;
+    flex: 2 1 300px;
 }
 
 div#admin-area article#animale-richiesta {
-    flex: 1;
-    min-width: 250px;
+     flex: 1;
+    min-width: 32em;
     border: 1px solid var(--txtcolor);
     border-radius: 20px;
     padding: 20px;
+    width: 100%;
+}
+
+div#admin-area div#animal-container{
+    flex: 1 1 250px;
+    min-width: 250px;
+    max-width: 55%;
 }
 
 div#admin-area article#stato-trasporto{
     background-color: var(--darkbgcolor);
-    width: 60%;
+    width: 55%;
     padding: 1em 1em;
 } 
 
@@ -485,7 +492,7 @@ div#admin-area article#stato-trasporto{
 #stato-trasporto a{
     float: right;
 }
-#top-container a.orange-button{
+#top-container a.orange-button, #top-container form.orange-button{
     margin: auto 0em 0em auto;
 }
 
@@ -497,7 +504,7 @@ div#admin-area article#stato-trasporto{
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    width: 60%;
+    width: 55%;
 }
 /* .header-note{
     gap: 1em;

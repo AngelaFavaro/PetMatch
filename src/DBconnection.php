@@ -35,32 +35,10 @@ class DBAccess {
 	/**
 	 * Restituisce i dettagli di una richiesta di adozione (utente + animale).
 	 */
-	public function getRichiestaDettagli($emailRichiedente, $idAnimale) {
+	public function getRichiestaDettagli($emailRichiedente, $idAnimale): array|null {
 		if (!$this->connection){ //se la connessione non è aperta
 			return null;
 		}
-
-		$default = [
-			'stato' => null,
-			'data-richiesta' => null,
-			'lettera-di-presentazione' => null,
-			'trasporto-richiesta' => null,
-			'email-richiedente' => null,
-			'id-animale' => null,
-			'nome-animale' => null,
-			'sesso-animale' => null,
-			'eta-animale' => null,
-			'razza-animale' => null,
-			'trasporto-animale' => null,
-			'famiglia-ideale' => null,
-			'condizioni-mediche' => null,
-			'descrizione-acaratteriale' => null,
-			'nome-richiedente' => null,
-			'cognome-richiedente' => null,
-			'telefono-richiedente' => null,
-			'indirizzo-richiedente' => null
-		];
-
         //query per prendere i dettagli della richiesta di adozione
 		$query = "
 			SELECT
@@ -86,40 +64,71 @@ class DBAccess {
 			JOIN UTENTI u ON u.Email = ra.Email
 			JOIN ANIMALI a ON a.IDanimale = ra.IDanimale
 			WHERE ra.Email = ? AND ra.IDanimale = ?
-			LIMIT 1
 		";
         
-        $queryResult= mysqli_query($this->connection, $query) or die("Errore in dbConnection: ".mysqli_error($this->connection)); 
-
-        if(mysqli_num_rows($queryResult)!=0){
-		    $row = $queryResult->fetch_assoc();
-            return [ //array associativo con i dettagli della richiesta
-                'stato' => $row['stato'],
-                'data-richiesta' => $row['data_richiesta'],
-                'lettera-di-presentazione' => $row['lettera_presentazione'],
-                'trasporto-richiesta' => $row['trasporto_richiesta'],
-                'email-richiedente' => $row['email_richiedente'],
-                'id-animale' => $row['id_animale'],
-                'nome-animale' => $row['nome_animale'],
-                'sesso-animale' => $row['sesso_animale'],
-                'eta-animale' => $row['eta_animale'],
-                'razza-animale' => $row['razza_animale'],
-                'trasporto-animale' => $row['trasporto_animale'],
-                'famiglia-ideale' => $row['famiglia_ideale'],
-                'condizioni-mediche' => $row['condizioni_mediche'],
-                'descrizione-acaratteriale' => $row['descrizione_caratteriale'],
-                'nome-richiedente' => $row['nome_richiedente'],
-                'cognome-richiedente' => $row['cognome_richiedente'],
-                'telefono-richiedente' => $row['telefono_richiedente'],
-                'indirizzo-richiedente' => $row['indirizzo_richiedente']
-        ];
-        }else{
-			return $default;
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return null;
+        }
+        
+        mysqli_stmt_bind_param($stmt, 'si', $emailRichiedente, $idAnimale);
+        
+        if(!mysqli_stmt_execute($stmt)){
+            mysqli_stmt_close($stmt);
+            return null;
+        }
+        
+        $queryResult = mysqli_stmt_get_result($stmt);
+        
+        if($queryResult === false || mysqli_num_rows($queryResult) == 0){
+            mysqli_stmt_close($stmt);
+			return null;
 		}
+        
+        $row = mysqli_fetch_assoc($queryResult);
+        mysqli_stmt_close($stmt);
+        
+        return [ //array associativo con i dettagli della richiesta
+            'stato' => $row['stato'],
+            'data-richiesta' => $row['data_richiesta'],
+            'lettera-di-presentazione' => $row['lettera_presentazione'],
+            'trasporto-richiesta' => $row['trasporto_richiesta'],
+            'email-richiedente' => $row['email_richiedente'],
+            'id-animale' => $row['id_animale'],
+            'nome-animale' => $row['nome_animale'],
+            'sesso-animale' => $row['sesso_animale'],
+            'eta-animale' => $row['eta_animale'],
+            'razza-animale' => $row['razza_animale'],
+            'trasporto-animale' => $row['trasporto_animale'],
+            'famiglia-ideale' => $row['famiglia_ideale'],
+            'condizioni-mediche' => $row['condizioni_mediche'],
+            'descrizione-caratteriale' => $row['descrizione_caratteriale'],
+            'nome-richiedente' => $row['nome_richiedente'],
+            'cognome-richiedente' => $row['cognome_richiedente'],
+            'telefono-richiedente' => $row['telefono_richiedente'],
+            'indirizzo-richiedente' => $row['indirizzo_richiedente']
+        ];
 
 		
 	}
 
+    public function accettaValutazione($emailRichiedente, $idAnimale): bool {
+        if (!$this->connection){ //se la connessione non è aperta
+            return false;
+        }
+
+        $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'In valutazione' WHERE Email = ? AND IDanimale = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 'si', $emailRichiedente, $idAnimale);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
 	
 }
 
