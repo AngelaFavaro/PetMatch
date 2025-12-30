@@ -35,7 +35,7 @@ class DBAccess {
 	/**
 	 * Restituisce i dettagli di una richiesta di adozione (utente + animale).
 	 */
-	public function getRichiestaDettagli($emailRichiedente, $idAnimale): array|null {
+	public function getRequestDetails($emailRichiedente, $idAnimale): array|null {
 		if (!$this->connection){ //se la connessione non è aperta
 			return null;
 		}
@@ -62,10 +62,14 @@ class DBAccess {
 				CONCAT_WS(', ', u.Via, u.Citta, u.CAP) AS indirizzo_richiedente,
 				ra.Appunti AS appunti,
                 ra.DataFineValutazione AS data_fine_valutazione,
-                ra.DataInizioValutazione AS data_inizio_valutazione
+                ra.DataInizioValutazione AS data_inizio_valutazione,
+                a.Email as email_admin,
+                m.Nome as nome_admin,
+                m.Cognome as cognome_admin
 			FROM RICHIESTE_ADOZIONI ra
 			JOIN UTENTI u ON u.Email = ra.Email
 			JOIN ANIMALI a ON a.IDanimale = ra.IDanimale
+			JOIN AMMINISTRATORI m ON m.Email = a.Email
 			WHERE ra.Email = ? AND ra.IDanimale = ?
 		";
         
@@ -112,13 +116,16 @@ class DBAccess {
             'indirizzo-richiedente' => $row['indirizzo_richiedente'],
             'data_fine_valutazione' => $row['data_fine_valutazione'],
             'data_inizio_valutazione' => $row['data_inizio_valutazione'],
-            'appunti' => $row['appunti']
+            'appunti' => $row['appunti'],
+            'email-admin' => $row['email_admin'],
+            'nome-admin' => $row['nome_admin'],
+            'cognome-admin' => $row['cognome_admin'],
         ];
 
 		
 	}
 
-    public function accettaValutazione($emailRichiedente, $idAnimale): bool {
+    public function startEvaluation($emailRichiedente, $idAnimale): bool {
         if (!$this->connection){ //se la connessione non è aperta
             return false;
         }
@@ -136,24 +143,36 @@ class DBAccess {
         return $result;
     }
 
-    public function scartaRichiesta($emailRichiedente, $idAnimale): bool {
+    public function rejectRequest($emailRichiedente, $idAnimale, $statoPrecedente): bool {
         if (!$this->connection){ //se la connessione non è aperta
             return false;
         }
-        $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Respinta', DataFineValutazione=? WHERE Email = ? AND IDanimale = ?";
 
-        $stmt = mysqli_prepare($this->connection, $query);
-        if($stmt === false){
-            return false;
+        // prima controlla se la richiesta era in valutazione, se sì imposta stato Respinta e la data di fine, altrimenti Annullata
+        if($statoPrecedente === 'In valutazione'){
+            $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Annullata', DataFineValutazione=? WHERE Email = ? AND IDanimale = ?";
+            $stmt = mysqli_prepare($this->connection, $query);
+            if($stmt === false){
+                return false;
+            }
+            $oggi = date('Y-m-d');
+            mysqli_stmt_bind_param($stmt, 'ssi',$oggi, $emailRichiedente, $idAnimale);
+            
+        } else {
+            $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Respinta' WHERE Email = ? AND IDanimale = ?";
+            $stmt = mysqli_prepare($this->connection, $query);
+            if($stmt === false){
+                return false;
+            }
+            mysqli_stmt_bind_param($stmt, 'si', $emailRichiedente, $idAnimale);
         }
-        $oggi = date('Y-m-d');
-        mysqli_stmt_bind_param($stmt, 'ssi',$oggi, $emailRichiedente, $idAnimale);
+
         $result = mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
         return $result;
     }
 
-    public function apriRichiesta($emailRichiedente, $idAnimale): bool {
+    public function openRequest($emailRichiedente, $idAnimale): bool {
         if (!$this->connection){ //se la connessione non è aperta
             return false;
         }
@@ -171,7 +190,7 @@ class DBAccess {
         return $result;
     }
 
-    public function impostaDaTrasportare($emailRichiedente, $idAnimale): bool {
+    public function setToTransport($emailRichiedente, $idAnimale): bool {
         if (!$this->connection){ //se la connessione non è aperta
             return false;
         }
@@ -189,7 +208,7 @@ class DBAccess {
         return $result;
     }
 
-    public function accettaRichiesta($emailRichiedente, $idAnimale): bool {
+    public function acceptRequest($emailRichiedente, $idAnimale): bool {
         if (!$this->connection){ //se la connessione non è aperta
             return false;
         }
@@ -209,7 +228,7 @@ class DBAccess {
 
 
 	
-    public function aggiornaNote($emailRichiedente, $idAnimale, $note): bool {
+    public function updateNote($emailRichiedente, $idAnimale, $note): bool {
         if (!$this->connection){ //se la connessione non è aperta
             return false;
         }

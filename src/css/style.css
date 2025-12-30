@@ -23,6 +23,15 @@ a:visited{
     color: var(--visitedcolor);
 }
 
+a.orange-button:visited{
+    color: var(--txtcolor);
+}
+
+a.orange-button:hover{
+    color: var(--linkcolor);
+}
+
+
 .container{
     max-width: 1200px;
     /* max-height: 100%; */
@@ -532,7 +541,7 @@ div#admin-area article#stato-trasporto{
 
 
 .orange-button.respinta {
-    background-color: var(--darkbgcolor); /* rosso */
+    background-color: var(--darkbgcolor);
     border: none;
     cursor: not-allowed;
 }

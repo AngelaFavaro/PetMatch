@@ -61,31 +61,45 @@ note.addEventListener('blur', () => {
         })
     });
 });
-
 document.addEventListener('DOMContentLoaded', () => {
-    // prendo lo stato della richiesta
-    const statoP = document.querySelector('#Richiesta p:first-child');
-    if (!statoP) return;
+    // Funzione per controllare lo stato
+    const verificaStato = () => {
+        // Seleziona il paragrafo che contiene "Stato richiesta"
+        const paragrafi = document.querySelectorAll('#Richiesta p');
+        let statoTesto = "";
 
-    const statoTesto = statoP.innerText.replace('Stato richiesta:', '').trim();
+        paragrafi.forEach(p => {
+            if (p.textContent.includes('Stato richiesta:')) {
+                // Prende tutto il testo del paragrafo e rimuove l'etichetta
+                statoTesto = p.textContent.replace('Stato richiesta:', '').trim();
+            }
+        });
 
-    // prendo il pulsante
-    const pulsante1 = document.querySelector('#top-container .orange-button');
-    const pulsante2 = document.querySelector('#animal-container .orange-button');
-    const pulsante3 = document.querySelector('#details-container .orange-button');
-    if (!pulsante1 || !pulsante2 || !pulsante3) return;
+        console.log("Stato rilevato:", statoTesto);
 
-    // se è respinta, aggiungo classe e disabilito click
-    if (statoTesto === 'Respinta') {
-        pulsante1.classList.add('respinta');
-        pulsante2.classList.add('respinta');
-        pulsante3.classList.add('respinta');
-        pulsante1.style.pointerEvents = 'none'; // disabilita il click
-        pulsante1.style.opacity = '0.6';        // aspetto visivo di disabilitato
-        pulsante2.style.pointerEvents = 'none'; // disabilita il click
-        pulsante2.style.opacity = '0.6';        // aspetto visivo di disabilitato
-        pulsante3.style.pointerEvents = 'none'; // disabilita il click
-        pulsante3.style.opacity = '0.6';        // aspetto visivo di disabilitato
-    }
+        // Se il testo è ancora il placeholder [stato], non fare nulla e riprova tra poco
+        if (statoTesto === '[stato]') return;
+
+        if (statoTesto === 'Respinta' || statoTesto === 'Annullata') {
+            const pulsante1= document.querySelector('#animal-container .orange-button');
+            const pulsante2 = document.querySelector('#details-container .orange-button');
+
+            if (!pulsante1 || !pulsante2) return; 
+
+            pulsante1.classList.add('respinta');
+            pulsante2.classList.add('respinta');
+            pulsante1.style.pointerEvents = 'none'; // disabilita il click
+            // pulsante1.style.opacity = '0.6'; // aspetto visivo di disabilitato
+            pulsante2.style.pointerEvents = 'none'; // disabilita il click
+            // pulsante2.style.opacity = '0.6'; // aspetto visivo di disabilitato 
+            console.log("Classi applicate con successo.");
+        }
+    };
+
+    // Esegui subito
+    verificaStato();
+
+    // Se i dati vengono caricati via PHP o AJAX dopo il caricamento della pagina,
+    // usiamo un piccolo timeout o MutationObserver per essere sicuri.
+    setTimeout(verificaStato, 500); 
 });
-
