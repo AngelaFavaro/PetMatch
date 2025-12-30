@@ -60,7 +60,9 @@ class DBAccess {
 				u.Cognome AS cognome_richiedente,
 				u.Telefono AS telefono_richiedente,
 				CONCAT_WS(', ', u.Via, u.Citta, u.CAP) AS indirizzo_richiedente,
-				ra.Appunti AS appunti
+				ra.Appunti AS appunti,
+                ra.DataFineValutazione AS data_fine_valutazione,
+                ra.DataInizioValutazione AS data_inizio_valutazione
 			FROM RICHIESTE_ADOZIONI ra
 			JOIN UTENTI u ON u.Email = ra.Email
 			JOIN ANIMALI a ON a.IDanimale = ra.IDanimale
@@ -108,6 +110,8 @@ class DBAccess {
             'cognome-richiedente' => $row['cognome_richiedente'],
             'telefono-richiedente' => $row['telefono_richiedente'],
             'indirizzo-richiedente' => $row['indirizzo_richiedente'],
+            'data_fine_valutazione' => $row['data_fine_valutazione'],
+            'data_inizio_valutazione' => $row['data_inizio_valutazione'],
             'appunti' => $row['appunti']
         ];
 
@@ -119,7 +123,42 @@ class DBAccess {
             return false;
         }
 
-        $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'In valutazione' WHERE Email = ? AND IDanimale = ?";
+        $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'In valutazione', DataInizioValutazione = ? WHERE Email = ? AND IDanimale = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+        $oggi = date('Y-m-d');
+        mysqli_stmt_bind_param($stmt, 'ssi', $oggi, $emailRichiedente, $idAnimale);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
+
+    public function scartaRichiesta($emailRichiedente, $idAnimale): bool {
+        if (!$this->connection){ //se la connessione non è aperta
+            return false;
+        }
+        $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Respinta', DataFineValutazione=? WHERE Email = ? AND IDanimale = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+        $oggi = date('Y-m-d');
+        mysqli_stmt_bind_param($stmt, 'ssi',$oggi, $emailRichiedente, $idAnimale);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
+
+    public function apriRichiesta($emailRichiedente, $idAnimale): bool {
+        if (!$this->connection){ //se la connessione non è aperta
+            return false;
+        }
+
+        $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Nuova', DataFineValutazione = NULL WHERE Email = ? AND IDanimale = ?";
 
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
@@ -131,6 +170,44 @@ class DBAccess {
         mysqli_stmt_close($stmt);
         return $result;
     }
+
+    public function impostaDaTrasportare($emailRichiedente, $idAnimale): bool {
+        if (!$this->connection){ //se la connessione non è aperta
+            return false;
+        }
+
+        $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Da trasportare' WHERE Email = ? AND IDanimale = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 'si', $emailRichiedente, $idAnimale);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
+
+    public function accettaRichiesta($emailRichiedente, $idAnimale): bool {
+        if (!$this->connection){ //se la connessione non è aperta
+            return false;
+        }
+
+        $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Conclusa' SET DataWHERE Email = ? AND IDanimale = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 'si', $emailRichiedente, $idAnimale);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
+
+
 	
     public function aggiornaNote($emailRichiedente, $idAnimale, $note): bool {
         if (!$this->connection){ //se la connessione non è aperta

@@ -14,7 +14,10 @@
             </div>
 
             <article id="Richiesta" class="tabcontent" style="display: block;">
+                <p><strong>Stato richiesta:</strong> [stato]</p>
                 <p><strong>Data richiesta:</strong> [data]</p>
+                [dataInizioValutazione]
+                [dataRichiestaRespinta]
                 <p><strong>Lettera di presentazione:</strong> [contenutoLettera]</p>
                 <p><strong>Trasporto:</strong> [trasporto]</p>
             </article>
@@ -33,7 +36,7 @@
                 </div>
 
                 <p id="altre-richieste">Ha altre <strong>[n]</strong> richieste in corso di valutazione</p>
-                <a href="./profilo-utente?email=[email]" class="orange-button">Vedi profilo</a>
+                <a href="[paginaRichiedente]" class="orange-button">Vedi profilo</a>
             </article>
             
         </div> 
@@ -51,7 +54,7 @@
                         <p><strong>Trasporto:</strong> [trasportoAnimale]</p>
                     </div>
                 </div>
-                <a href="./profilo-utente?email=[email]" class="orange-button">Vedi animale</a>
+                <a href="[paginaAnimale]" class="orange-button">Vedi animale</a>
                 <div id="other-info-container">
                     <p><strong>Famiglia ideale:</strong> [famigliaIdeale]</p>
                     <p><strong>Condizioni mediche:</strong> [condizioniMediche]</p>

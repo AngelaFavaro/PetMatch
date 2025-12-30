@@ -30,7 +30,7 @@ a:visited{
 }
 
 html{
-    font-size: 90%;
+    font-size: 100%;
     line-height: 1.5em;
     font-family: "Parkinsans", Roboto, sans-serif;
     background-color: var(--bgcolor);
@@ -496,7 +496,7 @@ div#admin-area article#stato-trasporto{
     margin: auto 0em 0em auto;
 }
 
-#bottom-container a.orange-button{
+#bottom-container form{
     margin: auto 0em 0em auto;
 }
 
@@ -526,10 +526,17 @@ div#admin-area article#stato-trasporto{
 
 
 .note p.editing {
-    border: 1px dashed #f90;
     padding: 0.5rem;
-    background-color: #fff8f0;
+    background-color: var(--darkbgcolor);
 }
+
+
+.orange-button.respinta {
+    background-color: var(--darkbgcolor); /* rosso */
+    border: none;
+    cursor: not-allowed;
+}
+
 
 /*================NAVIGATION HELP ==================*/
 

@@ -61,3 +61,31 @@ note.addEventListener('blur', () => {
         })
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    // prendo lo stato della richiesta
+    const statoP = document.querySelector('#Richiesta p:first-child');
+    if (!statoP) return;
+
+    const statoTesto = statoP.innerText.replace('Stato richiesta:', '').trim();
+
+    // prendo il pulsante
+    const pulsante1 = document.querySelector('#top-container .orange-button');
+    const pulsante2 = document.querySelector('#animal-container .orange-button');
+    const pulsante3 = document.querySelector('#details-container .orange-button');
+    if (!pulsante1 || !pulsante2 || !pulsante3) return;
+
+    // se è respinta, aggiungo classe e disabilito click
+    if (statoTesto === 'Respinta') {
+        pulsante1.classList.add('respinta');
+        pulsante2.classList.add('respinta');
+        pulsante3.classList.add('respinta');
+        pulsante1.style.pointerEvents = 'none'; // disabilita il click
+        pulsante1.style.opacity = '0.6';        // aspetto visivo di disabilitato
+        pulsante2.style.pointerEvents = 'none'; // disabilita il click
+        pulsante2.style.opacity = '0.6';        // aspetto visivo di disabilitato
+        pulsante3.style.pointerEvents = 'none'; // disabilita il click
+        pulsante3.style.opacity = '0.6';        // aspetto visivo di disabilitato
+    }
+});
+

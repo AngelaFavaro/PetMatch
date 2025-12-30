@@ -23,10 +23,25 @@ $idAnimale = 1;
 $connessione = new DBAccess();
 $connessioneOK = $connessione->openDBConnection();
 $richiesta = '';
+$dataRichiestaRespinta = '';
+$dataInizioValutazione = '';
 if ($connessioneOK) {
 	$richiesta = $connessione->getRichiestaDettagli($email, $idAnimale);
-	if (isset($_POST['accetta_richiesta'])) {
+	if (isset($_POST['accetta_valutazione'])) {
 		$connessione->accettaValutazione($email, $idAnimale);
+		header("Location: dettagli-richiesta");
+		exit;
+	}
+
+
+	if (isset($_POST['accetta_richiesta'])) {
+
+		if($richiesta['trasporto-richiesta'] == 1){
+			$connessione->impostaDaTrasportare($email, $idAnimale);
+			$richiesta = $connessione->getRichiestaDettagli($email, $idAnimale);
+		} else {
+			$connessione->accettaRichiesta($email, $idAnimale);
+		}
 		header("Location: dettagli-richiesta");
 		exit;
 	}
@@ -38,6 +53,19 @@ if ($connessioneOK) {
 		http_response_code(204);
 		exit;
 	}
+
+	if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scarta_richiesta'])) {
+		$connessione->scartaRichiesta($email, $idAnimale);
+		$richiesta = $connessione->getRichiestaDettagli($email, $idAnimale);
+		header("Location: dettagli-richiesta");
+		exit;
+	}
+
+	if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['apri_richiesta'])) {
+		$connessione->apriRichiesta($email, $idAnimale);
+		header("Location: dettagli-richiesta");
+		exit;
+	}
 	$connessione->closeConnection();
 }
 
@@ -46,7 +74,23 @@ $title = '<title>Area riservata admin - PetMatch </title>';
 $description = '<meta name="description" content="Area riservata per gli amministratori di PetMatch">';
 $keywords = "";
 
-$scarta_richiesta = '<a data-id-richiedente="' . $richiesta['email-richiedente'] . '" data-id-animale="' . $richiesta['id-animale'] . '" class="orange-button" >Scarta richiesta</a>';
+$scarta_richiesta = '';
+if ($richiesta['stato'] !== 'Respinta'){
+	$scarta_richiesta = '<form method="POST">
+				<input type="hidden" name="id_animale" value="' . $richiesta['id-animale'] . '">
+				<input type="hidden" name="email_richiedente" value="' . $richiesta['email-richiedente'] . '">
+				<button type="submit" name="scarta_richiesta" class="orange-button">Scarta richiesta</button>
+			</form>';
+}else{
+	$scarta_richiesta = '<form method="POST">
+				<input type="hidden" name="id_animale" value="' . $richiesta['id-animale'] . '">
+				<input type="hidden" name="email_richiedente" value="' . $richiesta['email-richiedente'] . '">
+				<button type="submit" name="apri_richiesta" class="orange-button">Apri richiesta</button>
+			</form>';
+
+}
+
+	
 $nav = file_get_contents('./src/template/partials/nav-admin.html');
 
 $breadcrumb = getBreadcrumb('dettagli-richiesta', $pagine);
@@ -60,12 +104,15 @@ $paginaHTML = str_replace('[title]', $title, $paginaHTML);
 $paginaHTML = str_replace('[nav]', $nav, $paginaHTML);
 $main = str_replace('[data]', htmlspecialchars($richiesta['data-richiesta']), $main);
 $main = str_replace('[contenutoLettera]', htmlspecialchars($richiesta['lettera-di-presentazione']), $main);
+$main = str_replace('[paginaAnimale]', './animale?id=' . $richiesta['id-animale'], $main);
+$main = str_replace('[paginaRichiedente]', './profilo-utente?email=' . $richiesta['email-richiedente'], $main);
 if ($richiesta['trasporto-richiesta'] === 1) {
 	$main = str_replace('[trasporto]', 'Sì', $main);
 } else {
 	$main = str_replace('[trasporto]', 'No', $main);
 }
 $main = str_replace('[scarta-richiesta]', $scarta_richiesta, $main);
+$main = str_replace('[stato]', $richiesta['stato'], $main);
 $main = str_replace('[nome]', $richiesta['nome-richiedente'], $main);
 $main = str_replace('[cognome]', $richiesta['cognome-richiedente'], $main);
 $main = str_replace('[telefono]', $richiesta['telefono-richiedente'], $main);
@@ -89,24 +136,48 @@ $stato_trasporto = '';
 $pulsanti_azioni_richiesta = '';
 if ($richiesta['stato'] === 'Da trasportare') {
 	$stato_trasporto = '<article id="stato-trasporto">
-			<p><strong>Stato della richiesta:</strong> ' . $richiesta['stato'] . '</p>
 			<p><strong>Data di arrivo:</strong> [dataDiArrivo]</p>
 			<a href="./">
 				<img src="./assets/icons/edit-pencil.svg" alt="Modificare le informazioni">
 			</a>
 		</article>';
+	$subject = rawurlencode('Richiesta informazioni per adozione di ' . $richiesta['nome-animale']);
+
+	$pulsanti_azioni_richiesta = '<a href="mailto:' 
+		. $richiesta['email-richiedente'] 
+		. '?subject=' . $subject 
+		. '" class="orange-button" target="_blank">Contatta candidato</a>';
+	$dataInizioValutazione = '<p><strong>Data inizio valutazione:</strong> ' . $richiesta['data_inizio_valutazione'] . '</p>';
+
 } elseif ($richiesta['stato'] === 'Nuova') {
 	$pulsanti_azioni_richiesta = '
 		<form method="POST">
 			<input type="hidden" name="id_animale" value="' . $richiesta['id-animale'] . '">
 			<input type="hidden" name="email_richiedente" value="' . $richiesta['email-richiedente'] . '">
-			<button type="submit" name="accetta_richiesta" class="orange-button">Accetta valutazione</button>
+			<button type="submit" name="accetta_valutazione" class="orange-button">Accetta valutazione</button>
 		</form>';
 
-} else {
-	$pulsanti_azioni_richiesta = '<a href="mailto:' . $richiesta['email-richiedente'] . '" class="orange-button" target="_blank">Contatta candidato</a>';
+} elseif( $richiesta['stato'] === 'In valutazione'){
+	$subject = rawurlencode('Richiesta informazioni per adozione di ' . $richiesta['nome-animale']);
+
+	$pulsanti_azioni_richiesta = '
+	<form method="POST">
+		<input type="hidden" name="id_animale" value="' . $richiesta['id-animale'] . '">
+		<input type="hidden" name="email_richiedente" value="' . $richiesta['email-richiedente'] . '">
+		<button type="submit" name="accetta_richiesta" class="orange-button">Accetta richiesta</button>
+	</form>';
+}
+
+if($richiesta['stato']==='Respinta' && $richiesta['data_fine_valutazione'] ){
+	if($richiesta['data_inizio_valutazione'])
+		$dataInizioValutazione = '<p><strong>Data inizio valutazione:</strong> ' . $richiesta['data_inizio_valutazione'] . '</p>';
+	else
+		$dataInizioValutazione = '<p><strong>Data inizio valutazione:</strong> Non presente</p>';
+	$dataRichiestaRespinta = '<p><strong>Data rifiuto:</strong> ' . $richiesta['data_fine_valutazione'] . '</p>';
 }
 $main = str_replace('[stato-trasporto]', $stato_trasporto, $main);
+$main = str_replace('[dataInizioValutazione]', $dataInizioValutazione, $main);
+$main = str_replace('[dataRichiestaRespinta]', $dataRichiestaRespinta, $main);
 $main = str_replace('[pulsanti-azioni-richiesta]', $pulsanti_azioni_richiesta, $main);
 
 $annotazioni = '<div class="note">
