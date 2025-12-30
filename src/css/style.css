@@ -137,8 +137,16 @@ a.orange-button{
 #zzz {
     animation: sleep 4s infinite ease-in-out;
 }
-/* 
-==================SOLO PER SCREEN READER================== */
+
+
+/* ==================LAVORA CON NOI ================== */
+
+#introduction-lavora-con-noi .column-user {
+    flex: 1 1 60%;
+    box-sizing: border-box;
+}
+
+/* ==================SOLO PER SCREEN READER================== */
 
 /* Gli elementi con questa classe sono visibili solo agli screen reader */
 .sr-only {

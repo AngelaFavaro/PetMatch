@@ -15,6 +15,9 @@ $routes = [
     'dettagli-richiesta' => [
         'file' => __DIR__ . '/src/php/admin/dettagli-richiesta.php'
     ],
+     'lavora-con-noi' => [
+        'file' => __DIR__ . '/src/php/lavora-con-noi.php'
+    ],
     /* decommentare quando si vogliono aggiungere le altre pagine
     'accedi' => [
         'file' => __DIR__ . '/src/php/accedi.php'
@@ -30,9 +33,6 @@ $routes = [
     ],
     'come-funziona' => [
         'file' => __DIR__ . '/src/php/come-funziona.php'
-    ],
-    'lavora-con-noi' => [
-        'file' => __DIR__ . '/src/php/lavora-con-noi.php'
     ],
     'animali' => [
         'file' => __DIR__ . '/src/php/animali.php',
