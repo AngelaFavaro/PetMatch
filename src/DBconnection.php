@@ -125,6 +125,23 @@ class DBAccess {
 		
 	}
 
+    public function setArrivalDate($emailRichiedente, $idAnimale, $dataArrivo): bool {
+        if (!$this->connection){ //se la connessione non è aperta
+            return false;
+        }
+
+        $query = "UPDATE RICHIESTE_ADOZIONI SET DataArrivo = ? WHERE Email = ? AND IDanimale = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 'ssi', $dataArrivo, $emailRichiedente, $idAnimale);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
     public function startEvaluation($emailRichiedente, $idAnimale): bool {
         if (!$this->connection){ //se la connessione non è aperta
             return false;

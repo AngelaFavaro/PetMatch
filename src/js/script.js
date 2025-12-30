@@ -48,7 +48,7 @@ note.addEventListener('blur', () => {
     note.classList.remove('editing');
 
     const nuovoTesto = note.innerText.trim();
-    if (nuovoTesto === originalText) return; // niente POST inutile
+    if (nuovoTesto === originalText) return;
 
     fetch(window.location.href, {
         method: 'POST',
@@ -103,3 +103,42 @@ document.addEventListener('DOMContentLoaded', () => {
     // usiamo un piccolo timeout o MutationObserver per essere sicuri.
     setTimeout(verificaStato, 500); 
 });
+
+
+const editDataBtn = document.getElementById('edit-data');
+const dataText = document.getElementById('data-arrivo-text');
+
+let originalData = '';
+
+if (editDataBtn && dataText) {
+    editDataBtn.addEventListener('click', e => {
+        e.preventDefault();
+        originalData = dataText.innerText.trim();
+        dataText.contentEditable = 'true';
+        dataText.classList.add('editing');
+        dataText.focus();
+    });
+
+    dataText.addEventListener('blur', () => {
+        dataText.contentEditable = 'false';
+        dataText.classList.remove('editing');
+
+        const nuovaData = dataText.innerText.trim();
+        if (nuovaData === originalData) return;
+
+        // Invio dei dati al server
+        fetch(window.location.href, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+                salva_data_arrivo: 1, // Parametro per distinguere l'azione in PHP
+                data_arrivo: nuovaData,
+                email: dataText.dataset.email,
+                id_animale: dataText.dataset.idAnimale
+            })
+        })
+        .then(response => {
+            if (!response.ok) alert("Errore durante il salvataggio");
+        });
+    });
+}

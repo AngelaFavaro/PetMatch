@@ -138,6 +138,13 @@ function handlePostActions(DBAccess $conn, array $r, string $email, int $idAnima
         exit;
     }
 
+	if (isset($_POST['salva_data_arrivo'])) {
+		$nuovaData = $_POST['data_arrivo'];
+		$conn->setArrivalDate($email, $idAnimale, $nuovaData);
+		header("Location: dettagli-richiesta");
+		exit; // Importante per non restituire l'intera pagina HTML nella fetch
+	}
+
     return $r;
 }
 
@@ -229,12 +236,18 @@ list($dataInizioValutazione, $dataRichiestaRespinta) = buildDateInfo($richiesta)
 
 $stato_trasporto = '';
 if (($richiesta['stato'] ?? '') === 'Da trasportare') {
-    $stato_trasporto = '<article id="stato-trasporto">
-            <p><strong>Data di arrivo:</strong> [dataDiArrivo]</p>
-            <a href="./">
-                <img src="./assets/icons/edit-pencil.svg" alt="Modificare le informazioni">
-            </a>
-        </article>';
+    $stato_trasporto = '
+		<article id="stato-trasporto">
+			<p>
+				<strong>Data di arrivo:</strong> 
+				<span id="data-arrivo-text">
+					' . e($richiesta['data_arrivo'] ?? '[dataDiArrivo]') . '
+				</span>
+			</p>
+			<a href="#" id="edit-data">
+				<img src="./assets/icons/edit-pencil.svg" alt="Modificare la data">
+			</a>
+		</article>';
 }
 
 $main = str_replace('[stato-trasporto]', $stato_trasporto, $main);
@@ -248,7 +261,6 @@ if($richiesta['stato']!=='Annullata' || ($richiesta['stato']==='Annullata' && $r
 	$annotazioni = '<div class="note">
 						<div class="header-note">
 							<h2>LE TUE ANNOTAZIONI</h2>
-							<!-- TODO da mettere collegamento-->
 							<a href="#" id="edit-note">
 								<img src="./assets/icons/edit-pencil.svg" alt="Modificare le informazioni">
 							</a>

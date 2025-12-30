@@ -539,6 +539,13 @@ div#admin-area article#stato-trasporto{
     background-color: var(--darkbgcolor);
 }
 
+#stato-trasporto span.editing {
+    padding: 2px 5px;
+    background-color: var(--darkbgcolor);
+    border: 1px dashed var(--accent-color); /* Opzionale: aggiunge un bordo per chiarezza */
+    border-radius: 4px;
+    outline: none;
+}
 
 .orange-button.respinta {
     background-color: var(--darkbgcolor);
