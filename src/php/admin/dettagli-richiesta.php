@@ -243,16 +243,19 @@ $main = str_replace('[dataRichiestaRespinta]', $dataRichiestaRespinta, $main);
 $main = str_replace('[pulsanti-azioni-richiesta]', renderPulsantiAzioni($richiesta), $main);
 
 // Annotazioni
-$annotazioni = '<div class="note">
-            <div class="header-note">
-                <h2>LE TUE ANNOTAZIONI</h2>
-                <!-- TODO da mettere collegamento-->
-                <a href="#" id="edit-note">
-                    <img src="./assets/icons/edit-pencil.svg" alt="Modificare le informazioni">
-                </a>
-            </div>
-            <p id="note-text">' . e($richiesta['appunti'] ?? '') . '</p>
-        </div>';
+$annotazioni = '';
+if($richiesta['stato']!=='Annullata' || ($richiesta['stato']==='Annullata' && $richiesta['appunti'] !== '')){
+	$annotazioni = '<div class="note">
+						<div class="header-note">
+							<h2>LE TUE ANNOTAZIONI</h2>
+							<!-- TODO da mettere collegamento-->
+							<a href="#" id="edit-note">
+								<img src="./assets/icons/edit-pencil.svg" alt="Modificare le informazioni">
+							</a>
+						</div>
+						<p id="note-text">' . e($richiesta['appunti'] ?? '') . '</p>
+					</div>';
+}
 $main = str_replace('[annotazioni]', $annotazioni, $main);
 
 $main = str_replace('[descrizioneCaratteriale]', e($richiesta['descrizione-caratteriale'] ?? ''), $main);
