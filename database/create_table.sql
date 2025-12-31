@@ -20,6 +20,7 @@ CREATE TABLE UTENTI (
     Via VARCHAR(255),
     Citta VARCHAR(100),
     CAP VARCHAR(5),
+    ImgPath VARCHAR(512) DEFAULT 'assets/images/users/linor.jpg',
     CHECK (
         (Via IS NULL AND Citta IS NULL AND CAP IS NULL)
         OR
@@ -32,7 +33,8 @@ CREATE TABLE AMMINISTRATORI (
     Email VARCHAR(255) PRIMARY KEY,
     Nome VARCHAR(100) NOT NULL,
     Cognome VARCHAR(100) NOT NULL,
-    AdminPW VARCHAR(100) NOT NULL
+    AdminPW VARCHAR(100) NOT NULL,
+    ImgPath VARCHAR(512) DEFAULT 'assets/images/admins/linor.jpg'
 );
 
 -- EVENTI
@@ -41,7 +43,7 @@ CREATE TABLE EVENTI (
     DataPubblicazione DATE NOT NULL,
     DataEvento DATE NOT NULL,
     DescrEvento TEXT NOT NULL,
-    Img VARCHAR(512) NOT NULL,
+    ImgPath VARCHAR(512) NOT NULL, -- Già presente, rinominato per coerenza
     PRIMARY KEY (Titolo, DataEvento),
     CHECK (DataEvento >= DataPubblicazione)
 );
@@ -72,6 +74,7 @@ CREATE TABLE ANIMALI(
     DescrComportamentale TEXT NOT NULL,
     CondizioniMediche TEXT,
     Trasporto TINYINT(1) NOT NULL,
+    ImgPath VARCHAR(512) NOT NULL,
     Email VARCHAR(255),
 
     FOREIGN KEY (Email) REFERENCES AMMINISTRATORI (Email) ON DELETE SET NULL ON UPDATE CASCADE,
@@ -83,7 +86,7 @@ CREATE TABLE ANIMALI(
     CHECK (DataRegistrazione >= DataNascita)
 );
 
--- FOTO
+-- FOTO (Galleria multi immagine per ogni animale, per ora non la usiamo, se ne abbiamo bisogno è pronta)
 CREATE TABLE FOTO(
     Path VARCHAR(512) PRIMARY KEY,
     IDanimale INT NOT NULL,
@@ -134,7 +137,7 @@ CREATE TABLE TRASPORTI(
 
 -- SEGNALAZIONI_NUOVE_ACCOGLIENZE
 CREATE TABLE SEGNALAZIONI_NUOVE_ACCOGLIENZE (
-    ID INT PRIMARY KEY, 
+    ID INT AUTO_INCREMENT PRIMARY KEY, 
     EmailAmm VARCHAR(255),
     EmailRichiedente VARCHAR(255) NOT NULL,
     FOREIGN KEY (EmailAmm) REFERENCES AMMINISTRATORI (Email) ON DELETE SET NULL ON UPDATE CASCADE
