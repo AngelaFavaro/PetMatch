@@ -1,0 +1,70 @@
+nav#menu-admin {
+    padding-top:0em;
+    float: none;
+    width: 100%;
+    position: relative;
+    left: 0;
+    max-height: 0;
+    overflow: hidden;
+    background-color: transparent; 
+    /* transition: max-height 0.3s ease, background-color 0.3s ease; */
+    z-index: 1000;
+    visibility: hidden;
+}
+
+#menu-admin.active {
+    max-height: 100vh;
+
+    background-color: var(--footercolor); /*così lo sfondo appare solo quando apri il menu */
+    visibility: visible;
+}
+
+body#admin-body main {
+    margin-left: 0;
+    /* transition: margin-top 0.3s ease; */
+}
+
+div#admin-area {
+    padding: 1em;
+}
+.menu-toggle {
+    display: block;
+    font-size: 2em;
+    background: none;
+    border: none;
+    cursor: pointer;
+        color: var(--bgcolor);
+    padding: 0.5em 1em 0em 1em;
+}
+
+
+nav#menu-admin img {
+    width: 10em;
+    max-width: 100%;
+    height: auto;
+}
+
+div#admin-area article#animale-richiesta {
+    min-width: 100%;
+}
+
+div#admin-area div#animal-container {
+    max-width: 100%;
+    width: 100%;
+}
+
+div#admin-area article#stato-trasporto {
+    width: 100%;
+}
+.note{
+    width: 100%;
+}
+
+h1{
+    font-size: 2em;
+}
+
+nav#breadcrumb {
+    padding: 0.5em 1em;
+    margin: 1em;
+}

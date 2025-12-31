@@ -1,0 +1,75 @@
+<div id="admin-area">
+    <h1>Dettagli richiesta di adozione</h1>
+    [di chi]
+    <div id="top-container">
+        [stato-trasporto]
+        [pulsanti-azioni-richiesta]
+    </div>
+    <div id="details-container">
+        
+        <div class="tabs-container">
+            
+            <div class="tab">
+                <button id="tab-richiesta" class="tablinks active" onclick="openTab(event, 'Richiesta')"><h2>INFORMAZIONI RICHIESTA</h2></button>
+                <button id="tab-richiedente" class="tablinks" onclick="openTab(event, 'Richiedente')"><h2>INFORMAZIONI RICHIEDENTE</h2></button>
+            </div>
+
+            <article id="Richiesta" class="tabcontent" style="display: block;">
+                <p><strong>Stato richiesta:</strong> [stato]</p>
+                <p><strong>Data richiesta:</strong> [data]</p>
+                [dataInizioValutazione]
+                [dataFineValutazione]
+                [dataRichiestaRespinta]
+                <p><strong>Lettera di presentazione:</strong> [contenutoLettera]</p>
+                <p><strong>Trasporto:</strong> [trasporto]</p>
+            </article>
+
+            <article id="Richiedente" class="tabcontent">
+                <div class="generic-info-container">
+                    <img src="[imgPath]" alt="Foto di [nome]" class="circle-foto">
+                    
+                    <div class="text-details">
+                        <p><strong>Nome:</strong> [nome]</p>
+                        <p><strong>Cognome:</strong> [cognome]</p>
+                        <p><strong>Telefono:</strong> [telefono]</p>
+                        <p><strong>Email:</strong> [email]</p>
+                        <p><strong>Indirizzo:</strong> [indirizzo]</p>
+                    </div>
+                </div>
+
+                <p id="altre-richieste">Ha altre <strong>[n]</strong> richieste in corso di valutazione</p>
+                <a href="[paginaRichiedente]" class="orange-button">Vedi profilo</a>
+            </article>
+            
+        </div> 
+        <div id="animal-container">
+            <h2>INFORMAZIONI ANIMALE</h2>
+            <article id="animale-richiesta">
+                <div class="generic-info-container">
+                    <img src="[animalImgPath]" alt="Foto di [nomeAnimale]" class="square-foto">
+                    
+                    <div class="text-details">
+                        <p><strong>Nome:</strong> [nomeAnimale]</p>
+                        <p><strong>Sesso:</strong> [sessoAnimale]</p>
+                        <p><strong>Età:</strong> [etaAnimale]</p>
+                        <p><strong>Razza:</strong> [razzaAnimale]</p>
+                        <p><strong>Trasporto:</strong> [trasportoAnimale]</p>
+                    </div>
+                </div>
+                <a href="[paginaAnimale]" class="orange-button">Vedi animale</a>
+                <div id="other-info-container">
+                    <p><strong>Famiglia ideale:</strong> [famigliaIdeale]</p>
+                    <p><strong>Condizioni mediche:</strong> [condizioniMediche]</p>
+                    <p><strong>Descrizione caratteriale:</strong> [descrizioneCaratteriale]</p>
+                </div>
+            </article>
+
+        </div>
+
+        
+    </div> 
+    <div id="bottom-container">
+        [annotazioni]
+        [scarta-richiesta]
+    </div>
+</div>

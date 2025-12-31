@@ -1,6 +1,7 @@
 * {
 	padding: 0em;
 	margin: 0em;
+    box-sizing: border-box;
 }
 
 :root{
@@ -11,6 +12,7 @@
     --linkcolor:#FFF6D7;
     --footercolor: #481515;
     --visitedcolor: #EA654C;
+    --darkbgcolor: #E4D4BA;
 }
 
 a{
@@ -21,19 +23,18 @@ a:visited{
     color: var(--visitedcolor);
 }
 
-/* body{
-    max-width: 1200px;
-    max-height: 100%;
-    margin: auto;
-} */
-
-/* body {
-    background-color: var(--bgcolor);
+a.orange-button:visited{
     color: var(--txtcolor);
-} */
+}
+
+a.orange-button:hover{
+    color: var(--linkcolor);
+}
+
+
 .container{
     max-width: 1200px;
-    max-height: 100%;
+    /* max-height: 100%; */
     margin: auto;
 }
 
@@ -44,36 +45,41 @@ html{
     background-color: var(--bgcolor);
     color: var(--txtcolor);
 }
-
 /* se troppo grandi per altre pagine allora avvisate linor prima di trovare altre soluzioni */
+h1{
+    font-size: 2.5em; 
+    line-height: normal;
+}
 h2{
     font-size: 2.3em; 
+    line-height: 1.3;
 }
 h3{
     font-size: 1.3em;
+    /* line-height: 1.3; */
 }
 
 h4{
     font-size: 1.1em;
+    /* line-height: 1.3; */
 }
 
-main#content{
-    /* se cambi questo valore vai a vedere la pagina 404, non so come altro fare altrimenti */
-    margin: 10% auto;
-}
 
 /*==================PULSANTI==================*/
-a.orange-button{
+.orange-button{
     display: block;
     text-align: center;
-    margin: 2em auto;
-    width: 45%;
+    margin: auto;
+    width: fit-content;
     background-color: var(--buttoncolor);
     color: var(--txtcolor);
     padding: 0.7em 1.5em;
-    border-radius: 2em;
+    border-radius: 1em;
     font-weight: 600;
     transition: background-color 0.4s ease;
+        font-size: medium;
+    font-family: 'Parkinsans';
+    border: none;
 }
 
 .orange-button:hover {
@@ -86,10 +92,12 @@ a.orange-button{
 
 /* Stile per allineare l'immagine ai numeri */
 #error-title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14rem;
+    margin-top: 0.6em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14rem;
+    line-height: 0em;
 
 }
 
@@ -146,13 +154,15 @@ a.orange-button{
 
 /* Gli elementi con questa classe sono visibili solo agli screen reader */
 .sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  border: 0;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
 }
 
 /* ==================FOOTER================== */
@@ -188,8 +198,443 @@ footer h4 {
     background-size: auto 100%; /* da tenere assolutamente altrimenti si taglia */
 }
 
-/* footer img {
+
+
+
+/* ================== =========== PAGINE ADMIN================== ============*/
+
+
+/* ================== AREA RISERVATA ADMIN==================*/
+body#admin-body{
+    background-color: var(--footercolor);
+}
+div#admin-area article h2{
+     font-size: 1.5em; 
+     font-weight: 600;
+}
+
+div#admin-area{
+    padding: 6em;
+}
+
+div#admin-area article {
+  padding:1em 1em 1em 1em;
+  border: 1px solid var(--txtcolor);
+  border-radius:1em;
+  margin: 2em 0em;
+}
+
+
+div#admin-area article#query, div#admin-area article#row2-container{
+    padding: 2em 2em 0em 2em;
+}
+/* stesso pattern usato per le section del footer*/
+ul#to-do-list, ul#statistics-list {
+    margin: 0 -10px;
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    padding: 1em 1em;
+}
+
+ul#to-do-list li, ul#statistics-list li{
+    display: inline-block;
+    padding: 1.8em 1.2em 1.2em 1.2em;
+    border-radius: 1.2em;
+    font-weight: 600;
+    margin: 0em 1em; /*spazio orizzontale*/
+    margin-bottom: 1em; /*se vanno a capo hanno un po' di spazio*/
+    flex: 1 1 100px;
+}
+
+ul#to-do-list li{
+     background-color: var(--buttoncolor);
+}
+
+ul#statistics-list li{
+    border: 1px solid var(--txtcolor);
+}
+#to-do-list a, #statistics-list a{
+    width:100%; /*riempie tutto il li*/
+    color: var(--txtcolor);
+    text-decoration: none;
+}
+
+p.query-type{
+    font-size: 0.7em;
+    /* margin: 0 1em; */
+}
+p.n-query{
+    font-size:2em;
+    font-weight: 700;
+    margin-bottom: 0.5em;
+}
+/* ================== MENU ADMIN==================*/
+.menu-toggle { display: none; } /* Nascondi tasto su desktop */
+
+nav#menu-admin {
+    display: flex;
+    flex-direction: column;
+    transition: 0.3s;
+    float: left;
+    width: 20%;
+    padding: 1em 0em 1em 1em;
+    /* height: 100%; */
+    overflow: hidden;
+    height: 100vh;
+}
+
+body#admin-body main {
+    background-color: var(--bgcolor);
+    margin-left:20%;
+}
+
+main#content{
+    min-height: 100vh;
+    padding-top:2em;
+}
+
+
+
+nav#menu-admin img {
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
+    width: 12em;
+    max-width: 100%;
+    height: auto;
+}
+
+
+nav#menu-admin li {
+  padding: 1.3em;
+}
+
+nav#menu-admin li#currentLink {
+    background-color: var(--bgcolor);
+    border-radius: 2em 0em 0em 2em;
+    color: var(--txtcolor);
+}
+nav#menu-admin li a:visited{
+    color: var(--visitedcolor);
+}
+nav#menu-admin li#currentLink a{
+    font-weight: 700;
+    color: var(--txtcolor);
+}
+
+nav#menu-admin span{
+    color: var(--bgcolor);
+    font-weight: 700;
+}
+
+nav#menu-admin ul{
+    margin-top:0.5em;
+    margin-bottom: 2em;
+}
+
+nav#menu-admin a#logout{
+    /* margin-top: 14em; */
+    margin-top: auto;
+}
+div#row2{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+}
+
+div#row2 article{
+    flex: 1 1 200px;
+}
+#admin-info {
+    display: flex;
+    flex-direction: column; /* Mette la testata SOPRA e le info SOTTO */
+}
+
+.header-info h2{
+    float: left;
+}
+
+.header-info img{
+    float: right;
+}
+
+.generic-info-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.circle-foto {
+    width: 9em;
+    height: 9em;
+    object-fit: cover;
+    clip-path: circle(50%);
+}
+
+.square-foto {
+    width: 9em;
+    height: 9em;
+    object-fit: cover;
+    /* clip-path: square(50%); */
+}
+
+.text-details{
+    margin: auto 2em;
+}
+.header-info, .generic-info-container{
+    margin-bottom: 1em;
+}
+
+
+/*================= DETTAGLI RICHIESTE DI ADOZIONE ==================*/
+.tab {
+    overflow: hidden;
+    display: flex;
+}
+
+.tab button {
+  background-color: inherit;
+  border: none;
+  padding: 14px 16px;
+  transition: 0.3s;
+  flex: 1; /* questo serve per far si che i tab siano grandi uguali e riempiano lo spazio*/
+}
+
+.tab button.active {
+    padding-bottom: 0.3em;
+    border: 1px solid var(--txtcolor);
+    border-bottom: none;
+}
+
+.tab button {
+   border-bottom: 1px solid var(--txtcolor);
+}
+
+.tabcontent#Richiedente .orange-button{
+    margin: 0em 0em 0em auto;
+}
+
+#animale-richiesta .orange-button{
+    margin: 0em auto 2em 0em;
+}
+#details-container h2{
+    font-size: 1.2em;
+    /* margin-bottom: 1em; */
+    color: var(--txtcolor);
+}
+
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+} 
+
+#details-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+    align-items: flex-start;
+}
+
+p#altre-richieste{
+    text-align: center;
+}
+
+
+/* todo mamma mia linor, modifica sta roba che diventa illeggibile (devi
+modificare div#admin-area article che è più specifico di #details-container article quindi hai dovuto scriverlo così) */
+div#admin-area #details-container article{
+    flex: 1 1 200px;
+    gap: 1em;
+    margin: 0em;
+    border-radius: 0em;
+    border-top: none;
+}
+
+div#admin-area #details-container article#animale-richiesta{
+    margin: 0em;
+    border-radius: 1em;
+    border-bottom-left-radius: 0em;
+    border-bottom-right-radius: 0em;
+    border-top: 1px solid var(--txtcolor);
+    width: 100%;
+}
+
+#details-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6em;
+    align-items: flex-start;
+    margin: 2em 0em;
+}
+
+.tabs-container {
+    flex: 2 1 300px;
+}
+
+div#admin-area article#animale-richiesta {
+     flex: 1;
+    min-width: 32em;
+    border: 1px solid var(--txtcolor);
+    border-radius: 20px;
+    padding: 20px;
+    width: 100%;
+}
+
+div#admin-area div#animal-container{
+    flex: 1 1 250px;
+    /* min-width: 250px; */
+    max-width: 100%;
+}
+
+div#admin-area article#stato-trasporto{
+    background-color: var(--darkbgcolor);
+    width: 55%;
+    padding: 1em 1em;
+    margin: auto auto 0em 0em;
+} 
+
+#top-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#stato-trasporto p{
+    padding-top: 0.7em;
+    float: left;
+    margin-right: 2em;
+}
+#stato-trasporto a{
+    float: right;
+}
+#top-container a.orange-button, #top-container form{
+    margin: auto 0em 0em auto;
+}
+
+#bottom-container form{
+    margin: auto 0em 0em auto;
+}
+
+.note{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 55%;
+}
+/* .header-note{
+    gap: 1em;
 } */
+.header-note h2{
+    float: left;
+    font-size: 1.3em;
+}
+.header-note a{
+    float: right;
+}
+
+#bottom-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+
+}
+
+
+.note p.editing {
+    padding: 0.5rem;
+    background-color: var(--darkbgcolor);
+}
+
+/* Nasconde i form quando hanno la classe .hidden */
+#form-data.hidden, 
+#form-note.hidden,
+#data-text.hidden,
+#note-text.hidden {
+    display: none;
+}
+
+/* Quando il form della data è attivo, sta in linea con il testo */
+#form-data {
+    display: inline;
+}
+
+/* Il form delle note lo facciamo apparire come un blocco sotto il titolo */
+#form-note {
+    display: block;
+    margin-top: 0.5rem;
+}
+
+/* --- Stile Input e Textarea --- */
+
+#input-note {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: var(--darkbgcolor);
+    border: 1px solid var(--bordercolor, #ccc);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical; /* Permette all'utente di allungare l'area */
+}
+.orange-button.respinta {
+    background-color: var(--darkbgcolor);
+    border: none;
+    cursor: not-allowed;
+}
+
+
+/* Quando il form ha la classe .hidden, sparisce */
+#stato-trasporto .hidden {
+    display: none;
+}
+
+/* Quando il form NON ha .hidden, deve stare sulla stessa riga del testo */
+#form-data {
+    display: inline;
+}
+
+
+/*================NAVIGATION HELP ==================*/
+
+.navigationHelp {
+	position: absolute;
+	text-indent: -999em;
+}
+
+.navigationHelp:focus{
+	position: static;
+	text-indent: 0em;
+}
+
+#menu a:link, .navigationHelp:link {
+	color: var(--linkcolor);
+}
+
+#menu a:visited, .navigationHelp:visited{
+	color: var(--visitedcolor);
+}
+
+
+/* ================== BREADCRUMB==================*/
+nav#breadcrumb{
+    margin: auto;
+    display: block;
+    text-align: center;
+    width: fit-content;
+    background-color: var(--footercolor);
+    color: var(--bgcolor);
+    padding: 0.7em 1.5em;
+    border-radius: 1em;
+    font-weight: 400;
+    /* transition: background-color 0.4s ease; */
+}
+
+nav#breadcrumb a{
+    color: var(--linkcolor);
+    font-weight: 600;
+}
+
+
+nav#breadcrumb a:visited{
+    color: var(--visitedcolor);
+}
