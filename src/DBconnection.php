@@ -148,8 +148,8 @@ class DBAccess {
             return false;
         }
         $query = "INSERT INTO `TRASPORTI` 
-          (`ID`, `Email`, `IDanimale`, `Via`, `Citta`, `CAP`, `DataArrivo`, `DataPartenza`) 
-          VALUES (1, ?, ?, 'caca', 'pupu', '25026', ?, '2026-01-01')";
+          (`Email`, `IDanimale`, `Via`, `Citta`, `CAP`, `DataArrivo`, `DataPartenza`) 
+          VALUES ( ?, ?, 'caca', 'pupu', '35036', ?, '2026-01-01')";
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
             return false;
