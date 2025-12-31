@@ -142,3 +142,8 @@ CREATE TABLE SEGNALAZIONI_NUOVE_ACCOGLIENZE (
     EmailRichiedente VARCHAR(255) NOT NULL,
     FOREIGN KEY (EmailAmm) REFERENCES AMMINISTRATORI (Email) ON DELETE SET NULL ON UPDATE CASCADE
 );
+
+
+INSERT INTO `UTENTI` (`Email`, `Nome`, `Cognome`, `UtentePW`, `Telefono`, `Via`, `Citta`, `CAP`, `ImgPath`) VALUES ('lindorlinor@gmail.com', 'Linor', 'Sadè', 'password123456', '3779765767', 'Via campagna alta 2', 'Montegrotto Terme (PD)', '35036', 'assets/images/linor.jpg');
+INSERT INTO `ANIMALI` (`IDanimale`, `Nome`, `DataNascita`, `DataRegistrazione`, `Sesso`, `Tipo`, `Colore`, `Pelo`, `Taglia`, `Razza`, `DescrFamiglia`, `DescrComportamentale`, `CondizioniMediche`, `Trasporto`, `ImgPath`, `Email`) VALUES (NULL, 'Shaker', '2014-07-15', '2025-12-30', 'M', 'Cane', 'Bianco, Marrone', 'Corto', 'Piccolo', 'Jack russell terrier', 'molto molto calma...molto calma', 'Morde quando non gli dai la pizza, morde quando esci di case, distrugge tutti i giochi, le cucce e le coperte, trema sempre, ha sempre bisogno di coccole (gli piacciono i piedi), penso sia pazzo per colpa della famiglia precedente', NULL, '1', 'assets/images/cane.jpg', 'lindorlinor@gmail.com');
+INSERT INTO `RICHIESTE_ADOZIONI` (`Email`, `IDanimale`, `Trasporto`, `Appunti`, `LetteraPresentazione`, `Stato`, `DataRichiesta`, `DataFineValutazione`, `DataInizioValutazione`) VALUES ('lindorlinor@gmail.com', '1', '1', NULL, 'Prova di lettera di presentazione, giusto per far apparire qualcosa. Io sono perfetta per questo animale perchè in realtà è mio. Effettivamente non significa che io sia perfetta per l\'animale, l\'animale è pazzo per un motivo...', 'Nuova', '2025-12-31', NULL, NULL);

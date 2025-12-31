@@ -71,7 +71,9 @@ class DBAccess {
                 t.Citta AS citta_trasporto,
                 t.CAP AS cap_trasporto,
                 t.DataArrivo AS data_arrivo,
-                t.DataPartenza AS data_partenza
+                t.DataPartenza AS data_partenza,
+                u.imgPath AS imgPath,
+                a.imgPath AS animalImgPath
             FROM RICHIESTE_ADOZIONI ra
             JOIN UTENTI u ON u.Email = ra.Email
             JOIN ANIMALI a ON a.IDanimale = ra.IDanimale
@@ -132,7 +134,9 @@ class DBAccess {
             'via-trasporto' => $row['via_trasporto'],
             'citta-trasporto' => $row['citta_trasporto'],
             'cap-trasporto' => $row['cap_trasporto'],
-            'data-partenza' => $row['data_partenza']
+            'data-partenza' => $row['data_partenza'],
+            'imgPath' => $row['imgPath'],
+            'animalImgPath' => $row['animalImgPath']
         ];
 
 		
