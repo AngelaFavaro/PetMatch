@@ -9,30 +9,81 @@
 /* Definizione delle pagine esistenti, aggiungerne altre quando possibile*/
 $pagine = [
     'home' => [
-        // 'file' => __DIR__ . '/src/php/index.php',
         'label' => 'Home', //la label e' quella che viene mostrata nella breadcrumb
         'url' => './home',
         'parent' => null 
     ],
     'area-riservata' => [
-        // 'file' => __DIR__ . '/src/php/admin/area-riservata.php',
         'label' => 'Area personale',
         'url' => './area-riservata',
         'parent' => 'home'
     ],
     'richieste-adozione' => [
-        // 'file' => __DIR__ . '/src/php/admin/richieste-adozione.php',
         'label' => 'Richieste di adozione',
         'url' => './richieste-adozione',
         'parent' => 'home'
     ],
     'dettagli-richiesta' => [
-        // 'file' => __DIR__ . '/src/php/admin/dettagli-richiesta.php',
         'label' => 'Dettagli richiesta',
         'url' => './dettagli-richiesta',
         'parent' => 'richieste-adozione'
     ]
 ];
+
+$adminMenu = [
+    'principale' => [
+        ['href' => './area-riservata', 'text' => 'AREA PERSONALE'],
+        ['href' => './richieste-adozione', 'text' => 'RICHIESTE DI ADOZIONE'],
+        ['href' => './eventi', 'text' => 'EVENTI'],
+    ],
+    'animali' => [
+        ['href' => './tuoi-animali', 'text' => 'ASSEGNATI A TE'],
+        ['href' => './animali-senza-amministratore', 'text' => 'SENZA AMMINISTRATORE'],
+        ['href' => './adottati', 'text' => 'ADOTTATI'],
+        ['href' => './nuove-accoglienze', 'text' => 'NUOVE ACCOGLIENZE'],
+    ]
+];
+
+/**
+ * Genera la nav menù admin dinamicamente
+ */
+function buildAdminNav(array $menuGroups, string $currentHref): string {
+    // Parte iniziale fissa
+    $html = '
+    <button class="menu-toggle" id="mobile-menu" aria-label="Apri o chiudi menu di navigazione">
+        ☰
+    </button>
+    <nav id="menu-admin" aria-label="Menù">
+        <a class="navigationHelp" href="#content"> Salta il menù di navigazione</a>
+        <a href="./home">
+            <img src="./assets/icons/logo.svg" id="logo" alt="Home" lang="en">
+        </a>
+        <a class="orange-button" href="./nuovo-animale">+ Aggiungi animale</a>';
+
+    foreach ($menuGroups as $key => $items) {
+
+        if ($key === 'animali') {
+            $html .= '<span>ANIMALI</span>';
+        }
+
+        $html .= '<ul>';
+        foreach ($items as $item) {
+            $active = ($item['href'] === $currentHref) ? ' id="currentLink"' : '';
+            
+            // In questa versione, anche il link corrente rimane cliccabile 
+            // come nel tuo esempio HTML ( <li id="currentLink"><a href="...">...</a></li> )
+            $html .= "<li$active><a href=\"{$item['href']}\">{$item['text']}</a></li>";
+        }
+        $html .= '</ul>';
+    }
+
+    // Parte finale fissa
+    $html .= '
+        <a id="logout" class="orange-button" href="./home">← logout</a>
+    </nav>';
+
+    return $html;
+}
 
 function getBreadcrumb($currentPageKey, $pagine) {
     if (!isset($pagine[$currentPageKey])) {

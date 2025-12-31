@@ -19,10 +19,9 @@ $routes = [
     'area-riservata' => [
         'file' => __DIR__ . '/src/php/admin/area-riservata.php'
     ],
-    'dettagli-richiesta' => [
-        'file' => __DIR__ . '/src/php/admin/dettagli-richiesta.php',
-        'required_params' => ['email', 'id-animale']
-    ]
+    'richieste-adozione' => [
+        'file' => __DIR__ . '/src/php/admin/richieste-adozione.php'
+    ],
     // 'animali' => [
     //     'file' => __DIR__ . '/src/php/animali.php',
     //     'params' => ['tipo' => 'tutti']

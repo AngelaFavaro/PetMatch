@@ -263,7 +263,7 @@ $keywords = "";
 
 // Preparazione parti dinamiche
 $scarta_richiesta = renderRejectRequest($richiesta);
-$nav = loadTemplate('./src/template/partials/nav-admin.html');
+$nav = buildAdminNav($adminMenu,'./richieste-adozione');
 $breadcrumb = getBreadcrumb('dettagli-richiesta', $pagine);
 $main = loadTemplate('./src/template/main/admin/dettagli-richiesta.html');
 
@@ -342,15 +342,6 @@ $main = str_replace('[pulsanti-azioni-richiesta]', renderPulsantiAzioni($richies
 // Annotazioni
 $annotazioni = '';
 if($richiesta['stato']!=='Annullata' || ($richiesta['stato']==='Annullata' && $richiesta['appunti'] !== '')){
-	// $annotazioni = '<div class="note">
-	// 					<div class="header-note">
-	// 						<h2>LE TUE ANNOTAZIONI</h2>
-	// 						<a href="#" id="edit-note">
-	// 							<img src="./assets/icons/edit-pencil.svg" alt="Modificare le informazioni">
-	// 						</a>
-	// 					</div>
-	// 					<p id="note-text">' . e($richiesta['appunti'] ?? '') . '</p>
-	// 				</div>';
 
     $annotazioni = '
     <div class="note">
