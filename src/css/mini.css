@@ -1,3 +1,116 @@
+/* ================== NAV USER ==================*/
+#osso {
+    visibility: hidden; 
+    opacity: 0;
+    
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    width: 100%;
+    height: auto;
+    
+    display: flex; 
+    flex-direction: column;
+    background-color: var(--bgcolor); 
+    margin: 0;
+    padding: 1em 0;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    z-index: 999;
+
+    transform: translateY(20px);
+    transition: all 0.3s ease-in-out;
+    gap:0;
+}
+
+#osso li{
+    width: 100%;
+    text-align: center;
+    padding: 0;
+}
+
+#osso li a{
+    display: block;
+    width: 100%;
+    padding: 0.5em 0;
+}
+
+#osso li:hover{
+    background-color: var(--bglink-hover);
+    -webkit-tap-highlight-color: transparent;
+}
+
+#osso::before,
+#osso::after {
+    content: none;
+    display: none;
+}
+
+#menu-toggle-checkbox:checked ~ div nav #osso {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.menu-toggle {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background: none;
+    cursor: pointer;
+    color: var(--bgcolor,); 
+    padding:0;
+    margin: 0;
+    transition: transform 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+    font-size: 3em;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-toggle::before {
+    content: "\2630"; /* ☰ */
+    display: block;
+}
+
+#menu-toggle-checkbox:checked ~ div #header-actions .menu-toggle::before {
+    content: "\2715"; /* ✕ */
+}
+
+#menu-toggle-checkbox:checked ~ div #header-actions .menu-toggle {
+    transform: rotate(180deg);
+}
+
+#osso li {
+    width: 100%;
+    text-align: center;
+    padding: 1em 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+    
+#osso li:last-child {
+    border-bottom: none;
+}
+
+
+#preferiti, #theme-switch, #header-actions .white-button{
+    width: 45px;
+    height: 45px;
+}
+
+#sun, #moon{
+    width: 80%;
+}
+
+.mobile-toggle-container {
+    position: relative;
+    display: block;
+    width: 45px;
+    height: 45px;
+}
+
+
+/* ================== NAV ADMIN ==================*/
+    
 nav#menu-admin {
     padding-top:0em;
     float: none;
@@ -23,14 +136,11 @@ body#admin-body main {
     /* transition: margin-top 0.3s ease; */
 }
 
-.menu-toggle {
-    display: block;
-    font-size: 3em;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5em 1em 0em 1em;
+#area-personale,
+#tema-preferiti-profilo {
+    gap: 1em;
 }
+
 
 
 nav#menu-admin img {
@@ -38,3 +148,117 @@ nav#menu-admin img {
     max-width: 100%;
     height: auto;
 }
+
+/* ================== HOME ==================*/
+#second-chapter-home img ,#cat-decorator {
+    display: none;
+}
+
+#events-list{
+    margin:0;
+    padding:3em 0 0 0;
+}
+
+#events-list::before{
+    width: 150%;
+    left: -20%;
+}
+
+#events-list .polaroid:nth-child(3){
+    display: none;
+}
+
+#events-list .polaroid:nth-child(2){
+    transform: rotate(-4deg);
+}
+
+#events-list .polaroid:first-child,
+#events-list .polaroid:nth-child(2){
+    width: 60%;
+}
+
+#form-affidamento {
+    background-color: var(--bgcolor);
+    color: var(--txtcolor);
+    margin:2em 2em 0.1em 2em;
+    padding: 0em 2em;
+    flex: 1 0 40%;
+    border-radius: 2.1em;
+}
+
+#container-form-affidamento{
+    padding: 0;
+    background-image: none;
+    overflow:hidden;
+}
+
+
+
+
+
+
+
+
+#timeline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1.5em;
+    padding: 0;
+}
+
+#timeline::before {
+    max-height: none; 
+}
+
+#timeline li {
+    width: 90%;   
+    margin: 0 0 3em 0;
+}
+
+#timeline dl, 
+.number {
+    width: 100%;
+    margin: 0 ;   
+    top: 0 ;      
+    left: 0 ;
+    text-align: center;     
+    position: static; 
+    justify-content: center;
+    background-color: var(--footercolor);
+}
+    
+.number {
+    margin-top:0.5em;
+    font-size: 1.3em; 
+}
+
+.popup {
+    position: relative ;
+    top:0;
+    left:0;
+    margin:auto;
+    transform: none ;
+    opacity: 1 ;
+    visibility: visible ;
+    pointer-events: auto;
+    margin: 1em 0 0 0;
+    max-width: none ;
+    border-radius: 10px;
+    transition: none;
+}
+
+.popup::before {
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0 10px 10px 10px;
+}
+
+#timeline .circle:hover ~ dl .popup,
+#timeline .number:hover ~ dl .popup,
+#timeline dt:hover + .popup,
+#timeline .popup:hover {
+    margin-top: 1em;
+}
+

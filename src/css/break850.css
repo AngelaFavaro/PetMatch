@@ -1,0 +1,145 @@
+/* ==================NAV==================*/
+#text-accedi{
+    display: none;
+}
+
+#header-actions .white-button img{
+    display: block;
+} 
+
+#header-actions .white-button{
+    width: 32px;
+    height: 32px;
+    position: relative;
+    background-color: transparent;
+}
+#header-actions .white-button img {
+    width: 100%;
+    transition: opacity 0.3s;
+}
+
+#account-normal{
+    position: absolute;
+    top: 0; left: 0;
+}
+
+#account-hover {
+    position: absolute;
+    top: 0; left: 0;
+    opacity: 0;
+}
+#header-actions .white-button:hover #account-normal { opacity: 0; }
+#header-actions .white-button:hover #account-hover { opacity: 1; }
+
+
+
+#theme-switch {
+    width: 32px;
+    height: 32px;
+}
+
+#slider {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--bgcolor);
+    border-radius: 50%;
+    transition: 0.4s;
+    box-shadow: none;
+}
+
+#slider img{
+    width: 90%;
+    left: 0.2em;
+    right: 0;
+}
+
+#slider::before {
+    content: none;
+    display: none;
+}
+
+
+
+
+/* ==================HOME==================*/
+#timeline {
+    position: relative;
+    padding: 0;
+    margin-top: 2em;
+    display: block;
+}
+
+#timeline::before {
+    top: 0em; 
+    bottom: 4.5em; 
+    margin:auto;
+    width: 2px;
+    height: auto;
+    max-height: 550px;
+    background-image: linear-gradient(to top, var(--buttoncolor) 50%, transparent 50%);
+    background-size: 100% 20px;
+}
+
+#timeline li {
+    width: 100%;
+}
+
+#timeline dl, .number {
+    width: 35%; 
+    text-align: right;
+    box-sizing: border-box;
+    margin-right:50%;
+    top:-3em;
+    position: relative;
+}
+
+.circle {
+    z-index: 2;
+    margin: 0; 
+    justify-content: center;
+}
+
+.popup {
+    margin: 0 0 0 10px;
+    transform: translateX(100%) translateY(-50%);
+}
+
+.popup::before {
+    top: 40%;
+    left: 0;
+    transform: translateY(50%) rotate(45deg);
+    border-width: 10px 10px 10px 0;
+}
+
+#timeline .circle:hover ~ dl .popup,
+#timeline .number:hover ~ dl .popup,
+#timeline dt:hover + .popup,
+#timeline .popup:hover {
+
+    margin-left: 0;
+}
+
+#section-events img.polaroid,
+#events-list .polaroid:last-child{
+    display: none;
+}
+
+#section-events p{
+    display: block;
+    margin:1em 0 1em 0;
+    width: 100%;
+}
+
+#events-list .polaroid:first-child,
+#events-list .polaroid:nth-child(3)
+{
+    margin-top: -2%;
+}
+
+#events-list .polaroid:nth-child(2){
+    transform: rotate(0deg);
+}
+
+#events-list .polaroid:nth-child(3){
+    transform: rotate(-10deg);
+}

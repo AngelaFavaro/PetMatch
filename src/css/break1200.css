@@ -1,0 +1,49 @@
+#paw-1, #paw-2, #paw-3, #paw-4 {
+    display: none;
+}
+
+#introduction-home .column-user + .column-user{
+    padding-bottom: 0;
+}
+
+#cat-decorator{
+    padding-left: 2em;
+}
+
+#sponsor{
+    background-size:0;
+    background-color: var(--buttoncolor);
+    padding:1em;
+    position: relative;
+}
+
+#sponsor::before,
+#sponsor::after{
+    content: '';
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    background-image: linear-gradient(to right, var(--headercolor) 50%, transparent 50%);
+    background-size: 40px 100%;
+}
+
+#sponsor::before{
+    top: 1.5em; 
+    left:0;
+}
+
+#sponsor::after{
+    bottom: 1.5em; 
+    left:0;
+}
+
+#sponsor img,
+#sponsor img:nth-child(3),
+#sponsor img:nth-child(4)
+{
+    margin:0;
+}
+
+#sponsor + .container a{
+    margin-top:1em;
+}
