@@ -1,6 +1,7 @@
+/* Toggle mobile menu */
+
 const menuBtn = document.getElementById('mobile-menu');
 const menu = document.getElementById('menu-admin');
-// const mainContent = document.querySelector('body#admin-body main');
 
 menuBtn.addEventListener('click', () => {
     menu.classList.toggle('active');
@@ -30,6 +31,8 @@ function openTab(evt, tabName) {
 }
 
 
+/* per le annotazioni nella pagina dettagli-richiesta  */
+
 const editBtn = document.getElementById('edit-note');
 const note = document.getElementById('note-text');
 
@@ -55,9 +58,7 @@ note.addEventListener('blur', () => {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
             salva_note: 1,
-            note: nuovoTesto,
-            email: note.dataset.email,
-            id_animale: note.dataset.idAnimale
+            note: nuovoTesto
         })
     });
 });
@@ -75,8 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        console.log("Stato rilevato:", statoTesto);
-
         // Se il testo è ancora il placeholder [stato], non fare nulla e riprova tra poco
         if (statoTesto === '[stato]') return;
 
@@ -89,9 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
             pulsante1.classList.add('respinta');
             pulsante2.classList.add('respinta');
             pulsante1.style.pointerEvents = 'none'; // disabilita il click
-            // pulsante1.style.opacity = '0.6'; // aspetto visivo di disabilitato
             pulsante2.style.pointerEvents = 'none'; // disabilita il click
-            // pulsante2.style.opacity = '0.6'; // aspetto visivo di disabilitato 
             console.log("Classi applicate con successo.");
         }
     };
@@ -99,46 +96,98 @@ document.addEventListener('DOMContentLoaded', () => {
     // Esegui subito
     verificaStato();
 
-    // Se i dati vengono caricati via PHP o AJAX dopo il caricamento della pagina,
-    // usiamo un piccolo timeout o MutationObserver per essere sicuri.
-    setTimeout(verificaStato, 500); 
+});
+
+/* per la modifica della data di arrivo nella pagina dettagli-richiesta  */
+
+let isAlertActive = false;
+
+const btnEdit = document.getElementById('btn-attiva-modifica');
+const dateText2 = document.getElementById('data-text');
+const formDate = document.getElementById('form-data');
+const inputDate = document.getElementById('input-data');
+const endEvaluationDateItalianFormat = document.getElementById('data-fine-valutazione');
+
+btnEdit.addEventListener('click', () => {
+    mostraEditor();
 });
 
 
-const editDataBtn = document.getElementById('edit-data');
-const dataText = document.getElementById('data-arrivo-text');
+function mostraEditor() {
+    dateText2.classList.add('hidden');
+    formDate.classList.remove('hidden');
+    
+    // Apre automaticamente il calendario sui browser moderni
+    if (typeof inputDate.showPicker === 'function') {
+        inputDate.showPicker();
+    }
+    inputDate.focus();
+}
 
-let originalData = '';
 
-if (editDataBtn && dataText) {
-    editDataBtn.addEventListener('click', e => {
-        e.preventDefault();
-        originalData = dataText.innerText.trim();
-        dataText.contentEditable = 'true';
-        dataText.classList.add('editing');
-        dataText.focus();
-    });
+inputDate.addEventListener('blur', (e) => {
+    if (document.activeElement !== inputDate) {
+        sendData();
+    }
+});
+// submit del form ha classe sr-only quindi un utente fisico non vede il bottone ma uno screen reader sì (per essere accessibile deve esserci un pulsante)
+formDate.addEventListener('submit', (e) => {
+    e.preventDefault();
+    sendData();
+});
 
-    dataText.addEventListener('blur', () => {
-        dataText.contentEditable = 'false';
-        dataText.classList.remove('editing');
 
-        const nuovaData = dataText.innerText.trim();
-        if (nuovaData === originalData) return;
+function sendData() {
+    if (isAlertActive) return;
 
-        // Invio dei dati al server
-        fetch(window.location.href, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams({
-                salva_data_arrivo: 1, // Parametro per distinguere l'azione in PHP
-                data_arrivo: nuovaData,
-                email: dataText.dataset.email,
-                id_animale: dataText.dataset.idAnimale
-            })
+    const newDate = inputDate.value;
+    
+    if (!newDate) {
+        dateText2.classList.remove('hidden');
+        formDate.classList.add('hidden');
+        return;
+    }
+
+    if (endEvaluationDateItalianFormat) {
+        const dateString = endEvaluationDateItalianFormat.innerText.trim();
+
+        if (dateString !== '') {
+            const dataAppoggio = dateString.split('/');
+
+            const endEvalDate = new Date(dataAppoggio[2], dataAppoggio[1] - 1, dataAppoggio[0]);
+            const newArrDate = new Date(newDate);
+
+            if (newArrDate < endEvalDate) {
+                isAlertActive = true;
+                
+                alert("Errore: La data di arrivo non può essere precedente alla data di fine valutazione (" + dateString + ").");
+                
+                setTimeout(() => {
+                    isAlertActive = false;
+                    if (typeof inputDate.showPicker === 'function') {
+                        inputDate.showPicker();
+                    }
+                    inputDate.focus();
+                }, 100);
+                
+                return; 
+            }
+        }
+    }
+
+    dateText2.classList.remove('hidden');
+    formDate.classList.add('hidden');
+
+    // per formattare la data in gg/mm/aaaa (lo fa anche il php ma richiede il reload della pagina, quindi per sopperire a questo lo faccio ache in js)
+    const partiDisplay = newDate.split('-');
+    dateText2.innerText = `${partiDisplay[2]}/${partiDisplay[1]}/${partiDisplay[0]}`;
+
+    fetch(window.location.href, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+            salva_data_arrivo: 1,
+            data_arrivo: newDate
         })
-        .then(response => {
-            if (!response.ok) alert("Errore durante il salvataggio");
-        });
     });
 }

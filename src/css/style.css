@@ -151,13 +151,15 @@ h4{
 
 /* Gli elementi con questa classe sono visibili solo agli screen reader */
 .sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  border: 0;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
 }
 
 /* ==================FOOTER================== */
@@ -353,7 +355,7 @@ div#row2 article{
     float: right;
 }
 
-#generic-info-container {
+.generic-info-container {
     display: flex;
     flex-wrap: wrap;
 }
@@ -375,7 +377,7 @@ div#row2 article{
 .text-details{
     margin: auto 2em;
 }
-.header-info, #generic-info-container{
+.header-info, .generic-info-container{
     margin-bottom: 1em;
 }
 
@@ -486,6 +488,7 @@ div#admin-area article#stato-trasporto{
     background-color: var(--darkbgcolor);
     width: 55%;
     padding: 1em 1em;
+    margin: auto auto 0em 0em;
 } 
 
 #top-container{
@@ -539,18 +542,52 @@ div#admin-area article#stato-trasporto{
     background-color: var(--darkbgcolor);
 }
 
-#stato-trasporto span.editing {
-    padding: 2px 5px;
-    background-color: var(--darkbgcolor);
-    border: 1px dashed var(--accent-color); /* Opzionale: aggiunge un bordo per chiarezza */
-    border-radius: 4px;
-    outline: none;
+/* Nasconde i form quando hanno la classe .hidden */
+#form-data.hidden, 
+#form-note.hidden,
+#data-text.hidden,
+#note-text.hidden {
+    display: none;
 }
 
+/* Quando il form della data è attivo, sta in linea con il testo */
+#form-data {
+    display: inline;
+}
+
+/* Il form delle note lo facciamo apparire come un blocco sotto il titolo */
+#form-note {
+    display: block;
+    margin-top: 0.5rem;
+}
+
+/* --- Stile Input e Textarea --- */
+
+#input-note {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: var(--darkbgcolor);
+    border: 1px solid var(--bordercolor, #ccc);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical; /* Permette all'utente di allungare l'area */
+}
 .orange-button.respinta {
     background-color: var(--darkbgcolor);
     border: none;
     cursor: not-allowed;
+}
+
+
+/* Quando il form ha la classe .hidden, sparisce */
+#stato-trasporto .hidden {
+    display: none;
+}
+
+/* Quando il form NON ha .hidden, deve stare sulla stessa riga del testo */
+#form-data {
+    display: inline;
 }
 
 

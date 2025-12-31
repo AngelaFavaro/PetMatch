@@ -41,37 +41,45 @@ class DBAccess {
 		}
         //query per prendere i dettagli della richiesta di adozione
 		$query = "
-			SELECT
-				ra.Stato AS stato,
-				ra.DataRichiesta AS data_richiesta,
-				ra.LetteraPresentazione AS lettera_presentazione,
-				ra.Trasporto AS trasporto_richiesta,
-				ra.Email AS email_richiedente,
-				ra.IDanimale AS id_animale,
-				a.Nome AS nome_animale,
-				a.Sesso AS sesso_animale,
-				TIMESTAMPDIFF(YEAR, a.DataNascita, CURDATE()) AS eta_animale,
-				a.Razza AS razza_animale,
-				a.Trasporto AS trasporto_animale,
-				a.DescrFamiglia AS famiglia_ideale,
-				a.CondizioniMediche AS condizioni_mediche,
-				a.DescrComportamentale AS descrizione_caratteriale,
-				u.Nome AS nome_richiedente,
-				u.Cognome AS cognome_richiedente,
-				u.Telefono AS telefono_richiedente,
-				CONCAT_WS(', ', u.Via, u.Citta, u.CAP) AS indirizzo_richiedente,
-				ra.Appunti AS appunti,
+            SELECT
+                ra.Stato AS stato,
+                ra.DataRichiesta AS data_richiesta,
+                ra.LetteraPresentazione AS lettera_presentazione,
+                ra.Trasporto AS trasporto_richiesta,
+                ra.Email AS email_richiedente,
+                ra.IDanimale AS id_animale,
+                a.Nome AS nome_animale,
+                a.Sesso AS sesso_animale,
+                TIMESTAMPDIFF(YEAR, a.DataNascita, CURDATE()) AS eta_animale,
+                a.Razza AS razza_animale,
+                a.Trasporto AS trasporto_animale,
+                a.DescrFamiglia AS famiglia_ideale,
+                a.CondizioniMediche AS condizioni_mediche,
+                a.DescrComportamentale AS descrizione_caratteriale,
+                u.Nome AS nome_richiedente,
+                u.Cognome AS cognome_richiedente,
+                u.Telefono AS telefono_richiedente,
+                CONCAT_WS(', ', u.Via, u.Citta, u.CAP) AS indirizzo_richiedente,
+                ra.Appunti AS appunti,
                 ra.DataFineValutazione AS data_fine_valutazione,
                 ra.DataInizioValutazione AS data_inizio_valutazione,
                 a.Email as email_admin,
                 m.Nome as nome_admin,
-                m.Cognome as cognome_admin
-			FROM RICHIESTE_ADOZIONI ra
-			JOIN UTENTI u ON u.Email = ra.Email
-			JOIN ANIMALI a ON a.IDanimale = ra.IDanimale
-			JOIN AMMINISTRATORI m ON m.Email = a.Email
-			WHERE ra.Email = ? AND ra.IDanimale = ?
-		";
+                m.Cognome as cognome_admin,
+                -- Nuovi campi dalla tabella TRASPORTI
+                t.Via AS via_trasporto,
+                t.Citta AS citta_trasporto,
+                t.CAP AS cap_trasporto,
+                t.DataArrivo AS data_arrivo,
+                t.DataPartenza AS data_partenza
+            FROM RICHIESTE_ADOZIONI ra
+            JOIN UTENTI u ON u.Email = ra.Email
+            JOIN ANIMALI a ON a.IDanimale = ra.IDanimale
+            JOIN AMMINISTRATORI m ON m.Email = a.Email
+            -- Utilizziamo LEFT JOIN per non perdere le richieste senza trasporto
+            LEFT JOIN TRASPORTI t ON t.Email = ra.Email AND t.IDanimale = ra.IDanimale
+            WHERE ra.Email = ? AND ra.IDanimale = ?
+        ";
         
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
@@ -120,17 +128,42 @@ class DBAccess {
             'email-admin' => $row['email_admin'],
             'nome-admin' => $row['nome_admin'],
             'cognome-admin' => $row['cognome_admin'],
+            'data-arrivo' => $row['data_arrivo'],
+            'via-trasporto' => $row['via_trasporto'],
+            'citta-trasporto' => $row['citta_trasporto'],
+            'cap-trasporto' => $row['cap_trasporto'],
+            'data-partenza' => $row['data_partenza']
         ];
 
 		
 	}
+
+
+    public function addTransport($emailRichiedente, $idAnimale, $dataArrivo): bool {
+        if (!$this->connection){ //se la connessione non è aperta
+            return false;
+        }
+        $query = "INSERT INTO `TRASPORTI` 
+          (`ID`, `Email`, `IDanimale`, `Via`, `Citta`, `CAP`, `DataArrivo`, `DataPartenza`) 
+          VALUES (1, ?, ?, 'caca', 'pupu', '25026', ?, '2026-01-01')";
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 'sis', $emailRichiedente, $idAnimale, $dataArrivo);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
+
 
     public function setArrivalDate($emailRichiedente, $idAnimale, $dataArrivo): bool {
         if (!$this->connection){ //se la connessione non è aperta
             return false;
         }
 
-        $query = "UPDATE RICHIESTE_ADOZIONI SET DataArrivo = ? WHERE Email = ? AND IDanimale = ?";
+        $query = "UPDATE TRASPORTI SET DataArrivo = ? WHERE Email = ? AND IDanimale = ?";
 
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
@@ -139,6 +172,11 @@ class DBAccess {
 
         mysqli_stmt_bind_param($stmt, 'ssi', $dataArrivo, $emailRichiedente, $idAnimale);
         $result = mysqli_stmt_execute($stmt);
+        //se le righe modificate sono 0, significa che non esisteva il trasporto, lo aggiungo
+        if(mysqli_stmt_affected_rows($stmt) === 0){
+            mysqli_stmt_close($stmt);
+            return $result && $this->addTransport($emailRichiedente, $idAnimale, $dataArrivo);
+        }
         mysqli_stmt_close($stmt);
         return $result;
     }
@@ -159,6 +197,8 @@ class DBAccess {
         mysqli_stmt_close($stmt);
         return $result;
     }
+
+    
 
     public function rejectRequest($emailRichiedente, $idAnimale, $statoPrecedente): bool {
         if (!$this->connection){ //se la connessione non è aperta
@@ -184,9 +224,21 @@ class DBAccess {
             mysqli_stmt_bind_param($stmt, 'ssi',$oggi, $emailRichiedente, $idAnimale);
         }
         
+        if($statoPrecedente === 'Da trasportare') {
+            //ELIMINA IL TRASPORTO DELLA RICHIESTA SE CE NE ERA UNP
+            $query2 = "DELETE FROM TRASPORTI where Email = ? AND IDanimale = ?";
+            $stmt2 = mysqli_prepare($this->connection, $query2);
+            if($stmt2 === false){
+                return false;
+            }
+            mysqli_stmt_bind_param($stmt2, 'si', $emailRichiedente, $idAnimale);
+            $result2 = mysqli_stmt_execute($stmt2);
+        }
+        
         $result = mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
-        return $result;
+        // ritorna falso se uno dei due fallisce, true solo se entrambi vanno a buon fine, se result2 non è settato (non c'era da eliminare il trasporto) ritorna true se result è true
+        return $result && (!isset($result2) || $result2);
     }
 
     public function openRequest($emailRichiedente, $idAnimale): bool {
@@ -212,17 +264,19 @@ class DBAccess {
             return false;
         }
 
-        $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Da trasportare' WHERE Email = ? AND IDanimale = ?";
+        $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Da trasportare', DataFineValutazione = ? WHERE Email = ? AND IDanimale = ?";
 
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
             return false;
         }
-
-        mysqli_stmt_bind_param($stmt, 'si', $emailRichiedente, $idAnimale);
+        $oggi = date('Y-m-d');
+        mysqli_stmt_bind_param($stmt, 'ssi', $oggi, $emailRichiedente, $idAnimale);
         $result = mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
-        return $result;
+
+
+        return $result; //non dovrebbe fare addTransport se fallisce l'update dello stato
     }
 
     public function acceptRequest($emailRichiedente, $idAnimale): bool {
