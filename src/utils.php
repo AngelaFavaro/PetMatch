@@ -69,4 +69,43 @@ function getBreadcrumb($currentPageKey, $pagine) {
 
     return $html;
 }
-?>
+
+/** dentro a dettagli-richiesta.php ho lasciato un blocco commentato che richiama questa funzione,
+ * guardate li per capire come usarla (cerca 'SCRIPT DI TEST'), l'echo che si trova in basso al blocco commentato è il form da cui vengono presi i dati
+ * NOTA: possibile che l'estensione di vscode non vi faccia vedere l'immagine caricata, guardate dal terminale ssh
+*/
+function uploadImage($file, $folder) {
+
+    $basePath = dirname(__DIR__) . '/assets/images/' . $folder . '/';
+    $dbPathPrefix = 'assets/images/' . $folder . '/';
+    
+    if (!file_exists($basePath)) {
+        echo "La cartella non esiste. Provo a crearla...<br>";
+        if (!mkdir($basePath, 0755, true)) {
+            echo "ERRORE: Impossibile creare la cartella. Controlla i permessi di sistema.<br>";
+            return false;
+        }
+    }
+
+    if (!is_writable($basePath)) {
+        echo "ERRORE: La cartella esiste ma NON è scrivibile (permessi negati).<br>";
+        return false;
+    }
+
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        echo "ERRORE PHP nel file: Codice " . $file['error'] . "<br>";
+        return false;
+    }
+
+    $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+    $fileName = $folder . "_" . time() . "_" . bin2hex(random_bytes(4)) . "." . $extension;
+    $targetFile = $basePath . $fileName;
+
+    if (move_uploaded_file($file['tmp_name'], $targetFile)) {
+        echo "SUCCESSO: File spostato correttamente!<br>";
+        return $dbPathPrefix . $fileName;
+    } else {
+        echo "ERRORE: move_uploaded_file è fallito. Possibile causa: file temporaneo sparito o restrizioni del server.<br>";
+        return false;
+    }
+}

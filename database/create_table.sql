@@ -109,7 +109,7 @@ CREATE TABLE RICHIESTE_ADOZIONI(
     Trasporto TINYINT(1) NOT NULL,
     Appunti TEXT,
     LetteraPresentazione TEXT NOT NULL,
-    Stato VARCHAR(20) NOT NULL, 
+    Stato VARCHAR(20) NOT NULL DEFAULT 'Nuova', 
     DataRichiesta DATE NOT NULL,
     DataFineValutazione DATE,
     DataInizioValutazione DATE,

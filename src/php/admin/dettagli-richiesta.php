@@ -107,10 +107,11 @@ function buildDateInfo(array $r): array {
  * Gestione delle azioni POST che modificano lo stato (eseguono redirect quando previsto)
  */
 function handlePostActions(DBAccess $conn, array $r, string $email, int $idAnimale): array {
+    
 
     if (isset($_POST['inizia_valutazione'])) {
         $conn->startEvaluation($email, $idAnimale);
-        header("Location: dettagli-richiesta");
+        header("Location: dettagli-richiesta?email=$email&id-animale=$idAnimale");
         exit;
     }
 
@@ -122,7 +123,7 @@ function handlePostActions(DBAccess $conn, array $r, string $email, int $idAnima
         } else {
             $conn->acceptRequest($email, $idAnimale);
         }
-        header("Location: dettagli-richiesta");
+        header("Location: dettagli-richiesta?email=$email&id-animale=$idAnimale");
         exit;
     }
 
@@ -137,14 +138,14 @@ function handlePostActions(DBAccess $conn, array $r, string $email, int $idAnima
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scarta_richiesta'])) {
         $conn->rejectRequest($email, $idAnimale,$r['stato']);
         $r = $conn->getRequestDetails($email, $idAnimale);
-        header("Location: dettagli-richiesta");
+        header("Location: dettagli-richiesta?email=$email&id-animale=$idAnimale");
         exit;
     }
 
     // Apri richiesta (riapre richiesta respinta)
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['apri_richiesta'])) {
         $conn->openRequest($email, $idAnimale);
-        header("Location: dettagli-richiesta");
+        header("Location: dettagli-richiesta?email=$email&id-animale=$idAnimale");
         exit;
     }
 
@@ -152,9 +153,66 @@ function handlePostActions(DBAccess $conn, array $r, string $email, int $idAnima
 		$newDate = $_POST['data_arrivo'];
 		$conn->setArrivalDate($email, $idAnimale, $newDate);
         $r = $conn->getRequestDetails($email, $idAnimale);
-		header("Location: dettagli-richiesta");
+		header("Location: dettagli-richiesta?email=$email&id-animale=$idAnimale");
 		exit;
 	}
+
+  /* -------------------- SCRIPT DI TEST INSERIMENTO REALE -------------------- */
+
+   /* if (isset($_POST['esegui_test_caricamento'])) {
+        
+        // 1. CHIAMATA A UPLOAD IMAGE (gestisce il file fisico)
+        // 'foto_test' è il nome del campo nel form qui sotto
+        $imgPathGenerato = uploadImage($_FILES['foto_test'], 'animals');
+
+        if ($imgPathGenerato) {
+            $dbTest = new DBAccess();
+            if ($dbTest->openDBConnection()) {
+                
+                // 2. DATI DA INSERIRE NEL DB
+                $testData = [
+                    'nome' => 'Test',
+                    'data_nascita' => '2024-01-01',
+                    'data_reg' => date('Y-m-d'),
+                    'sesso' => 'M',
+                    'tipo' => 'Gatto',
+                    'colore' => 'Nero',
+                    'pelo' => 'Corto',
+                    'taglia' => 'Piccolo',
+                    'razza' => 'Europeo',
+                    'descr_famiglia' => 'Test family',
+                    'descr_comportamento' => 'Test behavior',
+                    'medico' => 'Sano',
+                    'trasporto' => 0,
+                    'imgPath' => $imgPathGenerato, // Il percorso restituito da uploadImage
+                    'email_admin' => 'lindorlinor@gmail.com'
+                ];
+
+                // 3. INSERIMENTO NEL DATABASE
+                $idNuovo = $dbTest->addAnimal($testData);
+                
+                if ($idNuovo) {
+                    echo "<div style='background:green; color:white; padding:10px;'>SUCCESSO! ID: $idNuovo | File: $imgPathGenerato</div>";
+                } else {
+                    echo "<div style='background:red; color:white; padding:10px;'>ERRORE DB</div>";
+                }
+                $dbTest->closeConnection();
+            }
+        } else {
+            echo "<div style='background:orange; padding:10px;'>ERRORE UPLOAD: Controlla permessi cartella o estensione file.</div>";
+        }
+    }
+
+    // FORM DI TEST DA VISUALIZZARE IN CIMA ALLA PAGINA
+    echo '
+    <section style="border: 2px dashed #ccc; padding: 10px; margin: 20px;">
+        <h3>Test Rapido Inserimento Animale + Immagine</h3>
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="foto_test" required>
+            <button type="submit" name="esegui_test_caricamento">Carica e Inserisci nel DB</button>
+        </form>
+    </section>';*/
+/* -------------------------------------------------------------------------- */
 
     return $r;
 }
@@ -178,10 +236,10 @@ function imTheAdmin($r): bool{
 $paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore: template layout.html non trovato o non leggibile.</p>');
 
 // valori temporanei (in futuro verranno presi con GET)
-$email = 'lindorlinor@gmail.com';
-$idAnimale = 1;
-// $email = $_GET['email-richiedente'];
-// $idAnimale = $_GET['id-animale'];
+// $email = 'lindorlinor@gmail.com';
+// $idAnimale = 1;
+$email = $_GET['email'];
+$idAnimale = $_GET['id-animale'];
 
 $connessione = new DBAccess();
 $connessioneOK = $connessione->openDBConnection();

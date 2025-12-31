@@ -320,7 +320,53 @@ class DBAccess {
         mysqli_stmt_close($stmt);
         return $result;
     }
+
+    public function addAnimal($data): int|bool {
+        if (!$this->connection) {
+            return false;
+        }
+    
+        $query = "INSERT INTO ANIMALI (
+            Nome, DataNascita, DataRegistrazione, Sesso, Tipo, Colore, 
+            Pelo, Taglia, Razza, DescrFamiglia, DescrComportamentale, 
+            CondizioniMediche, Trasporto, ImgPath, Email
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+        $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt === false) {
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 'ssssssssssssiss', 
+            $data['nome'], 
+            $data['data_nascita'], 
+            $data['data_reg'], 
+            $data['sesso'], 
+            $data['tipo'], 
+            $data['colore'], 
+            $data['pelo'], 
+            $data['taglia'], 
+            $data['razza'], 
+            $data['descr_famiglia'], 
+            $data['descr_comportamento'], 
+            $data['medico'], 
+            $data['trasporto'], 
+            $data['imgPath'], 
+            $data['email_admin']
+        );
+    
+        $success = mysqli_stmt_execute($stmt);
+
+        // ritorna l'ID dell'animale inserito o false in caso di fallimento (utile per sapere l'ID dell'animale appena aggiunto, magari si mette un pulsante 'vai all'animale' dopo averlo aggiunto)
+        $insertedId = $success ? mysqli_insert_id($this->connection) : false;
+        
+        mysqli_stmt_close($stmt);
+
+
+        return $insertedId;
+    }
 }
+
 
 
 ?>
