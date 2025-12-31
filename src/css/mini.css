@@ -23,9 +23,12 @@ body#admin-body main {
     /* transition: margin-top 0.3s ease; */
 }
 
+div#admin-area {
+    padding: 1em;
+}
 .menu-toggle {
     display: block;
-    font-size: 3em;
+    font-size: 2em;
     background: none;
     border: none;
     cursor: pointer;
@@ -53,4 +56,13 @@ div#admin-area article#stato-trasporto {
 }
 .note{
     width: 100%;
+}
+
+h1{
+    font-size: 2em;
+}
+
+nav#breadcrumb {
+    padding: 0.5em 1em;
+    margin: 1em;
 }
