@@ -14,6 +14,7 @@ nav#menu-admin {
 
 #menu-admin.active {
     max-height: 100vh;
+
     background-color: var(--footercolor); /*così lo sfondo appare solo quando apri il menu */
     visibility: visible;
 }
@@ -32,12 +33,13 @@ div#admin-area {
     background: none;
     border: none;
     cursor: pointer;
+        color: var(--bgcolor);
     padding: 0.5em 1em 0em 1em;
 }
 
 
 nav#menu-admin img {
-    width: 20em;
+    width: 10em;
     max-width: 100%;
     height: auto;
 }
