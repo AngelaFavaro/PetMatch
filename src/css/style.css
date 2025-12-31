@@ -81,7 +81,9 @@ h4{
     font-family: 'Parkinsans';
     border: none;
 }
-
+.c404 .orange-button{
+    margin-top: 2em;
+}
 .orange-button:hover {
     background-color: var(--buttoncolor-hover); 
     color: var(--linkcolor);
@@ -294,6 +296,10 @@ main#content{
     padding-top:2em;
 }
 
+main.c404#content{
+   min-height:  80vh;
+
+}
 
 
 nav#menu-admin img {
