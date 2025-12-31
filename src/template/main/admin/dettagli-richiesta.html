@@ -1,13 +1,9 @@
 <div id="admin-area">
     <h1>Dettagli richiesta di adozione</h1>
+    [di chi]
     <div id="top-container">
-        <article id="stato-trasporto">
-            <p><strong>Data di arrivo:</strong> [dataDiArrivo]</p>
-            <a href="./">
-                <img src="./assets/icons/edit-pencil.svg" alt="Modificare le informazioni">
-            </a>
-        </article>
-        <a href="mailto:matchpet48@gmail.com" class="orange-button" target="_blank">Contatta candidato</a>
+        [stato-trasporto]
+        [pulsanti-azioni-richiesta]
     </div>
     <div id="details-container">
         
@@ -19,14 +15,18 @@
             </div>
 
             <article id="Richiesta" class="tabcontent" style="display: block;">
+                <p><strong>Stato richiesta:</strong> [stato]</p>
                 <p><strong>Data richiesta:</strong> [data]</p>
-                <p><strong>Lettera di presentazione:</strong> [contentoLettera]</p>
+                [dataInizioValutazione]
+                [dataFineValutazione]
+                [dataRichiestaRespinta]
+                <p><strong>Lettera di presentazione:</strong> [contenutoLettera]</p>
                 <p><strong>Trasporto:</strong> [trasporto]</p>
             </article>
 
             <article id="Richiedente" class="tabcontent">
-                <div id="generic-info-container">
-                    <img src="./assets/images/linor.jpg" alt="Foto di [nome]" class="circle-foto">
+                <div class="generic-info-container">
+                    <img src="[imgPath]" alt="Foto di [nome]" class="circle-foto">
                     
                     <div class="text-details">
                         <p><strong>Nome:</strong> [nome]</p>
@@ -38,15 +38,15 @@
                 </div>
 
                 <p id="altre-richieste">Ha altre <strong>[n]</strong> richieste in corso di valutazione</p>
-                <a href="./profilo-utente?email=[email]" class="orange-button">Vedi profilo</a>
+                <a href="[paginaRichiedente]" class="orange-button">Vedi profilo</a>
             </article>
             
         </div> 
-        <div>
+        <div id="animal-container">
             <h2>INFORMAZIONI ANIMALE</h2>
             <article id="animale-richiesta">
-                <div id="generic-info-container">
-                    <img src="./assets/images/cane.png" alt="Foto di [nomeAnimale]" class="square-foto">
+                <div class="generic-info-container">
+                    <img src="[animalImgPath]" alt="Foto di [nomeAnimale]" class="square-foto">
                     
                     <div class="text-details">
                         <p><strong>Nome:</strong> [nomeAnimale]</p>
@@ -56,7 +56,7 @@
                         <p><strong>Trasporto:</strong> [trasportoAnimale]</p>
                     </div>
                 </div>
-                <a href="./profilo-utente?email=[email]" class="orange-button">Vedi animale</a>
+                <a href="[paginaAnimale]" class="orange-button">Vedi animale</a>
                 <div id="other-info-container">
                     <p><strong>Famiglia ideale:</strong> [famigliaIdeale]</p>
                     <p><strong>Condizioni mediche:</strong> [condizioniMediche]</p>
@@ -69,16 +69,7 @@
         
     </div> 
     <div id="bottom-container">
-        <div class="note">
-            <div class="header-note">
-                <h2>LE TUE ANNOTAZIONI</h2>
-                <!-- TODO da mettere collegamento-->
-                <a href="./">
-                    <img src="./assets/icons/edit-pencil.svg" alt="Modificare le informazioni">
-                </a>
-            </div>
-            <p>[annotazioni]</p>
-        </div>
-        <a href="mailto:matchpet48@gmail.com" class="orange-button" target="_blank">Contatta candidato</a>
+        [annotazioni]
+        [scarta-richiesta]
     </div>
 </div>

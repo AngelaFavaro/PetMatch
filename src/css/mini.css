@@ -38,3 +38,19 @@ nav#menu-admin img {
     max-width: 100%;
     height: auto;
 }
+
+div#admin-area article#animale-richiesta {
+    min-width: 100%;
+}
+
+div#admin-area div#animal-container {
+    max-width: 100%;
+    width: 100%;
+}
+
+div#admin-area article#stato-trasporto {
+    width: 100%;
+}
+.note{
+    width: 100%;
+}

@@ -23,6 +23,15 @@ a:visited{
     color: var(--visitedcolor);
 }
 
+a.orange-button:visited{
+    color: var(--txtcolor);
+}
+
+a.orange-button:hover{
+    color: var(--linkcolor);
+}
+
+
 .container{
     max-width: 1200px;
     /* max-height: 100%; */
@@ -57,7 +66,7 @@ h4{
 
 
 /*==================PULSANTI==================*/
-a.orange-button{
+.orange-button{
     display: block;
     text-align: center;
     margin: auto;
@@ -68,6 +77,9 @@ a.orange-button{
     border-radius: 1em;
     font-weight: 600;
     transition: background-color 0.4s ease;
+        font-size: medium;
+    font-family: 'Parkinsans';
+    border: none;
 }
 
 .orange-button:hover {
@@ -142,13 +154,15 @@ a.orange-button{
 
 /* Gli elementi con questa classe sono visibili solo agli screen reader */
 .sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  border: 0;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
 }
 
 /* ==================FOOTER================== */
@@ -204,12 +218,16 @@ div#admin-area{
 }
 
 div#admin-area article {
-  padding:2em 2em 0em 2em;
+  padding:1em 1em 1em 1em;
   border: 1px solid var(--txtcolor);
   border-radius:1em;
   margin: 2em 0em;
 }
 
+
+div#admin-area article#query, div#admin-area article#row2-container{
+    padding: 2em 2em 0em 2em;
+}
 /* stesso pattern usato per le section del footer*/
 ul#to-do-list, ul#statistics-list {
     margin: 0 -10px;
@@ -340,7 +358,7 @@ div#row2 article{
     float: right;
 }
 
-#generic-info-container {
+.generic-info-container {
     display: flex;
     flex-wrap: wrap;
 }
@@ -362,7 +380,7 @@ div#row2 article{
 .text-details{
     margin: auto 2em;
 }
-.header-info, #generic-info-container{
+.header-info, .generic-info-container{
     margin-bottom: 1em;
 }
 
@@ -392,7 +410,7 @@ div#row2 article{
 }
 
 .tabcontent#Richiedente .orange-button{
-    margin: 0em 0em 2em auto;
+    margin: 0em 0em 0em auto;
 }
 
 #animale-richiesta .orange-button{
@@ -412,9 +430,10 @@ div#row2 article{
 } 
 
 #details-container{
-    display:flex;
+    display: flex;
     flex-wrap: wrap;
-
+    gap: 2em;
+    align-items: flex-start;
 }
 
 p#altre-richieste{
@@ -450,20 +469,29 @@ div#admin-area #details-container article#animale-richiesta{
 }
 
 .tabs-container {
-    flex: 2;
-    min-width: 300px;
+    flex: 2 1 300px;
 }
 
-#animale-richiesta {
-    flex: 1;
-    min-width: 250px;
+div#admin-area article#animale-richiesta {
+     flex: 1;
+    min-width: 32em;
     border: 1px solid var(--txtcolor);
     border-radius: 20px;
     padding: 20px;
+    width: 100%;
+}
+
+div#admin-area div#animal-container{
+    flex: 1 1 250px;
+    /* min-width: 250px; */
+    max-width: 100%;
 }
 
 div#admin-area article#stato-trasporto{
     background-color: var(--darkbgcolor);
+    width: 55%;
+    padding: 1em 1em;
+    margin: auto auto 0em 0em;
 } 
 
 #top-container{
@@ -472,17 +500,18 @@ div#admin-area article#stato-trasporto{
 }
 
 #stato-trasporto p{
+    padding-top: 0.7em;
     float: left;
     margin-right: 2em;
 }
 #stato-trasporto a{
     float: right;
 }
-#top-container a.orange-button{
+#top-container a.orange-button, #top-container form{
     margin: auto 0em 0em auto;
 }
 
-#bottom-container a.orange-button{
+#bottom-container form{
     margin: auto 0em 0em auto;
 }
 
@@ -490,6 +519,7 @@ div#admin-area article#stato-trasporto{
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    width: 55%;
 }
 /* .header-note{
     gap: 1em;
@@ -506,7 +536,64 @@ div#admin-area article#stato-trasporto{
     display: flex;
     flex-wrap: wrap;
     gap: 2em;
+
 }
+
+
+.note p.editing {
+    padding: 0.5rem;
+    background-color: var(--darkbgcolor);
+}
+
+/* Nasconde i form quando hanno la classe .hidden */
+#form-data.hidden, 
+#form-note.hidden,
+#data-text.hidden,
+#note-text.hidden {
+    display: none;
+}
+
+/* Quando il form della data è attivo, sta in linea con il testo */
+#form-data {
+    display: inline;
+}
+
+/* Il form delle note lo facciamo apparire come un blocco sotto il titolo */
+#form-note {
+    display: block;
+    margin-top: 0.5rem;
+}
+
+/* --- Stile Input e Textarea --- */
+
+#input-note {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: var(--darkbgcolor);
+    border: 1px solid var(--bordercolor, #ccc);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical; /* Permette all'utente di allungare l'area */
+}
+.orange-button.respinta {
+    background-color: var(--darkbgcolor);
+    border: none;
+    cursor: not-allowed;
+}
+
+
+/* Quando il form ha la classe .hidden, sparisce */
+#stato-trasporto .hidden {
+    display: none;
+}
+
+/* Quando il form NON ha .hidden, deve stare sulla stessa riga del testo */
+#form-data {
+    display: inline;
+}
+
+
 /*================NAVIGATION HELP ==================*/
 
 .navigationHelp {
