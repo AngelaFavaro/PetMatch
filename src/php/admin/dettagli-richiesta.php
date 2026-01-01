@@ -105,7 +105,7 @@ function handlePostActions(DBAccess $conn, array $r, string $email, int $idAnima
 
     if (isset($_POST['inizia_valutazione'])) {
         $conn->startEvaluation($email, $idAnimale);
-        header("Location: richieste-adozioni?email=$email&id-animale=$idAnimale");
+        header("Location: richieste-adozione?email=$email&id-animale=$idAnimale");
         exit;
     }
 
@@ -117,7 +117,7 @@ function handlePostActions(DBAccess $conn, array $r, string $email, int $idAnima
         } else {
             $conn->acceptRequest($email, $idAnimale);
         }
-        header("Location: richieste-adozioni?email=$email&id-animale=$idAnimale");
+        header("Location: richieste-adozione?email=$email&id-animale=$idAnimale");
         exit;
     }
 
@@ -131,14 +131,14 @@ function handlePostActions(DBAccess $conn, array $r, string $email, int $idAnima
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scarta_richiesta'])) {
         $conn->rejectRequest($email, $idAnimale,$r['stato']);
         $r = $conn->getRequestDetails($email, $idAnimale);
-        header("Location: richieste-adozioni?email=$email&id-animale=$idAnimale");
+        header("Location: richieste-adozione?email=$email&id-animale=$idAnimale");
         exit;
     }
 
     // Apri richiesta (riapre richiesta respinta)
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['apri_richiesta'])) {
         $conn->openRequest($email, $idAnimale);
-        header("Location: richieste-adozioni?email=$email&id-animale=$idAnimale");
+        header("Location: richieste-adozione?email=$email&id-animale=$idAnimale");
         exit;
     }
 
@@ -146,7 +146,7 @@ function handlePostActions(DBAccess $conn, array $r, string $email, int $idAnima
 		$newDate = $_POST['data_arrivo'];
 		$conn->setArrivalDate($email, $idAnimale, $newDate);
         $r = $conn->getRequestDetails($email, $idAnimale);
-		header("Location: richieste-adozioni?email=$email&id-animale=$idAnimale");
+		header("Location: richieste-adozione?email=$email&id-animale=$idAnimale");
 		exit;
 	}
 
@@ -331,7 +331,7 @@ $main = str_replace('[pulsanti-azioni-richiesta]', renderPulsantiAzioni($richies
 
 // Annotazioni
 $annotazioni = '';
-if($richiesta['stato']!=='Annullata' || ($richiesta['stato']==='Annullata' && $richiesta['appunti'] !== '')){
+if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($richiesta['stato']==='Annullata' && ($richiesta['appunti'] !== '' || $richiesta['appunti'] !== NULL))){
 
     $annotazioni = '
     <div class="note">
