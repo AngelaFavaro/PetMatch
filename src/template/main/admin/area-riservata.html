@@ -11,7 +11,39 @@
         </article>
         <article id="admin-info">
             
-            [admin-info]
+            <!-- [admin-info] -->
+            <div class="header-info">
+                <h2>LE TUE INFORMAZIONI</h2>
+                <button type="button" id="edit-admin-info" class="btn-edit">
+                    <img src="./assets/icons/edit-pencil.svg" alt="Modifica">
+                </button>
+            </div>
+
+            <div class="generic-info-container">
+                <img src="[imgPath]" alt="Foto" class="circle-foto">
+                
+                <form method="POST" enctype="multipart/form-data">    
+                    <ul>
+                        <li>
+                            <label for="nome">Nome:</label>
+                            <input type="text" id="nome" name="nome" value="[nomeAdmin]" readonly>
+                        </li>
+                        <li>
+                            <label for="cognome">Cognome:</label>
+                            <input type="text" id="cognome" name="cognome" value="[cognomeAdmin]" readonly>             
+                        </li>
+                        <li>
+                            <label for="foto">Foto:</label>
+                            <input type="file" id="foto" name="foto" accept="image/*" disabled>
+                        </li>
+
+                    </ul>
+                    <button name="submit-edit" type="submit" id="submit-edit" hidden class="orange-button" >Salva Modifiche</button>
+                </form>
+            </div>
+
+
+            
              <!-- <div class="header-info">
                 <h2>LE TUE INFORMAZIONI</h2>
                 <a href="./">

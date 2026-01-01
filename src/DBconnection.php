@@ -459,6 +459,25 @@ class DBAccess {
         ];
     }
 
+
+    public function updateAdminInfo(string $email, string $newName, string $newSurname, string $newImg): bool {
+        if (!$this->connection){
+            return false;
+        }
+
+        $query = "UPDATE AMMINISTRATORI SET Nome = ?, Cognome = ?, ImgPath = ? WHERE Email = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 'ssss', $newName, $newSurname, $newImg, $email);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
+
 }
 
 ?>

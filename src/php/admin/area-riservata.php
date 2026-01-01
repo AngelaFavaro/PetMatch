@@ -49,6 +49,29 @@ function buildStatisticsArea(DBAccess $conn): string{
 	return $html;
 }
 
+function editInfoAdmin(DBAccess $conn, $adminInfo) {
+	
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit-edit'])) {
+	$newName = $_POST['nome'] ?? '';
+	$newSurname = $_POST['cognome'] ?? '';
+	$newEmail = $_POST['email'] ?? '';
+
+	$newImg = false;
+	if(isset($_FILES['foto'])) {
+		// qui dentro ci va la logica per caricare l'immagine
+		$newImg = uploadImage($_FILES['foto'], 'admins');
+	}
+	
+	// se $newImg è false, significa che non è stata caricata nessuna nuova immagine, quindi mantengo quella vecchia, ma così non funziona
+	$newImg = $newImg ?: $adminInfo['imgPath'];
+	$conn->updateAdminInfo($_SESSION['user'] ?? '', $newName, $newSurname, $newImg);
+	$conn->closeConnection();
+
+	header("Location: ./area-riservata");
+	exit();
+	
+}
+}
 
 $stats = "";
 $todolist = "";
@@ -62,9 +85,10 @@ if ($connessioneOK) {
 	$stats = buildStatisticsArea($connessione);
 
 	$adminInfo = $connessione->findAdminByEmail($_SESSION['user'] ?? '');
-    
+	editInfoAdmin($connessione, $adminInfo);
 	$connessione->closeConnection();
 }
+
 
 $paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore: template layout.html non trovato o non leggibile.</p>');
 
@@ -80,10 +104,10 @@ $breadcrumb = getBreadcrumb('area-riservata', $pagine);
 $main = loadTemplate('./src/template/main/admin/area-riservata.html', '<p>Errore: template area-riservata.html non trovato o non leggibile.</p>');
 $main = str_replace('[to-do-list]', $todolist, $main);
 $main = str_replace('[stats]', $stats, $main);
-$main = str_replace('[imagePath]', $adminInfo['imgPath'], $main);
-$main = str_replace('[nomeAdmin]', $adminInfo['nome'] ?? 'Amministratore', $main);
-$main = str_replace('[cognomeAdmin]', $adminInfo['cognome'] ?? 'Cognome', $main);
-$main = str_replace('[emailAdmin]', $adminInfo['email'] ?? 'Email', $main);
+$main = str_replace('[imgPath]', $adminInfo['imgPath'], $main);
+$main = str_replace('[nomeAdmin]', $adminInfo['nome'], $main);
+$main = str_replace('[cognomeAdmin]', $adminInfo['cognome'], $main);
+// $main = str_replace('[emailAdmin]', $adminInfo['email'], $main);
 $paginaHTML = str_replace('[title]', $title, $paginaHTML);
 $paginaHTML = str_replace('[description]', $description, $paginaHTML);
 $paginaHTML = str_replace('[keywords]', $keywords, $paginaHTML);
