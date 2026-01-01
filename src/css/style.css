@@ -216,7 +216,7 @@ div#admin-area article h2{
 }
 
 div#admin-area{
-    padding: 6em;
+    padding: 3em 6em;
 }
 
 div#admin-area article {
@@ -385,6 +385,11 @@ div#row2 article{
 
 .text-details{
     margin: auto 2em;
+}
+
+.text-details ul{
+    list-style: none;
+    padding: 0;
 }
 .header-info, .generic-info-container{
     margin-bottom: 1em;

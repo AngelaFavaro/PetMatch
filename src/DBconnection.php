@@ -365,8 +365,100 @@ class DBAccess {
 
         return $insertedId;
     }
+
+    function createAdminTasks($email): array {
+        // che bella questa funzione
+        $tasks = [0, 0, 0, 0, 0];
+
+        $queries = [
+            "query1" => ["sql" => "SELECT COUNT(*) AS totale FROM ANIMALI WHERE Email IS NULL", "param" => null],
+            "query2" => ["sql" => "SELECT COUNT(*) AS totale FROM RICHIESTE_ADOZIONI R JOIN ANIMALI A ON R.IDanimale = A.IDanimale WHERE R.Stato = 'In valutazione' AND (R.Appunti IS NULL OR R.Appunti = '') AND A.Email = ?", "param" => $email],
+            "query3" => ["sql" => "SELECT COUNT(*) AS totale FROM SEGNALAZIONI_NUOVE_ACCOGLIENZE", "param" => null],
+            "query4" => ["sql" => "SELECT COUNT(*) AS totale FROM RICHIESTE_ADOZIONI R JOIN ANIMALI A ON R.IDanimale = A.IDanimale WHERE R.Stato = 'Nuova' AND A.Email = ?", "param" => $email],
+            "query5" => ["sql" => "SELECT COUNT(*) AS totale FROM RICHIESTE_ADOZIONI R JOIN ANIMALI A ON R.IDanimale = A.IDanimale LEFT JOIN TRASPORTI T ON (R.Email = T.Email AND R.IDanimale = T.IDanimale) WHERE R.Stato = 'Da trasportare' AND T.DataArrivo IS NULL AND A.Email = ?", "param" => $email]
+        ];
+
+        $index = 0;
+        foreach ($queries as $q) {
+            $stmt = mysqli_prepare($this->connection, $q['sql']);
+            if ($stmt) {
+                if ($q['param'] !== null) {
+                    mysqli_stmt_bind_param($stmt, 's', $q['param']);
+                }
+                
+                mysqli_stmt_execute($stmt);
+                $result = mysqli_stmt_get_result($stmt);
+                
+                if ($row = mysqli_fetch_assoc($result)) {
+                    $tasks[$index] = $row['totale'];
+                }
+                
+                mysqli_stmt_close($stmt); // IMPORTANTE: Libera la risorsa
+            }
+            $index++;
+        }
+
+        return $tasks;
+    }
+
+    function createAdminStats($email): array {
+        $stats = [0, 0, 0];
+        $queries = [
+            "query1" => ["sql" => "SELECT COUNT(*) AS totale FROM RICHIESTE_ADOZIONI R JOIN ANIMALI A ON R.IDanimale = A.IDanimale WHERE R.Stato = 'Conclusa' AND A.Email = ?", "param" => $email],
+            "query2" => ["sql" => "SELECT COUNT(*) AS totale FROM RICHIESTE_ADOZIONI R JOIN ANIMALI A ON R.IDanimale = A.IDanimale WHERE R.Stato <> 'Nuova' AND A.Email = ?", "param" => $email],
+            "query3" => ["sql" => "SELECT COUNT(*) AS totale FROM RICHIESTE_ADOZIONI R JOIN ANIMALI A ON R.IDanimale = A.IDanimale WHERE R.Stato NOT IN ('Nuova', 'Conclusa', 'Annullata', 'Respinta') AND A.Email = ?", "param" => $email]
+        ];
+        $index = 0;
+        foreach ($queries as $q) {
+            $stmt = mysqli_prepare($this->connection, $q['sql']);
+            if ($stmt) {
+                mysqli_stmt_bind_param($stmt, 's', $q['param']);
+                mysqli_stmt_execute($stmt);
+                $result = mysqli_stmt_get_result($stmt);
+                
+                if ($row = mysqli_fetch_assoc($result)) {
+                    $stats[$index] = $row['totale'];
+                }
+                
+                mysqli_stmt_close($stmt);
+            }
+            $index++;
+        }
+        return $stats;
+    }
+
+    // Recupera le informazioni di un amministratore data l'email
+    function findAdminByEmail(string $email): array|null {
+        if (!$this->connection){
+            return null;
+        }
+
+        $query = "SELECT * FROM AMMINISTRATORI WHERE Email = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return null;
+        }
+        mysqli_stmt_bind_param($stmt, 's', $email);
+        if(!mysqli_stmt_execute($stmt)){
+            mysqli_stmt_close($stmt);
+            return null;
+        }
+        $queryResult = mysqli_stmt_get_result($stmt);
+        if($queryResult === false || mysqli_num_rows($queryResult) == 0){
+            mysqli_stmt_close($stmt);
+            return null;
+        }
+        $row = mysqli_fetch_assoc($queryResult);
+        mysqli_stmt_close($stmt);
+        return [
+            'email' => $row['Email'],
+            'nome' => $row['Nome'],
+            'cognome' => $row['Cognome'],
+            'telefono' => $row['Telefono'],
+            'imgPath' => $row['ImgPath']
+        ];
+    }
+
 }
-
-
 
 ?>
