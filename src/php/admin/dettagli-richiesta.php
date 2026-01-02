@@ -3,13 +3,7 @@ include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
 $_SESSION['user'] = 'lindorlinor@gmail.com';
-/**
- * Carica un file e ritorna un fallback in caso di errore
- */
-function loadTemplate(string $path, string $default = ''): string {
-    $content = @file_get_contents($path);
-    return $content === false ? $default : $content;
-}
+
 
 
 function displayDateItalianFormat(string $dateStr): string {
@@ -104,14 +98,14 @@ function buildDateInfo(array $r): array {
 }
 
 /**
- * Gestione delle azioni POST che modificano lo stato (eseguono redirect quando previsto)
+ * Gestione delle azioni POST che modificano lo stato (eseguono redirect)
  */
 function handlePostActions(DBAccess $conn, array $r, string $email, int $idAnimale): array {
     
 
     if (isset($_POST['inizia_valutazione'])) {
         $conn->startEvaluation($email, $idAnimale);
-        header("Location: dettagli-richiesta?email=$email&id-animale=$idAnimale");
+        header("Location: richieste-adozione?email=$email&id-animale=$idAnimale");
         exit;
     }
 
@@ -123,11 +117,10 @@ function handlePostActions(DBAccess $conn, array $r, string $email, int $idAnima
         } else {
             $conn->acceptRequest($email, $idAnimale);
         }
-        header("Location: dettagli-richiesta?email=$email&id-animale=$idAnimale");
+        header("Location: richieste-adozione?email=$email&id-animale=$idAnimale");
         exit;
     }
 
-    // Salva note via fetch (risposta 204)
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['salva_note'])) {
         $note = trim($_POST['note'] ?? '');
         $conn->updateNote($email, $idAnimale, $note);
@@ -138,14 +131,14 @@ function handlePostActions(DBAccess $conn, array $r, string $email, int $idAnima
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scarta_richiesta'])) {
         $conn->rejectRequest($email, $idAnimale,$r['stato']);
         $r = $conn->getRequestDetails($email, $idAnimale);
-        header("Location: dettagli-richiesta?email=$email&id-animale=$idAnimale");
+        header("Location: richieste-adozione?email=$email&id-animale=$idAnimale");
         exit;
     }
 
     // Apri richiesta (riapre richiesta respinta)
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['apri_richiesta'])) {
         $conn->openRequest($email, $idAnimale);
-        header("Location: dettagli-richiesta?email=$email&id-animale=$idAnimale");
+        header("Location: richieste-adozione?email=$email&id-animale=$idAnimale");
         exit;
     }
 
@@ -153,7 +146,7 @@ function handlePostActions(DBAccess $conn, array $r, string $email, int $idAnima
 		$newDate = $_POST['data_arrivo'];
 		$conn->setArrivalDate($email, $idAnimale, $newDate);
         $r = $conn->getRequestDetails($email, $idAnimale);
-		header("Location: dettagli-richiesta?email=$email&id-animale=$idAnimale");
+		header("Location: richieste-adozione?email=$email&id-animale=$idAnimale");
 		exit;
 	}
 
@@ -235,9 +228,6 @@ function imTheAdmin($r): bool{
 
 $paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore: template layout.html non trovato o non leggibile.</p>');
 
-// valori temporanei (in futuro verranno presi con GET)
-// $email = 'lindorlinor@gmail.com';
-// $idAnimale = 1;
 $email = $_GET['email'];
 $idAnimale = $_GET['id-animale'];
 
@@ -341,7 +331,7 @@ $main = str_replace('[pulsanti-azioni-richiesta]', renderPulsantiAzioni($richies
 
 // Annotazioni
 $annotazioni = '';
-if($richiesta['stato']!=='Annullata' || ($richiesta['stato']==='Annullata' && $richiesta['appunti'] !== '')){
+if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($richiesta['stato']==='Annullata' && ($richiesta['appunti'] !== '' || $richiesta['appunti'] !== NULL))){
 
     $annotazioni = '
     <div class="note">
