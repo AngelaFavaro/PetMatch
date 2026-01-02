@@ -468,7 +468,7 @@ div#row2 article{
 #animale-richiesta .orange-button{
     margin: 0em auto 2em 0em;
 }
-#details-container h2{
+#details-container h2, .tab h2{
     font-size: 1.2em;
     /* margin-bottom: 1em; */
     color: var(--txtcolor);
@@ -524,6 +524,9 @@ div#admin-area #details-container article#animale-richiesta{
     flex: 2 1 300px;
 }
 
+article#Richiesta {
+    display: block;
+}
 div#admin-area article#animale-richiesta {
      flex: 1;
     min-width: 32em;
@@ -643,6 +646,58 @@ div#admin-area article#stato-trasporto{
 /* Quando il form NON ha .hidden, deve stare sulla stessa riga del testo */
 #form-data {
     display: inline;
+}
+
+
+/*================= RICHIESTE DI ADOZIONE ==================*/
+
+div#admin-area .tab-richieste{
+    border: none;
+}
+tr{
+    border-bottom: 1px solid var(--txtcolor);
+}
+
+
+thead th{
+    padding: 1em 2em;
+}
+
+tbody td, tbody th{
+    padding: 0em 2em;
+}
+thead, tfoot{
+    background-color: var(--darkbgcolor);
+}
+
+
+thead tr:first-child th:first-child {
+    border-top-left-radius: 15px;
+}
+
+/* Arrotonda l'angolo in alto a destra dell'ultimo TH */
+thead tr:first-child th:last-child {
+    border-top-right-radius: 15px;
+}
+table {
+  border-collapse: separate;
+  width: 100%;
+}
+
+td, th{
+    text-align: left;
+}
+.col-dettagli{
+    float: right;
+}
+
+th.col-dettagli, caption{
+    /* lo devo nascondere alla vista umana = non anche agli screen reader */
+    position: absolute;
+    left: -999em;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
 }
 
 
