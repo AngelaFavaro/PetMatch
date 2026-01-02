@@ -84,15 +84,15 @@ function buildDateInfo(array $r): array {
     $dataFine = '';
     $dataRifiuto = '';
     if (($r['stato'] ?? '') === 'Da trasportare') {
-        $dataFine = '<p><strong>Data fine valutazione:</strong> <time datetime="' . ($r['data_fine_valutazione'] ?? '') . '" id="data-fine-valutazione">' .displayDateItalianFormat($r['data_fine_valutazione'] ?? ''). '</time></p>';
-        $dataInizio = '<p><strong>Data inizio valutazione:</strong> <time datetime="' . ($r['data_inizio_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_inizio_valutazione'] ?? '') . '</time></p>';
+        $dataFine = '<li><strong>Data fine valutazione:</strong> <time datetime="' . ($r['data_fine_valutazione'] ?? '') . '" id="data-fine-valutazione">' .displayDateItalianFormat($r['data_fine_valutazione'] ?? ''). '</time></li>';
+        $dataInizio = '<li><strong>Data inizio valutazione:</strong> <time datetime="' . ($r['data_inizio_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_inizio_valutazione'] ?? '') . '</time></li>';
     }
 	if(($r['stato'] ?? '') === 'In valutazione') {
-		$dataInizio = '<p><strong>Data inizio valutazione:</strong> <time datetime="' . ($r['data_inizio_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_inizio_valutazione'] ?? '') . '</time></p>';
+		$dataInizio = '<li><strong>Data inizio valutazione:</strong> <time datetime="' . ($r['data_inizio_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_inizio_valutazione'] ?? '') . '</time></li>';
 	}
 	if(($r['stato'] ?? '') === 'Annullata') {
-		$dataInizio = '<p><strong>Data inizio valutazione:</strong> <time datetime="' . ($r['data_inizio_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_inizio_valutazione'] ?? '') . '</time></p>';
-		$dataRifiuto = '<p><strong>Data annullamento:</strong> <time datetime="' . ($r['data_fine_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_fine_valutazione'] ?? '') . '</time></p>';
+		$dataInizio = '<li><strong>Data inizio valutazione:</strong> <time datetime="' . ($r['data_inizio_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_inizio_valutazione'] ?? '') . '</time></li>';
+		$dataRifiuto = '<li><strong>Data annullamento:</strong> <time datetime="' . ($r['data_fine_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_fine_valutazione'] ?? '') . '</time></li>';
 	}
     return [$dataInizio, $dataFine, $dataRifiuto];
 }

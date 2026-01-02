@@ -376,6 +376,11 @@ div#row2 article{
     max-width: 100%;
 }
 
+
+.generic-info-container label{
+    font-weight: 700;
+}
+
 #submit-edit.orange-button{
     margin: 2em 1em 0em auto;
 }
@@ -392,12 +397,12 @@ div#row2 article{
     color: var(--txtcolor);
     background-color: var(--darkbgcolor);
 }
-.generic-info-container ul{
+.generic-info-container ul, #other-info-container ul{
     list-style: none;
     padding: 0em;
     margin: 0em;
 }
-.generic-info-container li {
+.generic-info-container #admin-details li {
     display: flex;
     margin: 0em 1em;
 }
@@ -480,6 +485,16 @@ div#row2 article{
   border: 1px solid #ccc;
   border-top: none;
 } 
+
+#Richiesta ul{
+    list-style: none;
+    padding: 0em;
+}
+#Richiedente ul{
+    list-style: none;
+    padding: 0em;
+}
+
 
 #details-container{
     display: flex;
