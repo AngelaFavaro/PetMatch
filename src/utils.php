@@ -44,6 +44,16 @@ $adminMenu = [
     ]
 ];
 
+
+/**
+ * Carica un file e ritorna un fallback in caso di errore
+ * TO DO qui sarebbe utile inserire come path default il layout base ma prima bisognerebbe unificare i layout di admin e utente normale
+ */
+function loadTemplate(string $path, string $default = ''): string {
+    $content = @file_get_contents($path);
+    return $content === false ? $default : $content;
+}
+
 /**
  * Genera la nav menù admin dinamicamente
  */
@@ -125,6 +135,7 @@ function getBreadcrumb($currentPageKey, $pagine) {
  * guardate li per capire come usarla (cerca 'SCRIPT DI TEST'), l'echo che si trova in basso al blocco commentato è il form da cui vengono presi i dati
  * NOTA: possibile che l'estensione di vscode non vi faccia vedere l'immagine caricata, guardate dal terminale ssh
 */
+// se $_FILES['foto'] non esiste o è vuoto, la funzione ritorna false
 function uploadImage($file, $folder) {
 
     $basePath = dirname(__DIR__) . '/assets/images/' . $folder . '/';

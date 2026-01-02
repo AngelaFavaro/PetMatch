@@ -81,7 +81,9 @@ h4{
     font-family: 'Parkinsans';
     border: none;
 }
-
+.c404 .orange-button{
+    margin-top: 2em;
+}
 .orange-button:hover {
     background-color: var(--buttoncolor-hover); 
     color: var(--linkcolor);
@@ -214,7 +216,7 @@ div#admin-area article h2{
 }
 
 div#admin-area{
-    padding: 6em;
+    padding: 3em 6em;
 }
 
 div#admin-area article {
@@ -294,6 +296,10 @@ main#content{
     padding-top:2em;
 }
 
+main.c404#content{
+   min-height:  80vh;
+
+}
 
 
 nav#menu-admin img {
@@ -354,8 +360,11 @@ div#row2 article{
     float: left;
 }
 
-.header-info img{
+.header-info button.btn-edit {
     float: right;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
 .generic-info-container {
@@ -363,11 +372,49 @@ div#row2 article{
     flex-wrap: wrap;
 }
 
+.generic-info-container form{
+    max-width: 100%;
+}
+
+#submit-edit.orange-button{
+    margin: 2em 1em 0em auto;
+}
+#submit-edit.orange-button[hidden] {
+    display: none;
+}
+
+
+.generic-info-container input {
+    width: 100%;
+    margin-left:  0.5em;
+    font-family: 'Parkinsans', Roboto, sans-serif;
+    font-size: 1em;
+    color: var(--txtcolor);
+    background-color: var(--darkbgcolor);
+}
+.generic-info-container ul{
+    list-style: none;
+    padding: 0em;
+    margin: 0em;
+}
+.generic-info-container li {
+    display: flex;
+    margin: 0em 1em;
+}
+
+.generic-info-container input[readonly] {
+    background: none;
+    border: none;
+}
+
+
+
 .circle-foto {
     width: 9em;
     height: 9em;
     object-fit: cover;
     clip-path: circle(50%);
+    margin-bottom: 2em;
 }
 
 .square-foto {
@@ -379,6 +426,11 @@ div#row2 article{
 
 .text-details{
     margin: auto 2em;
+}
+
+.text-details ul{
+    list-style: none;
+    padding: 0;
 }
 .header-info, .generic-info-container{
     margin-bottom: 1em;

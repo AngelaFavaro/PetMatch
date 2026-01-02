@@ -68,3 +68,27 @@ nav#breadcrumb {
     padding: 0.5em 1em;
     margin: 1em;
 }
+
+
+#error-title {
+    font-size: 7em;
+}
+
+#error-message {
+    width: 85%;
+    margin: 1em auto;
+    text-align: left;
+}
+
+#error-message h2{
+    font-size: 1.5em;
+}
+
+#error-message h3{
+    font-size: 1.2em;
+}
+
+#error-info{
+    width: 70%;
+    margin: 0 auto;
+}
