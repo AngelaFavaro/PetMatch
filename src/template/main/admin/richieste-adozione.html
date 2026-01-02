@@ -1,14 +1,14 @@
 <div id="admin-area">
     <h1>Richieste di adozione</h1>
 
-    <nav class="tab" aria-label="Tipi di richieste di adozione">
+    <nav class="tab tab-mini" aria-label="Tipi di richieste di adozione">
         <button id="tab-nuove" class="tablinks active" onclick="openTab(event, 'Nuove')"><h2>NUOVE ([n-nuove])</h2></button>
         <button id="tab-in-valutazione" class="tablinks" onclick="openTab(event, 'InValutazione')"><h2>IN VALUTAZIONE ([n-in-valutazione])</h2></button>
         <button id="tab-da-trasportare" class="tablinks" onclick="openTab(event, 'DaTrasportare')"><h2>DA TRASPORTARE ([n-da-trasportare])</h2></button>
         <button id="tab-respinte" class="tablinks" onclick="openTab(event, 'Respinte')"><h2>RESPINTE ([n-respinte])</h2></button>
     </nav>
     
-    <article class="tab-richieste" id="Nuove" class="tabcontent">
+<article class="tab-richieste tabcontent" id="Nuove">
         <span id="sumTabella" class="navigationHelp">In questa tabella vengono elencate le nuove richieste di adozione e i loro dettagli: email utente, nome animale e data di richiesta.</span>
         <table aria-describedby="sumTabella">
             <caption>Nuove Richieste di Adozione</caption>

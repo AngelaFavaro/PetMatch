@@ -446,7 +446,8 @@ div#row2 article{
 .tab button {
   background-color: inherit;
   border: none;
-  padding: 14px 16px;
+  /* traduco in em */
+  padding: 0.9em 1em;
   transition: 0.3s;
   flex: 1; /* questo serve per far si che i tab siano grandi uguali e riempiano lo spazio*/
 }
@@ -476,7 +477,7 @@ div#row2 article{
 
 .tabcontent {
   display: none;
-  padding: 6px 12px;
+  /* padding: 6px 12px; */
   border: 1px solid #ccc;
   border-top: none;
 } 
@@ -648,57 +649,76 @@ div#admin-area article#stato-trasporto{
     display: inline;
 }
 
-
 /*================= RICHIESTE DI ADOZIONE ==================*/
 
 div#admin-area .tab-richieste{
     border: none;
-}
-tr{
-    border-bottom: 1px solid var(--txtcolor);
+    padding: 0.5em;
 }
 
-
-thead th{
-    padding: 1em 2em;
+/* 1. Tabella: Impostazioni fondamentali per il raggio */
+table {
+    border-collapse: separate; /* Permette il border-radius */
+    border-spacing: 0;        /* Elimina lo spazio tra le celle */
+    width: 100%;
+    border-radius: 15px 15px 0 0;      /* Angoli tondi della tabella */
+    overflow: hidden;         /* Taglia lo sfondo del thead sugli angoli */
+    margin-bottom: 1em;
 }
 
-tbody td, tbody th{
-    padding: 0em 2em;
-}
-thead, tfoot{
+/* 2. Header e Footer della tabella */
+thead, tfoot {
     background-color: var(--darkbgcolor);
 }
 
+thead th, tfoot th, tfoot td {
+    padding: 0.5em 2em;
+    text-align: left;
+}
 
+/* Arrotondamento manuale delle celle d'angolo del thead */
 thead tr:first-child th:first-child {
     border-top-left-radius: 15px;
 }
 
-/* Arrotonda l'angolo in alto a destra dell'ultimo TH */
 thead tr:first-child th:last-child {
     border-top-right-radius: 15px;
 }
-table {
-  border-collapse: separate;
-  width: 100%;
-}
 
-td, th{
+/* 3. Corpo della tabella (Righe e Celle) */
+tbody td, tbody th {
+    padding: 0em 2em; /* Aumentato per dare respiro */
     text-align: left;
-}
-.col-dettagli{
-    float: right;
+    border-bottom: 1px solid var(--txtcolor);
 }
 
-th.col-dettagli, caption{
-    /* lo devo nascondere alla vista umana = non anche agli screen reader */
+/* Rimuove l'ultimo bordo per non "sporcare" la curva in basso */
+tbody tr:last-child td, 
+tbody tr:last-child th {
+    border-bottom: none;
+}
+
+/* 4. Gestione Colonne e Accessibilità */
+.col-dettagli {
+    text-align: right; /* Sostituisce il float:right per un allineamento più pulito */
+}
+
+th.col-dettagli, caption {
+    /* Nasconde alla vista ma non agli screen reader (SR-ONLY) */
     position: absolute;
     left: -999em;
     width: 1px;
     height: 1px;
     overflow: hidden;
 }
+
+td.col-dettagli button{
+    margin: 0.5em;
+}
+
+
+
+
 
 
 /*================NAVIGATION HELP ==================*/
