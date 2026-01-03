@@ -54,7 +54,6 @@ function editInfoAdmin(DBAccess $conn, $adminInfo) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit-edit'])) {
 	$newName = $_POST['nome'] ?? '';
 	$newSurname = $_POST['cognome'] ?? '';
-	$newEmail = $_POST['email'] ?? '';
 
 	$newImg = false;
 	if(isset($_FILES['foto'])) {

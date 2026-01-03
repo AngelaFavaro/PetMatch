@@ -7,9 +7,9 @@ class DBAccess {
 
 	private const HOST_DB = "localhost"; 
 	/* */
-	private const DATABASE_NAME = "lsade"; //qui devi mettere le tue credenziali di login
-	private const USERNAME = "lsade";
-	private const PASSWORD = "ohdi6Quohtoo6eiD"; //quella dentro il file  pwd_db_2526.txt
+	private const DATABASE_NAME = "acanazza"; //qui devi mettere le tue credenziali di login
+	private const USERNAME = "acanazza";
+	private const PASSWORD = "meiSeeQueN4their"; //quella dentro il file  pwd_db_2526.txt
 
 	private $connection;
 
@@ -478,6 +478,176 @@ class DBAccess {
         return $result;
     }
 
-}
+    function getNewRequests($email): array {
+        $requests = [];
+        
+        $query = "SELECT R.Email AS email_richiedente, A.ImgPath, A.Nome AS nome_animale, R.DataRichiesta, R.IDanimale AS id_animale
+                FROM RICHIESTE_ADOZIONI R
+                JOIN ANIMALI A ON R.IDanimale = A.IDanimale
+                WHERE R.Stato = 'Nuova' 
+                AND A.Email = ?
+                ORDER BY R.DataRichiesta DESC";
 
+        $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            
+            while ($row = mysqli_fetch_assoc($result)) {
+                $requests[] = $row;
+            }
+            
+            mysqli_stmt_close($stmt);
+        }
+        
+        return $requests;
+    }
+
+    function getInEvaluationRequests($email): array {
+        $requests = [];
+        
+        $query = "SELECT 
+                    A.Nome AS nome_animale, 
+                    R.Email AS email_richiedente, 
+                    R.DataInizioValutazione AS data_inizio_valutazione, 
+                    R.Appunti AS appunti,
+                    R.IDanimale AS id_animale
+                FROM RICHIESTE_ADOZIONI R
+                JOIN ANIMALI A ON R.IDanimale = A.IDanimale
+                WHERE R.Stato = 'In valutazione' 
+                AND A.Email = ?
+                ORDER BY R.DataInizioValutazione ASC";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            
+            while ($row = mysqli_fetch_assoc($result)) {
+                $requests[] = $row;
+            }
+            
+            mysqli_stmt_close($stmt);
+        }
+        
+        return $requests;
+    }
+
+    function getTransportRequests($email): array {
+        $requests = [];
+        // data arrivo può essere null, in quel caso va in fondo alla lista
+        $query = "SELECT 
+                    A.Nome AS nome_animale, 
+                    R.Email AS email_richiedente, 
+                    R.DataFineValutazione AS data_fine_valutazione,
+                    T.DataArrivo AS data_arrivo,
+                    R.IDanimale AS id_animale
+                FROM RICHIESTE_ADOZIONI R
+                JOIN ANIMALI A ON R.IDanimale = A.IDanimale
+                LEFT JOIN TRASPORTI T ON R.Email = T.Email AND R.IDanimale = T.IDanimale
+                WHERE R.Stato = 'Da trasportare'
+                AND A.Email = ?
+                ORDER BY T.DataArrivo ASC";
+        $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            
+            while ($row = mysqli_fetch_assoc($result)) {
+                $requests[] = $row;
+            }
+            
+            mysqli_stmt_close($stmt);
+        }
+        //se un attributo è NULL, appare nella lista come stringa vuota
+        return $requests;
+    }
+    function getNRequestByStatus($email): array {
+        $counts = [
+            'Nuova' => 0,
+            'In valutazione' => 0,
+            'Da trasportare' => 0,
+            'Conclusa' => 0,
+            'Annullata' => 0,
+            'Respinta' => 0
+        ];
+
+        $query = "SELECT R.Stato, COUNT(*) AS totale
+                FROM RICHIESTE_ADOZIONI R
+                JOIN ANIMALI A ON R.IDanimale = A.IDanimale
+                WHERE A.Email = ?
+                GROUP BY R.Stato";
+        $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            
+            while ($row = mysqli_fetch_assoc($result)) {
+                $counts[$row['Stato']] = $row['totale'];
+            }
+            
+            mysqli_stmt_close($stmt);
+        }
+        return $counts;
+    }   
+
+    function getCancelledRequests($email): array {
+        $requests = [];
+        
+        $query = "SELECT 
+                    A.Nome AS nome_animale, 
+                    R.Email AS email_richiedente, 
+                    R.DataFineValutazione AS data_fine_valutazione,
+                    R.IDanimale AS id_animale
+                FROM RICHIESTE_ADOZIONI R
+                JOIN ANIMALI A ON R.IDanimale = A.IDanimale
+                WHERE R.Stato = 'Annullata'
+                AND A.Email = ?
+                ORDER BY R.DataFineValutazione DESC";
+        $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            while ($row = mysqli_fetch_assoc($result)) {
+                $requests[] = $row;
+            }
+
+            mysqli_stmt_close($stmt);
+        }
+        return $requests;
+    }
+
+    function getRejectedRequests($email): array {
+        $requests = [];
+        
+        $query = "SELECT 
+                    A.Nome AS nome_animale, 
+                    R.Email AS email_richiedente, 
+                    R.IDanimale AS id_animale
+                FROM RICHIESTE_ADOZIONI R
+                JOIN ANIMALI A ON R.IDanimale = A.IDanimale
+                WHERE R.Stato = 'Respinta'
+                AND A.Email = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            while ($row = mysqli_fetch_assoc($result)) {
+                $requests[] = $row;
+            }
+
+            mysqli_stmt_close($stmt);
+        }
+        return $requests;
+    }
+
+}
 ?>

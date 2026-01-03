@@ -47,3 +47,79 @@
 #sponsor + .container a{
     margin-top:1em;
 }
+
+
+
+
+/* ================== TABELLE MINI ================== */
+
+/* non in mini perchè le tabelle non si vedono bene */
+
+
+
+
+table, tbody, tr {
+	border:none;
+    border-radius: 0;
+}
+
+td,th {
+	border-top:none;
+}
+
+
+th{
+	background-color: var(--darkbgcolor);
+}
+
+thead {
+	display: none;
+}
+
+tfoot th{
+	display:none;
+}
+
+tr, th, td {
+    display: block;
+}
+
+
+/* mette il th del thead nelle celle che descrivono quel contenuto*/
+/* cambio mettendo anche il titolo nella  */
+th[data-title]:before, td[data-title]:not(.presAss):before {
+    content: attr(data-title) ":\00A0";
+    font-weight: bold;
+}
+
+
+
+/* td.col-dettagli a{
+    display: inline;
+} */
+
+
+.tab-mini{
+    display: block;
+    /* width: 100%; */
+}
+
+.tab-mini button{
+    width: 100%;
+    display: block;
+}
+
+.tab-mini button.active{
+    border: 1px solid var(--txtcolor);
+    /* border: none; */
+    border-radius: 1em 1em 0em 0em ;
+    background-color: var(--darkbgcolor);
+}
+
+td.col-dettagli a{
+    margin: 0.5em 0.5em 0.5em auto;
+}
+
+
+
+

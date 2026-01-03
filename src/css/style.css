@@ -1293,6 +1293,11 @@ div#row2 article{
     max-width: 100%;
 }
 
+
+.generic-info-container label{
+    font-weight: 700;
+}
+
 #submit-edit.orange-button{
     margin: 2em 1em 0em auto;
 }
@@ -1309,12 +1314,12 @@ div#row2 article{
     color: var(--txtcolor);
     background-color: var(--darkbgcolor);
 }
-.generic-info-container ul{
+.generic-info-container ul, #other-info-container ul{
     list-style: none;
     padding: 0em;
     margin: 0em;
 }
-.generic-info-container li {
+.generic-info-container #admin-details li {
     display: flex;
     margin: 0em 1em;
 }
@@ -1363,7 +1368,8 @@ div#row2 article{
 .tab button {
   background-color: inherit;
   border: none;
-  padding: 14px 16px;
+  /* traduco in em */
+  padding: 0.9em 1em;
   transition: 0.3s;
   flex: 1; /* questo serve per far si che i tab siano grandi uguali e riempiano lo spazio*/
 }
@@ -1385,7 +1391,7 @@ div#row2 article{
 #animale-richiesta .orange-button{
     margin: 0em auto 2em 0em;
 }
-#details-container h2{
+#details-container h2, .tab h2{
     font-size: 1.2em;
     /* margin-bottom: 1em; */
     color: var(--txtcolor);
@@ -1393,10 +1399,20 @@ div#row2 article{
 
 .tabcontent {
   display: none;
-  padding: 6px 12px;
+  /* padding: 6px 12px; */
   border: 1px solid #ccc;
   border-top: none;
 } 
+
+#Richiesta ul{
+    list-style: none;
+    padding: 0em;
+}
+#Richiedente ul{
+    list-style: none;
+    padding: 0em;
+}
+
 
 #details-container{
     display: flex;
@@ -1441,6 +1457,9 @@ div#admin-area #details-container article#animale-richiesta{
     flex: 2 1 300px;
 }
 
+article#Richiesta {
+    display: block;
+}
 div#admin-area article#animale-richiesta {
      flex: 1;
     min-width: 32em;
@@ -1561,6 +1580,77 @@ div#admin-area article#stato-trasporto{
 #form-data {
     display: inline;
 }
+
+/*================= RICHIESTE DI ADOZIONE ==================*/
+
+div#admin-area .tab-richieste{
+    border: none;
+    padding: 0.5em;
+}
+
+/* 1. Tabella: Impostazioni fondamentali per il raggio */
+table {
+    border-collapse: separate; /* Permette il border-radius */
+    border-spacing: 0;        /* Elimina lo spazio tra le celle */
+    width: 100%;
+    border-radius: 15px 15px 0 0;      /* Angoli tondi della tabella */
+    overflow: hidden;         /* Taglia lo sfondo del thead sugli angoli */
+    margin-bottom: 1em;
+}
+
+/* 2. Header e Footer della tabella */
+thead, tfoot {
+    background-color: var(--darkbgcolor);
+}
+
+thead th, tfoot th, tfoot td {
+    padding: 0.5em 2em;
+    text-align: left;
+}
+
+/* Arrotondamento manuale delle celle d'angolo del thead */
+thead tr:first-child th:first-child {
+    border-top-left-radius: 15px;
+}
+
+thead tr:first-child th:last-child {
+    border-top-right-radius: 15px;
+}
+
+/* 3. Corpo della tabella (Righe e Celle) */
+tbody td, tbody th {
+    padding: 0em 2em; /* Aumentato per dare respiro */
+    text-align: left;
+    border-bottom: 1px solid var(--txtcolor);
+}
+
+/* Rimuove l'ultimo bordo per non "sporcare" la curva in basso */
+tbody tr:last-child td, 
+tbody tr:last-child th {
+    border-bottom: none;
+}
+
+/* 4. Gestione Colonne e Accessibilità */
+.col-dettagli {
+    text-align: right; /* Sostituisce il float:right per un allineamento più pulito */
+}
+
+th.col-dettagli, caption {
+    /* Nasconde alla vista ma non agli screen reader (SR-ONLY) */
+    position: absolute;
+    left: -999em;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+td.col-dettagli a{
+    margin: 0.5em;
+}
+
+
+
+
 
 
 /*================NAVIGATION HELP ==================*/
