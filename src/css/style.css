@@ -39,7 +39,7 @@ a.orange-button:hover{
 }
 
 html{
-    font-size: 80%;
+    font-size: 100%;
     line-height: 1.5em;
     font-family: "Parkinsans", Roboto, sans-serif;
     background-color: var(--bgcolor);
