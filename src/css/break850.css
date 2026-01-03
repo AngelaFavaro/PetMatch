@@ -58,17 +58,6 @@
     display: none;
 }
 
-
-
-
-/* ==================HOME==================*/
-#timeline {
-    position: relative;
-    padding: 0;
-    margin-top: 2em;
-    display: block;
-}
-
 #timeline::before {
     top: 0em; 
     bottom: 4.5em; 
@@ -80,43 +69,77 @@
     background-size: 100% 20px;
 }
 
+.number::after {
+    top:0.8em;
+}
+
+details[open] .number::after {
+    top: 1em;
+}
+
+#timeline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1.5em;
+    padding: 0;
+}
+
+#timeline::before {
+    max-height: none; 
+}
+
 #timeline li {
+    width: 90%;   
+    margin: 0 0 3em 0;
+}
+
+#timeline details, 
+.number {
     width: 100%;
-}
-
-#timeline dl, .number {
-    width: 35%; 
-    text-align: right;
-    box-sizing: border-box;
-    margin-right:50%;
-    top:-3em;
-    position: relative;
-}
-
-.circle {
-    z-index: 2;
-    margin: 0; 
+    margin: 0 ;   
+    top: 0 ;      
+    left: 0 ;
+    text-align: center;     
+    position: static; 
     justify-content: center;
+    background-color: var(--footercolor);
+}
+    
+.number {
+    margin-top:0.5em;
+    font-size: 1.3em; 
 }
 
 .popup {
-    margin: 0 0 0 10px;
-    transform: translateX(100%) translateY(-50%);
+    position: relative ;
+    top:0;
+    left:0;
+    margin:auto;
+    transform: none ;
+    opacity: 1;
+    visibility: visible ;
+    pointer-events: auto;
+    max-width:none ;
+    border-radius: 10px;
+}
+
+.popup img{
+    max-height: 100px;
+    width: auto;
+    display: block;
+    margin:auto;
 }
 
 .popup::before {
-    top: 40%;
-    left: 0;
-    transform: translateY(50%) rotate(45deg);
-    border-width: 10px 10px 10px 0;
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0 10px 10px 10px;
 }
-
-#timeline .circle:hover ~ dl .popup,
-#timeline .number:hover ~ dl .popup,
-#timeline dt:hover + .popup,
-#timeline .popup:hover {
-
-    margin-left: 0;
+              
+#timeline details[open] .popup{
+    margin-top:1.3em;
 }
 
 #section-events img.polaroid,

@@ -13,7 +13,7 @@
                 <div id="main-description">
                         <p><strong>La distanza? È solo un numero!</strong></p>
                         <p>Se hai trovato un amico a quattro zampe che ti ha conquistato, segui le semplici procedure di adozione presenti nella sezione <a href="come-funziona">Come funziona.</a></p>
-                        <p><strong>Ci occuperemo noi di organizzare l’incontro</strong>, nel modo più comodo e accoglente, così che sia speciale sia per te che per il tuo nuovo amico peloso.</p>
+                        <p><strong>Ci occuperemo noi di organizzare l’incontro</strong>, nel modo più comodo e accogliente, così che sia speciale sia per te che per il tuo nuovo amico peloso.</p>
                         <p>Non vediamo l’ora di farvi conoscere!</p>
                 </div>
                 <img src="./assets/images/pow.svg" id="paw-1" alt="" />
@@ -36,74 +36,83 @@
         </div>
     </div>
 
+
     <!-- da capire come fare per saltare la timeline -->
      <!-- TODO: sistemare la timeline anche per visualizzazione <800px (e anche ovviamente telefono) -->
     <div id = "adoption-timeline">
         <div class="container">
             <h2>COME SI ADOTTA?</h2>
-            <ol id = "timeline">
+            <ol id = "timeline" aria-label="linea temporale: processo di adozione">
                 <li>
-                    <img src="./assets/icons/circle-timeline.svg" alt="" class="circle" />
-                    <span class="number">1.</span>
-                    <dl>
-                        <dt>Scegli l'animale e registrati</dt>
-                        <dd class ="popup">
+                    <details>
+                        <summary>
+                            <img src="./assets/icons/circle-timeline.svg" alt="" class="circle" />
+                            <span class="number">1.</span>
+                            Scegli l'animale e registrati.
+                        </summary>
+                        <p class ="popup">
                             Sfoglia fra i nostri cani e i nostri gatti finché non trovi l'animale che fa per te! Dopodiché registrati per poter proseguire con il processo di adozione.
                             <img src="./assets/images/point1-home.gif" alt="" />
-                        </dd>
-                    </dl> 
+                        </p>
+                    </details>
                 </li>
 
                 <li>
-                    <img src="./assets/icons/circle-timeline.svg" alt="" class="circle" />
-                    <span class="number">2.</span>
-                    <dl>
-                        <dt>Compila il form per fare richiesta di adozione</dt>
-                        <dd class="popup">
+                <details>
+                        <summary>
+                            <img src="./assets/icons/circle-timeline.svg" alt="" class="circle" />
+                            <span class="number">2.</span>
+                            Compila il form per fare richiesta di adozione.
+                        </summary>
+                        <p class="popup">
                             Hai trovato il tuo compagno di vita ideale? Vai sul suo profilo e compila il modulo che trovi a fine pagina: non vediamo l'ora di ricontattarti per parlarne insieme.                            
                             <img src="./assets/images/point2-home.gif" alt="" />
-                        </dd>
-                    </dl>
+                        </p>
+                    </details>
                     
 
                 </li>
 
                 <li>
-                    <img src="./assets/icons/circle-timeline.svg" alt="" class="circle" />
-                    <span class="number">3.</span>
-                    <dl>
-                        <dt>Completa il percorso conoscitivo</dt>
-                        <dd class="popup">
+                    <details>
+                        <summary>
+                            <img src="./assets/icons/circle-timeline.svg" alt="" class="circle" />
+                            <span class="number">3.</span>
+                            Completa il percorso conoscitivo.
+                        </summary>
+                        <p class="popup">
                             Il nostro team organizzerà una <strong>videochiamata conoscitiva</strong>: vogliamo assicurarci che tu e il tuo nuovo amico siate perfetti l'uno per l'altra e che l'ambiente domestico sia idoneo ad accoglierlo.
                             <img src="./assets/images/point3-home.gif" alt="" />
-                        </dd>
-                    </dl>
+                        </p>
+                    </details>
                 </li>
 
                 <li>
-                    <img src="./assets/icons/circle-timeline.svg" alt="" class="circle" />
-                    <span class="number">4.</span>
-                    
-                    <dl>
-                        <dt>Richiedi il trasporto o occupatene tu</dt>
-                        <dd class="popup">
+                    <details>
+                        <summary>
+                            <img src="./assets/icons/circle-timeline.svg" alt="" class="circle" />
+                            <span class="number">4.</span>
+                            Richiedi il trasporto o occupatene tu.
+                        </summary>
+                        <p class="popup">
                             Abiti lontano e non puoi venire di persona? Nessun problema, ci pensiamo noi! Nel modulo di adozione potrai richiedere la consegna direttamente a casa tua. 
                             <img src="./assets/images/point4-home.gif" alt="" />
-                        </dd>
-                    </dl>
+                        </p>
+                    </details>
                 </li>
 
                 <li>
-                    <img src="./assets/icons/circle-timeline.svg" alt="" class="circle" />
-                    <span class="number">5.</span>
-                    
-                    <dl>
-                        <dt>Scegli se siete fatti l'uno per l'altro</dt>
-                        <dd class="popup">
+                    <details>
+                        <summary>
+                            <img src="./assets/icons/circle-timeline.svg" alt="" class="circle" />
+                            <span class="number">5.</span>
+                            Scegli se siete fatti l'uno per l'altro.
+                        </summary>
+                        <p class="popup">
                             Finalmente tu e il tuo amico a quattro zampe siete insieme! Il nostro supporto però non finisce qui: se dovessi riscontrare difficoltà nella convivenza, <strong>contattaci subito</strong>.
                             <img src="./assets/images/point5-home.gif" alt="" />
-                        </dd>
-                    </dl>
+                        </p>
+                    </details>
                 </li>
             </ol>
         </div>
@@ -121,7 +130,6 @@
             <img src="./assets/images/cover-events.jpg" class="polaroid" alt="un cane e un ragazzo seduti vicino ad un lago">
             <p>Il rifugio organizza periodicamente eventi aperti a tutti, pensati per avvicinare la comunità agli animali e al loro benessere. Sono occasioni per partecipare alla vita del rifugio, conoscere da vicino i nostri ospiti e contribuire al loro sostegno in modo piacevole e coinvolgente.</p>
             
-            <!-- <img src="./assets/images/rope.svg" id="rope" alt=""> -->
             <div id="events-list">
 
                 <div class="polaroid">
@@ -198,11 +206,11 @@
                         <legend>Compila il form, presto verrai contattato!</legend>
                         <div>
                             <label for="name">Nome e Cognome: </label>
-                            <input type="text" name="name" id="name" placeholder="Mario Rossi">
+                            <input type="text" name="name" id="name" placeholder="Mario Rossi" autocomplete="name">
                         </div>
                         <div>
                             <label for="email">Email: </label>
-                            <input type="email" name="email" id="email" placeholder="nome@esempio.com">
+                            <input type="email" name="email" id="email" placeholder="nome@esempio.com" autocomplete="email">
                         </div>
                         
                         <div id="messaggiForm-home">
@@ -210,7 +218,9 @@
                         </div>
     
                         <div>
-                        <input type="submit" id="sendForm" class="orange-button" value="Invia il Form">
+                        <button type="submit" id="sendForm" class="orange-button">
+                            Invia il Form
+                        </button>
                         </div>
                     </fieldset>
                 </form>
@@ -218,7 +228,7 @@
         </div>
     </div>
 
-    <a href = "#header-menu" class="torna-su-button">
+    <a href = "#top-page" class="torna-su-button">
         <img src="./assets/icons/torna-su.svg" class="static" alt="torna su"/>
         <img src="./assets/icons/torna-su.gif" class="active" alt=""/>
     </a>

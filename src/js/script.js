@@ -4,10 +4,11 @@ const polaroids = document.querySelectorAll('#events-list .polaroid');
 
 // const mainContent = document.querySelector('body#admin-body main');
 
-menuBtn.addEventListener('click', () => {
-    menu.classList.toggle('active');
-});
+// menuBtn.addEventListener('click', () => {
+//     menu.classList.toggle('active');
+// });
 
+//funzione per far svolazzare le polaroid quando ci si passa sorpa
 polaroids.forEach(card => {
     card.addEventListener('mouseenter', () => { //evento che scatta quando passo sopra con il mouse
 
@@ -38,5 +39,46 @@ polaroids.forEach(card => {
 
     card.addEventListener('animationend', () => { //scatta quando un animazione css con @keyframe finisce il ciclo
         card.classList.remove('is-swinging');
+    });
+});
+
+//chiude il menu da telefono se non lo si fa manualmente e si passa oltre 
+
+document.addEventListener('DOMContentLoaded', () => {
+    const themeToggle = document.getElementById('theme-toggle');
+    const menuCheckbox = document.getElementById('menu-toggle-checkbox');
+
+    if (themeToggle && menuCheckbox) {
+        
+        themeToggle.addEventListener('focus', () => {
+            menuCheckbox.checked = false;
+        });
+    }
+});
+
+//quando si passa sopra ai details della timeline, si aprono da soli. Mi serve per lasciarli chiusi quando si passa con il focus e 
+//permettere allo screen reader di leggere i titoli prima di aprirli
+document.addEventListener('DOMContentLoaded', () => {
+    
+    const detailsList = document.querySelectorAll('#timeline details');
+
+    detailsList.forEach(detail => {
+
+        if (window.innerWidth > 850 && !detail.open) { 
+            
+            detail.addEventListener('mouseenter', () => {
+                if (!detail.open) {
+                    detail.open = true;
+                }
+            });
+    
+            detail.addEventListener('mouseleave', () => {
+                if (detail.open) {
+                    detail.open = false;
+                }
+            });
+
+        }
+        
     });
 });

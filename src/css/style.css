@@ -19,6 +19,7 @@
     --headerlink: #481515;
     --secondsection: #6D7541;
     --bglink-hover:#E4D4BA;
+    --placeholder-text:#825E49;
 }
 
 a{
@@ -41,6 +42,10 @@ a:visited{
 html, body {
     max-width: 100%;
     overflow-x: hidden;
+}
+
+body{
+    padding-top:130px;
 }
 
 html{
@@ -82,7 +87,7 @@ h4{
 
 /*==================PULSANTI==================*/
 a.orange-button, a.brown-button,
-input.orange-button{
+button.orange-button{
     display: block;
     text-align: center;
     margin: auto;
@@ -95,19 +100,19 @@ input.orange-button{
 }
 
 .orange-button:hover,
-input.orange-button:hover {
+button.orange-button:hover {
     background-color: var(--buttoncolor-hover); 
     color: var(--linkcolor);
 }
 
 a.orange-button,
-input.orange-button,
+button.orange-button,
 .white-button:hover{
     background-color: var(--buttoncolor);
     color: var(--txtcolor);
 }
 
-input.orange-button{
+button.orange-button{
     cursor: pointer;
     border:none;
     font-size: 100%;
@@ -214,15 +219,20 @@ a.brown-button:visited{
     z-index: 0;
   }
 
-#timeline li {
+#timeline li summary, 
+#timeline li{
     position: relative; 
     text-align: center;
-    z-index: 1;
 
     display: flex;
     flex-direction: column;
     align-items: center;
     flex: 0 0 18%;
+}
+
+#timeline li{
+    list-style: none; 
+    z-index: 2;
 }
 
 .number{
@@ -271,17 +281,13 @@ a.brown-button:visited{
     border-color: transparent transparent var(--bgcolor) transparent;
 }
 
-#timeline .circle:hover{
+#timeline details[open] .circle{
     background-color: var(--buttoncolor);
     transform: scale(1.1);
 }
 
 /* 2. Il popup appare */
-#timeline .circle:hover ~ dl .popup,
-#timeline .number:hover ~ dl .popup,
-#timeline dt:hover + .popup,
-#timeline .popup:hover {
-    
+details[open] .popup{
     opacity: 1;
     margin-top: 0;
     pointer-events: auto; /*così si può passare sopra con il pointer senza che il popup si chiuda*/
@@ -381,26 +387,38 @@ NOTA: modificare il flex se necessario annidando la classe dentro le proprie sez
   margin: -1px;
   overflow: hidden;
   border: 0;
+  clip: rect(0, 0, 0, 0);
 }
 
 /* ================== HEADER ================== */
 
-/* checkbox da nascondere */
-#menu-toggle-checkbox,#theme-switch input {
+#menu-toggle-checkbox{
     display: none;
+}
+
+#theme-toggle:focus-visible + #theme-switch #slider{
+    transition: none;
+    outline: 2px solid black;
+    border: 1px solid white; 
+    outline-offset: 2px;
 }
 
 header {
     background-color: var(--headercolor);
     padding: 1em 0;
-    position: relative;
+    position: fixed;  
+    top: 0;
+    left: 0;         
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 header .container{
     display: flex;
 }
 
-header .container>div{
+header .container{
     display: flex;
     flex-wrap: nowrap;
     margin:auto
@@ -442,16 +460,10 @@ header a{
 }
 
 /* menu osso */
-header nav {
+#nav-osso {
     flex: 1;
     display: flex;
     justify-content: center;
-}
-
-#personal-area{
-    display: flex;
-    list-style: none;
-    gap: 0.7em; 
 }
 
 #osso {
@@ -500,17 +512,18 @@ header nav {
 
 /* ================== 3. AZIONI (Destra) ================== */
 #header-actions {
-    display: flex;
-    justify-content: flex-end;
-}
-
-#tema-preferiti-profilo {
+    align-items: center;
     display: flex;
     list-style: none;
     padding: 0;
     margin: 0;
-    align-items: center;
     gap: 0.7em;
+}
+
+#personal-area{
+    display: flex;
+    list-style: none;
+    gap: 0.7em; 
 }
 
 /* THEME-CHANGE */
@@ -556,13 +569,13 @@ header nav {
 #sun { left: 0.5em; opacity: 1; }
 #moon { right: 0.4em; opacity: 0; }
 
-input:checked + #slider { background-color: var(--headercolor); }
-input:checked + #slider::before { 
+input:checked + #theme-switch #slider { background-color: var(--headercolor); }
+input:checked + #theme-switch #slider::before { 
     transform: translateX(2em); 
     background-color: var(--headercolor);
 }
-input:checked + #slider #sun { opacity: 0; }
-input:checked + #slider #moon { opacity: 1; }
+input:checked + #theme-switch #slider #sun { opacity: 0; }
+input:checked + #theme-switch #slider #moon { opacity: 1; }
 
 /* Icona Preferiti */
 #preferiti {
@@ -723,6 +736,35 @@ footer h4 {
 
 
 /* sezione 3: timeline */
+.number::after {
+    content: '';
+    display: block;
+    position: absolute;
+    
+    left: 50%;
+    top:1em;
+    
+    width: 10px;  
+    height: 10px;
+    border-right: 2px solid var(--bgcolor); 
+    border-bottom: 2px solid var(--bgcolor);
+    border-top: 0;
+    border-left: 0;
+    
+    transform: translateX(-50%) rotate(45deg); 
+    transition: transform 0.3s ease; 
+    pointer-events: none; 
+}
+
+details[open] .number::after {
+    transform: translateX(-50%) rotate(225deg);
+    top: 1.3em;
+}
+
+details:not([open]) .popup {
+    display: none;
+}
+
 
 #adoption-timeline{
     padding:2em 0 2em 0;
@@ -752,7 +794,7 @@ footer h4 {
 }
 
 #section-events h2{
-    margin: 8% 0 1% 0;
+    margin: 2em 0 0.8em 0;
 }
 #section-events h3{
     font-weight: 400;
@@ -773,14 +815,6 @@ footer h4 {
     margin-left:3%;
 }
 
-#rope{
-    margin-top:-15%;
-    margin-left:-4%;
-    margin-bottom: -5%;
-    width: 108%;
-    pointer-events: none;
-}
-
 #events-list{
     display: flex;
     gap: 2em;
@@ -795,7 +829,7 @@ footer h4 {
     position: absolute;
     width: 140%;
     top:-33%;
-    left: -15%;
+    left: -18%;
     height: 100px;
     background-image: url('../../assets/images/rope.svg');
     background-size: 100% auto;
@@ -979,6 +1013,10 @@ label + input {
     font-size: 100%;
     background-color: var(--bgcolor);
     box-sizing: border-box; 
+}
+
+label + input::placeholder{
+    color: var(--placeholder-text);
 }
 
 label {

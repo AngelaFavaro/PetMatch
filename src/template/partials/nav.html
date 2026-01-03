@@ -1,68 +1,63 @@
 <header>
     <a class="navigationHelp" href="#content">Salta al contenuto principale</a>
 
+    
     <div class="container">
-
-        <input type="checkbox" id="menu-toggle-checkbox">
+        
         
         <nav id="header-logo" aria-label="link alla home">
             <h1>
                 <a href="./home">
-                    <img src="./assets/icons/logo.svg" id="logo" alt="PetMatch Home">
+                    <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
                     <span id="name-site">Pet<span id="not-bold">Match</span></span>
                 </a>
             </h1>
         </nav>
+        
+        <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
 
-        <div>
-            <nav aria-label="Menu principale">
-                <ul id="osso">
-                    <li><a href="./animali">Animali</a></li>
-                    <li><a href="./eventi">Eventi</a></li>
-                    <li><a href="./come-funziona">Come funziona</a></li>
-                    <li><a href="./chi-siamo">Chi siamo</a></li>
-                    <li><a href="./lavora-con-noi">Lavora con noi</a></li>
-                </ul>
-            </nav>
-    
-            <div id="header-actions">
-                <ul id="tema-preferiti-profilo">
+        <nav aria-label="Menu principale" id="nav-osso">
+            <ul id="osso">
+                <li><a href="./animali">Animali</a></li>
+                <li><a href="./eventi">Eventi</a></li>
+                <li><a href="./come-funziona">Come funziona</a></li>
+                <li><a href="./chi-siamo">Chi siamo</a></li>
+                <li><a href="./lavora-con-noi">Lavora con noi</a></li>
+            </ul>
+        </nav>
+        
+        <div id="header-actions">
+            <input type="checkbox" id="theme-toggle" class="sr-only">
+            <label for="theme-toggle" id="theme-switch" aria-label="Cambia tema">
+                <span id="slider">
+                    <img src="./assets/icons/sun.svg" id="sun" alt=""/>
+                    <img src="./assets/icons/moon.svg" id="moon" alt=""/>
+                </span>
+            </label>
+
+            <nav aria-label="Area personale">
+                <ul id="personal-area">
                     <li>
-                        <label id="theme-switch" aria-label="Cambia tema">
-                            <input type="checkbox" id="theme-toggle">
-                            <span id="slider">
-                                <img src="./assets/icons/sun.svg" id="sun" alt="giorno"/>
-                                <img src="./assets/icons/moon.svg" id="moon" alt="notte"/>
-                            </span>
-                        </label>
+                        <a href="./preferiti" id="preferiti" aria-label="Preferiti">
+                            <img src="./assets/icons/heart-normal.svg" id="heart-normal" alt="" />
+                            <img src="./assets/icons/heart-hover.svg" id="heart-hover" alt="" />
+                        </a>
                     </li>
                     
                     <li>
-                        <nav aria-label="Area personale">
-                            <ul id="personal-area">
-                                <li>
-                                    <a href="./preferiti" id="preferiti" aria-label="Preferiti">
-                                        <img src="./assets/icons/heart-normal.svg" id="heart-normal" alt="preferiti" />
-                                        <img src="./assets/icons/heart-hover.svg" id="heart-hover" alt="" />
-                                    </a>
-                                </li>
-                                
-                                <li>
-                                    <a class="white-button" href="./accedi">
-                                        <span id="text-accedi">Accedi</span>
-                                        <img src="./assets/icons/account-normal.svg" id="account-normal" alt="accedi" />
-                                        <img src="./assets/icons/account-hover.svg" id="account-hover" alt="" />
-                                    </a>
-                                </li>
-                            </ul> 
-                        </nav>
+                        <a class="white-button" href="./accedi">
+                            <span id="text-accedi">Accedi</span>
+                            <img src="./assets/icons/account-normal.svg" id="account-normal" alt="" />
+                            <img src="./assets/icons/account-hover.svg" id="account-hover" alt="" />
+                        </a>
                     </li>
-                    <li class="mobile-toggle-container">
-                        <label for="menu-toggle-checkbox" class="menu-toggle" aria-label="Apri il menù">
-                        </label>
-                    </li>
-                </ul>
-            </div>
+
+                </ul> 
+            </nav>
+            
+            <label for="menu-toggle-checkbox" id="menu-toggle" aria-label="Apri il menù">
+            </label>
+
         </div>
 
     </div>
