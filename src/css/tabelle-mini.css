@@ -31,6 +31,7 @@ tr, th, td {
 
 
 /* mette il th del thead nelle celle che descrivono quel contenuto*/
+/* cambio mettendo anche il titolo nella  */
 th[data-title]:before, td[data-title]:not(.presAss):before {
     content: attr(data-title) ":\00A0";
     font-weight: bold;
@@ -38,9 +39,9 @@ th[data-title]:before, td[data-title]:not(.presAss):before {
 
 
 
-td.col-dettagli button{
+/* td.col-dettagli a{
     display: inline;
-}
+} */
 
 
 .tab-mini{
@@ -58,6 +59,10 @@ td.col-dettagli button{
     /* border: none; */
     border-radius: 1em 1em 0em 0em ;
     background-color: var(--darkbgcolor);
+}
+
+td.col-dettagli a{
+    margin: 0.5em 0.5em 0.5em auto;
 }
 
 

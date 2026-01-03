@@ -39,7 +39,7 @@ a.orange-button:hover{
 }
 
 html{
-    font-size: 100%;
+    font-size: 80%;
     line-height: 1.5em;
     font-family: "Parkinsans", Roboto, sans-serif;
     background-color: var(--bgcolor);
@@ -712,7 +712,7 @@ th.col-dettagli, caption {
     overflow: hidden;
 }
 
-td.col-dettagli button{
+td.col-dettagli a{
     margin: 0.5em;
 }
 
