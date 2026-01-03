@@ -82,7 +82,7 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
             
             // In questa versione, anche il link corrente rimane cliccabile 
             // come nel tuo esempio HTML ( <li id="currentLink"><a href="...">...</a></li> )
-            $html .= "<li$active><a href=\"{$item['href']}\">{$item['text']}</a></li>";
+            $html .= '<li'.$active.'><a href="'.$item['href'].'">'.$item['text'].'</a></li>';
         }
         $html .= '</ul>';
     }
