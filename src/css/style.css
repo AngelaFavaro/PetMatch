@@ -20,6 +20,7 @@
     --secondsection: #6D7541;
     --bglink-hover:#E4D4BA;
     --placeholder-text:#825E49;
+    --darkbgcolor: #E4D4BA;
 }
 
 a{
@@ -30,6 +31,15 @@ a{
 a:visited{
     color: var(--visitedcolor);
 }
+
+a.orange-button:visited{
+    color: var(--txtcolor);
+}
+
+a.orange-button:hover{
+    color: var(--linkcolor);
+}
+
 
 .container{
     max-width: 1200px;
@@ -93,7 +103,7 @@ button.orange-button{
     margin: auto;
     width: fit-content;
     padding: 0.7em 1.5em;
-    border-radius: 2em;
+    border-radius: 1em;
     font-weight: 600;
     text-decoration: none;
     transition: background-color 0.6s ease;
@@ -380,14 +390,15 @@ NOTA: modificare il flex se necessario annidando la classe dentro le proprie sez
 
 /* Gli elementi con questa classe sono visibili solo agli screen reader */
 .sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  border: 0;
-  clip: rect(0, 0, 0, 0);
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
 }
 
 /* ================== HEADER ================== */
@@ -510,7 +521,7 @@ header a{
     text-decoration: underline;
 }
 
-/* ================== 3. AZIONI (Destra) ================== */
+/* ================== 3. azioni (Destra) ================== */
 #header-actions {
     align-items: center;
     display: flex;
@@ -1118,16 +1129,20 @@ div#admin-area article h2{
 }
 
 div#admin-area{
-    padding: 6em;
+    padding: 3em 6em;
 }
 
 div#admin-area article {
-  padding:2em 1em 0em 1em;
+  padding:1em 1em 1em 1em;
   border: 1px solid var(--txtcolor);
-  border-radius:1.5em;
+  border-radius:1em;
   margin: 2em 0em;
 }
 
+
+div#admin-area article#query, div#admin-area article#row2-container{
+    padding: 2em 2em 0em 2em;
+}
 /* stesso pattern usato per le section del footer*/
 ul#to-do-list, ul#statistics-list {
     margin: 0 -10px;
@@ -1155,8 +1170,8 @@ ul#statistics-list li{
     border: 1px solid var(--txtcolor);
 }
 #to-do-list a, #statistics-list a{
-   width:100%; /*riempie tutto il li*/
-   color: var(--txtcolor);
+    width:100%; /*riempie tutto il li*/
+    color: var(--txtcolor);
     text-decoration: none;
 }
 
@@ -1198,6 +1213,10 @@ main#content{
     padding-top:2em;
 }
 
+main.c404#content{
+   min-height:  80vh;
+
+}
 
 
 nav#menu-admin img {
@@ -1258,27 +1277,291 @@ div#row2 article{
     float: left;
 }
 
-.header-info img{
+.header-info button.btn-edit {
     float: right;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
-#info-container {
+.generic-info-container {
     display: flex;
     flex-wrap: wrap;
 }
+
+.generic-info-container form{
+    max-width: 100%;
+}
+
+#submit-edit.orange-button{
+    margin: 2em 1em 0em auto;
+}
+#submit-edit.orange-button[hidden] {
+    display: none;
+}
+
+
+.generic-info-container input {
+    width: 100%;
+    margin-left:  0.5em;
+    font-family: 'Parkinsans', Roboto, sans-serif;
+    font-size: 1em;
+    color: var(--txtcolor);
+    background-color: var(--darkbgcolor);
+}
+.generic-info-container ul{
+    list-style: none;
+    padding: 0em;
+    margin: 0em;
+}
+.generic-info-container li {
+    display: flex;
+    margin: 0em 1em;
+}
+
+.generic-info-container input[readonly] {
+    background: none;
+    border: none;
+}
+
+
 
 .circle-foto {
     width: 9em;
     height: 9em;
     object-fit: cover;
     clip-path: circle(50%);
+    margin-bottom: 2em;
 }
+
+.square-foto {
+    width: 9em;
+    height: 9em;
+    object-fit: cover;
+    /* clip-path: square(50%); */
+}
+
 .text-details{
     margin: auto 2em;
 }
-.header-info, #info-container{
+
+.text-details ul{
+    list-style: none;
+    padding: 0;
+}
+.header-info, .generic-info-container{
     margin-bottom: 1em;
 }
+
+
+/*================= DETTAGLI RICHIESTE DI ADOZIONE ==================*/
+.tab {
+    overflow: hidden;
+    display: flex;
+}
+
+.tab button {
+  background-color: inherit;
+  border: none;
+  padding: 14px 16px;
+  transition: 0.3s;
+  flex: 1; /* questo serve per far si che i tab siano grandi uguali e riempiano lo spazio*/
+}
+
+.tab button.active {
+    padding-bottom: 0.3em;
+    border: 1px solid var(--txtcolor);
+    border-bottom: none;
+}
+
+.tab button {
+   border-bottom: 1px solid var(--txtcolor);
+}
+
+.tabcontent#Richiedente .orange-button{
+    margin: 0em 0em 0em auto;
+}
+
+#animale-richiesta .orange-button{
+    margin: 0em auto 2em 0em;
+}
+#details-container h2{
+    font-size: 1.2em;
+    /* margin-bottom: 1em; */
+    color: var(--txtcolor);
+}
+
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+} 
+
+#details-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+    align-items: flex-start;
+}
+
+p#altre-richieste{
+    text-align: center;
+}
+
+
+/* todo mamma mia linor, modifica sta roba che diventa illeggibile (devi
+modificare div#admin-area article che è più specifico di #details-container article quindi hai dovuto scriverlo così) */
+div#admin-area #details-container article{
+    flex: 1 1 200px;
+    gap: 1em;
+    margin: 0em;
+    border-radius: 0em;
+    border-top: none;
+}
+
+div#admin-area #details-container article#animale-richiesta{
+    margin: 0em;
+    border-radius: 1em;
+    border-bottom-left-radius: 0em;
+    border-bottom-right-radius: 0em;
+    border-top: 1px solid var(--txtcolor);
+    width: 100%;
+}
+
+#details-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6em;
+    align-items: flex-start;
+    margin: 2em 0em;
+}
+
+.tabs-container {
+    flex: 2 1 300px;
+}
+
+div#admin-area article#animale-richiesta {
+     flex: 1;
+    min-width: 32em;
+    border: 1px solid var(--txtcolor);
+    border-radius: 20px;
+    padding: 20px;
+    width: 100%;
+}
+
+div#admin-area div#animal-container{
+    flex: 1 1 250px;
+    /* min-width: 250px; */
+    max-width: 100%;
+}
+
+div#admin-area article#stato-trasporto{
+    background-color: var(--darkbgcolor);
+    width: 55%;
+    padding: 1em 1em;
+    margin: auto auto 0em 0em;
+} 
+
+#top-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#stato-trasporto p{
+    padding-top: 0.7em;
+    float: left;
+    margin-right: 2em;
+}
+#stato-trasporto a{
+    float: right;
+}
+#top-container a.orange-button, #top-container form{
+    margin: auto 0em 0em auto;
+}
+
+#bottom-container form{
+    margin: auto 0em 0em auto;
+}
+
+.note{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 55%;
+}
+/* .header-note{
+    gap: 1em;
+} */
+.header-note h2{
+    float: left;
+    font-size: 1.3em;
+}
+.header-note a{
+    float: right;
+}
+
+#bottom-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+
+}
+
+
+.note p.editing {
+    padding: 0.5rem;
+    background-color: var(--darkbgcolor);
+}
+
+/* Nasconde i form quando hanno la classe .hidden */
+#form-data.hidden, 
+#form-note.hidden,
+#data-text.hidden,
+#note-text.hidden {
+    display: none;
+}
+
+/* Quando il form della data è attivo, sta in linea con il testo */
+#form-data {
+    display: inline;
+}
+
+/* Il form delle note lo facciamo apparire come un blocco sotto il titolo */
+#form-note {
+    display: block;
+    margin-top: 0.5rem;
+}
+
+/* --- Stile Input e Textarea --- */
+
+#input-note {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: var(--darkbgcolor);
+    border: 1px solid var(--bordercolor, #ccc);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical; /* Permette all'utente di allungare l'area */
+}
+.orange-button.respinta {
+    background-color: var(--darkbgcolor);
+    border: none;
+    cursor: not-allowed;
+}
+
+
+/* Quando il form ha la classe .hidden, sparisce */
+#stato-trasporto .hidden {
+    display: none;
+}
+
+/* Quando il form NON ha .hidden, deve stare sulla stessa riga del testo */
+#form-data {
+    display: inline;
+}
+
 
 /*================NAVIGATION HELP ==================*/
 
@@ -1316,7 +1599,7 @@ nav#breadcrumb{
     background-color: var(--footercolor);
     color: var(--bgcolor);
     padding: 0.7em 1.5em;
-    border-radius: 2em;
+    border-radius: 1em;
     font-weight: 400;
     position: relative;
     z-index: 10;

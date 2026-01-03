@@ -145,44 +145,6 @@ input:checked + #slider {
 }
 
 
-/* ================== NAV ADMIN ==================*/
-    
-nav#menu-admin {
-    padding-top:0em;
-    float: none;
-    width: 100%;
-    position: relative;
-    left: 0;
-    max-height: 0;
-    overflow: hidden;
-    background-color: transparent; 
-    /* transition: max-height 0.3s ease, background-color 0.3s ease; */
-    z-index: 1000;
-    visibility: hidden;
-}
-
-#menu-admin.active {
-    max-height: 100vh;
-    background-color: var(--footercolor); /*così lo sfondo appare solo quando apri il menu */
-    visibility: visible;
-}
-
-body#admin-body main {
-    margin-left: 0;
-    /* transition: margin-top 0.3s ease; */
-}
-
-#personal-area,
-#tema-preferiti-profilo {
-    gap: 1em;
-}
-
-nav#menu-admin img {
-    width: 20em;
-    max-width: 100%;
-    height: auto;
-}
-
 /* ================== HOME ==================*/
 #second-chapter-home img ,#cat-decorator {
     display: none;
@@ -235,12 +197,104 @@ nav#menu-admin img {
     width: 140px; 
 }
 
-
-
-
-
-
 #timeline summary::-webkit-details-marker {
     display: none;
 }
 
+
+
+/* ================== NAV ADMIN ==================*/
+    
+nav#menu-admin {
+    padding-top:0em;
+    float: none;
+    width: 100%;
+    position: relative;
+    left: 0;
+    max-height: 0;
+    overflow: hidden;
+    background-color: transparent; 
+    /* transition: max-height 0.3s ease, background-color 0.3s ease; */
+    z-index: 1000;
+    visibility: hidden;
+}
+
+#menu-admin.active {
+    max-height: 100vh;
+
+    background-color: var(--footercolor); /*così lo sfondo appare solo quando apri il menu */
+    visibility: visible;
+}
+
+body#admin-body main {
+    margin-left: 0;
+    /* transition: margin-top 0.3s ease; */
+}
+
+div#admin-area {
+    padding: 1em;
+}
+.menu-toggle {
+    display: block;
+    font-size: 2em;
+    background: none;
+    border: none;
+    cursor: pointer;
+        color: var(--bgcolor);
+    padding: 0.5em 1em 0em 1em;
+}
+
+nav#menu-admin img {
+    width: 10em;
+    max-width: 100%;
+    height: auto;
+}
+
+div#admin-area article#animale-richiesta {
+    min-width: 100%;
+}
+
+div#admin-area div#animal-container {
+    max-width: 100%;
+    width: 100%;
+}
+
+div#admin-area article#stato-trasporto {
+    width: 100%;
+}
+.note{
+    width: 100%;
+}
+
+h1{
+    font-size: 2em;
+}
+
+nav#breadcrumb {
+    padding: 0.5em 1em;
+    margin: 1em;
+}
+
+
+#error-title {
+    font-size: 7em;
+}
+
+#error-message {
+    width: 85%;
+    margin: 1em auto;
+    text-align: left;
+}
+
+#error-message h2{
+    font-size: 1.5em;
+}
+
+#error-message h3{
+    font-size: 1.2em;
+}
+
+#error-info{
+    width: 70%;
+    margin: 0 auto;
+}
