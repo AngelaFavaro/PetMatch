@@ -9,7 +9,7 @@ $title = '<title>Home - PetMatch </title>';
 $description = '<meta name="description" content="Home di PetMatch">';
 $keywords = "";
 
-$nav = file_get_contents('./src/template/partials/nav.html');
+$nav = buildUserNav($userMenu, './home');
 
 $footer = file_get_contents('./src/template/partials/footer.html');
 

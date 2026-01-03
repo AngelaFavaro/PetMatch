@@ -44,6 +44,15 @@ $adminMenu = [
     ]
 ];
 
+$userMenu = [
+    ['href' => './home', 'text' => 'Home'],
+    ['href' => './animali', 'text' => 'Animali'],
+    ['href' => './eventi', 'text' => 'Eventi'],
+    ['href' => './come-funziona', 'text' => 'Come funziona'],
+    ['href' => './chi-siamo', 'text' => 'Chi siamo'],
+    ['href' => './lavora-con-noi', 'text' => 'Lavora con noi'],
+];
+
 
 /**
  * Carica un file e ritorna un fallback in caso di errore
@@ -94,6 +103,91 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
 
     return $html;
 }
+
+
+/**
+ * Genera la nav menù utente dinamicamente
+ */
+function buildUserNav(array $items, string $currentHref): string {
+    // 1. Parte INIZIALE fissa (Skip link, Logo, Checkbox mobile)
+    
+    $homeHref = './home';
+    $logoAttributes = ($currentHref === $homeHref)? ' id="currentLink"' : '';
+
+    $html = '
+    <header>
+        <a class="navigationHelp" href="#content">Salta al contenuto principale</a>
+        
+        <div class="container">
+            
+            <nav id="header-logo" aria-label="link alla home">
+                <h1>
+                    <a href="' . $homeHref . '"' . $logoAttributes . '>
+                        <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
+                        <span id="name-site">Pet<span id="not-bold">Match</span></span>
+                    </a>
+                </h1>
+            </nav>
+            
+            <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
+
+            <nav aria-label="Menu principale" id="nav-osso">
+                <ul id="osso">';
+
+    // 2. parte dinamica: ciclo gli items passati come argomento
+    foreach ($items as $item) {
+        if($item['href'] !== './home') {
+            // Controllo se è la pagina corrente
+            // Se l'href corrente corrisponde, aggiungo l'ID active
+            $isActive = ($item['href'] === $currentHref) ? ' id="currentLink" ' : '';
+            
+            $html .= '<li' . $isActive . '><a href="' . $item['href'] . '">' . $item['text'] . '</a></li>';
+        }
+    }
+
+    // 3. Parte finale fissa (Chiusura nav, Azioni header: Tema, Preferiti, Login, Hamburger)
+    $html .= '
+                </ul>
+            </nav>
+            
+            <div id="header-actions">
+                <input type="checkbox" id="theme-toggle" class="sr-only">
+                <label for="theme-toggle" id="theme-switch" aria-label="Cambia tema">
+                    <span id="slider">
+                        <img src="./assets/icons/sun.svg" id="sun" alt=""/>
+                        <img src="./assets/icons/moon.svg" id="moon" alt=""/>
+                    </span>
+                </label>
+
+                <nav aria-label="Area personale">
+                    <ul id="personal-area">
+                        <li>
+                            <a href="./preferiti" id="preferiti" aria-label="Preferiti">
+                                <img src="./assets/icons/heart-normal.svg" id="heart-normal" alt="" />
+                                <img src="./assets/icons/heart-hover.svg" id="heart-hover" alt="" />
+                            </a>
+                        </li>
+                        
+                        <li>
+                            <a class="white-button" href="./accedi">
+                                <span id="text-accedi">Accedi</span>
+                                <img src="./assets/icons/account-normal.svg" id="account-normal" alt="" />
+                                <img src="./assets/icons/account-hover.svg" id="account-hover" alt="" />
+                            </a>
+                        </li>
+                    </ul> 
+                </nav>
+                
+                <label for="menu-toggle-checkbox" id="menu-toggle" aria-label="Apri il menù">
+                </label>
+
+            </div>
+        </div>
+    </header>';
+
+    return $html;
+}
+
 
 function getBreadcrumb($currentPageKey, $pagine) {
     if (!isset($pagine[$currentPageKey])) {
