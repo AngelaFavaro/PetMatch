@@ -970,10 +970,6 @@ details:not([open]) .popup {
     margin-top: 5em;
 }
 
-#content-affidamento{
-    padding-bottom: 5em;
-}
-
 #content-affidamento p{
     margin-top:0.5em;
 }
@@ -983,23 +979,24 @@ details:not([open]) .popup {
 }
 
 #affidamento-home #content-affidamento {
-    flex: 1 0 40%;
+    flex: 1 0 30%;
     margin-left: 2%;
+    padding-bottom: 5em;
 }
 
 #affidamento-home .column-container {
     justify-content: center;
-    align-items: flex-start;
     padding-top: 2em;
 }
 
 #form-affidamento {
     background-color: var(--bgcolor);
     color: var(--txtcolor);
-    margin:2em 2em 0.1em 2em;
+    margin:3em auto 0.1em auto;
     padding: 0em 2em;
-    flex: 1 0 40%;
+    display: block;
     border-radius: 2.1em;
+    max-width: 541px;
 }
 
 fieldset {
@@ -1010,12 +1007,15 @@ fieldset {
 }
 
 #container-form-affidamento{
+    display: flex;
+    align-items: center;
+    flex:1 0 65%;
     padding: 9em 2.5em 0em 2.5em;
     background-image: url('../../assets/images/house-form.svg');
     background-repeat: no-repeat;
     background-size: 100% 100%;
     overflow: visible;
-    margin-top:-6em;
+    margin: -6em auto 0 auto;
 }
 
 legend {
@@ -1056,78 +1056,8 @@ label {
 }
 
 #messaggiForm-home {
-    text-align: center;
+    padding: 0 2em;
 }
-/* #affidamento-home #content-affidamento{
-    flex: 1 0 40%;
-    margin-left:2%;
-    max-width: 800px;
-}
-
-#affidamento-home .column-container{
-    justify-content: center;
-} */
-
-/* #form-affidamento{
-    background-color: var(--bgcolor);
-    color: var(--txtcolor);
-    padding: 0 3em 1.5em 3em;
-    margin: 0 6% 0 10.5%;
-    flex: 1 0 40%;
-    position: relative;
-    max-width: 400px; 
-
-} 
-
-/* #form-affidamento::before{
-    content: '';
-    background-image: url('../../assets/images/house-form.svg');
-    background-repeat: no-repeat;
-    background-size: 100% auto;
-    background-position:bottom;
-    position: absolute;
-    width: 500px;
-    height: 500px;
-    bottom: 0px;
-    left: -60px;
-    z-index: 0;
-} */
-
-/* fieldset{
-    border:none;
-    min-width: 0;
-    padding: 0;
-    margin: 0;
-    position: relative;
-    z-index: 1;
-} */
-/*
-legend{
-    font-weight: 500;
-    text-align: center;
-    padding-bottom: 1.5em;
-    font-size: 1.1em;
-}
-
-label + input{
-    border-radius: 5em;
-    padding: 0.5em 1em 0.5em 1em;
-    margin: 0.2em 0 1.3em 0;
-    width: 100%;
-    border:1px solid var(--headercolor);
-    color:var(--txtcolor);
-    font-size: 100%;
-    background-color: var(--bgcolor);
-}
-
-label{
-    font-size: 95%;
-}
-
-#form-affidamento .orange-button{
-    width: 100%;
-    margin: 1.5em 0 1em 0;
-} */
 
 /* ================== =========== PAGINE ADMIN================== ============*/
 

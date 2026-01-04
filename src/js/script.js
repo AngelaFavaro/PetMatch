@@ -82,6 +82,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
     });
 });
+
+//al ricaricamento della pagina mi blocca lo scrool smooth per permettermi di tornare al form appena inviato istantaneamente
+document.documentElement.style.scrollBehavior = 'auto';
+setTimeout(function() { document.documentElement.style.scrollBehavior = 'smooth'; }, 500);
+
 /* ==========================================================================
    FUNZIONI GLOBALI (Sempre disponibili)
    ========================================================================== */

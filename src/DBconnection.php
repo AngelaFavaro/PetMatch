@@ -649,5 +649,23 @@ class DBAccess {
         return $requests;
     }
 
+    public function insertReportForm(string $name, string $email): bool {
+        if (!$this->connection){
+            return false;
+        }
+
+        $query = "INSERT INTO SEGNALAZIONI_NUOVE_ACCOGLIENZE (NominativoRichiedente, EmailRichiedente) VALUES (?, ?)";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 'ss', $name, $email);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
+
 }
 ?>
