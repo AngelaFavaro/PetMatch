@@ -33,7 +33,7 @@ $pagine = [
         'parent' => 'richieste-adozione'
     ],
     'lavora-con-noi' => [
-        'file' => __DIR__ . '/src/php/lavora-con-noi.php',
+        //'file' => __DIR__ . '/src/php/lavora-con-noi.php',
         'label' => 'Lavora con Noi',
         'url' => './lavora-con-noi',
         'parent' => 'home'

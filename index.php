@@ -15,7 +15,7 @@ $routes = [
     'dettagli-richiesta' => [
         'file' => __DIR__ . '/src/php/admin/dettagli-richiesta.php'
     ],
-     'lavora-con-noi' => [
+    'lavora-con-noi' => [
         'file' => __DIR__ . '/src/php/lavora-con-noi.php'
     ],
     /* decommentare quando si vogliono aggiungere le altre pagine

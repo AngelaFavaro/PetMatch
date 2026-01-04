@@ -13,6 +13,7 @@
     --footercolor: #481515;
     --visitedcolor: #EA654C;
     --darkbgcolor: #E4D4BA;
+    --greencolor: #6D7541;
 }
 
 a{
@@ -141,11 +142,107 @@ a.orange-button{
 
 /* ==================LAVORA CON NOI ================== */
 
-#introduction-lavora-con-noi .column-user {
-    flex: 1 1 60%;
-    box-sizing: border-box;
+body {
+    margin: 0;
+    overflow-x: hidden;
 }
 
+#introduction-lavora-con-noi .container {
+    display: flex;
+    gap: 7%;
+    padding: 5em;
+}
+#introduction-lavora-con-noi .column-user {
+    flex: 1; 
+}
+#introduction-lavora-con-noi h1 {
+    margin-bottom: 0.5em;
+    font-size: 2.3em;
+}
+.underline {
+    text-decoration: underline;
+}
+
+#come-diventare-volontario {
+    background-color: var(--greencolor); 
+    color: var(--bgcolor);                       
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+}
+
+#come-diventare-volontario .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5em;
+}
+
+#come-diventare-volontario h2 {
+    margin-bottom: 1em;
+    font-size: 2.1em;
+}
+
+.volontari-layout {
+    display: flex;
+    gap: 3em;
+}
+
+.volontari-text {
+    flex: 1.7;
+}
+
+.volontari-image {
+    flex: 0.4;
+    background-image: url("../../assets/images/cane.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#come-diventare-sostenitore {
+    margin-top: 5em;
+    background-color: var(--footercolor); 
+    color: var(--bgcolor);        
+    border-top-right-radius: 5em;
+    border-top-left-radius: 5em;               
+}
+
+#come-diventare-sostenitore .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5em;
+}
+
+.sostenitori-layout {
+    display: flex;
+    align-items: center;
+    gap: 3em;
+}
+
+.sostenitori-text {
+    flex: 1.7;
+}
+
+.sostenitori-image {
+    flex: 0.7;
+    background-image: url("../../assets/images/sostenitore.jpg");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    aspect-ratio: 1 / 1;
+     
+}
+
+#contatto-sostenitore .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5em;
+}
+
+#contatto-sostenitore a {
+    color: var(--txtcolor);
+    text-decoration: underline;
+}
 /* ==================SOLO PER SCREEN READER================== */
 
 /* Gli elementi con questa classe sono visibili solo agli screen reader */
