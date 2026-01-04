@@ -142,7 +142,7 @@ a.orange-button{
 
 /* ==================LAVORA CON NOI ================== */
 
-body {
+body#lavora-con-noi {
     margin: 0;
     overflow-x: hidden;
 }
@@ -198,11 +198,18 @@ body {
 
 #come-diventare-sostenitore {
     margin-top: 5em;
+    margin-left: 5em;
+    margin-right: 5em;
     background-color: var(--footercolor); 
     color: var(--bgcolor);        
     border-top-right-radius: 5em;
     border-top-left-radius: 5em;     
     padding: 5em;
+}
+
+#come-diventare-sostenitore h1 {
+    margin-bottom: 1em;
+    font-size: 2.1em;
 }
 
 .sostenitori-layout {

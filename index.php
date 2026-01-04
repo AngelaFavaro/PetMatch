@@ -10,7 +10,6 @@ $routes = [
     ],
     'area-riservata' => [
         'file' => __DIR__ . '/src/php/admin/area-riservata.php'
-        //qui penso che servano altri parametri ma al momento sto facendo la pagina statica -linor
     ],
     'dettagli-richiesta' => [
         'file' => __DIR__ . '/src/php/admin/dettagli-richiesta.php'
