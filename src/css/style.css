@@ -147,10 +147,12 @@ body {
     overflow-x: hidden;
 }
 
+#introduction-lavora-con-noi {
+    padding: 5em 0em;
+}
 #introduction-lavora-con-noi .container {
     display: flex;
     gap: 7%;
-    padding: 5em;
 }
 #introduction-lavora-con-noi .column-user {
     flex: 1; 
@@ -169,11 +171,6 @@ body {
     width: 100vw;
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
-}
-
-#come-diventare-volontario .container {
-    max-width: 1200px;
-    margin: 0 auto;
     padding: 5em;
 }
 
@@ -204,12 +201,7 @@ body {
     background-color: var(--footercolor); 
     color: var(--bgcolor);        
     border-top-right-radius: 5em;
-    border-top-left-radius: 5em;               
-}
-
-#come-diventare-sostenitore .container {
-    max-width: 1200px;
-    margin: 0 auto;
+    border-top-left-radius: 5em;     
     padding: 5em;
 }
 
@@ -233,9 +225,7 @@ body {
      
 }
 
-#contatto-sostenitore .container {
-    max-width: 1200px;
-    margin: 0 auto;
+#contatto-sostenitore {
     padding: 5em;
 }
 
