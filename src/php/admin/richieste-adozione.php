@@ -116,15 +116,16 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     }
 
 
-    $connessione = new DBAccess();
-    $connessioneOK = $connessione->openDBConnection();
-
     $tbody_nuove_richieste = "";
     $tbody_in_valutazione_richieste = "";
     $tbody_da_trasportare_richieste = "";
     $tbody_annullate_richieste = "";
     $tbody_respinte_richieste = "";
     $NRequestsByStatus = [];
+    
+    $connessione = new DBAccess();
+    $connessioneOK = $connessione->openDBConnection();
+    
     if ($connessioneOK) {
         $richiesta = $connessione->getRequestDetails($email, $idAnimale);
 
