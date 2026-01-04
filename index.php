@@ -24,15 +24,12 @@ $routes = [
     ]
     // 'animali' => [
     //     'file' => __DIR__ . '/src/php/animali.php',
-    //     'params' => ['tipo' => 'tutti']
     // ],
     // 'animali/cani' => [
     //     'file' => __DIR__ . '/src/php/animali.php',
-    //     'params' => ['tipo' => 'cane']
     // ],
     // 'animali/gatti' => [
     //     'file' => __DIR__ . '/src/php/animali.php',
-    //     'params' => ['tipo' => 'gatto']
     // ]
 ];
 
