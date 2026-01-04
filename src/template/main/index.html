@@ -200,16 +200,16 @@
                 <p>Dubbi o problemi? valuta di <a href="mailto:matchpet48@gmail.com" target="_blank">contattarci</a></p>
             </div>
             <span id="container-form-affidamento">
-                <form method="post" action="home" id="form-affidamento">
+                <form method="post" action="#affidamento-home" id="form-affidamento" novalidate>
                     <fieldset>
                         <legend>Compila il form, presto verrai contattato!</legend>
                         <div>
                             <label for="name">Nome e Cognome: </label>
-                            <input type="text" name="name" id="name" placeholder="Mario Rossi" autocomplete="name">
+                            <input type="text" name="name-surname" id="name" placeholder="Mario Rossi" autocomplete="name" value="[nameValue]">
                         </div>
                         <div>
                             <label for="email">Email: </label>
-                            <input type="email" name="email" id="email" placeholder="nome@esempio.com" autocomplete="email">
+                            <input type="email" name="email" id="email" placeholder="email@esempio.com" autocomplete="email" value="[emailValue]">
                         </div>
                         
                         <div id="messaggiForm-home">
@@ -217,9 +217,9 @@
                         </div>
     
                         <div>
-                        <button type="submit" id="sendForm" class="orange-button">
-                            Invia il Form
-                        </button>
+                            <button type="submit" name="submit-report-form" id="sendForm" class="orange-button">
+                                Invia il Form
+                            </button>
                         </div>
                     </fieldset>
                 </form>
