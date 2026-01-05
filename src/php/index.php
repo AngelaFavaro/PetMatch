@@ -13,7 +13,7 @@ function sendReportForm(DBAccess $conn, &$nameValue, &$emailValue){
 
 	if (isset($_SESSION['form_status']) && $_SESSION['form_status'] === 'ok') {
         
-        $message = "<p class='success'>Segnalazione inviata con successo! Ti contatteremo presto.</p>";
+        $message = "<p class='success-form'>Segnalazione inviata con successo! Ti contatteremo presto.</p>";
         
         $nameValue = '';
         $emailValue = '';
@@ -25,7 +25,7 @@ function sendReportForm(DBAccess $conn, &$nameValue, &$emailValue){
         
         $message = "<div class='error-container'>";
         $message .= "<p><strong>Errori nel modulo di segnalazione:</strong></p>";
-        $message .= "<ul class='error'>";
+        $message .= "<ul class='error-form'>";
         
         foreach ($showErrors as $err) {
             $message .= "<li>$err</li>";
@@ -57,7 +57,7 @@ function sendReportForm(DBAccess $conn, &$nameValue, &$emailValue){
 
         $errors = [];
 
-        $regexNome = "/^[\p{L}\s']+$/u";
+        $regexNome = "/^(?=.*[\p{L}]{2})[\p{L}\s']+$/u"; 
         $regexEmail = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,10})$/i";
 
 		$words = array_filter(explode(' ', $name));
@@ -65,16 +65,13 @@ function sendReportForm(DBAccess $conn, &$nameValue, &$emailValue){
         if (count($words) < 2) {
             $errors[] = "Inserisci sia il nome che il cognome.";
         }
-        if (!preg_match($regexNome, $name)) {
-            $errors[] = "Il nome contiene caratteri non validi (sono ammessi solo lettere e apostrofi).";
-        }
-		if(count($words)>=2 && (strlen($words[0])<2 || strlen($words[1])<2)){
-			$errors[] = "Il nome e/o il cognome è troppo corto.";
-		}
 
-        if (!preg_match($regexNome, $name)) {
-            $errors[] = "Nome e cognome non validi.";
+		if(count($words)>=2 && (strlen($words[0])<2 || strlen($words[1])<2)){
+            $errors[] = "Il nome e/o il cognome è troppo corto.";
+		}else if(!preg_match($regexNome, $name)){
+            $errors[] = "Il nome e/o il cognome contiene caratteri non validi (sono ammessi solo lettere e apostrofi).";
         }
+
         if (!preg_match($regexEmail, $email)) {
             $errors[] = "Email non valida.";
         }
@@ -90,7 +87,7 @@ function sendReportForm(DBAccess $conn, &$nameValue, &$emailValue){
 				$_SESSION['form_status'] = 'error';
                 $_SESSION['form_errors'] = ["Impossibile inviare la richiesta, riprova più tardi."];
                 $_SESSION['form_inputs'] = ['name' => $nameValue, 'email' => $emailValue];
-                $message = "<p class='error'>Impossibile inviare la richiesta, riprova più tardi.</p>";
+                $message = "<p class='error-form'>Impossibile inviare la richiesta, riprova più tardi.</p>";
             }
         }else{
 			$_SESSION['form_status'] = 'error';
@@ -111,12 +108,12 @@ if ($connessioneOK) {
 	$messaggiForm = sendReportForm($connessione, $nameValue, $emailValue);
 	$connessione->closeConnection();
 }else{
-	$messaggiForm = "<p class='error'>Impossibile inviare la richiesta, riprova più tardi.</p>";
+	$messaggiForm = "<p class='error-form'>Impossibile inviare la richiesta, riprova più tardi.</p>";
 }
 
 $paginaHTML = file_get_contents('./src/template/layout.html');
 if ($paginaHTML === false) {
-	$paginaHTML = "<p>Errore: template layout.html non trovato o non leggibile.</p>";
+	$paginaHTML = "<p class='error-form'>Errore: template layout.html non trovato o non leggibile.</p>";
 }
 
 $title = '<title>Home - PetMatch </title>';

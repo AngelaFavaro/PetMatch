@@ -667,5 +667,45 @@ class DBAccess {
         return $result;
     }
 
+    function checkEmailExists($email): bool {
+        $requests = [];
+        
+        $query = "  SELECT COUNT(*)
+                    FROM UTENTI U
+                    WHERE U.Email = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+
+            mysqli_stmt_bind_result($stmt, $totale);
+            mysqli_stmt_fetch($stmt);
+
+            mysqli_stmt_close($stmt);
+
+            return $totale > 0;
+        }
+        return false;
+    }
+
+    public function insertNewUser(string $email, string $name, string  $surname, string  $hashedPassword): bool {
+        if (!$this->connection){
+            return false;
+        }
+
+        $query = "INSERT INTO UTENTI (Email, Nome, Cognome, UtentePW) VALUES (?, ?, ?, ?)";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 'ssss', $email, $name, $surname, $hashedPassword);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
+
 }
 ?>

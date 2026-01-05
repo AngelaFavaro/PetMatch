@@ -32,6 +32,11 @@ $pagine = [
         'label' => 'Registrati',
         'url' => './registrati',
         'parent' => 'home'
+    ],
+    'profilo-utente' => [
+        'label' => 'Profilo',
+        'url' => './profilo-utente',
+        'parent' => 'home'
     ]
 ];
 

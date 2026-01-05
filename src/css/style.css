@@ -22,6 +22,8 @@
     --placeholder-text:#825E49;
     --darkbgcolor: #E4D4BA;
     --bgform: #6D7541;
+    --errortxt: #BA3A24;
+    --successtxt:#576F30;
 }
 
 a{
@@ -99,7 +101,13 @@ h4{
     /* line-height: 1.3; */
 }
 
+.error-form{
+    color:var(--errortxt);
+}
 
+.success-form{
+    color:var(--successtxt);
+}
 
 /*==================PULSANTI==================*/
 a.orange-button, a.brown-button,
@@ -1035,7 +1043,8 @@ legend {
     width: 100%;
 }
 
-label + input {
+label + input,
+.password-container input {
     border-radius: 5em;
     padding: 0.5em 1em;
     margin: 0.2em 0 1.3em 0;
@@ -1064,7 +1073,7 @@ label {
 }
 
 #messaggiForm-home {
-    padding: 0 2em;
+    padding: 0 1.5em;
 }
 
 /* ================== REGISTRATI ==================*/
@@ -1089,14 +1098,33 @@ label {
     padding: 0;
 }
 
+/* cambio il colore dell'autofill */
+#form-signup input:-webkit-autofill,
+#form-signup input:-webkit-autofill:hover, 
+#form-signup input:-webkit-autofill:focus, 
+#form-signup input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--bglink-hover) inset;
+}
+
 .column-container div{
     flex: 1 1 48%;
     margin:0;
 }
 
-#form-signup input + p{
+#form-signup input + p,
+.password-container +p
+{
     margin-top: -1em;
     padding-bottom: 1em;
+}
+
+#form-signup p+p{
+    margin: 0em;
+    padding-bottom: 1em;
+}
+
+#form-signup .orange-button{
+    margin-top: 1em;
 }
 
 #infoPassword + ul{
@@ -1189,6 +1217,30 @@ label {
     position: relative; 
     user-select: none; 
 }
+
+
+.password-container {
+    position: relative;
+    width: 100%; 
+}
+
+.password-container input {
+    width: 100%;
+    padding-right: 40px;
+}
+
+.password-container i {
+    position: absolute;
+    right: 10px;
+    top: 38%;
+    transform: translateY(-50%); 
+    color: var(--placeholder-text);
+}
+
+.password-container i:hover {
+    color: var(--txtcolor);
+}
+
 
 /* ================== =========== PAGINE ADMIN================== ============*/
 

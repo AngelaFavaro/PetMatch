@@ -24,6 +24,9 @@ $routes = [
     ],
     'registrati' => [
         'file' => __DIR__ . '/src/php/registrati.php'
+    ],
+    'profilo-utente' => [
+        'file' => __DIR__ . '/src/php/profilo-utente.php'
     ]
     // 'animali' => [
     //     'file' => __DIR__ . '/src/php/animali.php',

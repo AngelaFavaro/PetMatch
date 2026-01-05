@@ -83,7 +83,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-//al ricaricamento della pagina mi blocca lo scrool smooth per permettermi di tornare al form appena inviato istantaneamente
+//nascondi password e mostra password, cambia il type da password a text e viceversa
+const toggleIcons = document.querySelectorAll('.password-container i');
+
+toggleIcons.forEach(icon => {
+    icon.addEventListener('click', function (e) {
+
+        //this è l'icona cliccat, vado a cercare il fratello precedente 
+        // (cioè) l'input dato che nell'html ho messo quest'ordine
+        const passwordInput = this.previousElementSibling; 
+        
+        // Controllo di sicurezza: procedi solo se l'input esiste
+        if (passwordInput) {
+            //se ora è password, imposto text, se invece non lo è, imposto password
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            
+            passwordInput.setAttribute('type', type);
+            
+            this.classList.toggle('fa-eye-slash'); //cambia l'icona, è presa da FontAwesome (link incluso nell'head)
+        }
+    });
+});
+
+
+//al caricamento della pagina mi blocca lo scroll per permettermi di tornare al form appena inviato istantaneamente
 document.documentElement.style.scrollBehavior = 'auto';
 setTimeout(function() { document.documentElement.style.scrollBehavior = 'smooth'; }, 500);
 

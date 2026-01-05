@@ -15,12 +15,12 @@ CREATE TABLE UTENTI (
     Email VARCHAR(255) PRIMARY KEY,
     Nome VARCHAR(100) NOT NULL,
     Cognome VARCHAR(100) NOT NULL,
-    UtentePW VARCHAR(100) NOT NULL,
+    UtentePW VARCHAR(255) NOT NULL,
     Telefono VARCHAR(20),
     Via VARCHAR(255),
     Citta VARCHAR(100),
     CAP VARCHAR(5),
-    ImgPath VARCHAR(512) DEFAULT 'assets/images/users/linor.jpg',
+    ImgPath VARCHAR(512) DEFAULT 'assets/images/users/linor.jpg'
     CHECK (
         (Via IS NULL AND Citta IS NULL AND CAP IS NULL)
         OR
