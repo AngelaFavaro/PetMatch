@@ -21,6 +21,7 @@
     --bglink-hover:#E4D4BA;
     --placeholder-text:#825E49;
     --darkbgcolor: #E4D4BA;
+    --bgform: #6D7541;
 }
 
 a{
@@ -54,8 +55,13 @@ html, body {
     overflow-x: hidden;
 }
 
-#layout-user body{
-    padding-top:130px;
+
+#layout-user header + #breadcrumb{
+    margin-top:120px;
+}
+
+#NavHeader + #breadcrumb{
+    border: 1px solid var(--bgcolor);
 }
 
 html{
@@ -105,6 +111,7 @@ button.orange-button{
     padding: 0.7em 1.5em;
     border-radius: 1em;
     font-weight: 600;
+    letter-spacing: 1px;
     text-decoration: none;
     transition: background-color 0.6s ease;
 }
@@ -429,13 +436,14 @@ NOTA: modificare il flex se necessario annidando la classe dentro le proprie sez
 
 header {
     background-color: var(--headercolor);
-    padding: 1em 0;
+    padding: 0.5em 0;
     position: fixed;  
     top: 0;
     left: 0;         
     width: 100%;
     z-index: 1000;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 0 0 1em 1em;
 }
 
 header .container{
@@ -672,8 +680,8 @@ footer h4 {
 
 #introduction-home {
     background-color: var(--headercolor);
-    margin-top: -6em;
-    padding-top: 7em;
+    margin-top: -130px;
+    padding-top: 130px;
     color: var(--bgcolor);
 }
 
@@ -1057,6 +1065,125 @@ label {
 
 #messaggiForm-home {
     padding: 0 2em;
+}
+
+/* ================== REGISTRATI ==================*/
+
+#form-signup{
+    padding: 2em 10%;
+    margin: 0 15%;
+    border-radius: 1em;
+    background-color: var(--bgcolor);
+}
+
+#signup{
+    background-color: var(--bgform);
+    margin: -130px 0 -30px 0;
+    padding: 130px 0 30px 0;
+    background-image: url('../../assets/images/bg-pow.svg');
+    background-repeat: repeat;
+    background-size: contain;
+}
+
+#form-signup .column-container{
+    padding: 0;
+}
+
+.column-container div{
+    flex: 1 1 48%;
+    margin:0;
+}
+
+#form-signup input + p{
+    margin-top: -1em;
+    padding-bottom: 1em;
+}
+
+#infoPassword + ul{
+    margin-left:1.5em;
+}
+
+#form-signup legend{
+    font-size: 2em;
+    font-weight: 700;
+}
+
+#form-signup button{
+    width: 50%;
+}
+
+#form-signup a{
+    color:var(--headerlink);
+}
+
+#form-signup a:visited{
+    color:var(--headerlink);
+}
+
+#form-signup #signup-accedi{
+    text-align: center;
+    padding:1em 0;
+}
+
+#checkbox-container-signup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#checkEvents {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+#checkbox-container-signup{
+    padding: 1em 0;
+}
+
+#checkbox-container-signup label::before {
+    content: '';
+    display: inline-block;
+    width: 24px;  
+    height: 24px; 
+    margin-bottom:-5px;
+    
+    background-color: #ffffff; 
+    border: 1px solid var(--txtcolor);
+    border-radius: 6px; 
+    box-sizing: border-box; 
+    transition: 0.2s;
+}
+
+#checkEvents:checked + label::before {
+    background-color: var(--buttoncolor); 
+    border-color: var(--buttoncolor);
+}
+
+#checkbox-container-signup label::after {
+    content: '';
+    position: absolute;
+    left: 9px;  
+    top: 5px;
+    
+    width: 4px;
+    height: 8px;
+    border: solid var(--bgcolor);
+    border-width: 0 2px 2px 0; 
+    
+    transform: rotate(45deg) scale(0); 
+}
+
+#checkEvents:checked + label::after {
+     transform: rotate(45deg) scale(1);
+}
+
+#checkbox-container-signup label {
+    cursor: pointer;
+    position: relative; 
+    user-select: none; 
 }
 
 /* ================== =========== PAGINE ADMIN================== ============*/
@@ -1625,7 +1752,6 @@ input:focus{
 /* ================== BREADCRUMB==================*/
 nav#breadcrumb{
     margin: 0.5em auto 2em auto ;
-    border: 1px solid var(--bgcolor);
     display: block;
     text-align: center;
     width: fit-content;
