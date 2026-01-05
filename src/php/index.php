@@ -52,8 +52,8 @@ function sendReportForm(DBAccess $conn, &$nameValue, &$emailValue){
         $name = trim($_POST['name-surname'] ?? '');
         $email = trim($_POST['email'] ?? '');
 
-        $nameValue = $name;
-        $emailValue = $email;
+        $nameValue = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+        $emailValue = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
 
         $errors = [];
 
@@ -143,8 +143,8 @@ $paginaHTML = str_replace('[messaggiForm]', $messaggiForm, $paginaHTML);
 // htmlspecialchars() con ENT_QUOTES converte gli apici singoli e doppi.
 // Se uno scrive: <script>alert('ciao')</script>
 // Diventa: &lt;script&gt;alert(&#039;ciao&#039;)&lt;/script&gt; -> testo innocuo
-$paginaHTML = str_replace('[nameValue]', htmlspecialchars($nameValue, ENT_QUOTES, 'UTF-8'), $paginaHTML);
-$paginaHTML = str_replace('[emailValue]', htmlspecialchars($emailValue, ENT_QUOTES, 'UTF-8'), $paginaHTML);
+$paginaHTML = str_replace('[nameValue]', $nameValue, $paginaHTML);
+$paginaHTML = str_replace('[emailValue]', $emailValue, $paginaHTML);
 $paginaHTML = str_replace('[footer]', $footer, $paginaHTML);
 
 echo $paginaHTML;
