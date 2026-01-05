@@ -201,7 +201,20 @@ input:checked + #slider {
     display: none;
 }
 
+/* ================== REGISTRATI ==================*/
+    
+#form-signup{
+    padding: 2em 8%;
+    margin: 0;
+}
 
+#form-signup .column-container{
+    gap:0;
+}
+
+#form-signup .column-container div{
+    flex: 1 1 51%;
+}
 
 /* ================== NAV ADMIN ==================*/
     

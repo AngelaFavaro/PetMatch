@@ -1139,6 +1139,10 @@ label {
     width: 0;
 }
 
+#checkbox-container-signup em{
+    opacity: 0.8;
+}
+
 #checkbox-container-signup{
     padding: 1em 0;
 }
