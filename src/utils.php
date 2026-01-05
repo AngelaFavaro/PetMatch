@@ -28,9 +28,15 @@ $pagine = [
         'url' => './dettagli-richiesta',
         'parent' => 'richieste-adozione'
     ]
+    'aggiungi-animale' => [
+        'label' => 'Aggiungi animale',
+        'url' => './nuovo-animale',
+        'parent' => 'area-riservata'
+    ]
 ];
 
 $adminMenu = [
+    'href' => './nuovo-animale', 'text' => '+ Aggiungi animale',
     'principale' => [
         ['href' => './area-riservata', 'text' => 'AREA PERSONALE'],
         ['href' => './richieste-adozione', 'text' => 'RICHIESTE DI ADOZIONE'],

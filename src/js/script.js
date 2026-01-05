@@ -43,7 +43,6 @@ polaroids.forEach(card => {
 });
 
 //chiude il menu da telefono se non lo si fa manualmente e si passa oltre 
-
 document.addEventListener('DOMContentLoaded', () => {
     const themeToggle = document.getElementById('theme-toggle');
     const menuCheckbox = document.getElementById('menu-toggle-checkbox');
