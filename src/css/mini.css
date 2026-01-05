@@ -47,33 +47,6 @@ body#lavora-con-noi {
     margin: 0;
     overflow-x: hidden;
 }
-#introduction-lavora-con-noi {
-    padding: 5em 0em;
-}
-
-#introduction-lavora-con-noi .container {
-    display: block;   
-    gap: 0;           
-}
-
-#introduction-lavora-con-noi .column-user {
-    flex: unset;     
-    width: 100%;      
-    margin-bottom: 2em; 
-}
-
-#introduction-lavora-con-noi h1 {
-    margin-bottom: 0.5em;
-    font-size: 2.3em;
-}
-
-.underline {
-    text-decoration: underline;
-}
-
-#introduction-lavora-con-noi {
-    padding: 3em 1.5em;
-}
 
 #introduction-lavora-con-noi .container {
     display: block;   
@@ -98,10 +71,8 @@ body#lavora-con-noi {
 #come-diventare-volontario {
     background-color: var(--greencolor); 
     color: var(--bgcolor);                       
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
-    padding: 3em 1.5em;
+    width: 100%;
+    padding: 5em;
 }
 
 #come-diventare-volontario h2 {
