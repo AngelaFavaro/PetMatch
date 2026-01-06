@@ -554,5 +554,42 @@ nav#breadcrumb a:visited{
 
 /*=================PAGINA ANIMALI======================*/
 
+/* contenitore principale */
+#animali {
+    width: 100%;
+}
+
+/* nav */
+#nav-animali-type ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* ogni voce della nav */
+#nav-animali-type li {
+    flex: 0 0 10em; /* 1/3 della riga in em */
+    text-align: center;
+    position: relative;
+    padding: 0.6em 0;
+}
+
+/* link */
+#nav-animali-type a {
+    display: block;
+    text-decoration: none;
+    color: black;
+}
+
+/* elemento attivo */
+#nav-animali-type .currentType {
+    font-weight: bold;
+    border: 2px var(--buttoncolor-hover);
+    border-bottom: none;
+    pointer-events: none;
+}
+
+/* bordo rosso sopra, dx, sx (NON sotto) */
 
 
