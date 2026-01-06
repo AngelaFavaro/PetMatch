@@ -15,6 +15,18 @@ $routes = [
     'dettagli-richiesta' => [
         'file' => __DIR__ . '/src/php/admin/dettagli-richiesta.php'
     ],
+
+
+    'animali' => [
+        'file' => __DIR__ . '/src/php/animali.php',
+        /*'params' => [
+            'tipo' => 'tutti'
+        ]*/
+    ],
+
+
+
+
     /* decommentare quando si vogliono aggiungere le altre pagine
     'accedi' => [
         'file' => __DIR__ . '/src/php/accedi.php'
@@ -34,12 +46,10 @@ $routes = [
     'lavora-con-noi' => [
         'file' => __DIR__ . '/src/php/lavora-con-noi.php'
     ],
-    'animali' => [
-        'file' => __DIR__ . '/src/php/animali.php',
-        'params' => [
-            'tipo' => 'tutti'
-        ]
-    ],
+    
+
+
+
     'animali/cani' => [
         'file' => __DIR__ . '/src/php/animali.php',
         'params' => [ //in questo modo è come se l'utente avesse scritto animali.php?tipo=cani

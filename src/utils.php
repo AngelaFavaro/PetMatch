@@ -31,7 +31,19 @@ $pagine = [
         'label' => 'Dettagli richiesta',
         'url' => './dettagli-richiesta',
         'parent' => 'richieste-adozione'
+    ],
+
+
+
+    'animali' => [
+        // 'file' => __DIR__ . '/src/php/animali.php',
+        'label' => 'Animali',
+        'url' => './animali',
+        'parent' => 'home'
     ]
+
+
+
 ];
 
 function getBreadcrumb($currentPageKey, $pagine) {
