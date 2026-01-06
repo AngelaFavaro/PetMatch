@@ -1,79 +1,66 @@
 <div id="admin-area">
     <h1>Ciao [nomeAdmin]!</h1> <!--TODO -->
-    <article>
+    <article id="query">
         <h2>DA COMPLETARE</h2>
-        <ul id="to-do-list">
-            <li>
-                <a href="">
-                    <p class="n-query">[n]</p>
-                    <p class="query-type">ANIMALI SENZA ADMIN</p>
-                </a>
-            </li>
-            <li>
-                <a href="" >
-                    <p class="n-query">[n]</p>
-                    <p class="query-type">APPUNTI DA PRENDERE</p>
-                </a>
-            </li>
-            <li>
-                <a href="" >
-                    <p class="n-query">[n]</p>
-                    <p class="query-type">ACCOGLIENZE</p>
-                </a>
-            </li>
-            <li>
-                <a href="" >
-                    <p class="n-query">[n]</p>
-                    <p class="query-type">ADOZIONI DA VALUTARE</p>
-                </a>
-            </li>
-            <li>
-                <a href="" >
-                    <p class="n-query">[n]</p>
-                    <p class="query-type">TRASPORTI DA ORGANIZZARE</p>
-                </a>
-            </li>
-        </ul>
-        
-    </article>
+        [to-do-list]
+    </article id="row2-container">
     <div id="row2">
         <article id="statistics-area">
             <h2>LE TUE STATISTICHE</h2>
-            <ul id="statistics-list">
-                <li>
-                    <p class="n-query">[N]</p>
-                    <P class="query-type">ADOZIONI COMPLETATE</P>
-                </li>
-                <li>
-                    <p class="n-query">[N]</p>
-                    <P class="query-type">RICHIESTE VISIONATE</P>
-                </li>
-                <li>
-                    <p>
-                        <p class="n-query">[N]</p>
-                        <P class="query-type">IN CORSO DI ADOZIONE</P>
-                    </p>
-                </li>
-            </ul>
+            [stats]
         </article>
         <article id="admin-info">
+            
+            <!-- [admin-info] -->
             <div class="header-info">
                 <h2>LE TUE INFORMAZIONI</h2>
-                <!-- TODO da mettere collegamento-->
+                <button type="button" id="edit-admin-info" class="btn-edit">
+                    <img src="./assets/icons/edit-pencil.svg" alt="Modifica">
+                </button>
+            </div>
+
+            <div class="generic-info-container">
+                <img src="[imgPath]" alt="Foto" class="circle-foto">
+                
+                <form method="POST" enctype="multipart/form-data">    
+                    <ul id="admin-details">
+                        <li>
+                            <label for="nome">Nome:</label>
+                            <input type="text" id="nome" name="nome" value="[nomeAdmin]" readonly>
+                        </li>
+                        <li>
+                            <label for="cognome">Cognome:</label>
+                            <input type="text" id="cognome" name="cognome" value="[cognomeAdmin]" readonly>             
+                        </li>
+                        <li>
+                            <label for="foto">Foto:</label>
+                            <input type="file" id="foto" name="foto" accept="image/*" disabled>
+                        </li>
+
+                    </ul>
+                    <button name="submit-edit" type="submit" id="submit-edit" hidden class="orange-button" >Salva Modifiche</button>
+                </form>
+            </div>
+
+
+            
+             <!-- <div class="header-info">
+                <h2>LE TUE INFORMAZIONI</h2>
                 <a href="./">
                     <img src="./assets/icons/edit-pencil.svg" alt="Modificare le informazioni">
                 </a>
             </div>
-
-            <div id="generic-info-container">
-                <img src="./assets/images/linor.jpg" alt="Foto di [nome]" class="circle-foto">
+           <div class="generic-info-container">
+                <img src="[imagePath]" alt="Foto di [nome]" class="circle-foto">
                 
                 <div class="text-details">
-                    <p><strong>Nome:</strong> [nomeAdmin]</p>
-                    <p><strong>Cognome:</strong> [cognomeAdmin]</p>
-                    <p><strong>Email:</strong> [emailAdmin]</p>
+                    <ul>
+                        <li><strong>Nome:</strong> [nomeAdmin]</li>
+                        <li><strong>Cognome:</strong> [cognomeAdmin]</li>
+                        <li><strong>Email:</strong> [emailAdmin]</li>
+                    </ul>
                 </div>
-            </div>
+            </div> -->
         </article>
     </div>
     

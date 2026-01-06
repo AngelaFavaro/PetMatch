@@ -9,25 +9,21 @@
 /* Definizione delle pagine esistenti, aggiungerne altre quando possibile*/
 $pagine = [
     'home' => [
-        // 'file' => __DIR__ . '/src/php/index.php',
         'label' => 'Home', //la label e' quella che viene mostrata nella breadcrumb
         'url' => './home',
         'parent' => null 
     ],
     'area-riservata' => [
-        // 'file' => __DIR__ . '/src/php/admin/area-riservata.php',
         'label' => 'Area personale',
         'url' => './area-riservata',
         'parent' => 'home'
     ],
     'richieste-adozione' => [
-        // 'file' => __DIR__ . '/src/php/admin/richieste-adozione.php',
         'label' => 'Richieste di adozione',
         'url' => './richieste-adozione',
         'parent' => 'home'
     ],
     'dettagli-richiesta' => [
-        // 'file' => __DIR__ . '/src/php/admin/dettagli-richiesta.php',
         'label' => 'Dettagli richiesta',
         'url' => './dettagli-richiesta',
         'parent' => 'richieste-adozione'
@@ -39,12 +35,212 @@ $pagine = [
         // 'file' => __DIR__ . '/src/php/animali.php',
         'label' => 'Animali',
         'url' => './animali',
+    'registrati' => [
+        'label' => 'Registrati',
+        'url' => './registrati',
+        'parent' => 'home'
+    ],
+    'profilo-utente' => [
+        'label' => 'Profilo',
+        'url' => './profilo-utente',
         'parent' => 'home'
     ]
 
 
 
 ];
+
+$adminMenu = [
+    'principale' => [
+        ['href' => './area-riservata', 'text' => 'AREA PERSONALE'],
+        ['href' => './richieste-adozione', 'text' => 'RICHIESTE DI ADOZIONE'],
+        ['href' => './eventi', 'text' => 'EVENTI'],
+    ],
+    'animali' => [
+        ['href' => './tuoi-animali', 'text' => 'ASSEGNATI A TE'],
+        ['href' => './animali-senza-amministratore', 'text' => 'SENZA AMMINISTRATORE'],
+        ['href' => './adottati', 'text' => 'ADOTTATI'],
+        ['href' => './nuove-accoglienze', 'text' => 'NUOVE ACCOGLIENZE'],
+    ]
+];
+
+$userMenu = [
+    ['href' => './home', 'text' => 'Home'],
+    ['href' => './animali', 'text' => 'Animali'],
+    ['href' => './eventi', 'text' => 'Eventi'],
+    ['href' => './come-funziona', 'text' => 'Come funziona'],
+    ['href' => './chi-siamo', 'text' => 'Chi siamo'],
+    ['href' => './lavora-con-noi', 'text' => 'Lavora con noi'],
+];
+
+$noNav = [
+    ['href' => './registrati'],
+    ['href' => './accedi']
+];
+
+
+/**
+ * Carica un file e ritorna un fallback in caso di errore
+ * TO DO qui sarebbe utile inserire come path default il layout base ma prima bisognerebbe unificare i layout di admin e utente normale
+ */
+function loadTemplate(string $path, string $default = ''): string {
+    $content = @file_get_contents($path);
+    return $content === false ? $default : $content;
+}
+
+/**
+ * Genera la nav menù admin dinamicamente
+ */
+function buildAdminNav(array $menuGroups, string $currentHref): string {
+    // Parte iniziale fissa
+    $html = '
+    <button class="menu-toggle" id="mobile-menu" aria-label="Apri o chiudi menu di navigazione">
+        ☰
+    </button>
+    <nav id="menu-admin" aria-label="Menù">
+        <a class="navigationHelp" href="#content"> Salta il menù di navigazione</a>
+        <a href="./home">
+            <img src="./assets/icons/logo.svg" id="logo" alt="Home" lang="en">
+        </a>
+        <a class="orange-button" href="./nuovo-animale">+ Aggiungi animale</a>';
+
+    foreach ($menuGroups as $key => $items) {
+
+        if ($key === 'animali') {
+            $html .= '<span>ANIMALI</span>';
+        }
+
+        $html .= '<ul>';
+        foreach ($items as $item) {
+            $active = ($item['href'] === $currentHref) ? ' id="currentLink"' : '';
+            
+            // In questa versione, anche il link corrente rimane cliccabile 
+            // come nel tuo esempio HTML ( <li id="currentLink"><a href="...">...</a></li> )
+            $html .= '<li'.$active.'><a href="'.$item['href'].'">'.$item['text'].'</a></li>';
+        }
+        $html .= '</ul>';
+    }
+
+    // Parte finale fissa
+    $html .= '
+        <a id="logout" class="orange-button" href="./home">← logout</a>
+    </nav>';
+
+    return $html;
+}
+
+
+/**
+ * Genera la nav menù utente dinamicamente
+ */
+function buildUserNav(array $items, string $currentHref): string {
+
+    global $noNav;
+
+    $homeHref = './home';
+    $logoAttributes = ($currentHref === $homeHref)? ' id="currentLink"' : '';
+    
+    $navForm = false;
+    foreach ($noNav as $noNavPage) {
+        if($noNavPage['href'] === $currentHref) {
+            $headerID = 'id="noNavHeader"';
+            $navForm = true;
+            break;
+        }
+        $headerID = 'id="NavHeader"';
+    }
+    
+
+    if(!$navForm) {
+        $html = '
+        <header ' . $headerID . '>
+            <a class="navigationHelp" href="#content">Salta al contenuto principale</a>
+            
+            <div class="container">
+                
+                <nav id="header-logo" aria-label="link alla home">
+                    <h1>
+                        <a href="' . $homeHref . '"' . $logoAttributes . '>
+                            <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
+                            <span id="name-site">Pet<span id="not-bold">Match</span></span>
+                        </a>
+                    </h1>
+                </nav>
+                
+                <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
+    
+                <nav aria-label="Menu principale" id="nav-osso">
+                    <ul id="osso">';
+    
+        // 2. parte dinamica: ciclo gli items passati come argomento
+        foreach ($items as $item) {
+            if($item['href'] !== './home') {
+                // Controllo se è la pagina corrente
+                // Se l'href corrente corrisponde, aggiungo l'ID active
+                $isActive = ($item['href'] === $currentHref) ? ' id="currentLink" ' : '';
+                
+                $html .= '<li' . $isActive . '><a href="' . $item['href'] . '">' . $item['text'] . '</a></li>';
+            }
+        }
+    
+        // 3. Parte finale fissa (Chiusura nav, Azioni header: Tema, Preferiti, Login, Hamburger)
+        $html .= '
+                    </ul>
+                </nav>
+                
+                <div id="header-actions">
+                    <input type="checkbox" id="theme-toggle" class="sr-only">
+                    <label for="theme-toggle" id="theme-switch" aria-label="Cambia tema">
+                        <span id="slider">
+                            <img src="./assets/icons/sun.svg" id="sun" alt=""/>
+                            <img src="./assets/icons/moon.svg" id="moon" alt=""/>
+                        </span>
+                    </label>
+    
+                    <nav aria-label="Area personale">
+                        <ul id="personal-area">
+                            <li>
+                                <a href="./preferiti" id="preferiti" aria-label="Preferiti">
+                                    <img src="./assets/icons/heart-normal.svg" id="heart-normal" alt="" />
+                                    <img src="./assets/icons/heart-hover.svg" id="heart-hover" alt="" />
+                                </a>
+                            </li>
+                            
+                            <li>
+                                <a class="white-button" href="./accedi">
+                                    <span id="text-accedi">Accedi</span>
+                                    <img src="./assets/icons/account-normal.svg" id="account-normal" alt="" />
+                                    <img src="./assets/icons/account-hover.svg" id="account-hover" alt="" />
+                                </a>
+                            </li>
+                        </ul> 
+                    </nav>
+                    
+                    <label for="menu-toggle-checkbox" id="menu-toggle" aria-label="Apri il menù">
+                    </label>
+    
+                </div>
+            </div>
+        </header>';
+    } else {
+        $html = '
+        <header ' . $headerID . '>
+            <div class="container">
+                <nav id="header-logo" aria-label="link alla home">
+                    <h1>
+                        <a href="./home">
+                            <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
+                            <span id="name-site">Pet<span id="not-bold">Match</span></span>
+                        </a>
+                    </h1>
+                </nav>
+            </div>
+        </header>';
+    }
+
+    return $html;
+}
+
 
 function getBreadcrumb($currentPageKey, $pagine) {
     if (!isset($pagine[$currentPageKey])) {
@@ -81,4 +277,44 @@ function getBreadcrumb($currentPageKey, $pagine) {
 
     return $html;
 }
-?>
+
+/** dentro a dettagli-richiesta.php ho lasciato un blocco commentato che richiama questa funzione,
+ * guardate li per capire come usarla (cerca 'SCRIPT DI TEST'), l'echo che si trova in basso al blocco commentato è il form da cui vengono presi i dati
+ * NOTA: possibile che l'estensione di vscode non vi faccia vedere l'immagine caricata, guardate dal terminale ssh
+*/
+// se $_FILES['foto'] non esiste o è vuoto, la funzione ritorna false
+function uploadImage($file, $folder) {
+
+    $basePath = dirname(__DIR__) . '/assets/images/' . $folder . '/';
+    $dbPathPrefix = 'assets/images/' . $folder . '/';
+    
+    if (!file_exists($basePath)) {
+        echo "La cartella non esiste. Provo a crearla...<br>";
+        if (!mkdir($basePath, 0755, true)) {
+            echo "ERRORE: Impossibile creare la cartella. Controlla i permessi di sistema.<br>";
+            return false;
+        }
+    }
+
+    if (!is_writable($basePath)) {
+        echo "ERRORE: La cartella esiste ma NON è scrivibile (permessi negati).<br>";
+        return false;
+    }
+
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        echo "ERRORE PHP nel file: Codice " . $file['error'] . "<br>";
+        return false;
+    }
+
+    $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+    $fileName = $folder . "_" . time() . "_" . bin2hex(random_bytes(4)) . "." . $extension;
+    $targetFile = $basePath . $fileName;
+
+    if (move_uploaded_file($file['tmp_name'], $targetFile)) {
+        echo "SUCCESSO: File spostato correttamente!<br>";
+        return $dbPathPrefix . $fileName;
+    } else {
+        echo "ERRORE: move_uploaded_file è fallito. Possibile causa: file temporaneo sparito o restrizioni del server.<br>";
+        return false;
+    }
+}

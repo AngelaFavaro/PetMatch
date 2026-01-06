@@ -1,3 +1,223 @@
+*{
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* ================== NAV USER ==================*/
+#menu-toggle-checkbox{
+    display: block;
+}
+
+#osso { 
+    opacity: 0;
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    width: 100%;
+    height: auto;
+    
+    display: flex; 
+    flex-direction: column;
+    background-color: var(--bgcolor); 
+    margin: 0;
+    padding: 1em 0;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+
+    transform: translateY(20px);
+    transition: all 0.3s ease-in-out;
+    gap:0;
+}
+
+#nav-osso{
+    visibility: hidden;
+}
+
+
+#osso li{
+    width: 100%;
+    text-align: center;
+    padding: 0;
+}
+
+#osso li a{
+    display: block;
+    width: 100%;
+    padding: 0.5em 0;
+}
+
+#osso li:hover{
+    background-color: var(--bglink-hover);
+}
+
+#osso::before,
+#osso::after {
+    content: none;
+    display: none;
+}
+
+#menu-toggle-checkbox:checked ~ #nav-osso #osso {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#menu-toggle-checkbox:checked ~ #nav-osso{
+    visibility: visible;
+}
+
+#menu-toggle-checkbox:focus-visible ~ #header-actions #menu-toggle{
+    border: 1px solid black;
+    outline: 2px solid white; 
+    outline-offset: 2px;
+}
+
+
+#menu-toggle {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background: none;
+    cursor: pointer;
+    color: var(--bgcolor,); 
+    padding:0;
+    margin: 0;
+    transition: transform 0.3s ease;
+    font-size: 3em;
+    align-items: center;
+    justify-content: center;
+}
+
+#menu-toggle::before {
+    content: "\2630"; /* ☰ */
+    display: block;
+}
+
+#menu-toggle-checkbox:checked ~ #header-actions #menu-toggle::before {
+    content: "\2715"; /* ✕ */
+}
+
+#menu-toggle-checkbox:checked ~ #header-actions #menu-toggle {
+    transform: rotate(180deg);
+}
+
+#osso li {
+    width: 100%;
+    text-align: center;
+    padding: 1em 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+    
+#osso li:last-child {
+    border-bottom: none;
+}
+
+
+#preferiti, #theme-switch, #header-actions .white-button{
+    width: 45px;
+    height: 45px;
+}
+
+#sun, #moon{
+    width: 80%;
+}
+
+#theme-switch {
+    position: fixed;
+    bottom: 20px;  
+    right: 20px;  
+    z-index: 1000;
+    border-radius: 4em;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* Un'ombra per dare profondità */
+}
+
+#slider{
+    border: 2px solid var(--footercolor);
+}
+
+input:checked + #slider { 
+    border: 2px solid var(--bgcolor);
+}
+
+
+.mobile-toggle-container {
+    position: relative;
+    display: block;
+    width: 45px;
+    height: 45px;
+}
+
+
+/* ================== HOME ==================*/
+#second-chapter-home img ,#cat-decorator {
+    display: none;
+}
+
+#section-events h2{
+    margin: 1em 0 0.8em 0;
+}
+
+#events-list{
+    margin:0;
+    padding:3em 0 0 0;
+}
+
+#events-list::before{
+    width: 150%;
+    left: -20%;
+}
+
+#events-list .polaroid:nth-child(3){
+    display: none;
+}
+
+#events-list .polaroid:nth-child(2){
+    transform: rotate(-4deg);
+}
+
+#events-list .polaroid:first-child,
+#events-list .polaroid:nth-child(2){
+    width: 50%;
+    margin-left:-5px;
+}
+
+#form-affidamento {
+    background-color: var(--bgcolor);
+    color: var(--txtcolor);
+    margin:2em 2em 0.1em 2em;
+    padding: 0em 2em;
+    flex: 1 0 40%;
+    border-radius: 2.1em;
+}
+
+#container-form-affidamento{
+    padding: 0;
+    background-image: none;
+    overflow:hidden;
+}
+
+#sponsor img{
+    width: 140px; 
+}
+
+#timeline summary::-webkit-details-marker {
+    display: none;
+}
+
+/* ================== REGISTRATI ==================*/
+    
+#form-signup{
+    padding: 2em 8%;
+    margin: 0;
+}
+
+#form-signup .column-container{
+    gap:0;
+}
+
+#form-signup .column-container div{
+    flex: 1 1 51%;
+}
+
+/* ================== NAV ADMIN ==================*/
+    
 nav#menu-admin {
     padding-top:0em;
     float: none;
@@ -14,6 +234,7 @@ nav#menu-admin {
 
 #menu-admin.active {
     max-height: 100vh;
+
     background-color: var(--footercolor); /*così lo sfondo appare solo quando apri il menu */
     visibility: visible;
 }
@@ -23,18 +244,70 @@ body#admin-body main {
     /* transition: margin-top 0.3s ease; */
 }
 
+div#admin-area {
+    padding: 1em;
+}
 .menu-toggle {
     display: block;
-    font-size: 3em;
+    font-size: 2em;
     background: none;
     border: none;
     cursor: pointer;
+        color: var(--bgcolor);
     padding: 0.5em 1em 0em 1em;
 }
 
-
 nav#menu-admin img {
-    width: 20em;
+    width: 10em;
     max-width: 100%;
     height: auto;
+}
+
+div#admin-area article#animale-richiesta {
+    min-width: 100%;
+}
+
+div#admin-area div#animal-container {
+    max-width: 100%;
+    width: 100%;
+}
+
+div#admin-area article#stato-trasporto {
+    width: 100%;
+}
+.note{
+    width: 100%;
+}
+
+h1{
+    font-size: 2em;
+}
+
+nav#breadcrumb {
+    padding: 0.5em 1em;
+    margin: 1em auto;
+}
+
+
+#error-title {
+    font-size: 7em;
+}
+
+#error-message {
+    width: 85%;
+    margin: 1em auto;
+    text-align: left;
+}
+
+#error-message h2{
+    font-size: 1.5em;
+}
+
+#error-message h3{
+    font-size: 1.2em;
+}
+
+#error-info{
+    width: 70%;
+    margin: 0 auto;
 }

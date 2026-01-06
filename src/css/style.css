@@ -9,40 +9,86 @@
     --txtcolor: #481515;
     --buttoncolor: #EA654C;
     --buttoncolor-hover: #481515;
+    --text-buttoncolor: #481515;
+    --text-buttoncolor-hover: #FFF6D7;
     --linkcolor:#FFF6D7;
     --footercolor: #481515;
     --visitedcolor: #EA654C;
+    --headercolor: #481515;
+    --headervisitedlink: #6D7541;
+    --headerlink: #481515;
+    --secondsection: #6D7541;
+    --bglink-hover:#E4D4BA;
+    --placeholder-text:#825E49;
     --darkbgcolor: #E4D4BA;
+    --bgform: #6D7541;
+    --errortxt: #BA3A24;
+    --successtxt:#576F30;
 }
 
 a{
     color: var(--linkcolor);
+    font-weight: 400;
 }
 
 a:visited{
     color: var(--visitedcolor);
 }
 
+a.orange-button:visited{
+    color: var(--txtcolor);
+}
+
+a.orange-button:hover{
+    color: var(--linkcolor);
+}
+
+
 .container{
     max-width: 1200px;
     /* max-height: 100%; */
     margin: auto;
+    padding-left:1em;
+    padding-right:1em;
+}
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+
+#layout-user header + #breadcrumb{
+    margin-top:120px;
+}
+
+#NavHeader + #breadcrumb{
+    border: 1px solid var(--bgcolor);
 }
 
 html{
-    font-size: 90%;
+    font-size: 100%;
     line-height: 1.5em;
     font-family: "Parkinsans", Roboto, sans-serif;
     background-color: var(--bgcolor);
     color: var(--txtcolor);
+    font-weight: lighter;
+    scroll-behavior: smooth;
 }
+
+strong{
+    font-weight:600;
+}
+
 /* se troppo grandi per altre pagine allora avvisate linor prima di trovare altre soluzioni */
 h1{
-    font-size: 2.5em; 
+    font-size: 2em; 
+    /* font-size: 2.7em;  */
     line-height: normal;
 }
 h2{
-    font-size: 2.3em; 
+    font-size: 1.8em; 
+    /* font-size: 2.3em;  */
     line-height: 1.3;
 }
 h3{
@@ -55,24 +101,245 @@ h4{
     /* line-height: 1.3; */
 }
 
+.error-form{
+    color:var(--errortxt);
+}
+
+.success-form{
+    color:var(--successtxt);
+}
 
 /*==================PULSANTI==================*/
-a.orange-button{
+a.orange-button, a.brown-button,
+button.orange-button{
     display: block;
     text-align: center;
     margin: auto;
     width: fit-content;
-    background-color: var(--buttoncolor);
-    color: var(--txtcolor);
     padding: 0.7em 1.5em;
     border-radius: 1em;
     font-weight: 600;
-    transition: background-color 0.4s ease;
+    letter-spacing: 1px;
+    text-decoration: none;
+    transition: background-color 0.6s ease;
 }
 
-.orange-button:hover {
+.orange-button:hover,
+button.orange-button:hover {
     background-color: var(--buttoncolor-hover); 
     color: var(--linkcolor);
+}
+
+a.orange-button,
+button.orange-button,
+.white-button:hover{
+    background-color: var(--buttoncolor);
+    color: var(--txtcolor);
+}
+
+button.orange-button{
+    cursor: pointer;
+    border:none;
+    font-size: 100%;
+}
+
+.orange-button:visited{
+    color: var(--txtcolor);
+}
+
+a.brown-button{
+    background-color: var(--text-buttoncolor);
+    color: var(--linkcolor);
+    margin: 0.7em auto 0.7em auto;
+    text-decoration: underline;
+    margin-right: 0;
+}
+
+a.brown-button:visited{
+    color: var(--visitedcolor);
+}
+
+.brown-button:hover {
+    background-color: var(--text-buttoncolor-hover); 
+    color: var(--text-buttoncolor);
+}
+
+.white-button{
+    display: block;
+    text-align: center;
+    margin: auto;
+    width: fit-content;
+    padding: 0.3em 1em;
+    border-radius: 2em;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.6s ease;
+    background-color: var(--bgcolor);
+    color:var(--text-buttoncolor)
+}
+
+.torna-su-button{
+    display: block;
+    
+    width: 130px;
+    height: auto;
+    margin: 6% auto 0 auto;
+    text-align: center;
+    color:var(--text-buttoncolor);
+    text-decoration: underline;
+    background-color: (var(--buttoncolor));
+}
+
+.torna-su-button img{
+    width: 100%;
+    height: auto;
+}
+
+.torna-su-button .static{
+    display: block;
+}
+
+.torna-su-button .active{
+    display: none;
+}
+
+.torna-su-button:hover .static{
+    display: none;
+}
+
+.torna-su-button:hover .active{
+    display: block;
+}
+
+.torna-su-button:hover .active,
+.torna-su-button:hover .static{
+    background-color: (var(--buttoncolor));
+    color:var(--linkcolor);
+}
+
+/*==================WIDGET UTILI==================*/
+.polaroid{
+    width: 30%;
+    background-color: white;
+    padding: 0.5em 0.5em 3em 0.5em;
+}
+
+/* timeline */
+
+#timeline{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    align-items: flex-start;
+    margin-top: 3em;
+}
+
+/*linea tratteggiata*/
+#timeline::before {
+    content: '';
+    position: absolute;
+    top: 1.5em; 
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background-image: linear-gradient(to right, var(--buttoncolor) 50%, transparent 50%);
+    background-size: 20px 100%;
+    z-index: 0;
+  }
+
+#timeline li summary, 
+#timeline li{
+    position: relative; 
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 0 0 18%;
+}
+
+#timeline li{
+    list-style: none; 
+    z-index: 2;
+}
+
+.number{
+    font-weight: bold;
+}
+
+.circle {
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    margin-bottom: 0.5em;
+    display: flex;
+    transition: 0.3s;
+}
+
+/* opzionale: popup interattivi con la timeline */
+
+.popup {
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    background-color: var(--bgcolor); 
+    padding: 1em;
+    border-radius: 1%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    color: var(--txtcolor);
+    text-align: left;
+    pointer-events: none;
+    
+    /* Stato iniziale: Nascosto */
+    opacity: 0;
+    margin-top: 10px; /* Per animazione salita */
+    transition: 0.3s;
+}
+
+.popup::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0 10px 10px 10px;
+    border-style: solid;
+    border-color: transparent transparent var(--bgcolor) transparent;
+}
+
+#timeline details[open] .circle{
+    background-color: var(--buttoncolor);
+    transform: scale(1.1);
+}
+
+/* 2. Il popup appare */
+details[open] .popup{
+    opacity: 1;
+    margin-top: 0;
+    pointer-events: auto; /*così si può passare sopra con il pointer senza che il popup si chiuda*/
+}
+
+
+
+/*==================FLEX COLUMNS AND GRID==================*/
+/* mettere un div con questo come contenutore */
+.column-container{
+    max-width: 1200px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    margin: auto;
+    padding-right: 1em;
+    padding-left: 1em;
+}
+
+/* usare un div con questa classe nei contenuti su cui porre il flex
+NOTA: modificare il flex se necessario annidando la classe dentro le proprie sezioni */
+.column-user {
+    flex: 1 1 45%;
 }
 
 /*==================ERRORE 404==================*/
@@ -142,14 +409,241 @@ a.orange-button{
 
 /* Gli elementi con questa classe sono visibili solo agli screen reader */
 .sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  border: 0;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
 }
+
+/* ================== HEADER ================== */
+
+#layout-user #currentLink{
+    pointer-events: none;
+}
+
+#layout-user li #currentLink{
+    font-weight: 500;
+    text-decoration: underline;
+}
+
+#menu-toggle-checkbox{
+    display: none;
+}
+
+#theme-toggle:focus-visible + #theme-switch #slider{
+    transition: none;
+    outline: 2px solid black;
+    border: 1px solid white; 
+    outline-offset: 2px;
+}
+
+header {
+    background-color: var(--headercolor);
+    padding: 0.5em 0;
+    position: fixed;  
+    top: 0;
+    left: 0;         
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 0 0 1em 1em;
+}
+
+header .container{
+    display: flex;
+}
+
+header .container{
+    display: flex;
+    flex-wrap: nowrap;
+    margin:auto
+}
+
+/* logo */
+
+header a{
+    text-decoration: none;
+}
+
+
+#header-logo h1 {
+    margin-left: 0;
+    margin-right: auto;
+    color: var(--linkcolor);
+    text-align: center;
+}
+
+#header-logo h1 a:visited{
+    color: var(--linkcolor);
+}
+
+#not-bold{
+    font-weight: 200;
+}
+
+#name-site{
+    font-weight:600;
+    display: block;
+    font-size: 1.6rem;
+}
+
+#header-logo img {
+    height: 60px;
+    width: auto;
+    flex: 0 0 80px;
+    margin-bottom: -10px;
+}
+
+/* menu osso */
+#nav-osso {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+#osso {
+    height: 55px;
+    display: flex;
+    list-style: none;
+    align-items: center;
+    gap: 1em; 
+    text-align: center;
+    
+    /* Stile Osso */
+    background-color: var(--bgcolor);
+    padding: 0 2em;
+    position: relative;
+    margin: 1em 2em; 
+    border-radius: 1em;
+}
+
+#osso::before,
+#osso::after {
+    content: "";
+    position: absolute;
+    width: 2.3em; 
+    height: 2.3em;
+    border-radius: 50%;
+    background-color: var(--bgcolor);
+    transform: translateY(-50%); 
+    box-shadow: 0 2.2em 0 var(--bgcolor);
+}
+
+#osso::before {
+    left: -1.2em;
+}
+
+#osso::after {
+    right: -1.2em;
+}
+
+#osso a {
+    color: var(--headerlink);
+}
+
+#osso a:hover {
+    text-decoration: underline;
+}
+
+/* ================== 3. azioni (Destra) ================== */
+#header-actions {
+    align-items: center;
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0.7em;
+}
+
+#personal-area{
+    display: flex;
+    list-style: none;
+    gap: 0.7em; 
+}
+
+/* THEME-CHANGE */
+#theme-switch {
+    display: inline-block;
+    vertical-align: middle;
+    width: 4em;
+    height: 2em;
+    position: relative;
+    cursor: pointer;
+}
+
+#slider {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--bgcolor);
+    border-radius: 5em;
+    transition: 0.4s;
+    box-shadow: inset 10px 10px 30px 5px rgba(0.5,0.5,0.5,0.5);
+}
+
+#slider::before {
+    content: "";
+    position: absolute;
+    height: 1.7em;
+    width: 1.7em;
+    left: 0.2em;
+    bottom: 0.1em;
+    border-radius: 50%;
+    transition: 0.4s;
+    background-color: var(--bgcolor);
+}
+
+/* Icone sole/luna */
+#sun, #moon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.2em;
+    transition: 0.4s;
+    pointer-events: none;
+}
+#sun { left: 0.5em; opacity: 1; }
+#moon { right: 0.4em; opacity: 0; }
+
+input:checked + #theme-switch #slider { background-color: var(--headercolor); }
+input:checked + #theme-switch #slider::before { 
+    transform: translateX(2em); 
+    background-color: var(--headercolor);
+}
+input:checked + #theme-switch #slider #sun { opacity: 0; }
+input:checked + #theme-switch #slider #moon { opacity: 1; }
+
+/* Icona Preferiti */
+#preferiti {
+    position: relative;
+    display: block;
+    width: 32px;
+    height: 32px;
+}
+#preferiti img {
+    width: 100%;
+    transition: opacity 0.3s;
+}
+#preferiti #heart-hover {
+    position: absolute;
+    top: 0; left: 0;
+    opacity: 0;
+}
+#preferiti:hover #heart-normal { opacity: 0; }
+#preferiti:hover #heart-hover { opacity: 1; }
+
+#header-actions .white-button{
+    padding: 0.3em 1em;
+} 
+
+#header-actions .white-button img{
+    display: none;
+} 
+
 
 /* ==================FOOTER================== */
 #footer-menu {
@@ -184,7 +678,568 @@ footer h4 {
     background-size: auto 100%; /* da tenere assolutamente altrimenti si taglia */
 }
 
+/* ================== =========== PAGINE UTENTE================== ============*/
+/* ================== HOME ==================*/
 
+/* introduzione */
+#home p{
+    padding-bottom: 0.5em;
+}
+
+#introduction-home {
+    background-color: var(--headercolor);
+    margin-top: -130px;
+    padding-top: 130px;
+    color: var(--bgcolor);
+}
+
+#introduction-home .column-user:first-child {
+    flex: 1 1 40%;
+    margin-left: 5%;
+}
+
+#introduction-home .column-user:last-child{
+    flex: 1 1 40%;
+    position: relative;
+    padding-bottom: 4em;
+    margin-right: 5%;
+}
+
+#subtitle-home{
+    font-weight: lighter;
+}
+
+/* IMMAGINI DECORATIVE */
+#cat-decorator{
+    width: 25%;
+    height: auto;             
+    margin-top: 0.5em;          
+    margin-left: -2em;
+    float: left;  
+    pointer-events: none;
+}
+
+#cat-decorator + a{
+    float: left;
+    margin-top: 2em;
+}
+
+#paw-1, #paw-2, #paw-3, #paw-4 {
+    position: absolute;       
+    width: 3em;              
+    height: auto;
+    transform: rotate(230deg); 
+    pointer-events: none;         
+}
+
+#paw-1 {
+    top: 55%;
+    right: 10%;
+}
+
+#paw-2 {
+    top: 75%;
+    right: 50%;
+}
+
+#paw-3 {
+    bottom: -20%;
+    right: 30%;
+}
+
+#paw-4 {
+    bottom: -30%;
+    right: 65%;
+}
+
+/* sezione 2: animali che hanno trovato casa */
+#second-chapter-home .column-user:first-child{
+    flex: 0 0 25%;
+    max-width: 25%;
+    height: auto;
+    margin-right: 10%;
+}
+
+#second-chapter-home .column-user:last-child{
+    flex: 1 1 60%;
+    margin: 10% 0 8% 0;
+}
+
+#second-chapter-home h2{
+    margin-bottom: 1em;
+    font-weight: 500;
+}
+
+#second-chapter-home h2 strong{
+    font-weight: bold;
+}
+
+
+/* sezione 3: timeline */
+.number::after {
+    content: '';
+    display: block;
+    position: absolute;
+    
+    left: 50%;
+    top:1em;
+    
+    width: 10px;  
+    height: 10px;
+    border-right: 2px solid var(--bgcolor); 
+    border-bottom: 2px solid var(--bgcolor);
+    border-top: 0;
+    border-left: 0;
+    
+    transform: translateX(-50%) rotate(45deg); 
+    transition: transform 0.3s ease; 
+    pointer-events: none; 
+}
+
+details[open] .number::after {
+    transform: translateX(-50%) rotate(225deg);
+    top: 1.3em;
+}
+
+details:not([open]) .popup {
+    display: none;
+}
+
+
+#adoption-timeline{
+    padding:2em 0 2em 0;
+    background-color: var(--headercolor);
+    color:var(--bgcolor);
+}
+
+.popup img{
+    width: 100%;
+    pointer-events: none; 
+}
+
+/* sezione 4: eventi */
+
+#section-events{
+    background-color: var(--secondsection); /* nel caso non caricasse l'immagine */
+    background-image: 
+        linear-gradient(to bottom, transparent 70%, var(--secondsection) 98%),
+        url('../../assets/images/cat-bg.svg');
+    background-size: 102% auto;
+    background-repeat: no-repeat;
+    background-position:top;
+    height: fit-content;
+    color: var(--bgcolor);
+    padding: 3em;
+    border-radius: 1em;
+}
+
+#section-events h2{
+    margin: 2em 0 0.8em 0;
+}
+#section-events h3{
+    font-weight: 400;
+}
+
+#section-events img.polaroid{
+    display: inline-block;
+    vertical-align: middle;
+    margin: 1.5em 1.5em 2.5em 1.5em;
+    width: 30%;
+    transform: rotate(-9deg);
+}
+
+#section-events p{
+    display: inline-block;
+    vertical-align: middle;
+    width: 55%;
+    margin-left:3%;
+}
+
+#events-list{
+    display: flex;
+    gap: 2em;
+    margin-top: 5%;
+    padding: 3em 1em 0 1em;
+    position: relative;
+}
+
+#events-list::before{
+    content: '';
+    display: block;
+    position: absolute;
+    width: 140%;
+    top:-33%;
+    left: -18%;
+    height: 100px;
+    background-image: url('../../assets/images/rope.svg');
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position:center bottom;
+    pointer-events: none;
+    z-index: 0;
+}
+
+#events-list .polaroid{
+    flex: 1 1 20%;
+    color: var(--txtcolor);
+    padding-top: 1em;
+    transform-origin: top center;
+    --base-rot: 0deg;
+    margin:auto;
+}
+
+#events-list .polaroid:before{
+    content: "";
+    position: absolute;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 50px;
+    height: 50px;
+    top:-22%;
+    left: 38%;
+}
+
+#events-list .polaroid:first-child:before,
+#events-list .polaroid:nth-child(3):before{
+    background-image: url('../../assets/images/white-clip.svg'); 
+}
+
+#events-list .polaroid:nth-child(2):before,
+#events-list .polaroid:last-child:before{
+    background-image: url('../../assets/images/orange-clip.svg'); 
+    
+}
+
+#events-list .polaroid:first-child{
+    transform: rotate(10deg);
+    margin-top:-4%;
+}
+
+#events-list .polaroid:nth-child(2){
+    transform: rotate(3deg);
+}
+
+#events-list .polaroid:nth-child(3){
+    transform: rotate(-3deg);
+}
+
+#events-list .polaroid:last-child{
+    transform: rotate(-10deg);
+    margin-top:-4%;
+}
+
+/* Definizione del movimento a dondolo */
+@keyframes swingGeneric {
+    0%   { transform: rotate(var(--base-rot)); } /* Parte dalla posizione attuale */
+    20%  { transform: rotate(calc(var(--base-rot) + 8deg)); } /* Prima spinta a destra */
+    40%  { transform: rotate(calc(var(--base-rot) - 6deg)); } /* Ritorno a sinistra */
+    60%  { transform: rotate(calc(var(--base-rot) + 3deg)); } /* Spinta minore destra */
+    80%  { transform: rotate(calc(var(--base-rot) - 1deg)); } /* Quasi fermo */
+    100% { transform: rotate(var(--base-rot)); } /* Torna alla posizione originale */
+}
+
+/* La classe che attiverà l'animazione */
+.is-swinging {
+    animation: swingGeneric 1.2s ease-in-out forwards;
+}
+
+#sponsor{
+    background-image: url('../../assets/images/sponsor-bg.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position:top;
+    height:fit-content;
+    padding-top: 3em;
+}
+
+#sponsor .column-container{
+    justify-content: center;
+}
+
+#sponsor img {
+    width: 165px; 
+    padding:1em;
+    height: auto; 
+    object-fit: contain; 
+    margin-bottom:12.5%;
+}
+
+#sponsor img:nth-child(3){
+    margin-right:2.5em;
+}
+
+#sponsor img:nth-child(4){
+    margin-left:2.5em;
+}
+
+#sponsor + .container a{
+    margin-top:-8%;
+}
+
+
+
+/* form affidamento */
+
+#affidamento-home{
+    background-color: var(--headercolor);
+    color:var(--bgcolor);
+    margin-top: 5em;
+}
+
+#content-affidamento p{
+    margin-top:0.5em;
+}
+
+#content-affidamento h2{
+    margin-top:1em;
+}
+
+#affidamento-home #content-affidamento {
+    flex: 1 0 30%;
+    margin-left: 2%;
+    padding-bottom: 5em;
+}
+
+#affidamento-home .column-container {
+    justify-content: center;
+    padding-top: 2em;
+}
+
+#form-affidamento {
+    background-color: var(--bgcolor);
+    color: var(--txtcolor);
+    margin:3em auto 0.1em auto;
+    padding: 0em 2em;
+    display: block;
+    border-radius: 2.1em;
+    max-width: 541px;
+}
+
+fieldset {
+    border: none;
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+}
+
+#container-form-affidamento{
+    display: flex;
+    align-items: center;
+    flex:1 0 65%;
+    padding: 9em 2.5em 0em 2.5em;
+    background-image: url('../../assets/images/house-form.svg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    overflow: visible;
+    margin: -6em auto 0 auto;
+}
+
+legend {
+    padding-top:1em;
+    font-weight: 500;
+    text-align: center;
+    padding-bottom: 1.5em;
+    font-size: 1.1em;
+    width: 100%;
+}
+
+label + input,
+.password-container input {
+    border-radius: 5em;
+    padding: 0.5em 1em;
+    margin: 0.2em 0 1.3em 0;
+    width: 100%; 
+    border: 1px solid var(--headercolor);
+    color: var(--txtcolor);
+    font-size: 100%;
+    background-color: var(--bgcolor);
+    box-sizing: border-box; 
+}
+
+label + input::placeholder{
+    color: var(--placeholder-text);
+}
+
+label {
+    font-size: 95%;
+    display: block; 
+    margin-left: 0.5em; 
+}
+
+#form-affidamento .orange-button {
+    width: 100%;
+    margin: 1.5em 0 1em 0;
+    cursor: pointer;
+}
+
+#messaggiForm-home {
+    padding: 0 1.5em;
+}
+
+/* ================== REGISTRATI ==================*/
+
+#form-signup{
+    padding: 2em 10%;
+    margin: 0 15%;
+    border-radius: 1em;
+    background-color: var(--bgcolor);
+}
+
+#signup{
+    background-color: var(--bgform);
+    margin: -130px 0 -30px 0;
+    padding: 130px 0 30px 0;
+    background-image: url('../../assets/images/bg-pow.svg');
+    background-repeat: repeat;
+    background-size: contain;
+}
+
+#form-signup .column-container{
+    padding: 0;
+}
+
+/* cambio il colore dell'autofill */
+#form-signup input:-webkit-autofill,
+#form-signup input:-webkit-autofill:hover, 
+#form-signup input:-webkit-autofill:focus, 
+#form-signup input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--bglink-hover) inset;
+}
+
+.column-container div{
+    flex: 1 1 48%;
+    margin:0;
+}
+
+#form-signup input + p,
+.password-container +p
+{
+    margin-top: -1em;
+    padding-bottom: 1em;
+}
+
+#form-signup p+p{
+    margin: 0em;
+    padding-bottom: 1em;
+}
+
+#form-signup .orange-button{
+    margin-top: 1em;
+}
+
+#infoPassword + ul{
+    margin-left:1.5em;
+}
+
+#form-signup legend{
+    font-size: 2em;
+    font-weight: 700;
+}
+
+#form-signup button{
+    width: 50%;
+}
+
+#form-signup a{
+    color:var(--headerlink);
+}
+
+#form-signup a:visited{
+    color:var(--headerlink);
+}
+
+#form-signup #signup-accedi{
+    text-align: center;
+    padding:1em 0;
+}
+
+#checkbox-container-signup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#checkEvents {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+#checkbox-container-signup em{
+    opacity: 0.8;
+}
+
+#checkbox-container-signup{
+    padding: 1em 0;
+}
+
+#checkbox-container-signup label::before {
+    content: '';
+    display: inline-block;
+    width: 24px;  
+    height: 24px; 
+    margin-bottom:-5px;
+    
+    background-color: #ffffff; 
+    border: 1px solid var(--txtcolor);
+    border-radius: 6px; 
+    box-sizing: border-box; 
+    transition: 0.2s;
+}
+
+#checkEvents:checked + label::before {
+    background-color: var(--buttoncolor); 
+    border-color: var(--buttoncolor);
+}
+
+#checkbox-container-signup label::after {
+    content: '';
+    position: absolute;
+    left: 9px;  
+    top: 5px;
+    
+    width: 4px;
+    height: 8px;
+    border: solid var(--bgcolor);
+    border-width: 0 2px 2px 0; 
+    
+    transform: rotate(45deg) scale(0); 
+}
+
+#checkEvents:checked + label::after {
+     transform: rotate(45deg) scale(1);
+}
+
+#checkbox-container-signup label {
+    cursor: pointer;
+    position: relative; 
+    user-select: none; 
+}
+
+
+.password-container {
+    position: relative;
+    width: 100%; 
+}
+
+.password-container input {
+    width: 100%;
+    padding-right: 40px;
+}
+
+.password-container i {
+    position: absolute;
+    right: 10px;
+    top: 38%;
+    transform: translateY(-50%); 
+    color: var(--placeholder-text);
+}
+
+.password-container i:hover {
+    color: var(--txtcolor);
+}
 
 
 /* ================== =========== PAGINE ADMIN================== ============*/
@@ -200,16 +1255,20 @@ div#admin-area article h2{
 }
 
 div#admin-area{
-    padding: 6em;
+    padding: 3em 6em;
 }
 
 div#admin-area article {
-  padding:2em 2em 0em 2em;
+  padding:1em 1em 1em 1em;
   border: 1px solid var(--txtcolor);
   border-radius:1em;
   margin: 2em 0em;
 }
 
+
+div#admin-area article#query, div#admin-area article#row2-container{
+    padding: 2em 2em 0em 2em;
+}
 /* stesso pattern usato per le section del footer*/
 ul#to-do-list, ul#statistics-list {
     margin: 0 -10px;
@@ -252,7 +1311,11 @@ p.n-query{
     margin-bottom: 0.5em;
 }
 /* ================== MENU ADMIN==================*/
-.menu-toggle { display: none; } /* Nascondi tasto su desktop */
+.menu-toggle,
+.mobile-toggle-container,
+#mobile-account-normal,
+#mobile-account-hover
+{ display: none; } /* Nascondi tasto su desktop */
 
 nav#menu-admin {
     display: flex;
@@ -261,7 +1324,7 @@ nav#menu-admin {
     float: left;
     width: 20%;
     padding: 1em 0em 1em 1em;
-    /* height: 100%; */
+    height: 100%;
     overflow: hidden;
     height: 100vh;
 }
@@ -276,6 +1339,10 @@ main#content{
     padding-top:2em;
 }
 
+main.c404#content{
+   min-height:  80vh;
+
+}
 
 
 nav#menu-admin img {
@@ -336,20 +1403,66 @@ div#row2 article{
     float: left;
 }
 
-.header-info img{
+.header-info button.btn-edit {
     float: right;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
-#generic-info-container {
+.generic-info-container {
     display: flex;
     flex-wrap: wrap;
 }
+
+.generic-info-container form{
+    max-width: 100%;
+}
+
+
+.generic-info-container label{
+    font-weight: 700;
+}
+
+#submit-edit.orange-button{
+    margin: 2em 1em 0em auto;
+}
+#submit-edit.orange-button[hidden] {
+    display: none;
+}
+
+
+.generic-info-container input {
+    width: 100%;
+    margin-left:  0.5em;
+    font-family: 'Parkinsans', Roboto, sans-serif;
+    font-size: 1em;
+    color: var(--txtcolor);
+    background-color: var(--darkbgcolor);
+}
+.generic-info-container ul, #other-info-container ul{
+    list-style: none;
+    padding: 0em;
+    margin: 0em;
+}
+.generic-info-container #admin-details li {
+    display: flex;
+    margin: 0em 1em;
+}
+
+.generic-info-container input[readonly] {
+    background: none;
+    border: none;
+}
+
+
 
 .circle-foto {
     width: 9em;
     height: 9em;
     object-fit: cover;
     clip-path: circle(50%);
+    margin-bottom: 2em;
 }
 
 .square-foto {
@@ -362,7 +1475,12 @@ div#row2 article{
 .text-details{
     margin: auto 2em;
 }
-.header-info, #generic-info-container{
+
+.text-details ul{
+    list-style: none;
+    padding: 0;
+}
+.header-info, .generic-info-container{
     margin-bottom: 1em;
 }
 
@@ -376,7 +1494,8 @@ div#row2 article{
 .tab button {
   background-color: inherit;
   border: none;
-  padding: 14px 16px;
+  /* traduco in em */
+  padding: 0.9em 1em;
   transition: 0.3s;
   flex: 1; /* questo serve per far si che i tab siano grandi uguali e riempiano lo spazio*/
 }
@@ -392,13 +1511,13 @@ div#row2 article{
 }
 
 .tabcontent#Richiedente .orange-button{
-    margin: 0em 0em 2em auto;
+    margin: 0em 0em 0em auto;
 }
 
 #animale-richiesta .orange-button{
     margin: 0em auto 2em 0em;
 }
-#details-container h2{
+#details-container h2, .tab h2{
     font-size: 1.2em;
     /* margin-bottom: 1em; */
     color: var(--txtcolor);
@@ -406,15 +1525,26 @@ div#row2 article{
 
 .tabcontent {
   display: none;
-  padding: 6px 12px;
+  /* padding: 6px 12px; */
   border: 1px solid #ccc;
   border-top: none;
 } 
 
-#details-container{
-    display:flex;
-    flex-wrap: wrap;
+#Richiesta ul{
+    list-style: none;
+    padding: 0em;
+}
+#Richiedente ul{
+    list-style: none;
+    padding: 0em;
+}
 
+
+#details-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+    align-items: flex-start;
 }
 
 p#altre-richieste{
@@ -450,20 +1580,32 @@ div#admin-area #details-container article#animale-richiesta{
 }
 
 .tabs-container {
-    flex: 2;
-    min-width: 300px;
+    flex: 2 1 300px;
 }
 
-#animale-richiesta {
-    flex: 1;
-    min-width: 250px;
+article#Richiesta {
+    display: block;
+}
+div#admin-area article#animale-richiesta {
+     flex: 1;
+    min-width: 32em;
     border: 1px solid var(--txtcolor);
     border-radius: 20px;
     padding: 20px;
+    width: 100%;
+}
+
+div#admin-area div#animal-container{
+    flex: 1 1 250px;
+    /* min-width: 250px; */
+    max-width: 100%;
 }
 
 div#admin-area article#stato-trasporto{
     background-color: var(--darkbgcolor);
+    width: 55%;
+    padding: 1em 1em;
+    margin: auto auto 0em 0em;
 } 
 
 #top-container{
@@ -472,17 +1614,18 @@ div#admin-area article#stato-trasporto{
 }
 
 #stato-trasporto p{
+    padding-top: 0.7em;
     float: left;
     margin-right: 2em;
 }
 #stato-trasporto a{
     float: right;
 }
-#top-container a.orange-button{
+#top-container a.orange-button, #top-container form{
     margin: auto 0em 0em auto;
 }
 
-#bottom-container a.orange-button{
+#bottom-container form{
     margin: auto 0em 0em auto;
 }
 
@@ -490,6 +1633,7 @@ div#admin-area article#stato-trasporto{
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    width: 55%;
 }
 /* .header-note{
     gap: 1em;
@@ -506,7 +1650,135 @@ div#admin-area article#stato-trasporto{
     display: flex;
     flex-wrap: wrap;
     gap: 2em;
+
 }
+
+
+.note p.editing {
+    padding: 0.5rem;
+    background-color: var(--darkbgcolor);
+}
+
+/* Nasconde i form quando hanno la classe .hidden */
+#form-data.hidden, 
+#form-note.hidden,
+#data-text.hidden,
+#note-text.hidden {
+    display: none;
+}
+
+/* Quando il form della data è attivo, sta in linea con il testo */
+#form-data {
+    display: inline;
+}
+
+/* Il form delle note lo facciamo apparire come un blocco sotto il titolo */
+#form-note {
+    display: block;
+    margin-top: 0.5rem;
+}
+
+/* --- Stile Input e Textarea --- */
+
+#input-note {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: var(--darkbgcolor);
+    border: 1px solid var(--bordercolor, #ccc);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical; /* Permette all'utente di allungare l'area */
+}
+.orange-button.respinta {
+    background-color: var(--darkbgcolor);
+    border: none;
+    cursor: not-allowed;
+}
+
+
+/* Quando il form ha la classe .hidden, sparisce */
+#stato-trasporto .hidden {
+    display: none;
+}
+
+/* Quando il form NON ha .hidden, deve stare sulla stessa riga del testo */
+#form-data {
+    display: inline;
+}
+
+/*================= RICHIESTE DI ADOZIONE ==================*/
+
+div#admin-area .tab-richieste{
+    border: none;
+    padding: 0.5em;
+}
+
+/* 1. Tabella: Impostazioni fondamentali per il raggio */
+table {
+    border-collapse: separate; /* Permette il border-radius */
+    border-spacing: 0;        /* Elimina lo spazio tra le celle */
+    width: 100%;
+    border-radius: 15px 15px 0 0;      /* Angoli tondi della tabella */
+    overflow: hidden;         /* Taglia lo sfondo del thead sugli angoli */
+    margin-bottom: 1em;
+}
+
+/* 2. Header e Footer della tabella */
+thead, tfoot {
+    background-color: var(--darkbgcolor);
+}
+
+thead th, tfoot th, tfoot td {
+    padding: 0.5em 2em;
+    text-align: left;
+}
+
+/* Arrotondamento manuale delle celle d'angolo del thead */
+thead tr:first-child th:first-child {
+    border-top-left-radius: 15px;
+}
+
+thead tr:first-child th:last-child {
+    border-top-right-radius: 15px;
+}
+
+/* 3. Corpo della tabella (Righe e Celle) */
+tbody td, tbody th {
+    padding: 0em 2em; /* Aumentato per dare respiro */
+    text-align: left;
+    border-bottom: 1px solid var(--txtcolor);
+}
+
+/* Rimuove l'ultimo bordo per non "sporcare" la curva in basso */
+tbody tr:last-child td, 
+tbody tr:last-child th {
+    border-bottom: none;
+}
+
+/* 4. Gestione Colonne e Accessibilità */
+.col-dettagli {
+    text-align: right; /* Sostituisce il float:right per un allineamento più pulito */
+}
+
+th.col-dettagli, caption {
+    /* Nasconde alla vista ma non agli screen reader (SR-ONLY) */
+    position: absolute;
+    left: -999em;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+td.col-dettagli a{
+    margin: 0.5em;
+}
+
+
+
+
+
+
 /*================NAVIGATION HELP ==================*/
 
 .navigationHelp {
@@ -527,10 +1799,15 @@ div#admin-area article#stato-trasporto{
 	color: var(--visitedcolor);
 }
 
+input:focus{
+    border:1px solid var(--headercolor);
+    outline-color: var(--headercolor);
+}
+
 
 /* ================== BREADCRUMB==================*/
 nav#breadcrumb{
-    margin: auto;
+    margin: 0.5em auto 2em auto ;
     display: block;
     text-align: center;
     width: fit-content;
@@ -539,6 +1816,8 @@ nav#breadcrumb{
     padding: 0.7em 1.5em;
     border-radius: 1em;
     font-weight: 400;
+    position: relative;
+    z-index: 10;
     /* transition: background-color 0.4s ease; */
 }
 

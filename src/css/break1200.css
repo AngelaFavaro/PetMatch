@@ -1,0 +1,125 @@
+#paw-1, #paw-2, #paw-3, #paw-4 {
+    display: none;
+}
+
+#introduction-home .column-user + .column-user{
+    padding-bottom: 0;
+}
+
+#cat-decorator{
+    padding-left: 2em;
+}
+
+#sponsor{
+    background-size:0;
+    background-color: var(--buttoncolor);
+    padding:1em;
+    position: relative;
+}
+
+#sponsor::before,
+#sponsor::after{
+    content: '';
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    background-image: linear-gradient(to right, var(--headercolor) 50%, transparent 50%);
+    background-size: 40px 100%;
+}
+
+#sponsor::before{
+    top: 1.5em; 
+    left:0;
+}
+
+#sponsor::after{
+    bottom: 1.5em; 
+    left:0;
+}
+
+#sponsor img,
+#sponsor img:nth-child(3),
+#sponsor img:nth-child(4)
+{
+    margin:0;
+}
+
+#sponsor + .container a{
+    margin-top:1em;
+}
+
+
+
+
+/* ================== TABELLE MINI ================== */
+
+/* non in mini perchè le tabelle non si vedono bene */
+
+
+
+
+table, tbody, tr {
+	border:none;
+    border-radius: 0;
+}
+
+td,th {
+	border-top:none;
+}
+
+
+th{
+	background-color: var(--darkbgcolor);
+}
+
+thead {
+	display: none;
+}
+
+tfoot th{
+	display:none;
+}
+
+tr, th, td {
+    display: block;
+}
+
+
+/* mette il th del thead nelle celle che descrivono quel contenuto*/
+/* cambio mettendo anche il titolo nella  */
+th[data-title]:before, td[data-title]:not(.presAss):before {
+    content: attr(data-title) ":\00A0";
+    font-weight: bold;
+}
+
+
+
+/* td.col-dettagli a{
+    display: inline;
+} */
+
+
+.tab-mini{
+    display: block;
+    /* width: 100%; */
+}
+
+.tab-mini button{
+    width: 100%;
+    display: block;
+}
+
+.tab-mini button.active{
+    border: 1px solid var(--txtcolor);
+    /* border: none; */
+    border-radius: 1em 1em 0em 0em ;
+    background-color: var(--darkbgcolor);
+}
+
+td.col-dettagli a{
+    margin: 0.5em 0.5em 0.5em auto;
+}
+
+
+
+
