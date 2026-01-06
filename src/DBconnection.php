@@ -707,5 +707,67 @@ class DBAccess {
         return $result;
     }
 
+    function getUserInfo($email): array {
+        $requests = [];
+        
+        $query = "SELECT 
+                    Nome,
+                    Cognome,
+                    Telefono,
+                    Via,
+                    Citta,
+                    CAP,
+                    ImgPath
+                FROM UTENTI WHERE Email = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            if($row = mysqli_fetch_assoc($result)) {
+                mysqli_stmt_close($stmt);
+                return $row;
+            }
+            mysqli_stmt_close($stmt);
+        }
+        return null;
+    }
+
+    function getUserRequests($email, $filtro): array {
+        $requests = [];
+        
+        $query = "SELECT 
+                    R.IDanimale,            
+                    R.LetteraPresentazione, 
+                    R.Stato,
+                    R.DataRichiesta,
+                    R.DataInizioValutazione,
+                    R.DataFineValutazione,
+                    T.DataPartenza,         
+                    T.DataArrivo,
+                    A.Nome AS NomeAnimale
+                FROM RICHIESTE_ADOZIONI R
+                JOIN ANIMALI A ON R.IDanimale = A.IDanimale
+                LEFT JOIN TRASPORTI T ON R.IDanimale = T.IDanimale 
+                WHERE R.Email = ? AND R.Stato LIKE ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'ss', $email, $filtro);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            while ($row = mysqli_fetch_assoc($result)) {
+                $requests[] = $row;
+            }
+            
+            mysqli_stmt_close($stmt);
+        }
+        return $requests;
+    }
+
 }
 ?>

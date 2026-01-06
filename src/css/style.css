@@ -159,7 +159,8 @@ a.brown-button:visited{
     color: var(--visitedcolor);
 }
 
-.brown-button:hover {
+.brown-button:hover,
+.brown-button:visited:hover{
     background-color: var(--text-buttoncolor-hover); 
     color: var(--text-buttoncolor);
 }
@@ -1241,6 +1242,183 @@ label {
     color: var(--txtcolor);
 }
 
+/* ================== PROFILO UTENTE NORMALE ==================*/
+#user-profile h2{
+    font-size: 1.6em;
+}
+
+#user-profile{
+    margin-bottom:2em;
+}
+
+#user-profile .column-container{
+    margin-top: 2em;
+    align-items: flex-start;
+}
+
+#user-profile .column-container .tabs-container{
+    flex: 1 1 63%;
+}
+
+
+#user-profile .column-container #user-info{
+    flex: 1 1 35%;
+    width: 90%;
+}
+
+/* tab */
+#user-profile .tabs-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#user-profile .tabs-container input + label {
+    flex: 1 0 46%;
+    padding: 1.8% 2%;
+    height: 50px;
+    border-bottom: 1px solid var(--headercolor);
+    text-align: center;
+    
+    margin:0;
+    cursor: pointer; 
+}
+
+#user-profile .tabs-container .tab-content {
+    flex: 1 0 100%;
+    width: 100%; 
+    height: fit-content;
+    border-bottom: 1px solid var(--headercolor);
+    border-left: 1px solid var(--headercolor);
+    border-right: 1px solid var(--headercolor);
+    display: none; 
+    padding: 1em;
+    border-radius: 0 0 0.5em 0.5em;
+}
+
+#user-profile input:checked + label {
+    border-top: 1px solid var(--headercolor); 
+    border-left: 1px solid var(--headercolor); 
+    border-right: 1px solid var(--headercolor); 
+    border-bottom:0;
+    /* border-bottom: 1px solid var(--bgcolor); */
+    border-radius: 0.5em 0.5em 0 0;
+    font-weight: bold;
+    z-index: 1;
+}
+
+#user-profile .tabs-container #tab1:checked  ~ .tab-content:nth-of-type(1),
+#user-profile .tabs-container #tab2:checked  ~ .tab-content:nth-of-type(2){
+    display: block;
+}
+
+#user-profile .tab-content form{
+    text-align: right;
+    margin-bottom:1em;
+}
+
+#user-profile .tab-content label[for="request-state"]{
+    display: inline-block;
+}
+
+#user-profile .tab-content form button{
+    border-radius: 2em;
+    background-color: var(--buttoncolor);
+    color:var(--txtcolor);
+    padding: 0.5em 2em;
+    transition: 0.3s;
+    border:2px solid var(--buttoncolor);
+    cursor: pointer;
+    font-weight: bold;
+    margin:0.5em;
+}
+
+#user-profile .tab-content form button:hover{
+    background-color:var(--bgcolor);
+}
+
+#user-profile .tabs-container select{
+    padding:0.5em;
+    background-color: var(--bgcolor);
+    border-radius: 2em;
+    border-color: var(--text-buttoncolor);
+    color:var(--text-buttoncolor);
+    margin:0.5em;
+}
+
+#user-profile .tabs-container select:focus{
+    border: 2px solid var(--headercolor);
+    margin:-1px;
+}
+
+#user-profile #user-info span{
+    display: flex;
+}
+
+#user-profile #user-info a{
+    margin-left: auto;
+    margin-right: 0;
+}
+
+#user-profile #user-info img.circle-foto{
+    margin:auto;
+    display: flex;
+    background-color: var(--bglink-hover);
+}
+
+#user-info{
+    padding: 2em 2.5em;
+    border:1px solid var(--headercolor);
+    border-radius: 0.5em;
+}
+
+#user-info dt {
+    font-weight: bold;
+}
+
+#user-info dd {
+    margin-bottom:0.5em;
+}
+
+#user-profile #lista-movimenti li{
+    list-style: none;
+    background-color: var(--bglink-hover);
+    margin:0.5em 0;
+    padding: 1em;
+    border-radius: 0.5em;
+}
+
+#user-profile #lista-movimenti article{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#user-profile #lista-movimenti article p{
+    flex: 1 1 70%;
+}
+
+#user-profile #lista-movimenti li a{
+    margin:0.5em auto 0 auto;
+    border-radius: 2em;
+    background-color: var(--buttoncolor-hover);
+    color:var(--bgcolor);
+    padding: 3px 2em;
+    transition: 0.3s;
+}
+
+#user-profile #lista-movimenti li a:hover,
+#user-profile #lista-movimenti li a:visited:hover{
+    color: var(--txtcolor);
+    background-color:var(--bglink-hover);
+}
+
+#user-profile #lista-movimenti li a:visited{
+    color:var(--buttoncolor);
+}
+
+#query-vuota{
+    text-align: center;
+}
 
 /* ================== =========== PAGINE ADMIN================== ============*/
 
@@ -1463,6 +1641,7 @@ div#row2 article{
     object-fit: cover;
     clip-path: circle(50%);
     margin-bottom: 2em;
+    pointer-events: none;
 }
 
 .square-foto {

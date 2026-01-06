@@ -20,7 +20,7 @@ CREATE TABLE UTENTI (
     Via VARCHAR(255),
     Citta VARCHAR(100),
     CAP VARCHAR(5),
-    ImgPath VARCHAR(512) DEFAULT 'assets/images/users/linor.jpg'
+    ImgPath VARCHAR(512) DEFAULT 'assets/images/users/default-pic.png'
     CHECK (
         (Via IS NULL AND Citta IS NULL AND CAP IS NULL)
         OR
@@ -34,7 +34,7 @@ CREATE TABLE AMMINISTRATORI (
     Nome VARCHAR(100) NOT NULL,
     Cognome VARCHAR(100) NOT NULL,
     AdminPW VARCHAR(100) NOT NULL,
-    ImgPath VARCHAR(512) DEFAULT 'assets/images/admins/linor.jpg'
+    ImgPath VARCHAR(512) DEFAULT 'assets/images/admins/default-pic.png'
 );
 
 -- EVENTI
