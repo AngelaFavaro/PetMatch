@@ -1,4 +1,107 @@
-<div id="admin-area">   
-    <h1>AGGIUNGI UN ANIMALE</h1>
-    
+<div id="admin-area">
+    <form method="post" id="form-signup" enctype="multipart/form-data" novalidate>
+        <h1>AGGIUNGI UN ANIMALE</h1>
+        <fieldset>
+            <legend>Tipologia di animale</legend>
+            <div>
+                <input type="radio" name="tipologia" id="Cane" value="0" required>
+                <label for="Cane">Cane</label>
+                <input type="radio" name="tipologia" id="Gatto" value="1">
+                <label for="Gatto">Gatto</label>
+                <p class="error-form">[erroriRadio]</p>
+            </div>
+        </fieldset>
+        
+        <fieldset>
+            <legend>Informazioni animale</legend>
+                <div class="column-container">
+                    <div>
+                        <label for="name">Nome</label>
+                        <input type="text" name="name" id="name" placeholder="Nome" autocomplete="name" value="[valNome]">
+                        <p class="error-form">[erroriTesto]</p>
+                    </div>
+
+                    <div>
+                        <label for="razza">Razza</label>
+                        <input type="text" name="razza" id="razza" placeholder="Razza" autocomplete="razza" value="[valRazza]">
+                        <p class="error-form">[erroriTesto]</p>
+                    </div>
+
+                    <label for="taglia">Taglia</label>
+                    <select name="taglia" id="taglia" value="[valTaglia]">
+                        <option value="" disabled selected>Seleziona un'opzione</option>
+                        <option value="Piccola">Piccola</option>
+                        <option value="Media">Media</option>
+                        <option value="Grande">Grande</option>
+                    </select>
+
+                    <p>Sesso</p>
+                    <div>
+                        <input type="radio" name="sesso" id="Maschio" value="0" required>
+                        <label for="Maschio">Maschio</label>
+                        <input type="radio" name="sesso" id="Femmina" value="1">
+                        <label for="Femmina">Femmina</label>
+                        <p class="error-form">[erroriRadio]</p>
+                    </div>
+                    
+                    <p>Foto</p>
+                    <div id="drop-area">
+                        <p>Trascina la foto qui o clicca per caricarla</p>
+                        <input type="file" name="foto" id="foto" accept="image/*" required>
+                        <img id="preview" src="" alt="" style="display:none; max-width:200px; margin-top:10px;">
+                    </div>
+                </div>
+
+                <div class="column-container">
+                    <div>
+                        <label for="dataNascita">Data di Nascita: </label>
+                        <input type="date" name="dataNascita" id="dataNascita" autocomplete="Data di nascita" value="[valData]">
+                        <p class="error-form">[erroriTesto]</p>
+                    </div>
+
+                    <label for="pelo">Pelo</label>
+                    <select name="pelo" id="pelo" value="[valPelo]">
+                        <option value="" disabled selected>Seleziona un'opzione</option>
+                        <option value="Corto">Corto</option>
+                        <option value="Lungo">Lungo</option>
+                        <option value="Misto">Misto</option>
+                    </select>      
+                    
+                    <div>
+                        <label for="colore">Colore</label>
+                        <input type="text" name="colore" id="colore" placeholder="Colore" autocomplete="colore" value="[valColore]">
+                        <p class="error-form">[erroriTesto]</p>
+                    </div>
+
+                    <div>
+                        <label for="condMediche">Condizioni mediche: </label>
+                        <textarea id="condMediche" name="condMediche" placeholder="Inserire testo">[valCondizioni]</textarea>
+                    </div>
+
+                    <div>
+                        <label for="caratteree">Descrizione caratteriale: </label>
+                        <textarea id="carattere" name="carattere" placeholder="Inserire testo">[valCarattere]</textarea>
+                    </div>
+                </div>
+
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Informazioni famiglia</legend>
+            <div>
+                <label for="famiglia">Famiglia ideale: </label>
+                <textarea id="famiglia" name="famiglia" placeholder="Inserire testo">[valFamiglia]</textarea>
+            </div>
+        </fieldset>    
+
+        <div>
+            <button type="submit" name="signup" class="white-button">
+                Registrati
+            </button>
+            <button type="submit" name="signup" class="green-button">
+                Salva
+            </button>
+        </div>
+    </form>
 </div>

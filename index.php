@@ -22,6 +22,9 @@ $routes = [
     'richieste-adozione' => [
         'file' => __DIR__ . '/src/php/admin/richieste-adozione.php'
     ]
+    'nuovo-animale' => [
+        'file' => __DIR__ . '/src/php/admin/nuovo-animale.php'
+    ]
     // 'animali' => [
     //     'file' => __DIR__ . '/src/php/animali.php',
     // ],
