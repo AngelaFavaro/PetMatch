@@ -77,7 +77,7 @@ class DBAccess {
             FROM RICHIESTE_ADOZIONI ra
             JOIN UTENTI u ON u.Email = ra.Email
             JOIN ANIMALI a ON a.IDanimale = ra.IDanimale
-            JOIN AMMINISTRATORI m ON m.Email = a.Email
+            JOIN UTENTI m ON m.Email = a.Email
             -- Utilizziamo LEFT JOIN per non perdere le richieste senza trasporto
             LEFT JOIN TRASPORTI t ON t.Email = ra.Email AND t.IDanimale = ra.IDanimale
             WHERE ra.Email = ? AND ra.IDanimale = ?
@@ -433,7 +433,7 @@ class DBAccess {
             return null;
         }
 
-        $query = "SELECT * FROM AMMINISTRATORI WHERE Email = ?";
+        $query = "SELECT * FROM UTENTI WHERE Email = ?";
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
             return null;
@@ -465,7 +465,7 @@ class DBAccess {
             return false;
         }
 
-        $query = "UPDATE AMMINISTRATORI SET Nome = ?, Cognome = ?, ImgPath = ? WHERE Email = ?";
+        $query = "UPDATE UTENTI SET Nome = ?, Cognome = ?, ImgPath = ? WHERE Email = ?";
 
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
@@ -694,26 +694,26 @@ class DBAccess {
             return false;
         }
 
-        $query = "INSERT INTO UTENTI (Email, Nome, Cognome, UtentePW) VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO UTENTI (Email, Nome, Cognome, Password, Ruolo) VALUES (?, ?, ?, ?, ?)";
 
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
             return false;
         }
 
-        mysqli_stmt_bind_param($stmt, 'ssss', $email, $name, $surname, $hashedPassword);
+        mysqli_stmt_bind_param($stmt, 'ssss', $email, $name, $surname, $hashedPassword, 'User');
         $result = mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
         return $result;
     }
 
-    function getUserInfo($email): array {
+    function getUserInfo($email): ?array {
         $requests = [];
         
         $query = "SELECT 
                     Nome,
                     Cognome,
-                    UtentePW,
+                    Password,
                     Telefono,
                     Via,
                     Citta,
@@ -770,26 +770,25 @@ class DBAccess {
         return $requests;
     }
 
-    // public function getHashPassword($email): ?string {
+    public function getRole($email): ?string {
         
-    //     $query = "SELECT UtentePW FROM UTENTI WHERE Email = ?";
-    //     $stmt = mysqli_prepare($this->connection, $query);
+        $query = "SELECT Ruolo FROM UTENTI WHERE Email = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
 
-    //     $passwordHash = null;
+        $role = null;
 
-    //     if ($stmt) {
-    //         mysqli_stmt_bind_param($stmt, 's', $email);
-    //         mysqli_stmt_execute($stmt);
-    //         $result = mysqli_stmt_get_result($stmt);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
 
-    //         if ($row = mysqli_fetch_assoc($result)) {
-    //             $passwordHash = $row['UtentePW'];
-    //         }
-    //         mysqli_stmt_close($stmt);
-    //     }
-
-    //     return $passwordHash;
-    // }
+            if ($row = mysqli_fetch_assoc($result)) {
+                $role = $row['Ruolo'];
+            }
+            mysqli_stmt_close($stmt);
+        }
+        return $role;
+    }
 
     public function updateUserInfo(string $email, array $newUserInfo): bool {
         if (!$this->connection){
@@ -817,7 +816,7 @@ class DBAccess {
             return false;
         }
 
-        $query = "UPDATE UTENTI SET Email = ?, UtentePW = ? WHERE Email = ?";
+        $query = "UPDATE UTENTI SET Email = ?, Password = ? WHERE Email = ?";
 
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){

@@ -308,3 +308,4 @@ function uploadImage($file, $folder) {
         return false;
     }
 }
+

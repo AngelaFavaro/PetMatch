@@ -4,6 +4,8 @@ include './src/DBconnection.php';
 use DB\DBAccess;
 session_start();
 
+// $_SESSION['email'] = 'angelacanazza2005@gmail.com';
+
 //se non sono loggato rimando alla pagina di login
 if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
     header("Location: ./accedi");
@@ -13,6 +15,17 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
 $filtroCorrente = '%';
 if (isset($_GET['state'])) {
     $filtroCorrente = htmlspecialchars($_GET['state']);
+}
+
+function checkRole(DBAccess $conn) {
+    $userRole = $conn->getRole($_SESSION['email']);
+    if ($userRole === 'Admin'){
+        header("Location: ./area-riservata");
+        exit; 
+    }
+    if ($userRole === null){
+        logout();
+    }
 }
 
 function createMovementList(DBAccess $conn, $filtro = '%'): string {
@@ -80,7 +93,7 @@ $NewUserManagement = [
     'Newpassword' => ''
 ];
 
-function editInfoAccount(DBAccess $conn, &$NewUserValues, &$infoUtente): array {
+function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente): array {
 	
 	$message = [
         'generic' => '',
@@ -93,10 +106,10 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, &$infoUtente): array {
         'indirizzo-totale' => ''
     ];
 
-    if (isset($_SESSION['form_status'])) {
+    if (isset($_SESSION['form_status_info'])) {
         
-        if($_SESSION['form_status'] === 'error'){
-            $savedErrors = $_SESSION['form_errors'] ?? [];
+        if($_SESSION['form_status_info'] === 'error'){
+            $savedErrors = $_SESSION['form_errors_info'] ?? [];
             
             if (isset($savedErrors['generic'])) {
                 $message['generic'] = "<p class='error-form'>" . $savedErrors['generic'] . "</p>";
@@ -142,8 +155,8 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, &$infoUtente): array {
             $NewUserValues['phoneNumber'] = $savedInputs['phoneNumber'] ?? '';
 
             // Pulizia sessione
-            unset($_SESSION['form_status']);
-            unset($_SESSION['form_errors']);
+            unset($_SESSION['form_status_info']);
+            unset($_SESSION['form_errors_info']);
             unset($_SESSION['form_inputs']);
         }
     }
@@ -248,8 +261,8 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, &$infoUtente): array {
 				$_SESSION['loggato'] = true;
 
             } else {
-                $_SESSION['form_status'] = 'error';
-                $_SESSION['form_errors'] = ['generic' => "Sistema momentaneamente non disponibile."];
+                $_SESSION['form_status_info'] = 'error';
+                $_SESSION['form_errors_info'] = ['generic' => "Sistema momentaneamente non disponibile."];
                 $_SESSION['form_inputs'] = ['name' => $NewUserValues['name'], 'surname' => $NewUserValues['surname'], 
                 'address' => $NewUserValues['address'], 'city' => $NewUserValues['city'],
                 'CAP' => $NewUserValues['CAP'], 'phoneNumber' => $NewUserValues['phoneNumber'] ];
@@ -259,8 +272,8 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, &$infoUtente): array {
             exit;
             
         } else {
-            $_SESSION['form_status'] = 'error';
-            $_SESSION['form_errors'] = $errors; 
+            $_SESSION['form_status_info'] = 'error';
+            $_SESSION['form_errors_info'] = $errors; 
             $_SESSION['form_inputs'] = ['name' => $NewUserValues['name'], 'surname' => $NewUserValues['surname'], 
                 'address' => $NewUserValues['address'], 'city' => $NewUserValues['city'],
                 'CAP' => $NewUserValues['CAP'], 'phoneNumber' => $NewUserValues['phoneNumber'] ];
@@ -273,7 +286,7 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, &$infoUtente): array {
 }
 
 
-function editManagementAccount(DBAccess $conn, &$NewUserValues, &$infoUtente): array {
+function editManagementAccount(DBAccess $conn, &$NewUserValues, $infoUtente): array {
 	
 	$message = [
         'generic' => '',
@@ -281,10 +294,10 @@ function editManagementAccount(DBAccess $conn, &$NewUserValues, &$infoUtente): a
         'password' => ''
     ];
 
-    if (isset($_SESSION['form_status'])) {
+    if (isset($_SESSION['form_status_management'])) {
         
-        if($_SESSION['form_status'] === 'error'){
-            $savedErrors = $_SESSION['form_errors'] ?? [];
+        if($_SESSION['form_status_management'] === 'error'){
+            $savedErrors = $_SESSION['form_errors_management'] ?? [];
             
             if (isset($savedErrors['generic'])) {
                 $message['generic'] = "<p class='error-form'>" . $savedErrors['generic'] . "</p>";
@@ -302,8 +315,8 @@ function editManagementAccount(DBAccess $conn, &$NewUserValues, &$infoUtente): a
             $NewUserValues['email'] = $savedInputs['email'] ?? '';
 
             // Pulizia sessione
-            unset($_SESSION['form_status']);
-            unset($_SESSION['form_errors']);
+            unset($_SESSION['form_status_management']);
+            unset($_SESSION['form_errors_management']);
             unset($_SESSION['form_inputs']);
         }
     }
@@ -337,7 +350,7 @@ function editManagementAccount(DBAccess $conn, &$NewUserValues, &$infoUtente): a
 
         if(strlen($oldPassword) === 0 && strlen($newPassword) === 0 && strlen($confirmPassword) === 0){
             // nessun cambiamento di password
-        } else if (!password_verify($oldPassword, $infoUtente['UtentePW'])) {
+        } else if (!password_verify($oldPassword, $infoUtente['Password'])) {
             $errors['password'] = "La vecchia password non è corretta.";
         } else if (strlen($newPassword) < 8 || strlen($confirmPassword) < 8) {
             $errors['password'] = "La password deve essere di almeno 8 caratteri.";
@@ -345,7 +358,7 @@ function editManagementAccount(DBAccess $conn, &$NewUserValues, &$infoUtente): a
             $errors['password'] = "La password deve essere al massimo di 32 caratteri.";
         }else if (!preg_match($regexPassword, $newPassword) || $newPassword !== $confirmPassword) {
             $errors['password'] = "La password non rispetta i criteri richiesti o non coincide.";
-        }else if (password_verify($newPassword, $infoUtente['UtentePW'])) {
+        }else if (password_verify($newPassword, $infoUtente['Password'])) {
             $errors['password'] = "La nuova password deve essere diversa dalla vecchia.";
         }
 
@@ -354,7 +367,7 @@ function editManagementAccount(DBAccess $conn, &$NewUserValues, &$infoUtente): a
             if(strlen($newPassword) !== 0){
                 $NewUserValues['Newpassword'] = password_hash($newPassword, PASSWORD_DEFAULT);
             }else{
-                $NewUserValues['Newpassword'] = $infoUtente['UtentePW'];
+                $NewUserValues['Newpassword'] = $infoUtente['Password'];
             }
 
             $EditResult = $conn->updateUserManagement($_SESSION['email'], $NewUserValues);
@@ -364,8 +377,8 @@ function editManagementAccount(DBAccess $conn, &$NewUserValues, &$infoUtente): a
 				$_SESSION['email'] = $email;
 
             } else {
-                $_SESSION['form_status'] = 'error';
-                $_SESSION['form_errors'] = ['generic' => "Sistema momentaneamente non disponibile."];
+                $_SESSION['form_status_management'] = 'error';
+                $_SESSION['form_errors_management'] = ['generic' => "Sistema momentaneamente non disponibile."];
                 $_SESSION['form_inputs'] = ['email' => $NewUserValues['email'] ];
             }
 
@@ -373,8 +386,8 @@ function editManagementAccount(DBAccess $conn, &$NewUserValues, &$infoUtente): a
             exit;
             
         } else {
-            $_SESSION['form_status'] = 'error';
-            $_SESSION['form_errors'] = $errors; 
+            $_SESSION['form_status_management'] = 'error';
+            $_SESSION['form_errors_management'] = $errors; 
             $_SESSION['form_inputs'] = ['email' => $NewUserValues['email'] ];
             header("Location: ./profilo-utente?mode=management");
             exit;
@@ -384,9 +397,9 @@ function editManagementAccount(DBAccess $conn, &$NewUserValues, &$infoUtente): a
     return $message;
 }
 
-if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])){
+function logout(){
     $_SESSION = [];
-
+    
     if (ini_get("session.use_cookies")) {
         $params = session_get_cookie_params();
         setcookie(session_name(), '', time() - 42000,
@@ -394,12 +407,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])){
             $params["secure"], $params["httponly"]
         );
     }
-
+    
     session_destroy();
     
     header("Location: ./home");
     exit;
 }
+
+if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])){ logout();}
 
 
 // --- HTML VISUALIZZAZIONE ---
@@ -492,7 +507,7 @@ $htmlEdit = '
 $htmlManagement = '
     <div class="edit-management">
         <h2>Gestisci il profilo</h2>
-        <form class="edit-mode" method="POST" action="profilo-utente">
+        <form class="edit-mode" method="POST" action="profilo-utente" novalidate>
             <fieldset class="fieldset-edit-email">
                 <legend>Modifica email</legend>
                 <div>
@@ -568,6 +583,7 @@ $connessione = new DBAccess();
 $connessioneOK = $connessione->openDBConnection();
 if ($connessioneOK) {
 	if (isset($_SESSION['email'])) {
+        checkRole($connessione);
         $infoUtente = $connessione->getUserInfo($_SESSION['email']);
         $listaAvvisi = createMovementList($connessione, $filtroCorrente);
         $messageInfoForm = editInfoAccount($connessione, $NewUserInfo, $infoUtente);
@@ -577,6 +593,7 @@ if ($connessioneOK) {
         exit;
     }
     $connessione->closeConnection();
+    $messaggiGenerici = $messageInfoForm['generic'] . $messageManagementForm['generic'];
 }else{
 	header("Location: ./404");
     exit;    
@@ -633,7 +650,7 @@ $paginaHTML = str_replace('[erroriIndirizzo]', $messageInfoForm['address'], $pag
 $paginaHTML = str_replace('[erroriCitta]', $messageInfoForm['city'], $paginaHTML);
 $paginaHTML = str_replace('[erroriCAP]', $messageInfoForm['CAP'], $paginaHTML);
 $paginaHTML = str_replace('[erroriTelefono]', $messageInfoForm['phoneNumber'], $paginaHTML);
-$paginaHTML = str_replace('[messaggiForm]', $messageInfoForm['generic'], $paginaHTML);
+$paginaHTML = str_replace('[messaggiForm]', $messaggiGenerici, $paginaHTML);
 $paginaHTML = str_replace('[erroriIndirizzoTotale]', $messageInfoForm['indirizzo-totale'], $paginaHTML);
 
 $paginaHTML = str_replace('[imgPath]', $infoUtente['ImgPath'] ? $infoUtente['ImgPath'] : './assets/images/users/default-pic.png', $paginaHTML);

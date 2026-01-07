@@ -419,8 +419,7 @@ input:focus-visible + label,
 input:focus-visible,
 a:focus-visible,
 button:focus-visible,
-input [type="checkbox"]:focus-visible,
-select:focus-visible {
+input [type="checkbox"]:focus-visible {
     outline: 3px solid red;
     outline-offset: 2px;
     transition: none;
@@ -1283,7 +1282,7 @@ label {
 
 #user-profile .tabs-container select:focus{
     border: 2px solid var(--headercolor);
-    margin:-1px;
+    margin:4px;
 }
 
 /* tab */
@@ -1382,7 +1381,7 @@ label {
     border-radius: 2em;
     border-color: var(--text-buttoncolor);
     color:var(--text-buttoncolor);
-    margin:0.5em;
+    margin:5px;
 }
 
 #user-profile #user-info img.circle-foto{
