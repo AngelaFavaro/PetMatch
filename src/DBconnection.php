@@ -829,5 +829,24 @@ class DBAccess {
         return $result;
     }
 
+    function getCredentials($email): array {
+        $row = [];
+        $query = "SELECT Email, Password FROM UTENTI WHERE Email = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            $row = mysqli_fetch_assoc($result) ?? [];
+
+            mysqli_stmt_close($stmt);
+        }
+
+        return $row;
+    }
+
 }
 ?>

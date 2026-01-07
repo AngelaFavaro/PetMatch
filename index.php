@@ -25,6 +25,9 @@ $routes = [
     'registrati' => [
         'file' => __DIR__ . '/src/php/registrati.php'
     ],
+    'accedi' => [
+        'file' => __DIR__ . '/src/php/accedi.php'
+    ],
     'profilo-utente' => [
         'file' => __DIR__ . '/src/php/profilo-utente.php'
     ]

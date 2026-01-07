@@ -2,7 +2,6 @@
 include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
-session_start();
 
 // $_SESSION['email'] = 'angelacanazza2005@gmail.com';
 
@@ -438,8 +437,8 @@ $htmlView =
         <dt>Email: </dt> <dd>[email-utente]</dd>
         <dt>Telefono: </dt> <dd>[telefono-utente-view]</dd>
     </dl>
-    <form action="./home" method="POST">
-        <button type="logout" class="logout-btn">Esci</button>
+    <form action="./profilo-utente" method="POST">
+        <button type="submit" name="logout" class="logout-btn">Esci</button>
     </form>
 </div>';
 

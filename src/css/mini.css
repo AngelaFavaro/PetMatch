@@ -205,9 +205,9 @@ input:checked + #slider {
 
 /* ================== REGISTRATI ==================*/
 
-#form-signup{
+#signup .container{
     padding: 2em 8%;
-    margin: 0;
+    margin: 0 0.5em;
 }
 
 #form-signup .column-container{
@@ -318,4 +318,20 @@ nav#breadcrumb {
 #error-info{
     width: 70%;
     margin: 0 auto;
+}
+
+/* ================== LOGIN ==================*/
+
+#login .container .column-container{
+    width: 100%;
+    padding-bottom:1em;
+}
+
+#form-login legend{
+    margin-bottom:0;
+}
+
+#form-login button{
+    width: 100%;
+    margin-top:1.5em;
 }

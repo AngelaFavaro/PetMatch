@@ -62,7 +62,7 @@ html, body {
 
 
 #layout-user header + main{
-    margin-top:120px;
+    margin-top:90px;
 }
 
 #NavHeader + main #breadcrumb{
@@ -184,6 +184,10 @@ a.brown-button:visited{
     transition: background-color 0.6s ease;
     background-color: var(--bgcolor);
     color:var(--text-buttoncolor)
+}
+
+.white-button:visited{
+    color:var(--text-buttoncolor);
 }
 
 .torna-su-button{
@@ -416,13 +420,17 @@ NOTA: modificare il flex se necessario annidando la classe dentro le proprie sez
 
 /* ==================FOCUS================== */
 input:focus-visible + label,
-input:focus-visible,
 a:focus-visible,
 button:focus-visible,
 input [type="checkbox"]:focus-visible {
     outline: 3px solid red;
     outline-offset: 2px;
     transition: none;
+}
+
+input:focus{
+    outline:3px solid var(--headercolor);
+    outline-offset: 0px;
 }
 
 
@@ -1060,7 +1068,10 @@ legend {
     width: 100%;
 }
 
-label + input,
+#signup label + input,
+#home label + input,
+#profilo-utente label + input,
+#login label + input,
 .edit-number div span + input, 
 .password-container input {
     border-radius: 5em;
@@ -1074,7 +1085,10 @@ label + input,
     box-sizing: border-box; 
 }
 
-label + input::placeholder{
+#signup label + input::placeholder,
+#home label + input::placeholder,
+#profilo-utente label + input::placeholder,
+#login label + input::placeholder{
     color: var(--placeholder-text);
 }
 
@@ -1096,35 +1110,32 @@ label {
 
 /* ================== REGISTRATI ==================*/
 
-#form-signup{
-    padding: 2em 10%;
-    margin: 0 15%;
+#signup .container{
+    max-width: 800px;
+    padding: 2em 3em;
     border-radius: 1em;
     background-color: var(--bgcolor);
 }
 
-#signup{
+#signup, #login{
     background-color: var(--bgform);
-    margin: -130px 0 -30px 0;
-    padding: 130px 0 30px 0;
+    margin: -110px 0 -30px 0;
+    padding: 110px 0 30px 0;
     background-image: url('../../assets/images/bg-pow.svg');
     background-repeat: repeat;
     background-size: contain;
 }
+
 
 #form-signup .column-container{
     padding: 0;
 }
 
 /* cambio il colore dell'autofill */
-#form-signup input:-webkit-autofill,
-#form-signup input:-webkit-autofill:hover, 
-#form-signup input:-webkit-autofill:focus, 
-#form-signup input:-webkit-autofill:active,
-.edit-mode input:-webkit-autofill,
-.edit-modep input:-webkit-autofill:hover, 
-.edit-mode input:-webkit-autofill:focus, 
-.edit-modeinput:-webkit-autofill:active{
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
     -webkit-box-shadow: 0 0 0 30px var(--bglink-hover) inset;
 }
 
@@ -1146,7 +1157,8 @@ label {
     margin-left:1.5em;
 }
 
-#form-signup legend{
+#form-signup legend,
+#form-login legend{
     font-size: 2em;
     font-weight: 700;
 }
@@ -1155,15 +1167,18 @@ label {
     width: 50%;
 }
 
-#form-signup a{
+#form-signup a,
+#form-login a{
     color:var(--headerlink);
 }
 
-#form-signup a:visited{
+#form-signup a:visited,
+#form-login a:visited{
     color:var(--headerlink);
 }
 
-#form-signup #signup-accedi{
+#form-signup + p,
+#form-login + p{
     text-align: center;
     padding:1em 0;
 }
@@ -1636,7 +1651,47 @@ input[type="file"]::file-selector-button:hover {
     margin-right:0.5em;
 }
 
+/* ================== LOGIN ==================*/
+#container-image-login{
+    flex: 0 1 50%;
+}
 
+#login img{
+    width: 100%;
+    height: auto;
+    border-radius: 1.5em 0 0 1.5em;
+    display: block;
+    pointer-events: none;
+}
+
+#container-form-login{
+    flex: 1 1 40%;
+}
+
+#form-login{
+    padding:1em 2em 0 2em;
+    height: fit-content;
+}
+#form-login legend{
+    margin-bottom:0.5em;
+}
+
+#login .container .column-container{
+    background-color: var(--bgcolor);
+    border-radius: 1.5em;
+    padding:0;
+    gap:0;
+
+}
+
+#login .container{
+    height: fit-content;
+}
+
+#form-login button{
+    width: 80%;
+    margin-top:3em;
+}
 
 /* ================== =========== PAGINE ADMIN================== ============*/
 
@@ -1731,7 +1786,7 @@ body#admin-body main {
 }
 
 main#content{
-    min-height: 100vh;
+    /* min-height: 100vh; */
     padding-top:2em;
 }
 
@@ -2196,10 +2251,7 @@ td.col-dettagli a{
 	color: var(--visitedcolor);
 }
 
-input:focus{
-    border:1px solid var(--headercolor);
-    outline-color: var(--headercolor);
-}
+
 
 
 /* ================== BREADCRUMB==================*/

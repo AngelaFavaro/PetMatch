@@ -3,10 +3,8 @@ include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
 
-session_start();
-
 //se sono loggato rimando alla pagina di profilo
-if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] === true) {
+if (isset($_SESSION['loggato']) && $_SESSION['loggato'] === true) {
     header("Location: ./profilo-utente");
     exit;    
 }
