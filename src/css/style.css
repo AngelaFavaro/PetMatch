@@ -1046,7 +1046,6 @@ legend {
     padding-top:1em;
     font-weight: 500;
     text-align: center;
-    padding-bottom: 1.5em;
     font-size: 1.1em;
     width: 100%;
 }
@@ -1416,28 +1415,66 @@ label {
     text-align: center;
 }
 
-#user-profile #user-info .view-mode span{
+.view-mode h2{
+    padding:0.5em 0;
+}
+
+.view-mode span{
     display: flex;
+    position: relative;
 }
 
-.view-mode a{
-    margin-left: auto;
-    margin-right: 0;
+.view-mode .edit-profile-link{
+    margin:0.5em auto;
+    background-color: var(--bglink-hover);
+    padding: 0.5em 1em;
     color:var(--txtcolor);
-    padding:5px 10px;
-    border-radius: 10px;
-    background-color: var(--bgcolor);
-    border: none;
-    cursor: pointer;
+    border-radius: 2em;
+    display: flex;
+    width: fit-content;
+    flex-wrap: nowrap ;
+    text-decoration: none;
+    border:2px solid var(--bglink-hover);
+    transition: 0.4s;
 }
 
-.view-mode a:hover{
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid var(--buttoncolor-hover);
-    padding:4px 9px;
+.view-mode .edit-profile-link:hover{
+    border:2px solid var(--bglink-hover);
+    background-color: transparent;
 }
+
+.view-mode .edit-profile-link p{
+    margin-right: 5px;
+}
+
+
+.view-mode .edit-profile-link img{
+    margin-right: 0;
+    margin-left: auto;
+    margin-top:-5px;
+    height: 25px;
+    width:auto;
+}
+
+.normal-icon,
+.hover-icon{
+    position: absolute;
+    top:4px;
+    right:0;
+    transition: 0.4s;
+    width: 45px;
+    height: 45px;
+}
+
+.normal-icon {opacity: 1;}
+.hover-icon {opacity: 0;}
+
+a:hover .normal-icon {opacity: 0;}
+a:hover .hover-icon {opacity: 1;}
 
 /* MODALITA MODIFICA */
+
+
 .edit-mode .edit-number div{
     display: flex;
     flex-wrap: nowrap;
@@ -1447,16 +1484,13 @@ label {
     margin:auto 5px auto 0;
 }
 
-.edit-mode h2{
+.edit-mode h2,
+.edit-management h2{
     text-align: center;
 }
 
 form label{
     margin-top:1em;
-}
-
-legend{
-    margin-bottom:-1em;
 }
 
 .edit-mode input[type="file"]{
@@ -1482,14 +1516,17 @@ input[type="file"]::file-selector-button:hover {
     background-color: var(--darkbgcolor);
 }
 
-.edit-mode form span{
+.edit-mode form span,
+.edit-management form span{
     display: flex;
     flex-wrap: wrap;
     margin: 1em auto 0 auto;
 }
 
 .edit-mode form span a,
-.edit-mode form span button
+.edit-mode form span button,
+.edit-management form span a,
+.edit-management form span button
 {
     flex: 1 1 44%;
     text-align: center;
@@ -1498,7 +1535,8 @@ input[type="file"]::file-selector-button:hover {
     font-size: 1em;
 }
 
-.edit-mode form span button{
+.edit-mode form span button,
+.edit-management form span button{
     background-color: var(--bgconfirmbutton);
     color:var(--bgconfermbutton);
     border:2px solid var(--bgconfirmbutton);
@@ -1506,7 +1544,8 @@ input[type="file"]::file-selector-button:hover {
     margin-left:0.5em;
 }
 
-.edit-mode form span a{
+.edit-mode form span a,
+.edit-management form span a{
     color:var(--txtcancelbutton);
     border:2px solid var(--bgconfirmbutton);
     text-decoration: none;

@@ -796,7 +796,7 @@ class DBAccess {
             return false;
         }
 
-        $query = "UPDATE UTENTI SET Email = ?, Nome = ?, Cognome = ?, UtentePW = ?, 
+        $query = "UPDATE UTENTI SET Nome = ?, Cognome = ?, 
         Telefono = ?, Via = ?, Citta = ?, CAP = ?, ImgPath = ? WHERE Email = ?";
 
         $stmt = mysqli_prepare($this->connection, $query);
@@ -804,9 +804,27 @@ class DBAccess {
             return false;
         }
 
-        mysqli_stmt_bind_param($stmt, 'ssssssssss', $newUserInfo['email'], $newUserInfo['name'], $newUserInfo['surname'], 
-        $newUserInfo['Newpassword'], $newUserInfo['phoneNumber'], $newUserInfo['address'], $newUserInfo['city'], 
+        mysqli_stmt_bind_param($stmt, 'ssssssss',  $newUserInfo['name'], $newUserInfo['surname'], 
+        $newUserInfo['phoneNumber'], $newUserInfo['address'], $newUserInfo['city'], 
         $newUserInfo['CAP'], $newUserInfo['profilePic'], $email);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
+
+    public function updateUserManagement(string $email, array $newUserInfo): bool {
+        if (!$this->connection){
+            return false;
+        }
+
+        $query = "UPDATE UTENTI SET Email = ?, UtentePW = ? WHERE Email = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 'sss', $newUserInfo['email'], $newUserInfo['Newpassword'], $email);
         $result = mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
         return $result;
