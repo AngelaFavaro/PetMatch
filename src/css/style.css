@@ -61,11 +61,11 @@ html, body {
 }
 
 
-#layout-user header + #breadcrumb{
+#layout-user header + main{
     margin-top:120px;
 }
 
-#NavHeader + #breadcrumb{
+#NavHeader + main #breadcrumb{
     border: 1px solid var(--bgcolor);
 }
 
@@ -413,6 +413,23 @@ NOTA: modificare il flex se necessario annidando la classe dentro le proprie sez
 #zzz {
     animation: sleep 4s infinite ease-in-out;
 }
+
+/* ==================FOCUS================== */
+input:focus-visible + label,
+input:focus-visible,
+a:focus-visible,
+button:focus-visible,
+input [type="checkbox"]:focus-visible,
+select:focus-visible {
+    outline: 3px solid red;
+    outline-offset: 2px;
+    transition: none;
+}
+
+
+
+
+
 /* ==================SOLO PER SCREEN READER================== */
 
 /* Gli elementi con questa classe sono visibili solo agli screen reader */
@@ -443,12 +460,6 @@ NOTA: modificare il flex se necessario annidando la classe dentro le proprie sez
     display: none;
 }
 
-#theme-toggle:focus-visible + #theme-switch #slider{
-    transition: none;
-    outline: 2px solid black;
-    border: 1px solid white; 
-    outline-offset: 2px;
-}
 
 header {
     background-color: var(--headercolor);
@@ -1270,11 +1281,24 @@ label {
     width: 90%;
 }
 
+#user-profile .tabs-container select:focus{
+    border: 2px solid var(--headercolor);
+    margin:-1px;
+}
+
 /* tab */
 #user-profile .tabs-container {
     display: flex;
     flex-wrap: wrap;
 }
+
+/* #user-profile .tabs-container input{
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+} */
+
 
 #user-profile .tabs-container input + label {
     flex: 1 0 46%;
@@ -1359,11 +1383,6 @@ label {
     border-color: var(--text-buttoncolor);
     color:var(--text-buttoncolor);
     margin:0.5em;
-}
-
-#user-profile .tabs-container select:focus{
-    border: 2px solid var(--headercolor);
-    margin:-1px;
 }
 
 #user-profile #user-info img.circle-foto{

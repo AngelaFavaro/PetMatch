@@ -409,13 +409,13 @@ $htmlView =
     <span>
         <h2>Le tue informazioni</h2>
         <a href="?mode=management" aria-label="Gestione dell\'account">
-            <img src="./assets/icons/setting.svg" alt="modifica profilo" class="normal-icon"/>
-            <img src="./assets/icons/setting-hover.svg" alt="modifica profilo" class="hover-icon"/>
+            <img src="./assets/icons/setting.svg" alt="" class="normal-icon"/>
+            <img src="./assets/icons/setting-hover.svg" alt="" class="hover-icon"/>
         </a>
     </span>
     <img src="[imgPath]" alt="foto profilo" class="circle-foto"/>
-    <a href="?mode=edit" aria-label="Modifica il profilo" class="edit-profile-link">
-       <p>Modifica profilo</p> <img src="./assets/icons/edit-pencil.svg" alt="modifica profilo"></a>
+    <a href="?mode=edit" class="edit-profile-link">
+       <p>Modifica profilo</p> <img src="./assets/icons/edit-pencil.svg" alt=""></a>
     <dl aria-label="informazioni dell\'utente">
         <dt>Nome: </dt> <dd>[nome-utente]</dd>
         <dt>Cognome: </dt> <dd>[cognome-utente]</dd>
