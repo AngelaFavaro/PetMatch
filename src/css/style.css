@@ -1324,7 +1324,8 @@ label {
     display: inline-block;
 }
 
-#user-profile .tab-content form button{
+#user-profile .tab-content form button,
+.logout-btn{
     border-radius: 2em;
     background-color: var(--buttoncolor);
     color:var(--txtcolor);
@@ -1333,10 +1334,21 @@ label {
     border:2px solid var(--buttoncolor);
     cursor: pointer;
     font-weight: bold;
+}
+
+#user-profile .tab-content form button{
     margin:0.5em;
 }
 
-#user-profile .tab-content form button:hover{
+.logout-btn{
+    margin:1em auto 0 auto;
+    display: flex;
+    font-size: 1em;
+    font-weight: 600;
+}
+
+#user-profile .tab-content form button:hover,
+.logout-btn:hover{
     background-color:var(--bgcolor);
 }
 
@@ -1390,6 +1402,7 @@ label {
 
 #user-profile #lista-movimenti article p{
     flex: 1 1 70%;
+    margin-left:1em;
 }
 
 #user-profile #lista-movimenti li a{
@@ -1436,6 +1449,7 @@ label {
     text-decoration: none;
     border:2px solid var(--bglink-hover);
     transition: 0.4s;
+    letter-spacing: 0.5px;
 }
 
 .view-mode .edit-profile-link:hover{
@@ -1456,6 +1470,10 @@ label {
     width:auto;
 }
 
+.view-mode span h2 + a{
+    color:var(--txtcolor);
+}
+
 .normal-icon,
 .hover-icon{
     position: absolute;
@@ -1464,6 +1482,7 @@ label {
     transition: 0.4s;
     width: 45px;
     height: 45px;
+    color:var(--txtcolor);
 }
 
 .normal-icon {opacity: 1;}
@@ -1473,7 +1492,6 @@ a:hover .normal-icon {opacity: 0;}
 a:hover .hover-icon {opacity: 1;}
 
 /* MODALITA MODIFICA */
-
 
 .edit-mode .edit-number div{
     display: flex;
