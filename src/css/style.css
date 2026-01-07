@@ -14,7 +14,7 @@
     --linkcolor:#FFF6D7;
     --footercolor: #481515;
     --visitedcolor: #EA654C;
-    --headercolor: #481515;
+    --headercolor: var(--footercolor);
     --headervisitedlink: #6D7541;
     --headerlink: #481515;
     --secondsection: #6D7541;
@@ -24,6 +24,9 @@
     --bgform: #6D7541;
     --errortxt: #BA3A24;
     --successtxt:#576F30;
+    --bgconfirmbutton:#6D7541;
+    --bgconfermbutton:#FFF6D7;
+    --txtcancelbutton:var(--bgconfirmbutton);
 }
 
 a{
@@ -103,6 +106,10 @@ h4{
 
 .error-form{
     color:var(--errortxt);
+}
+
+.error-form + p{
+    margin-top:0.5em;
 }
 
 .success-form{
@@ -1045,10 +1052,11 @@ legend {
 }
 
 label + input,
+.edit-number div span + input, 
 .password-container input {
     border-radius: 5em;
     padding: 0.5em 1em;
-    margin: 0.2em 0 1.3em 0;
+    margin: 0.2em 0 0.3em 0;
     width: 100%; 
     border: 1px solid var(--headercolor);
     color: var(--txtcolor);
@@ -1103,20 +1111,17 @@ label {
 #form-signup input:-webkit-autofill,
 #form-signup input:-webkit-autofill:hover, 
 #form-signup input:-webkit-autofill:focus, 
-#form-signup input:-webkit-autofill:active {
+#form-signup input:-webkit-autofill:active,
+.edit-mode input:-webkit-autofill,
+.edit-modep input:-webkit-autofill:hover, 
+.edit-mode input:-webkit-autofill:focus, 
+.edit-modeinput:-webkit-autofill:active{
     -webkit-box-shadow: 0 0 0 30px var(--bglink-hover) inset;
 }
 
 .column-container div{
     flex: 1 1 48%;
     margin:0;
-}
-
-#form-signup input + p,
-.password-container +p
-{
-    margin-top: -1em;
-    padding-bottom: 1em;
 }
 
 #form-signup p+p{
@@ -1233,7 +1238,7 @@ label {
 .password-container i {
     position: absolute;
     right: 10px;
-    top: 38%;
+    top: 50%;
     transform: translateY(-50%); 
     color: var(--placeholder-text);
 }
@@ -1350,15 +1355,6 @@ label {
     margin:-1px;
 }
 
-#user-profile #user-info span{
-    display: flex;
-}
-
-#user-profile #user-info a{
-    margin-left: auto;
-    margin-right: 0;
-}
-
 #user-profile #user-info img.circle-foto{
     margin:auto;
     display: flex;
@@ -1419,6 +1415,106 @@ label {
 #query-vuota{
     text-align: center;
 }
+
+#user-profile #user-info .view-mode span{
+    display: flex;
+}
+
+.view-mode a{
+    margin-left: auto;
+    margin-right: 0;
+    color:var(--txtcolor);
+    padding:5px 10px;
+    border-radius: 10px;
+    background-color: var(--bgcolor);
+    border: none;
+    cursor: pointer;
+}
+
+.view-mode a:hover{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--buttoncolor-hover);
+    padding:4px 9px;
+}
+
+/* MODALITA MODIFICA */
+.edit-mode .edit-number div{
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.edit-mode .edit-number div span{
+    margin:auto 5px auto 0;
+}
+
+.edit-mode h2{
+    text-align: center;
+}
+
+form label{
+    margin-top:1em;
+}
+
+legend{
+    margin-bottom:-1em;
+}
+
+.edit-mode input[type="file"]{
+    background-color: var(--darkbgcolor);
+    color: var(--text-buttoncolor);
+    border:none;
+    border-radius: 2em;
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+    background-color: var(--buttoncolor);
+    color: var(--text-buttoncolor);
+    border:none;
+    padding: 0.5em 1em;
+    font-weight: 600;
+    border-radius: 2em;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: var(--darkbgcolor);
+}
+
+.edit-mode form span{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1em auto 0 auto;
+}
+
+.edit-mode form span a,
+.edit-mode form span button
+{
+    flex: 1 1 44%;
+    text-align: center;
+    border-radius: 1em;
+    padding:0.5em 1em;
+    font-size: 1em;
+}
+
+.edit-mode form span button{
+    background-color: var(--bgconfirmbutton);
+    color:var(--bgconfermbutton);
+    border:2px solid var(--bgconfirmbutton);
+    cursor: pointer;
+    margin-left:0.5em;
+}
+
+.edit-mode form span a{
+    color:var(--txtcancelbutton);
+    border:2px solid var(--bgconfirmbutton);
+    text-decoration: none;
+    font-weight: 600;
+    margin-right:0.5em;
+}
+
+
 
 /* ================== =========== PAGINE ADMIN================== ============*/
 

@@ -79,6 +79,10 @@ function createNewAccount(DBAccess $conn, &$nameValue, &$surnameValue, &$emailVa
         $password = trim($_POST['password'] ?? '');
         $confirmPassword = trim($_POST['confirmPassword'] ?? '');
 
+        $name = mb_convert_case($name, MB_CASE_TITLE, "UTF-8");
+        $surname = mb_convert_case($surname, MB_CASE_TITLE, "UTF-8");
+        $email = mb_strtolower($email, "UTF-8");
+
         // Sanitizzazione per redisplay
         $nameValue    = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
         $surnameValue = htmlspecialchars($surname, ENT_QUOTES, 'UTF-8');
@@ -111,9 +115,9 @@ function createNewAccount(DBAccess $conn, &$nameValue, &$surnameValue, &$emailVa
             }
         }
 
-        if (strlen($password) < 8) {
+        if (strlen($password) < 8 || strlen($confirmPassword) < 8   ) {
             $errors['password'] = "La password deve essere di almeno 8 caratteri.";
-        } else if(strlen($password) > 32){
+        } else if(strlen($password) > 32 || strlen($confirmPassword) > 32){
             $errors['password'] = "La password deve essere al massimo di 32 caratteri.";
         }else if (!preg_match($regexPassword, $password) || $password !== $confirmPassword) {
             $errors['password'] = "La password non rispetta i criteri richiesti o non coincide.";

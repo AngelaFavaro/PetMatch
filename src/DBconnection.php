@@ -713,6 +713,7 @@ class DBAccess {
         $query = "SELECT 
                     Nome,
                     Cognome,
+                    UtentePW,
                     Telefono,
                     Via,
                     Citta,
@@ -767,6 +768,48 @@ class DBAccess {
             mysqli_stmt_close($stmt);
         }
         return $requests;
+    }
+
+    // public function getHashPassword($email): ?string {
+        
+    //     $query = "SELECT UtentePW FROM UTENTI WHERE Email = ?";
+    //     $stmt = mysqli_prepare($this->connection, $query);
+
+    //     $passwordHash = null;
+
+    //     if ($stmt) {
+    //         mysqli_stmt_bind_param($stmt, 's', $email);
+    //         mysqli_stmt_execute($stmt);
+    //         $result = mysqli_stmt_get_result($stmt);
+
+    //         if ($row = mysqli_fetch_assoc($result)) {
+    //             $passwordHash = $row['UtentePW'];
+    //         }
+    //         mysqli_stmt_close($stmt);
+    //     }
+
+    //     return $passwordHash;
+    // }
+
+    public function updateUserInfo(string $email, array $newUserInfo): bool {
+        if (!$this->connection){
+            return false;
+        }
+
+        $query = "UPDATE UTENTI SET Email = ?, Nome = ?, Cognome = ?, UtentePW = ?, 
+        Telefono = ?, Via = ?, Citta = ?, CAP = ?, ImgPath = ? WHERE Email = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 'ssssssssss', $newUserInfo['email'], $newUserInfo['name'], $newUserInfo['surname'], 
+        $newUserInfo['Newpassword'], $newUserInfo['phoneNumber'], $newUserInfo['address'], $newUserInfo['city'], 
+        $newUserInfo['CAP'], $newUserInfo['profilePic'], $email);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
     }
 
 }
