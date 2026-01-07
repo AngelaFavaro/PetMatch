@@ -5,6 +5,12 @@ use DB\DBAccess;
 
 session_start();
 
+//se sono loggato rimando alla pagina di profilo
+if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] === true) {
+    header("Location: ./profilo-utente");
+    exit;    
+}
+
 $paginaHTML = file_get_contents('./src/template/layout.html');
 if ($paginaHTML === false) {
 	$paginaHTML = "<p>Errore: template layout.html non trovato o non leggibile.</p>";

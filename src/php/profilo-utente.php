@@ -221,7 +221,7 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, &$infoUtente): array {
         $hasCAP     = ($NewUserValues['CAP'] !== null);
 
         if (!($hasAddress === $hasCity && $hasCity === $hasCAP)) {
-            $errors['indirizzo-totale'] = "L'indirizzo è incompleto: devi compilare Via, Città e CAP insieme.";
+            $errors['indirizzo-totale'] = "L'indirizzo è incompleto: devi compilare Via, Città e CAP insieme o lasciarli tutti vuoti.";
         }
 
         if(strlen($NewUserValues['phoneNumber']) === 0){
@@ -234,8 +234,10 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, &$infoUtente): array {
         if (empty($errors)) {
 
             //la foto del profilo avrà sempre qualcosa anche se non si selezionano immagini, bisogna controllarlo con empty
-            if(isset($_FILES['new-pic']) && !empty($_FILES['new-pic']['name'])){
+            if(isset($_FILES['new-pic']) && !empty($_FILES['new-pic']['name']) && $_POST['delete-pic'] !== 'on'){
                 $NewUserValues['profilePic'] = uploadImage($_FILES['new-pic'], 'users');
+            }else if($_POST['delete-pic'] === 'on'){
+                $NewUserValues['profilePic'] = null;
             }else{
                 $NewUserValues['profilePic'] = $infoUtente['ImgPath']; 
             }
@@ -419,7 +421,7 @@ $htmlView =
         <dt>Cognome: </dt> <dd>[cognome-utente]</dd>
         <dt>Indirizzo: </dt> <dd>[indirizzo-utente]</dd>
         <dt>Email: </dt> <dd>[email-utente]</dd>
-        <dt>Telefono: </dt> <dd>+39 [telefono-utente-view]</dd>
+        <dt>Telefono: </dt> <dd>[telefono-utente-view]</dd>
     </dl>
     <form action="./home" method="POST">
         <button type="logout" class="logout-btn">Esci</button>
@@ -435,37 +437,41 @@ $htmlEdit = '
             <fieldset>
                 <legend>Informazioni personali</legend>
                 <div>
-                    <label for="new-pic">Cambia Foto:</label>
+                    <label for="new-pic">Cambia Foto</label>
                     <input type="file" id="new-pic" name="new-pic" accept="image/*">
+                    <label class="checkbox-container-pic" for="delete-pic">
+                        <input type="checkbox" id="delete-pic" name="delete-pic">
+                        Rimuovi foto profilo
+                    </label>
                 </div>
                 <div>
-                    <label for="new-name">Nome:</label>
+                    <label for="new-name">Nome*</label>
                     <input type="text" id="new-name" name="new-name" autocomplete="name" value="[nome-utente]" placeholder="Nome">
                     <p class="error-form">[erroriNome]</p>
                 </div>
                 <div>
-                    <label for="new-surname">Cognome:</label>
+                    <label for="new-surname">Cognome*</label>
                     <input type="text" id="new-surname" name="new-surname" autocomplete="family-name" value="[cognome-utente]" placeholder="Cognome">
                     <p class="error-form">[erroriCognome]</p>
                 </div>
                 <div>
-                    <label for="new-address">Via e numero civico:</label>
+                    <label for="new-address">Via e numero civico</label>
                     <input type="text" id="new-address" name="new-address" autocomplete="street-address" value="[via-utente]" placeholder="Via L. Da Vinci n.10">
                     <p class="error-form">[erroriIndirizzo]</p>
                 </div>
                 <div>
-                    <label for="new-city">Città:</label>
+                    <label for="new-city">Città</label>
                     <input type="text" id="new-city" name="new-city" autocomplete="address-level2" value="[citta-utente]" placeholder="Roma">
                     <p class="error-form">[erroriCitta]</p>
                 </div>
                 <div id="new-cap">
-                    <label for="new-cap">CAP:</label>
+                    <label for="new-cap">CAP</label>
                     <input type="text" id="new-cap" name="new-cap" autocomplete="postal-code" value="[cap-utente]" placeholder="00000">
                     <p class="error-form">[erroriCAP]</p>
                     <p class="error-form">[erroriIndirizzoTotale]</p>
                 </div>
                 <div class="edit-number">
-                    <label for="new-number">Telefono:</label>
+                    <label for="new-number">Telefono</label>
                     <div>
                         <span>+39 </span>
                         <input type="tel" id="new-number" name="new-number" autocomplete="tel" value="[telefono-utente]" placeholder="000 000 0000">
@@ -490,26 +496,35 @@ $htmlManagement = '
             <fieldset class="fieldset-edit-email">
                 <legend>Modifica email</legend>
                 <div>
-                    <label for="new-email">Email:</label>
+                    <label for="new-email">Email*</label>
                     <input type="email" id="new-email" name="new-email" autocomplete="email" value="[email-utente]" placeholder="esempio@gmail.com">
                     <p class="error-form">[erroriEmail]</p>
                 </div> 
             </fieldset>
             <fieldset class="fieldset-edit-pw">
                 <legend>Modifica password</legend>
-                <label for="old-pw">Vecchia password:</label>
+                <label for="old-pw">Vecchia password</label>
                 <div class="password-container">
-                    <input type="password" id="old-pw" name="old-pw" placeholder="Vecchia password">
+                    <input type="password" id="old-pw" name="old-pw" placeholder="Vecchia password" 
+                    onpaste="return false;" 
+                    oncopy="return false;"
+                    autocomplete="off">
                     <i class="fas fa-eye"></i>
                 </div>
-                <label for="new-pw">Nuova password:</label>
+                <label for="new-pw">Nuova password</label>
                 <div class="password-container">
-                    <input type="password" id="new-pw" name="new-pw" placeholder="Nuova password">
+                    <input type="password" id="new-pw" name="new-pw" placeholder="Nuova password"
+                    onpaste="return false;" 
+                    oncopy="return false;"
+                    autocomplete="off">
                     <i class="fas fa-eye"></i>
                 </div>
-                <label for="new-pw-Confirmed">Conferma la password:</label>
+                <label for="new-pw-Confirmed">Conferma la password</label>
                 <div class="password-container">
-                    <input type="password" id="new-pw-Confirmed" name="new-pw-Confirmed" placeholder="Conferma la password">
+                    <input type="password" id="new-pw-Confirmed" name="new-pw-Confirmed" placeholder="Conferma la password"
+                    onpaste="return false;" 
+                    oncopy="return false;"
+                    autocomplete="off">
                     <i class="fas fa-eye"></i>
                 </div>
             </fieldset>
@@ -555,8 +570,8 @@ if ($connessioneOK) {
 	if (isset($_SESSION['email'])) {
         $infoUtente = $connessione->getUserInfo($_SESSION['email']);
         $listaAvvisi = createMovementList($connessione, $filtroCorrente);
-        $messageForm = editInfoAccount($connessione, $NewUserInfo, $infoUtente);
-        $messageForm = editManagementAccount($connessione, $NewUserManagement, $infoUtente);
+        $messageInfoForm = editInfoAccount($connessione, $NewUserInfo, $infoUtente);
+        $messageManagementForm = editManagementAccount($connessione, $NewUserManagement, $infoUtente);
     }else{
         header("Location: ./login"); 
         exit;
@@ -610,27 +625,27 @@ $paginaHTML = str_replace('[UserInfoSostituzione]', $contenutoScelto, $paginaHTM
 //il filtro selezionato nella tendina precedentemente all'invio della form viene mantenuto
 $paginaHTML = str_replace( 'value="' . $filtroCorrente . '"', 'value="' . $filtroCorrente . '" selected', $paginaHTML);
 
-$paginaHTML = str_replace('[erroriNome]', $messageForm['name'], $paginaHTML);
-$paginaHTML = str_replace('[erroriCognome]', $messageForm['surname'], $paginaHTML);
-$paginaHTML = str_replace('[erroriEmail]', $messageForm['email'], $paginaHTML);
-$paginaHTML = str_replace('[erroriPassword]', $messageForm['password'], $paginaHTML);
-$paginaHTML = str_replace('[erroriIndirizzo]', $messageForm['address'], $paginaHTML);
-$paginaHTML = str_replace('[erroriCitta]', $messageForm['city'], $paginaHTML);
-$paginaHTML = str_replace('[erroriCAP]', $messageForm['CAP'], $paginaHTML);
-$paginaHTML = str_replace('[erroriTelefono]', $messageForm['phoneNumber'], $paginaHTML);
-$paginaHTML = str_replace('[messaggiForm]', $messageForm['generic'], $paginaHTML);
-$paginaHTML = str_replace('[erroriIndirizzoTotale]', $messageForm['indirizzo-totale'], $paginaHTML);
+$paginaHTML = str_replace('[erroriNome]', $messageInfoForm['name'], $paginaHTML);
+$paginaHTML = str_replace('[erroriCognome]', $messageInfoForm['surname'], $paginaHTML);
+$paginaHTML = str_replace('[erroriEmail]', $messageManagementForm['email'], $paginaHTML);
+$paginaHTML = str_replace('[erroriPassword]', $messageManagementForm['password'], $paginaHTML);
+$paginaHTML = str_replace('[erroriIndirizzo]', $messageInfoForm['address'], $paginaHTML);
+$paginaHTML = str_replace('[erroriCitta]', $messageInfoForm['city'], $paginaHTML);
+$paginaHTML = str_replace('[erroriCAP]', $messageInfoForm['CAP'], $paginaHTML);
+$paginaHTML = str_replace('[erroriTelefono]', $messageInfoForm['phoneNumber'], $paginaHTML);
+$paginaHTML = str_replace('[messaggiForm]', $messageInfoForm['generic'], $paginaHTML);
+$paginaHTML = str_replace('[erroriIndirizzoTotale]', $messageInfoForm['indirizzo-totale'], $paginaHTML);
 
 $paginaHTML = str_replace('[imgPath]', $infoUtente['ImgPath'] ? $infoUtente['ImgPath'] : './assets/images/users/default-pic.png', $paginaHTML);
-$paginaHTML = str_replace('[nome-utente]', $NewUserValues['name'] ? $NewUserValues['name'] : $infoUtente['Nome'], $paginaHTML);
-$paginaHTML = str_replace('[cognome-utente]', $NewUserValues['surname'] ? $NewUserValues['surname'] : $infoUtente['Cognome'], $paginaHTML);
+$paginaHTML = str_replace('[nome-utente]', $NewUserInfo['name'] ? $NewUserInfo['name'] : $infoUtente['Nome'], $paginaHTML);
+$paginaHTML = str_replace('[cognome-utente]', $NewUserInfo['surname'] ? $NewUserInfo['surname'] : $infoUtente['Cognome'], $paginaHTML);
 $paginaHTML = str_replace('[indirizzo-utente]', $indirizzoCompleto, $paginaHTML);
-$paginaHTML = str_replace('[email-utente]', $NewUserValues['email'] ? $NewUserValues['email'] : $_SESSION['email'], $paginaHTML);
-$paginaHTML = str_replace('[via-utente]', $NewUserValues['address'] ? $NewUserValues['address'] : $infoUtente['Via'], $paginaHTML);
-$paginaHTML = str_replace('[citta-utente]', $NewUserValues['city'] ? $NewUserValues['city'] : $infoUtente['Citta'], $paginaHTML);
-$paginaHTML = str_replace('[cap-utente]', $NewUserValues['CAP'] ? $NewUserValues['CAP'] : $infoUtente['CAP'], $paginaHTML);
-$paginaHTML = str_replace('[telefono-utente]', $NewUserValues['phoneNumber'] ? $NewUserValues['phoneNumber'] : $infoUtente['Telefono'], $paginaHTML);
-$paginaHTML = str_replace('[telefono-utente-view]', $infoUtente['Telefono'] ? $infoUtente['Telefono'] : "<em>Sconosciuto</em>", $paginaHTML);
+$paginaHTML = str_replace('[email-utente]', $NewUserManagement['email'] ? $NewUserManagement['email'] : $_SESSION['email'], $paginaHTML);
+$paginaHTML = str_replace('[via-utente]', $NewUserInfo['address'] ? $NewUserInfo['address'] : $infoUtente['Via'], $paginaHTML);
+$paginaHTML = str_replace('[citta-utente]', $NewUserInfo['city'] ? $NewUserInfo['city'] : $infoUtente['Citta'], $paginaHTML);
+$paginaHTML = str_replace('[cap-utente]', $NewUserInfo['CAP'] ? $NewUserInfo['CAP'] : $infoUtente['CAP'], $paginaHTML);
+$paginaHTML = str_replace('[telefono-utente]', $NewUserInfo['phoneNumber'] ? $NewUserInfo['phoneNumber'] : $infoUtente['Telefono'], $paginaHTML);
+$paginaHTML = str_replace('[telefono-utente-view]', $infoUtente['Telefono'] ? '+39 ' . $infoUtente['Telefono'] : "<em>Sconosciuto</em>", $paginaHTML);
 $paginaHTML = str_replace('[footer]', $footer, $paginaHTML);
 
 echo $paginaHTML;

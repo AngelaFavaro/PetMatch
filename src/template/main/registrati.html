@@ -5,32 +5,38 @@
             <legend>Registrati</legend>
             <div class="column-container">
                 <div>
-                    <label for="name">Nome</label>
+                    <label for="name">Nome*</label>
                     <input type="text" name="name" id="name" placeholder="Nome" autocomplete="name" value="[nameValue]">
                     <p class="error-form">[erroriNome]</p>
                 </div>
                 <div>
-                    <label for="surname">Cognome</label>
+                    <label for="surname">Cognome*</label>
                     <input type="text" name="surname" id="surname" placeholder="Cognome" autocomplete="name" value="[surnameValue]">
                     <p class="error-form">[erroriCognome]</p>
                 </div>
             </div>
             <div>
-                <label for="email">Email</label>
+                <label for="email">Email*</label>
                 <input type="email" name="email" id="email" placeholder="esempio@gmail.com" autocomplete="email" value="[emailValue]">
                 <p class="error-form">[erroriEmail]</p>
             </div>
             <div>
-                <label for="password">Password</label>
+                <label for="password">Password*</label>
                 <div class="password-container">
-                    <input type="password" name="password" id="password" placeholder="Password">
+                    <input type="password" name="password" id="password" placeholder="Password"
+                    onpaste="return false;" 
+                    oncopy="return false;"
+                    autocomplete="off">
                     <i class="fas fa-eye" ></i>
                 </div>
             </div>
             <div>
-                <label for="confirmPassword">Conferma la password</label>
+                <label for="confirmPassword">Conferma la password*</label>
                 <div class="password-container">
-                    <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Conferma la password">
+                    <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Conferma la password"
+                    onpaste="return false;" 
+                    oncopy="return false;"
+                    autocomplete="off">
                     <i class="fas fa-eye" ></i>
                     <!-- l'icona è presa da FontAwesome (link incluso nell'head) -->
                 </div>
