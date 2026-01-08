@@ -1213,7 +1213,7 @@ nav#menu-admin {
     padding: 1em 0em 1em 1em;
     height: 100%;
     overflow: hidden;
-    height: 100vh;
+    /* height: 100vh; */
 }
 
 body#admin-body main {

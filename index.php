@@ -27,6 +27,7 @@ $routes = [
     // ],
     // 'animali/cani' => [
     //     'file' => __DIR__ . '/src/php/animali.php',
+    //     'params' => [
     // ],
     // 'animali/gatti' => [
     //     'file' => __DIR__ . '/src/php/animali.php',
