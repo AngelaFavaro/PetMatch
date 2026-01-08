@@ -88,10 +88,12 @@
 #menu-toggle::before {
     content: "\2630"; /* ☰ */
     display: block;
+    width: 45px;
 }
 
 #menu-toggle-checkbox:checked ~ #header-actions #menu-toggle::before {
     content: "\2715"; /* ✕ */
+    width: 45px;
 }
 
 #menu-toggle-checkbox:checked ~ #header-actions #menu-toggle {
@@ -201,6 +203,25 @@ input:checked + #slider {
     display: none;
 }
 
+/* ================== REGISTRATI ==================*/
+
+#signup .container{
+    padding: 2em 8%;
+    margin: 0 0.5em;
+}
+
+#form-signup .column-container{
+    gap:0;
+}
+
+#form-signup .column-container div{
+    flex: 1 1 51%;
+}
+/* ================== UTENTE NORMALE ==================*/
+
+#user-profile .tab-content form{
+    text-align: left;
+}
 
 
 /* ================== NAV ADMIN ==================*/
@@ -272,7 +293,7 @@ h1{
 
 nav#breadcrumb {
     padding: 0.5em 1em;
-    margin: 1em;
+    margin: 1em auto;
 }
 
 
@@ -297,4 +318,20 @@ nav#breadcrumb {
 #error-info{
     width: 70%;
     margin: 0 auto;
+}
+
+/* ================== LOGIN ==================*/
+
+#login .container .column-container{
+    width: 100%;
+    padding-bottom:1em;
+}
+
+#form-login legend{
+    margin-bottom:0;
+}
+
+#form-login button{
+    width: 100%;
+    margin-top:1.5em;
 }

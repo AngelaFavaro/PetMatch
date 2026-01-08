@@ -77,7 +77,7 @@ class DBAccess {
             FROM RICHIESTE_ADOZIONI ra
             JOIN UTENTI u ON u.Email = ra.Email
             JOIN ANIMALI a ON a.IDanimale = ra.IDanimale
-            JOIN AMMINISTRATORI m ON m.Email = a.Email
+            JOIN UTENTI m ON m.Email = a.Email
             -- Utilizziamo LEFT JOIN per non perdere le richieste senza trasporto
             LEFT JOIN TRASPORTI t ON t.Email = ra.Email AND t.IDanimale = ra.IDanimale
             WHERE ra.Email = ? AND ra.IDanimale = ?
@@ -433,7 +433,7 @@ class DBAccess {
             return null;
         }
 
-        $query = "SELECT * FROM AMMINISTRATORI WHERE Email = ?";
+        $query = "SELECT * FROM UTENTI WHERE Email = ?";
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
             return null;
@@ -465,7 +465,7 @@ class DBAccess {
             return false;
         }
 
-        $query = "UPDATE AMMINISTRATORI SET Nome = ?, Cognome = ?, ImgPath = ? WHERE Email = ?";
+        $query = "UPDATE UTENTI SET Nome = ?, Cognome = ?, ImgPath = ? WHERE Email = ?";
 
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
@@ -647,6 +647,205 @@ class DBAccess {
             mysqli_stmt_close($stmt);
         }
         return $requests;
+    }
+
+    public function insertReportForm(string $name, string $email): bool {
+        if (!$this->connection){
+            return false;
+        }
+
+        $query = "INSERT INTO SEGNALAZIONI_NUOVE_ACCOGLIENZE (NominativoRichiedente, EmailRichiedente) VALUES (?, ?)";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 'ss', $name, $email);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
+
+    function checkEmailExists($email): bool {
+        $requests = [];
+        
+        $query = "  SELECT COUNT(*)
+                    FROM UTENTI U
+                    WHERE U.Email = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+
+            mysqli_stmt_bind_result($stmt, $totale);
+            mysqli_stmt_fetch($stmt);
+
+            mysqli_stmt_close($stmt);
+
+            return $totale > 0;
+        }
+        return false;
+    }
+
+    public function insertNewUser(string $email, string $name, string  $surname, string  $hashedPassword): bool {
+        if (!$this->connection){
+            return false;
+        }
+
+        $query = "INSERT INTO UTENTI (Email, Nome, Cognome, Password, Ruolo) VALUES (?, ?, ?, ?, ?)";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 'ssss', $email, $name, $surname, $hashedPassword, 'User');
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
+
+    function getUserInfo($email): ?array {
+        $requests = [];
+        
+        $query = "SELECT 
+                    Nome,
+                    Cognome,
+                    Password,
+                    Telefono,
+                    Via,
+                    Citta,
+                    CAP,
+                    ImgPath
+                FROM UTENTI WHERE Email = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            if($row = mysqli_fetch_assoc($result)) {
+                mysqli_stmt_close($stmt);
+                return $row;
+            }
+            mysqli_stmt_close($stmt);
+        }
+        return null;
+    }
+
+    function getUserRequests($email, $filtro): array {
+        $requests = [];
+        
+        $query = "SELECT 
+                    R.IDanimale,            
+                    R.LetteraPresentazione, 
+                    R.Stato,
+                    R.DataRichiesta,
+                    R.DataInizioValutazione,
+                    R.DataFineValutazione,
+                    T.DataPartenza,         
+                    T.DataArrivo,
+                    A.Nome AS NomeAnimale
+                FROM RICHIESTE_ADOZIONI R
+                JOIN ANIMALI A ON R.IDanimale = A.IDanimale
+                LEFT JOIN TRASPORTI T ON R.IDanimale = T.IDanimale 
+                WHERE R.Email = ? AND R.Stato LIKE ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'ss', $email, $filtro);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            while ($row = mysqli_fetch_assoc($result)) {
+                $requests[] = $row;
+            }
+            
+            mysqli_stmt_close($stmt);
+        }
+        return $requests;
+    }
+
+    public function getRole($email): ?string {
+        
+        $query = "SELECT Ruolo FROM UTENTI WHERE Email = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        $role = null;
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            if ($row = mysqli_fetch_assoc($result)) {
+                $role = $row['Ruolo'];
+            }
+            mysqli_stmt_close($stmt);
+        }
+        return $role;
+    }
+
+    public function updateUserInfo(string $email, array $newUserInfo): bool {
+        if (!$this->connection){
+            return false;
+        }
+
+        $query = "UPDATE UTENTI SET Nome = ?, Cognome = ?, 
+        Telefono = ?, Via = ?, Citta = ?, CAP = ?, ImgPath = ? WHERE Email = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 'ssssssss',  $newUserInfo['name'], $newUserInfo['surname'], 
+        $newUserInfo['phoneNumber'], $newUserInfo['address'], $newUserInfo['city'], 
+        $newUserInfo['CAP'], $newUserInfo['profilePic'], $email);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
+
+    public function updateUserManagement(string $email, array $newUserInfo): bool {
+        if (!$this->connection){
+            return false;
+        }
+
+        $query = "UPDATE UTENTI SET Email = ?, Password = ? WHERE Email = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 'sss', $newUserInfo['email'], $newUserInfo['Newpassword'], $email);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
+
+    function getCredentials($email): array {
+        $row = [];
+        $query = "SELECT Email, Password FROM UTENTI WHERE Email = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            $row = mysqli_fetch_assoc($result) ?? [];
+
+            mysqli_stmt_close($stmt);
+        }
+
+        return $row;
     }
 
 }

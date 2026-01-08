@@ -14,13 +14,19 @@
     --linkcolor:#FFF6D7;
     --footercolor: #481515;
     --visitedcolor: #EA654C;
-    --headercolor: #481515;
+    --headercolor: var(--footercolor);
     --headervisitedlink: #6D7541;
     --headerlink: #481515;
     --secondsection: #6D7541;
     --bglink-hover:#E4D4BA;
     --placeholder-text:#825E49;
     --darkbgcolor: #E4D4BA;
+    --bgform: #6D7541;
+    --errortxt: #BA3A24;
+    --successtxt:#576F30;
+    --bgconfirmbutton:#6D7541;
+    --bgconfermbutton:#FFF6D7;
+    --txtcancelbutton:var(--bgconfirmbutton);
 }
 
 a{
@@ -54,8 +60,13 @@ html, body {
     overflow-x: hidden;
 }
 
-#layout-user body{
-    padding-top:130px;
+
+#layout-user header + main{
+    margin-top:90px;
+}
+
+#NavHeader + main #breadcrumb{
+    border: 1px solid var(--bgcolor);
 }
 
 html{
@@ -93,7 +104,17 @@ h4{
     /* line-height: 1.3; */
 }
 
+.error-form{
+    color:var(--errortxt);
+}
 
+.error-form + p{
+    margin-top:0.5em;
+}
+
+.success-form{
+    color:var(--successtxt);
+}
 
 /*==================PULSANTI==================*/
 a.orange-button, a.brown-button,
@@ -105,6 +126,7 @@ button.orange-button{
     padding: 0.7em 1.5em;
     border-radius: 1em;
     font-weight: 600;
+    letter-spacing: 1px;
     text-decoration: none;
     transition: background-color 0.6s ease;
 }
@@ -144,7 +166,8 @@ a.brown-button:visited{
     color: var(--visitedcolor);
 }
 
-.brown-button:hover {
+.brown-button:hover,
+.brown-button:visited:hover{
     background-color: var(--text-buttoncolor-hover); 
     color: var(--text-buttoncolor);
 }
@@ -161,6 +184,10 @@ a.brown-button:visited{
     transition: background-color 0.6s ease;
     background-color: var(--bgcolor);
     color:var(--text-buttoncolor)
+}
+
+.white-button:visited{
+    color:var(--text-buttoncolor);
 }
 
 .torna-su-button{
@@ -390,6 +417,26 @@ NOTA: modificare il flex se necessario annidando la classe dentro le proprie sez
 #zzz {
     animation: sleep 4s infinite ease-in-out;
 }
+
+/* ==================FOCUS================== */
+input:focus-visible + label,
+a:focus-visible,
+button:focus-visible,
+input [type="checkbox"]:focus-visible {
+    outline: 3px solid red;
+    outline-offset: 2px;
+    transition: none;
+}
+
+input:focus{
+    outline:3px solid var(--headercolor);
+    outline-offset: 0px;
+}
+
+
+
+
+
 /* ==================SOLO PER SCREEN READER================== */
 
 /* Gli elementi con questa classe sono visibili solo agli screen reader */
@@ -420,22 +467,17 @@ NOTA: modificare il flex se necessario annidando la classe dentro le proprie sez
     display: none;
 }
 
-#theme-toggle:focus-visible + #theme-switch #slider{
-    transition: none;
-    outline: 2px solid black;
-    border: 1px solid white; 
-    outline-offset: 2px;
-}
 
 header {
     background-color: var(--headercolor);
-    padding: 1em 0;
+    padding: 0.5em 0;
     position: fixed;  
     top: 0;
     left: 0;         
     width: 100%;
     z-index: 1000;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 0 0 1em 1em;
 }
 
 header .container{
@@ -672,8 +714,8 @@ footer h4 {
 
 #introduction-home {
     background-color: var(--headercolor);
-    margin-top: -6em;
-    padding-top: 7em;
+    margin-top: -130px;
+    padding-top: 130px;
     color: var(--bgcolor);
 }
 
@@ -970,10 +1012,6 @@ details:not([open]) .popup {
     margin-top: 5em;
 }
 
-#content-affidamento{
-    padding-bottom: 5em;
-}
-
 #content-affidamento p{
     margin-top:0.5em;
 }
@@ -983,23 +1021,24 @@ details:not([open]) .popup {
 }
 
 #affidamento-home #content-affidamento {
-    flex: 1 0 40%;
+    flex: 1 0 30%;
     margin-left: 2%;
+    padding-bottom: 5em;
 }
 
 #affidamento-home .column-container {
     justify-content: center;
-    align-items: flex-start;
     padding-top: 2em;
 }
 
 #form-affidamento {
     background-color: var(--bgcolor);
     color: var(--txtcolor);
-    margin:2em 2em 0.1em 2em;
+    margin:3em auto 0.1em auto;
     padding: 0em 2em;
-    flex: 1 0 40%;
+    display: block;
     border-radius: 2.1em;
+    max-width: 541px;
 }
 
 fieldset {
@@ -1010,27 +1049,34 @@ fieldset {
 }
 
 #container-form-affidamento{
+    display: flex;
+    align-items: center;
+    flex:1 0 65%;
     padding: 9em 2.5em 0em 2.5em;
     background-image: url('../../assets/images/house-form.svg');
     background-repeat: no-repeat;
     background-size: 100% 100%;
     overflow: visible;
-    margin-top:-6em;
+    margin: -6em auto 0 auto;
 }
 
 legend {
     padding-top:1em;
     font-weight: 500;
     text-align: center;
-    padding-bottom: 1.5em;
     font-size: 1.1em;
     width: 100%;
 }
 
-label + input {
+#signup label + input,
+#home label + input,
+#profilo-utente label + input,
+#login label + input,
+.edit-number div span + input, 
+.password-container input {
     border-radius: 5em;
     padding: 0.5em 1em;
-    margin: 0.2em 0 1.3em 0;
+    margin: 0.2em 0 0.3em 0;
     width: 100%; 
     border: 1px solid var(--headercolor);
     color: var(--txtcolor);
@@ -1039,7 +1085,10 @@ label + input {
     box-sizing: border-box; 
 }
 
-label + input::placeholder{
+#signup label + input::placeholder,
+#home label + input::placeholder,
+#profilo-utente label + input::placeholder,
+#login label + input::placeholder{
     color: var(--placeholder-text);
 }
 
@@ -1056,78 +1105,593 @@ label {
 }
 
 #messaggiForm-home {
-    text-align: center;
+    padding: 0 1.5em;
 }
-/* #affidamento-home #content-affidamento{
-    flex: 1 0 40%;
-    margin-left:2%;
+
+/* ================== REGISTRATI ==================*/
+
+#signup .container{
     max-width: 800px;
+    padding: 2em 3em;
+    border-radius: 1em;
+    background-color: var(--bgcolor);
 }
 
-#affidamento-home .column-container{
-    justify-content: center;
-} */
+#signup, #login{
+    background-color: var(--bgform);
+    margin: -110px 0 -30px 0;
+    padding: 110px 0 30px 0;
+    background-image: url('../../assets/images/bg-pow.svg');
+    background-repeat: repeat;
+    background-size: contain;
+}
 
-/* #form-affidamento{
-    background-color: var(--bgcolor);
-    color: var(--txtcolor);
-    padding: 0 3em 1.5em 3em;
-    margin: 0 6% 0 10.5%;
-    flex: 1 0 40%;
-    position: relative;
-    max-width: 400px; 
 
-} 
-
-/* #form-affidamento::before{
-    content: '';
-    background-image: url('../../assets/images/house-form.svg');
-    background-repeat: no-repeat;
-    background-size: 100% auto;
-    background-position:bottom;
-    position: absolute;
-    width: 500px;
-    height: 500px;
-    bottom: 0px;
-    left: -60px;
-    z-index: 0;
-} */
-
-/* fieldset{
-    border:none;
-    min-width: 0;
+#form-signup .column-container{
     padding: 0;
-    margin: 0;
-    position: relative;
-    z-index: 1;
-} */
-/*
-legend{
-    font-weight: 500;
+}
+
+/* cambio il colore dell'autofill */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px var(--bglink-hover) inset;
+}
+
+.column-container div{
+    flex: 1 1 48%;
+    margin:0;
+}
+
+#form-signup p+p{
+    margin: 0em;
+    padding-bottom: 1em;
+}
+
+#form-signup .orange-button{
+    margin-top: 1em;
+}
+
+#infoPassword + ul{
+    margin-left:1.5em;
+}
+
+#form-signup legend,
+#form-login legend{
+    font-size: 2em;
+    font-weight: 700;
+}
+
+#form-signup button{
+    width: 50%;
+}
+
+#form-signup a,
+#form-login a{
+    color:var(--headerlink);
+}
+
+#form-signup a:visited,
+#form-login a:visited{
+    color:var(--headerlink);
+}
+
+#form-signup + p,
+#form-login + p{
     text-align: center;
-    padding-bottom: 1.5em;
-    font-size: 1.1em;
+    padding:1em 0;
 }
 
-label + input{
-    border-radius: 5em;
-    padding: 0.5em 1em 0.5em 1em;
-    margin: 0.2em 0 1.3em 0;
+#checkbox-container-signup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#checkEvents {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+#checkbox-container-signup em{
+    opacity: 0.8;
+}
+
+#checkbox-container-signup{
+    padding: 1em 0;
+}
+
+#checkbox-container-signup label::before {
+    content: '';
+    display: inline-block;
+    width: 24px;  
+    height: 24px; 
+    margin-bottom:-5px;
+    
+    background-color: #ffffff; 
+    border: 1px solid var(--txtcolor);
+    border-radius: 6px; 
+    box-sizing: border-box; 
+    transition: 0.2s;
+}
+
+#checkEvents:checked + label::before {
+    background-color: var(--buttoncolor); 
+    border-color: var(--buttoncolor);
+}
+
+#checkbox-container-signup label::after {
+    content: '';
+    position: absolute;
+    left: 9px;  
+    top: 5px;
+    
+    width: 4px;
+    height: 8px;
+    border: solid var(--bgcolor);
+    border-width: 0 2px 2px 0; 
+    
+    transform: rotate(45deg) scale(0); 
+}
+
+#checkEvents:checked + label::after {
+     transform: rotate(45deg) scale(1);
+}
+
+#checkbox-container-signup label {
+    cursor: pointer;
+    position: relative; 
+    user-select: none; 
+}
+
+
+.password-container {
+    position: relative;
+    width: 100%; 
+}
+
+.password-container input {
     width: 100%;
-    border:1px solid var(--headercolor);
-    color:var(--txtcolor);
-    font-size: 100%;
-    background-color: var(--bgcolor);
+    padding-right: 40px;
 }
 
-label{
-    font-size: 95%;
+.password-container i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%); 
+    color: var(--placeholder-text);
 }
 
-#form-affidamento .orange-button{
-    width: 100%;
-    margin: 1.5em 0 1em 0;
+.password-container i:hover {
+    color: var(--txtcolor);
+}
+
+/* ================== PROFILO UTENTE NORMALE ==================*/
+#user-profile h2{
+    font-size: 1.6em;
+}
+
+#user-profile{
+    margin-bottom:2em;
+}
+
+#user-profile .column-container{
+    margin-top: 2em;
+    align-items: flex-start;
+}
+
+#user-profile .column-container .tabs-container{
+    flex: 1 1 63%;
+}
+
+
+#user-profile .column-container #user-info{
+    flex: 1 1 35%;
+    width: 90%;
+}
+
+#user-profile .tabs-container select:focus{
+    border: 2px solid var(--headercolor);
+    margin:4px;
+}
+
+/* tab */
+#user-profile .tabs-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* #user-profile .tabs-container input{
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
 } */
+
+
+#user-profile .tabs-container input + label {
+    flex: 1 0 46%;
+    padding: 1.8% 2%;
+    height: 50px;
+    border-bottom: 1px solid var(--headercolor);
+    text-align: center;
+    
+    margin:0;
+    cursor: pointer; 
+}
+
+#user-profile .tabs-container .tab-content {
+    flex: 1 0 100%;
+    width: 100%; 
+    height: fit-content;
+    border-bottom: 1px solid var(--headercolor);
+    border-left: 1px solid var(--headercolor);
+    border-right: 1px solid var(--headercolor);
+    display: none; 
+    padding: 1em;
+    border-radius: 0 0 0.5em 0.5em;
+}
+
+#user-profile input:checked + label {
+    border-top: 1px solid var(--headercolor); 
+    border-left: 1px solid var(--headercolor); 
+    border-right: 1px solid var(--headercolor); 
+    border-bottom:0;
+    /* border-bottom: 1px solid var(--bgcolor); */
+    border-radius: 0.5em 0.5em 0 0;
+    font-weight: bold;
+    z-index: 1;
+}
+
+#user-profile .tabs-container #tab1:checked  ~ .tab-content:nth-of-type(1),
+#user-profile .tabs-container #tab2:checked  ~ .tab-content:nth-of-type(2){
+    display: block;
+}
+
+#user-profile .tab-content form{
+    text-align: right;
+    margin-bottom:1em;
+}
+
+#user-profile .tab-content label[for="request-state"]{
+    display: inline-block;
+}
+
+#user-profile .tab-content form button,
+.logout-btn{
+    border-radius: 2em;
+    background-color: var(--buttoncolor);
+    color:var(--txtcolor);
+    padding: 0.5em 2em;
+    transition: 0.3s;
+    border:2px solid var(--buttoncolor);
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#user-profile .tab-content form button{
+    margin:0.5em;
+}
+
+.logout-btn{
+    margin:1em auto 0 auto;
+    display: flex;
+    font-size: 1em;
+    font-weight: 600;
+}
+
+#user-profile .tab-content form button:hover,
+.logout-btn:hover{
+    background-color:var(--bgcolor);
+}
+
+#user-profile .tabs-container select{
+    padding:0.5em;
+    background-color: var(--bgcolor);
+    border-radius: 2em;
+    border-color: var(--text-buttoncolor);
+    color:var(--text-buttoncolor);
+    margin:5px;
+}
+
+#user-profile #user-info img.circle-foto{
+    margin:auto;
+    display: flex;
+    background-color: var(--bglink-hover);
+}
+
+#user-info{
+    padding: 2em 1em;
+    border:1px solid var(--headercolor);
+    border-radius: 0.5em;
+}
+
+#user-info dt {
+    font-weight: bold;
+}
+
+#user-info dd {
+    margin-bottom:0.5em;
+}
+
+#user-profile #lista-movimenti li{
+    list-style: none;
+    background-color: var(--bglink-hover);
+    margin:0.5em 0;
+    padding: 1em;
+    border-radius: 0.5em;
+}
+
+#user-profile #lista-movimenti article{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#user-profile #lista-movimenti article p{
+    flex: 1 1 70%;
+    margin-left:1em;
+}
+
+#user-profile #lista-movimenti li a{
+    margin:0.5em auto 0 auto;
+    border-radius: 2em;
+    background-color: var(--buttoncolor-hover);
+    color:var(--bgcolor);
+    padding: 3px 2em;
+    transition: 0.3s;
+}
+
+#user-profile #lista-movimenti li a:hover,
+#user-profile #lista-movimenti li a:visited:hover{
+    color: var(--txtcolor);
+    background-color:var(--bglink-hover);
+}
+
+#user-profile #lista-movimenti li a:visited{
+    color:var(--buttoncolor);
+}
+
+#query-vuota{
+    text-align: center;
+}
+
+.view-mode h2{
+    padding:0.5em 0;
+}
+
+.view-mode span{
+    display: flex;
+    position: relative;
+}
+
+.view-mode .edit-profile-link{
+    margin:0.5em auto;
+    background-color: var(--bglink-hover);
+    padding: 0.5em 1em;
+    color:var(--txtcolor);
+    border-radius: 2em;
+    display: flex;
+    width: fit-content;
+    flex-wrap: nowrap ;
+    text-decoration: none;
+    border:2px solid var(--bglink-hover);
+    transition: 0.4s;
+    letter-spacing: 0.5px;
+}
+
+.view-mode .edit-profile-link:hover{
+    border:2px solid var(--bglink-hover);
+    background-color: transparent;
+}
+
+.view-mode .edit-profile-link p{
+    margin-right: 5px;
+}
+
+
+.view-mode .edit-profile-link img{
+    margin-right: 0;
+    margin-left: auto;
+    margin-top:-5px;
+    height: 25px;
+    width:auto;
+}
+
+.view-mode span h2 + a{
+    color:var(--txtcolor);
+}
+
+.normal-icon,
+.hover-icon{
+    position: absolute;
+    top:4px;
+    right:0;
+    transition: 0.4s;
+    width: 45px;
+    height: 45px;
+    color:var(--txtcolor);
+}
+
+.normal-icon {opacity: 1;}
+.hover-icon {opacity: 0;}
+
+a:hover .normal-icon {opacity: 0;}
+a:hover .hover-icon {opacity: 1;}
+
+/* MODALITA MODIFICA */
+
+.checkbox-container-pic {
+    margin-bottom:-5px;
+    padding:5px;
+    text-align: center;
+    cursor: pointer;           
+    gap: 10px;                 
+}
+
+.checkbox-container-pic input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    
+    position: relative;
+    top:5px;
+    width: 25px;
+    height: 25px;
+    background-color: transparent;    
+    border: 1px solid var(--txtcolor);     
+    border-radius: 4px;         
+    cursor: pointer;
+    margin: 0;                  
+}
+
+.checkbox-container-pic input[type="checkbox"]:checked {
+    background-color: var(--buttoncolor);   
+    border-color: var(--buttoncolor);  
+}
+
+.checkbox-container-pic input[type="checkbox"]::before {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    top:4px;
+    left:4px;
+    /* icona dlla v */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    transform: scale(0);
+    transition: 0.2s transform ease-in-out;
+}
+
+.checkbox-container-pic input[type="checkbox"]:checked::before {
+    transform: scale(1);        
+}
+
+.edit-mode .edit-number div{
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.edit-mode .edit-number div span{
+    margin:auto 5px auto 0;
+}
+
+.edit-mode h2,
+.edit-management h2{
+    text-align: center;
+}
+
+form label{
+    margin-top:1em;
+}
+
+.edit-mode input[type="file"]{
+    background-color: var(--darkbgcolor);
+    color: var(--text-buttoncolor);
+    border:none;
+    border-radius: 2em;
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+    background-color: var(--buttoncolor);
+    color: var(--text-buttoncolor);
+    border:none;
+    padding: 0.5em 1em;
+    font-weight: 600;
+    border-radius: 2em;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: var(--darkbgcolor);
+}
+
+.edit-mode form span,
+.edit-management form span{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1em auto 0 auto;
+}
+
+.edit-mode form span a,
+.edit-mode form span button,
+.edit-management form span a,
+.edit-management form span button
+{
+    flex: 1 1 44%;
+    text-align: center;
+    border-radius: 1em;
+    padding:0.5em 1em;
+    font-size: 1em;
+}
+
+.edit-mode form span button,
+.edit-management form span button{
+    background-color: var(--bgconfirmbutton);
+    color:var(--bgconfermbutton);
+    border:2px solid var(--bgconfirmbutton);
+    cursor: pointer;
+    margin-left:0.5em;
+}
+
+.edit-mode form span a,
+.edit-management form span a{
+    color:var(--txtcancelbutton);
+    border:2px solid var(--bgconfirmbutton);
+    text-decoration: none;
+    font-weight: 600;
+    margin-right:0.5em;
+}
+
+/* ================== LOGIN ==================*/
+#container-image-login{
+    flex: 0 1 50%;
+}
+
+#login img{
+    width: 100%;
+    height: auto;
+    border-radius: 1.5em 0 0 1.5em;
+    display: block;
+    pointer-events: none;
+}
+
+#container-form-login{
+    flex: 1 1 40%;
+}
+
+#form-login{
+    padding:1em 2em 0 2em;
+    height: fit-content;
+}
+#form-login legend{
+    margin-bottom:0.5em;
+}
+
+#login .container .column-container{
+    background-color: var(--bgcolor);
+    border-radius: 1.5em;
+    padding:0;
+    gap:0;
+
+}
+
+#login .container{
+    height: fit-content;
+}
+
+#form-login button{
+    width: 80%;
+    margin-top:3em;
+}
 
 /* ================== =========== PAGINE ADMIN================== ============*/
 
@@ -1222,7 +1786,7 @@ body#admin-body main {
 }
 
 main#content{
-    min-height: 100vh;
+    /* min-height: 100vh; */
     padding-top:2em;
 }
 
@@ -1350,6 +1914,7 @@ div#row2 article{
     object-fit: cover;
     clip-path: circle(50%);
     margin-bottom: 2em;
+    pointer-events: none;
 }
 
 .square-foto {
@@ -1686,16 +2251,12 @@ td.col-dettagli a{
 	color: var(--visitedcolor);
 }
 
-input:focus{
-    border:1px solid var(--headercolor);
-    outline-color: var(--headercolor);
-}
+
 
 
 /* ================== BREADCRUMB==================*/
 nav#breadcrumb{
     margin: 0.5em auto 2em auto ;
-    border: 1px solid var(--bgcolor);
     display: block;
     text-align: center;
     width: fit-content;

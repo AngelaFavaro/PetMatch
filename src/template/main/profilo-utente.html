@@ -1,0 +1,50 @@
+<div id="user-profile">
+    <div class="container">
+        <h1>Ciao [nome-utente]!</h1>
+        <div class="column-container">
+            <div class="tabs-container">
+
+                <input type="radio" name="tab-group" id="tab1" checked class="sr-only">
+                <label for="tab1">Avvisi</label>
+                
+                <input type="radio" name="tab-group" id="tab2" class="sr-only">
+                <label for="tab2">Richieste</label>
+
+                <!-- primo tab -->
+                <section class="tab-content">
+                    <h2 id="ultimi-movimenti">Ultimi movimenti</h2>
+
+                    <form method="GET">
+                        <div>
+                            <label for="request-state">Filtra per:</label>
+                            <select name="state" id="request-state">
+                                <option value="%">Tutte</option>
+                                <option value="Conclusa">Accettate</option> <!-- conclusa, l'animale è suo -->
+                                <option value="In valutazione">In valutazione</option> <!-- si sta valutando se darlo a lui -->
+                                <option value="Da trasportare">In trasporto</option> <!-- è in viaggio per arrivare a casa -->
+                                <option value="Respinta">Respinte</option> <!-- l'utente è stato scartato da un admin -->
+                                <option value="Annullata">Annullate</option> <!-- l'utente ha annullato la richiesta -->
+                            </select>
+                            <button type="submit">Applica</button>
+                        </div>
+                    </form>
+
+                    [lista avvisi]
+                </section>
+
+                <!-- secondo tab -->
+                <section class="tab-content">
+                    <h2>Le tue richieste</h2>
+                    <div class="column-container">
+                        [richieste animali]
+                    </div>
+                    
+                </section>
+                
+            </div>
+            
+            <div id="user-info">
+                [UserInfoSostituzione]
+        </div>
+    </div>
+</div>
