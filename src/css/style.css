@@ -1070,7 +1070,7 @@ legend {
 
 #signup label + input,
 #home label + input,
-#profilo-utente label + input,
+#user-profile label + input,
 #login label + input,
 .edit-number div span + input, 
 .password-container input {
@@ -1087,7 +1087,7 @@ legend {
 
 #signup label + input::placeholder,
 #home label + input::placeholder,
-#profilo-utente label + input::placeholder,
+#user-profile label + input::placeholder,
 #login label + input::placeholder{
     color: var(--placeholder-text);
 }
