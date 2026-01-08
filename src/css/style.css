@@ -1592,9 +1592,217 @@ td.col-dettagli a{
 }
 
 
+/*==================NUOVO ANIMALE==================*/
 
+#admin-area-aggiungi {
+    min-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--secondsection);
+    padding: 12em;
+}
 
+#form-add-animal {
+    background-color: var(--bgcolor);
+    width: 100%;
+    padding: 2em 5em 5em 5em; 
+    border-radius: 1em;
+    box-shadow: 0 0.5em 0.5em rgba(0, 0, 0, 0.15);
+}
 
+fieldset {
+    margin-bottom: 1em;
+}
+
+legend {
+    float: left;        
+    width: 100%;        
+    text-align: left; 
+    font-weight: 500;   
+}
+
+.radio-group-cg {
+    display: flex;
+    flex-direction: row;    
+    justify-content: center; 
+    clear: both;            
+    gap: 2em;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.radio-group-cg input[type="radio"] {
+    display: none;
+}
+
+.radio-card {
+    display: inline-block;
+    padding: 0.5em 5em;        /* Aumentato il padding laterale (4em) per renderle più lunghe */
+    min-width: 150px;        /* Opzionale: garantisce una lunghezza minima uguale per tutti */
+    border: 2px solid var(--text-buttoncolor);   
+    border-radius: 0.5em;  
+    cursor: pointer;         
+    transition: all 0.3s ease;
+    font-weight: 500;
+    text-align: center;
+}
+
+.radio-card:hover {
+    color: var(--bgcolor);
+    background-color: var(--buttoncolor-hover);
+}
+
+.radio-group-cg input[type="radio"]:checked + .radio-card {
+    background-color: var(--buttoncolor-hover); 
+    color: var(--bgcolor);                                  
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+label, p .form-add-animal {
+    font-weight: 550;
+    display: inline-block; /* Consigliato per le label per gestire meglio i margini */
+}
+
+label[for="taglia"] {
+    display: block;      /* Forza la label a occupare tutta la riga */
+    margin-bottom: 0.5em;
+}
+
+select#taglia,
+select#pelo {
+    display: block;     
+    width: 100%;         
+    padding: 0.5em;
+    border: 1px solid var(--text-buttoncolor);
+    border-radius: 1em;
+    font-size: 1em;
+    background-color: var(--bgcolor);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    color: var(--buttoncolor-hover);
+    cursor: pointer;
+    appearance: none;    
+}
+
+select#taglia:focus,
+select#pelo:focus {
+    outline: none;
+    background-color: var(--buttoncolor-hover); /* Si colora di bianco o un altro colore quando attivo */
+    color: var(--bgcolor);
+}
+
+select#taglia option,
+select#pelo option {
+    background-color: var(--bgcolor); /* Le opzioni dentro la lista rimangono leggibili */
+    color: var(--buttoncolor-hover);
+}
+
+.sex-group {
+    display: flex;
+    gap: 1.5em;
+    margin-top: 0.5em;
+    flex-wrap: wrap;
+    padding: 1em;
+}
+
+.sex-option {
+    display: flex;
+    align-items: center;
+    padding: 0.5em 1em;
+    border: 1px solid var(--text-buttoncolor);
+    border-radius: 2em; 
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.sex-option input[type="radio"] {
+    margin-right: 10px;
+    accent-color: var(--buttoncolor-hover);
+    transform: scale(1.2); /* Lo rende leggermente più grande e visibile */
+    cursor: pointer;
+}
+
+.sex-title {
+    font-weight: 550;
+    display: inline-block;
+    margin-top: 1em;
+    margin-left: 0.5em;
+}
+
+input#foto {
+    display: block;     
+    width: 100%;         
+    padding: 4em;      
+    cursor: pointer;     
+
+    border-radius: 0.5em;
+}
+
+textarea#carattere, 
+textarea#condMediche,
+textarea#famiglia {
+    display: block;
+    width: 100%;
+    padding: 1.5em;
+    border: 1px solid var(--text-buttoncolor);
+    border-radius: 0.5em;
+    font-size: 1em;
+    font-family: inherit;
+    background-color: var(--bgcolor);
+    color: var(--text-color, #333);
+    resize: vertical;
+    transition: all 0.3s ease;
+    margin-bottom: 0.5em;
+}
+
+textarea#carattere:focus, 
+textarea#condMediche:focus,
+textarea#famiglia:focus {
+    background-color: var(--bgcolor);
+    outline: none;
+    border-color: var(--buttoncolor-hover);
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.1);
+}
+
+label[for="carattere"],
+label[for="condMediche"],
+label[for="famiglia"] {
+    display: block;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    font-weight: 550;
+}
+
+/* Il div che racchiude i bottoni */
+.form-buttons-container {
+    display: flex;       /* Allinea in orizzontale */
+    gap: 1.5em;          /* Spazio tra i due bottoni */
+    width: 100%;         /* Prende tutta la larghezza del form */
+    margin-top: 2.5em;   /* Distanza dall'ultimo campo del form */
+    justify-content: center;
+}
+
+.form-buttons-container button {
+    flex: 1;             /* Forza i bottoni a espandersi e dividersi lo spazio 50/50 */
+    padding: 1em;
+    font-size: 1.1em;
+    font-weight: 600;    /* Semi-bold */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 0.8em;
+    text-align: center;
+}
+
+.white-button {
+    background-color: var(--bgcolor);
+    color: var(--headervisitedlink); 
+    border: 3px solid var(--headervisitedlink); 
+}
+
+.white-button:hover {
+    background-color: var(--headervisitedlink);
+    color: var(--bgcolor);
+}
 
 /*================NAVIGATION HELP ==================*/
 

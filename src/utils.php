@@ -27,16 +27,18 @@ $pagine = [
         'label' => 'Dettagli richiesta',
         'url' => './dettagli-richiesta',
         'parent' => 'richieste-adozione'
-    ]
-    'aggiungi-animale' => [
-        'label' => 'Aggiungi animale',
-        'url' => './aggiungi-animale',
-        'parent' => 'area-riservata'
+    ],
+    'nuovo-animale' => [
+        'label' => 'Nuovo animale',
+        'url' => './nuovo-animale',
+        'parent' => 'home'
     ]
 ];
 
 $adminMenu = [
-    'href' => './nuovo-animale', 'text' => '+ Aggiungi animale',
+    'azioni' => [
+        ['href' => './nuovo-animale', 'text' => '+ Aggiungi animale']
+    ],    
     'principale' => [
         ['href' => './area-riservata', 'text' => 'AREA PERSONALE'],
         ['href' => './richieste-adozione', 'text' => 'RICHIESTE DI ADOZIONE'],
@@ -47,7 +49,7 @@ $adminMenu = [
         ['href' => './animali-senza-amministratore', 'text' => 'SENZA AMMINISTRATORE'],
         ['href' => './adottati', 'text' => 'ADOTTATI'],
         ['href' => './nuove-accoglienze', 'text' => 'NUOVE ACCOGLIENZE'],
-    ]
+    ],
 ];
 
 $userMenu = [
@@ -276,12 +278,11 @@ function getBreadcrumb($currentPageKey, $pagine) {
 // nel php di competenza dare messaggio di errore; tu che dici??
 
 function uploadImage($file, $folder) {
-
     $basePath = dirname(__DIR__) . '/assets/images/' . $folder . '/';
     $dbPathPrefix = 'assets/images/' . $folder . '/';
 
     if (!isset($file['error']) || $file['error'] !== UPLOAD_ERR_OK) {
-        return null;
+        return null; 
     }
 
     if ($file['size'] > 3 * 1024 * 1024) {
@@ -289,7 +290,6 @@ function uploadImage($file, $folder) {
     }
 
     $allowedMime = ['image/jpeg', 'image/png', 'image/webp'];
-
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $mime = finfo_file($finfo, $file['tmp_name']);
     finfo_close($finfo);
@@ -302,10 +302,19 @@ function uploadImage($file, $folder) {
         'image/jpeg' => 'jpg',
         'image/png'  => 'png',
         'image/webp' => 'webp'
-        'image/jpeg' => 'jpeg'
     ];
-
     $extension = $extensionMap[$mime];
 
-    return $dbPathPrefix . $fileName;
+    $fileName = $folder . "_" . time() . "_" . bin2hex(random_bytes(4)) . "." . $extension;
+    $targetFile = $basePath . $fileName;
+
+    if (!file_exists($basePath)) {
+        mkdir($basePath, 0755, true);
+    }
+
+    if (move_uploaded_file($file['tmp_name'], $targetFile)) {
+        return $dbPathPrefix . $fileName; // Ritorna il path da salvare nel DB
+    }
+
+    return null;
 }

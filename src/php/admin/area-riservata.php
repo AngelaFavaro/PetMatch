@@ -57,11 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit-edit'])) {
 
 	$newImg = false;
 	if(isset($_FILES['foto'])) {
-		// qui dentro ci va la logica per caricare l'immagine
 		$newImg = uploadImage($_FILES['foto'], 'admins');
 	}
 	
-	// se $newImg è false, significa che non è stata caricata nessuna nuova immagine, quindi mantengo quella vecchia, ma così non funziona
 	$newImg = $newImg ?: $adminInfo['imgPath'];
 	$conn->updateAdminInfo($_SESSION['user'] ?? '', $newName, $newSurname, $newImg);
 	$conn->closeConnection();

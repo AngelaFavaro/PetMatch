@@ -338,26 +338,27 @@ class DBAccess {
             return false;
         }
 
+        $data_reg = date('Y-m-d');
+
         mysqli_stmt_bind_param(
             $stmt,
             'sssssssssssss',
             $data['nome'],
-            $data['data_nascita'],
-            $data['data_reg'],
+            $data['dataNascita'], 
+            $data_reg,            
             $data['sesso'],
-            $data['tipo'],
+            $data['tipologia'],   
             $data['colore'],
             $data['pelo'],
             $data['taglia'],
             $data['razza'],
-            $data['descr_famiglia'],
-            $data['descr_comportamento'],
-            $data['cond_mediche'],
-            $data['imgPath']
+            $data['famiglia'],      
+            $data['carattere'],   
+            $data['condMediche'], 
+            $data['foto']         
         );
 
         $success = mysqli_stmt_execute($stmt);
-
         $insertedId = $success ? mysqli_insert_id($this->connection) : false;
 
         mysqli_stmt_close($stmt);
