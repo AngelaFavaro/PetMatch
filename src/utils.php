@@ -30,7 +30,7 @@ $pagine = [
     ]
     'aggiungi-animale' => [
         'label' => 'Aggiungi animale',
-        'url' => './nuovo-animale',
+        'url' => './aggiungi-animale',
         'parent' => 'area-riservata'
     ]
 ];
@@ -236,7 +236,7 @@ function getBreadcrumb($currentPageKey, $pagine) {
  * NOTA: possibile che l'estensione di vscode non vi faccia vedere l'immagine caricata, guardate dal terminale ssh
 */
 // se $_FILES['foto'] non esiste o è vuoto, la funzione ritorna false
-function uploadImage($file, $folder) {
+/**function uploadImage($file, $folder) {
 
     $basePath = dirname(__DIR__) . '/assets/images/' . $folder . '/';
     $dbPathPrefix = 'assets/images/' . $folder . '/';
@@ -270,4 +270,42 @@ function uploadImage($file, $folder) {
         echo "ERRORE: move_uploaded_file è fallito. Possibile causa: file temporaneo sparito o restrizioni del server.<br>";
         return false;
     }
+}**/
+
+// LINOR la funzione di prima secondo me è sbagliata perchè diamo un pò di echo a caso; conviene ritornare falso e poi 
+// nel php di competenza dare messaggio di errore; tu che dici??
+
+function uploadImage($file, $folder) {
+
+    $basePath = dirname(__DIR__) . '/assets/images/' . $folder . '/';
+    $dbPathPrefix = 'assets/images/' . $folder . '/';
+
+    if (!isset($file['error']) || $file['error'] !== UPLOAD_ERR_OK) {
+        return null;
+    }
+
+    if ($file['size'] > 3 * 1024 * 1024) {
+        return null;
+    }
+
+    $allowedMime = ['image/jpeg', 'image/png', 'image/webp'];
+
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $mime = finfo_file($finfo, $file['tmp_name']);
+    finfo_close($finfo);
+
+    if (!in_array($mime, $allowedMime)) {
+        return null;
+    }
+
+    $extensionMap = [
+        'image/jpeg' => 'jpg',
+        'image/png'  => 'png',
+        'image/webp' => 'webp'
+        'image/jpeg' => 'jpeg'
+    ];
+
+    $extension = $extensionMap[$mime];
+
+    return $dbPathPrefix . $fileName;
 }
