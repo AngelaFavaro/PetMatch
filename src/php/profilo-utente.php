@@ -14,9 +14,17 @@ if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
     exit; 
 }
 
-$filtroCorrente = '%';
-if (isset($_GET['state'])) {
-    $filtroCorrente = htmlspecialchars($_GET['state']);
+$filtroCorrenteAvvisi = 'all';
+$filtroCorrenteRichieste = 'all';
+$tabAvvisi= 'checked';
+$tabRichieste= '';
+if (isset($_GET['state-avvisi'])) {
+    $filtroCorrenteAvvisi = htmlspecialchars($_GET['state-avvisi']);
+}
+else if (isset($_GET['state-richieste'])) {
+    $filtroCorrenteRichieste = htmlspecialchars($_GET['state-richieste']);
+    $tabAvvisi= '';
+    $tabRichieste= 'checked';
 }
 
 function checkRole(DBAccess $conn) {
@@ -30,10 +38,12 @@ function checkRole(DBAccess $conn) {
     }
 }
 
-function createMovementList(DBAccess $conn, $filtro = '%'): string {
+function createMovementList(DBAccess $conn, $filtro = 'all'): string {
     $listaMovimenti = '';
 
-    $richieste = $conn->getUserRequests($_SESSION['email'],$filtro);
+    $sendFiltro = $filtro === 'all' ? "'Nuova','In valutazione','Accettata','Respinta','Annullata','Da trasportare'" : "'".$filtro."'";
+
+    $richieste = $conn->getUserRequests($_SESSION['email'], $sendFiltro);
 
     if (count($richieste) === 0) {
         return "<p id=\"query-vuota\">Non sono presenti richieste di adozione.</p>";
@@ -52,8 +62,8 @@ function createMovementList(DBAccess $conn, $filtro = '%'): string {
                 case 'Da trasportare':
                     $statoRichiesta = '<em>'.$nomeAnimale.'</em> partità il giorno <em>'.$richiesta['DataPartenza'].'</em> e arriverà il giorno<em>'.$richiesta['DataArrivo'].'</em>!';
                     break;
-                case 'Conclusa':
-                    $statoRichiesta = 'Complimenti! Hai adottato con successo <em>'.$nomeAnimale.'</em>.';
+                case 'Accettata':
+                    $statoRichiesta = 'Complimenti! <strong>Hai adottato</strong> con successo <em>'.$nomeAnimale.'</em>.';
                     break;
                 case 'Respinta':
                     $statoRichiesta = 'Siamo spiacenti di informarti che la tua richiesta di adozione per <em>'.$nomeAnimale.'</em> è stata <strong>respinta.</strong>';
@@ -77,6 +87,56 @@ function createMovementList(DBAccess $conn, $filtro = '%'): string {
 
         $listaMovimenti .= "</ul>";
         return $listaMovimenti;
+    }
+}
+
+function createRequestList(DBAccess $conn, $filtro = 'all'): string {
+    $listaMovimenti = '';
+
+    if($filtro ==='Aperte'){
+        $sendFiltro = "'Nuova','In valutazione'";
+    }else if($filtro ==='Chiuse'){
+        $sendFiltro = "'Accettata','Respinta','Annullata','Da trasportare'";
+    }else{
+        $sendFiltro = "'Nuova','In valutazione','Accettata','Respinta','Annullata','Da trasportare'";
+    }
+
+    $richieste = $conn->getUserRequests($_SESSION['email'],$sendFiltro);
+
+    if (count($richieste) === 0) {
+        return "<p id=\"query-vuota\">Non sono presenti richieste di adozione.</p>";
+    }else{
+        $listaRichieste = '<ul id="lista-richieste" aria-labelledby="ultime-richieste">';
+        foreach ($richieste as $richiesta) {
+
+            $statoRichiesta = '';
+
+            $nomeAnimale = htmlspecialchars($richiesta['NomeAnimale']);
+
+            $statoRichiesta = 'Richiesta <strong>'.$filtro.'</strong> per <em>'.$nomeAnimale.'</em>.';
+
+            switch($richiesta['Stato']){
+                case 'Nuova':
+                case 'In valutazione':
+                    $statoRichiesta = '<li> <article> <p>Richiesta <strong>aperta</strong> per <em>'.$nomeAnimale.'</em>.';
+                    break;
+                case 'Da trasportare':
+                case 'Accettata':
+                case 'Respinta':
+                case 'Annullata':   
+                    $statoRichiesta = '<li class = "close-request"> <article> <p>Richiesta <strong>chiusa</strong> per <em>'.$nomeAnimale.'</em>.';
+                    break;
+            }
+
+            // TODO: il vai alla richiesta deve portare ad una pagina che ancora non c'è
+            $listaRichieste .= $statoRichiesta.'</p>
+                    <a href="">Vai alla richiesta</a>
+                </article>
+            </li>';
+        }
+
+        $listaRichieste .= "</ul>";
+        return $listaRichieste;
     }
 }
 
@@ -579,6 +639,7 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'edit') {
 
 $infoUtente = null;
 $listaAvvisi = "";
+$listaRichieste = "";
 
 //connesisone al DB
 $connessione = new DBAccess();
@@ -587,7 +648,8 @@ if ($connessioneOK) {
 	if (isset($_SESSION['email'])) {
         checkRole($connessione);
         $infoUtente = $connessione->getUserInfo($_SESSION['email']);
-        $listaAvvisi = createMovementList($connessione, $filtroCorrente);
+        $listaAvvisi = createMovementList($connessione, $filtroCorrenteAvvisi);
+        $listaRichieste = createRequestList($connessione, $filtroCorrenteRichieste);
         $messageInfoForm = editInfoAccount($connessione, $NewUserInfo, $infoUtente);
         $messageManagementForm = editManagementAccount($connessione, $NewUserManagement, $infoUtente);
     }else{
@@ -639,10 +701,15 @@ $paginaHTML = str_replace('[breadcrumb]', $breadcrumb, $paginaHTML);
 $paginaHTML = str_replace('[nav]', $nav, $paginaHTML);
 $paginaHTML = str_replace('[main]', $main, $paginaHTML);
 
+$paginaHTML = str_replace('[lista richieste]', $listaRichieste, $paginaHTML);
 $paginaHTML = str_replace('[lista avvisi]', $listaAvvisi, $paginaHTML);
 $paginaHTML = str_replace('[UserInfoSostituzione]', $contenutoScelto, $paginaHTML);
 //il filtro selezionato nella tendina precedentemente all'invio della form viene mantenuto
-$paginaHTML = str_replace( 'value="' . $filtroCorrente . '"', 'value="' . $filtroCorrente . '" selected', $paginaHTML);
+$paginaHTML = str_replace( 'value="' . $filtroCorrenteRichieste . '"', 'value="' . $filtroCorrenteRichieste . '" selected', $paginaHTML);
+$paginaHTML = str_replace( 'value="' . $filtroCorrenteAvvisi . '"', 'value="' . $filtroCorrenteAvvisi . '" selected', $paginaHTML);
+
+$paginaHTML = str_replace('[tabAvvisi]', $tabAvvisi, $paginaHTML);
+$paginaHTML = str_replace('[tabRichieste]', $tabRichieste, $paginaHTML);
 
 $paginaHTML = str_replace('[erroriNome]', $messageInfoForm['name'], $paginaHTML);
 $paginaHTML = str_replace('[erroriCognome]', $messageInfoForm['surname'], $paginaHTML);
