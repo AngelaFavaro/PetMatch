@@ -18,15 +18,16 @@
     --headervisitedlink: #6D7541;
     --headerlink: #481515;
     --secondsection: #6D7541;
-    --bglink-hover:#E4D4BA;
     --placeholder-text:#825E49;
     --darkbgcolor: #E4D4BA;
+    --bglink-hover: var(--darkbgcolor);
     --bgform: #6D7541;
     --errortxt: #BA3A24;
     --successtxt:#576F30;
     --bgconfirmbutton:#6D7541;
     --bgconfermbutton:#FFF6D7;
     --txtcancelbutton:var(--bgconfirmbutton);
+    --txtclose-request: #735757;
 }
 
 a{
@@ -1456,26 +1457,36 @@ input:-webkit-autofill:active{
     margin-bottom:0.5em;
 }
 
-#user-profile #lista-movimenti li{
+#user-profile #lista-movimenti li,
+#user-profile #lista-richieste li{
     list-style: none;
-    background-color: var(--bglink-hover);
+    background-color: var(--darkbgcolor);
+    border:2px solid var(--darkbgcolor);
     margin:0.5em 0;
     padding: 1em;
     border-radius: 0.5em;
 }
 
-#user-profile #lista-movimenti article{
+#user-profile #lista-richieste .close-request{
+    background-color: transparent;
+    color: var(--txtclose-request);
+} 
+
+#user-profile #lista-movimenti article,
+#user-profile #lista-richieste article{
     display: flex;
     flex-wrap: wrap;
     align-items: center;
 }
 
-#user-profile #lista-movimenti article p{
-    flex: 1 1 70%;
+#user-profile #lista-movimenti article p,
+#user-profile #lista-richieste article p{
+    flex: 1 1 65%;
     margin-left:1em;
 }
 
-#user-profile #lista-movimenti li a{
+#user-profile #lista-movimenti li a,
+#user-profile #lista-richieste li a{
     margin:0.5em auto 0 auto;
     border-radius: 2em;
     background-color: var(--buttoncolor-hover);
@@ -1485,12 +1496,15 @@ input:-webkit-autofill:active{
 }
 
 #user-profile #lista-movimenti li a:hover,
-#user-profile #lista-movimenti li a:visited:hover{
+#user-profile #lista-movimenti li a:visited:hover,
+#user-profile #lista-richieste li a:hover,
+#user-profile #lista-richieste li a:visited:hover{
     color: var(--txtcolor);
     background-color:var(--bglink-hover);
 }
 
-#user-profile #lista-movimenti li a:visited{
+#user-profile #lista-movimenti li a:visited,
+#user-profile #lista-richieste li a:visited{
     color:var(--buttoncolor);
 }
 
@@ -1500,6 +1514,11 @@ input:-webkit-autofill:active{
 
 .view-mode h2{
     padding:0.5em 0;
+}
+
+.view-mode dt{
+    float: left;
+    margin-right: 0.5em;
 }
 
 .view-mode span{

@@ -108,7 +108,7 @@ CREATE TABLE RICHIESTE_ADOZIONI(
     PRIMARY KEY(Email, IDanimale),
     FOREIGN KEY (Email) REFERENCES UTENTI (Email) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (IDanimale) REFERENCES ANIMALI (IDanimale) ON DELETE CASCADE ON UPDATE CASCADE,
-    CHECK (Stato IN ('Nuova', 'In valutazione','Da trasportare','Conclusa', 'Respinta', 'Annullata')),
+    CHECK (Stato IN ('Nuova', 'In valutazione','Da trasportare','Accettata', 'Respinta', 'Annullata')),
     CHECK (DataFineValutazione IS NULL OR DataFineValutazione >= DataRichiesta),
     CHECK (DataFineValutazione IS NULL OR DataInizioValutazione IS NULL OR DataFineValutazione >= DataInizioValutazione)
 );

@@ -752,12 +752,12 @@ class DBAccess {
                 FROM RICHIESTE_ADOZIONI R
                 JOIN ANIMALI A ON R.IDanimale = A.IDanimale
                 LEFT JOIN TRASPORTI T ON R.IDanimale = T.IDanimale 
-                WHERE R.Email = ? AND R.Stato LIKE ?";
+                WHERE R.Email = ? AND R.Stato IN ($filtro)";
 
         $stmt = mysqli_prepare($this->connection, $query);
 
         if ($stmt) {
-            mysqli_stmt_bind_param($stmt, 'ss', $email, $filtro);
+            mysqli_stmt_bind_param($stmt, 's', $email);
             mysqli_stmt_execute($stmt);
             $result = mysqli_stmt_get_result($stmt);
 
