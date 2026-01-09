@@ -713,9 +713,7 @@ footer p{
     flex: 1 1 250px;
     margin-bottom: 1em;
 }
-footer h4 {
-    margin-bottom: 0.5em;
-}
+
 .footer-submenu li {
     list-style: none;
     margin-bottom:0.1em;
