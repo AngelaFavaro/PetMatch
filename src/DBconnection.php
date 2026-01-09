@@ -66,7 +66,6 @@ class DBAccess {
                 a.Email as email_admin,
                 m.Nome as nome_admin,
                 m.Cognome as cognome_admin,
-                -- Nuovi campi dalla tabella TRASPORTI
                 t.Via AS via_trasporto,
                 t.Citta AS citta_trasporto,
                 t.CAP AS cap_trasporto,
@@ -78,7 +77,6 @@ class DBAccess {
             JOIN UTENTI u ON u.Email = ra.Email
             JOIN ANIMALI a ON a.IDanimale = ra.IDanimale
             JOIN UTENTI m ON m.Email = a.Email
-            -- Utilizziamo LEFT JOIN per non perdere le richieste senza trasporto
             LEFT JOIN TRASPORTI t ON t.Email = ra.Email AND t.IDanimale = ra.IDanimale
             WHERE ra.Email = ? AND ra.IDanimale = ?
         ";

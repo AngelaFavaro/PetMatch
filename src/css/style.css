@@ -1418,7 +1418,7 @@ input:-webkit-autofill:active{
     border-radius: 0.5em;
 }
 
-#user-info dt {
+#user-info dt{
     font-weight: bold;
 }
 
@@ -2018,14 +2018,34 @@ div#row2 article{
   border-top: none;
 } 
 
-#Richiesta ul{
+/* #Richiesta ul{
     list-style: none;
     padding: 0em;
+} */
+
+/* #Richiesta{
+    display: flex;
+    flex-wrap: wrap;
+} */
+#Richiesta dt, #Richiedente dt, #animale-richiesta dt{
+    font-weight: bold;
+    float: left;
+    margin-right: 0.5em;
 }
-#Richiedente ul{
-    list-style: none;
-    padding: 0em;
+
+div#admin-area dt::after {
+  content: ":";
 }
+
+.full-width{
+    width: 100%;
+}
+
+dt.data-error, .data-error+ dd{
+    color: red;
+    font-weight: bold;
+}
+
 
 
 #details-container{
