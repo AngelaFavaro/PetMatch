@@ -1485,6 +1485,11 @@ input:-webkit-autofill:active{
     padding:0.5em 0;
 }
 
+.view-mode dt{
+    float: left;
+    margin-right: 0.5em;
+}
+
 .view-mode span{
     display: flex;
     position: relative;
