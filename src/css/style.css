@@ -112,6 +112,11 @@ h4{
     margin-top:0.5em;
 }
 
+#form-signup + a,
+#form-login + a{
+    color:var(--txtcolor);
+}
+
 .success-form{
     color:var(--successtxt);
 }
@@ -583,7 +588,7 @@ header a{
     list-style: none;
     padding: 0;
     margin: 0;
-    gap: 0.7em;
+    gap:0.7em;
 }
 
 #personal-area{
@@ -600,6 +605,7 @@ header a{
     height: 2em;
     position: relative;
     cursor: pointer;
+    margin-left: 0;
 }
 
 #slider {
@@ -1505,6 +1511,7 @@ input:-webkit-autofill:active{
 
 .view-mode span h2 + a{
     color:var(--txtcolor);
+    width: 45px;
 }
 
 .normal-icon,
@@ -1631,24 +1638,34 @@ input[type="file"]::file-selector-button:hover {
     border-radius: 1em;
     padding:0.5em 1em;
     font-size: 1em;
+    font-weight: 600;
+    transition: 0.3s;
 }
 
 .edit-mode form span button,
 .edit-management form span button{
-    background-color: var(--bgconfirmbutton);
-    color:var(--bgconfermbutton);
-    border:2px solid var(--bgconfirmbutton);
+    background-color: var(--buttoncolor);
+    color:var(--text-buttoncolor);
+    border:2px solid var(--buttoncolor);
     cursor: pointer;
     margin-left:0.5em;
 }
 
 .edit-mode form span a,
 .edit-management form span a{
-    color:var(--txtcancelbutton);
-    border:2px solid var(--bgconfirmbutton);
+    color:var(--text-buttoncolor);
+    border:2px solid var(--buttoncolor);
     text-decoration: none;
-    font-weight: 600;
     margin-right:0.5em;
+}
+
+.edit-mode form span a:hover,
+.edit-mode form span button:hover,
+.edit-management form span a:hover,
+.edit-management form span button:hover
+{
+    border:2px solid transparent;
+    background-color: transparent;
 }
 
 /* ================== LOGIN ==================*/

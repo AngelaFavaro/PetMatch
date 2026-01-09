@@ -5,8 +5,12 @@ use DB\DBAccess;
 
 //se sono loggato rimando alla pagina di profilo
 if (isset($_SESSION['loggato']) && $_SESSION['loggato'] === true) {
-    header("Location: ./profilo-utente");
-    exit;    
+    if(isset($_SESSION['admin']) && $_SESSION['admin'] === true){
+        header("Location: ./area-riservata");
+    }else{
+        header("Location: ./profilo-utente");
+    }
+    exit; 
 }
 
 $paginaHTML = file_get_contents('./src/template/layout.html');
@@ -135,6 +139,7 @@ function createNewAccount(DBAccess $conn, &$nameValue, &$surnameValue, &$emailVa
             if ($insertResult) {
 				$_SESSION['loggato'] = true;
 				$_SESSION['email'] = $email;
+				$_SESSION['admin'] = false;
 
                 header("Location: ./profilo-utente"); 
                 exit;
@@ -177,7 +182,7 @@ $title = '<title>Registrati - PetMatch </title>';
 $description = '<meta name="description" content="Registrati su PetMatch">';
 $keywords = "";
 
-$nav = buildUserNav($userMenu, './registrati');
+$nav = buildUserNav($userMenu, './registrati', $_SESSION['loggato'] ?? false);
 
 $footer = file_get_contents('./src/template/partials/footer.html');
 

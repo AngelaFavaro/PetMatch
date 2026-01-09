@@ -128,7 +128,7 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
 /**
  * Genera la nav menù utente dinamicamente
  */
-function buildUserNav(array $items, string $currentHref): string {
+function buildUserNav(array $items, string $currentHref, bool $isLogged): string {
 
     global $noNav;
 
@@ -202,8 +202,10 @@ function buildUserNav(array $items, string $currentHref): string {
                             </li>
                             
                             <li>
-                                <a class="white-button" href="./accedi">
-                                    <span id="text-accedi">Accedi</span>
+                                <a class="white-button" href="./accedi">';
+                                $html .= $isLogged ? '<span id="text-accedi">Profilo</span>' : '<span id="text-accedi">Accedi</span>';
+                                
+                                $html .= '
                                     <img src="./assets/icons/account-normal.svg" id="account-normal" alt="" />
                                     <img src="./assets/icons/account-hover.svg" id="account-hover" alt="" />
                                 </a>
@@ -211,7 +213,7 @@ function buildUserNav(array $items, string $currentHref): string {
                         </ul> 
                     </nav>
                     
-                    <label for="menu-toggle-checkbox" id="menu-toggle" aria-label="Apri il menù">
+                    <label for="menu-toggle-checkbox" class="menu-toggle" aria-label="Apri il menù">
                     </label>
     
                 </div>

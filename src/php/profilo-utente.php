@@ -9,6 +9,9 @@ use DB\DBAccess;
 if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
     header("Location: ./accedi");
     exit;    
+}else if(isset($_SESSION['admin']) && $_SESSION['admin'] === true){
+    header("Location: ./area-riservata");
+    exit; 
 }
 
 $filtroCorrente = '%';
@@ -621,7 +624,7 @@ $title = '<title>Profilo - PetMatch </title>';
 $description = '<meta name="description" content="Profilo di PetMatch">';
 $keywords = "";
 
-$nav = buildUserNav($userMenu, './profilo-utente');
+$nav = buildUserNav($userMenu, './profilo-utente',$_SESSION['loggato'] ?? false);
 
 $footer = file_get_contents('./src/template/partials/footer.html');
 
