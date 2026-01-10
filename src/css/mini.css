@@ -63,14 +63,14 @@
     visibility: visible;
 }
 
-#menu-toggle-checkbox:focus-visible ~ #header-actions #menu-toggle{
+#menu-toggle-checkbox:focus-visible ~ #header-actions .menu-toggle{
     border: 1px solid black;
     outline: 2px solid white; 
     outline-offset: 2px;
 }
 
 
-#menu-toggle {
+.menu-toggle {
     display: flex;
     width: 100%;
     height: 100%;
@@ -85,16 +85,18 @@
     justify-content: center;
 }
 
-#menu-toggle::before {
+.menu-toggle::before {
     content: "\2630"; /* ☰ */
     display: block;
+    width: 45px;
 }
 
-#menu-toggle-checkbox:checked ~ #header-actions #menu-toggle::before {
+#menu-toggle-checkbox:checked ~ #header-actions .menu-toggle::before {
     content: "\2715"; /* ✕ */
+    width: 45px;
 }
 
-#menu-toggle-checkbox:checked ~ #header-actions #menu-toggle {
+#menu-toggle-checkbox:checked ~ #header-actions .menu-toggle {
     transform: rotate(180deg);
 }
 
@@ -202,10 +204,10 @@ input:checked + #slider {
 }
 
 /* ================== REGISTRATI ==================*/
-    
-#form-signup{
+
+#signup .container{
     padding: 2em 8%;
-    margin: 0;
+    margin: 0 0.5em;
 }
 
 #form-signup .column-container{
@@ -214,6 +216,11 @@ input:checked + #slider {
 
 #form-signup .column-container div{
     flex: 1 1 51%;
+}
+/* ================== UTENTE NORMALE ==================*/
+
+#user-profile .tab-content form{
+    text-align: left;
 }
 
 /*=================== ANIMALI ====================*/
@@ -296,7 +303,8 @@ body#admin-body main {
 div#admin-area {
     padding: 1em;
 }
-.menu-toggle {
+
+#admin-body .menu-toggle {
     display: block;
     font-size: 2em;
     background: none;
@@ -310,6 +318,10 @@ nav#menu-admin img {
     width: 10em;
     max-width: 100%;
     height: auto;
+}
+div#admin-area article{
+    margin-bottom: 1em;
+    margin-top: 0.5em;
 }
 
 div#admin-area article#animale-richiesta {
@@ -359,4 +371,33 @@ nav#breadcrumb {
 #error-info{
     width: 70%;
     margin: 0 auto;
+}
+
+/* ================== LOGIN ==================*/
+
+#login .container .column-container{
+    width: 100%;
+    padding-bottom:1em;
+}
+
+#form-login legend{
+    margin-bottom:0;
+}
+
+#form-login button{
+    width: 100%;
+    margin-top:1.5em;
+}
+
+/* ================== REVISIONE RICHIESTA ==================*/
+#revisione-richiesta .column-container{
+    gap:1em;
+}
+
+#revisione-richiesta #info-request{
+    flex:1 1 100%;
+}
+
+#revisione-richiesta #info-animal{
+    flex:1 1 100%;
 }

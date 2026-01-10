@@ -121,5 +121,12 @@ td.col-dettagli a{
 }
 
 
+/* ================== LOGIN ==================*/
+#container-image-login{
+    display: none;
+}
 
+#login .container .column-container{
+    width: 70%;
 
+}

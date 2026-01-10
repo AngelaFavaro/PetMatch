@@ -42,10 +42,20 @@ $pagine = [
         'url' => './registrati',
         'parent' => 'home'
     ],
+    'accedi' => [
+        'label' => 'Accedi',
+        'url' => './accedi',
+        'parent' => 'home'
+    ],
     'profilo-utente' => [
         'label' => 'Profilo',
         'url' => './profilo-utente',
         'parent' => 'home'
+    ],
+    'revisione-richiesta' => [
+        'label' => 'Revisione richiesta',
+        'url' => './revisione-richiesta',
+        'parent' => 'profilo-utente'
     ]
 
 
@@ -125,7 +135,9 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
 
     // Parte finale fissa
     $html .= '
-        <a id="logout" class="orange-button" href="./home">← logout</a>
+        <form action="./area-riservata" method="POST">
+            <button type="submit" name="logout" class="logout-btn">Esci</button>
+        </form>
     </nav>';
 
     return $html;
@@ -135,7 +147,7 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
 /**
  * Genera la nav menù utente dinamicamente
  */
-function buildUserNav(array $items, string $currentHref): string {
+function buildUserNav(array $items, string $currentHref, bool $isLogged): string {
 
     global $noNav;
 
@@ -209,8 +221,10 @@ function buildUserNav(array $items, string $currentHref): string {
                             </li>
                             
                             <li>
-                                <a class="white-button" href="./accedi">
-                                    <span id="text-accedi">Accedi</span>
+                                <a class="white-button" href="./accedi">';
+                                $html .= $isLogged ? '<span id="text-accedi">Profilo</span>' : '<span id="text-accedi">Accedi</span>';
+                                
+                                $html .= '
                                     <img src="./assets/icons/account-normal.svg" id="account-normal" alt="" />
                                     <img src="./assets/icons/account-hover.svg" id="account-hover" alt="" />
                                 </a>
@@ -218,7 +232,7 @@ function buildUserNav(array $items, string $currentHref): string {
                         </ul> 
                     </nav>
                     
-                    <label for="menu-toggle-checkbox" id="menu-toggle" aria-label="Apri il menù">
+                    <label for="menu-toggle-checkbox" class="menu-toggle" aria-label="Apri il menù">
                     </label>
     
                 </div>
@@ -242,6 +256,7 @@ function buildUserNav(array $items, string $currentHref): string {
 
     return $html;
 }
+
 
 
 function getBreadcrumb($currentPageKey, $pagine) {
@@ -320,3 +335,58 @@ function uploadImage($file, $folder) {
         return false;
     }
 }
+
+function getCardAnimal():string{
+    $html = '<section id=\'info-animal\'>
+            <h2>Animale interessato</h2>
+            <div class=\'details-card-animale\'>
+                <div>
+                    <div>
+                        <img src="[imgAnimale]" alt="" />
+                        <!-- TODO: aggiungere link alla pagina dell\'animale -->
+                        <a href="" class="brown-button">Vedi animale</a>
+                    </div>
+                    <dl aria-label="Descizione superficiale dell\'animale">
+                        <dt>Nome:</dt>
+                        <dd>[nomeAnimale]</dd>
+                        <dt>Sesso:</dt>
+                        <dd>[SessoAnimale]</dd>
+                        <dt>Età:</dt>
+                        <dd>[EtàAnimale]</dd>
+                        <dt>Razza:</dt>
+                        <dd>[RazzaAnimale]</dd>
+                        <dt>Trasporto:</dt>
+                        <dd>[TrasportoAnimale]</dd>
+                    </dl>
+                </div>
+                <dl aria-label="Informazioni approfondite sull\'animale">
+                    <dt>Famiglia ideale:</dt>
+                    <dd>[FamigliaIdealeAnimale]</dd>
+                    <dt>Condizioni mediche:</dt>
+                    <dd>[CondizioniMedicheAnimale]</dd>
+                    <dt>Descrizione caratteriale:</dt>
+                    <dd>[DescrizioneCaratterialeAnimale]</dd>
+                </dl>
+            </div>
+        </section>';
+    return $html;
+}
+
+
+function logout(){
+    $_SESSION = [];
+    
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+    
+    session_destroy();
+    
+    header("Location: ./home");
+    exit;
+}
+

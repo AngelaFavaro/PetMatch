@@ -89,14 +89,21 @@ $routes = [
             'tipo' => 'gatti'
         ]
     ]*/
+    'accedi' => [
+        'file' => __DIR__ . '/src/php/accedi.php'
+    ],
     'profilo-utente' => [
         'file' => __DIR__ . '/src/php/profilo-utente.php'
+    ],
+    'revisione-richiesta' => [
+        'file' => __DIR__ . '/src/php/revisione-richiesta.php'
     ]
     // 'animali' => [
     //     'file' => __DIR__ . '/src/php/animali.php',
     // ],
     // 'animali/cani' => [
     //     'file' => __DIR__ . '/src/php/animali.php',
+    //     'params' => [
     // ],
     // 'animali/gatti' => [
     //     'file' => __DIR__ . '/src/php/animali.php',

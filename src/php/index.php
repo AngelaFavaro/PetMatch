@@ -120,7 +120,7 @@ $title = '<title>Home - PetMatch </title>';
 $description = '<meta name="description" content="Home di PetMatch">';
 $keywords = "";
 
-$nav = buildUserNav($userMenu, './home');
+$nav = buildUserNav($userMenu, './home', $_SESSION['email'] ?? false);
 
 $footer = file_get_contents('./src/template/partials/footer.html');
 

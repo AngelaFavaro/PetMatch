@@ -66,7 +66,6 @@ class DBAccess {
                 a.Email as email_admin,
                 m.Nome as nome_admin,
                 m.Cognome as cognome_admin,
-                -- Nuovi campi dalla tabella TRASPORTI
                 t.Via AS via_trasporto,
                 t.Citta AS citta_trasporto,
                 t.CAP AS cap_trasporto,
@@ -77,8 +76,7 @@ class DBAccess {
             FROM RICHIESTE_ADOZIONI ra
             JOIN UTENTI u ON u.Email = ra.Email
             JOIN ANIMALI a ON a.IDanimale = ra.IDanimale
-            JOIN AMMINISTRATORI m ON m.Email = a.Email
-            -- Utilizziamo LEFT JOIN per non perdere le richieste senza trasporto
+            JOIN UTENTI m ON m.Email = a.Email
             LEFT JOIN TRASPORTI t ON t.Email = ra.Email AND t.IDanimale = ra.IDanimale
             WHERE ra.Email = ? AND ra.IDanimale = ?
         ";
@@ -433,7 +431,7 @@ class DBAccess {
             return null;
         }
 
-        $query = "SELECT * FROM AMMINISTRATORI WHERE Email = ?";
+        $query = "SELECT * FROM UTENTI WHERE Email = ?";
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
             return null;
@@ -465,7 +463,7 @@ class DBAccess {
             return false;
         }
 
-        $query = "UPDATE AMMINISTRATORI SET Nome = ?, Cognome = ?, ImgPath = ? WHERE Email = ?";
+        $query = "UPDATE UTENTI SET Nome = ?, Cognome = ?, ImgPath = ? WHERE Email = ?";
 
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
@@ -694,17 +692,257 @@ class DBAccess {
             return false;
         }
 
-        $query = "INSERT INTO UTENTI (Email, Nome, Cognome, UtentePW) VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO UTENTI (Email, Nome, Cognome, Password, Ruolo) VALUES (?, ?, ?, ?, ?)";
 
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
             return false;
         }
 
-        mysqli_stmt_bind_param($stmt, 'ssss', $email, $name, $surname, $hashedPassword);
+        mysqli_stmt_bind_param($stmt, 'ssss', $email, $name, $surname, $hashedPassword, 'User');
         $result = mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
         return $result;
+    }
+
+    function getUserInfo($email): ?array {
+        $requests = [];
+        
+        $query = "SELECT 
+                    Nome,
+                    Cognome,
+                    Password,
+                    Telefono,
+                    Via,
+                    Citta,
+                    CAP,
+                    ImgPath
+                FROM UTENTI WHERE Email = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            if($row = mysqli_fetch_assoc($result)) {
+                mysqli_stmt_close($stmt);
+                return $row;
+            }
+            mysqli_stmt_close($stmt);
+        }
+        return null;
+    }
+
+    //ordine le richieste in base a quella che ha avuto un movimento più recente, che sia in DataRichieste,
+    //inizioValutazione o FineValutazione
+    function getUserRequests($email, $filtro): array {
+        $requests = [];
+        
+        $query = "SELECT 
+                    R.IDanimale,            
+                    R.Stato,
+                    T.DataPartenza,         
+                    T.DataArrivo,
+                    A.Nome AS NomeAnimale
+                FROM RICHIESTE_ADOZIONI R
+                JOIN ANIMALI A ON R.IDanimale = A.IDanimale
+                LEFT JOIN TRASPORTI T ON R.IDanimale = T.IDanimale 
+                WHERE R.Email = ? AND R.Stato IN ($filtro)
+                ORDER BY GREATEST(
+                R.DataRichiesta, 
+                COALESCE(R.DataInizioValutazione, R.DataRichiesta), 
+                COALESCE(R.DataFineValutazione, R.DataRichiesta)
+                ) DESC";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            while ($row = mysqli_fetch_assoc($result)) {
+                $requests[] = $row;
+            }
+            
+            mysqli_stmt_close($stmt);
+        }
+        return $requests;
+    }
+
+    public function getRole($email): ?string {
+        
+        $query = "SELECT Ruolo FROM UTENTI WHERE Email = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        $role = null;
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            if ($row = mysqli_fetch_assoc($result)) {
+                $role = $row['Ruolo'];
+            }
+            mysqli_stmt_close($stmt);
+        }
+        return $role;
+    }
+
+    public function updateUserInfo(string $email, array $newUserInfo): bool {
+        if (!$this->connection){
+            return false;
+        }
+
+        $query = "UPDATE UTENTI SET Nome = ?, Cognome = ?, 
+        Telefono = ?, Via = ?, Citta = ?, CAP = ?, ImgPath = ? WHERE Email = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 'ssssssss',  $newUserInfo['name'], $newUserInfo['surname'], 
+        $newUserInfo['phoneNumber'], $newUserInfo['address'], $newUserInfo['city'], 
+        $newUserInfo['CAP'], $newUserInfo['profilePic'], $email);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
+
+    public function updateUserManagement(string $email, array $newUserInfo): bool {
+        if (!$this->connection){
+            return false;
+        }
+
+        $query = "UPDATE UTENTI SET Email = ?, Password = ? WHERE Email = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 'sss', $newUserInfo['email'], $newUserInfo['Newpassword'], $email);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
+
+    function getCredentials($email): array {
+        $row = [];
+        $query = "SELECT Email, Password FROM UTENTI WHERE Email = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            $row = mysqli_fetch_assoc($result) ?? [];
+
+            mysqli_stmt_close($stmt);
+        }
+
+        return $row;
+    }
+
+    // Aggiungi il '?' prima di array
+    function getAnimalRequest($email, $idAnimale): ?array {
+        
+        $request = null; 
+        
+        $query = "SELECT 
+                    R.IDanimale,            
+                    R.LetteraPresentazione, 
+                    R.Stato,
+                    R.DataRichiesta,
+                    R.DataInizioValutazione,
+                    R.DataFineValutazione,
+                    T.DataPartenza,         
+                    T.DataArrivo,
+                    R.Trasporto,
+                    A.Nome AS NomeAnimale,
+                    A.Sesso,
+                    A.DataNascita,
+                    A.Razza,
+                    A.DescrFamiglia,
+                    A.DescrComportamentale,
+                    A.CondizioniMediche,
+                    A.ImgPath,
+                    A.Trasporto AS TrasportoAnimale
+                FROM RICHIESTE_ADOZIONI R
+                JOIN ANIMALI A ON R.IDanimale = A.IDanimale
+                LEFT JOIN TRASPORTI T ON R.IDanimale = T.IDanimale 
+                WHERE R.Email = ? AND R.IDanimale = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'si', $email, $idAnimale);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            // Salviamo il risultato nella variabile giusta
+            $request = mysqli_fetch_assoc($result);
+            
+            mysqli_stmt_close($stmt);
+        }
+        
+        // Restituiamo la variabile giusta
+        return $request;
+    }
+
+    public function updateRequestState(string $email, int $idAnimale, string $stato): bool {
+
+        $dataOggi = date("Y-m-d");
+        // controllo se dataInizioValutazione esiste, se non esiste metto quella di oggi
+        $query = "UPDATE RICHIESTE_ADOZIONI 
+                SET Stato = ?, 
+                    DataFineValutazione = ?, 
+                    DataInizioValutazione = COALESCE(DataInizioValutazione, ?) 
+                WHERE Email = ? AND IDanimale = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        
+        if ($stmt === false) {
+            return false;
+        }
+
+        mysqli_stmt_bind_param(
+            $stmt, 'ssssi', $stato, $dataOggi, $dataOggi, $email, $idAnimale);
+
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        
+        return $result;
+    }
+
+    function getStateRequest(string $email, int $idAnimale): ?string {
+        $state = null;
+        
+        $query = "SELECT          
+                    Stato
+                    FROM RICHIESTE_ADOZIONI 
+                    WHERE Email = ? AND IDanimale = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'si', $email,$idAnimale);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            $row = mysqli_fetch_assoc($result);
+            if($row){
+                $state = $row['Stato'];
+            }
+            
+            mysqli_stmt_close($stmt);
+        }
+        return $state;
     }
 
 }
