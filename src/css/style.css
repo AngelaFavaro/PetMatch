@@ -113,8 +113,8 @@ h4{
     margin-top:0.5em;
 }
 
-#form-signup + a,
-#form-login + a{
+#form-signup + p a,
+#form-login + p a{
     color:var(--txtcolor);
 }
 
