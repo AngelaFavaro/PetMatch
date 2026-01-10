@@ -511,7 +511,7 @@ $htmlEdit = '
                 <legend>Informazioni personali</legend>
                 <div>
                     <label for="new-pic">Cambia Foto</label>
-                    <input type="file" id="new-pic" name="new-pic" accept="image/*">
+                    <input type="file" id="new-pic" name="new-pic" accept="image/*" aria-label="carica la tua foto profilo.">
                     <label class="checkbox-container-pic" for="delete-pic">
                         <input type="checkbox" id="delete-pic" name="delete-pic">
                         Rimuovi foto profilo
@@ -527,22 +527,6 @@ $htmlEdit = '
                     <input type="text" id="new-surname" name="new-surname" autocomplete="family-name" value="[cognome-utente]" placeholder="Cognome">
                     <p class="error-form">[erroriCognome]</p>
                 </div>
-                <div>
-                    <label for="new-address">Via e numero civico</label>
-                    <input type="text" id="new-address" name="new-address" autocomplete="street-address" value="[via-utente]" placeholder="Via L. Da Vinci n.10">
-                    <p class="error-form">[erroriIndirizzo]</p>
-                </div>
-                <div>
-                    <label for="new-city">Città</label>
-                    <input type="text" id="new-city" name="new-city" autocomplete="address-level2" value="[citta-utente]" placeholder="Roma">
-                    <p class="error-form">[erroriCitta]</p>
-                </div>
-                <div id="new-cap">
-                    <label for="new-cap">CAP</label>
-                    <input type="text" id="new-cap" name="new-cap" autocomplete="postal-code" value="[cap-utente]" placeholder="00000">
-                    <p class="error-form">[erroriCAP]</p>
-                    <p class="error-form">[erroriIndirizzoTotale]</p>
-                </div>
                 <div class="edit-number">
                     <label for="new-number">Telefono</label>
                     <div>
@@ -551,6 +535,29 @@ $htmlEdit = '
                     </div>
                     <p class="error-form">[erroriTelefono]</p>
                 </div>
+            </fieldset>
+            <fieldset class="fieldset-indirizzo">
+                <legend>Indirizzo</legend>
+                    <p class="hidden-indirizzo">Tutti i campi dell\'indirizzo devono essere completi, altrimenti nessuno.</p>
+                    <div>
+                        <label for="new-address">Via e numero civico</label>
+                        <input type="text" id="new-address" name="new-address" autocomplete="street-address" 
+                        value="[via-utente]" placeholder="Via L. Da Vinci n.10" aria-label="Tutti i campi dell\'indirizzo devono essere completi, altrimenti nessuno.">
+                        <p class="error-form">[erroriIndirizzo]</p>
+                    </div>
+                    <div>
+                        <label for="new-city">Città</label>
+                        <input type="text" id="new-city" name="new-city" autocomplete="address-level2" 
+                        value="[citta-utente]" placeholder="Roma">
+                        <p class="error-form">[erroriCitta]</p>
+                    </div>
+                    <div>
+                        <label for="new-cap">CAP</label>
+                        <input type="text" id="new-cap" name="new-cap" autocomplete="postal-code" 
+                        value="[cap-utente]" placeholder="00000">
+                        <p class="error-form">[erroriCAP]</p>
+                        <p class="error-form">[erroriIndirizzoTotale]</p>
+                    </div>
             </fieldset>
             [messaggiForm]
             <span>
