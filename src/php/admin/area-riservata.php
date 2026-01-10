@@ -207,7 +207,19 @@ function editInfoAdmin(DBAccess $conn, &$NewUserValues, $adminInfo): array {
         if (empty($errors)) {
 
             if(isset($_FILES['new-pic']) && !empty($_FILES['new-pic']['name']) && $_POST['delete-pic'] !== 'on'){
-                $NewUserValues['profilePic'] = uploadImage($_FILES['new-pic'], 'admins');
+                $uploadedPicPath = uploadImage($_FILES['new-pic'], 'admins');
+                if ($uploadedPicPath === false) {
+                    $_SESSION['form_status_info'] = 'error';
+                    $_SESSION['form_errors_info'] = ['profilePic' => "Errore durante il caricamento dell'immagine del profilo."];
+                    $_SESSION['form_inputs'] = [
+                        'name' => $NewUserValues['name'],
+                        'surname' => $NewUserValues['surname'],
+                        'phoneNumber' => $NewUserValues['phoneNumber']
+                    ];
+                    header("Location: ./area-riservata?mode=edit");
+                    exit;
+                }
+                $NewUserValues['profilePic'] = $uploadedPicPath;
             }elseif($_POST['delete-pic'] === 'on'){
                 $NewUserValues['profilePic'] = "./assets/images/admins/default-pic.png";
             }else{
