@@ -8,13 +8,13 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
 }else{
     include './src/utils.php';
     include './src/DBconnection.php';
-    // $_SESSION['user'] = 'lindorlinor@gmail.com';
+    // $_SESSION['email'] = 'lindorlinor@gmail.com';
     function renderTbodyNuove(DBAccess $conn, array $NRequestsByStatus): string {
         if($NRequestsByStatus['Nuova'] == 0){
             return '<tbody><tr><td colspan="4">Non ci sono nuove richieste di adozione.</td></tr></tbody>';
         }else{
             $html = '<tbody>';
-            $richieste = $conn->getNewRequests($_SESSION['user'] ?? '');
+            $richieste = $conn->getNewRequests($_SESSION['email'] ?? '');
             foreach($richieste as $richiesta){
                 $html .= '
                     <tr>
@@ -32,7 +32,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
 
     function renderTbodyInValutazione(DBAccess $conn){
         $html = '<tbody>';
-        $richieste = $conn->getInEvaluationRequests($_SESSION['user'] ?? '');
+        $richieste = $conn->getInEvaluationRequests($_SESSION['email'] ?? '');
 
         foreach($richieste as $richiesta){
             $html .= '
@@ -51,7 +51,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
 
     function renderTbodyDaTrasportare(DBAccess $conn){
         $html = '<tbody>';
-        $richieste = $conn->getTransportRequests($_SESSION['user'] ?? '');
+        $richieste = $conn->getTransportRequests($_SESSION['email'] ?? '');
 
         foreach($richieste as $richiesta){
             // se data_arrivo è null, mostra una stringa vuota
@@ -72,7 +72,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
 
     function renderTbodyAnnullate(DBAccess $conn){
         $html = '<tbody>';
-        $richieste = $conn->getCancelledRequests($_SESSION['user'] ?? '');
+        $richieste = $conn->getCancelledRequests($_SESSION['email'] ?? '');
 
         foreach($richieste as $richiesta){
             $html .= '
@@ -92,7 +92,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     //ora per le respinte, che hanno solo nome animale e email richiedente
     function renderTbodyRespinte(DBAccess $conn){
         $html = '<tbody>';
-        $richieste = $conn->getRejectedRequests($_SESSION['user'] ?? '');
+        $richieste = $conn->getRejectedRequests($_SESSION['email'] ?? '');
 
         foreach($richieste as $richiesta){
             $html .= '
@@ -130,7 +130,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
         $richiesta = $connessione->getRequestDetails($email, $idAnimale);
 
         // Gestione POST centralizzata (esegue redirect dove necessario)
-        $NRequestsByStatus = $connessione->getNRequestByStatus($_SESSION['user'] ?? '');
+        $NRequestsByStatus = $connessione->getNRequestByStatus($_SESSION['email'] ?? '');
         $tbody_nuove_richieste = renderTbodyNuove($connessione, $NRequestsByStatus);
         $tbody_in_valutazione_richieste = renderTbodyInValutazione($connessione);
         $tbody_da_trasportare_richieste = renderTbodyDaTrasportare($connessione);

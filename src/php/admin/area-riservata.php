@@ -10,7 +10,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])){
 	exit;}
 function buildToDoList(DBAccess $conn): string {
 	$html = '<ul id="to-do-list">';
-	$tasks =$conn->createAdminTasks($_SESSION['user'] ?? '');
+	$tasks =$conn->createAdminTasks($_SESSION['email'] ?? '');
 	$links= [
 		['href' => '', 'type' => 'ANIMALI SENZA ADMIN'],
 		['href' => '', 'type' => 'APPUNTI DA PRENDERE'],
@@ -36,7 +36,7 @@ function buildToDoList(DBAccess $conn): string {
 
 function buildStatisticsArea(DBAccess $conn): string{
 	$html = '<ul id="statistics-list">';
-	$stats = $conn->createAdminStats($_SESSION['user'] ?? '');
+	$stats = $conn->createAdminStats($_SESSION['email'] ?? '');
 	$types= [
 		'ADOZIONI COMPLETATE',
 		'RICHIESTE VISIONATE',
