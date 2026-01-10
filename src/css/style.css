@@ -735,6 +735,7 @@ footer p{
     text-align: center;
     font-size: smaller;
     font-weight: 400;
+    padding:1em;
     color: var(--darkbgcolor);
     /* font-size: 0.9em; */
     /* margin-bottom: 1em; */
