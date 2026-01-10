@@ -1830,3 +1830,165 @@ nav#breadcrumb a{
 nav#breadcrumb a:visited{
     color: var(--visitedcolor);
 }
+
+/* ================== Chi Siamo ==================*/
+
+/*Sezione "Chi Siamo"*/
+
+
+#chi-siamo-content {
+    flex: 1 1 50%;
+}
+#chi-siamo-img{
+    flex: 0 1 40%;
+}
+
+#chi-siamo-img img{
+    width: 100%;
+}
+
+/* Sezione 2 Chi Siamo */
+
+#second-chapter-chi-siamo{
+    background-color: var(--headercolor);
+    color:var(--bgcolor);
+    margin-top: 5em;
+}
+
+#chi-siamo2-img{
+    flex: 0 1 40%;
+}
+#chi-siamo2-img img{
+    width: 100%;
+}
+
+#content-chi-siamo2{
+    vertical-align: middle;
+    padding:2em 0;
+    flex: 1 1 50%;
+    margin:auto;
+    /* height: fit-content; */
+
+
+}
+
+
+/*Sezione "PetMatch timeline"*/
+
+#petmatch-timeline{
+    padding:2em 0 2em 0;
+} 
+
+#pm-timeline{
+   
+   display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    align-items: flex-start;
+    margin-top: 3em;
+    list-style: none;
+  }
+
+#pm-timeline::before {
+    content: '';
+    position: absolute;
+    top: 1.5em; 
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background-image: linear-gradient(to right, var(--buttoncolor) 50%, transparent 50%);
+    background-size: 20px 100%;
+    z-index: 0;
+  }
+
+  #pm-timeline li{
+    position: relative; 
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 0 0 18%;
+    font-weight: bold;
+}
+
+.pm-timeline-date{
+    font-size:1em;
+}
+
+/*Sezione 3 Chi Siamo */
+
+#third-chapter-chi-siamo{
+    margin: 5em 0em;
+
+}
+
+
+#third-chapter-chi-siamo .column-container{
+    gap: 3em;
+    align-items: center;
+} 
+
+#chi-siamo3-img{
+    flex: 0 0 25%;
+    max-width: 25%;
+    height: auto;
+
+
+}
+#chi-siamo3-img img{
+    width: 100%;
+    border-radius: 0.8em;
+
+    
+}
+
+#chi-siamo3-content{
+    padding:2em 0;
+    flex: 1 1 60%;
+    margin:auto;
+ 
+
+    
+}
+  
+
+/*Sezione "Ci Presentiamo"*/
+#ci-presentiamo{
+    background-color: var(--secondsection); /* nel caso non caricasse l'immagine */
+    background-image: 
+        linear-gradient(to bottom, transparent 70%, var(--secondsection) 98%),
+        url('../../assets/images/cat-bg.svg');
+    background-size: 102% auto;
+    background-repeat: no-repeat;
+    background-position:top;
+    height: fit-content;
+    color: var(--bgcolor);
+    padding: 3em;
+    border-radius: 1em;
+}
+
+#ci-presentiamo h2{
+    margin: 2em 0 0.8em 0;
+}
+
+
+#ci-presentiamo p{
+    display: inline-block;
+    margin-left:3%;
+}
+
+#team-img{
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    justify-content: center;
+    gap:3em;
+    row-gap: 0em;
+} 
+#team-img .column-user{
+  flex: 0 1 10%;
+  margin-top: 0%;
+  margin-bottom: 0%;
+}

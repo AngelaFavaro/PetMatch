@@ -27,7 +27,10 @@ $routes = [
     ],
     'profilo-utente' => [
         'file' => __DIR__ . '/src/php/profilo-utente.php'
-    ]
+    ],
+    'chi-siamo' => [
+        'file' => __DIR__ . '/src/php/chi-siamo.php'
+    ], 
     // 'animali' => [
     //     'file' => __DIR__ . '/src/php/animali.php',
     // ],

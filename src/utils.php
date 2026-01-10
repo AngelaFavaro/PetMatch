@@ -37,6 +37,11 @@ $pagine = [
         'label' => 'Profilo',
         'url' => './profilo-utente',
         'parent' => 'home'
+    ],
+     'chi-siamo' => [
+        'label' => 'Chi Siamo',
+        'url' => './chi-siamo',
+        'parent' => 'home'
     ]
 ];
 
