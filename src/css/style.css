@@ -1080,7 +1080,7 @@ legend {
 #user-profile label + input,
 #login label + input,
 .edit-number div span + input, 
-.password-container input {
+.password-container input, div#admin-area label + input {
     border-radius: 5em;
     padding: 0.5em 1em;
     margin: 0.2em 0 0.3em 0;

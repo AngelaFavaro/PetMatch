@@ -1,50 +1,24 @@
 <div id="admin-area">
-    <h1>Ciao [nomeAdmin]!</h1> <!--TODO -->
+    <h1>Ciao [nomeAdmin]!</h1>
     <article id="query">
-        <h2>DA COMPLETARE</h2>
+        <h2>Da completare</h2>
         [to-do-list]
     </article id="row2-container">
     <div id="row2">
         <article id="statistics-area">
-            <h2>LE TUE STATISTICHE</h2>
+            <h2>Le tue statistiche</h2>
             [stats]
         </article>
-        <article id="admin-info">
-            
-            <!-- [admin-info] -->
+        <article id="admin-info">  
             <div class="header-info">
-                <!-- Le tue informazioni -->
                 [titolo]
-                <a href="?mode=management" aria-label="Gestione dell\'account">
-                    <img src="./assets/icons/setting.svg" alt="" class="normal-icon"/>
-                    <img src="./assets/icons/setting-hover.svg" alt="" class="hover-icon"/>
-                </a>
                 <a href="?mode=edit" class="edit-admin-info btn-edit">
 				    <img src="./assets/icons/edit-pencil.svg" alt="">
                 </a>
             </div>
-
             <div class="generic-info-container">
                 <img src="[imgPath]" alt="Foto" class="circle-foto">
                 [admin-info]
-                <!-- <form method="POST" enctype="multipart/form-data">    
-                    <ul id="admin-details">
-                        <li>
-                            <label for="nome">Nome:</label>
-                            <input type="text" id="nome" name="nome" value="[nomeAdmin]" readonly>
-                        </li>
-                        <li>
-                            <label for="cognome">Cognome:</label>
-                            <input type="text" id="cognome" name="cognome" value="[cognomeAdmin]" readonly>             
-                        </li>
-                        <li>
-                            <label for="foto">Foto:</label>
-                            <input type="file" id="foto" name="foto" accept="image/*" disabled>
-                        </li>
-
-                    </ul>
-                    <button name="submit-edit" type="submit" id="submit-edit" hidden class="orange-button" >Salva Modifiche</button>
-                </form> -->
             </div>
         </article>
     </div>
