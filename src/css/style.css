@@ -1299,7 +1299,6 @@ input:-webkit-autofill:active{
 
 #user-profile .column-container #user-info{
     flex: 1 1 35%;
-    width: 90%;
 }
 
 #user-profile .tabs-container select:focus{
@@ -1311,14 +1310,15 @@ input:-webkit-autofill:active{
 #user-profile .tabs-container {
     display: flex;
     flex-wrap: wrap;
+    box-sizing: border-box;
 }
 
-/* #user-profile .tabs-container input{
+#user-profile .tabs-container input{
     position: absolute;
     opacity: 0;
     width: 0;
     height: 0;
-} */
+}
 
 
 #user-profile .tabs-container input + label {
@@ -1333,8 +1333,7 @@ input:-webkit-autofill:active{
 }
 
 #user-profile .tabs-container .tab-content {
-    flex: 1 0 100%;
-    width: 100%; 
+    flex: 1 0 50%;
     height: fit-content;
     border-bottom: 1px solid var(--headercolor);
     border-left: 1px solid var(--headercolor);
