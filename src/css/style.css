@@ -124,8 +124,8 @@ h4{
     margin-top:0.5em;
 }
 
-#form-signup + a,
-#form-login + a{
+#form-signup + p a,
+#form-login + p a{
     color:var(--txtcolor);
 }
 
@@ -1329,7 +1329,6 @@ input:-webkit-autofill:active{
 
 #user-profile .column-container #user-info{
     flex: 1 1 35%;
-    width: 90%;
 }
 
 #user-profile .tabs-container select:focus{
@@ -1341,14 +1340,15 @@ input:-webkit-autofill:active{
 #user-profile .tabs-container {
     display: flex;
     flex-wrap: wrap;
+    box-sizing: border-box;
 }
 
-/* #user-profile .tabs-container input{
+#user-profile .tabs-container input{
     position: absolute;
     opacity: 0;
     width: 0;
     height: 0;
-} */
+}
 
 
 #user-profile .tabs-container input + label {
@@ -1363,8 +1363,7 @@ input:-webkit-autofill:active{
 }
 
 #user-profile .tabs-container .tab-content {
-    flex: 1 0 100%;
-    width: 100%; 
+    flex: 1 0 50%;
     height: fit-content;
     border-bottom: 1px solid var(--headercolor);
     border-left: 1px solid var(--headercolor);
@@ -1400,7 +1399,10 @@ input:-webkit-autofill:active{
 }
 
 #user-profile .tab-content form button,
-.logout-btn{
+.logout-btn,
+#revisione-richiesta #button-cancel,
+#revisione-richiesta button,
+.dialog-buttons label{
     border-radius: 2em;
     background-color: var(--buttoncolor);
     color:var(--txtcolor);
@@ -1423,9 +1425,13 @@ input:-webkit-autofill:active{
 }
 
 #user-profile .tab-content form button:hover,
-.logout-btn:hover{
+.logout-btn:hover,
+#revisione-richiesta #button-cancel:hover,
+#revisione-richiesta button:hover{
     background-color:var(--bgcolor);
 }
+
+
 
 #user-profile .tabs-container select{
     padding:0.5em;
@@ -1448,7 +1454,7 @@ input:-webkit-autofill:active{
     border-radius: 0.5em;
 }
 
-#user-info dt {
+#user-info dt{
     font-weight: bold;
 }
 
@@ -1499,7 +1505,7 @@ input:-webkit-autofill:active{
 #user-profile #lista-richieste li a:hover,
 #user-profile #lista-richieste li a:visited:hover{
     color: var(--txtcolor);
-    background-color:var(--bglink-hover);
+    background-color:transparent;
 }
 
 #user-profile #lista-movimenti li a:visited,
@@ -1716,6 +1722,170 @@ input[type="file"]::file-selector-button:hover {
     border:2px solid transparent;
     background-color: transparent;
 }
+.hidden-indirizzo{
+    display: none;
+    margin-top:0.5em;
+}
+.fieldset-indirizzo:focus-within .hidden-indirizzo{
+    display: block;
+}
+
+/* ================== REVISIONE RICHIESTA ==================*/
+
+#revisione-richiesta h1{
+    border-bottom:2px solid var(--footercolor);
+}
+
+#revisione-richiesta .column-container{
+    padding:0;
+    margin-top:2em;
+    gap:4.5em;
+}
+
+#revisione-richiesta h2{
+    font-size: 1.6em;
+}
+
+#revisione-richiesta dt{
+    float:left;
+    margin-right:0.5em;
+}
+#revisione-richiesta dd{
+    margin-bottom:0.5em;
+}
+
+#revisione-richiesta .details-card-animale{
+    border:1px solid var(--txtcolor);
+    border-radius:0.5em;
+    padding:1em;
+    margin-top:1em;
+}
+
+#revisione-richiesta #info-request dl,
+#revisione-richiesta #state-request dl{
+    background-color: var(--darkbgcolor);
+    border-radius:0.5em;
+    padding:1em;
+    margin:1em 0;
+}
+
+#revisione-richiesta dt{
+    font-weight: bold;
+}
+
+
+#revisione-richiesta form{
+    margin:1em 0 1em auto;
+    width: fit-content;
+}
+
+.details-card-animale a.brown-button{
+    padding:0.4em 1em;
+    width: 100%;
+    border-radius: 2em;
+    margin:auto;
+}
+
+.details-card-animale div{
+    display: flex;
+    flex-wrap: wrap;
+    margin:auto;
+    gap:1em;
+}
+
+.details-card-animale div div{
+   flex:1 0 46%;
+   padding-bottom:0.5em;
+}
+
+.details-card-animale img{
+   width: 100%;
+   object-fit: contain;
+}
+
+.details-card-animale div dl{
+    flex:0 0 50%;
+}
+
+#revisione-richiesta #info-request{
+    flex:1 1 45%;
+}
+
+#revisione-richiesta #info-animal{
+    flex:1 1 40%;
+}
+
+/* POPUP */
+
+/* Nascondi la checkbox tecnica */
+.popup-checkbox {
+    display: none;
+}
+
+/* Stile base del popup (nascosto di default) */
+.overlay-content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Sfondo scuro semitrasparente */
+    z-index: 1000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-checkbox:checked + label + .overlay-content, 
+.popup-checkbox:checked ~ .overlay-content {
+    display: flex; 
+}
+
+.dialog-box {
+    background: var(--bgcolor);
+    padding: 2em;
+    border-radius: 8px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.dialog-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    margin-top: 1.5em;
+}
+
+#revisione-richiesta #button-cancel,
+#revisione-richiesta button{
+    font-size: 1em;
+    margin:1em 0 1em auto;
+    width: fit-content;
+}
+
+.dialog-buttons label{
+    background-color: var(--bgcolor);
+    height: 38px;
+    margin:auto;
+    width: fit-content;
+    padding:0.5em 2.7em;
+}
+
+.dialog-buttons label:hover,
+#revisione-richiesta button:hover{
+    border-color:var(--bgcolor);
+}
+
+#delete-request-check:disabled + #button-cancel:hover,
+#delete-request-check:disabled + #button-cancel{
+    background-color: var(--darkbgcolor);
+    border-color:var(--darkbgcolor);
+    color:var(--txtclose-request);
+    cursor:default;
+    font-weight: 500;
+}
+
 
 /* ================== LOGIN ==================*/
 #container-image-login{
@@ -2038,14 +2208,34 @@ div#row2 article{
   border-top: none;
 } 
 
-#Richiesta ul{
+/* #Richiesta ul{
     list-style: none;
     padding: 0em;
+} */
+
+/* #Richiesta{
+    display: flex;
+    flex-wrap: wrap;
+} */
+#Richiesta dt, #Richiedente dt, #animale-richiesta dt{
+    font-weight: bold;
+    float: left;
+    margin-right: 0.5em;
 }
-#Richiedente ul{
-    list-style: none;
-    padding: 0em;
+
+div#admin-area dt::after {
+  content: ":";
 }
+
+.full-width{
+    width: 100%;
+}
+
+dt.data-error, .data-error+ dd{
+    color: red;
+    font-weight: bold;
+}
+
 
 
 #details-container{

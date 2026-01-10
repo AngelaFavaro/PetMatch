@@ -42,6 +42,11 @@ $pagine = [
         'label' => 'Profilo',
         'url' => './profilo-utente',
         'parent' => 'home'
+    ],
+    'revisione-richiesta' => [
+        'label' => 'Revisione richiesta',
+        'url' => './revisione-richiesta',
+        'parent' => 'profilo-utente'
     ]
 ];
 
@@ -314,5 +319,41 @@ function uploadImage($file, $folder) {
         echo "ERRORE: move_uploaded_file è fallito. Possibile causa: file temporaneo sparito o restrizioni del server.<br>";
         return false;
     }
+}
+
+function getCardAnimal():string{
+    $html = '<section id=\'info-animal\'>
+            <h2>Animale interessato</h2>
+            <div class=\'details-card-animale\'>
+                <div>
+                    <div>
+                        <img src="[imgAnimale]" alt="" />
+                        <!-- TODO: aggiungere link alla pagina dell\'animale -->
+                        <a href="" class="brown-button">Vedi animale</a>
+                    </div>
+                    <dl aria-label="Descizione superficiale dell\'animale">
+                        <dt>Nome:</dt>
+                        <dd>[nomeAnimale]</dd>
+                        <dt>Sesso:</dt>
+                        <dd>[SessoAnimale]</dd>
+                        <dt>Età:</dt>
+                        <dd>[EtàAnimale]</dd>
+                        <dt>Razza:</dt>
+                        <dd>[RazzaAnimale]</dd>
+                        <dt>Trasporto:</dt>
+                        <dd>[TrasportoAnimale]</dd>
+                    </dl>
+                </div>
+                <dl aria-label="Informazioni approfondite sull\'animale">
+                    <dt>Famiglia ideale:</dt>
+                    <dd>[FamigliaIdealeAnimale]</dd>
+                    <dt>Condizioni mediche:</dt>
+                    <dd>[CondizioniMedicheAnimale]</dd>
+                    <dt>Descrizione caratteriale:</dt>
+                    <dd>[DescrizioneCaratterialeAnimale]</dd>
+                </dl>
+            </div>
+        </section>';
+    return $html;
 }
 

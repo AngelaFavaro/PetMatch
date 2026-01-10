@@ -66,7 +66,6 @@ class DBAccess {
                 a.Email as email_admin,
                 m.Nome as nome_admin,
                 m.Cognome as cognome_admin,
-                -- Nuovi campi dalla tabella TRASPORTI
                 t.Via AS via_trasporto,
                 t.Citta AS citta_trasporto,
                 t.CAP AS cap_trasporto,
@@ -78,7 +77,6 @@ class DBAccess {
             JOIN UTENTI u ON u.Email = ra.Email
             JOIN ANIMALI a ON a.IDanimale = ra.IDanimale
             JOIN UTENTI m ON m.Email = a.Email
-            -- Utilizziamo LEFT JOIN per non perdere le richieste senza trasporto
             LEFT JOIN TRASPORTI t ON t.Email = ra.Email AND t.IDanimale = ra.IDanimale
             WHERE ra.Email = ? AND ra.IDanimale = ?
         ";
@@ -736,23 +734,26 @@ class DBAccess {
         return null;
     }
 
+    //ordine le richieste in base a quella che ha avuto un movimento più recente, che sia in DataRichieste,
+    //inizioValutazione o FineValutazione
     function getUserRequests($email, $filtro): array {
         $requests = [];
         
         $query = "SELECT 
                     R.IDanimale,            
-                    R.LetteraPresentazione, 
                     R.Stato,
-                    R.DataRichiesta,
-                    R.DataInizioValutazione,
-                    R.DataFineValutazione,
                     T.DataPartenza,         
                     T.DataArrivo,
                     A.Nome AS NomeAnimale
                 FROM RICHIESTE_ADOZIONI R
                 JOIN ANIMALI A ON R.IDanimale = A.IDanimale
                 LEFT JOIN TRASPORTI T ON R.IDanimale = T.IDanimale 
-                WHERE R.Email = ? AND R.Stato IN ($filtro)";
+                WHERE R.Email = ? AND R.Stato IN ($filtro)
+                ORDER BY GREATEST(
+                R.DataRichiesta, 
+                COALESCE(R.DataInizioValutazione, R.DataRichiesta), 
+                COALESCE(R.DataFineValutazione, R.DataRichiesta)
+                ) DESC";
 
         $stmt = mysqli_prepare($this->connection, $query);
 
@@ -846,6 +847,102 @@ class DBAccess {
         }
 
         return $row;
+    }
+
+    // Aggiungi il '?' prima di array
+    function getAnimalRequest($email, $idAnimale): ?array {
+        
+        $request = null; 
+        
+        $query = "SELECT 
+                    R.IDanimale,            
+                    R.LetteraPresentazione, 
+                    R.Stato,
+                    R.DataRichiesta,
+                    R.DataInizioValutazione,
+                    R.DataFineValutazione,
+                    T.DataPartenza,         
+                    T.DataArrivo,
+                    R.Trasporto,
+                    A.Nome AS NomeAnimale,
+                    A.Sesso,
+                    A.DataNascita,
+                    A.Razza,
+                    A.DescrFamiglia,
+                    A.DescrComportamentale,
+                    A.CondizioniMediche,
+                    A.ImgPath,
+                    A.Trasporto AS TrasportoAnimale
+                FROM RICHIESTE_ADOZIONI R
+                JOIN ANIMALI A ON R.IDanimale = A.IDanimale
+                LEFT JOIN TRASPORTI T ON R.IDanimale = T.IDanimale 
+                WHERE R.Email = ? AND R.IDanimale = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'si', $email, $idAnimale);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            // Salviamo il risultato nella variabile giusta
+            $request = mysqli_fetch_assoc($result);
+            
+            mysqli_stmt_close($stmt);
+        }
+        
+        // Restituiamo la variabile giusta
+        return $request;
+    }
+
+    public function updateRequestState(string $email, int $idAnimale, string $stato): bool {
+
+        $dataOggi = date("Y-m-d");
+        // controllo se dataInizioValutazione esiste, se non esiste metto quella di oggi
+        $query = "UPDATE RICHIESTE_ADOZIONI 
+                SET Stato = ?, 
+                    DataFineValutazione = ?, 
+                    DataInizioValutazione = COALESCE(DataInizioValutazione, ?) 
+                WHERE Email = ? AND IDanimale = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        
+        if ($stmt === false) {
+            return false;
+        }
+
+        mysqli_stmt_bind_param(
+            $stmt, 'ssssi', $stato, $dataOggi, $dataOggi, $email, $idAnimale);
+
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        
+        return $result;
+    }
+
+    function getStateRequest(string $email, int $idAnimale): ?string {
+        $state = null;
+        
+        $query = "SELECT          
+                    Stato
+                    FROM RICHIESTE_ADOZIONI 
+                    WHERE Email = ? AND IDanimale = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'si', $email,$idAnimale);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            $row = mysqli_fetch_assoc($result);
+            if($row){
+                $state = $row['Stato'];
+            }
+            
+            mysqli_stmt_close($stmt);
+        }
+        return $state;
     }
 
 }

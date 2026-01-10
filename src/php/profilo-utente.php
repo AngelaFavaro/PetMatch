@@ -6,7 +6,7 @@ use DB\DBAccess;
 // $_SESSION['email'] = 'angelacanazza2005@gmail.com';
 
 //se non sono loggato rimando alla pagina di login
-if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
+if (!isset($_SESSION['email'])) {
     header("Location: ./accedi");
     exit;    
 }else if(isset($_SESSION['admin']) && $_SESSION['admin'] === true){
@@ -130,7 +130,7 @@ function createRequestList(DBAccess $conn, $filtro = 'all'): string {
 
             // TODO: il vai alla richiesta deve portare ad una pagina che ancora non c'è
             $listaRichieste .= $statoRichiesta.'</p>
-                    <a href="">Vai alla richiesta</a>
+                    <a href="./revisione-richiesta?id-animale='.$richiesta['IDanimale'].'">Vai alla richiesta</a>
                 </article>
             </li>';
         }
@@ -319,10 +319,7 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente): array {
 
             $EditResult = $conn->updateUserInfo($_SESSION['email'], $NewUserValues);
             
-            if ($EditResult) {
-				$_SESSION['loggato'] = true;
-
-            } else {
+            if (!$EditResult){
                 $_SESSION['form_status_info'] = 'error';
                 $_SESSION['form_errors_info'] = ['generic' => "Sistema momentaneamente non disponibile."];
                 $_SESSION['form_inputs'] = ['name' => $NewUserValues['name'], 'surname' => $NewUserValues['surname'], 
@@ -435,7 +432,6 @@ function editManagementAccount(DBAccess $conn, &$NewUserValues, $infoUtente): ar
             $EditResult = $conn->updateUserManagement($_SESSION['email'], $NewUserValues);
             
             if ($EditResult) {
-				$_SESSION['loggato'] = true;
 				$_SESSION['email'] = $email;
 
             } else {
@@ -482,7 +478,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])){ logout();}
 // --- HTML VISUALIZZAZIONE ---
 
 $htmlView =
-'<div class="view-mode">
+'<aside class="view-mode">
     <span>
         <h2>Le tue informazioni</h2>
         <a href="?mode=management" aria-label="Gestione dell\'account">
@@ -503,7 +499,7 @@ $htmlView =
     <form action="./profilo-utente" method="POST">
         <button type="submit" name="logout" class="logout-btn">Esci</button>
     </form>
-</div>';
+</aside>';
 
 // --- HTML MODIFICA ---
 
@@ -515,7 +511,7 @@ $htmlEdit = '
                 <legend>Informazioni personali</legend>
                 <div>
                     <label for="new-pic">Cambia Foto</label>
-                    <input type="file" id="new-pic" name="new-pic" accept="image/*">
+                    <input type="file" id="new-pic" name="new-pic" accept="image/*" aria-label="carica la tua foto profilo.">
                     <label class="checkbox-container-pic" for="delete-pic">
                         <input type="checkbox" id="delete-pic" name="delete-pic">
                         Rimuovi foto profilo
@@ -531,22 +527,6 @@ $htmlEdit = '
                     <input type="text" id="new-surname" name="new-surname" autocomplete="family-name" value="[cognome-utente]" placeholder="Cognome">
                     <p class="error-form">[erroriCognome]</p>
                 </div>
-                <div>
-                    <label for="new-address">Via e numero civico</label>
-                    <input type="text" id="new-address" name="new-address" autocomplete="street-address" value="[via-utente]" placeholder="Via L. Da Vinci n.10">
-                    <p class="error-form">[erroriIndirizzo]</p>
-                </div>
-                <div>
-                    <label for="new-city">Città</label>
-                    <input type="text" id="new-city" name="new-city" autocomplete="address-level2" value="[citta-utente]" placeholder="Roma">
-                    <p class="error-form">[erroriCitta]</p>
-                </div>
-                <div id="new-cap">
-                    <label for="new-cap">CAP</label>
-                    <input type="text" id="new-cap" name="new-cap" autocomplete="postal-code" value="[cap-utente]" placeholder="00000">
-                    <p class="error-form">[erroriCAP]</p>
-                    <p class="error-form">[erroriIndirizzoTotale]</p>
-                </div>
                 <div class="edit-number">
                     <label for="new-number">Telefono</label>
                     <div>
@@ -555,6 +535,29 @@ $htmlEdit = '
                     </div>
                     <p class="error-form">[erroriTelefono]</p>
                 </div>
+            </fieldset>
+            <fieldset class="fieldset-indirizzo">
+                <legend>Indirizzo</legend>
+                    <p class="hidden-indirizzo">Tutti i campi dell\'indirizzo devono essere completi, altrimenti nessuno.</p>
+                    <div>
+                        <label for="new-address">Via e numero civico</label>
+                        <input type="text" id="new-address" name="new-address" autocomplete="street-address" 
+                        value="[via-utente]" placeholder="Via L. Da Vinci n.10" aria-label="Tutti i campi dell\'indirizzo devono essere completi, altrimenti nessuno.">
+                        <p class="error-form">[erroriIndirizzo]</p>
+                    </div>
+                    <div>
+                        <label for="new-city">Città</label>
+                        <input type="text" id="new-city" name="new-city" autocomplete="address-level2" 
+                        value="[citta-utente]" placeholder="Roma">
+                        <p class="error-form">[erroriCitta]</p>
+                    </div>
+                    <div>
+                        <label for="new-cap">CAP</label>
+                        <input type="text" id="new-cap" name="new-cap" autocomplete="postal-code" 
+                        value="[cap-utente]" placeholder="00000">
+                        <p class="error-form">[erroriCAP]</p>
+                        <p class="error-form">[erroriIndirizzoTotale]</p>
+                    </div>
             </fieldset>
             [messaggiForm]
             <span>
@@ -686,7 +689,7 @@ $title = '<title>Profilo - PetMatch </title>';
 $description = '<meta name="description" content="Profilo di PetMatch">';
 $keywords = "";
 
-$nav = buildUserNav($userMenu, './profilo-utente',$_SESSION['loggato'] ?? false);
+$nav = buildUserNav($userMenu, './profilo-utente',$_SESSION['email'] ?? false);
 
 $footer = file_get_contents('./src/template/partials/footer.html');
 
