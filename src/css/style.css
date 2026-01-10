@@ -1109,7 +1109,7 @@ legend {
 #user-profile label + input,
 #login label + input,
 .edit-number div span + input, 
-.password-container input {
+.password-container input, div#admin-area label + input {
     border-radius: 5em;
     padding: 0.5em 1em;
     margin: 0.2em 0 0.3em 0;
@@ -2084,7 +2084,7 @@ div#row2 article{
     float: left;
 }
 
-.header-info button.btn-edit {
+.header-info a.btn-edit {
     float: right;
     background: none;
     border: none;
@@ -2145,6 +2145,7 @@ div#row2 article{
     clip-path: circle(50%);
     margin-bottom: 2em;
     pointer-events: none;
+    margin-left: 1.5em;
 }
 
 .square-foto {
@@ -2156,6 +2157,8 @@ div#row2 article{
 
 .text-details{
     margin: auto 2em;
+    max-width: 100%;
+    min-width: 50%;
 }
 
 .text-details ul{
@@ -2221,7 +2224,7 @@ div#row2 article{
     display: flex;
     flex-wrap: wrap;
 } */
-#Richiesta dt, #Richiedente dt, #animale-richiesta dt{
+div#admin-area dt{
     font-weight: bold;
     float: left;
     margin-right: 0.5em;

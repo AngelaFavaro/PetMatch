@@ -123,7 +123,9 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
 
     // Parte finale fissa
     $html .= '
-        <a id="logout" class="orange-button" href="./home">← logout</a>
+        <form action="./area-riservata" method="POST">
+            <button type="submit" name="logout" class="logout-btn">Esci</button>
+        </form>
     </nav>';
 
     return $html;
@@ -244,6 +246,7 @@ function buildUserNav(array $items, string $currentHref, bool $isLogged): string
 }
 
 
+
 function getBreadcrumb($currentPageKey, $pagine) {
     if (!isset($pagine[$currentPageKey])) {
         return ""; 
@@ -355,5 +358,23 @@ function getCardAnimal():string{
             </div>
         </section>';
     return $html;
+}
+
+
+function logout(){
+    $_SESSION = [];
+    
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+    
+    session_destroy();
+    
+    header("Location: ./home");
+    exit;
 }
 

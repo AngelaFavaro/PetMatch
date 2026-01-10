@@ -2,7 +2,7 @@
 include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
-$_SESSION['user'] = 'lindorlinor@gmail.com';
+// $_SESSION['email'] = 'lindorlinor@gmail.com';
 
 
 
@@ -212,14 +212,14 @@ function handlePostActions(DBAccess $conn, array $r, string $email, int $idAnima
 
 function controlAccess(): bool{
 	//controlla se l'utente è loggato e se è un admin
-	if(!isset($_SESSION['user']) || $_SESSION['role'] !== 'admin'){
+	if(!isset($_SESSION['email']) || $_SESSION['role'] !== 'admin'){
 		return false;
 	}
 	return true;
 }
 
 function imTheAdmin($r): bool{
-	if(($r['email-admin'] ?? '') === ($_SESSION['user'] ?? '')){
+	if(($r['email-admin'] ?? '') === ($_SESSION['email'] ?? '')){
 		return true;
 	}
 	return false;
@@ -296,7 +296,11 @@ if($richiesta['trasporto-richiesta']===1 && $richiesta['indirizzo-richiedente'])
 $main = str_replace('[indirizzo-richiedente]', $indirizzo_richiedente, $main);
 $main = str_replace('[nomeAnimale]', e($richiesta['nome-animale'] ?? ''), $main);
 $main = str_replace('[animalImgPath]', e($richiesta['animalImgPath'] ?? ''), $main);
-$main = str_replace('[sessoAnimale]', e($richiesta['sesso-animale'] ?? ''), $main);
+if($richiesta['sesso-animale'] === 'F')
+    $main = str_replace('[sessoAnimale]', '<abbr title="Femmina">F</abbr>', $main);
+elseif($richiesta['sesso-animale'] === 'M')
+    $main = str_replace('[sessoAnimale]', '<abbr title="Maschio">M</abbr>', $main);
+
 $main = str_replace('[etaAnimale]', e($richiesta['eta-animale'] ?? ''), $main);
 $main = str_replace('[razzaAnimale]', e($richiesta['razza-animale'] ?? ''), $main);
 $main = str_replace('[trasportoAnimale]', siNo($richiesta['trasporto-animale'] ?? 0), $main);
