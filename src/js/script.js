@@ -209,44 +209,42 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             // Qui chiameresti la tua funzione sendData()
         });
-        
-        // Aggiungi qui l'eventuale listener blur per l'input data
-    }
+}
 
-    const btnEditAdmin = document.getElementById('edit-admin-info');
-    const saveAdminBtn = document.getElementById('submit-edit');
-    let isEditing = false;
+    // const btnEditAdmin = document.getElementById('edit-admin-info');
+    // const saveAdminBtn = document.getElementById('submit-edit');
+    // let isEditing = false;
 
-    if (btnEditAdmin) {
-        btnEditAdmin.addEventListener('click', (e) => {
-            console.log(isEditing);
-            isEditing = !isEditing;
-            e.preventDefault();
-            const inputs = document.querySelectorAll('.generic-info-container input');
-            console.log(inputs);
-            inputs.forEach(input => {
-                //tutti gli input che non sono di tipo type= file
-                if (!isEditing) {
-                    if(input.type !== 'file') {
-                        input.setAttribute('readonly', 'true');
-                    }else{
-                        input.setAttribute('disabled','true');
-                    }
-                } else {
-                    if(input.type === 'file') {
-                        input.removeAttribute('disabled');
-                    }else{
-                        input.removeAttribute('readonly');
-                    }
-                }
+    // if (btnEditAdmin) {
+    //     btnEditAdmin.addEventListener('click', (e) => {
+    //         console.log(isEditing);
+    //         isEditing = !isEditing;
+    //         e.preventDefault();
+    //         const inputs = document.querySelectorAll('.generic-info-container input');
+    //         console.log(inputs);
+    //         inputs.forEach(input => {
+    //             //tutti gli input che non sono di tipo type= file
+    //             if (!isEditing) {
+    //                 if(input.type !== 'file') {
+    //                     input.setAttribute('readonly', 'true');
+    //                 }else{
+    //                     input.setAttribute('disabled','true');
+    //                 }
+    //             } else {
+    //                 if(input.type === 'file') {
+    //                     input.removeAttribute('disabled');
+    //                 }else{
+    //                     input.removeAttribute('readonly');
+    //                 }
+    //             }
 
-            });
-            if (isEditing && saveAdminBtn) {
-                saveAdminBtn.removeAttribute('hidden');
-            } else if (saveAdminBtn) {
-                saveAdminBtn.setAttribute('hidden', 'true');
-            }
+    //         });
+    //         if (isEditing && saveAdminBtn) {
+    //             saveAdminBtn.removeAttribute('hidden');
+    //         } else if (saveAdminBtn) {
+    //             saveAdminBtn.setAttribute('hidden', 'true');
+    //         }
 
-        });
-    }
+    //     });
+    // }
 });

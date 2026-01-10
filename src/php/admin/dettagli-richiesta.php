@@ -2,7 +2,7 @@
 include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
-$_SESSION['user'] = 'lindorlinor@gmail.com';
+// $_SESSION['user'] = 'lindorlinor@gmail.com';
 
 
 

@@ -8,7 +8,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
 }else{
     include './src/utils.php';
     include './src/DBconnection.php';
-    $_SESSION['user'] = 'lindorlinor@gmail.com';
+    // $_SESSION['user'] = 'lindorlinor@gmail.com';
     function renderTbodyNuove(DBAccess $conn, array $NRequestsByStatus): string {
         if($NRequestsByStatus['Nuova'] == 0){
             return '<tbody><tr><td colspan="4">Non ci sono nuove richieste di adozione.</td></tr></tbody>';

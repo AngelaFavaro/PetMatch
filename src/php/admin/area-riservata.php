@@ -2,7 +2,14 @@
 include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
-
+//se non sono loggato rimando alla pagina di login
+// if (!isset($_SESSION['email'])) {
+//     header("Location: ./accedi");
+//     exit;    
+// }else if(isset($_SESSION['admin']) && $_SESSION['admin'] === true){
+//     header("Location: ./area-riservata");
+//     exit; 
+// }
 function buildToDoList(DBAccess $conn): string {
 	$html = '<ul id="to-do-list">';
 	$tasks =$conn->createAdminTasks($_SESSION['user'] ?? '');
@@ -49,6 +56,29 @@ function buildStatisticsArea(DBAccess $conn): string{
 	return $html;
 }
 
+
+function buildInfoAdmin(): array{
+	$html = '';
+	$titolo = '';
+	if (isset($_GET['mode']) && $_GET['mode'] === 'edit') {
+		$titolo = '<h2>Modifica le tue informazioni</h2>';
+
+	}else if (isset($_GET['mode']) && $_GET['mode'] === 'management') {
+		$titolo = '<h2>Gestione dell\'account</h2>';
+	} else {
+		$titolo = '<h2>Le tue informazioni</h2>';
+		$html =
+			'<div class="text-details"><dl aria-label="informazioni dell\'utente">
+				<dt>Nome</dt> <dd>[nomeAdmin]</dd>
+				<dt>Cognome</dt> <dd>[cognomeAdmin]</dd>
+				<dt>Indirizzo</dt> <dd>[indirizzoAdmin]</dd>
+				<dt>Email</dt> <dd>[emailAdmin]</dd>
+				<dt>Telefono</dt> <dd>[telefonoAdmin]</dd>
+			</dl></div>';
+	}
+
+	return ['contenuto' => $html, 'titolo' => $titolo];
+}
 function editInfoAdmin(DBAccess $conn, $adminInfo) {
 	
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit-edit'])) {
@@ -83,8 +113,9 @@ if ($connessioneOK) {
 	$todolist = buildToDoList($connessione);
 	$stats = buildStatisticsArea($connessione);
 
-	$adminInfo = $connessione->findAdminByEmail($_SESSION['user'] ?? '');
-	editInfoAdmin($connessione, $adminInfo);
+	$adminInfo = $connessione->getUserInfo($_SESSION['email']);
+	$adminInfoSection = buildInfoAdmin($connessione, $adminInfo);
+	// editInfoAdmin($connessione, $adminInfo);
 	$connessione->closeConnection();
 }
 
@@ -103,10 +134,23 @@ $breadcrumb = getBreadcrumb('area-riservata', $pagine);
 $main = loadTemplate('./src/template/main/admin/area-riservata.html', '<p>Errore: template area-riservata.html non trovato o non leggibile.</p>');
 $main = str_replace('[to-do-list]', $todolist, $main);
 $main = str_replace('[stats]', $stats, $main);
-$main = str_replace('[imgPath]', $adminInfo['imgPath'], $main);
-$main = str_replace('[nomeAdmin]', $adminInfo['nome'], $main);
-$main = str_replace('[cognomeAdmin]', $adminInfo['cognome'], $main);
-// $main = str_replace('[emailAdmin]', $adminInfo['email'], $main);
+$main = str_replace('[admin-info]', $adminInfoSection['contenuto'], $main);
+$main = str_replace('[imgPath]', $adminInfo['ImgPath'], $main);
+$main = str_replace('[nomeAdmin]', $adminInfo['Nome'], $main);
+$main = str_replace('[cognomeAdmin]', $adminInfo['Cognome'], $main);
+if(isset($adminInfo['Telefono']))
+	$main = str_replace('[telefonoAdmin]', $adminInfo['Telefono'], $main);
+else
+	$main = str_replace('[telefonoAdmin]', '<em>Sconosciuto</em>', $main);
+$main = str_replace('[emailAdmin]', $_SESSION['email'], $main);
+$main = str_replace('[]', $_SESSION['email'], $main);
+if(isset($adminInfo['Via']) && isset($adminInfo['Citta']) && isset($adminInfo['CAP']))
+	$main = str_replace('[indirizzoAdmin]', $adminInfo['Via'].', '.$adminInfo['Citta'].', '.$adminInfo['CAP'], $main);
+else
+	$main = str_replace('[indirizzoAdmin]', '<em>Sconosciuto</em>', $main);
+
+
+$main = str_replace('[titolo]', $adminInfoSection['titolo'], $main);
 $paginaHTML = str_replace('[title]', $title, $paginaHTML);
 $paginaHTML = str_replace('[description]', $description, $paginaHTML);
 $paginaHTML = str_replace('[keywords]', $keywords, $paginaHTML);

@@ -13,16 +13,21 @@
             
             <!-- [admin-info] -->
             <div class="header-info">
-                <h2>LE TUE INFORMAZIONI</h2>
-                <button type="button" id="edit-admin-info" class="btn-edit">
-                    <img src="./assets/icons/edit-pencil.svg" alt="Modifica">
-                </button>
+                <!-- Le tue informazioni -->
+                [titolo]
+                <a href="?mode=management" aria-label="Gestione dell\'account">
+                    <img src="./assets/icons/setting.svg" alt="" class="normal-icon"/>
+                    <img src="./assets/icons/setting-hover.svg" alt="" class="hover-icon"/>
+                </a>
+                <a href="?mode=edit" class="edit-admin-info btn-edit">
+				    <img src="./assets/icons/edit-pencil.svg" alt="">
+                </a>
             </div>
 
             <div class="generic-info-container">
                 <img src="[imgPath]" alt="Foto" class="circle-foto">
-                
-                <form method="POST" enctype="multipart/form-data">    
+                [admin-info]
+                <!-- <form method="POST" enctype="multipart/form-data">    
                     <ul id="admin-details">
                         <li>
                             <label for="nome">Nome:</label>
@@ -39,28 +44,8 @@
 
                     </ul>
                     <button name="submit-edit" type="submit" id="submit-edit" hidden class="orange-button" >Salva Modifiche</button>
-                </form>
+                </form> -->
             </div>
-
-
-            
-             <!-- <div class="header-info">
-                <h2>LE TUE INFORMAZIONI</h2>
-                <a href="./">
-                    <img src="./assets/icons/edit-pencil.svg" alt="Modificare le informazioni">
-                </a>
-            </div>
-           <div class="generic-info-container">
-                <img src="[imagePath]" alt="Foto di [nome]" class="circle-foto">
-                
-                <div class="text-details">
-                    <ul>
-                        <li><strong>Nome:</strong> [nomeAdmin]</li>
-                        <li><strong>Cognome:</strong> [cognomeAdmin]</li>
-                        <li><strong>Email:</strong> [emailAdmin]</li>
-                    </ul>
-                </div>
-            </div> -->
         </article>
     </div>
     

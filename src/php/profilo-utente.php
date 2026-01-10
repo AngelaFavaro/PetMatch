@@ -609,7 +609,7 @@ $htmlManagement = '
                     <li>Almeno un numero</li>
                     <li>Una lettera maiuscola</li>
                     <li>Una lettera minuscola</li>
-                    <li>Almenu un carattere speciale (! @ + ? / , - . $ _ =)</li>
+                    <li>Almeno un carattere speciale (! @ + ? / , - . $ _ =)</li>
                 </ul>
             </p>
             <span>
