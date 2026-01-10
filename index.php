@@ -30,6 +30,9 @@ $routes = [
     ],
     'profilo-utente' => [
         'file' => __DIR__ . '/src/php/profilo-utente.php'
+    ],
+    'revisione-richiesta' => [
+        'file' => __DIR__ . '/src/php/revisione-richiesta.php'
     ]
     // 'animali' => [
     //     'file' => __DIR__ . '/src/php/animali.php',

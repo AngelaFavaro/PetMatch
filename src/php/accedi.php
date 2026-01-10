@@ -4,7 +4,7 @@ include './src/DBconnection.php';
 use DB\DBAccess;
 
 //se sono loggato rimando alla pagina di profilo
-if (isset($_SESSION['loggato']) && $_SESSION['loggato'] === true) {
+if (isset($_SESSION['email'])) {
     if(isset($_SESSION['admin']) && $_SESSION['admin'] === true){
         header("Location: ./area-riservata");
     }else{
@@ -13,7 +13,7 @@ if (isset($_SESSION['loggato']) && $_SESSION['loggato'] === true) {
     exit;    
 }
 
-function checkCredential(DBAccess $conn, &$emailValue) {
+function checkCredential(DBAccess $conn, &$email) {
     $message = '';
 
     if (isset($_SESSION['form_status'])) {
@@ -26,7 +26,7 @@ function checkCredential(DBAccess $conn, &$emailValue) {
             }
             
             $savedInputs = $_SESSION['form_inputs'] ?? [];
-            $emailValue   = $savedInputs['email'] ?? '';
+            $email   = $savedInputs['email'] ?? '';
 
             // Pulizia sessione
             unset($_SESSION['form_status']);
@@ -42,7 +42,7 @@ function checkCredential(DBAccess $conn, &$emailValue) {
 
         $email = mb_strtolower($email, "UTF-8");
 
-        $emailValue   = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
+        $email   = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
 
         $errors = '';
 
@@ -55,7 +55,6 @@ function checkCredential(DBAccess $conn, &$emailValue) {
 
         // Azioni
         if (empty($errors)) {
-            $_SESSION['loggato'] = true;
             $_SESSION['email'] = $email;
 
             $role = $conn->getRole($email);
@@ -103,7 +102,7 @@ $title = '<title>Accedi - PetMatch </title>';
 $description = '<meta name="description" content="Accedi a PetMatch">';
 $keywords = "";
 
-$nav = buildUserNav($userMenu, './accedi', $_SESSION['loggato'] ?? false);
+$nav = buildUserNav($userMenu, './accedi', $_SESSION['email'] ?? false);
 $footer = file_get_contents('./src/template/partials/footer.html');
 
 $breadcrumb = getBreadcrumb('accedi', $pagine);
