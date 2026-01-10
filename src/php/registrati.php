@@ -4,7 +4,7 @@ include './src/DBconnection.php';
 use DB\DBAccess;
 
 //se sono loggato rimando alla pagina di profilo
-if (isset($_SESSION['loggato']) && $_SESSION['loggato'] === true) {
+if (isset($_SESSION['email'])) {
     if(isset($_SESSION['admin']) && $_SESSION['admin'] === true){
         header("Location: ./area-riservata");
     }else{
@@ -137,7 +137,6 @@ function createNewAccount(DBAccess $conn, &$nameValue, &$surnameValue, &$emailVa
             $insertResult = $conn->insertNewUser($email, $name, $surname, $hashedPassword);
             
             if ($insertResult) {
-				$_SESSION['loggato'] = true;
 				$_SESSION['email'] = $email;
 				$_SESSION['admin'] = false;
 
@@ -182,7 +181,7 @@ $title = '<title>Registrati - PetMatch </title>';
 $description = '<meta name="description" content="Registrati su PetMatch">';
 $keywords = "";
 
-$nav = buildUserNav($userMenu, './registrati', $_SESSION['loggato'] ?? false);
+$nav = buildUserNav($userMenu, './registrati', $_SESSION['email'] ?? false);
 
 $footer = file_get_contents('./src/template/partials/footer.html');
 

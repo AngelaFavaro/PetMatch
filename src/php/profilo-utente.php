@@ -6,7 +6,7 @@ use DB\DBAccess;
 // $_SESSION['email'] = 'angelacanazza2005@gmail.com';
 
 //se non sono loggato rimando alla pagina di login
-if (!isset($_SESSION['loggato']) || $_SESSION['loggato'] !== true) {
+if (!isset($_SESSION['email'])) {
     header("Location: ./accedi");
     exit;    
 }else if(isset($_SESSION['admin']) && $_SESSION['admin'] === true){
@@ -130,7 +130,7 @@ function createRequestList(DBAccess $conn, $filtro = 'all'): string {
 
             // TODO: il vai alla richiesta deve portare ad una pagina che ancora non c'è
             $listaRichieste .= $statoRichiesta.'</p>
-                    <a href="">Vai alla richiesta</a>
+                    <a href="./revisione-richiesta?id-animale='.$richiesta['IDanimale'].'">Vai alla richiesta</a>
                 </article>
             </li>';
         }
@@ -319,10 +319,7 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente): array {
 
             $EditResult = $conn->updateUserInfo($_SESSION['email'], $NewUserValues);
             
-            if ($EditResult) {
-				$_SESSION['loggato'] = true;
-
-            } else {
+            if (!$EditResult){
                 $_SESSION['form_status_info'] = 'error';
                 $_SESSION['form_errors_info'] = ['generic' => "Sistema momentaneamente non disponibile."];
                 $_SESSION['form_inputs'] = ['name' => $NewUserValues['name'], 'surname' => $NewUserValues['surname'], 
@@ -435,7 +432,6 @@ function editManagementAccount(DBAccess $conn, &$NewUserValues, $infoUtente): ar
             $EditResult = $conn->updateUserManagement($_SESSION['email'], $NewUserValues);
             
             if ($EditResult) {
-				$_SESSION['loggato'] = true;
 				$_SESSION['email'] = $email;
 
             } else {
@@ -482,7 +478,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])){ logout();}
 // --- HTML VISUALIZZAZIONE ---
 
 $htmlView =
-'<div class="view-mode">
+'<aside class="view-mode">
     <span>
         <h2>Le tue informazioni</h2>
         <a href="?mode=management" aria-label="Gestione dell\'account">
@@ -503,7 +499,7 @@ $htmlView =
     <form action="./profilo-utente" method="POST">
         <button type="submit" name="logout" class="logout-btn">Esci</button>
     </form>
-</div>';
+</aside>';
 
 // --- HTML MODIFICA ---
 
@@ -686,7 +682,7 @@ $title = '<title>Profilo - PetMatch </title>';
 $description = '<meta name="description" content="Profilo di PetMatch">';
 $keywords = "";
 
-$nav = buildUserNav($userMenu, './profilo-utente',$_SESSION['loggato'] ?? false);
+$nav = buildUserNav($userMenu, './profilo-utente',$_SESSION['email'] ?? false);
 
 $footer = file_get_contents('./src/template/partials/footer.html');
 
