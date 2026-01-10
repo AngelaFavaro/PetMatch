@@ -734,6 +734,7 @@ footer p{
 #copyright{
     text-align: center;
     font-size: smaller;
+    font-weight: 400;
     color: var(--darkbgcolor);
     /* font-size: 0.9em; */
     /* margin-bottom: 1em; */
@@ -2235,6 +2236,11 @@ table {
 thead, tfoot {
     background-color: var(--darkbgcolor);
 }
+
+footer a{
+    text-decoration: none;
+}
+
 
 thead th, tfoot th, tfoot td {
     padding: 0.5em 2em;
