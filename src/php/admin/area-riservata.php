@@ -6,8 +6,7 @@ use DB\DBAccess;
 
 if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])){ 
 	logout();
-	header("Location: ./home");
-	exit;}
+}
 function buildToDoList(DBAccess $conn): string {
 	$html = '<ul id="to-do-list">';
 	$tasks =$conn->createAdminTasks($_SESSION['email'] ?? '');
