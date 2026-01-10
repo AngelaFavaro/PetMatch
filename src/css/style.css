@@ -1692,6 +1692,13 @@ input[type="file"]::file-selector-button:hover {
     border:2px solid transparent;
     background-color: transparent;
 }
+.hidden-indirizzo{
+    display: none;
+    margin-top:0.5em;
+}
+.fieldset-indirizzo:focus-within .hidden-indirizzo{
+    display: block;
+}
 
 /* ================== REVISIONE RICHIESTA ==================*/
 
