@@ -1650,7 +1650,11 @@ a:hover .hover-icon {opacity: 1;}
     text-align: center;
 }
 
-form label{
+#revisione-richiesta form label,
+#signup form label,
+#user-profile form label,
+#home form label,
+#login form label{
     margin-top:1em;
 }
 
@@ -1867,10 +1871,9 @@ input[type="file"]::file-selector-button:hover {
 
 .dialog-buttons label{
     background-color: var(--bgcolor);
-    height: 38px;
     margin:auto;
     width: fit-content;
-    padding:0.5em 2.7em;
+    padding:0.3em 2.7em;
 }
 
 .dialog-buttons label:hover,
