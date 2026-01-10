@@ -296,7 +296,11 @@ if($richiesta['trasporto-richiesta']===1 && $richiesta['indirizzo-richiedente'])
 $main = str_replace('[indirizzo-richiedente]', $indirizzo_richiedente, $main);
 $main = str_replace('[nomeAnimale]', e($richiesta['nome-animale'] ?? ''), $main);
 $main = str_replace('[animalImgPath]', e($richiesta['animalImgPath'] ?? ''), $main);
-$main = str_replace('[sessoAnimale]', e($richiesta['sesso-animale'] ?? ''), $main);
+if($richiesta['sesso-animale'] === 'F')
+    $main = str_replace('[sessoAnimale]', '<abbr title="Femmina">F</abbr>', $main);
+elseif($richiesta['sesso-animale'] === 'M')
+    $main = str_replace('[sessoAnimale]', '<abbr title="Maschio">M</abbr>', $main);
+
 $main = str_replace('[etaAnimale]', e($richiesta['eta-animale'] ?? ''), $main);
 $main = str_replace('[razzaAnimale]', e($richiesta['razza-animale'] ?? ''), $main);
 $main = str_replace('[trasportoAnimale]', siNo($richiesta['trasporto-animale'] ?? 0), $main);
