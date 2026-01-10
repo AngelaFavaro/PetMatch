@@ -270,6 +270,10 @@ nav#menu-admin img {
     max-width: 100%;
     height: auto;
 }
+div#admin-area article{
+    margin-bottom: 1em;
+    margin-top: 0.5em;
+}
 
 div#admin-area article#animale-richiesta {
     min-width: 100%;

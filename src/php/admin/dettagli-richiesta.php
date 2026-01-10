@@ -2,7 +2,7 @@
 include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
-$_SESSION['user'] = 'lindorlinor@gmail.com';
+// $_SESSION['email'] = 'lindorlinor@gmail.com';
 
 
 
@@ -212,14 +212,14 @@ function handlePostActions(DBAccess $conn, array $r, string $email, int $idAnima
 
 function controlAccess(): bool{
 	//controlla se l'utente è loggato e se è un admin
-	if(!isset($_SESSION['user']) || $_SESSION['role'] !== 'admin'){
+	if(!isset($_SESSION['email']) || $_SESSION['role'] !== 'admin'){
 		return false;
 	}
 	return true;
 }
 
 function imTheAdmin($r): bool{
-	if(($r['email-admin'] ?? '') === ($_SESSION['user'] ?? '')){
+	if(($r['email-admin'] ?? '') === ($_SESSION['email'] ?? '')){
 		return true;
 	}
 	return false;
