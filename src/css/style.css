@@ -1262,7 +1262,7 @@ label {
     display: flex;
     align-items: flex-end;
     margin-bottom: 1.5em;
-    margin-top: 2em;
+    margin-top: 1.5em;
 }
 
 
@@ -1316,6 +1316,13 @@ label {
 }
 
 /* Lista filtri */
+
+#filtri {
+    display: flex;
+    align-items: center; /* allinea verticalmente filtri e bottone */
+    gap: 1em;
+}
+
 #filtri ul {
     display: flex;
     flex-wrap: wrap;
@@ -1323,6 +1330,7 @@ label {
     padding: 0;
     margin: 0;
     gap: 0.5em;
+    flex: 1; 
 }
 
 /* Contenitore capsula per ogni filtro */
@@ -1383,7 +1391,7 @@ label {
 }
 
 #filtri .capsula-filtro input[type="text"] {
-    max-width:5em;
+    max-width:10em;
     width: 100%;
 }
 #filtri .capsula-filtro input[list] {
@@ -1397,12 +1405,17 @@ label {
 }
 
 #filtri .orange-button {
-    margin-top: 1em;
+    margin: 0;
+    margin-left: auto;
+    /* float: right; */
 }
 
 .cards-container {
     display: flex;
     flex-wrap: wrap;
+    justify-content: flex-start; 
+    margin-top: 1em;
+
 }
 
 li.card {
@@ -1415,6 +1428,19 @@ li.card {
     background-color: var(--darkbgcolor);
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     overflow: hidden;
+    transition: 
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+        border: 0.3 ease;
+    
+}
+
+li.card:hover {
+    background-color: var(--bgcolor);
+    border-color: var(--buttoncolor-hover); /* colore evidenziato */
+    box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+    border: 2px solid var(--buttoncolor-hover);
 }
 
 li.card ul {
@@ -1490,6 +1516,7 @@ li.immagine {
     border: none;
     background: none;
     cursor: pointer;
+    z-index: 2;
 }
 
 /* entrambe le immagini */
@@ -1516,162 +1543,95 @@ li.immagine {
     opacity: 0;
 }
 
-
-
-/* Stato hover *//*
-button.preferiti:hover #heart-normal {
-    opacity: 0;
+/* Assicurati che la card sia riferimento per il posizionamento */
+.cards-container li.card {
+    position: relative; /* fondamentale per l'overlay */
 }
 
-button.preferiti:hover #heart-hover {
-    opacity: 1;
-}
-
-
-/* CONTENITORE CARDS */
-/*.cards-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;   /* centra le card orizzontalmente *//*
-    gap: 1em;                  /* spazio uniforme tra le card *//*
-    padding: 1em;
-    justify-content:center;    
-}
-
-li.card {
-    display: flex;
-    list-style: none;
-    border: 2px solid var(--text-buttoncolor);
-    width: 200px;              /* larghezza fissa della card *//*
-    display: flex;
-    flex-direction: column;    /* immagine sopra, testo sotto *//*
-    align-items: center;
-    /*position: relative;        /* necessario per posizionare il bottone *//*
-    padding-bottom: 1em;
-
-    box-sizing: border-box;
-    background-color: var(--bgcolor);
-}
-
-.card > ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    text-align: left;
-}
-
-
-
-.card li img {
-    width: 100%;               /* immagine occupa tutta la larghezza *//*
-    height: 150px;             /* altezza fissa *//*
-    object-fit: cover;
-    object-position: center;
-    border-bottom: 1px solid var(--text-buttoncolor);
-    float: top;
-    
-}
-
-
-
-.card li.nome {
-    float: left;
-    font-weight: bold;
-    font-size: 1.2em;
-    margin: 0.5em 0 0.2em 0;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-}
-
-.card li.sesso-eta {
-    float:left;
-    font-size: 0.95em;
-    color: var(--txtcolor);
-    margin-bottom: 0.5em;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-}
-
-.card li.interessamento {
-    font-size: 0.9em;
-    margin-right: 0.5em;
-    float:right;
-    float:bottom;
-    /* float: right; */
-    /* position: absolute;
-    right: 0;
-    bottom: 0; *//*
-}
-
-
-
-button.preferiti {
-    /*position: relative;        /* necessario per posizionare le immagini sopra */
-    /*width: 50px;               /* larghezza del cuore */
-    /*height: 50px;              /* altezza del cuore *//*
-    border: none;              /* rimuove bordo del bottone *//*
-    background: none;          /* rimuove sfondo del bottone *//*
-    padding: 0;
-    cursor: pointer;
-}
-
-button.preferiti img {
-    float:right;
-    float:top;
+/* Overlay invisibile */
+#animali .dettagli-animale-bottone {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    transition: opacity 0.3s;  /* transizione sull'opacità *//*
+    z-index: 1; /* sopra tutto il contenuto della card */
 }
 
-/* Stato normale *//*
-.cards-container #heart-normal,
-.cards-container #heart-hover{
-    width: 33px;
-    height: 33px;
-}
-
-.cards-container #heart-normal {
-    opacity: 1;
-}
-
-.cards-container  #heart-hover {
-    opacity: 0;
-}
-
-/* Stato hover *//*
-button.preferiti:hover #heart-normal {
-    opacity: 0;
-}
-
-button.preferiti:hover #heart-hover {
-    opacity: 1;
-}
-*/
-
-
-
-
-
-/* BOTTONE */
-/*
-dl.cards > dd button.preferiti {
+/* Assicurati che il form riempia tutto l'overlay */
+#animali .dettagli-animale-bottone form {
     width: 100%;
-    padding: 0.6em;
-    border-radius: 1em;
+    height: 100%;
+}
+
+/* Bottone vero e proprio */
+#animali .dettagli-animale-bottone button {
+    width: 100%;
+    height: 100%;
+    background: transparent; /* invisibile */
     border: none;
     cursor: pointer;
-    background-color: var(--buttoncolor);
-    color: var(--txtcolor);
-    font-weight: 600;
 }
 
-dl.cards > dd button.preferiti:hover {
-    background-color: var(--buttoncolor-hover);
-    color: var(--linkcolor);
+/* LINK NEXT PAGES */
+
+#animali #next-page-links {
+    display: flex;
+    justify-content: center;
+    margin: 2em;
 }
-*/
+
+#animali #next-page-links li,
+#animali #next-page-links li a {
+    color: var(--bgform);
+    list-style: none;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#animali #next-page-links li {
+    padding: 0.3em;
+    margin: 0.3em;
+    border: 2.3px solid var(--bgform);
+    border-radius: 0.5em;
+    width: 2.5em;
+    height: 2.5em;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    /* font-size: 1.3em; */
+}
+
+#animali #next-page-links li a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+#animali #next-page-links ul {
+    display: flex;
+    justify-content: center;
+    border: 2.3px solid var(--bgform);
+    border-radius: 0.5em;
+    padding: 0.3em;
+}
+
+#animali #next-page-links #currentLink {
+    background-color: var(--bgform);
+    color: var(--bgcolor);
+    justify-content: center;
+}
+
+
+
+
+
+
+
+
 
 
 

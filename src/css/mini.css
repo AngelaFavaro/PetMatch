@@ -234,6 +234,36 @@ input:checked + #slider {
     min-width: 100px;
 }
 
+.cards-container {
+    justify-content: center;
+}
+
+
+
+#filtri {
+    display: flex;
+    flex-direction: column;  /* mette tutto in colonna */
+    gap: 1em;              /* spazio tra righe */
+    align-items: center;     /* centra tutto orizzontalmente */
+}
+
+#filtri ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0.5em;
+    justify-content: flex-start; /* centra le capsule nella riga */
+}
+
+#filtri button.orange-button {
+    margin-top: 0.5em;  /* spazio sopra il bottone */
+    margin: auto;
+    align-self: center;  /* centra il bottone nella colonna */
+}
+
+
 
 /* ================== NAV ADMIN ==================*/
     
