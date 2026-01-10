@@ -11,7 +11,7 @@ $description = '<meta name="description" content="Tutti gli animali in adozione 
 $keywords = "";
 
 
-//$nav = file_get_contents('./src/template/partials/nav-admin.html');
+$nav = buildUserNav($userMenu, './animali');
 
 $breadcrumb = getBreadcrumb('animali', $pagine);
 
@@ -23,7 +23,7 @@ $paginaHTML = str_replace('[title]', $title, $paginaHTML);
 $paginaHTML = str_replace('[description]', $description, $paginaHTML);
 $paginaHTML = str_replace('[keywords]', $keywords, $paginaHTML);
 $paginaHTML = str_replace('[breadcrumb]', $breadcrumb, $paginaHTML);
-//$paginaHTML = str_replace('[nav]', $nav, $paginaHTML);
+$paginaHTML = str_replace('[nav]', $nav, $paginaHTML);
 $paginaHTML = str_replace('[main]', $main, $paginaHTML);
 $paginaHTML = str_replace('[footer]', $footer, $paginaHTML);
 

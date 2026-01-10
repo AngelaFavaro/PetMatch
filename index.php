@@ -31,6 +31,9 @@ $routes = [
         ]*/
     ],
 
+    'registrati' => [
+        'file' => __DIR__ . '/src/php/registrati.php'
+    ],
 
 
 
@@ -40,9 +43,7 @@ $routes = [
     'richieste-adozione' => [
         'file' => __DIR__ . '/src/php/admin/richieste-adozione.php'
     ],
-    'registrati' => [
-        'file' => __DIR__ . '/src/php/registrati.php'
-    ],
+    
     'profilo' => [
         'file' => __DIR__ . '/src/php/profilo.php'
     ],

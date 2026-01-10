@@ -1043,11 +1043,15 @@ legend {
     width: 100%;
 }
 
-label + input,
+#signup label + input,
+#home label + input,
+#profilo-utente label + input,
+#login label + input,
+.edit-number div span + input, 
 .password-container input {
     border-radius: 5em;
     padding: 0.5em 1em;
-    margin: 0.2em 0 1.3em 0;
+    margin: 0.2em 0 0.3em 0;
     width: 100%; 
     border: 1px solid var(--headercolor);
     color: var(--txtcolor);
@@ -1056,7 +1060,10 @@ label + input,
     box-sizing: border-box; 
 }
 
-label + input::placeholder{
+#signup label + input::placeholder,
+#home label + input::placeholder,
+#profilo-utente label + input::placeholder,
+#login label + input::placeholder{
     color: var(--placeholder-text);
 }
 
@@ -1240,6 +1247,439 @@ label {
 .password-container i:hover {
     color: var(--txtcolor);
 }
+
+
+
+/*=================PAGINA ANIMALI======================*/
+
+/* contenitore principale */
+
+
+
+/* contenitore nav */
+/* NAV container */
+#nav-animali-type {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 1.5em;
+    margin-top: 2em;
+}
+
+
+#nav-animali-type ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    width: 33.333vw;     /* 🔑 SEMPRE 1/3 dello schermo */
+    flex-shrink: 0;      /* ❌ non si restringe */
+}
+
+
+#nav-animali-type li {
+    flex: 1;                     /* 1/3 ciascuno */
+    white-space: nowrap;         /* niente a capo */
+    text-align: center;
+    padding: 0.6em 0;
+    border-bottom: 2px solid var(--txtcolor);
+    min-width: 200px;
+}
+
+
+#nav-animali-type::after {
+    content: "";
+    flex: 1;
+    border-bottom: 2px solid var(--txtcolor);
+}
+
+
+
+/* link */
+#nav-animali-type a {
+    display: block;
+    text-decoration: none;
+    color: var(--headerlink);
+}
+
+/* elemento attivo */
+#nav-animali-type .currentType {
+    /*flex: 0 0 auto;*/
+    padding: 0.6em 1.2em;
+    font-weight: bold;
+    border: 2px solid var(--txtcolor);
+    border-top-left-radius: 1em;
+    border-top-right-radius: 1em;
+    border-bottom: none;
+    /*margin-bottom: -2px;*/
+    background: var(--bgcolor);
+}
+
+/* Lista filtri */
+#filtri ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0.5em;
+}
+
+/* Contenitore capsula per ogni filtro */
+#filtri .capsula-filtro {
+    display: inline-flex;        /* label + input/select affiancati */
+    align-items: center;         /* centra verticalmente tutto */
+    justify-content: center;
+    padding: 0 1em;             /* padding uniforme */
+    background-color: var(--bgcolor);
+    color: var(--text-buttoncolor);
+    border-radius: 1em;
+    font-weight: 400;
+    text-align: center;
+    height: 2.8em;              /* altezza uniforme */
+    box-sizing: border-box;
+    border: 2px solid var(--text-buttoncolor);
+}
+
+/* Label dentro la capsula */
+#filtri .capsula-filtro label {
+    margin-right: 0.5em;
+    white-space: nowrap;
+}
+
+/* Input e select dentro la capsula */
+
+#filtri .capsula-filtro input,
+#filtri .capsula-filtro select {
+    border: none;
+    background: transparent;
+    color: var(--txtcolor);
+    font-weight: 400;
+    outline: none;
+    font-size: 1em;
+    height: 100%;              /* prende tutta l’altezza della capsula */
+    display: flex;
+    align-items: center;        /* centra il testo verticalmente */
+    box-sizing: border-box;
+    min-width: 3em;             /* larghezza minima uniforme */
+}
+
+/* Range di età */
+#filtri .capsula-filtro .eta-range {
+    display: flex;
+    align-items: center;
+    gap: 0.3em;
+    height: 100%;
+}
+
+#filtri .capsula-filtro .eta-range input {
+    height: 100%;
+    text-align: center;
+}
+
+#filtri .capsula-filtro .eta-range input {
+    max-width: 3em;    /* dimensione compatta */
+    width: 100%;
+}
+
+#filtri .capsula-filtro input[type="text"] {
+    max-width:5em;
+    width: 100%;
+}
+#filtri .capsula-filtro input[list] {
+    max-width: 10em;   
+    width: 100%;
+}
+
+
+#filtri .capsula-filtro {
+    max-width: fit-content;
+}
+
+#filtri .orange-button {
+    margin-top: 1em;
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+li.card {
+    width: 11em;
+    height: 14em;
+    border: 1px solid var(--buttoncolor-hover);
+    list-style: none;
+    margin: 0.5em;
+    position: relative;
+    background-color: var(--darkbgcolor);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    overflow: hidden;
+}
+
+li.card ul {
+    width: 11em;
+    height: 14em;
+    overflow: hidden;
+}
+
+li.immagine {
+    height: 60%;
+    width: 100%;
+    align-content: center;
+    overflow: hidden;
+    box-sizing: border-box;
+    position: relative;
+    border-bottom: 1px solid var(--text-buttoncolor);
+}
+
+.card li.immagine img {
+    display: block;
+    width: 100%;               /* immagine occupa tutta la larghezza */
+    height: 100%;             
+    object-fit: cover;
+    
+    box-sizing: border-box;
+}
+
+.card li {
+    list-style: none;
+}
+
+.card li.nome {
+    padding-top: 0.5em;
+    padding-left: 1em;
+    float: left;
+    clear: left;
+    width: 80%;
+    /* padding-right: 65%; */
+    font-weight: bold;
+    /* height: 40px; */
+    white-space: nowrap;      /* testo su una sola riga */
+    overflow: hidden;         /* taglia il testo che esce dal box */
+    text-overflow: ellipsis;  /* aggiunge "..." alla fine */
+}
+
+.card li.sesso-eta {
+    padding-left: 1em;
+    float: left;
+    clear:left;
+}
+
+.card li.interessamento {
+    float: right;   /* non serve più */
+    clear: left;
+    padding-right: 0.5em;
+    padding-top: 0.5em;
+
+
+}
+
+
+
+
+#animali .preferiti {
+    /* float:right; */
+    /* margin-left: 50%; */
+    position: relative;
+    /* top: 0.5em; */
+    right: 0.5em;
+    width: 2em;      /* dimensione pulsante */
+    height: 2em;
+    padding: 1em;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+/* entrambe le immagini */
+#animali .preferiti img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.3s ease;
+}
+
+/* stato iniziale */
+#animali .preferiti .heart-hover {
+    opacity: 0;
+}
+
+/* hover */
+#animali .preferiti:hover .heart-hover {
+    opacity: 1;
+}
+
+#animali .preferiti:hover .heart-normal {
+    opacity: 0;
+}
+
+
+
+/* Stato hover *//*
+button.preferiti:hover #heart-normal {
+    opacity: 0;
+}
+
+button.preferiti:hover #heart-hover {
+    opacity: 1;
+}
+
+
+/* CONTENITORE CARDS */
+/*.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;   /* centra le card orizzontalmente *//*
+    gap: 1em;                  /* spazio uniforme tra le card *//*
+    padding: 1em;
+    justify-content:center;    
+}
+
+li.card {
+    display: flex;
+    list-style: none;
+    border: 2px solid var(--text-buttoncolor);
+    width: 200px;              /* larghezza fissa della card *//*
+    display: flex;
+    flex-direction: column;    /* immagine sopra, testo sotto *//*
+    align-items: center;
+    /*position: relative;        /* necessario per posizionare il bottone *//*
+    padding-bottom: 1em;
+
+    box-sizing: border-box;
+    background-color: var(--bgcolor);
+}
+
+.card > ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    text-align: left;
+}
+
+
+
+.card li img {
+    width: 100%;               /* immagine occupa tutta la larghezza *//*
+    height: 150px;             /* altezza fissa *//*
+    object-fit: cover;
+    object-position: center;
+    border-bottom: 1px solid var(--text-buttoncolor);
+    float: top;
+    
+}
+
+
+
+.card li.nome {
+    float: left;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin: 0.5em 0 0.2em 0;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+.card li.sesso-eta {
+    float:left;
+    font-size: 0.95em;
+    color: var(--txtcolor);
+    margin-bottom: 0.5em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+.card li.interessamento {
+    font-size: 0.9em;
+    margin-right: 0.5em;
+    float:right;
+    float:bottom;
+    /* float: right; */
+    /* position: absolute;
+    right: 0;
+    bottom: 0; *//*
+}
+
+
+
+button.preferiti {
+    /*position: relative;        /* necessario per posizionare le immagini sopra */
+    /*width: 50px;               /* larghezza del cuore */
+    /*height: 50px;              /* altezza del cuore *//*
+    border: none;              /* rimuove bordo del bottone *//*
+    background: none;          /* rimuove sfondo del bottone *//*
+    padding: 0;
+    cursor: pointer;
+}
+
+button.preferiti img {
+    float:right;
+    float:top;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity 0.3s;  /* transizione sull'opacità *//*
+}
+
+/* Stato normale *//*
+.cards-container #heart-normal,
+.cards-container #heart-hover{
+    width: 33px;
+    height: 33px;
+}
+
+.cards-container #heart-normal {
+    opacity: 1;
+}
+
+.cards-container  #heart-hover {
+    opacity: 0;
+}
+
+/* Stato hover *//*
+button.preferiti:hover #heart-normal {
+    opacity: 0;
+}
+
+button.preferiti:hover #heart-hover {
+    opacity: 1;
+}
+*/
+
+
+
+
+
+/* BOTTONE */
+/*
+dl.cards > dd button.preferiti {
+    width: 100%;
+    padding: 0.6em;
+    border-radius: 1em;
+    border: none;
+    cursor: pointer;
+    background-color: var(--buttoncolor);
+    color: var(--txtcolor);
+    font-weight: 600;
+}
+
+dl.cards > dd button.preferiti:hover {
+    background-color: var(--buttoncolor-hover);
+    color: var(--linkcolor);
+}
+*/
+
+
+
+
+
+
+
+
 
 
 /* ================== =========== PAGINE ADMIN================== ============*/
@@ -1830,45 +2270,4 @@ nav#breadcrumb a{
 nav#breadcrumb a:visited{
     color: var(--visitedcolor);
 }
-
-/*=================PAGINA ANIMALI======================*/
-
-/* contenitore principale */
-#animali {
-    width: 100%;
-}
-
-/* nav */
-#nav-animali-type ul {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-/* ogni voce della nav */
-#nav-animali-type li {
-    flex: 0 0 10em; /* 1/3 della riga in em */
-    text-align: center;
-    position: relative;
-    padding: 0.6em 0;
-}
-
-/* link */
-#nav-animali-type a {
-    display: block;
-    text-decoration: none;
-    color: black;
-}
-
-/* elemento attivo */
-#nav-animali-type .currentType {
-    font-weight: bold;
-    border: 2px var(--buttoncolor-hover);
-    border-bottom: none;
-    pointer-events: none;
-}
-
-/* bordo rosso sopra, dx, sx (NON sotto) */
-
 

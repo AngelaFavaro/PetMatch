@@ -35,6 +35,8 @@ $pagine = [
         // 'file' => __DIR__ . '/src/php/animali.php',
         'label' => 'Animali',
         'url' => './animali',
+        'parent' => 'home'
+    ],
     'registrati' => [
         'label' => 'Registrati',
         'url' => './registrati',
