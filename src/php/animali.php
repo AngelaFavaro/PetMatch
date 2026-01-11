@@ -1,6 +1,10 @@
 <?php
 include './src/utils.php';
 include './src/DBconnection.php';
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 use DB\DBAccess;
 
 $animali ='';
@@ -9,6 +13,74 @@ $queryResult='';
 $result='';
 $type = $_GET['type'] ?? "tutti";
 $linkNavAnimali='';
+
+$perPagina = 12;
+$pagina = max(1, (int)($_GET['page'] ?? 1));
+$offset = ($pagina - 1) * $perPagina;
+$linkPagine='';
+$totale=0;
+
+
+
+
+function buildPagination(int $currentPage, int $totalPages, string $type = 'tutti'): string {
+    if ($totalPages <= 1) {
+        return '<li id="currentLink">1</li>';
+    }
+
+    // costruzione base URL
+    $baseUrl = 'animali';
+    $typeParam = ($type !== 'tutti') ? '&type=' . urlencode($type) : '';
+
+    $html = '';
+
+    /*  freccia indietro */
+    if ($currentPage > 1) {
+        $prev = $currentPage - 1;
+        $html .= '
+        <li id="scrollLinksBackward">
+            <a href="' . $baseUrl . '?page=' . $prev . $typeParam . '">
+                <img src="./assets/icons/arrow-sx-green.svg" class="next-link" alt="Pagina precedente" />
+            </a>
+        </li>';
+    }
+
+    /* numeri di pagina */
+    if ($currentPage <= 2) {
+        $start = 1;
+    } elseif ($currentPage >= $totalPages - 1) {
+        $start = max(1, $totalPages - 2);
+    } else {
+        $start = $currentPage - 1;
+    }
+
+    $end = min($totalPages, $start + 2);
+
+    for ($i = $start; $i <= $end; $i++) {
+        if ($i === $currentPage) {
+            $html .= '<li id="currentLink">' . $i . '</li>';
+        } else {
+            $html .= '<li><a href="' . $baseUrl . '?page=' . $i . $typeParam . '">' . $i . '</a></li>';
+        }
+    }
+
+    /* freccia avanti */
+    if ($currentPage < $totalPages) {
+        $next = $currentPage + 1;
+        $html .= '
+        <li id="scrollLinksForward">
+            <a href="' . $baseUrl . '?page=' . $next . $typeParam . '">
+                <img src="./assets/icons/arrow-dx-green.svg" class="next-link" alt="Pagina successiva" />
+            </a>
+        </li>';
+    }
+
+    // $html .= '</ul></div>';
+
+    return $html;
+}
+
+
 
 function buildNavAnimali(string $type): string {
     if ($type === "tutti") {
@@ -49,7 +121,7 @@ function buildAnimalCards(array $animali): string {
 
         $nome = htmlspecialchars($animale['nome']);
         $sesso = ($animale['sesso'] === 'M') ? 'Maschio' : 'Femmina';
-        $eta = $animale['data-nascita'];
+        $eta = $animale['eta'];
         // Se l'immagine esiste la usiamo, altrimenti scegliamo default in base al tipo
         if (!empty($animale['immagine'])) {
             $imgPath = htmlspecialchars($animale['immagine']);
@@ -107,7 +179,11 @@ function buildAnimalCards(array $animali): string {
 $connessione = new DBAccess();
 $connessioneOK = $connessione->openDBConnection();
 if ($connessioneOK) {
-    $animali = $connessione->getListAnimalsByType($type);
+    // $animali = $connessione->getListAnimalsByType($type);
+    $totale = $connessione->countAnimalsByType($type);
+    $pagineTotali = ceil($totale / $perPagina);
+
+    $animali = $connessione->getAnimalsByTypePaged($type, $perPagina, $offset);
 
     if ($animali === null) {
         // Messaggio di errore dentro la stessa variabile che verrà sostituita nel template
@@ -121,6 +197,7 @@ if ($connessioneOK) {
 }
 
 $linkNavAnimali=buildNavAnimali($type);
+$linkPagine=buildPagination($pagina, $pagineTotali, $type);
 
 $paginaHTML = file_get_contents('./src/template/layout.html');
 if ($paginaHTML === false) {
@@ -140,6 +217,7 @@ $breadcrumb = getBreadcrumb('animali', $pagine);
 $main = file_get_contents('./src/template/main/animali.html');
 $main = str_replace('[ANIMALI]', $cardAnimali, $main);
 $main = str_replace('[NAVTYPE]', $linkNavAnimali, $main);
+$main = str_replace('[LINKPAGINE]', $linkPagine, $main);
 
 $footer= file_get_contents('./src/template/partials/footer.html');
 

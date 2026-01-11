@@ -1001,7 +1001,7 @@ class DBAccess {
             $result[] = [
                 'nome' => $row['Nome'],
                 'sesso' => $row['Sesso'],
-                'data-nascita' => calcolareEta($row['DataNascita']),
+                'eta' => calcolareEta($row['DataNascita']),
                 'immagine' => $row['ImgPath'],
                 'tipo' => $row['Tipo']
             ];
@@ -1013,7 +1013,74 @@ class DBAccess {
         return $result;
     }
 
-    
+    public function countAnimalsByType(string $type): int|null {
+        if (!$this->connection) return null;
+
+        if ($type === 'tutti') {
+            $query = "SELECT COUNT(*) AS totale FROM ANIMALI";
+            $stmt = mysqli_prepare($this->connection, $query);
+        } else {
+            $query = "SELECT COUNT(*) AS totale FROM ANIMALI WHERE Tipo = ?";
+            $stmt = mysqli_prepare($this->connection, $query);
+            mysqli_stmt_bind_param($stmt, 's', $type);
+        }
+
+        mysqli_stmt_execute($stmt);
+        $res = mysqli_stmt_get_result($stmt);
+        $row = mysqli_fetch_assoc($res);
+        mysqli_stmt_close($stmt);
+
+        return (int)$row['totale'];
+    }
+
+    public function getAnimalsByTypePaged(string $type, int $limit, int $offset): array|null {
+
+    if (!$this->connection) return null;
+
+    if ($type === 'tutti') {
+        $query = "
+            SELECT Nome, Sesso, DataNascita, ImgPath, Tipo
+            FROM ANIMALI
+            ORDER BY IDanimale
+            LIMIT ? OFFSET ?
+        ";
+        $stmt = mysqli_prepare($this->connection, $query);
+        mysqli_stmt_bind_param($stmt, 'ii', $limit, $offset);
+    } else {
+        $query = "
+            SELECT Nome, Sesso, DataNascita, ImgPath, Tipo
+            FROM ANIMALI
+            WHERE Tipo = ?
+            ORDER BY IDanimale
+            LIMIT ? OFFSET ?
+        ";
+        $stmt = mysqli_prepare($this->connection, $query);
+        mysqli_stmt_bind_param($stmt, 'sii', $type, $limit, $offset);
+    }
+
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+
+    if (!$res || mysqli_num_rows($res) === 0) return [];
+
+    $animali = [];
+
+    while ($row = mysqli_fetch_assoc($res)) {
+        $animali[] = [
+            'nome' => $row['Nome'],
+            'sesso' => $row['Sesso'],
+            'eta' => calcolareEta($row['DataNascita']),
+            'immagine' => $row['ImgPath'],
+            'Tipo' => $row['Tipo']
+        ];
+    }
+
+    mysqli_stmt_close($stmt);
+    return $animali;
+}
+
+
+
 
 }
 ?>
