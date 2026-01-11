@@ -401,3 +401,7 @@ nav#breadcrumb {
 #revisione-richiesta #info-animal{
     flex:1 1 100%;
 }
+
+.dialog-buttons label{
+    padding:0.1em 2.7em;
+}
