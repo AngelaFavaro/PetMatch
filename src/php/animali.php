@@ -8,6 +8,39 @@ $symbol='';
 $queryResult='';
 $result='';
 $type = $_GET['type'] ?? "tutti";
+$linkNavAnimali='';
+
+function buildNavAnimali(string $type): string {
+    if ($type === "tutti") {
+        return '
+        <ul>
+            <li class="currentType">Tutti</li>
+            <li><a href="animali?type=Gatto">Gatti</a></li>
+            <li><a href="animali?type=Cane">Cani</a></li>
+        </ul>';
+    }
+
+    if ($type === "Cane") {
+        return '
+        <ul>
+            <li><a href="animali">Tutti</a></li>
+            <li><a href="animali?type=Gatto">Gatti</a></li>
+            <li class="currentType">Cani</li>
+        </ul>';
+    }
+
+    if ($type === "Gatto") {
+        return '
+        <ul>
+            <li><a href="animali">Tutti</a></li>
+            <li class="currentType">Gatti</li>
+            <li><a href="animali?type=Cane">Cani</a></li>
+        </ul>';
+    }
+
+    return '';
+}
+
 
 function buildAnimalCards(array $animali): string {
     $html = '';
@@ -87,6 +120,7 @@ if ($connessioneOK) {
     $cardAnimali = '<p class="errore">Errore di connessione al database</p>';
 }
 
+$linkNavAnimali=buildNavAnimali($type);
 
 $paginaHTML = file_get_contents('./src/template/layout.html');
 if ($paginaHTML === false) {
@@ -105,6 +139,7 @@ $breadcrumb = getBreadcrumb('animali', $pagine);
 
 $main = file_get_contents('./src/template/main/animali.html');
 $main = str_replace('[ANIMALI]', $cardAnimali, $main);
+$main = str_replace('[NAVTYPE]', $linkNavAnimali, $main);
 
 $footer= file_get_contents('./src/template/partials/footer.html');
 

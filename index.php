@@ -1,4 +1,5 @@
 <?php
+
 // Avvia la sessione se non è già attiva (necessaria per il controllo admin)
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
