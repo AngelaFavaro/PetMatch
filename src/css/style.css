@@ -1638,8 +1638,8 @@ legend {
 
 .radio-card {
     display: inline-block;
-    padding: 0.5em 5em;        /* Aumentato il padding laterale (4em) per renderle più lunghe */
-    min-width: 150px;        /* Opzionale: garantisce una lunghezza minima uguale per tutti */
+    padding: 0.5em 5em;       
+    min-width: 150px;      
     border: 2px solid var(--text-buttoncolor);   
     border-radius: 0.5em;  
     cursor: pointer;         
@@ -1775,18 +1775,18 @@ label[for="famiglia"] {
 
 /* Il div che racchiude i bottoni */
 .form-buttons-container {
-    display: flex;       /* Allinea in orizzontale */
-    gap: 1.5em;          /* Spazio tra i due bottoni */
-    width: 100%;         /* Prende tutta la larghezza del form */
-    margin-top: 2.5em;   /* Distanza dall'ultimo campo del form */
+    display: flex;       
+    gap: 1.5em;          
+    width: 100%;         
+    margin-top: 2.5em;   
     justify-content: center;
 }
 
 .form-buttons-container button {
-    flex: 1;             /* Forza i bottoni a espandersi e dividersi lo spazio 50/50 */
+    flex: 1;            
     padding: 1em;
     font-size: 1.1em;
-    font-weight: 600;    /* Semi-bold */
+    font-weight: 600;   
     cursor: pointer;
     transition: all 0.3s ease;
     border-radius: 0.8em;
@@ -1802,6 +1802,14 @@ label[for="famiglia"] {
 .white-button:hover {
     background-color: var(--headervisitedlink);
     color: var(--bgcolor);
+}
+
+/* Stile specifico per i messaggi sotto i campi del form */
+.error-form {
+    color: #d93025; 
+    font-size: 0.9em;
+    margin-top: 5px;
+    display: block; 
 }
 
 /*================NAVIGATION HELP ==================*/

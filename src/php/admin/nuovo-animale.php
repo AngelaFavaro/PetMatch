@@ -58,7 +58,7 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues): array {
         $errors = [];
         
         $tipologia   = trim($_POST['new-tipologia'] ?? '');
-        $nome        = trim($_POST['new-nome'] ?? '');
+        $nome        = trim($_POST['nome'] ?? '');
         $razza       = trim($_POST['new-razza'] ?? '');
         $taglia      = trim($_POST['new-taglia'] ?? '');
         $sesso       = trim($_POST['new-sesso'] ?? '');
@@ -148,17 +148,16 @@ $paginaHTML = str_replace('[nav]', $nav, $paginaHTML);
 $paginaHTML = str_replace('[breadcrumb]', $breadcrumb, $paginaHTML);
 $paginaHTML = str_replace('[main]', $main, $paginaHTML);
 
-// Mapping errori nel template
-$campi = ['tipologia', 'nome', 'razza', 'taglia', 'sesso', 'dataNascita', 'pelo', 'colore', 'condMediche', 'carattere', 'famiglia'];
-foreach ($campi as $campo) {
+$campi_errori = ['tipologia', 'nome', 'razza', 'taglia', 'sesso', 'dataNascita', 'pelo', 'colore', 'condMediche', 'carattere', 'famiglia'];
+foreach ($campi_errori as $campo) {
     $placeholder = '[errori' . ucfirst($campo) . ']';
-    $paginaHTML = str_replace($placeholder, $messageInfoForm[$campo] ?? '', $paginaHTML);
+    // Se non c'è errore, sostituisce con stringa vuota per "pulire" l'HTML
+    $valore_errore = $messageInfoForm[$campo] ?? '';
+    $paginaHTML = str_replace($placeholder, $valore_errore, $paginaHTML);
 }
-$paginaHTML = str_replace('[messaggiForm]', $messageInfoForm['generic'] ?? '', $paginaHTML);
 
-// Redisplay dei valori (Value nel form)
 foreach ($NewAnimalInfo as $key => $value) {
-    $paginaHTML = str_replace('{val-' . $key . '}', htmlspecialchars($value, ENT_QUOTES, 'UTF-8'), $paginaHTML);
+    $paginaHTML = str_replace('[' . $key . ']', htmlspecialchars($value, ENT_QUOTES, 'UTF-8'), $paginaHTML);
 }
 
 echo $paginaHTML;

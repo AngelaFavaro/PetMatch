@@ -225,4 +225,98 @@ document.addEventListener('DOMContentLoaded', () => {
 
         });
     }
+
+    /* ==========================================================================
+       VALIDAZIONE FORM AGGIUNGI ANIMALE
+       ========================================================================== */
+    const formAdd = document.getElementById('form-add-animal');
+
+    if (formAdd) {
+        formAdd.querySelectorAll('.error-form').forEach(p => {
+            p.style.display = 'none'; 
+        });
+
+        const setError = (input, message) => {
+            const container = input.closest('div') || input.closest('fieldset');
+            if (!container) return;
+            
+            const errorElement = container.querySelector('.error-form');
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.style.display = message ? 'block' : 'none';
+            }
+        };
+
+        const validateField = (field) => {
+            const val = field.value.trim();
+            const name = field.name;
+
+            if (name === 'nome' || name === 'razza' || name === 'colore') {
+                if (val.length < 2) return "Minimo 2 caratteri";
+                if (!/^[a-zA-ZÀ-ÿ\s']+$/.test(val)) return "Usa solo lettere";
+            }
+            
+            if (name === 'dataNascita') {
+                if (val === "") return "Data obbligatoria";
+                if (new Date(val) > new Date()) return "La data non può essere futura";
+            }
+
+            if (name === 'taglia' || name === 'pelo') {
+                if (val === "" || val === null) return "Seleziona un'opzione";
+            }
+
+            if (name === 'condMediche' || name === 'carattere' || name === 'famiglia') {
+                if (val.length > 0 && val.length < 10) return "Descrizione troppo breve (min 10 car.)";
+            }
+
+            if (name === 'tipologia' || name === 'sesso') {
+                const radioGroup = document.getElementsByName(name);
+                const isChecked = Array.from(radioGroup).some(r => r.checked);
+                if (!isChecked) return "Selezione obbligatoria";
+            }
+
+            if (name === 'foto' && field.files.length > 0) {
+                const file = field.files[0];
+                if (file.size > 2 * 1024 * 1024) return "Immagine troppo pesante (max 2MB)";
+            }
+
+            return ""; // Nessun errore
+        };
+
+        formAdd.querySelectorAll('input, textarea, select').forEach(input => {
+            const type = (input.type === 'radio' || input.tagName === 'SELECT') ? 'change' : 'blur';
+            
+            input.addEventListener(type, () => {
+                setError(input, validateField(input));
+            });
+
+            input.addEventListener('input', () => {
+                const container = input.closest('div') || input.closest('fieldset');
+                const errorDisplay = container.querySelector('.error-form');
+                if (errorDisplay && errorDisplay.style.display === 'block') {
+                    if (!validateField(input)) setError(input, "");
+                }
+            });
+        });
+
+        formAdd.addEventListener('submit', (e) => {
+            let firstErrorField = null;
+            
+            const fieldsToValidate = formAdd.querySelectorAll('input, textarea, select');
+            
+            fieldsToValidate.forEach(input => {
+                const msg = validateField(input);
+                if (msg) {
+                    setError(input, msg);
+                    if (!firstErrorField) firstErrorField = input;
+                }
+            });
+
+            if (firstErrorField) {
+                e.preventDefault(); // Blocca l'invio
+                firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                firstErrorField.focus();
+            }
+        });
+    }
 });
