@@ -59,7 +59,7 @@ a.orange-button:hover{
 
 html, body {
     max-width: 100%;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
 }
 body{
     display: flex;
@@ -1940,16 +1940,29 @@ input[type="file"]::file-selector-button:hover {
 /* ================== AREA RISERVATA ADMIN==================*/
 body#admin-body{
     background-color: var(--footercolor);
+    display: inline-block;
+    width: 100%;
 }
+
 div#admin-area article h2{
      font-size: 1.5em; 
      font-weight: 600;
 }
 
 div#admin-area{
-    padding: 3em 6em;
+    padding: 0em 5em;
+    min-height: 100vh;
+    /* margin: auto; */
 }
 
+body#admin-body #breadcrumb{
+    margin: 0.5em auto 0.5em auto ;
+
+}
+
+div#admin-area div#row2 article{
+    margin-top:0em;
+}
 div#admin-area article {
   padding:1em 1em 1em 1em;
   border: 1px solid var(--txtcolor);
@@ -2018,6 +2031,7 @@ nav#menu-admin {
     padding: 1em 0em 1em 1em;
     height: 100%;
     overflow: hidden;
+     font-size: 90%;
     /* height: 100vh; */
 }
 
@@ -2059,7 +2073,7 @@ nav#menu-admin span{
 }
 
 nav#menu-admin ul{
-    margin-top:0.5em;
+    margin-top:1em;
     margin-bottom: 2em;
 }
 
