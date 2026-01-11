@@ -166,3 +166,15 @@ details[open] .number::after {
 #events-list .polaroid:nth-child(3){
     transform: rotate(-10deg);
 }
+
+#chi-siamo-img{
+    display: none;
+}
+
+#chi-siamo2-img{
+    display: none;
+}
+
+#chi-siamo3-img{
+    display: none;
+}

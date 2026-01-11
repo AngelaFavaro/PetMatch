@@ -1835,6 +1835,9 @@ nav#breadcrumb a:visited{
 
 /*Sezione "Chi Siamo"*/
 
+#first-chapter-chi-siamo .column-container{
+    align-items: center;
+}
 
 #chi-siamo-content {
     flex: 1 1 50%;
@@ -1845,6 +1848,7 @@ nav#breadcrumb a:visited{
 
 #chi-siamo-img img{
     width: 100%;
+
 }
 
 /* Sezione 2 Chi Siamo */
@@ -1853,7 +1857,9 @@ nav#breadcrumb a:visited{
     background-color: var(--headercolor);
     color:var(--bgcolor);
     margin-top: 5em;
+
 }
+
 
 #chi-siamo2-img{
     flex: 0 1 40%;
