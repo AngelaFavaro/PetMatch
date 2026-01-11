@@ -18,6 +18,7 @@
     --headervisitedlink: #6D7541;
     --headerlink: #481515;
     --secondsection: #6D7541;
+    --placeholderDarker-text:#5e4232;
     --placeholder-text:#825E49;
     --darkbgcolor: #E4D4BA;
     --bglink-hover: var(--darkbgcolor);
@@ -2047,7 +2048,7 @@ nav#menu-admin li#currentLink {
 nav#menu-admin li a:visited{
     color: var(--visitedcolor);
 }
-nav#menu-admin li#currentLink a{
+nav#menu-admin li#currentLink{
     font-weight: 700;
     color: var(--txtcolor);
 }
