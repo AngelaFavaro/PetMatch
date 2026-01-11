@@ -390,3 +390,15 @@ function logout(){
     exit;
 }
 
+function calcolareEta(?string $dataNascita): ?int {
+    if (!$dataNascita) {
+        return null;
+    }
+
+    try {
+        $nascita = new DateTime($dataNascita);
+        return (new DateTime())->diff($nascita)->y;
+    } catch (Exception $e) {
+        return null;
+    }
+}

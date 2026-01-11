@@ -945,5 +945,73 @@ class DBAccess {
         return $state;
     }
 
+    // restituisce tipo, immagine, nome, sesso e età di tutti gli animali, oppure solo di cani o solo gatti(valori possibili per $type=tutti,cani,gatti)
+    public function getListAnimalsByType(string $type): array|null {
+        // 1. Controllo connessione
+        if (!$this->connection) {
+            return null;
+        }
+
+        // 2. Query (con o senza filtro)
+        if ($type === "tutti") {
+            $query = "
+                SELECT Nome, Sesso, DataNascita, ImgPath, Tipo
+                FROM ANIMALI
+                ORDER BY IDanimale ASC
+            ";
+            $stmt = mysqli_prepare($this->connection, $query);
+        } else {
+            $query = "
+                SELECT Nome, Sesso, DataNascita, ImgPath, Tipo
+                FROM ANIMALI
+                WHERE Tipo = ?
+                ORDER BY IDanimale ASC
+            ";
+            $stmt = mysqli_prepare($this->connection, $query);
+        }
+
+        // 3. Controllo prepare
+        if ($stmt === false) {
+            return null;
+        }
+
+        // 4. Bind param (solo se necessario)
+        if ($type !== "tutti") {
+            mysqli_stmt_bind_param($stmt, 's', $type);
+        }
+
+        // 5. Esecuzione
+        if (!mysqli_stmt_execute($stmt)) {
+            mysqli_stmt_close($stmt);
+            return null;
+        }
+
+        // 6. Recupero risultati
+        $queryResult = mysqli_stmt_get_result($stmt);
+
+        if ($queryResult === false || mysqli_num_rows($queryResult) === 0) {
+            mysqli_stmt_close($stmt);
+            return null;
+        }
+
+        // 7. Costruzione array risultati
+        $result = [];
+
+        while ($row = mysqli_fetch_assoc($queryResult)) {
+            $result[] = [
+                'nome' => $row['Nome'],
+                'sesso' => $row['Sesso'],
+                'data-nascita' => calcolareEta($row['DataNascita']),
+                'immagine' => $row['ImgPath'],
+                'tipo' => $row['Tipo']
+            ];
+        }
+
+        // 8. Chiusura statement
+        mysqli_stmt_close($stmt);
+
+        return $result;
+    }
+
 }
 ?>

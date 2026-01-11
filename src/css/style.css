@@ -488,7 +488,7 @@ input:focus{
 header {
     background-color: var(--headercolor);
     padding: 0.5em 0;
-    position: fixed;  
+    /* position: fixed;   */
     top: 0;
     left: 0;         
     width: 100%;
@@ -1412,6 +1412,7 @@ input:-webkit-autofill:active{
 
 /* Label dentro la capsula */
 #filtri .capsula-filtro label {
+    margin: 0;
     margin-right: 0.5em;
     white-space: nowrap;
 }

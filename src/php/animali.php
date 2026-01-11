@@ -5,58 +5,87 @@ use DB\DBAccess;
 
 $animali ='';
 $symbol='';
+$queryResult='';
+$result='';
 $type = $_GET['type'] ?? "tutti";
 
-if($type=="tutti") {
-    $symbol='*';
-} else if($type=="cat") {
-    $symbol="Gatto";
-} else if($type=="dog") {
-    $symbol="Cane";
-}
+function buildAnimalCards(array $animali): string {
+    $html = '';
 
-public function getList($symbol) {	//legge dati da database
-    //semplificata, fingo non c'e squadra maschile e femminile
-    $query = "SELECT $symbol FROM ANIMALI WHERE Tipo=$type ORDER BY ID ASC"; /*questa query se uso un GET e viene automaticamente concatenata nell'url: i dati viaggiano in chiaro (problema password):
-    ha la chiave=valore devo quindi considerare il caso in cui l'utente scriva qualcos'altro: devo dare i link per quelle che sono le cose giuste. C'e' anche limite lunghezza stringa 256 caratteri*/
-    /*POST: vengono passati come valore, quindi non in chiaro*/
-    $queryResult = mysql_query($this->connection, $query)	/*avro' in queryResult il risultato della query. Non va molto bene, potrei avere errori, oppure intanto puo' essere 
-    caduta la rete (qualsiasi chiamata con la rete deve prevedere il messaggio di errore)*/ or die("Errore in dbConnection: " . mysqli_error($this->connection)); 
-    /*qui mi occupo dell'errore, sono sicura sia terminata l'esecuzione non e' detto a buon fine*/
+    foreach ($animali as $animale) {
 
-    if(mysqli_num_rows($queryResult)==0) { //come decidere cosa va nell'else e cosa nell'if non e' a caso: nel then (= if) metto la cosa che sia piu' probabile sia eseguita. Qui sbagliato sarebbe al contrario
-        return false; //se non ci sono righe
-    } else {
-        //se e' andato a buon fine, avro' una lista di oggetti che fanno parte della query
-        $result = array(); //vuoto 
-        while($row=mysqli_fetch_assoc($queryResult)) {	/*prende una riga e la pusha in un array associativo. Considerabile booleano perche ritorna true se ha avuto successo.
-            Quando l'array finisce, ritornera' false, quindi usciro' dal ciclo (row vale null). e' cattiva programmazione comunque*/
-            array_push($result, $row); //$row contiene la riga intera. Push prende la stringa row e inserita in una array associativo. Ottengo un array le cui righe ho un array associativo con dentro una riga
+        $nome = htmlspecialchars($animale['nome']);
+        $sesso = ($animale['sesso'] === 'M') ? 'Maschio' : 'Femmina';
+        $eta = $animale['data-nascita'];
+        // Se l'immagine esiste la usiamo, altrimenti scegliamo default in base al tipo
+        if (!empty($animale['immagine'])) {
+            $imgPath = htmlspecialchars($animale['immagine']);
+        } else {
+            switch ($animale['Tipo']) {
+                case 'Gatto':
+                    $imgPath = 'assets/images/animals/defaultGatto.png';
+                    break;
+                case 'Cane':
+                    $imgPath = 'assets/images/animals/defaultCane.png';
+                    break;
+                default:
+                    $imgPath = 'assets/images/animals/defaultGatto.png';
+                    break;
+            }
         }
-        $queryResult->free(); //non sono sicura si chiami cosi' e non ho capito perche' e' essenziale
-        return $result;
+
+
+        // se NON hai l'id, puoi metterne uno fittizio
+        $id = $animale['id'] ?? 0;
+
+        $html .= '
+        <li class="card">
+            <ul>
+                <li class="immagine">
+                    <img src="' . $imgPath . '" alt="Foto di ' . $nome . '">
+                </li>
+                <li class="nome">' . $nome . '</li>
+                <li class="sesso-eta">' . $sesso . ' - ' . $eta . ' anni</li>
+                <li class="interessamento">Già Interessato</li>
+
+                <li class="preferiti-bottone">
+                    <form method="post" action="animali.php">
+                        <input type="hidden" name="id_elemento" value="' . $id . '">
+                        <button type="submit" class="preferiti">
+                            <img src="./assets/icons/active-like.svg" class="heart-hover" alt="" />
+                            <img src="./assets/icons/inactive-like.svg" class="heart-normal" alt="" />
+                        </button>
+                    </form>
+                </li>
+
+                <li class="dettagli-animale-bottone">
+                    <form method="post" action="animali.php">
+                        <input type="hidden" name="id_elemento_cliccato" value="' . $id . '">
+                        <button type="submit" class="bottone-dettagli"></button>
+                    </form>
+                </li>
+            </ul>
+        </li>';
     }
+
+    return $html;
 }
-
-
-
-
-
-
-
-
-
 
 $connessione = new DBAccess();
 $connessioneOK = $connessione->openDBConnection();
 if ($connessioneOK) {
-	$animali = sendReportForm($connessione, $nameValue, $emailValue);
-	$connessione->closeConnection();
-}else{
-	$messaggiForm = "<p class='error-form'>Impossibile inviare la richiesta, riprova più tardi.</p>";
+    $animali = $connessione->getListAnimalsByType($type);
+
+    if ($animali === null) {
+        // Messaggio di errore dentro la stessa variabile che verrà sostituita nel template
+        $cardAnimali = '<p class="errore">Errore durante il recupero degli animali</p>';
+    } else {
+        // Genera l'HTML per tutti gli animali
+        $cardAnimali = buildAnimalCards($animali);
+    }
+} else {
+    $cardAnimali = '<p class="errore">Errore di connessione al database</p>';
 }
-
-
 
 
 $paginaHTML = file_get_contents('./src/template/layout.html');
@@ -70,13 +99,15 @@ $description = '<meta name="description" content="Tutti gli animali in adozione 
 $keywords = "";
 
 
-$nav = buildUserNav($userMenu, './animali');
+$nav = buildUserNav($userMenu, './animali', $_SESSION['email'] ?? false);
 
 $breadcrumb = getBreadcrumb('animali', $pagine);
 
 $main = file_get_contents('./src/template/main/animali.html');
+$main = str_replace('[ANIMALI]', $cardAnimali, $main);
 
 $footer= file_get_contents('./src/template/partials/footer.html');
+
 
 $paginaHTML = str_replace('[title]', $title, $paginaHTML);
 $paginaHTML = str_replace('[description]', $description, $paginaHTML);
