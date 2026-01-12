@@ -592,6 +592,10 @@ header a{
     text-decoration: underline;
 }
 
+#osso a:visited {
+    color: var(--headervisitedlink);
+}
+
 /* ================== 3. azioni (Destra) ================== */
 #header-actions {
     align-items: center;
