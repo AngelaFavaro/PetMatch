@@ -1,78 +1,24 @@
 <div id="admin-area">
-    <h1>Ciao [AngelaBella]!</h1> <!--TODO -->
-    <article>
-        <h2>DA COMPLETARE</h2>
-        <ul id="to-do-list">
-            <li>
-                <a href="">
-                    <p class="n-query">[n]</p>
-                    <p class="query-type">ANIMALI SENZA ADMIN</p>
-                </a>
-            </li>
-            <li>
-                <a href="" >
-                    <p class="n-query">[n]</p>
-                    <p class="query-type">APPUNTI DA PRENDERE</p>
-                </a>
-            </li>
-            <li>
-                <a href="" >
-                    <p class="n-query">[n]</p>
-                    <p class="query-type">ACCOGLIENZE</p>
-                </a>
-            </li>
-            <li>
-                <a href="" >
-                    <p class="n-query">[n]</p>
-                    <p class="query-type">ADOZIONI DA VALUTARE</p>
-                </a>
-            </li>
-            <li>
-                <a href="" >
-                    <p class="n-query">[n]</p>
-                    <p class="query-type">TRASPORTI DA ORGANIZZARE</p>
-                </a>
-            </li>
-        </ul>
-        
-    </article>
+    <h1>Ciao [nomeAdmin]!</h1>
+    <article id="query">
+        <h2>Da completare</h2>
+        [to-do-list]
+    </article id="row2-container">
     <div id="row2">
         <article id="statistics-area">
-            <h2>LE TUE STATISTICHE</h2>
-            <ul id="statistics-list">
-                <li>
-                    <p class="n-query">[N]</p>
-                    <P class="query-type">ADOZIONI COMPLETATE</P>
-                </li>
-                <li>
-                    <p class="n-query">[N]</p>
-                    <P class="query-type">RICHIESTE VISIONATE</P>
-                </li>
-                <li>
-                    <p>
-                        <p class="n-query">[N]</p>
-                        <P class="query-type">IN CORSO DI ADOZIONE</P>
-                    </p>
-                </li>
-            </ul>
+            <h2>Le tue statistiche</h2>
+            [stats]
         </article>
-        <article id="admin-info">
+        <article id="admin-info">  
             <div class="header-info">
-                <h2>LE TUE INFORMAZIONI</h2>
-                <!-- TODO da mettere collegamento-->
-                <a href="./">
-                    <img src="./assets/icons/edit-pencil.svg" alt="Modificare le informazioni">
+                [titolo]
+                <a href="?mode=edit" class="edit-admin-info btn-edit">
+				    <img src="./assets/icons/edit-pencil.svg" alt="Modifica informazioni">
                 </a>
             </div>
-
-            <div id="generic-info-container">
-                <img src="./assets/images/linor.jpg" alt="Foto di [nome]" class="circle-foto">
-                
-                <div class="text-details">
-                    <p><strong>Nome:</strong> [nomeAdmin]</p>
-                    <p><strong>Cognome:</strong> [cognomeAdmin]</p>
-                    <p><strong>Email:</strong> [emailAdmin]</p>
-                </div>
+            <div class="generic-info-container">
+                <img src="[imgPath]" alt="Foto" class="circle-foto">
+                [admin-info]
             </div>
         </article>
     </div>

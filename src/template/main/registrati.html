@@ -1,0 +1,63 @@
+<div id="signup">
+    <div class="container">
+    <form method="post" id="form-signup" novalidate>
+        <fieldset>
+            <legend>Registrati</legend>
+            <div class="column-container">
+                <div>
+                    <label for="name">Nome*</label>
+                    <input type="text" name="name" id="name" placeholder="Nome" autocomplete="name" value="[nameValue]">
+                    <p class="error-form">[erroriNome]</p>
+                </div>
+                <div>
+                    <label for="surname">Cognome*</label>
+                    <input type="text" name="surname" id="surname" placeholder="Cognome" autocomplete="name" value="[surnameValue]">
+                    <p class="error-form">[erroriCognome]</p>
+                </div>
+            </div>
+            <div>
+                <label for="email">Email*</label>
+                <input type="email" name="email" id="email" placeholder="esempio@gmail.com" autocomplete="email" value="[emailValue]">
+                <p class="error-form">[erroriEmail]</p>
+            </div>
+            <div>
+                <label for="password">Password*</label>
+                <div class="password-container">
+                    <input type="password" name="password" id="password" placeholder="Password"
+                    onpaste="return false;" 
+                    oncopy="return false;"
+                    autocomplete="off">
+                    <i class="fas fa-eye" ></i>
+                </div>
+            </div>
+            <div>
+                <label for="confirmPassword">Conferma la password*</label>
+                <div class="password-container">
+                    <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Conferma la password"
+                    onpaste="return false;" 
+                    oncopy="return false;"
+                    autocomplete="off">
+                    <i class="fas fa-eye" ></i>
+                    <!-- l'icona è presa da FontAwesome (link incluso nell'head) -->
+                </div>
+                <p class="error-form">[erroriPassword]</p>
+                [messaggiForm]
+                <p id="infoPassword">La password deve contenere:
+                    <ul aria-labelledby="infoPassord">
+                        <li>Minimo 8 caratteri, massimo 32</li>
+                        <li>Almeno un numero</li>
+                        <li>Una lettera maiuscola</li>
+                        <li>Una lettera minuscola</li>
+                        <li>Almeno un carattere speciale (! @ + ? / , - . $ _ =)</li>
+                    </ul>
+                </p>
+            </div>
+            <div>
+                <button type="submit" name="signup" class="orange-button">
+                    Registrati
+                </button>
+            </div>
+        </fieldset>    
+    </form>
+    <p id="signup-accedi">Hai già un account? <a href="./accedi">Accedi!</a></p>
+</div>

@@ -9,41 +9,103 @@
     --txtcolor: #481515;
     --buttoncolor: #EA654C;
     --buttoncolor-hover: #481515;
+    --text-buttoncolor: #481515;
+    --text-buttoncolor-hover: #FFF6D7;
     --linkcolor:#FFF6D7;
     --footercolor: #481515;
     --visitedcolor: #EA654C;
+    --headercolor: var(--footercolor);
+    --headervisitedlink: #6D7541;
+    --headerlink: #481515;
+    --secondsection: #6D7541;
+    --placeholderDarker-text:#5e4232;
+    --placeholder-text:#825E49;
     --darkbgcolor: #E4D4BA;
+    --bglink-hover: var(--darkbgcolor);
+    --bgform: #6D7541;
+    --errortxt: #BA3A24;
+    --successtxt:#576F30;
+    --bgconfirmbutton:#6D7541;
+    --bgconfermbutton:#FFF6D7;
+    --txtcancelbutton:var(--bgconfirmbutton);
+    --txtclose-request: #735757;
     --greencolor: #6D7541;
 }
 
 a{
     color: var(--linkcolor);
+    font-weight: 400;
 }
 
 a:visited{
     color: var(--visitedcolor);
 }
 
+a.orange-button:visited{
+    color: var(--txtcolor);
+}
+
+a.orange-button:hover{
+    color: var(--linkcolor);
+}
+
+
 .container{
     max-width: 1200px;
     /* max-height: 100%; */
     margin: auto;
+    padding-left:1em;
+    padding-right:1em;
+}
+
+html, body {
+    max-width: 100%;
+    /* overflow-x: hidden; */
+}
+body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main#content{
+    /* min-height: 100vh; */
+    flex: 1;
+    padding-top: 2em;
+    min-height: auto;
+}
+
+#layout-user header + main{
+    margin-top:90px;
+}
+
+#NavHeader + main #breadcrumb{
+    border: 1px solid var(--bgcolor);
 }
 
 html{
-    font-size: 90%;
+    font-size: 100%;
     line-height: 1.5em;
     font-family: "Parkinsans", Roboto, sans-serif;
     background-color: var(--bgcolor);
     color: var(--txtcolor);
+    font-weight: lighter;
+    scroll-behavior: smooth;
 }
+
+strong{
+    font-weight:600;
+}
+
 /* se troppo grandi per altre pagine allora avvisate linor prima di trovare altre soluzioni */
 h1{
-    font-size: 2.5em; 
+    font-size: 2em; 
+    /* font-size: 2.7em;  */
     line-height: normal;
 }
 h2{
-    font-size: 2.3em; 
+    font-size: 1.8em; 
+    /* font-size: 2.3em;  */
     line-height: 1.3;
 }
 h3{
@@ -56,23 +118,259 @@ h4{
     /* line-height: 1.3; */
 }
 
+.error-form{
+    color:var(--errortxt);
+}
+
+.error-form + p{
+    margin-top:0.5em;
+}
+
+#form-signup + p a,
+#form-login + p a{
+    color:var(--txtcolor);
+}
+
+.success-form{
+    color:var(--successtxt);
+}
+
 /*==================PULSANTI==================*/
-a.orange-button{
+a.orange-button, a.brown-button,
+button.orange-button{
     display: block;
     text-align: center;
     margin: auto;
     width: fit-content;
-    background-color: var(--buttoncolor);
-    color: var(--txtcolor);
     padding: 0.7em 1.5em;
     border-radius: 1em;
     font-weight: 600;
-    transition: background-color 0.4s ease;
+    letter-spacing: 1px;
+    text-decoration: none;
+    transition: background-color 0.6s ease;
 }
 
-.orange-button:hover {
+.orange-button:hover,
+button.orange-button:hover {
     background-color: var(--buttoncolor-hover); 
     color: var(--linkcolor);
+}
+
+a.orange-button,
+button.orange-button,
+.white-button:hover{
+    background-color: var(--buttoncolor);
+    color: var(--txtcolor);
+}
+
+button.orange-button{
+    cursor: pointer;
+    border:none;
+    font-size: 100%;
+}
+
+.orange-button:visited{
+    color: var(--txtcolor);
+}
+
+a.brown-button{
+    background-color: var(--text-buttoncolor);
+    color: var(--linkcolor);
+    margin: 0.7em auto 0.7em auto;
+    text-decoration: underline;
+    margin-right: 0;
+}
+
+a.brown-button:visited{
+    color: var(--visitedcolor);
+}
+
+.brown-button:hover,
+.brown-button:visited:hover{
+    background-color: var(--text-buttoncolor-hover); 
+    color: var(--text-buttoncolor);
+}
+
+.white-button{
+    display: block;
+    text-align: center;
+    margin: auto;
+    width: fit-content;
+    padding: 0.3em 1em;
+    border-radius: 2em;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.6s ease;
+    background-color: var(--bgcolor);
+    color:var(--text-buttoncolor)
+}
+
+.white-button:visited{
+    color:var(--text-buttoncolor);
+}
+
+.torna-su-button{
+    display: block;
+    
+    width: 130px;
+    height: auto;
+    margin: 6% auto 0 auto;
+    text-align: center;
+    color:var(--text-buttoncolor);
+    text-decoration: underline;
+    background-color: (var(--buttoncolor));
+}
+
+.torna-su-button img{
+    width: 100%;
+    height: auto;
+}
+
+.torna-su-button .static{
+    display: block;
+}
+
+.torna-su-button .active{
+    display: none;
+}
+
+.torna-su-button:hover .static{
+    display: none;
+}
+
+.torna-su-button:hover .active{
+    display: block;
+}
+
+.torna-su-button:hover .active,
+.torna-su-button:hover .static{
+    background-color: (var(--buttoncolor));
+    color:var(--linkcolor);
+}
+
+/*==================WIDGET UTILI==================*/
+.polaroid{
+    width: 30%;
+    background-color: white;
+    padding: 0.5em 0.5em 3em 0.5em;
+}
+
+/* timeline */
+
+#timeline{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    align-items: flex-start;
+    margin-top: 3em;
+}
+
+/*linea tratteggiata*/
+#timeline::before {
+    content: '';
+    position: absolute;
+    top: 1.5em; 
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background-image: linear-gradient(to right, var(--buttoncolor) 50%, transparent 50%);
+    background-size: 20px 100%;
+    z-index: 0;
+  }
+
+#timeline li summary, 
+#timeline li{
+    position: relative; 
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 0 0 18%;
+}
+
+#timeline li{
+    list-style: none; 
+    z-index: 2;
+}
+
+.number{
+    font-weight: bold;
+}
+
+.circle {
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    margin-bottom: 0.5em;
+    display: flex;
+    transition: 0.3s;
+}
+
+/* opzionale: popup interattivi con la timeline */
+
+.popup {
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    background-color: var(--bgcolor); 
+    padding: 1em;
+    border-radius: 1%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    color: var(--txtcolor);
+    text-align: left;
+    pointer-events: none;
+    
+    /* Stato iniziale: Nascosto */
+    opacity: 0;
+    margin-top: 10px; /* Per animazione salita */
+    transition: 0.3s;
+}
+
+.popup::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0 10px 10px 10px;
+    border-style: solid;
+    border-color: transparent transparent var(--bgcolor) transparent;
+}
+
+#timeline details[open] .circle{
+    background-color: var(--buttoncolor);
+    transform: scale(1.1);
+}
+
+/* 2. Il popup appare */
+details[open] .popup{
+    opacity: 1;
+    margin-top: 0;
+    pointer-events: auto; /*così si può passare sopra con il pointer senza che il popup si chiuda*/
+}
+
+
+
+/*==================FLEX COLUMNS AND GRID==================*/
+/* mettere un div con questo come contenutore */
+.column-container{
+    max-width: 1200px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    margin: auto;
+    padding-right: 1em;
+    padding-left: 1em;
+}
+
+/* usare un div con questa classe nei contenuti su cui porre il flex
+NOTA: modificare il flex se necessario annidando la classe dentro le proprie sezioni */
+.column-user {
+    flex: 1 1 45%;
 }
 
 /*==================ERRORE 404==================*/
@@ -138,6 +436,26 @@ a.orange-button{
 #zzz {
     animation: sleep 4s infinite ease-in-out;
 }
+
+/* ==================FOCUS================== */
+input:focus-visible + label,
+a:focus-visible,
+button:focus-visible,
+input [type="checkbox"]:focus-visible {
+    outline: 3px solid red;
+    outline-offset: 2px;
+    transition: none;
+}
+
+input:focus{
+    outline:3px solid var(--headercolor);
+    outline-offset: 0px;
+}
+
+
+
+
+
 
 
 /* ==================LAVORA CON NOI ================== */
@@ -244,14 +562,236 @@ body#lavora-con-noi {
 
 /* Gli elementi con questa classe sono visibili solo agli screen reader */
 .sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  border: 0;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
 }
+
+/* ================== HEADER ================== */
+
+#layout-user #currentLink{
+    pointer-events: none;
+}
+
+#layout-user li #currentLink{
+    font-weight: 500;
+    text-decoration: underline;
+}
+
+#menu-toggle-checkbox{
+    display: none;
+}
+
+
+header {
+    background-color: var(--headercolor);
+    padding: 0.5em 0;
+    position: fixed;  
+    top: 0;
+    left: 0;         
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 0 0 1em 1em;
+}
+
+header .container{
+    display: flex;
+}
+
+header .container{
+    display: flex;
+    flex-wrap: nowrap;
+    margin:auto
+}
+
+/* logo */
+
+header a{
+    text-decoration: none;
+}
+
+
+#header-logo h1 {
+    margin-left: 0;
+    margin-right: auto;
+    color: var(--linkcolor);
+    text-align: center;
+}
+
+#header-logo h1 a:visited{
+    color: var(--linkcolor);
+}
+
+#not-bold{
+    font-weight: 200;
+}
+
+#name-site{
+    font-weight:600;
+    display: block;
+    font-size: 1.6rem;
+}
+
+#header-logo img {
+    height: 60px;
+    width: auto;
+    flex: 0 0 80px;
+    margin-bottom: -10px;
+}
+
+/* menu osso */
+#nav-osso {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+#osso {
+    height: 55px;
+    display: flex;
+    list-style: none;
+    align-items: center;
+    gap: 1em; 
+    text-align: center;
+    
+    /* Stile Osso */
+    background-color: var(--bgcolor);
+    padding: 0 2em;
+    position: relative;
+    margin: 1em 2em; 
+    border-radius: 1em;
+}
+
+#osso::before,
+#osso::after {
+    content: "";
+    position: absolute;
+    width: 2.3em; 
+    height: 2.3em;
+    border-radius: 50%;
+    background-color: var(--bgcolor);
+    transform: translateY(-50%); 
+    box-shadow: 0 2.2em 0 var(--bgcolor);
+}
+
+#osso::before {
+    left: -1.2em;
+}
+
+#osso::after {
+    right: -1.2em;
+}
+ 
+#osso a {
+    color: var(--headerlink);
+}
+
+#osso a:hover {
+    text-decoration: underline;
+}
+
+/* ================== 3. azioni (Destra) ================== */
+#header-actions {
+    align-items: center;
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap:0.7em;
+}
+
+#personal-area{
+    display: flex;
+    list-style: none;
+    gap: 0.7em; 
+}
+
+/* THEME-CHANGE */
+#theme-switch {
+    display: inline-block;
+    vertical-align: middle;
+    width: 4em;
+    height: 2em;
+    position: relative;
+    cursor: pointer;
+    margin-left: 0;
+}
+
+#slider {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--bgcolor);
+    border-radius: 5em;
+    transition: 0.4s;
+    box-shadow: inset 10px 10px 30px 5px rgba(0.5,0.5,0.5,0.5);
+}
+
+#slider::before {
+    content: "";
+    position: absolute;
+    height: 1.7em;
+    width: 1.7em;
+    left: 0.2em;
+    bottom: 0.1em;
+    border-radius: 50%;
+    transition: 0.4s;
+    background-color: var(--bgcolor);
+}
+
+/* Icone sole/luna */
+#sun, #moon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.2em;
+    transition: 0.4s;
+    pointer-events: none;
+}
+#sun { left: 0.5em; opacity: 1; }
+#moon { right: 0.4em; opacity: 0; }
+
+input:checked + #theme-switch #slider { background-color: var(--headercolor); }
+input:checked + #theme-switch #slider::before { 
+    transform: translateX(2em); 
+    background-color: var(--headercolor);
+}
+input:checked + #theme-switch #slider #sun { opacity: 0; }
+input:checked + #theme-switch #slider #moon { opacity: 1; }
+
+/* Icona Preferiti */
+#preferiti {
+    position: relative;
+    display: block;
+    width: 32px;
+    height: 32px;
+}
+#preferiti img {
+    width: 100%;
+    transition: opacity 0.3s;
+}
+#preferiti #heart-hover {
+    position: absolute;
+    top: 0; left: 0;
+    opacity: 0;
+}
+#preferiti:hover #heart-normal { opacity: 0; }
+#preferiti:hover #heart-hover { opacity: 1; }
+
+#header-actions .white-button{
+    padding: 0.3em 1em;
+} 
+
+#header-actions .white-button img{
+    display: none;
+} 
+
 
 /* ==================FOOTER================== */
 #footer-menu {
@@ -266,28 +806,1236 @@ footer {
     background-color: var(--footercolor);
     color: var(--bgcolor);
 }
+footer p{
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 0.3em;
+}
+
 #footer-menu > li{
     padding: 0.2em;
     flex: 1 1 250px;
+    margin-bottom: 1em;
 }
-footer h4 {
-    margin-bottom: 0.5em;
-}
+
 .footer-submenu li {
     list-style: none;
     margin-bottom:0.1em;
 }
 #grass {
-     /* position: absolute; */
-    /* top: 43em; */
     width: 100%;
-    height: 60px; /* Altezza fissa del ciuffo */
-    background-image: url('../../assets/images/grass.svg'); /* Immagine del ciuffo d'erba */
+    height: 60px; /*altezza fissa dell'erba*/
+    background-image: url('../../assets/images/grass.svg'); /* immagine dell'erba */
     background-size: auto 100%; /* da tenere assolutamente altrimenti si taglia */
+}
+
+.social-media-links a{
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+#copyright{
+    text-align: center;
+    font-size: smaller;
+    font-weight: 400;
+    padding:1em;
+    color: var(--darkbgcolor);
+    /* font-size: 0.9em; */
+    /* margin-bottom: 1em; */
+}
+/* ================== =========== PAGINE UTENTE================== ============*/
+/* ================== HOME ==================*/
+
+/* introduzione */
+#home p{
+    padding-bottom: 0.5em;
+}
+
+#introduction-home {
+    background-color: var(--headercolor);
+    margin-top: -130px;
+    padding-top: 130px;
+    color: var(--bgcolor);
+}
+
+#introduction-home .column-user:first-child {
+    flex: 1 1 40%;
+    margin-left: 5%;
+}
+
+#introduction-home .column-user:last-child{
+    flex: 1 1 40%;
+    position: relative;
+    padding-bottom: 4em;
+    margin-right: 5%;
+}
+
+#subtitle-home{
+    font-weight: lighter;
+}
+
+/* IMMAGINI DECORATIVE */
+#cat-decorator{
+    width: 25%;
+    height: auto;             
+    margin-top: 0.5em;          
+    margin-left: -2em;
+    float: left;  
+    pointer-events: none;
+}
+
+#cat-decorator + a{
+    float: left;
+    margin-top: 2em;
+}
+
+#paw-1, #paw-2, #paw-3, #paw-4 {
+    position: absolute;       
+    width: 3em;              
+    height: auto;
+    transform: rotate(230deg); 
+    pointer-events: none;         
+}
+
+#paw-1 {
+    top: 55%;
+    right: 10%;
+}
+
+#paw-2 {
+    top: 75%;
+    right: 50%;
+}
+
+#paw-3 {
+    bottom: -20%;
+    right: 30%;
+}
+
+#paw-4 {
+    bottom: -30%;
+    right: 65%;
+}
+
+/* sezione 2: animali che hanno trovato casa */
+#second-chapter-home .column-user:first-child{
+    flex: 0 0 25%;
+    max-width: 25%;
+    height: auto;
+    margin-right: 10%;
+}
+
+#second-chapter-home .column-user:last-child{
+    flex: 1 1 60%;
+    margin: 10% 0 8% 0;
+}
+
+#second-chapter-home h2{
+    margin-bottom: 1em;
+    font-weight: 500;
+}
+
+#second-chapter-home h2 strong{
+    font-weight: bold;
+}
+
+
+/* sezione 3: timeline */
+.number::after {
+    content: '';
+    display: block;
+    position: absolute;
+    
+    left: 50%;
+    top:1em;
+    
+    width: 10px;  
+    height: 10px;
+    border-right: 2px solid var(--bgcolor); 
+    border-bottom: 2px solid var(--bgcolor);
+    border-top: 0;
+    border-left: 0;
+    
+    transform: translateX(-50%) rotate(45deg); 
+    transition: transform 0.3s ease; 
+    pointer-events: none; 
+}
+
+details[open] .number::after {
+    transform: translateX(-50%) rotate(225deg);
+    top: 1.3em;
+}
+
+details:not([open]) .popup {
+    display: none;
+}
+
+
+#adoption-timeline{
+    padding:2em 0 2em 0;
+    background-color: var(--headercolor);
+    color:var(--bgcolor);
+}
+
+.popup img{
+    width: 100%;
+    pointer-events: none; 
+}
+
+/* sezione 4: eventi */
+
+#section-events{
+    background-color: var(--secondsection); /* nel caso non caricasse l'immagine */
+    background-image: 
+        linear-gradient(to bottom, transparent 70%, var(--secondsection) 98%),
+        url('../../assets/images/cat-bg.svg');
+    background-size: 102% auto;
+    background-repeat: no-repeat;
+    background-position:top;
+    height: fit-content;
+    color: var(--bgcolor);
+    padding: 3em;
+    border-radius: 1em;
+}
+
+#section-events h2{
+    margin: 2em 0 0.8em 0;
+}
+#section-events h3{
+    font-weight: 400;
+}
+
+#section-events img.polaroid{
+    display: inline-block;
+    vertical-align: middle;
+    margin: 1.5em 1.5em 2.5em 1.5em;
+    width: 30%;
+    transform: rotate(-9deg);
+}
+
+#section-events p{
+    display: inline-block;
+    vertical-align: middle;
+    width: 55%;
+    margin-left:3%;
+}
+
+#events-list{
+    display: flex;
+    gap: 2em;
+    margin-top: 5%;
+    padding: 3em 1em 0 1em;
+    position: relative;
+}
+
+#events-list::before{
+    content: '';
+    display: block;
+    position: absolute;
+    width: 140%;
+    top:-33%;
+    left: -18%;
+    height: 100px;
+    background-image: url('../../assets/images/rope.svg');
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position:center bottom;
+    pointer-events: none;
+    z-index: 0;
+}
+
+#events-list .polaroid{
+    flex: 1 1 20%;
+    color: var(--txtcolor);
+    padding-top: 1em;
+    transform-origin: top center;
+    --base-rot: 0deg;
+    margin:auto;
+}
+
+#events-list .polaroid:before{
+    content: "";
+    position: absolute;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 50px;
+    height: 50px;
+    top:-22%;
+    left: 38%;
+}
+
+#events-list .polaroid:first-child:before,
+#events-list .polaroid:nth-child(3):before{
+    background-image: url('../../assets/images/white-clip.svg'); 
+}
+
+#events-list .polaroid:nth-child(2):before,
+#events-list .polaroid:last-child:before{
+    background-image: url('../../assets/images/orange-clip.svg'); 
+    
+}
+
+#events-list .polaroid:first-child{
+    transform: rotate(10deg);
+    margin-top:-4%;
+}
+
+#events-list .polaroid:nth-child(2){
+    transform: rotate(3deg);
+}
+
+#events-list .polaroid:nth-child(3){
+    transform: rotate(-3deg);
+}
+
+#events-list .polaroid:last-child{
+    transform: rotate(-10deg);
+    margin-top:-4%;
+}
+
+/* Definizione del movimento a dondolo */
+@keyframes swingGeneric {
+    0%   { transform: rotate(var(--base-rot)); } /* Parte dalla posizione attuale */
+    20%  { transform: rotate(calc(var(--base-rot) + 8deg)); } /* Prima spinta a destra */
+    40%  { transform: rotate(calc(var(--base-rot) - 6deg)); } /* Ritorno a sinistra */
+    60%  { transform: rotate(calc(var(--base-rot) + 3deg)); } /* Spinta minore destra */
+    80%  { transform: rotate(calc(var(--base-rot) - 1deg)); } /* Quasi fermo */
+    100% { transform: rotate(var(--base-rot)); } /* Torna alla posizione originale */
+}
+
+/* La classe che attiverà l'animazione */
+.is-swinging {
+    animation: swingGeneric 1.2s ease-in-out forwards;
+}
+
+#sponsor{
+    background-image: url('../../assets/images/sponsor-bg.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position:top;
+    height:fit-content;
+    padding-top: 3em;
+}
+
+#sponsor .column-container{
+    justify-content: center;
+}
+
+#sponsor img {
+    width: 165px; 
+    padding:1em;
+    height: auto; 
+    object-fit: contain; 
+    margin-bottom:12.5%;
+}
+
+#sponsor img:nth-child(3){
+    margin-right:2.5em;
+}
+
+#sponsor img:nth-child(4){
+    margin-left:2.5em;
+}
+
+#sponsor + .container a{
+    margin-top:-8%;
 }
 
 
 
+/* form affidamento */
+
+#affidamento-home{
+    background-color: var(--headercolor);
+    color:var(--bgcolor);
+    margin-top: 5em;
+}
+
+#content-affidamento p{
+    margin-top:0.5em;
+}
+
+#content-affidamento h2{
+    margin-top:1em;
+}
+
+#affidamento-home #content-affidamento {
+    flex: 1 0 30%;
+    margin-left: 2%;
+    padding-bottom: 5em;
+}
+
+#affidamento-home .column-container {
+    justify-content: center;
+    padding-top: 2em;
+}
+
+#form-affidamento {
+    background-color: var(--bgcolor);
+    color: var(--txtcolor);
+    margin:3em auto 0.1em auto;
+    padding: 0em 2em;
+    display: block;
+    border-radius: 2.1em;
+    max-width: 541px;
+}
+
+fieldset {
+    border: none;
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+}
+
+#container-form-affidamento{
+    display: flex;
+    align-items: center;
+    flex:1 0 65%;
+    padding: 9em 2.5em 0em 2.5em;
+    background-image: url('../../assets/images/house-form.svg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    overflow: visible;
+    margin: -6em auto 0 auto;
+}
+
+legend {
+    padding-top:1em;
+    font-weight: 500;
+    text-align: center;
+    font-size: 1.1em;
+    width: 100%;
+}
+
+#signup label + input,
+#home label + input,
+#user-profile label + input,
+#login label + input,
+.edit-number div span + input, 
+.password-container input, div#admin-area label + input {
+    border-radius: 5em;
+    padding: 0.5em 1em;
+    margin: 0.2em 0 0.3em 0;
+    width: 100%; 
+    border: 1px solid var(--headercolor);
+    color: var(--txtcolor);
+    font-size: 100%;
+    background-color: var(--bgcolor);
+    box-sizing: border-box; 
+}
+
+#signup label + input::placeholder,
+#home label + input::placeholder,
+#user-profile label + input::placeholder,
+#login label + input::placeholder{
+    color: var(--placeholder-text);
+}
+
+label {
+    font-size: 95%;
+    display: block; 
+    margin-left: 0.5em; 
+}
+
+#form-affidamento .orange-button {
+    width: 100%;
+    margin: 1.5em 0 1em 0;
+    cursor: pointer;
+}
+
+#messaggiForm-home {
+    padding: 0 1.5em;
+}
+
+/* ================== REGISTRATI ==================*/
+
+#signup .container{
+    max-width: 800px;
+    padding: 2em 3em;
+    border-radius: 1em;
+    background-color: var(--bgcolor);
+}
+
+body:has(#signup), body:has(#login) {
+    background-color: var(--bgform);
+    /* dopo aver aggiustato il footer
+    le ho commentate perchè altrimenti si rompeva tutto */
+    /* margin: -110px 0 -30px 0; */
+    /* padding: 110px 0 30px 0; */
+    background-image: url('../../assets/images/bg-pow.svg');
+    background-repeat: repeat;
+    background-size: contain;
+}
+
+
+#form-signup .column-container{
+    padding: 0;
+}
+
+/* cambio il colore dell'autofill */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px var(--bglink-hover) inset;
+}
+
+.column-container div{
+    flex: 1 1 48%;
+    margin:0;
+}
+
+#form-signup p+p{
+    margin: 0em;
+    padding-bottom: 1em;
+}
+
+#form-signup .orange-button{
+    margin-top: 1em;
+}
+
+#infoPassword + ul{
+    margin-left:1.5em;
+}
+
+#form-signup legend,
+#form-login legend{
+    font-size: 2em;
+    font-weight: 700;
+}
+
+#form-signup button{
+    width: 50%;
+}
+
+#form-signup a,
+#form-login a{
+    color:var(--headerlink);
+}
+
+#form-signup a:visited,
+#form-login a:visited{
+    color:var(--headerlink);
+}
+
+#form-signup + p,
+#form-login + p{
+    text-align: center;
+    padding:1em 0;
+}
+
+#checkbox-container-signup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#checkEvents {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+#checkbox-container-signup em{
+    opacity: 0.8;
+}
+
+#checkbox-container-signup{
+    padding: 1em 0;
+}
+
+#checkbox-container-signup label::before {
+    content: '';
+    display: inline-block;
+    width: 24px;  
+    height: 24px; 
+    margin-bottom:-5px;
+    
+    background-color: #ffffff; 
+    border: 1px solid var(--txtcolor);
+    border-radius: 6px; 
+    box-sizing: border-box; 
+    transition: 0.2s;
+}
+
+#checkEvents:checked + label::before {
+    background-color: var(--buttoncolor); 
+    border-color: var(--buttoncolor);
+}
+
+#checkbox-container-signup label::after {
+    content: '';
+    position: absolute;
+    left: 9px;  
+    top: 5px;
+    
+    width: 4px;
+    height: 8px;
+    border: solid var(--bgcolor);
+    border-width: 0 2px 2px 0; 
+    
+    transform: rotate(45deg) scale(0); 
+}
+
+#checkEvents:checked + label::after {
+     transform: rotate(45deg) scale(1);
+}
+
+#checkbox-container-signup label {
+    cursor: pointer;
+    position: relative; 
+    user-select: none; 
+}
+
+
+.password-container {
+    position: relative;
+    width: 100%; 
+}
+
+.password-container input {
+    width: 100%;
+    padding-right: 40px;
+}
+
+.password-container i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%); 
+    color: var(--placeholder-text);
+}
+
+.password-container i:hover {
+    color: var(--txtcolor);
+}
+
+/* ================== PROFILO UTENTE NORMALE ==================*/
+#user-profile h2{
+    font-size: 1.6em;
+}
+
+#user-profile{
+    margin-bottom:2em;
+}
+
+#user-profile .column-container{
+    margin-top: 2em;
+    align-items: flex-start;
+}
+
+#user-profile .column-container .tabs-container{
+    flex: 1 1 63%;
+}
+
+
+#user-profile .column-container #user-info{
+    flex: 1 1 35%;
+}
+
+#user-profile .tabs-container select:focus{
+    border: 2px solid var(--headercolor);
+    margin:4px;
+}
+
+/* tab */
+#user-profile .tabs-container {
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+
+#user-profile .tabs-container input{
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+
+#user-profile .tabs-container input + label {
+    flex: 1 0 46%;
+    padding: 1.8% 2%;
+    height: 50px;
+    border-bottom: 1px solid var(--headercolor);
+    text-align: center;
+    
+    margin:0;
+    cursor: pointer; 
+}
+
+#user-profile .tabs-container .tab-content {
+    flex: 1 0 50%;
+    height: fit-content;
+    border-bottom: 1px solid var(--headercolor);
+    border-left: 1px solid var(--headercolor);
+    border-right: 1px solid var(--headercolor);
+    display: none; 
+    padding: 1em;
+    border-radius: 0 0 0.5em 0.5em;
+}
+
+#user-profile input:checked + label {
+    border-top: 1px solid var(--headercolor); 
+    border-left: 1px solid var(--headercolor); 
+    border-right: 1px solid var(--headercolor); 
+    border-bottom:0;
+    /* border-bottom: 1px solid var(--bgcolor); */
+    border-radius: 0.5em 0.5em 0 0;
+    font-weight: bold;
+    z-index: 1;
+}
+
+#user-profile .tabs-container #tab1:checked  ~ .tab-content:nth-of-type(1),
+#user-profile .tabs-container #tab2:checked  ~ .tab-content:nth-of-type(2){
+    display: block;
+}
+
+#user-profile .tab-content form{
+    text-align: right;
+    margin-bottom:1em;
+}
+
+#user-profile .tab-content label[for="request-state"]{
+    display: inline-block;
+}
+
+#user-profile .tab-content form button,
+.logout-btn,
+#revisione-richiesta #button-cancel,
+#revisione-richiesta button,
+.dialog-buttons label{
+    border-radius: 2em;
+    background-color: var(--buttoncolor);
+    color:var(--txtcolor);
+    padding: 0.5em 2em;
+    transition: 0.3s;
+    border:2px solid var(--buttoncolor);
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#user-profile .tab-content form button{
+    margin:0.5em;
+}
+
+.logout-btn{
+    margin:1em auto 0 auto;
+    display: flex;
+    font-size: 1em;
+    font-weight: 600;
+}
+
+#user-profile .tab-content form button:hover,
+.logout-btn:hover,
+#revisione-richiesta #button-cancel:hover,
+#revisione-richiesta button:hover{
+    background-color:var(--bgcolor);
+}
+
+
+
+#user-profile .tabs-container select{
+    padding:0.5em;
+    background-color: var(--bgcolor);
+    border-radius: 2em;
+    border-color: var(--text-buttoncolor);
+    color:var(--text-buttoncolor);
+    margin:5px;
+}
+
+#user-profile #user-info img.circle-foto{
+    margin:auto;
+    display: flex;
+    background-color: var(--bglink-hover);
+}
+
+#user-info{
+    padding: 2em 1em;
+    border:1px solid var(--headercolor);
+    border-radius: 0.5em;
+}
+
+#user-info dt{
+    font-weight: bold;
+}
+
+#user-info dd {
+    margin-bottom:0.5em;
+}
+
+#user-profile #lista-movimenti li,
+#user-profile #lista-richieste li{
+    list-style: none;
+    background-color: var(--darkbgcolor);
+    border:2px solid var(--darkbgcolor);
+    margin:0.5em 0;
+    padding: 1em;
+    border-radius: 0.5em;
+}
+
+#user-profile #lista-richieste .close-request{
+    background-color: transparent;
+    color: var(--txtclose-request);
+} 
+
+#user-profile #lista-movimenti article,
+#user-profile #lista-richieste article{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#user-profile #lista-movimenti article p,
+#user-profile #lista-richieste article p{
+    flex: 1 1 65%;
+    margin-left:1em;
+}
+
+#user-profile #lista-movimenti li a,
+#user-profile #lista-richieste li a{
+    margin:0.5em auto 0 auto;
+    border-radius: 2em;
+    background-color: var(--buttoncolor-hover);
+    color:var(--bgcolor);
+    padding: 3px 2em;
+    transition: 0.3s;
+}
+
+#user-profile #lista-movimenti li a:hover,
+#user-profile #lista-movimenti li a:visited:hover,
+#user-profile #lista-richieste li a:hover,
+#user-profile #lista-richieste li a:visited:hover{
+    color: var(--txtcolor);
+    background-color:transparent;
+}
+
+#user-profile #lista-movimenti li a:visited,
+#user-profile #lista-richieste li a:visited{
+    color:var(--buttoncolor);
+}
+
+#query-vuota{
+    text-align: center;
+}
+
+.view-mode h2{
+    padding:0.5em 0;
+}
+
+.view-mode dt{
+    float: left;
+    margin-right: 0.5em;
+}
+
+.view-mode span{
+    display: flex;
+    position: relative;
+}
+
+.view-mode .edit-profile-link{
+    margin:0.5em auto;
+    background-color: var(--bglink-hover);
+    padding: 0.5em 1em;
+    color:var(--txtcolor);
+    border-radius: 2em;
+    display: flex;
+    width: fit-content;
+    flex-wrap: nowrap ;
+    text-decoration: none;
+    border:2px solid var(--bglink-hover);
+    transition: 0.4s;
+    letter-spacing: 0.5px;
+}
+
+.view-mode .edit-profile-link:hover{
+    border:2px solid var(--bglink-hover);
+    background-color: transparent;
+}
+
+.view-mode .edit-profile-link p{
+    margin-right: 5px;
+}
+
+
+.view-mode .edit-profile-link img{
+    margin-right: 0;
+    margin-left: auto;
+    margin-top:-5px;
+    height: 25px;
+    width:auto;
+}
+
+.view-mode span h2 + a{
+    color:var(--txtcolor);
+    width: 45px;
+}
+
+.normal-icon,
+.hover-icon{
+    position: absolute;
+    top:4px;
+    right:0;
+    transition: 0.4s;
+    width: 45px;
+    height: 45px;
+    color:var(--txtcolor);
+}
+
+.normal-icon {opacity: 1;}
+.hover-icon {opacity: 0;}
+
+a:hover .normal-icon {opacity: 0;}
+a:hover .hover-icon {opacity: 1;}
+
+/* MODALITA MODIFICA */
+
+.checkbox-container-pic {
+    margin-bottom:-5px;
+    padding:5px;
+    text-align: center;
+    cursor: pointer;           
+    gap: 10px;                 
+}
+
+.checkbox-container-pic input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    
+    position: relative;
+    top:5px;
+    width: 25px;
+    height: 25px;
+    background-color: transparent;    
+    border: 1px solid var(--txtcolor);     
+    border-radius: 4px;         
+    cursor: pointer;
+    margin: 0;                  
+}
+
+.checkbox-container-pic input[type="checkbox"]:checked {
+    background-color: var(--buttoncolor);   
+    border-color: var(--buttoncolor);  
+}
+
+.checkbox-container-pic input[type="checkbox"]::before {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    top:4px;
+    left:4px;
+    /* icona dlla v */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    transform: scale(0);
+    transition: 0.2s transform ease-in-out;
+}
+
+.checkbox-container-pic input[type="checkbox"]:checked::before {
+    transform: scale(1);        
+}
+
+.edit-mode .edit-number div{
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.edit-mode .edit-number div span{
+    margin:auto 5px auto 0;
+}
+
+.edit-mode h2,
+.edit-management h2{
+    text-align: center;
+}
+
+#revisione-richiesta form label,
+#signup form label,
+#user-profile form label,
+#home form label,
+#login form label{
+    margin-top:1em;
+}
+
+.edit-mode input[type="file"]{
+    background-color: var(--darkbgcolor);
+    color: var(--text-buttoncolor);
+    border:none;
+    border-radius: 2em;
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+    background-color: var(--buttoncolor);
+    color: var(--text-buttoncolor);
+    border:none;
+    padding: 0.5em 1em;
+    font-weight: 600;
+    border-radius: 2em;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: var(--darkbgcolor);
+}
+
+.edit-mode form span,
+.edit-management form span{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1em auto 0 auto;
+}
+
+.edit-mode form span a,
+.edit-mode form span button,
+.edit-management form span a,
+.edit-management form span button
+{
+    flex: 1 1 44%;
+    text-align: center;
+    border-radius: 1em;
+    padding:0.5em 1em;
+    font-size: 1em;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.edit-mode form span button,
+.edit-management form span button{
+    background-color: var(--buttoncolor);
+    color:var(--text-buttoncolor);
+    border:2px solid var(--buttoncolor);
+    cursor: pointer;
+    margin-left:0.5em;
+}
+
+.edit-mode form span a,
+.edit-management form span a{
+    color:var(--text-buttoncolor);
+    border:2px solid var(--buttoncolor);
+    text-decoration: none;
+    margin-right:0.5em;
+}
+
+.edit-mode form span a:hover,
+.edit-mode form span button:hover,
+.edit-management form span a:hover,
+.edit-management form span button:hover
+{
+    border:2px solid transparent;
+    background-color: transparent;
+}
+.hidden-indirizzo{
+    display: none;
+    margin-top:0.5em;
+}
+.fieldset-indirizzo:focus-within .hidden-indirizzo{
+    display: block;
+}
+
+/* ================== REVISIONE RICHIESTA ==================*/
+
+#revisione-richiesta h1{
+    border-bottom:2px solid var(--footercolor);
+}
+
+#revisione-richiesta .column-container{
+    padding:0;
+    margin-top:2em;
+    gap:4.5em;
+}
+
+#revisione-richiesta h2{
+    font-size: 1.6em;
+}
+
+#revisione-richiesta dt{
+    float:left;
+    margin-right:0.5em;
+}
+#revisione-richiesta dd{
+    margin-bottom:0.5em;
+}
+
+#revisione-richiesta .details-card-animale{
+    border:1px solid var(--txtcolor);
+    border-radius:0.5em;
+    padding:1em;
+    margin-top:1em;
+}
+
+#revisione-richiesta #info-request dl,
+#revisione-richiesta #state-request dl{
+    background-color: var(--darkbgcolor);
+    border-radius:0.5em;
+    padding:1em;
+    margin:1em 0;
+}
+
+#revisione-richiesta dt{
+    font-weight: bold;
+}
+
+
+#revisione-richiesta form{
+    margin:1em 0 1em auto;
+    width: fit-content;
+}
+
+.details-card-animale a.brown-button{
+    padding:0.4em 1em;
+    width: 100%;
+    border-radius: 2em;
+    margin:auto;
+}
+
+.details-card-animale div{
+    display: flex;
+    flex-wrap: wrap;
+    margin:auto;
+    gap:1em;
+}
+
+.details-card-animale div div{
+   flex:1 0 46%;
+   padding-bottom:0.5em;
+}
+
+.details-card-animale img{
+   width: 100%;
+   object-fit: contain;
+}
+
+.details-card-animale div dl{
+    flex:0 0 50%;
+}
+
+#revisione-richiesta #info-request{
+    flex:1 1 45%;
+}
+
+#revisione-richiesta #info-animal{
+    flex:1 1 40%;
+}
+
+/* POPUP */
+
+/* Nascondi la checkbox tecnica */
+.popup-checkbox {
+    display: none;
+}
+
+/* Stile base del popup (nascosto di default) */
+.overlay-content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Sfondo scuro semitrasparente */
+    z-index: 1000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-checkbox:checked + label + .overlay-content, 
+.popup-checkbox:checked ~ .overlay-content {
+    display: flex; 
+}
+
+.dialog-box {
+    background: var(--bgcolor);
+    padding: 2em;
+    border-radius: 8px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.dialog-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    margin-top: 1.5em;
+}
+
+#revisione-richiesta #button-cancel,
+#revisione-richiesta button{
+    font-size: 1em;
+    margin:1em 0 1em auto;
+    width: fit-content;
+}
+
+.dialog-buttons label{
+    background-color: var(--bgcolor);
+    margin:auto;
+    width: fit-content;
+    padding:0.3em 2.7em;
+}
+
+.dialog-buttons label:hover,
+#revisione-richiesta button:hover{
+    border-color:var(--bgcolor);
+}
+
+#delete-request-check:disabled + #button-cancel:hover,
+#delete-request-check:disabled + #button-cancel{
+    background-color: var(--darkbgcolor);
+    border-color:var(--darkbgcolor);
+    color:var(--txtclose-request);
+    cursor:default;
+    font-weight: 500;
+}
+
+
+/* ================== LOGIN ==================*/
+#container-image-login{
+    flex: 0 1 50%;
+}
+
+#login img{
+    width: 100%;
+    height: auto;
+    border-radius: 1.5em 0 0 1.5em;
+    display: block;
+    pointer-events: none;
+}
+
+#container-form-login{
+    flex: 1 1 40%;
+}
+
+#form-login{
+    padding:1em 2em 0 2em;
+    height: fit-content;
+}
+#form-login legend{
+    margin-bottom:0.5em;
+}
+
+#login .container .column-container{
+    background-color: var(--bgcolor);
+    border-radius: 1.5em;
+    padding:0;
+    gap:0;
+
+}
+
+#login .container{
+    height: fit-content;
+}
+
+#form-login button{
+    width: 80%;
+    margin-top:3em;
+}
 
 /* ================== =========== PAGINE ADMIN================== ============*/
 
@@ -295,23 +2043,40 @@ footer h4 {
 /* ================== AREA RISERVATA ADMIN==================*/
 body#admin-body{
     background-color: var(--footercolor);
+    display: inline-block;
+    width: 100%;
 }
+
 div#admin-area article h2{
      font-size: 1.5em; 
      font-weight: 600;
 }
 
 div#admin-area{
-    padding: 6em;
+    padding: 0em 5em;
+    min-height: 100vh;
+    /* margin: auto; */
 }
 
+body#admin-body #breadcrumb{
+    margin: 0.5em auto 0.5em auto ;
+
+}
+
+div#admin-area div#row2 article{
+    margin-top:0em;
+}
 div#admin-area article {
-  padding:2em 2em 0em 2em;
+  padding:1em 1em 1em 1em;
   border: 1px solid var(--txtcolor);
   border-radius:1em;
   margin: 2em 0em;
 }
 
+
+div#admin-area article#query, div#admin-area article#row2-container{
+    padding: 2em 2em 0em 2em;
+}
 /* stesso pattern usato per le section del footer*/
 ul#to-do-list, ul#statistics-list {
     margin: 0 -10px;
@@ -354,7 +2119,11 @@ p.n-query{
     margin-bottom: 0.5em;
 }
 /* ================== MENU ADMIN==================*/
-.menu-toggle { display: none; } /* Nascondi tasto su desktop */
+.menu-toggle,
+.mobile-toggle-container,
+#mobile-account-normal,
+#mobile-account-hover
+{ display: none; } /* Nascondi tasto su desktop */
 
 nav#menu-admin {
     display: flex;
@@ -363,21 +2132,16 @@ nav#menu-admin {
     float: left;
     width: 20%;
     padding: 1em 0em 1em 1em;
-    /* height: 100%; */
+    height: 100%;
     overflow: hidden;
-    height: 100vh;
+     font-size: 90%;
+    /* height: 100vh; */
 }
 
 body#admin-body main {
     background-color: var(--bgcolor);
     margin-left:20%;
 }
-
-main#content{
-    min-height: 100vh;
-    padding-top:2em;
-}
-
 
 
 nav#menu-admin img {
@@ -401,7 +2165,7 @@ nav#menu-admin li#currentLink {
 nav#menu-admin li a:visited{
     color: var(--visitedcolor);
 }
-nav#menu-admin li#currentLink a{
+nav#menu-admin li#currentLink{
     font-weight: 700;
     color: var(--txtcolor);
 }
@@ -412,7 +2176,7 @@ nav#menu-admin span{
 }
 
 nav#menu-admin ul{
-    margin-top:0.5em;
+    margin-top:1em;
     margin-bottom: 2em;
 }
 
@@ -438,20 +2202,68 @@ div#row2 article{
     float: left;
 }
 
-.header-info img{
+.header-info a.btn-edit {
     float: right;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
-#generic-info-container {
+.generic-info-container {
     display: flex;
     flex-wrap: wrap;
 }
+
+.generic-info-container form{
+    max-width: 100%;
+}
+
+
+.generic-info-container label{
+    font-weight: 700;
+}
+
+#submit-edit.orange-button{
+    margin: 2em 1em 0em auto;
+}
+#submit-edit.orange-button[hidden] {
+    display: none;
+}
+
+
+.generic-info-container input {
+    width: 100%;
+    margin-left:  0.5em;
+    font-family: 'Parkinsans', Roboto, sans-serif;
+    font-size: 1em;
+    color: var(--txtcolor);
+    background-color: var(--darkbgcolor);
+}
+.generic-info-container ul, #other-info-container ul{
+    list-style: none;
+    padding: 0em;
+    margin: 0em;
+}
+.generic-info-container #admin-details li {
+    display: flex;
+    margin: 0em 1em;
+}
+
+.generic-info-container input[readonly] {
+    background: none;
+    border: none;
+}
+
+
 
 .circle-foto {
     width: 9em;
     height: 9em;
     object-fit: cover;
     clip-path: circle(50%);
+    margin-bottom: 2em;
+    pointer-events: none;
+    margin-left: 1.5em;
 }
 
 .square-foto {
@@ -463,8 +2275,15 @@ div#row2 article{
 
 .text-details{
     margin: auto 2em;
+    max-width: 100%;
+    min-width: 50%;
 }
-.header-info, #generic-info-container{
+
+.text-details ul{
+    list-style: none;
+    padding: 0;
+}
+.header-info, .generic-info-container{
     margin-bottom: 1em;
 }
 
@@ -478,7 +2297,8 @@ div#row2 article{
 .tab button {
   background-color: inherit;
   border: none;
-  padding: 14px 16px;
+  /* traduco in em */
+  padding: 0.9em 1em;
   transition: 0.3s;
   flex: 1; /* questo serve per far si che i tab siano grandi uguali e riempiano lo spazio*/
 }
@@ -494,13 +2314,13 @@ div#row2 article{
 }
 
 .tabcontent#Richiedente .orange-button{
-    margin: 0em 0em 2em auto;
+    margin: 0em 0em 0em auto;
 }
 
 #animale-richiesta .orange-button{
     margin: 0em auto 2em 0em;
 }
-#details-container h2{
+#details-container h2, .tab h2{
     font-size: 1.2em;
     /* margin-bottom: 1em; */
     color: var(--txtcolor);
@@ -508,15 +2328,46 @@ div#row2 article{
 
 .tabcontent {
   display: none;
-  padding: 6px 12px;
+  /* padding: 6px 12px; */
   border: 1px solid #ccc;
   border-top: none;
 } 
 
-#details-container{
-    display:flex;
-    flex-wrap: wrap;
+/* #Richiesta ul{
+    list-style: none;
+    padding: 0em;
+} */
 
+/* #Richiesta{
+    display: flex;
+    flex-wrap: wrap;
+} */
+div#admin-area dt{
+    font-weight: bold;
+    float: left;
+    margin-right: 0.5em;
+}
+
+div#admin-area dt::after {
+  content: ":";
+}
+
+.full-width{
+    width: 100%;
+}
+
+dt.data-error, .data-error+ dd{
+    color: red;
+    font-weight: bold;
+}
+
+
+
+#details-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+    align-items: flex-start;
 }
 
 p#altre-richieste{
@@ -552,20 +2403,32 @@ div#admin-area #details-container article#animale-richiesta{
 }
 
 .tabs-container {
-    flex: 2;
-    min-width: 300px;
+    flex: 2 1 300px;
 }
 
-#animale-richiesta {
-    flex: 1;
-    min-width: 250px;
+article#Richiesta {
+    display: block;
+}
+div#admin-area article#animale-richiesta {
+     flex: 1;
+    min-width: 32em;
     border: 1px solid var(--txtcolor);
     border-radius: 20px;
     padding: 20px;
+    width: 100%;
+}
+
+div#admin-area div#animal-container{
+    flex: 1 1 250px;
+    /* min-width: 250px; */
+    max-width: 100%;
 }
 
 div#admin-area article#stato-trasporto{
     background-color: var(--darkbgcolor);
+    width: 55%;
+    padding: 1em 1em;
+    margin: auto auto 0em 0em;
 } 
 
 #top-container{
@@ -574,17 +2437,18 @@ div#admin-area article#stato-trasporto{
 }
 
 #stato-trasporto p{
+    padding-top: 0.7em;
     float: left;
     margin-right: 2em;
 }
 #stato-trasporto a{
     float: right;
 }
-#top-container a.orange-button{
+#top-container a.orange-button, #top-container form{
     margin: auto 0em 0em auto;
 }
 
-#bottom-container a.orange-button{
+#bottom-container form{
     margin: auto 0em 0em auto;
 }
 
@@ -592,6 +2456,7 @@ div#admin-area article#stato-trasporto{
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    width: 55%;
 }
 /* .header-note{
     gap: 1em;
@@ -608,7 +2473,140 @@ div#admin-area article#stato-trasporto{
     display: flex;
     flex-wrap: wrap;
     gap: 2em;
+
 }
+
+
+.note p.editing {
+    padding: 0.5rem;
+    background-color: var(--darkbgcolor);
+}
+
+/* Nasconde i form quando hanno la classe .hidden */
+#form-data.hidden, 
+#form-note.hidden,
+#data-text.hidden,
+#note-text.hidden {
+    display: none;
+}
+
+/* Quando il form della data è attivo, sta in linea con il testo */
+#form-data {
+    display: inline;
+}
+
+/* Il form delle note lo facciamo apparire come un blocco sotto il titolo */
+#form-note {
+    display: block;
+    margin-top: 0.5rem;
+}
+
+/* --- Stile Input e Textarea --- */
+
+#input-note {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: var(--darkbgcolor);
+    border: 1px solid var(--bordercolor, #ccc);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical; /* Permette all'utente di allungare l'area */
+}
+.orange-button.respinta {
+    background-color: var(--darkbgcolor);
+    border: none;
+    cursor: not-allowed;
+}
+
+
+/* Quando il form ha la classe .hidden, sparisce */
+#stato-trasporto .hidden {
+    display: none;
+}
+
+/* Quando il form NON ha .hidden, deve stare sulla stessa riga del testo */
+#form-data {
+    display: inline;
+}
+
+/*================= RICHIESTE DI ADOZIONE ==================*/
+
+div#admin-area .tab-richieste{
+    border: none;
+    padding: 0.5em;
+}
+
+/* 1. Tabella: Impostazioni fondamentali per il raggio */
+table {
+    border-collapse: separate; /* Permette il border-radius */
+    border-spacing: 0;        /* Elimina lo spazio tra le celle */
+    width: 100%;
+    border-radius: 15px 15px 0 0;      /* Angoli tondi della tabella */
+    overflow: hidden;         /* Taglia lo sfondo del thead sugli angoli */
+    margin-bottom: 1em;
+}
+
+/* 2. Header e Footer della tabella */
+thead, tfoot {
+    background-color: var(--darkbgcolor);
+}
+
+footer a{
+    text-decoration: none;
+}
+
+
+thead th, tfoot th, tfoot td {
+    padding: 0.5em 2em;
+    text-align: left;
+}
+
+/* Arrotondamento manuale delle celle d'angolo del thead */
+thead tr:first-child th:first-child {
+    border-top-left-radius: 15px;
+}
+
+thead tr:first-child th:last-child {
+    border-top-right-radius: 15px;
+}
+
+/* 3. Corpo della tabella (Righe e Celle) */
+tbody td, tbody th {
+    padding: 0em 2em; /* Aumentato per dare respiro */
+    text-align: left;
+    border-bottom: 1px solid var(--txtcolor);
+}
+
+/* Rimuove l'ultimo bordo per non "sporcare" la curva in basso */
+tbody tr:last-child td, 
+tbody tr:last-child th {
+    border-bottom: none;
+}
+
+/* 4. Gestione Colonne e Accessibilità */
+.col-dettagli {
+    text-align: right; /* Sostituisce il float:right per un allineamento più pulito */
+}
+
+th.col-dettagli, caption {
+    /* Nasconde alla vista ma non agli screen reader (SR-ONLY) */
+    position: absolute;
+    left: -999em;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+td.col-dettagli a{
+    margin: 0.5em;
+}
+
+
+
+
+
+
 /*================NAVIGATION HELP ==================*/
 
 .navigationHelp {
@@ -630,9 +2628,11 @@ div#admin-area article#stato-trasporto{
 }
 
 
+
+
 /* ================== BREADCRUMB==================*/
 nav#breadcrumb{
-    margin: auto;
+    margin: 0.5em auto 2em auto ;
     display: block;
     text-align: center;
     width: fit-content;
@@ -641,6 +2641,8 @@ nav#breadcrumb{
     padding: 0.7em 1.5em;
     border-radius: 1em;
     font-weight: 400;
+    position: relative;
+    z-index: 10;
     /* transition: background-color 0.4s ease; */
 }
 
