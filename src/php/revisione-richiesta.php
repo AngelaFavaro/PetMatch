@@ -47,10 +47,7 @@ if ($connessioneOK) {
 $fineRichiesta = $infoRequest['DataFineValutazione']?'<dt>Data fine valutazione:</dt><dd>'.date("d/m/Y", strtotime($infoRequest['DataFineValutazione'])).'</dd>':'';
 
 if($infoRequest['DataNascita']){
-    $nascita = new DateTime($infoRequest['DataNascita']);
-    $oggi = new DateTime();
-    $differenza = $oggi->diff($nascita);
-    $etaAnimale = $differenza->y;
+    $etaAnimale = calcolareEta($infoRequest['DataNascita']);
 }
 
 if($infoRequest['DataPartenza'] && $infoRequest['DataPartenza']){

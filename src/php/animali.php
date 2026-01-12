@@ -103,7 +103,14 @@ function buildAnimalCards(array $animali): string {
         $nome = htmlspecialchars($a['nome']);
         $sesso = $a['sesso'] === 'M' ? 'Maschio' : 'Femmina';
         $eta = $a['eta'];
-        $img = $a['immagine'] ?: ($a['Tipo']==='Cane' ? 'assets/images/animals/defaultCane.png' : 'assets/images/animals/defaultGatto.png');
+
+        if (!empty($a['immagine']) && file_exists($a['immagine'])) {
+            $img = $a['immagine'];
+        } else {
+            $img = ($a['tipo']==='Cane')
+            ? 'assets/images/animals/defaultCane.jpg'
+            : 'assets/images/animals/defaultGatto.jpg';
+        }
 
         $html .= "
         <li class='card'>
