@@ -699,7 +699,9 @@ class DBAccess {
             return false;
         }
 
-        mysqli_stmt_bind_param($stmt, 'ssss', $email, $name, $surname, $hashedPassword, 'User');
+        $role ='User';
+
+        mysqli_stmt_bind_param($stmt, 'sssss', $email, $name, $surname, $hashedPassword, $role);
         $result = mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
         return $result;

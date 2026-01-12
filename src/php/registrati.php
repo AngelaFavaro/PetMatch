@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
@@ -100,7 +103,7 @@ function createNewAccount(DBAccess $conn, &$nameValue, &$surnameValue, &$emailVa
 
         $regexNome = "/^(?=.*[\p{L}]{2})[\p{L}\s']+$/u"; 
         $regexEmail = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,10})$/i";
-        $regexPassword = "/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@+?\/,.\-$_=])[a-zA-Z0-9!@+?\/,.\-$_=]{8,32}$/";
+        $regexPassword = "/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@+?\/,.\-\$_=])[a-zA-Z0-9!@+?\/,.\-\$_=]{8,32}$/";
 
         /* VALIDAZIONE CAMPI */
         if (strlen($name) < 2) {

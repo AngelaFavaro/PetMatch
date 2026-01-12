@@ -585,7 +585,7 @@ header a{
 #osso::after {
     right: -1.2em;
 }
-
+ 
 #osso a {
     color: var(--headerlink);
 }
