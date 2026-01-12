@@ -32,6 +32,9 @@ $routes = [
         ]*/
     ],
 
+    'lavora-con-noi' => [
+        'file' => __DIR__ . '/src/php/lavora-con-noi.php'
+    ],
     'registrati' => [
         'file' => __DIR__ . '/src/php/registrati.php'
     ],

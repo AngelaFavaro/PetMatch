@@ -81,6 +81,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
     });
+
+    const navLinks = document.querySelectorAll('#lavora-con-noi .footer-submenu a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', e => {
+            if (window.location.pathname.endsWith('lavora-con-noi.html')) {
+                e.preventDefault(); // blocca il reload
+            }
+        });
+    });
 });
 
 //nascondi password e mostra password, cambia il type da password a text e viceversa

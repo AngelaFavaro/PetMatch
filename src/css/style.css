@@ -18,6 +18,7 @@
     --headervisitedlink: #6D7541;
     --headerlink: #481515;
     --secondsection: #6D7541;
+    --placeholderDarker-text:#5e4232;
     --placeholder-text:#825E49;
     --darkbgcolor: #E4D4BA;
     --bglink-hover: var(--darkbgcolor);
@@ -28,6 +29,7 @@
     --bgconfermbutton:#FFF6D7;
     --txtcancelbutton:var(--bgconfirmbutton);
     --txtclose-request: #735757;
+    --greencolor: #6D7541;
 }
 
 a{
@@ -454,6 +456,108 @@ input:focus{
 
 
 
+
+
+/* ==================LAVORA CON NOI ================== */
+
+body#lavora-con-noi {
+    margin: 0;
+    overflow-x: hidden;
+}
+
+#introduction-lavora-con-noi {
+    padding: 5em 0em;
+    margin-left: 5em;
+    margin-right: 5em;
+}
+#introduction-lavora-con-noi .container {
+    display: flex;
+    gap: 7%;
+}
+#introduction-lavora-con-noi .column-user {
+    flex: 1; 
+}
+#introduction-lavora-con-noi h1 {
+    margin-bottom: 0.5em;
+    font-size: 2.3em;
+}
+.underline {
+    text-decoration: underline;
+}
+
+#come-diventare-volontario {
+    background-color: var(--greencolor); 
+    color: var(--bgcolor);                       
+    width: 100%;
+    padding: 5em;
+}
+
+#come-diventare-volontario h2 {
+    margin-bottom: 1em;
+    font-size: 2.1em;
+}
+
+.volontari-layout {
+    display: flex;
+    gap: 3em;
+}
+
+.volontari-text {
+    flex: 1.7;
+}
+
+.volontari-image {
+    flex: 0.4;
+    background-image: url("../../assets/images/cane.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#come-diventare-sostenitore {
+    margin-top: 5em;
+    margin-left: 5em;
+    margin-right: 5em;
+    background-color: var(--footercolor); 
+    color: var(--bgcolor);        
+    border-top-right-radius: 5em;
+    border-top-left-radius: 5em;     
+    padding: 5em;
+}
+
+#come-diventare-sostenitore h1 {
+    margin-bottom: 1em;
+    font-size: 2.1em;
+}
+
+.sostenitori-layout {
+    display: flex;
+    align-items: center;
+    gap: 3em;
+}
+
+.sostenitori-text {
+    flex: 1.7;
+}
+
+.sostenitori-image {
+    flex: 0.7;
+    background-image: url("../../assets/images/sostenitore.jpg");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    aspect-ratio: 1 / 1;
+     
+}
+
+#contatto-sostenitore {
+    padding: 5em;
+}
+
+#contatto-sostenitore a {
+    color: var(--txtcolor);
+    text-decoration: underline;
+}
 /* ==================SOLO PER SCREEN READER================== */
 
 /* Gli elementi con questa classe sono visibili solo agli screen reader */
@@ -583,7 +687,7 @@ header a{
 #osso::after {
     right: -1.2em;
 }
-
+ 
 #osso a {
     color: var(--headerlink);
 }
@@ -2472,7 +2576,7 @@ nav#menu-admin li#currentLink {
 nav#menu-admin li a:visited{
     color: var(--visitedcolor);
 }
-nav#menu-admin li#currentLink a{
+nav#menu-admin li#currentLink{
     font-weight: 700;
     color: var(--txtcolor);
 }
