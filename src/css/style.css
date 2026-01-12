@@ -592,6 +592,10 @@ header a{
     text-decoration: underline;
 }
 
+#osso a:visited {
+    color: var(--headervisitedlink);
+}
+
 /* ================== 3. azioni (Destra) ================== */
 #header-actions {
     align-items: center;
@@ -1499,11 +1503,8 @@ input:-webkit-autofill:active{
 
 }
 
-li.card:hover {
-    border: 1px solid var(--buttoncolor-hover);
-}
-
 li.card {
+    cursor: pointer;
     width: 11em;
     height: 14em;
     list-style: none;
@@ -1513,12 +1514,12 @@ li.card {
     background-color: var(--darkbgcolor);
     box-shadow: 0 4px 8px rgba(0,0,0,0.5);
     overflow: hidden;
-    border: 2px solid var(--darkbgcolor);
+    border: 3px solid var(--darkbgcolor);
     transition: 
         background-color 0.3s ease,
         border-color 0.3s ease,
         box-shadow 0.3s ease;
-        border: 0.3 ease;
+        /* border: 0.3 ease; */
     
 }
 
@@ -1526,7 +1527,7 @@ li.card:hover {
     /* background-color: var(--bgcolor); */
     border-color: var(--buttoncolor-hover); /* colore evidenziato */
     box-shadow: 0 6px 14px rgba(0,0,0,0.3);
-    border: 2px solid var(--buttoncolor-hover);
+    border: 3px solid var(--buttoncolor-hover);
 }
 
 li.card ul {

@@ -309,18 +309,18 @@ function uploadImage($file, $folder) {
         echo "La cartella non esiste. Provo a crearla...<br>";
         if (!mkdir($basePath, 0755, true)) {
             echo "ERRORE: Impossibile creare la cartella. Controlla i permessi di sistema.<br>";
-            return false;
+            return null;
         }
     }
 
     if (!is_writable($basePath)) {
         echo "ERRORE: La cartella esiste ma NON è scrivibile (permessi negati).<br>";
-        return false;
+        return null;
     }
 
     if ($file['error'] !== UPLOAD_ERR_OK) {
         echo "ERRORE PHP nel file: Codice " . $file['error'] . "<br>";
-        return false;
+        return null;
     }
 
     $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
@@ -332,7 +332,7 @@ function uploadImage($file, $folder) {
         return $dbPathPrefix . $fileName;
     } else {
         echo "ERRORE: move_uploaded_file è fallito. Possibile causa: file temporaneo sparito o restrizioni del server.<br>";
-        return false;
+        return null;
     }
 }
 
