@@ -168,6 +168,10 @@ function buildAnimalCards(array $animali, ?string $email): string {
             $sesso = $a['sesso'] === 'M' ? 'Maschio' : 'Femmina';
             $eta = $a['eta'];
             $id = $a['id'];
+            $giàInteressato = '';
+            if ($conn->hasActiveAdoptionRequest($id)) {
+                $giàInteressato = 'Già Interessato';
+            }
             
 
             if ($email) {
@@ -202,7 +206,7 @@ function buildAnimalCards(array $animali, ?string $email): string {
                             </button>
                         </form>
                     </li>
-                    <li class='interessamento'>Già Interessato</li>
+                    <li class='interessamento'>$giàInteressato</li>
                     <li class='dettagli-animale-bottone'>
                         <a href='visualizzazione-animale?id=$id'>Vedi dettagli</a>
                     </li>

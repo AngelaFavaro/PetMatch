@@ -1079,12 +1079,7 @@ class DBAccess {
 }
 
 
-    public function getAnimalsFilteredPaged(
-    string $type,
-    array $filters,
-    int $limit,
-    int $offset
-): array {
+    public function getAnimalsFilteredPaged(string $type, array $filters, int $limit, int $offset): array {
 
     if (!$this->connection) return [];
 
@@ -1135,15 +1130,18 @@ class DBAccess {
 
     /* ---------- QUERY ---------- */
     $query = "
-        SELECT Nome, Sesso, DataNascita, ImgPath, Tipo, IDanimale
-        FROM ANIMALI
+        SELECT a.Nome, a.Sesso, a.DataNascita, a.ImgPath, a.Tipo, a.IDanimale AS Id
+        FROM ANIMALI a
+        LEFT JOIN RICHIESTE_ADOZIONI r 
+        ON a.IDanimale = r.IDanimale AND r.Stato = 'Accettata'
+        WHERE r.IDanimale IS NULL
     ";
 
     if ($where) {
-        $query .= ' WHERE ' . implode(' AND ', $where);
+        $query .= ' AND ' . implode(' AND ', $where);
     }
 
-    $query .= " ORDER BY IDanimale ASC LIMIT ? OFFSET ?";
+    $query .= " ORDER BY Id ASC LIMIT ? OFFSET ?";
 
     $params[] = $limit;
     $params[] = $offset;
@@ -1164,7 +1162,7 @@ class DBAccess {
             'eta'      => calcolareEta($row['DataNascita']),
             'immagine' => $row['ImgPath'],
             'tipo'     => $row['Tipo'],
-            'id'     => $row['IDanimale']
+            'id'     => $row['Id']
         ];
     }
 
@@ -1190,6 +1188,20 @@ function removeFromFavorites(string $email, int $id): void {
     $stmt = $this->connection->prepare("DELETE FROM PREFERITI WHERE Email=? AND IDanimale=?");
     $stmt->bind_param("si", $email, $id);
     $stmt->execute();
+}
+
+public function hasActiveAdoptionRequest(int $idAnimale): bool {
+    $sql = "SELECT 1 FROM RICHIESTE_ADOZIONI 
+            WHERE IDanimale = ? AND Stato IN ('Nuova', 'In valutazione', 'Da trasportare')
+            LIMIT 1";
+
+    $stmt = $this->connection->prepare($sql);
+    $stmt->bind_param('i', $idAnimale);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $exists = $result->num_rows > 0;
+    $stmt->close();
+    return $exists;
 }
 
 
