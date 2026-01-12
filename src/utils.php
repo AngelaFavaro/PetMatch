@@ -408,3 +408,24 @@ function calcolareEta(?string $dataNascita): ?int {
         return null;
     }
 }
+
+// FUNZIONI PER COOKIES
+// Funzione che va a prendere gli animali messi nei preferiti dal guest non loggato
+function getGuestFavorites(): array {
+    if (isset($_COOKIE['preferiti_guest'])) {
+        $data = json_decode($_COOKIE['preferiti_guest'], true);
+        return is_array($data) ? $data : [];
+    }
+    return [];
+}
+
+// Funzione che salva in un array cookie i preferiti di un utente non loggato
+function saveGuestFavorites(array $ids): void {
+    setcookie(
+        'preferiti_guest',
+        json_encode(array_values(array_unique($ids))),
+        time() + 60 * 60 * 24 * 30, // 30 giorni
+        '/'
+    );
+}
+

@@ -1172,6 +1172,27 @@ class DBAccess {
     return $animali;
 }
 
+function isAnimalInFavorites(string $email, int $id): bool {
+    $stmt = $this->connection->prepare("SELECT 1 FROM PREFERITI WHERE Email=? AND IDanimale=?");
+    $stmt->bind_param("si", $email, $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->num_rows > 0;
+}
+
+function addToFavorites(string $email, int $id): void {
+    $stmt = $this->connection->prepare("INSERT IGNORE INTO PREFERITI (Email, IDanimale) VALUES (?, ?)");
+    $stmt->bind_param("si", $email, $id);
+    $stmt->execute();
+}
+
+function removeFromFavorites(string $email, int $id): void {
+    $stmt = $this->connection->prepare("DELETE FROM PREFERITI WHERE Email=? AND IDanimale=?");
+    $stmt->bind_param("si", $email, $id);
+    $stmt->execute();
+}
+
+
 
 
 

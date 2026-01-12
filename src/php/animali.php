@@ -9,6 +9,50 @@ error_reporting(E_ALL);
 use DB\DBAccess;
 
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST'
+    && isset($_POST['id-animale-preferito'])
+) {
+    $idAnimale = (int)$_POST['id-animale-preferito'];
+
+    if (isset($_SESSION['email'])) {
+        // 🔵 UTENTE LOGGATO → DB
+        $email = $_SESSION['email'];
+
+        $conn = new DBAccess();
+        if ($conn->openDBConnection()) {
+            if ($conn->isAnimalInFavorites($email, $idAnimale)) {
+                $conn->removeFromFavorites($email, $idAnimale);
+            } else {
+                $conn->addToFavorites($email, $idAnimale);
+            }
+            $conn->closeConnection();
+        }
+
+    } else {
+        // 🟡 UTENTE NON LOGGATO → COOKIE
+        $preferiti = getGuestFavorites();
+
+        if (in_array($idAnimale, $preferiti)) {
+            // rimuovi
+            $preferiti = array_diff($preferiti, [$idAnimale]);
+        } else {
+            // aggiungi
+            $preferiti[] = $idAnimale;
+        }
+
+        saveGuestFavorites($preferiti);
+    }
+
+    // 🔁 TORNA DOVE ERI
+    $redirect = $_SERVER['HTTP_REFERER'] ?? 'animali';
+    header("Location: $redirect");
+    exit;
+}
+
+
+
+
+
 
 
 /* ------------------ PARAMETRI BASE ------------------ */
@@ -114,36 +158,62 @@ function buildNavAnimali(string $type, array $filters): string {
 }
 
 /* ------------------ CARD ANIMALI ------------------ */
-function buildAnimalCards(array $animali): string {
+function buildAnimalCards(array $animali, ?string $email): string {
     $html = '';
-    foreach ($animali as $a) {
-        $nome = htmlspecialchars($a['nome']);
-        $sesso = $a['sesso'] === 'M' ? 'Maschio' : 'Femmina';
-        $eta = $a['eta'];
-        $id = $a['id'];
+    $conn = new DBAccess();
+   
+    if ($conn->openDBConnection()) {
+        foreach ($animali as $a) {
+            $nome = htmlspecialchars($a['nome']);
+            $sesso = $a['sesso'] === 'M' ? 'Maschio' : 'Femmina';
+            $eta = $a['eta'];
+            $id = $a['id'];
+            
 
-        if (!empty($a['immagine']) && file_exists($a['immagine'])) {
-            $img = $a['immagine'];
-        } else {
-            $img = ($a['tipo']==='Cane')
-            ? 'assets/images/animals/defaultCane.jpg'
-            : 'assets/images/animals/defaultGatto.jpg';
+            if ($email) {
+                $inPreferiti = $conn->isAnimalInFavorites($email, $id);
+            } else {
+                $guestFavs = getGuestFavorites();
+                $inPreferiti = in_array($id, $guestFavs);
+            }
+
+
+            $heartNormal = $inPreferiti ? 'active-like.svg' : 'inactive-like.svg';
+            $heartHover = $inPreferiti ? 'inactive-like.svg' : 'active-like.svg';
+
+            if (!empty($a['immagine']) && file_exists($a['immagine'])) {
+                $img = $a['immagine'];
+            } else {
+                $img = ($a['tipo']==='Cane') ? 'assets/images/animals/defaultCane.jpg' : 'assets/images/animals/defaultGatto.jpg';
+            }
+
+            $html .= "
+            <li class='card'>
+                <ul>
+                    <li class='immagine'><img src='$img' alt='$nome'></li>
+                    <li class='nome'>$nome</li>
+                    <li class='sesso-eta'>$sesso - $eta anni</li>
+                    <li>
+                        <form method='post' action='animali' class='preferiti-form'>
+                            <input type='hidden' name='id-animale-preferito' value='$id'>
+                            <button type='submit' class='preferiti'>
+                                <img class='heart-normal' src='./assets/icons/$heartNormal' alt=''>
+                                <img class='heart-hover' src='./assets/icons/$heartHover' alt=''>
+                            </button>
+                        </form>
+                    </li>
+                    <li class='interessamento'>Già Interessato</li>
+                    <li class='dettagli-animale-bottone'>
+                        <a href='visualizzazione-animale?id=$id'>Vedi dettagli</a>
+                    </li>
+                </ul>
+            </li>";
         }
-
-        $html .= "
-        <li class='card'>
-            <ul>
-                <li class='immagine'><img src='$img' alt='$nome'></li>
-                <li class='nome'>$nome</li>
-                <li class='sesso-eta'>$sesso - $eta anni</li>
-                <li><form method='post' action='animali'><input type='hidden' name='id-animale-preferito' value='$id'><button type='submit' class='preferiti'><img class='heart-normal' src='./assets/icons/inactive-like.svg' alt=''> <img class='heart-hover' src='./assets/icons/active-like.svg' alt=''></button></li>
-                <li class='interessamento'>Già Interessato</li>
-                <li class='dettagli-animale-bottone'><a href='visualizzazione-animale?id=$id'>Vedi dettagli</a></li>
-            </ul>
-        </li>";
+        $conn->closeConnection();
     }
     return $html;
 }
+
 
 /* ------------------ QUERY ------------------ */
 $connessione = new DBAccess();
@@ -158,7 +228,9 @@ if ($connessione->openDBConnection()) {
     }
 
     $animali = $connessione->getAnimalsFilteredPaged($type, $filters, $perPagina, $offset);
-    $cardAnimali = $animali ? buildAnimalCards($animali) : '<p class="errore">Non abbiamo ancora animali disponibili.</p>';
+    $userEmail = $_SESSION['email'] ?? null;
+$cardAnimali = $animali ? buildAnimalCards($animali, $userEmail) : '<p class="errore">Non abbiamo ancora animali disponibili.</p>';
+
     $linkPagine = buildPagination($pagina, $pagineTotali, $type, $filters);
 }
 $connessione->closeConnection();
