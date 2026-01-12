@@ -321,50 +321,51 @@ class DBAccess {
         return $result;
     }
 
-    public function addAnimal(array $data): int|bool {
-
-        if (!$this->connection) {
-            return false;
-        }
-
-        $query = "INSERT INTO ANIMALI (
-            Nome, DataNascita, DataRegistrazione, Sesso, Tipo, Colore,
-            Pelo, Taglia, Razza, DescrFamiglia, DescrComportamentale,
-            CondizioniMediche, ImgPath
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        $stmt = mysqli_prepare($this->connection, $query);
-        if ($stmt === false) {
-            return false;
-        }
-
-        $data_reg = date('Y-m-d');
-
-        mysqli_stmt_bind_param(
-            $stmt,
-            'sssssssssssss',
-            $data['nome'],
-            $data['dataNascita'], 
-            $data_reg,            
-            $data['sesso'],
-            $data['tipologia'],   
-            $data['colore'],
-            $data['pelo'],
-            $data['taglia'],
-            $data['razza'],
-            $data['famiglia'],      
-            $data['carattere'],   
-            $data['condMediche'], 
-            $data['foto']         
-        );
-
-        $success = mysqli_stmt_execute($stmt);
-        $insertedId = $success ? mysqli_insert_id($this->connection) : false;
-
-        mysqli_stmt_close($stmt);
-
-        return $insertedId;
+public function addAnimal(array $data, string $emailAdmin): int|bool {
+    if (!$this->connection) {
+        return false;
     }
+
+    $query = "INSERT INTO ANIMALI (
+        Nome, DataNascita, DataRegistrazione, Sesso, Tipo, Colore,
+        Pelo, Taglia, Razza, DescrFamiglia, DescrComportamentale,
+        CondizioniMediche, ImgPath, Trasporto, Email
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    $stmt = mysqli_prepare($this->connection, $query);
+    if ($stmt === false) {
+        return false;
+    }
+
+    $data_reg = date('Y-m-d');
+
+    // La stringa dei tipi 'sssssssssssssis'
+    mysqli_stmt_bind_param(
+        $stmt,
+        'sssssssssssssis', 
+        $data['nome'],
+        $data['dataNascita'], 
+        $data_reg,            
+        $data['sesso'],
+        $data['tipologia'],   
+        $data['colore'],
+        $data['pelo'],
+        $data['taglia'],
+        $data['razza'],
+        $data['famiglia'],      
+        $data['carattere'],   
+        $data['condMediche'], 
+        $data['foto'],
+        $data['trasporto'],
+        $emailAdmin // L'email dell'admin loggato
+    );
+
+    $success = mysqli_stmt_execute($stmt);
+    $insertedId = $success ? mysqli_insert_id($this->connection) : false;
+    
+    mysqli_stmt_close($stmt);
+    return $insertedId;
+}
 
 
     function createAdminTasks($email): array {

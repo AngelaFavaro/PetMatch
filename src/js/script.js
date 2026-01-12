@@ -229,11 +229,16 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ==========================================================================
        VALIDAZIONE FORM AGGIUNGI ANIMALE
        ========================================================================== */
+    
     const formAdd = document.getElementById('form-add-animal');
 
-    if (formAdd) {
+   if (formAdd) {
         formAdd.querySelectorAll('.error-form').forEach(p => {
-            p.style.display = 'none'; 
+            if (p.textContent.trim() === "") {
+                p.style.display = 'none'; 
+            } else {
+                p.style.display = 'block'; // Se il PHP ha scritto qualcosa, mostralo!
+            }
         });
 
         const setError = (input, message) => {
@@ -301,10 +306,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         formAdd.addEventListener('submit', (e) => {
             let firstErrorField = null;
-            
             const fieldsToValidate = formAdd.querySelectorAll('input, textarea, select');
-            
+            const validatedGroups = new Set();
+
             fieldsToValidate.forEach(input => {
+                const name = input.name;
+                if (input.type === 'radio') {
+                    if (validatedGroups.has(name)) return;
+                    validatedGroups.add(name);
+                }
+
                 const msg = validateField(input);
                 if (msg) {
                     setError(input, msg);
@@ -313,9 +324,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (firstErrorField) {
-                e.preventDefault(); // Blocca l'invio
+                // COMMENTA LA RIGA SOTTO PER NON BLOCCARE IL PHP
+                // e.preventDefault(); 
+                
+                console.log("JS ha trovato errori, ma lascio inviare al PHP...");
                 firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                firstErrorField.focus();
             }
         });
     }

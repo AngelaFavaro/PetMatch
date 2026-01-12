@@ -307,12 +307,11 @@ details[open] .popup{
     pointer-events: auto; /*così si può passare sopra con il pointer senza che il popup si chiuda*/
 }
 
-
-
 /*==================FLEX COLUMNS AND GRID==================*/
 /* mettere un div con questo come contenutore */
 .column-container{
     max-width: 1200px;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     gap: 1em;
@@ -1595,20 +1594,28 @@ td.col-dettagli a{
 /*==================NUOVO ANIMALE==================*/
 
 #admin-area-aggiungi {
-    min-height: 100%;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
+    /* Centriamo di nuovo per bilanciare gli spazi */
+    align-items: center; 
     background-color: var(--secondsection);
-    padding: 12em;
+    /* Padding fisso e piccolo: il verde sarà solo una sottile cornice */
+    padding: 2em 1em; 
+    box-sizing: border-box;
 }
 
 #form-add-animal {
     background-color: var(--bgcolor);
-    width: 100%;
-    padding: 2em 5em 5em 5em; 
+    /* Aumentiamo la larghezza base */
+    width: 95%; 
+    /* Portiamo la larghezza massima a 900px o 1000px per espandere l'area bianca */
+    max-width: 950px; 
+    /* Padding interno generoso per far sembrare il form più grande e importante */
+    padding: 3em 4em; 
     border-radius: 1em;
-    box-shadow: 0 0.5em 0.5em rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0.5em 2em rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
 }
 
 fieldset {
@@ -1742,6 +1749,7 @@ textarea#carattere,
 textarea#condMediche,
 textarea#famiglia {
     display: block;
+    height: 8em;
     width: 100%;
     padding: 1.5em;
     border: 1px solid var(--text-buttoncolor);
@@ -1804,7 +1812,33 @@ label[for="famiglia"] {
     color: var(--bgcolor);
 }
 
-/* Stile specifico per i messaggi sotto i campi del form */
+.transport-wrapper {
+  display: flex;
+  justify-content: center;  
+}
+
+.checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.checkbox-label.bordered {
+  border: 0.07em solid var(--buttoncolor-hover);
+  padding: 0.7em 1em;
+  border-radius: 0.5em;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 1.1em;
+  height: 1.1em;
+  accent-color: currentColor;
+}
+
+/* Stile per i messaggi sotto i campi del form */
 .error-form {
     color: #d93025; 
     font-size: 0.9em;

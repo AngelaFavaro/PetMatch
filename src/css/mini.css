@@ -298,3 +298,98 @@ nav#breadcrumb {
     width: 70%;
     margin: 0 auto;
 }
+
+/* ================== NUOVO ANIMALE ==================*/
+
+/* 1. Pulizia totale del contenitore esterno */
+#admin-area-aggiungi {
+    min-height: 100vh;
+    display: block; 
+    background-color: var(--bgcolor); /* Elimina lo sfondo verde */
+    padding: 0;
+    margin: 0;
+}
+
+/* 2. Form a tutta larghezza, senza bordi arrotondati né ombre */
+#form-add-animal {
+    background-color: var(--bgcolor);
+    width: 100%;
+    margin: 0;
+    padding: 1em; /* Un minimo di spazio dai bordi del telefono per i testi */
+    border-radius: 0;
+    box-shadow: none;
+    box-sizing: border-box;
+}
+
+/* 3. Forza la sequenzialità (One-column layout) */
+.column-container, 
+.column-user {
+    display: flex;
+    flex-direction: column; /* Tutto uno sotto l'altro */
+    gap: 0; /* Gestiamo lo spazio con i margini dei singoli elementi */
+    width: 100%;
+}
+
+/* 4. Spaziatura uniforme tra i blocchi del form */
+fieldset {
+    margin-bottom: 1.5em;
+    border: none;
+    padding: 0;
+    width: 100%;
+}
+
+/* Ogni gruppo label + input */
+.form-group, 
+.column-user > div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em; /* Spazio costante tra Nome, Razza, ecc. */
+    width: 100%;
+}
+
+/* 5. Input e Label */
+label {
+    font-size: 0.95em;
+    font-weight: 550;
+    margin-bottom: 0.4em;
+    display: block;
+}
+
+input[type="text"],
+input[type="date"],
+select,
+textarea {
+    width: 100%;
+    padding: 0.8em;
+    font-size: 1rem; /* Previene lo zoom automatico su mobile */
+    border: 1px solid var(--text-buttoncolor);
+    border-radius: 0.4em;
+    box-sizing: border-box;
+}
+
+/* 6. Adattamento gruppi Radio (Cane/Gatto) */
+.radio-group-cg {
+    display: flex;
+    flex-direction: column; /* Anche questi uno sotto l'altro */
+    gap: 0.8em;
+}
+
+.radio-card {
+    width: 100%;
+    padding: 1em;
+    box-sizing: border-box;
+}
+
+/* 7. Bottoni finali */
+.form-buttons-container {
+    display: flex;
+    flex-direction: column; /* Bottoni uno sopra l'altro per il pollice */
+    gap: 1em;
+    margin-top: 1em;
+    padding-bottom: 3em; /* Spazio per la navigazione del browser */
+}
+
+.form-buttons-container button {
+    width: 100%;
+    padding: 1.2em;
+}

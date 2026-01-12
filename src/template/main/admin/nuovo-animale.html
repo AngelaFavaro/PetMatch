@@ -1,13 +1,14 @@
 <div id="admin-area-aggiungi">
     <form method="post" id="form-add-animal" enctype="multipart/form-data" novalidate>
-        <h1>AGGIUNGI UN ANIMALE</h1>
+        <h1>Aggiungi un Animale</h1>
+        <div class="message-container">[erroriGeneric]</div>
         <fieldset>
             <legend>Tipologia di animale</legend>
             <div class="radio-group-cg">
-                <input type="radio" name="tipologia" id="cane" value="0">
+                <input type="radio" name="tipologia" id="cane" value="0" [tipoCane_checked]>
                 <label for="cane" class="radio-card">Cane</label>
 
-                <input type="radio" name="tipologia" id="gatto" value="1">
+                <input type="radio" name="tipologia" id="gatto" value="1" [tipoGatto_checked]>
                 <label for="gatto" class="radio-card">Gatto</label>
             </div>
             <p class="error-form">[erroriTipologia]</p>
@@ -31,23 +32,23 @@
                     </div>
 
                     <label for="taglia">Taglia</label>
-                    <select name="taglia" id="taglia" value=>
-                        <option value="" disabled selected>Seleziona un'opzione</option>
-                        <option value="Piccola">Piccola</option>
-                        <option value="Media">Media</option>
-                        <option value="Grande">Grande</option>
+                    <select name="taglia" id="taglia">
+                        <option value="" disabled [tagliaVuota_selected]>Seleziona un'opzione</option>
+                        <option value="Piccola" [tagliaPiccola_selected]>Piccola</option>
+                        <option value="Media" [tagliaMedia_selected]>Media</option>
+                        <option value="Grande" [tagliaGrande_selected]>Grande</option>
                     </select>
                     <p class="error-form">[erroriTaglia]</p>
 
                     <p class="sex-title">Sesso</p>
                     <div class="sex-group">
                         <label class="sex-option">
-                            <input type="radio" name="sesso" id="Maschio" value="0" required>
+                            <input type="radio" name="sesso" id="Maschio" value="0" required [sessoM_checked]>
                             <span>Maschio</span>
                         </label>
 
                         <label class="sex-option">
-                            <input type="radio" name="sesso" id="Femmina" value="1">
+                            <input type="radio" name="sesso" id="Femmina" value="1" [sessoF_checked]>
                             <span>Femmina</span>
                         </label>
                     </div>
@@ -55,6 +56,10 @@
                     
                     <label for="foto">Foto:</label>
                     <input type="file" id="foto" name="foto" accept="image/*">
+
+                    <div class="foto-caricata-info">
+                        [infoFotoCaricata]
+                    </div>
                 </div>
 
                 <div class="column-user">
@@ -66,11 +71,12 @@
 
                     <label for="pelo">Pelo</label>
                     <select name="pelo" id="pelo">
-                        <option value="" disabled selected>Seleziona un'opzione</option>
-                        <option value="Corto">Corto</option>
-                        <option value="Lungo">Lungo</option>
-                        <option value="Misto">Misto</option>
-                    </select>      
+                        <option value="" disabled [peloVuoto_selected]>Seleziona un'opzione</option>
+                        <option value="Corto" [peloCorto_selected]>Corto</option>
+                        <option value="Lungo" [peloLungo_selected]>Lungo</option>
+                        <option value="Misto" [peloMisto_selected]>Misto</option>
+                    </select>  
+                    <p class="error-form">[erroriPelo]</p>
                     
                     <div>
                         <label for="colore">Colore</label>
@@ -91,7 +97,6 @@
                     </div>
                 </div>
             </div>
-
         </fieldset>
 
         <fieldset>
@@ -101,7 +106,14 @@
                 <textarea id="famiglia" name="famiglia" placeholder="Inserire testo">[famiglia]</textarea>
                 <p class="error-form">[erroriFamiglia]</p>
             </div>
-        </fieldset>    
+        </fieldset>   
+
+        <div class="transport-wrapper">
+                <label class="checkbox-label bordered">
+                    Disponibile al trasporto
+                    <input type="checkbox" name="trasporto" id="trasporto" value="1" [trasporto_checked]>
+                </label>
+            </div> 
 
         <div class="form-buttons-container">
             <button type="submit" name="submit-animal" class="white-button">Salva</button>
