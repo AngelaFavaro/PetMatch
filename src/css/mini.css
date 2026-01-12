@@ -225,6 +225,10 @@ input:checked + #slider {
 
 /*=================== ANIMALI ====================*/
 
+li.card {
+    flex-shrink: 1;
+}
+
 #nav-animali-type ul {
     display: flex;
     list-style: none;
@@ -232,7 +236,7 @@ input:checked + #slider {
     margin: 0;
 
     width: 100%;    
-    flex-shrink: 0;      
+    flex-shrink: 1;      
 }
 #nav-animali-type::after {
     display: none;

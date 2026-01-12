@@ -8,6 +8,9 @@ error_reporting(E_ALL);
 
 use DB\DBAccess;
 
+
+
+
 /* ------------------ PARAMETRI BASE ------------------ */
 $type = $_GET['type'] ?? 'tutti';
 $perPagina = 12;
@@ -15,7 +18,7 @@ $pagina = max(1, (int)($_GET['page'] ?? 1));
 $offset = ($pagina - 1) * $perPagina;
 
 /* ------------------ FILTRI GET ------------------ */
-$filters = [
+$rawFilters = [
     'name'    => $_GET['name']    ?? '',
     'taglia'  => $_GET['taglia']  ?? '',
     'sesso'   => $_GET['sesso']   ?? '',
@@ -23,34 +26,47 @@ $filters = [
     'eta_max' => $_GET['eta_max'] ?? ''
 ];
 
+// per DB + paginazione
+$filters = array_filter(
+    $rawFilters,
+    fn($value) => $value !== ''
+);
+
+
+
 /* ------------------ PREPARAZIONE REPLACE ------------------ */
 // Il placeholder rimane fisso
 $replaceFilters = [
-    '[NAME]' => htmlspecialchars($filters['name']),
-    '[ETA_MIN]' => htmlspecialchars($filters['eta_min']),
-    '[ETA_MAX]' => htmlspecialchars($filters['eta_max']),
+    '[NAME]' => htmlspecialchars($rawFilters['name']),
+    '[ETA_MIN]' => htmlspecialchars($rawFilters['eta_min']),
+    '[ETA_MAX]' => htmlspecialchars($rawFilters['eta_max']),
 
-    '[TAGLIA_SELECTED_EMPTY]'   => $filters['taglia'] === '' ? 'selected' : '',
-    '[TAGLIA_SELECTED_PICCOLA]' => $filters['taglia'] === 'Piccola' ? 'selected' : '',
-    '[TAGLIA_SELECTED_MEDIA]'   => $filters['taglia'] === 'Media' ? 'selected' : '',
-    '[TAGLIA_SELECTED_GRANDE]'  => $filters['taglia'] === 'Grande' ? 'selected' : '',
+    '[TAGLIA_SELECTED_EMPTY]'   => $rawFilters['taglia'] === '' ? 'selected' : '',
+    '[TAGLIA_SELECTED_PICCOLA]' => $rawFilters['taglia'] === 'Piccola' ? 'selected' : '',
+    '[TAGLIA_SELECTED_MEDIA]'   => $rawFilters['taglia'] === 'Media' ? 'selected' : '',
+    '[TAGLIA_SELECTED_GRANDE]'  => $rawFilters['taglia'] === 'Grande' ? 'selected' : '',
 
-    '[SESSO_SELECTED_EMPTY]'    => $filters['sesso'] === '' ? 'selected' : '',
-    '[SESSO_SELECTED_MASCCHIO]' => $filters['sesso'] === 'maschio' ? 'selected' : '',
-    '[SESSO_SELECTED_FEMMINA]'  => $filters['sesso'] === 'femmina' ? 'selected' : '',
+    '[SESSO_SELECTED_EMPTY]'    => $rawFilters['sesso'] === '' ? 'selected' : '',
+    '[SESSO_SELECTED_MASCCHIO]' => $rawFilters['sesso'] === 'maschio' ? 'selected' : '',
+    '[SESSO_SELECTED_FEMMINA]'  => $rawFilters['sesso'] === 'femmina' ? 'selected' : '',
 
     '[TYPE]' => htmlspecialchars($type)
 ];
 
+
 /* ------------------ DB ------------------ */
 $cardAnimali = '';
 $linkPagine  = '';
-
+// -------------------FUNZIONI--------------------------
 /* ------------------ PAGINAZIONE ------------------ */
 function buildPagination(int $currentPage, int $totalPages, string $type, array $filters): string {
     if ($totalPages <= 1) return '<li id="currentLink">1</li>';
 
-    $params = array_merge(['url' => 'animali', 'type' => $type], $filters);
+    $params = array_merge(
+    ['type' => $type],
+    $filters
+);
+
     unset($params['page']);
 
     $html = '';
@@ -79,7 +95,8 @@ function buildPagination(int $currentPage, int $totalPages, string $type, array 
 
 /* ------------------ NAV TIPO ------------------ */
 function buildNavAnimali(string $type, array $filters): string {
-    $base = array_merge(['url' => 'animali'], $filters);
+    $base = $filters;
+
     $link = fn($t) => '?' . http_build_query(array_merge($base, ['type' => $t]));
 
     return "
@@ -103,6 +120,7 @@ function buildAnimalCards(array $animali): string {
         $nome = htmlspecialchars($a['nome']);
         $sesso = $a['sesso'] === 'M' ? 'Maschio' : 'Femmina';
         $eta = $a['eta'];
+        $id = $a['id'];
 
         if (!empty($a['immagine']) && file_exists($a['immagine'])) {
             $img = $a['immagine'];
@@ -118,6 +136,9 @@ function buildAnimalCards(array $animali): string {
                 <li class='immagine'><img src='$img' alt='$nome'></li>
                 <li class='nome'>$nome</li>
                 <li class='sesso-eta'>$sesso - $eta anni</li>
+                <li><form method='post' action='animali'><input type='hidden' name='id-animale-preferito' value='$id'><button type='submit' class='preferiti'><img class='heart-normal' src='./assets/icons/inactive-like.svg' alt=''> <img class='heart-hover' src='./assets/icons/active-like.svg' alt=''></button></li>
+                <li class='interessamento'>Già Interessato</li>
+                <li class='dettagli-animale-bottone'><form method='get' action='visualizzazione-animale'><input type='hidden' name='id-animale' value='$id'><button type='submit'></button></form></li>
             </ul>
         </li>";
     }
@@ -140,7 +161,7 @@ if ($connessione->openDBConnection()) {
     $cardAnimali = $animali ? buildAnimalCards($animali) : '<p class="errore">Non abbiamo ancora animali disponibili.</p>';
     $linkPagine = buildPagination($pagina, $pagineTotali, $type, $filters);
 }
-
+$connessione->closeConnection();
 /* ------------------ TEMPLATE ------------------ */
 $linkNavAnimali = buildNavAnimali($type, $filters);
 $paginaHTML = file_get_contents('./src/template/layout.html');

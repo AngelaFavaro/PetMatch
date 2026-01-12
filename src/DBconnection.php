@@ -1133,7 +1133,7 @@ class DBAccess {
 
     /* ---------- QUERY ---------- */
     $query = "
-        SELECT Nome, Sesso, DataNascita, ImgPath, Tipo
+        SELECT Nome, Sesso, DataNascita, ImgPath, Tipo, IDanimale
         FROM ANIMALI
     ";
 
@@ -1161,7 +1161,8 @@ class DBAccess {
             'sesso'    => $row['Sesso'],
             'eta'      => calcolareEta($row['DataNascita']),
             'immagine' => $row['ImgPath'],
-            'tipo'     => $row['Tipo']
+            'tipo'     => $row['Tipo'],
+            'id'     => $row['IDanimale']
         ];
     }
 
