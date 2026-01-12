@@ -12,6 +12,7 @@ $keywords = "";
 
 $breadcrumb = getBreadcrumb('lavora-con-noi', $pagine);
 
+$header = '';
 $main = file_get_contents('./src/template/main/lavora-con-noi.html');
 
 $footer = file_get_contents('./src/template/partials/footer.html');
