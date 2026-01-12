@@ -11,14 +11,14 @@
         <input type="hidden" name="type" value="[TYPE]">
 
         <ul>
-            <li class="capsula-filtro">
+            <li class="capsula-filtro" id="searchName">
                 <label for="name">Nome</label>
                 <input type="text" id="name" name="name" 
                        value="[NAME]" 
                        placeholder="Cerca...">
             </li>
 
-            <li class="capsula-filtro">
+            <li class="capsula-filtro" id="searchSize">
                 <label for="taglia">Taglia</label>
                 <select id="taglia" name="taglia">
                     <option value="" [TAGLIA_SELECTED_EMPTY]>Tutti</option>
@@ -28,7 +28,7 @@
                 </select>
             </li>
 
-            <li class="capsula-filtro">
+            <li class="capsula-filtro" id="searchSex">
                 <label for="sesso">Sesso</label>
                 <select id="sesso" name="sesso">
                     <option value="" [SESSO_SELECTED_EMPTY]>Tutti</option>

@@ -245,7 +245,25 @@ input:checked + #slider {
     justify-content: center;
 }
 
+#filtri .capsula-filtro{
+    width: 100%;
+    max-width: none;
+    justify-content: left;
+}
 
+#filtri #searchSex.capsula-filtro,
+#filtri #searchSize.capsula-filtro{
+    width: 48.5%;
+}
+
+#filtri .capsula-filtro .eta-range{
+    margin:auto;
+    padding-right: 2em;
+}
+
+#filtri #searchName.capsula-filtro {
+    width: 100%;
+}
 
 #filtri {
     display: flex;

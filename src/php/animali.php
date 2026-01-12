@@ -130,7 +130,7 @@ if ($connessione->openDBConnection()) {
     }
 
     $animali = $connessione->getAnimalsFilteredPaged($type, $filters, $perPagina, $offset);
-    $cardAnimali = $animali ? buildAnimalCards($animali) : '<p class="errore">Nessun animale trovato</p>';
+    $cardAnimali = $animali ? buildAnimalCards($animali) : '<p class="errore">Non abbiamo ancora animali disponibili.</p>';
     $linkPagine = buildPagination($pagina, $pagineTotali, $type, $filters);
 }
 
@@ -146,7 +146,7 @@ $main = str_replace('[NAVTYPE]', $linkNavAnimali, $main);
 $main = str_replace('[LINKPAGINE]', $linkPagine, $main);
 
 $title = '<title>Animali - PetMatch</title>';
-$description = '<meta name="description" content="Tutti gli animali in adozione su PetMatch">';
+$description = '<meta name="description" content="Animali in adozione su PetMatch">';
 $keywords = '';
 
 $nav = buildUserNav($userMenu, './animali', $_SESSION['email'] ?? false);

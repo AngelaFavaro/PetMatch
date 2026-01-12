@@ -1407,7 +1407,7 @@ input:-webkit-autofill:active{
     text-align: center;
     height: 2.8em;              /* altezza uniforme */
     box-sizing: border-box;
-    border: 2px solid var(--text-buttoncolor);
+    border: 1px solid var(--text-buttoncolor);
 }
 
 /* Label dentro la capsula */
@@ -1415,6 +1415,18 @@ input:-webkit-autofill:active{
     margin-right: 0.5em;
     white-space: nowrap;
 }
+
+#filtri .capsula-filtro label[for="name"] {
+    margin-left: 0;
+}
+
+#filtri #searchName.capsula-filtro{
+    width: 40%;
+    max-width: none;
+    justify-content:left;
+    background-color: var(--darkbgcolor);
+}
+
 
 /* Input e select dentro la capsula */
 
@@ -1431,6 +1443,7 @@ input:-webkit-autofill:active{
     align-items: center;        /* centra il testo verticalmente */
     box-sizing: border-box;
     min-width: 3em;             /* larghezza minima uniforme */
+    color:var(--txtcolor);
 }
 
 /* Range di età */
@@ -1449,6 +1462,7 @@ input:-webkit-autofill:active{
 #filtri .capsula-filtro .eta-range input {
     max-width: 3em;    /* dimensione compatta */
     width: 100%;
+    color:var(--txtcolor);
 }
 
 #filtri .capsula-filtro .eta-range input::placeholder {
@@ -1458,10 +1472,12 @@ input:-webkit-autofill:active{
 #filtri .capsula-filtro input[type="text"] {
     max-width:10em;
     width: 100%;
+    color:var(--txtcolor);
 }
 #filtri .capsula-filtro input[list] {
     max-width: 10em;   
     width: 100%;
+    color:var(--txtcolor);
 }
 
 
@@ -1492,10 +1508,12 @@ li.card {
     height: 14em;
     list-style: none;
     margin: 0.5em;
+    border-radius: 0.2em;
     position: relative;
     background-color: var(--darkbgcolor);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
     overflow: hidden;
+    border: 2px solid var(--darkbgcolor);
     transition: 
         background-color 0.3s ease,
         border-color 0.3s ease,
@@ -1505,7 +1523,7 @@ li.card {
 }
 
 li.card:hover {
-    background-color: var(--bgcolor);
+    /* background-color: var(--bgcolor); */
     border-color: var(--buttoncolor-hover); /* colore evidenziato */
     box-shadow: 0 6px 14px rgba(0,0,0,0.3);
     border: 2px solid var(--buttoncolor-hover);
