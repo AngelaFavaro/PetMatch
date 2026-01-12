@@ -138,7 +138,7 @@ function buildAnimalCards(array $animali): string {
                 <li class='sesso-eta'>$sesso - $eta anni</li>
                 <li><form method='post' action='animali'><input type='hidden' name='id-animale-preferito' value='$id'><button type='submit' class='preferiti'><img class='heart-normal' src='./assets/icons/inactive-like.svg' alt=''> <img class='heart-hover' src='./assets/icons/active-like.svg' alt=''></button></li>
                 <li class='interessamento'>Già Interessato</li>
-                <li class='dettagli-animale-bottone'><form method='get' action='visualizzazione-animale'><input type='hidden' name='id-animale' value='$id'><button type='submit'></button></form></li>
+                <li class='dettagli-animale-bottone'><a href='visualizzazione-animale?id=$id'>Vedi dettagli</a></li>
             </ul>
         </li>";
     }
