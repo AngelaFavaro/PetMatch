@@ -475,9 +475,8 @@ input:focus{
     pointer-events: none;
 }
 
-#layout-user li #currentLink{
-    font-weight: 500;
-    text-decoration: underline;
+#layout-user #currentLink a{
+    font-weight: 600;
 }
 
 #menu-toggle-checkbox{
@@ -1121,6 +1120,7 @@ legend {
     box-sizing: border-box; 
 }
 
+#animali label + input::placeholder,
 #signup label + input::placeholder,
 #home label + input::placeholder,
 #user-profile label + input::placeholder,
@@ -1422,7 +1422,7 @@ input:-webkit-autofill:active{
 #filtri .capsula-filtro select {
     border: none;
     background: transparent;
-    color: var(--txtcolor);
+    /* color: var(--txtcolor); */
     font-weight: 400;
     outline: none;
     font-size: 1em;
@@ -1449,6 +1449,10 @@ input:-webkit-autofill:active{
 #filtri .capsula-filtro .eta-range input {
     max-width: 3em;    /* dimensione compatta */
     width: 100%;
+}
+
+#filtri .capsula-filtro .eta-range input::placeholder {
+    color: var(--placeholder-text);
 }
 
 #filtri .capsula-filtro input[type="text"] {
@@ -1479,10 +1483,13 @@ input:-webkit-autofill:active{
 
 }
 
+li.card:hover {
+    border: 1px solid var(--buttoncolor-hover);
+}
+
 li.card {
     width: 11em;
     height: 14em;
-    border: 1px solid var(--buttoncolor-hover);
     list-style: none;
     margin: 0.5em;
     position: relative;

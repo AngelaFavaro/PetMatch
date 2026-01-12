@@ -1,234 +1,161 @@
 <?php
 include './src/utils.php';
 include './src/DBconnection.php';
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 use DB\DBAccess;
 
-$animali ='';
-$symbol='';
-$queryResult='';
-$result='';
-$type = $_GET['type'] ?? "tutti";
-$linkNavAnimali='';
-
+/* ------------------ PARAMETRI BASE ------------------ */
+$type = $_GET['type'] ?? 'tutti';
 $perPagina = 12;
 $pagina = max(1, (int)($_GET['page'] ?? 1));
 $offset = ($pagina - 1) * $perPagina;
-$linkPagine='';
-$totale=0;
 
+/* ------------------ FILTRI GET ------------------ */
+$filters = [
+    'name'    => $_GET['name']    ?? '',
+    'taglia'  => $_GET['taglia']  ?? '',
+    'sesso'   => $_GET['sesso']   ?? '',
+    'eta_min' => $_GET['eta_min'] ?? '',
+    'eta_max' => $_GET['eta_max'] ?? ''
+];
 
+/* ------------------ PREPARAZIONE REPLACE ------------------ */
+// Il placeholder rimane fisso
+$replaceFilters = [
+    '[NAME]' => htmlspecialchars($filters['name']),
+    '[ETA_MIN]' => htmlspecialchars($filters['eta_min']),
+    '[ETA_MAX]' => htmlspecialchars($filters['eta_max']),
 
+    '[TAGLIA_SELECTED_EMPTY]'   => $filters['taglia'] === '' ? 'selected' : '',
+    '[TAGLIA_SELECTED_PICCOLA]' => $filters['taglia'] === 'Piccola' ? 'selected' : '',
+    '[TAGLIA_SELECTED_MEDIA]'   => $filters['taglia'] === 'Media' ? 'selected' : '',
+    '[TAGLIA_SELECTED_GRANDE]'  => $filters['taglia'] === 'Grande' ? 'selected' : '',
 
-function buildPagination(int $currentPage, int $totalPages, string $type = 'tutti'): string {
-    if ($totalPages <= 1) {
-        return '<li id="currentLink">1</li>';
-    }
+    '[SESSO_SELECTED_EMPTY]'    => $filters['sesso'] === '' ? 'selected' : '',
+    '[SESSO_SELECTED_MASCCHIO]' => $filters['sesso'] === 'maschio' ? 'selected' : '',
+    '[SESSO_SELECTED_FEMMINA]'  => $filters['sesso'] === 'femmina' ? 'selected' : '',
 
-    // costruzione base URL
-    $baseUrl = 'animali';
-    $typeParam = ($type !== 'tutti') ? '&type=' . urlencode($type) : '';
+    '[TYPE]' => htmlspecialchars($type)
+];
+
+/* ------------------ DB ------------------ */
+$cardAnimali = '';
+$linkPagine  = '';
+
+/* ------------------ PAGINAZIONE ------------------ */
+function buildPagination(int $currentPage, int $totalPages, string $type, array $filters): string {
+    if ($totalPages <= 1) return '<li id="currentLink">1</li>';
+
+    $params = array_merge(['url' => 'animali', 'type' => $type], $filters);
+    unset($params['page']);
 
     $html = '';
 
-    /*  freccia indietro */
     if ($currentPage > 1) {
-        $prev = $currentPage - 1;
-        $html .= '
-        <li id="scrollLinksBackward">
-            <a href="' . $baseUrl . '?page=' . $prev . $typeParam . '">
-                <img src="./assets/icons/arrow-sx-green.svg" class="next-link" alt="Pagina precedente" />
-            </a>
-        </li>';
+        $params['page'] = $currentPage - 1;
+        $html .= '<li><a href="?' . http_build_query($params) . '"><img src="./assets/icons/arrow-sx-green.svg"></a></li>';
     }
 
-    /* numeri di pagina */
-    if ($currentPage <= 2) {
-        $start = 1;
-    } elseif ($currentPage >= $totalPages - 1) {
-        $start = max(1, $totalPages - 2);
-    } else {
-        $start = $currentPage - 1;
-    }
-
-    $end = min($totalPages, $start + 2);
-
-    for ($i = $start; $i <= $end; $i++) {
+    for ($i = max(1, $currentPage - 1); $i <= min($totalPages, $currentPage + 1); $i++) {
         if ($i === $currentPage) {
-            $html .= '<li id="currentLink">' . $i . '</li>';
+            $html .= '<li id="currentLink">'.$i.'</li>';
         } else {
-            $html .= '<li><a href="' . $baseUrl . '?page=' . $i . $typeParam . '">' . $i . '</a></li>';
+            $params['page'] = $i;
+            $html .= '<li><a href="?' . http_build_query($params) . '">'.$i.'</a></li>';
         }
     }
 
-    /* freccia avanti */
     if ($currentPage < $totalPages) {
-        $next = $currentPage + 1;
-        $html .= '
-        <li id="scrollLinksForward">
-            <a href="' . $baseUrl . '?page=' . $next . $typeParam . '">
-                <img src="./assets/icons/arrow-dx-green.svg" class="next-link" alt="Pagina successiva" />
-            </a>
-        </li>';
+        $params['page'] = $currentPage + 1;
+        $html .= '<li><a href="?' . http_build_query($params) . '"><img src="./assets/icons/arrow-dx-green.svg"></a></li>';
     }
-
-    // $html .= '</ul></div>';
 
     return $html;
 }
 
+/* ------------------ NAV TIPO ------------------ */
+function buildNavAnimali(string $type, array $filters): string {
+    $base = array_merge(['url' => 'animali'], $filters);
+    $link = fn($t) => '?' . http_build_query(array_merge($base, ['type' => $t]));
 
-
-function buildNavAnimali(string $type): string {
-    if ($type === "tutti") {
-        return '
-        <ul>
-            <li class="currentType">Tutti</li>
-            <li><a href="animali?type=Gatto">Gatti</a></li>
-            <li><a href="animali?type=Cane">Cani</a></li>
-        </ul>';
-    }
-
-    if ($type === "Cane") {
-        return '
-        <ul>
-            <li><a href="animali">Tutti</a></li>
-            <li><a href="animali?type=Gatto">Gatti</a></li>
-            <li class="currentType">Cani</li>
-        </ul>';
-    }
-
-    if ($type === "Gatto") {
-        return '
-        <ul>
-            <li><a href="animali">Tutti</a></li>
-            <li class="currentType">Gatti</li>
-            <li><a href="animali?type=Cane">Cani</a></li>
-        </ul>';
-    }
-
-    return '';
+    return "
+    <ul>
+        <li class='".($type==='tutti'?'currentType':'')."'>".
+            ($type==='tutti'?'Tutti':'<a href="'.$link('tutti').'">Tutti</a>')."
+        </li>
+        <li class='".($type==='Gatto'?'currentType':'')."'>".
+            ($type==='Gatto'?'Gatti':'<a href="'.$link('Gatto').'">Gatti</a>')."
+        </li>
+        <li class='".($type==='Cane'?'currentType':'')."'>".
+            ($type==='Cane'?'Cani':'<a href="'.$link('Cane').'">Cani</a>')."
+        </li>
+    </ul>";
 }
 
-
+/* ------------------ CARD ANIMALI ------------------ */
 function buildAnimalCards(array $animali): string {
     $html = '';
+    foreach ($animali as $a) {
+        $nome = htmlspecialchars($a['nome']);
+        $sesso = $a['sesso'] === 'M' ? 'Maschio' : 'Femmina';
+        $eta = $a['eta'];
+        $img = $a['immagine'] ?: ($a['Tipo']==='Cane' ? 'assets/images/animals/defaultCane.png' : 'assets/images/animals/defaultGatto.png');
 
-    foreach ($animali as $animale) {
-
-        $nome = htmlspecialchars($animale['nome']);
-        $sesso = ($animale['sesso'] === 'M') ? 'Maschio' : 'Femmina';
-        $eta = $animale['eta'];
-        // Se l'immagine esiste la usiamo, altrimenti scegliamo default in base al tipo
-        if (!empty($animale['immagine'])) {
-            $imgPath = htmlspecialchars($animale['immagine']);
-        } else {
-            switch ($animale['Tipo']) {
-                case 'Gatto':
-                    $imgPath = 'assets/images/animals/defaultGatto.png';
-                    break;
-                case 'Cane':
-                    $imgPath = 'assets/images/animals/defaultCane.png';
-                    break;
-                default:
-                    $imgPath = 'assets/images/animals/defaultGatto.png';
-                    break;
-            }
-        }
-
-
-        // se NON hai l'id, puoi metterne uno fittizio
-        $id = $animale['id'] ?? 0;
-
-        $html .= '
-        <li class="card">
+        $html .= "
+        <li class='card'>
             <ul>
-                <li class="immagine">
-                    <img src="' . $imgPath . '" alt="Foto di ' . $nome . '">
-                </li>
-                <li class="nome">' . $nome . '</li>
-                <li class="sesso-eta">' . $sesso . ' - ' . $eta . ' anni</li>
-                <li class="interessamento">Già Interessato</li>
-
-                <li class="preferiti-bottone">
-                    <form method="post" action="animali.php">
-                        <input type="hidden" name="id_elemento" value="' . $id . '">
-                        <button type="submit" class="preferiti">
-                            <img src="./assets/icons/active-like.svg" class="heart-hover" alt="" />
-                            <img src="./assets/icons/inactive-like.svg" class="heart-normal" alt="" />
-                        </button>
-                    </form>
-                </li>
-
-                <li class="dettagli-animale-bottone">
-                    <form method="post" action="animali.php">
-                        <input type="hidden" name="id_elemento_cliccato" value="' . $id . '">
-                        <button type="submit" class="bottone-dettagli"></button>
-                    </form>
-                </li>
+                <li class='immagine'><img src='$img' alt='$nome'></li>
+                <li class='nome'>$nome</li>
+                <li class='sesso-eta'>$sesso - $eta anni</li>
             </ul>
-        </li>';
+        </li>";
     }
-
     return $html;
 }
 
+/* ------------------ QUERY ------------------ */
 $connessione = new DBAccess();
-$connessioneOK = $connessione->openDBConnection();
-if ($connessioneOK) {
-    // $animali = $connessione->getListAnimalsByType($type);
-    $totale = $connessione->countAnimalsByType($type);
-    $pagineTotali = ceil($totale / $perPagina);
+if ($connessione->openDBConnection()) {
 
-    $animali = $connessione->getAnimalsByTypePaged($type, $perPagina, $offset);
+    $totale = $connessione->countAnimalsFiltered($type, $filters);
+    $pagineTotali = max(1, ceil($totale / $perPagina));
 
-    if ($animali === null) {
-        // Messaggio di errore dentro la stessa variabile che verrà sostituita nel template
-        $cardAnimali = '<p class="errore">Errore durante il recupero degli animali</p>';
-    } else {
-        // Genera l'HTML per tutti gli animali
-        $cardAnimali = buildAnimalCards($animali);
+    if ($pagina > $pagineTotali) {
+        $pagina = $pagineTotali;
+        $offset = ($pagina - 1) * $perPagina;
     }
-} else {
-    $cardAnimali = '<p class="errore">Errore di connessione al database</p>';
+
+    $animali = $connessione->getAnimalsFilteredPaged($type, $filters, $perPagina, $offset);
+    $cardAnimali = $animali ? buildAnimalCards($animali) : '<p class="errore">Nessun animale trovato</p>';
+    $linkPagine = buildPagination($pagina, $pagineTotali, $type, $filters);
 }
 
-$linkNavAnimali=buildNavAnimali($type);
-$linkPagine=buildPagination($pagina, $pagineTotali, $type);
-
+/* ------------------ TEMPLATE ------------------ */
+$linkNavAnimali = buildNavAnimali($type, $filters);
 $paginaHTML = file_get_contents('./src/template/layout.html');
-if ($paginaHTML === false) {
-	$paginaHTML = "<p>Errore: template layout.html non trovato o non leggibile.</p>";
-}
-
-$title = '<title>Animali - PetMatch </title>';
-
-$description = '<meta name="description" content="Tutti gli animali in adozione qui da PetMatch!!">';
-$keywords = "";
-
-
-$nav = buildUserNav($userMenu, './animali', $_SESSION['email'] ?? false);
-
-$breadcrumb = getBreadcrumb('animali', $pagine);
-
 $main = file_get_contents('./src/template/main/animali.html');
+$footer = file_get_contents('./src/template/partials/footer.html');
+
+$main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);
 $main = str_replace('[ANIMALI]', $cardAnimali, $main);
 $main = str_replace('[NAVTYPE]', $linkNavAnimali, $main);
 $main = str_replace('[LINKPAGINE]', $linkPagine, $main);
 
-$footer= file_get_contents('./src/template/partials/footer.html');
+$title = '<title>Animali - PetMatch</title>';
+$description = '<meta name="description" content="Tutti gli animali in adozione su PetMatch">';
+$keywords = '';
 
+$nav = buildUserNav($userMenu, './animali', $_SESSION['email'] ?? false);
+$breadcrumb = getBreadcrumb('animali', $pagine);
 
-$paginaHTML = str_replace('[title]', $title, $paginaHTML);
-$paginaHTML = str_replace('[description]', $description, $paginaHTML);
-$paginaHTML = str_replace('[keywords]', $keywords, $paginaHTML);
-$paginaHTML = str_replace('[breadcrumb]', $breadcrumb, $paginaHTML);
-$paginaHTML = str_replace('[nav]', $nav, $paginaHTML);
-$paginaHTML = str_replace('[main]', $main, $paginaHTML);
-$paginaHTML = str_replace('[footer]', $footer, $paginaHTML);
+$paginaHTML = str_replace(
+    ['[title]', '[description]', '[keywords]', '[breadcrumb]', '[nav]', '[main]', '[footer]'],
+    [$title, $description, $keywords, $breadcrumb, $nav, $main, $footer],
+    $paginaHTML
+);
 
 echo $paginaHTML;
-?>

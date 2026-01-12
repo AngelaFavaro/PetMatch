@@ -1,67 +1,68 @@
 <div id="animali" class="container">
     <h1>ANIMALI</h1>
+
     <nav id="nav-animali-type">
         [NAVTYPE]
     </nav>
-    
 
-<form id="filtri" method="post" action="animali.php">
+    <form id="filtri" method="get" action="index.php">
+        <!-- rotta gestita dal router -->
+        <input type="hidden" name="url" value="animali">
+        <input type="hidden" name="type" value="[TYPE]">
 
-<ul>
-    <li class="capsula-filtro">
-        <label for="name">Nome</label>
-        <input type="text" id="name" name="name" placeholder="Cerca...">
-    </li>
+        <ul>
+            <li class="capsula-filtro">
+                <label for="name">Nome</label>
+                <input type="text" id="name" name="name" 
+                       value="[NAME]" 
+                       placeholder="Cerca...">
+            </li>
 
-    <li class="capsula-filtro">
-        <label for="taglia">Taglia</label>
-        <select id="taglia" name="taglia">
-            <option value="">No filtro</option>
-            <option value="Piccola">Piccola</option>
-            <option value="Media">Media</option>
-            <option value="Grande">Grande</option>
-        </select>
-    </li>
+            <li class="capsula-filtro">
+                <label for="taglia">Taglia</label>
+                <select id="taglia" name="taglia">
+                    <option value="" [TAGLIA_SELECTED_EMPTY]>Tutti</option>
+                    <option value="Piccola" [TAGLIA_SELECTED_PICCOLA]>Piccola</option>
+                    <option value="Media"   [TAGLIA_SELECTED_MEDIA]>Media</option>
+                    <option value="Grande"  [TAGLIA_SELECTED_GRANDE]>Grande</option>
+                </select>
+            </li>
 
-    <li class="capsula-filtro">
-        <label for="sesso">Sesso</label>
-        <select id="sesso" name="sesso">
-            <option value="">No filtro</option>
-            <option value="maschio">Maschio</option>
-            <option value="femmina">Femmina</option>
-        </select>
-    </li>
+            <li class="capsula-filtro">
+                <label for="sesso">Sesso</label>
+                <select id="sesso" name="sesso">
+                    <option value="" [SESSO_SELECTED_EMPTY]>Tutti</option>
+                    <option value="maschio" [SESSO_SELECTED_MASCCHIO]>Maschio</option>
+                    <option value="femmina" [SESSO_SELECTED_FEMMINA]>Femmina</option>
+                </select>
+            </li>
 
-    <li class="capsula-filtro">
-        <label for="Età">Età</label>
-        <div class="eta-range">
-            <input type="number" name="eta_min" placeholder="Da" min="0">
-            <span>–</span>
-            <input type="number" name="eta_max" placeholder="A" min="0">
-        </div>
-    </li>
-</ul>
+            <li class="capsula-filtro">
+                <label>Età</label>
+                <div class="eta-range">
+                    <input type="number" name="eta_min" 
+                           value="[ETA_MIN]" 
+                           placeholder="Da" min="0">
+                    <span>–</span>
+                    <input type="number" name="eta_max" 
+                           value="[ETA_MAX]" 
+                           placeholder="A" min="0">
+                </div>
+            </li>
+        </ul>
 
-<button type="submit" class="orange-button">Cerca</button>
-</form>
+        <button type="submit" class="orange-button">Cerca</button>
+    </form>
 
-
-
-    <!--CARDS ANIMALI-->
-<ul class="cards-container">
-    [ANIMALI]
-    
-</ul>
-
-
-<!--LINK ALLE PAGINE SUCCESSIVE-->
-<div id="next-page-links">
-    <ul>
-         [LINKPAGINE]
+    <!-- CARDS ANIMALI -->
+    <ul class="cards-container">
+        [ANIMALI]
     </ul>
+
+    <!-- PAGINAZIONE -->
+    <div id="next-page-links">
+        <ul>
+            [LINKPAGINE]
+        </ul>
+    </div>
 </div>
-
-</div>
-
-
-

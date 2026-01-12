@@ -1013,65 +1013,155 @@ class DBAccess {
         return $result;
     }
 
-    public function countAnimalsByType(string $type): int|null {
-        if (!$this->connection) return null;
+    public function countAnimalsFiltered(string $type, array $filters): int {
 
-        if ($type === 'tutti') {
-            $query = "SELECT COUNT(*) AS totale FROM ANIMALI";
-            $stmt = mysqli_prepare($this->connection, $query);
-        } else {
-            $query = "SELECT COUNT(*) AS totale FROM ANIMALI WHERE Tipo = ?";
-            $stmt = mysqli_prepare($this->connection, $query);
-            mysqli_stmt_bind_param($stmt, 's', $type);
-        }
+    if (!$this->connection) return 0;
 
-        mysqli_stmt_execute($stmt);
-        $res = mysqli_stmt_get_result($stmt);
-        $row = mysqli_fetch_assoc($res);
-        mysqli_stmt_close($stmt);
+    $where = [];
+    $params = [];
+    $types = '';
 
-        return (int)$row['totale'];
+    if ($type !== 'tutti') {
+        $where[] = 'Tipo = ?';
+        $params[] = $type;
+        $types .= 's';
     }
 
-    public function getAnimalsByTypePaged(string $type, int $limit, int $offset): array|null {
+    if (!empty($filters['name'])) {
+        $where[] = 'Nome LIKE ?';
+        $params[] = '%' . $filters['name'] . '%';
+        $types .= 's';
+    }
 
-    if (!$this->connection) return null;
+    if (!empty($filters['taglia'])) {
+        $where[] = 'Taglia = ?';
+        $params[] = $filters['taglia'];
+        $types .= 's';
+    }
 
-    if ($type === 'tutti') {
-        $query = "
-            SELECT Nome, Sesso, DataNascita, ImgPath, Tipo
-            FROM ANIMALI
-            ORDER BY IDanimale
-            LIMIT ? OFFSET ?
-        ";
-        $stmt = mysqli_prepare($this->connection, $query);
-        mysqli_stmt_bind_param($stmt, 'ii', $limit, $offset);
-    } else {
-        $query = "
-            SELECT Nome, Sesso, DataNascita, ImgPath, Tipo
-            FROM ANIMALI
-            WHERE Tipo = ?
-            ORDER BY IDanimale
-            LIMIT ? OFFSET ?
-        ";
-        $stmt = mysqli_prepare($this->connection, $query);
-        mysqli_stmt_bind_param($stmt, 'sii', $type, $limit, $offset);
+    if (!empty($filters['sesso'])) {
+        $where[] = 'Sesso = ?';
+        $params[] = strtoupper(substr($filters['sesso'], 0, 1));
+        $types .= 's';
+    }
+
+    if (!empty($filters['eta_min'])) {
+        $where[] = 'TIMESTAMPDIFF(YEAR, DataNascita, CURDATE()) >= ?';
+        $params[] = (int)$filters['eta_min'];
+        $types .= 'i';
+    }
+
+    if (!empty($filters['eta_max'])) {
+        $where[] = 'TIMESTAMPDIFF(YEAR, DataNascita, CURDATE()) <= ?';
+        $params[] = (int)$filters['eta_max'];
+        $types .= 'i';
+    }
+
+    $query = "SELECT COUNT(*) AS totale FROM ANIMALI";
+
+    if ($where) {
+        $query .= ' WHERE ' . implode(' AND ', $where);
+    }
+
+    $stmt = mysqli_prepare($this->connection, $query);
+    if ($params) {
+        mysqli_stmt_bind_param($stmt, $types, ...$params);
     }
 
     mysqli_stmt_execute($stmt);
     $res = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($res);
 
-    if (!$res || mysqli_num_rows($res) === 0) return [];
+    mysqli_stmt_close($stmt);
+    return (int)$row['totale'];
+}
+
+
+    public function getAnimalsFilteredPaged(
+    string $type,
+    array $filters,
+    int $limit,
+    int $offset
+): array {
+
+    if (!$this->connection) return [];
+
+    $where = [];
+    $params = [];
+    $types = '';
+
+    /* ---------- FILTRO TIPO ---------- */
+    if ($type !== 'tutti') {
+        $where[] = 'Tipo = ?';
+        $params[] = $type;
+        $types .= 's';
+    }
+
+    /* ---------- FILTRO NOME ---------- */
+    if (!empty($filters['name'])) {
+        $where[] = 'Nome LIKE ?';
+        $params[] = '%' . $filters['name'] . '%';
+        $types .= 's';
+    }
+
+    /* ---------- FILTRO TAGLIA ---------- */
+    if (!empty($filters['taglia'])) {
+        $where[] = 'Taglia = ?';
+        $params[] = $filters['taglia'];
+        $types .= 's';
+    }
+
+    /* ---------- FILTRO SESSO ---------- */
+    if (!empty($filters['sesso'])) {
+        $where[] = 'Sesso = ?';
+        $params[] = strtoupper(substr($filters['sesso'], 0, 1)); // M / F
+        $types .= 's';
+    }
+
+    /* ---------- FILTRO ETÀ ---------- */
+    if (!empty($filters['eta_min'])) {
+        $where[] = 'TIMESTAMPDIFF(YEAR, DataNascita, CURDATE()) >= ?';
+        $params[] = (int)$filters['eta_min'];
+        $types .= 'i';
+    }
+
+    if (!empty($filters['eta_max'])) {
+        $where[] = 'TIMESTAMPDIFF(YEAR, DataNascita, CURDATE()) <= ?';
+        $params[] = (int)$filters['eta_max'];
+        $types .= 'i';
+    }
+
+    /* ---------- QUERY ---------- */
+    $query = "
+        SELECT Nome, Sesso, DataNascita, ImgPath, Tipo
+        FROM ANIMALI
+    ";
+
+    if ($where) {
+        $query .= ' WHERE ' . implode(' AND ', $where);
+    }
+
+    $query .= " ORDER BY IDanimale ASC LIMIT ? OFFSET ?";
+
+    $params[] = $limit;
+    $params[] = $offset;
+    $types .= 'ii';
+
+    $stmt = mysqli_prepare($this->connection, $query);
+    mysqli_stmt_bind_param($stmt, $types, ...$params);
+    mysqli_stmt_execute($stmt);
+
+    $res = mysqli_stmt_get_result($stmt);
+    if (!$res) return [];
 
     $animali = [];
-
     while ($row = mysqli_fetch_assoc($res)) {
         $animali[] = [
-            'nome' => $row['Nome'],
-            'sesso' => $row['Sesso'],
-            'eta' => calcolareEta($row['DataNascita']),
+            'nome'     => $row['Nome'],
+            'sesso'    => $row['Sesso'],
+            'eta'      => calcolareEta($row['DataNascita']),
             'immagine' => $row['ImgPath'],
-            'Tipo' => $row['Tipo']
+            'tipo'     => $row['Tipo']
         ];
     }
 
