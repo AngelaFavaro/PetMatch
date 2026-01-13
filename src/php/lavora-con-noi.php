@@ -6,7 +6,7 @@ if ($paginaHTML === false) {
 	$paginaHTML = "<p>Errore: template layout.html non trovato o non leggibile.</p>";
 }
 
-$title = '<title>Pagina Lavora con Noi - PetMatch </title>';
+$title = '<title>Lavora con Noi - PetMatch </title>';
 $description = '<meta name="description" content="Pagina per avere informazioni su come lavorare o fare volontariato o diventare un sostenitore di PetMatch">';
 $keywords = "";
 
