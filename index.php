@@ -20,8 +20,8 @@ $routes = [
     'area-riservata' => [
         'file' => __DIR__ . '/src/php/admin/area-riservata.php'
     ],
-    'dettagli-richiesta' => [
-        'file' => __DIR__ . '/src/php/admin/dettagli-richiesta.php'
+    'richieste-adozione' => [
+        'file' => __DIR__ . '/src/php/admin/richieste-adozione.php'
     ],
 
 
