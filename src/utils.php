@@ -50,7 +50,7 @@ $pagine = [
     ],
     'lavora-con-noi' => [
         //'file' => __DIR__ . '/src/php/lavora-con-noi.php',
-        'label' => 'Lavora con Noi',
+        'label' => 'Lavora con noi',
         'url' => './lavora-con-noi',
         'parent' => 'home'
     ]

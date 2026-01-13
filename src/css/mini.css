@@ -372,29 +372,19 @@ body#lavora-con-noi {
 }
 
 #introduction-lavora-con-noi .column-user {
-    flex: unset;
     width: 100%;
+}
+
+#introduction-lavora-con-noi .column-user:first-of-type{
     margin-bottom: 2em; 
 }
 
-#introduction-lavora-con-noi h1 {
-    margin-bottom: 0.5em;
-    font-size: 1.8em;
-}
-
-.underline {
-    text-decoration: underline;
-}
-
-#come-diventare-volontario {
-    background-color: var(--greencolor); 
-    color: var(--bgcolor);                       
+#come-diventare-volontario {                     
     width: 100%;
-    padding: 5em;
+    padding:3em 1em 1em 1em;
 }
 
 #come-diventare-volontario h2 {
-    margin-bottom: 1em;
     font-size: 1.8em;
 }
 
@@ -403,27 +393,17 @@ body#lavora-con-noi {
     gap: 0;
 }
 
-.volontari-text {
+#volontari-text {
     flex: unset;
     width: 100%;
 }
 
-.volontari-image {
-    display: none;  
-}
-
 #come-diventare-sostenitore {
-    margin-top: 5em;
-    margin-left: 5em;
-    margin-right: 5em;
-    background-color: var(--footercolor); 
-    color: var(--bgcolor);        
-    border-top-right-radius: 5em;
-    border-top-left-radius: 5em;     
-    padding: 5em;
+    margin-top: 3em; 
+    padding:3em 1em 1em 1em;
 }
 
-#come-diventare-sostenitore h1 {
+#come-diventare-sostenitore h2 {
     margin-bottom: 1em;
     font-size: 2.1em;
 }
@@ -438,15 +418,15 @@ body#lavora-con-noi {
     width: 100%;  
 }
 
-.sostenitori-image {
-    display: none;  
-}
-
 #contatto-sostenitore {
-    padding: 5em;
+    padding: 0em;
 }
 
 #contatto-sostenitore a {
     color: var(--txtcolor);
     text-decoration: underline;
+}
+
+.lavora-con-noi-img img{
+    display: none;
 }
