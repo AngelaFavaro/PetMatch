@@ -80,9 +80,41 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
     });
+
+    const navLinks = document.querySelectorAll('#lavora-con-noi .footer-submenu a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', e => {
+            if (window.location.pathname.endsWith('lavora-con-noi.html')) {
+                e.preventDefault(); // blocca il reload
+            }
+        });
+    });
 });
 
-//al ricaricamento della pagina mi blocca lo scrool smooth per permettermi di tornare al form appena inviato istantaneamente
+//nascondi password e mostra password, cambia il type da password a text e viceversa
+const toggleIcons = document.querySelectorAll('.password-container i');
+
+toggleIcons.forEach(icon => {
+    icon.addEventListener('click', function (e) {
+
+        //this è l'icona cliccat, vado a cercare il fratello precedente 
+        // (cioè) l'input dato che nell'html ho messo quest'ordine
+        const passwordInput = this.previousElementSibling; 
+        
+        // Controllo di sicurezza: procedi solo se l'input esiste
+        if (passwordInput) {
+            //se ora è password, imposto text, se invece non lo è, imposto password
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            
+            passwordInput.setAttribute('type', type);
+            
+            this.classList.toggle('fa-eye-slash'); //cambia l'icona, è presa da FontAwesome (link incluso nell'head)
+        }
+    });
+});
+
+
+//al caricamento della pagina mi blocca lo scroll per permettermi di tornare al form appena inviato istantaneamente
 document.documentElement.style.scrollBehavior = 'auto';
 setTimeout(function() { document.documentElement.style.scrollBehavior = 'smooth'; }, 500);
 
@@ -185,46 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             // Qui chiameresti la tua funzione sendData()
         });
-        
-        // Aggiungi qui l'eventuale listener blur per l'input data
-    }
-
-    const btnEditAdmin = document.getElementById('edit-admin-info');
-    const saveAdminBtn = document.getElementById('submit-edit');
-    let isEditing = false;
-
-    if (btnEditAdmin) {
-        btnEditAdmin.addEventListener('click', (e) => {
-            console.log(isEditing);
-            isEditing = !isEditing;
-            e.preventDefault();
-            const inputs = document.querySelectorAll('.generic-info-container input');
-            console.log(inputs);
-            inputs.forEach(input => {
-                //tutti gli input che non sono di tipo type= file
-                if (!isEditing) {
-                    if(input.type !== 'file') {
-                        input.setAttribute('readonly', 'true');
-                    }else{
-                        input.setAttribute('disabled','true');
-                    }
-                } else {
-                    if(input.type === 'file') {
-                        input.removeAttribute('disabled');
-                    }else{
-                        input.removeAttribute('readonly');
-                    }
-                }
-
-            });
-            if (isEditing && saveAdminBtn) {
-                saveAdminBtn.removeAttribute('hidden');
-            } else if (saveAdminBtn) {
-                saveAdminBtn.setAttribute('hidden', 'true');
-            }
-
-        });
-    }
+}
 
     /* ==========================================================================
        VALIDAZIONE FORM AGGIUNGI ANIMALE

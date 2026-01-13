@@ -12,6 +12,8 @@ $keywords = "";
 
 $breadcrumb = getBreadcrumb('lavora-con-noi', $pagine);
 
+$nav = buildUserNav($userMenu, './lavora-con-noi', $_SESSION['email'] ?? false);
+
 $main = file_get_contents('./src/template/main/lavora-con-noi.html');
 
 $footer = file_get_contents('./src/template/partials/footer.html');
@@ -19,7 +21,7 @@ $footer = file_get_contents('./src/template/partials/footer.html');
 $paginaHTML = str_replace('[title]', $title, $paginaHTML);
 $paginaHTML = str_replace('[description]', $description, $paginaHTML);
 $paginaHTML = str_replace('[keywords]', $keywords, $paginaHTML);
-$paginaHTML = str_replace('[header]', $header, $paginaHTML);
+$paginaHTML = str_replace('[nav]', $nav, $paginaHTML);
 $paginaHTML = str_replace('[breadcrumb]', $breadcrumb, $paginaHTML);
 $paginaHTML = str_replace('[main]', $main, $paginaHTML);
 $paginaHTML = str_replace('[footer]', $footer, $paginaHTML);

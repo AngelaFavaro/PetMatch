@@ -1,0 +1,81 @@
+<div id="revisione-richiesta" class="container">
+    <h1>Addozione per [nomeAnimale]</h1>
+    <div class="column-container">
+        <div>
+            <section id="info-request">
+                <h2>La tua domanda</h2>
+                <dl aria-label="Dettagli richiesta inviata">
+                    <dt>Data richiesta: </dt>
+                    <dd>[dataRichiesta]</dd>
+                    [DataFineRichiesta]
+                    <dt>Lettera di presentazione: </dt>
+                    <dd>[letteraPresentazione]</dd>
+                    <dt>Trasporto: </dt>
+                    <dd>[richiestaTrasporto]</dl>
+                </dl>
+            </section>
+            <section id="state-request">
+                <h2>Stato della richiesta</h2>
+                <dl>
+                    <dt>Stato:</dt>
+                    <dd>[StatoRichiesta]</dd>
+                    <dt>Data inizio valutazione:</dt>
+                    <dd>[DataInizio]</dd>
+                    [DataFineRichiesta] 
+                    [dataPartenza]
+                    [dataArrivo]
+                </dl>
+            </section>
+        </div>
+        [cardAnimal]
+        <!-- <section id="info-animal">
+            <h2>Animale interessato</h2>
+            <div class="details-card-animale">
+                <div>
+                    <div>
+                        <img src="[imgAnimale]" alt="" />
+                        <a href="" class="brown-button">Vedi animale</a>
+                    </div>
+                    <dl aria-label="Descizione superficiale dell'animale">
+                        <dt>Nome:</dt>
+                        <dd>[nomeAnimale]</dd>
+                        <dt>Sesso:</dt>
+                        <dd>[SessoAnimale]</dd>
+                        <dt>Età:</dt>
+                        <dd>[EtàAnimale]</dd>
+                        <dt>Razza:</dt>
+                        <dd>[RazzaAnimale]</dd>
+                        <dt>Trasporto:</dt>
+                        <dd>[TrasportoAnimale]</dd>
+                    </dl>
+                </div>
+                <dl aria-label="Informazioni approfondite sull'animale">
+                    <dt>Famiglia ideale:</dt>
+                    <dd>[FamigliaIdealeAnimale]</dd>
+                    <dt>Condizioni mediche:</dt>
+                    <dd>[CondizioniMedicheAnimale]</dd>
+                    <dt>Descrizione caratteriale:</dt>
+                    <dd>[DescrizioneCaratterialeAnimale]</dd>
+                </dl>
+            </div>
+        </section> -->
+    </div>
+
+    [messaggiForm]
+    <input type="checkbox" id="delete-request-check" class="popup-checkbox" [isDisabled]>
+    <label for="delete-request-check" id="button-cancel">Annulla richiesta</label>
+    <div class="overlay-content">
+        <div class="dialog-box">
+            <h3>Sei sicuro?</h3>
+            <p>L'annullamento della richiesta per <em>[nomeAnimale]</em> è <strong>irreversibile</strong>.</p>
+            
+            <div class="dialog-buttons">
+                <label for="delete-request-check">No, tieni</label>
+                
+                <form method="POST">
+                    <button type="submit" name="delete-request">Si, annulla</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+<div id="animali" class="container">
+    <h1>Animali</h1>
+
+    <nav id="nav-animali-type">
+        [NAVTYPE]
+    </nav>
+
+    <form id="filtri" method="get" action="animali">
+        <!-- rotta gestita dal router -->
+        
+        <input type="hidden" name="type" value="[TYPE]">
+
+        <ul>
+            <li class="capsula-filtro" id="searchName">
+                <label for="name">Nome</label>
+                <input type="text" id="name" name="name" 
+                       value="[NAME]" 
+                       placeholder="Cerca...">
+            </li>
+
+            <li class="capsula-filtro" id="searchSize">
+                <label for="taglia">Taglia</label>
+                <select id="taglia" name="taglia">
+                    <option value="" [TAGLIA_SELECTED_EMPTY]>Tutti</option>
+                    <option value="Piccola" [TAGLIA_SELECTED_PICCOLA]>Piccola</option>
+                    <option value="Media"   [TAGLIA_SELECTED_MEDIA]>Media</option>
+                    <option value="Grande"  [TAGLIA_SELECTED_GRANDE]>Grande</option>
+                </select>
+            </li>
+
+            <li class="capsula-filtro" id="searchSex">
+                <label for="sesso">Sesso</label>
+                <select id="sesso" name="sesso">
+                    <option value="" [SESSO_SELECTED_EMPTY]>Tutti</option>
+                    <option value="maschio" [SESSO_SELECTED_MASCCHIO]>Maschio</option>
+                    <option value="femmina" [SESSO_SELECTED_FEMMINA]>Femmina</option>
+                </select>
+            </li>
+
+            <li class="capsula-filtro">
+                <label>Età</label>
+                <div class="eta-range">
+                    <input type="number" name="eta_min" 
+                           value="[ETA_MIN]" 
+                           placeholder="Da" min="0">
+                    <span>–</span>
+                    <input type="number" name="eta_max" 
+                           value="[ETA_MAX]" 
+                           placeholder="A" min="0">
+                </div>
+            </li>
+        </ul>
+
+        <button type="submit" class="orange-button">Cerca</button>
+    </form>
+
+    <!-- CARDS ANIMALI -->
+    <ul class="cards-container">
+        [ANIMALI]
+    </ul>
+
+    <!-- PAGINAZIONE -->
+    <div id="next-page-links">
+        <ul>
+            [LINKPAGINE]
+        </ul>
+    </div>
+</div>

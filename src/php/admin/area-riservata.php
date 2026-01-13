@@ -3,9 +3,13 @@ include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
 
+
+if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])){ 
+	logout();
+}
 function buildToDoList(DBAccess $conn): string {
 	$html = '<ul id="to-do-list">';
-	$tasks =$conn->createAdminTasks($_SESSION['user'] ?? '');
+	$tasks =$conn->createAdminTasks($_SESSION['email'] ?? '');
 	$links= [
 		['href' => '', 'type' => 'ANIMALI SENZA ADMIN'],
 		['href' => '', 'type' => 'APPUNTI DA PRENDERE'],
@@ -31,7 +35,7 @@ function buildToDoList(DBAccess $conn): string {
 
 function buildStatisticsArea(DBAccess $conn): string{
 	$html = '<ul id="statistics-list">';
-	$stats = $conn->createAdminStats($_SESSION['user'] ?? '');
+	$stats = $conn->createAdminStats($_SESSION['email'] ?? '');
 	$types= [
 		'ADOZIONI COMPLETATE',
 		'RICHIESTE VISIONATE',
@@ -49,30 +53,214 @@ function buildStatisticsArea(DBAccess $conn): string{
 	return $html;
 }
 
-function editInfoAdmin(DBAccess $conn, $adminInfo) {
-	
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit-edit'])) {
-	$newName = $_POST['nome'] ?? '';
-	$newSurname = $_POST['cognome'] ?? '';
 
-	$newImg = false;
-	if(isset($_FILES['foto'])) {
-		$newImg = uploadImage($_FILES['foto'], 'admins');
+function buildInfoAdmin(): array{
+	$html = '';
+	$titolo = '';
+	if (isset($_GET['mode']) && $_GET['mode'] === 'edit') {
+		$titolo = '<h2>Modifica le tue informazioni</h2>';
+		$html = '
+			<div class="edit-mode">
+				<form class="edit-mode" method="POST" action="area-riservata" enctype="multipart/form-data">
+					<fieldset>
+						<legend class="sr-only">Informazioni personali</legend>
+						<div>
+							<label class="sr-only" for="new-pic">Cambia Foto</label>
+							<input type="file" id="new-pic" name="new-pic" accept="image/*">
+							<label class="checkbox-container-pic" for="delete-pic">
+								<input type="checkbox" id="delete-pic" name="delete-pic">
+								Rimuovi foto profilo
+							</label>
+						</div>
+						<div>
+							<label for="new-name">Nome*</label>
+							<input type="text" id="new-name" name="new-name" autocomplete="name" value="[nomeAdmin]" placeholder="Nome">
+							<p class="error-form">[erroriNome]</p>
+						</div>
+						<div>
+							<label for="new-surname">Cognome*</label>
+							<input type="text" id="new-surname" name="new-surname" autocomplete="family-name" value="[cognomeAdmin]" placeholder="Cognome">
+							<p class="error-form">[erroriCognome]</p>
+						</div>
+						<div class="edit-number">
+							<label for="new-number">Telefono</label>
+							<div>
+								<span>+39 </span>
+								<input type="tel" id="new-number" name="new-number" autocomplete="tel" value="[telefono-Admin]" placeholder="000 000 0000">
+							</div>
+							<p class="error-form">[erroriTelefono]</p>
+						</div>
+					</fieldset>
+					<span>
+						<a href="area-riservata" class="cancel-edit">Annulla</a>
+						<button type="submit" name="edit-profile">Salva</button>
+					</span>
+				</form>
+			</div>';
+
+	} else {
+		$titolo = '<h2>Le tue informazioni</h2>';
+		$html =
+			'<div class="text-details"><dl aria-label="informazioni dell\'utente">
+				<dt>Nome</dt> <dd>[nomeAdmin]</dd>
+				<dt>Cognome</dt> <dd>[cognomeAdmin]</dd>
+				<dt>Email</dt> <dd>[emailAdmin]</dd>
+				<dt>Telefono</dt> <dd>[telefonoAdmin]</dd>
+			</dl></div>';
 	}
-	
-	$newImg = $newImg ?: $adminInfo['imgPath'];
-	$conn->updateAdminInfo($_SESSION['user'] ?? '', $newName, $newSurname, $newImg);
-	$conn->closeConnection();
 
-	header("Location: ./area-riservata");
-	exit();
-	
+	return ['contenuto' => $html, 'titolo' => $titolo];
 }
+
+$NewUserInfo = [
+    'name' => '',
+    'surname' => '',
+    'phoneNumber' => '',
+    'address' => '',
+    'city' => '',
+    'CAP' => '',
+    'profilePic' => ''
+];
+function editInfoAdmin(DBAccess $conn, &$NewUserValues, $adminInfo): array {
+    
+    $message = [
+        'generic' => '',
+        'name' => '',
+        'surname' => '',
+        'phoneNumber' => ''
+    ];
+
+    if (isset($_SESSION['form_status_info'])) {
+        
+        if($_SESSION['form_status_info'] === 'error'){
+            $savedErrors = $_SESSION['form_errors_info'] ?? [];
+            
+            if (isset($savedErrors['generic'])) {
+                $message['generic'] = "<p class='error-form'>" . $savedErrors['generic'] . "</p>";
+            }
+
+            if (isset($savedErrors['name'])) {
+                $message['name'] = $savedErrors['name'];
+            }
+            
+            if (isset($savedErrors['surname'])) {
+                $message['surname'] = $savedErrors['surname'];
+            }
+
+            if (isset($savedErrors['phoneNumber'])) {
+                $message['phoneNumber'] = $savedErrors['phoneNumber'];
+            }
+            
+            $savedInputs = $_SESSION['form_inputs'] ?? [];
+            $NewUserValues['name'] = $savedInputs['name'] ?? '';
+            $NewUserValues['surname'] = $savedInputs['surname'] ?? '';
+            $NewUserValues['phoneNumber'] = $savedInputs['phoneNumber'] ?? '';
+            $NewUserValues['address'] = null;
+            $NewUserValues['city'] = null;
+            $NewUserValues['CAP'] = null;
+
+            unset($_SESSION['form_status_info'], $_SESSION['form_errors_info'], $_SESSION['form_inputs']);
+        }
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit-profile'])) { 
+
+        $name    = trim($_POST['new-name'] ?? '');
+        $surname = trim($_POST['new-surname'] ?? '');
+        $phoneNumber = trim($_POST['new-number'] ?? '');
+
+        $name = mb_convert_case($name, MB_CASE_TITLE, "UTF-8");
+        $surname = mb_convert_case($surname, MB_CASE_TITLE, "UTF-8");
+        $phoneNumber = preg_replace('/[^0-9]/', '', $phoneNumber); 
+
+        $NewUserValues['name'] = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+        $NewUserValues['surname'] = htmlspecialchars($surname, ENT_QUOTES, 'UTF-8');
+        $NewUserValues['phoneNumber'] = htmlspecialchars($phoneNumber, ENT_QUOTES, 'UTF-8');
+        $NewUserValues['address'] = null;
+        $NewUserValues['city'] = null;
+        $NewUserValues['CAP'] = null;
+        $NewUserValues['profilePic'] = $_FILES['new-pic'] ?? null;
+
+        $errors = [];
+        $regexNome = "/^(?=.*[\p{L}]{2})[\p{L}\s']+$/u"; 
+        $regexPhone = "/^[0-9]{10}$/";
+
+        if (strlen($NewUserValues['name']) < 2) {
+            $errors['name'] = "Il nome è troppo corto.";
+        } elseif (!preg_match($regexNome, $NewUserValues['name'])) {
+            $errors['name'] = "Il nome contiene caratteri non validi.";
+        }
+
+        if (strlen($NewUserValues['surname']) < 2) {
+            $errors['surname'] = "Il cognome è troppo corto.";
+        } elseif (!preg_match($regexNome, $NewUserValues['surname'])) {
+            $errors['surname'] = "Il cognome contiene caratteri non validi.";
+        }
+
+        if(strlen($NewUserValues['phoneNumber']) === 0){
+            $NewUserValues['phoneNumber'] = null;
+        }else if (strlen($NewUserValues['phoneNumber']) !== 10 || !preg_match($regexPhone, $NewUserValues['phoneNumber'])) {
+            $errors['phoneNumber'] = "Il numero di telefono non è valido.";
+        }
+
+        if (empty($errors)) {
+
+            if(isset($_FILES['new-pic']) && !empty($_FILES['new-pic']['name']) && $_POST['delete-pic'] !== 'on'){
+                $uploadedPicPath = uploadImage($_FILES['new-pic'], 'admins');
+                if ($uploadedPicPath === false) {
+                    $_SESSION['form_status_info'] = 'error';
+                    $_SESSION['form_errors_info'] = ['profilePic' => "Errore durante il caricamento dell'immagine del profilo."];
+                    $_SESSION['form_inputs'] = [
+                        'name' => $NewUserValues['name'],
+                        'surname' => $NewUserValues['surname'],
+                        'phoneNumber' => $NewUserValues['phoneNumber']
+                    ];
+                    header("Location: ./area-riservata?mode=edit");
+                    exit;
+                }
+                $NewUserValues['profilePic'] = $uploadedPicPath;
+            }elseif($_POST['delete-pic'] === 'on'){
+                $NewUserValues['profilePic'] = "./assets/images/admins/default-pic.png";
+            }else{
+                $NewUserValues['profilePic'] = $adminInfo['ImgPath'] ?? null; 
+            }
+
+            $EditResult = $conn->updateUserInfo($_SESSION['email'], $NewUserValues);
+            
+            if (!$EditResult){
+                $_SESSION['form_status_info'] = 'error';
+                $_SESSION['form_errors_info'] = ['generic' => "Sistema momentaneamente non disponibile."];
+                $_SESSION['form_inputs'] = [
+                    'name' => $NewUserValues['name'], 
+                    'surname' => $NewUserValues['surname'], 
+                    'phoneNumber' => $NewUserValues['phoneNumber'] 
+                ];
+                header("Location: ./area-riservata?mode=edit");
+                exit;
+            }
+            header("Location: ./area-riservata");
+            exit;
+            
+        } else {
+            $_SESSION['form_status_info'] = 'error';
+            $_SESSION['form_errors_info'] = $errors; 
+            $_SESSION['form_inputs'] = [
+                'name' => $NewUserValues['name'], 
+                'surname' => $NewUserValues['surname'], 
+                'phoneNumber' => $NewUserValues['phoneNumber'] 
+            ];
+            header("Location: ./area-riservata?mode=edit");
+            exit;
+        }
+    }
+
+    return $message;
 }
 
 $stats = "";
 $todolist = "";
 $adminInfo ='';
+$messageInfoForm ='';
 $connessione = new DBAccess();
 $connessioneOK = $connessione->openDBConnection();
 if ($connessioneOK) {
@@ -80,9 +268,14 @@ if ($connessioneOK) {
 	
 	$todolist = buildToDoList($connessione);
 	$stats = buildStatisticsArea($connessione);
+	
+	$adminInfo = $connessione->getUserInfo($_SESSION['email']);
+	$adminInfoSection = buildInfoAdmin();
+	
+	
+	$messageInfoForm = editInfoAdmin($connessione, $NewUserInfo, $adminInfo);
+	
 
-	$adminInfo = $connessione->findAdminByEmail($_SESSION['user'] ?? '');
-	editInfoAdmin($connessione, $adminInfo);
 	$connessione->closeConnection();
 }
 
@@ -101,10 +294,24 @@ $breadcrumb = getBreadcrumb('area-riservata', $pagine);
 $main = loadTemplate('./src/template/main/admin/area-riservata.html', '<p>Errore: template area-riservata.html non trovato o non leggibile.</p>');
 $main = str_replace('[to-do-list]', $todolist, $main);
 $main = str_replace('[stats]', $stats, $main);
-$main = str_replace('[imgPath]', $adminInfo['imgPath'], $main);
-$main = str_replace('[nomeAdmin]', $adminInfo['nome'], $main);
-$main = str_replace('[cognomeAdmin]', $adminInfo['cognome'], $main);
-// $main = str_replace('[emailAdmin]', $adminInfo['email'], $main);
+$main = str_replace('[titolo]', $adminInfoSection['titolo'], $main);
+$main = str_replace('[admin-info]', $adminInfoSection['contenuto'], $main);
+$main = str_replace('[imgPath]', $adminInfo['ImgPath'], $main);
+$main = str_replace('[nomeAdmin]', $adminInfo['Nome'], $main);
+$main = str_replace('[cognomeAdmin]', $adminInfo['Cognome'], $main);
+if(isset($adminInfo['Telefono'])){
+	$main = str_replace('[telefonoAdmin]', $adminInfo['Telefono'], $main);
+	$main = str_replace('[telefono-Admin]', $adminInfo['Telefono'], $main);
+}else{
+	$main = str_replace('[telefonoAdmin]', '<em>Sconosciuto</em>', $main);
+	$main = str_replace('[telefono-Admin]', '', $main);
+}
+$main = str_replace('[emailAdmin]', $_SESSION['email'], $main);
+$main = str_replace('[erroriNome]', $messageInfoForm['name'], $main);
+$main = str_replace('[erroriCognome]', $messageInfoForm['surname'], $main);
+$main = str_replace('[erroriTelefono]', $messageInfoForm['phoneNumber'], $main);
+
+
 $paginaHTML = str_replace('[title]', $title, $paginaHTML);
 $paginaHTML = str_replace('[description]', $description, $paginaHTML);
 $paginaHTML = str_replace('[keywords]', $keywords, $paginaHTML);

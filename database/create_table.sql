@@ -7,7 +7,6 @@ DROP TABLE IF EXISTS FOTO;
 DROP TABLE IF EXISTS ANIMALI;
 DROP TABLE IF EXISTS ORGANIZZAZIONE;
 DROP TABLE IF EXISTS EVENTI;
-DROP TABLE IF EXISTS AMMINISTRATORI;
 DROP TABLE IF EXISTS UTENTI;
 
 -- UTENTI
@@ -15,26 +14,19 @@ CREATE TABLE UTENTI (
     Email VARCHAR(255) PRIMARY KEY,
     Nome VARCHAR(100) NOT NULL,
     Cognome VARCHAR(100) NOT NULL,
-    UtentePW VARCHAR(100) NOT NULL,
+    Password VARCHAR(255) NOT NULL,
     Telefono VARCHAR(20),
     Via VARCHAR(255),
     Citta VARCHAR(100),
     CAP VARCHAR(5),
-    ImgPath VARCHAR(512) DEFAULT 'assets/images/users/linor.jpg',
+    Ruolo VARCHAR(5) NOT NULL,
+    ImgPath VARCHAR(512) DEFAULT 'assets/images/users/default-pic.png'
+    CHECK (Ruolo IN ('Admin','User')),
     CHECK (
         (Via IS NULL AND Citta IS NULL AND CAP IS NULL)
         OR
         (Via IS NOT NULL AND Citta IS NOT NULL AND CAP IS NOT NULL)
     )
-);
-
--- AMMINISTRATORI
-CREATE TABLE AMMINISTRATORI (
-    Email VARCHAR(255) PRIMARY KEY,
-    Nome VARCHAR(100) NOT NULL,
-    Cognome VARCHAR(100) NOT NULL,
-    AdminPW VARCHAR(100) NOT NULL,
-    ImgPath VARCHAR(512) DEFAULT 'assets/images/admins/linor.jpg'
 );
 
 -- EVENTI
@@ -55,7 +47,7 @@ CREATE TABLE ORGANIZZAZIONE(
     Email VARCHAR(255) NOT NULL,
     PRIMARY KEY (Titolo, DataEvento, Email),
     FOREIGN KEY (Titolo, DataEvento) REFERENCES EVENTI (Titolo, DataEvento) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (Email) REFERENCES AMMINISTRATORI (Email) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (Email) REFERENCES UTENTI (Email) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- ANIMALI
@@ -77,7 +69,7 @@ CREATE TABLE ANIMALI(
     ImgPath VARCHAR(512) NOT NULL,
     Email VARCHAR(255),
 
-    FOREIGN KEY (Email) REFERENCES AMMINISTRATORI (Email) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (Email) REFERENCES UTENTI (Email) ON DELETE SET NULL ON UPDATE CASCADE,
 
     CHECK (Sesso IN ('F','M')),
     CHECK (Tipo IN ('Gatto','Cane')),
@@ -116,7 +108,7 @@ CREATE TABLE RICHIESTE_ADOZIONI(
     PRIMARY KEY(Email, IDanimale),
     FOREIGN KEY (Email) REFERENCES UTENTI (Email) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (IDanimale) REFERENCES ANIMALI (IDanimale) ON DELETE CASCADE ON UPDATE CASCADE,
-    CHECK (Stato IN ('Nuova', 'In valutazione','Da trasportare','Conclusa', 'Respinta', 'Annullata')),
+    CHECK (Stato IN ('Nuova', 'In valutazione','Da trasportare','Accettata', 'Respinta', 'Annullata')),
     CHECK (DataFineValutazione IS NULL OR DataFineValutazione >= DataRichiesta),
     CHECK (DataFineValutazione IS NULL OR DataInizioValutazione IS NULL OR DataFineValutazione >= DataInizioValutazione)
 );
@@ -142,10 +134,11 @@ CREATE TABLE SEGNALAZIONI_NUOVE_ACCOGLIENZE (
     DataRichiesta DATETIME DEFAULT CURRENT_TIMESTAMP,
     EmailAmm VARCHAR(255),
     EmailRichiedente VARCHAR(255) NOT NULL,
-    FOREIGN KEY (EmailAmm) REFERENCES AMMINISTRATORI (Email) ON DELETE SET NULL ON UPDATE CASCADE
+    FOREIGN KEY (EmailAmm) REFERENCES UTENTI (Email) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 
-INSERT INTO `UTENTI` (`Email`, `Nome`, `Cognome`, `UtentePW`, `Telefono`, `Via`, `Citta`, `CAP`, `ImgPath`) VALUES ('lindorlinor@gmail.com', 'Linor', 'Sadè', 'password123456', '3779765767', 'Via campagna alta 2', 'Montegrotto Terme (PD)', '35036', 'assets/images/linor.jpg');
-INSERT INTO `ANIMALI` (`IDanimale`, `Nome`, `DataNascita`, `DataRegistrazione`, `Sesso`, `Tipo`, `Colore`, `Pelo`, `Taglia`, `Razza`, `DescrFamiglia`, `DescrComportamentale`, `CondizioniMediche`, `Trasporto`, `ImgPath`, `Email`) VALUES (NULL, 'Shaker', '2014-07-15', '2025-12-30', 'M', 'Cane', 'Bianco, Marrone', 'Corto', 'Piccolo', 'Jack russell terrier', 'molto molto calma...molto calma', 'Morde quando non gli dai la pizza, morde quando esci di case, distrugge tutti i giochi, le cucce e le coperte, trema sempre, ha sempre bisogno di coccole (gli piacciono i piedi), penso sia pazzo per colpa della famiglia precedente', NULL, '1', 'assets/images/cane.jpg', 'lindorlinor@gmail.com');
-INSERT INTO `RICHIESTE_ADOZIONI` (`Email`, `IDanimale`, `Trasporto`, `Appunti`, `LetteraPresentazione`, `Stato`, `DataRichiesta`, `DataFineValutazione`, `DataInizioValutazione`) VALUES ('lindorlinor@gmail.com', '1', '1', NULL, 'Prova di lettera di presentazione, giusto per far apparire qualcosa. Io sono perfetta per questo animale perchè in realtà è mio. Effettivamente non significa che io sia perfetta per l\'animale, l\'animale è pazzo per un motivo...', 'Nuova', '2025-12-31', NULL, NULL);
+
+INSERT INTO `ANIMALI` (`IDanimale`, `Nome`, `DataNascita`, `DataRegistrazione`, `Sesso`, `Tipo`, `Colore`, `Pelo`, `Taglia`, `Razza`, `DescrFamiglia`, `DescrComportamentale`, `CondizioniMediche`, `Trasporto`, `ImgPath`, `Email`) VALUES
+(1, 'Shaker', '2014-07-15', '2025-12-30', 'M', 'Cane', 'Bianco, Marrone', 'Corto', 'Piccolo', 'Jack russell terrier', 'molto molto calma...molto calma', 'Morde quando non gli dai la pizza, morde quando esci di case, distrugge tutti i giochi, le cucce e le coperte, trema sempre, ha sempre bisogno di coccole (gli piacciono i piedi), penso sia pazzo per colpa della famiglia precedente', NULL, 1, 'assets/images/animals/bobo.png', ''),
+(4, 'Test', '2024-01-01', '2025-12-31', 'M', 'Gatto', 'Nero', 'Corto', 'Piccolo', 'Europeo', 'Test family', 'Test behavior', 'Sano', 0, 'assets/images/animals/animals_1767198281_ffa86946.png', '');

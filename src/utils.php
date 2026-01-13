@@ -2,7 +2,7 @@
 
 /**da fare (vedi ItaVolley):
     - array in cui vengono definite le pagine esistenti (utili per nav, footer e breadcrumb)
-    - funzione che crea la nav per admin e per utente normale (credo)
+    - funzione che crea la nav per admin e per utente normale (per utente è l'header)
     - funzione che crea il footer (ossia da modificare solo la parte del link circolare alla home se l'utente è già in quella pagina)
 */
 
@@ -32,6 +32,38 @@ $pagine = [
         'label' => 'Nuovo animale',
         'url' => './nuovo-animale',
         'parent' => 'home'
+    ],
+    'animali' => [
+        // 'file' => __DIR__ . '/src/php/animali.php',
+        'label' => 'Animali',
+        'url' => './animali',
+        'parent' => 'home'
+    ],
+    'registrati' => [
+        'label' => 'Registrati',
+        'url' => './registrati',
+        'parent' => 'home'
+    ],
+    'accedi' => [
+        'label' => 'Accedi',
+        'url' => './accedi',
+        'parent' => 'home'
+    ],
+    'profilo-utente' => [
+        'label' => 'Profilo',
+        'url' => './profilo-utente',
+        'parent' => 'home'
+    ],
+    'revisione-richiesta' => [
+        'label' => 'Revisione richiesta',
+        'url' => './revisione-richiesta',
+        'parent' => 'profilo-utente'
+    ],
+    'lavora-con-noi' => [
+        //'file' => __DIR__ . '/src/php/lavora-con-noi.php',
+        'label' => 'Lavora con Noi',
+        'url' => './lavora-con-noi',
+        'parent' => 'home'
     ]
 ];
 
@@ -59,6 +91,11 @@ $userMenu = [
     ['href' => './come-funziona', 'text' => 'Come funziona'],
     ['href' => './chi-siamo', 'text' => 'Chi siamo'],
     ['href' => './lavora-con-noi', 'text' => 'Lavora con noi'],
+];
+
+$noNav = [
+    ['href' => './registrati'],
+    ['href' => './accedi']
 ];
 
 
@@ -106,7 +143,9 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
 
     // Parte finale fissa
     $html .= '
-        <a id="logout" class="orange-button" href="./home">← logout</a>
+        <form action="./area-riservata" method="POST">
+            <button type="submit" name="logout" class="logout-btn">Esci</button>
+        </form>
     </nav>';
 
     return $html;
@@ -116,85 +155,116 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
 /**
  * Genera la nav menù utente dinamicamente
  */
-function buildUserNav(array $items, string $currentHref): string {
-    // 1. Parte INIZIALE fissa (Skip link, Logo, Checkbox mobile)
-    
+function buildUserNav(array $items, string $currentHref, bool $isLogged): string {
+
+    global $noNav;
+
     $homeHref = './home';
     $logoAttributes = ($currentHref === $homeHref)? ' id="currentLink"' : '';
-
-    $html = '
-    <header>
-        <a class="navigationHelp" href="#content">Salta al contenuto principale</a>
-        
-        <div class="container">
-            
-            <nav id="header-logo" aria-label="link alla home">
-                <h1>
-                    <a href="' . $homeHref . '"' . $logoAttributes . '>
-                        <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
-                        <span id="name-site">Pet<span id="not-bold">Match</span></span>
-                    </a>
-                </h1>
-            </nav>
-            
-            <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
-
-            <nav aria-label="Menu principale" id="nav-osso">
-                <ul id="osso">';
-
-    // 2. parte dinamica: ciclo gli items passati come argomento
-    foreach ($items as $item) {
-        if($item['href'] !== './home') {
-            // Controllo se è la pagina corrente
-            // Se l'href corrente corrisponde, aggiungo l'ID active
-            $isActive = ($item['href'] === $currentHref) ? ' id="currentLink" ' : '';
-            
-            $html .= '<li' . $isActive . '><a href="' . $item['href'] . '">' . $item['text'] . '</a></li>';
+    
+    $navForm = false;
+    foreach ($noNav as $noNavPage) {
+        if($noNavPage['href'] === $currentHref) {
+            $headerID = 'id="noNavHeader"';
+            $navForm = true;
+            break;
         }
+        $headerID = 'id="NavHeader"';
     }
+    
 
-    // 3. Parte finale fissa (Chiusura nav, Azioni header: Tema, Preferiti, Login, Hamburger)
-    $html .= '
-                </ul>
-            </nav>
+    if(!$navForm) {
+        $html = '
+        <header ' . $headerID . '>
+            <a class="navigationHelp" href="#content">Salta al contenuto principale</a>
             
-            <div id="header-actions">
-                <input type="checkbox" id="theme-toggle" class="sr-only">
-                <label for="theme-toggle" id="theme-switch" aria-label="Cambia tema">
-                    <span id="slider">
-                        <img src="./assets/icons/sun.svg" id="sun" alt=""/>
-                        <img src="./assets/icons/moon.svg" id="moon" alt=""/>
-                    </span>
-                </label>
-
-                <nav aria-label="Area personale">
-                    <ul id="personal-area">
-                        <li>
-                            <a href="./preferiti" id="preferiti" aria-label="Preferiti">
-                                <img src="./assets/icons/heart-normal.svg" id="heart-normal" alt="" />
-                                <img src="./assets/icons/heart-hover.svg" id="heart-hover" alt="" />
-                            </a>
-                        </li>
-                        
-                        <li>
-                            <a class="white-button" href="./accedi">
-                                <span id="text-accedi">Accedi</span>
-                                <img src="./assets/icons/account-normal.svg" id="account-normal" alt="" />
-                                <img src="./assets/icons/account-hover.svg" id="account-hover" alt="" />
-                            </a>
-                        </li>
-                    </ul> 
+            <div class="container">
+                
+                <nav id="header-logo" aria-label="link alla home">
+                    <h1>
+                        <a href="' . $homeHref . '"' . $logoAttributes . '>
+                            <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
+                            <span id="name-site">Pet<span id="not-bold">Match</span></span>
+                        </a>
+                    </h1>
                 </nav>
                 
-                <label for="menu-toggle-checkbox" id="menu-toggle" aria-label="Apri il menù">
-                </label>
-
+                <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
+    
+                <nav aria-label="Menu principale" id="nav-osso">
+                    <ul id="osso">';
+    
+        // 2. parte dinamica: ciclo gli items passati come argomento
+        foreach ($items as $item) {
+            if($item['href'] !== './home') {
+                // Controllo se è la pagina corrente
+                // Se l'href corrente corrisponde, aggiungo l'ID active
+                $isActive = ($item['href'] === $currentHref) ? ' id="currentLink" ' : '';
+                
+                $html .= '<li' . $isActive . '><a href="' . $item['href'] . '">' . $item['text'] . '</a></li>';
+            }
+        }
+    
+        // 3. Parte finale fissa (Chiusura nav, Azioni header: Tema, Preferiti, Login, Hamburger)
+        $html .= '
+                    </ul>
+                </nav>
+                
+                <div id="header-actions">
+                    <input type="checkbox" id="theme-toggle" class="sr-only">
+                    <label for="theme-toggle" id="theme-switch" aria-label="Cambia tema">
+                        <span id="slider">
+                            <img src="./assets/icons/sun.svg" id="sun" alt=""/>
+                            <img src="./assets/icons/moon.svg" id="moon" alt=""/>
+                        </span>
+                    </label>
+    
+                    <nav aria-label="Area personale">
+                        <ul id="personal-area">
+                            <li>
+                                <a href="./preferiti" id="preferiti" aria-label="Preferiti">
+                                    <img src="./assets/icons/heart-normal.svg" id="heart-normal" alt="" />
+                                    <img src="./assets/icons/heart-hover.svg" id="heart-hover" alt="" />
+                                </a>
+                            </li>
+                            
+                            <li>
+                                <a class="white-button" href="./accedi">';
+                                $html .= $isLogged ? '<span id="text-accedi">Profilo</span>' : '<span id="text-accedi">Accedi</span>';
+                                
+                                $html .= '
+                                    <img src="./assets/icons/account-normal.svg" id="account-normal" alt="" />
+                                    <img src="./assets/icons/account-hover.svg" id="account-hover" alt="" />
+                                </a>
+                            </li>
+                        </ul> 
+                    </nav>
+                    
+                    <label for="menu-toggle-checkbox" class="menu-toggle" aria-label="Apri il menù">
+                    </label>
+    
+                </div>
             </div>
-        </div>
-    </header>';
+        </header>';
+    } else {
+        $html = '
+        <header ' . $headerID . '>
+            <div class="container">
+                <nav id="header-logo" aria-label="link alla home">
+                    <h1>
+                        <a href="./home">
+                            <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
+                            <span id="name-site">Pet<span id="not-bold">Match</span></span>
+                        </a>
+                    </h1>
+                </nav>
+            </div>
+        </header>';
+    }
 
     return $html;
 }
+
 
 
 function getBreadcrumb($currentPageKey, $pagine) {
@@ -238,7 +308,7 @@ function getBreadcrumb($currentPageKey, $pagine) {
  * NOTA: possibile che l'estensione di vscode non vi faccia vedere l'immagine caricata, guardate dal terminale ssh
 */
 // se $_FILES['foto'] non esiste o è vuoto, la funzione ritorna false
-/**function uploadImage($file, $folder) {
+function uploadImage($file, $folder) {
 
     $basePath = dirname(__DIR__) . '/assets/images/' . $folder . '/';
     $dbPathPrefix = 'assets/images/' . $folder . '/';
@@ -247,18 +317,18 @@ function getBreadcrumb($currentPageKey, $pagine) {
         echo "La cartella non esiste. Provo a crearla...<br>";
         if (!mkdir($basePath, 0755, true)) {
             echo "ERRORE: Impossibile creare la cartella. Controlla i permessi di sistema.<br>";
-            return false;
+            return null;
         }
     }
 
     if (!is_writable($basePath)) {
         echo "ERRORE: La cartella esiste ma NON è scrivibile (permessi negati).<br>";
-        return false;
+        return null;
     }
 
     if ($file['error'] !== UPLOAD_ERR_OK) {
         echo "ERRORE PHP nel file: Codice " . $file['error'] . "<br>";
-        return false;
+        return null;
     }
 
     $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
@@ -270,51 +340,94 @@ function getBreadcrumb($currentPageKey, $pagine) {
         return $dbPathPrefix . $fileName;
     } else {
         echo "ERRORE: move_uploaded_file è fallito. Possibile causa: file temporaneo sparito o restrizioni del server.<br>";
-        return false;
-    }
-}**/
-
-// LINOR la funzione di prima secondo me è sbagliata perchè diamo un pò di echo a caso; conviene ritornare falso e poi 
-// nel php di competenza dare messaggio di errore; tu che dici??
-
-function uploadImage($file, $folder) {
-    $basePath = dirname(__DIR__) . '/assets/images/' . $folder . '/';
-    $dbPathPrefix = 'assets/images/' . $folder . '/';
-
-    if (!isset($file['error']) || $file['error'] !== UPLOAD_ERR_OK) {
-        return null; 
-    }
-
-    if ($file['size'] > 3 * 1024 * 1024) {
         return null;
     }
-
-    $allowedMime = ['image/jpeg', 'image/png', 'image/webp'];
-    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-    $mime = finfo_file($finfo, $file['tmp_name']);
-    finfo_close($finfo);
-
-    if (!in_array($mime, $allowedMime)) {
-        return null;
-    }
-
-    $extensionMap = [
-        'image/jpeg' => 'jpg',
-        'image/png'  => 'png',
-        'image/webp' => 'webp'
-    ];
-    $extension = $extensionMap[$mime];
-
-    $fileName = $folder . "_" . time() . "_" . bin2hex(random_bytes(4)) . "." . $extension;
-    $targetFile = $basePath . $fileName;
-
-    if (!file_exists($basePath)) {
-        mkdir($basePath, 0755, true);
-    }
-
-    if (move_uploaded_file($file['tmp_name'], $targetFile)) {
-        return $dbPathPrefix . $fileName; // Ritorna il path da salvare nel DB
-    }
-
-    return null;
 }
+
+function getCardAnimal():string{
+    $html = '<section id=\'info-animal\'>
+            <h2>Animale interessato</h2>
+            <div class=\'details-card-animale\'>
+                <div>
+                    <div>
+                        <img src="[imgAnimale]" alt="" />
+                        <!-- TODO: aggiungere link alla pagina dell\'animale -->
+                        <a href="" class="brown-button">Vedi animale</a>
+                    </div>
+                    <dl aria-label="Descizione superficiale dell\'animale">
+                        <dt>Nome:</dt>
+                        <dd>[nomeAnimale]</dd>
+                        <dt>Sesso:</dt>
+                        <dd>[SessoAnimale]</dd>
+                        <dt>Età:</dt>
+                        <dd>[EtàAnimale]</dd>
+                        <dt>Razza:</dt>
+                        <dd>[RazzaAnimale]</dd>
+                        <dt>Trasporto:</dt>
+                        <dd>[TrasportoAnimale]</dd>
+                    </dl>
+                </div>
+                <dl aria-label="Informazioni approfondite sull\'animale">
+                    <dt>Famiglia ideale:</dt>
+                    <dd>[FamigliaIdealeAnimale]</dd>
+                    <dt>Condizioni mediche:</dt>
+                    <dd>[CondizioniMedicheAnimale]</dd>
+                    <dt>Descrizione caratteriale:</dt>
+                    <dd>[DescrizioneCaratterialeAnimale]</dd>
+                </dl>
+            </div>
+        </section>';
+    return $html;
+}
+
+
+function logout(){
+    $_SESSION = [];
+    
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+    
+    session_destroy();
+    
+    header("Location: ./home");
+    exit;
+}
+
+function calcolareEta(?string $dataNascita): ?int {
+    if (!$dataNascita) {
+        return null;
+    }
+
+    try {
+        $nascita = new DateTime($dataNascita);
+        return (new DateTime())->diff($nascita)->y;
+    } catch (Exception $e) {
+        return null;
+    }
+}
+
+// FUNZIONI PER COOKIES
+// Funzione che va a prendere gli animali messi nei preferiti dal guest non loggato
+function getGuestFavorites(): array {
+    if (isset($_COOKIE['preferiti_guest'])) {
+        $data = json_decode($_COOKIE['preferiti_guest'], true);
+        return is_array($data) ? $data : [];
+    }
+    return [];
+}
+
+// Funzione che salva in un array cookie i preferiti di un utente non loggato
+function saveGuestFavorites(array $ids): void {
+    setcookie(
+        'preferiti_guest',
+        json_encode(array_values(array_unique($ids))),
+        time() + 60 * 60 * 24 * 30, // 30 giorni
+        '/'
+    );
+}
+

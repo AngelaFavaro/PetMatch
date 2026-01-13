@@ -63,14 +63,14 @@
     visibility: visible;
 }
 
-#menu-toggle-checkbox:focus-visible ~ #header-actions #menu-toggle{
+#menu-toggle-checkbox:focus-visible ~ #header-actions .menu-toggle{
     border: 1px solid black;
     outline: 2px solid white; 
     outline-offset: 2px;
 }
 
 
-#menu-toggle {
+.menu-toggle {
     display: flex;
     width: 100%;
     height: 100%;
@@ -85,16 +85,18 @@
     justify-content: center;
 }
 
-#menu-toggle::before {
+.menu-toggle::before {
     content: "\2630"; /* ☰ */
     display: block;
+    width: 45px;
 }
 
-#menu-toggle-checkbox:checked ~ #header-actions #menu-toggle::before {
+#menu-toggle-checkbox:checked ~ #header-actions .menu-toggle::before {
     content: "\2715"; /* ✕ */
+    width: 45px;
 }
 
-#menu-toggle-checkbox:checked ~ #header-actions #menu-toggle {
+#menu-toggle-checkbox:checked ~ #header-actions .menu-toggle {
     transform: rotate(180deg);
 }
 
@@ -201,6 +203,142 @@ input:checked + #slider {
     display: none;
 }
 
+/* ================== REGISTRATI ==================*/
+
+#signup .container{
+    padding: 2em 8%;
+    margin: 0 0.5em;
+}
+
+#form-signup .column-container{
+    gap:0;
+}
+
+#form-signup .column-container div{
+    flex: 1 1 51%;
+}
+/* ================== UTENTE NORMALE ==================*/
+
+#user-profile .tab-content form{
+    text-align: left;
+}
+
+/*=================== ANIMALI ====================*/
+
+#animali li.card {
+    flex-shrink: 1;
+}
+
+#animali #nav-animali-type ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    width: 100%;    
+    flex-shrink: 1;      
+}
+#animali #nav-animali-type::after {
+    display: none;
+}
+#animali #nav-animali-type li {
+    min-width: 100px;
+}
+
+#animali .cards-container {
+    justify-content: center;
+}
+
+#animali #filtri .capsula-filtro{
+    width: 100%;
+    max-width: none;
+    justify-content: left;
+}
+
+#animali #filtri #searchSex.capsula-filtro,
+#animali #filtri #searchSize.capsula-filtro{
+    width: 48.5%;
+}
+
+#animali #filtri .capsula-filtro .eta-range{
+    margin:auto;
+    padding-right: 2em;
+}
+
+#animali #filtri #searchName.capsula-filtro {
+    width: 100%;
+}
+
+#animali #filtri {
+    display: flex;
+    flex-direction: column;  /* mette tutto in colonna */
+    gap: 1em;              /* spazio tra righe */
+    align-items: center;     /* centra tutto orizzontalmente */
+}
+
+#animali #filtri ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0.5em;
+    justify-content: flex-start; /* centra le capsule nella riga */
+}
+
+#animali #filtri button.orange-button {
+    margin-top: 0.5em;  /* spazio sopra il bottone */
+    margin-left: 50%;
+    margin-right: 50%;
+    align-self: center;  /* centra il bottone nella colonna */
+}
+
+#animali li.card {
+    cursor: pointer;
+    width: 9em;
+    height: 14em;
+    list-style: none;
+    margin: 0.5em;
+    border-radius: 0.2em;
+    position: relative;
+    background-color: var(--darkbgcolor);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    overflow: hidden;
+    border: 3px solid var(--darkbgcolor);
+    transition: 
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+        /* border: 0.3 ease; */
+    
+}
+
+#animali li.card ul {
+    width: 9em;
+    height: 14em;
+    overflow: hidden;
+}
+
+#animali .card li.interessamento {
+    float: right;   /* non serve più */
+    clear: left;
+    padding-right: 0.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    color: var(--txtcolor);
+
+}
+
+#animali li.immagine {
+    height: 50%;
+    width: 100%;
+    align-content: center;
+    /* overflow: hidden; */
+    box-sizing: border-box;
+    position: relative;
+    border-bottom: 1px solid var(--text-buttoncolor);
+}
+
 
 
 /* ================== NAV ADMIN ==================*/
@@ -234,7 +372,8 @@ body#admin-body main {
 div#admin-area {
     padding: 1em;
 }
-.menu-toggle {
+
+#admin-body .menu-toggle {
     display: block;
     font-size: 2em;
     background: none;
@@ -248,6 +387,10 @@ nav#menu-admin img {
     width: 10em;
     max-width: 100%;
     height: auto;
+}
+div#admin-area article{
+    margin-bottom: 1em;
+    margin-top: 0.5em;
 }
 
 div#admin-area article#animale-richiesta {
@@ -272,7 +415,7 @@ h1{
 
 nav#breadcrumb {
     padding: 0.5em 1em;
-    margin: 1em;
+    margin: 1em auto;
 }
 
 
@@ -301,36 +444,32 @@ nav#breadcrumb {
 
 /* ================== NUOVO ANIMALE ==================*/
 
-/* 1. Pulizia totale del contenitore esterno */
 #admin-area-aggiungi {
     min-height: 100vh;
     display: block; 
-    background-color: var(--bgcolor); /* Elimina lo sfondo verde */
+    background-color: var(--bgcolor); 
     padding: 0;
     margin: 0;
 }
 
-/* 2. Form a tutta larghezza, senza bordi arrotondati né ombre */
 #form-add-animal {
     background-color: var(--bgcolor);
     width: 100%;
     margin: 0;
-    padding: 1em; /* Un minimo di spazio dai bordi del telefono per i testi */
+    padding: 1em; 
     border-radius: 0;
     box-shadow: none;
     box-sizing: border-box;
 }
 
-/* 3. Forza la sequenzialità (One-column layout) */
 .column-container, 
 .column-user {
     display: flex;
-    flex-direction: column; /* Tutto uno sotto l'altro */
-    gap: 0; /* Gestiamo lo spazio con i margini dei singoli elementi */
+    flex-direction: column; 
+    gap: 0; 
     width: 100%;
 }
 
-/* 4. Spaziatura uniforme tra i blocchi del form */
 fieldset {
     margin-bottom: 1.5em;
     border: none;
@@ -338,16 +477,14 @@ fieldset {
     width: 100%;
 }
 
-/* Ogni gruppo label + input */
 .form-group, 
 .column-user > div {
     display: flex;
     flex-direction: column;
-    margin-bottom: 1em; /* Spazio costante tra Nome, Razza, ecc. */
+    margin-bottom: 1em; 
     width: 100%;
 }
 
-/* 5. Input e Label */
 label {
     font-size: 0.95em;
     font-weight: 550;
@@ -361,16 +498,15 @@ select,
 textarea {
     width: 100%;
     padding: 0.8em;
-    font-size: 1rem; /* Previene lo zoom automatico su mobile */
+    font-size: 1rem; 
     border: 1px solid var(--text-buttoncolor);
     border-radius: 0.4em;
     box-sizing: border-box;
 }
 
-/* 6. Adattamento gruppi Radio (Cane/Gatto) */
 .radio-group-cg {
     display: flex;
-    flex-direction: column; /* Anche questi uno sotto l'altro */
+    flex-direction: column;
     gap: 0.8em;
 }
 
@@ -380,10 +516,9 @@ textarea {
     box-sizing: border-box;
 }
 
-/* 7. Bottoni finali */
 .form-buttons-container {
     display: flex;
-    flex-direction: column; /* Bottoni uno sopra l'altro per il pollice */
+    flex-direction: column; 
     gap: 1em;
     margin-top: 1em;
     padding-bottom: 3em; /* Spazio per la navigazione del browser */
@@ -392,4 +527,131 @@ textarea {
 .form-buttons-container button {
     width: 100%;
     padding: 1.2em;
+}
+
+/* ================== LOGIN ==================*/
+
+#login .container .column-container{
+    width: 100%;
+    padding-bottom:1em;
+}
+
+#form-login legend{
+    margin-bottom:0;
+}
+
+#form-login button{
+    width: 100%;
+    margin-top:1.5em;
+}
+
+/* ================== REVISIONE RICHIESTA ==================*/
+#revisione-richiesta .column-container{
+    gap:1em;
+}
+
+#revisione-richiesta #info-request{
+    flex:1 1 100%;
+}
+
+#revisione-richiesta #info-animal{
+    flex:1 1 100%;
+}
+
+.dialog-buttons label{
+    padding:0.1em 2.7em;
+}
+
+
+/* ==================LAVORA CON NOI ================== */
+
+
+body#lavora-con-noi {
+    margin: 0;
+    overflow-x: hidden;
+}
+
+#introduction-lavora-con-noi .container {
+    display: block;   
+    gap: 0;
+}
+
+#introduction-lavora-con-noi .column-user {
+    flex: unset;
+    width: 100%;
+    margin-bottom: 2em; 
+}
+
+#introduction-lavora-con-noi h1 {
+    margin-bottom: 0.5em;
+    font-size: 1.8em;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+#come-diventare-volontario {
+    background-color: var(--greencolor); 
+    color: var(--bgcolor);                       
+    width: 100%;
+    padding: 5em;
+}
+
+#come-diventare-volontario h2 {
+    margin-bottom: 1em;
+    font-size: 1.8em;
+}
+
+.volontari-layout {
+    display: block;  
+    gap: 0;
+}
+
+.volontari-text {
+    flex: unset;
+    width: 100%;
+}
+
+.volontari-image {
+    display: none;  
+}
+
+#come-diventare-sostenitore {
+    margin-top: 5em;
+    margin-left: 5em;
+    margin-right: 5em;
+    background-color: var(--footercolor); 
+    color: var(--bgcolor);        
+    border-top-right-radius: 5em;
+    border-top-left-radius: 5em;     
+    padding: 5em;
+}
+
+#come-diventare-sostenitore h1 {
+    margin-bottom: 1em;
+    font-size: 2.1em;
+}
+
+.sostenitori-layout {
+    display: block;  
+    gap: 0;
+}
+
+.sostenitori-text {
+    flex: unset;
+    width: 100%;  
+}
+
+.sostenitori-image {
+    display: none;  
+}
+
+#contatto-sostenitore {
+    padding: 5em;
+}
+
+#contatto-sostenitore a {
+    color: var(--txtcolor);
+    text-decoration: underline;
 }

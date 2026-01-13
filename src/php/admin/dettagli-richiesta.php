@@ -2,7 +2,7 @@
 include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
-$_SESSION['user'] = 'lindorlinor@gmail.com';
+// $_SESSION['email'] = 'lindorlinor@gmail.com';
 
 
 
@@ -84,15 +84,15 @@ function buildDateInfo(array $r): array {
     $dataFine = '';
     $dataRifiuto = '';
     if (($r['stato'] ?? '') === 'Da trasportare') {
-        $dataFine = '<li><strong>Data fine valutazione:</strong> <time datetime="' . ($r['data_fine_valutazione'] ?? '') . '" id="data-fine-valutazione">' .displayDateItalianFormat($r['data_fine_valutazione'] ?? ''). '</time></li>';
-        $dataInizio = '<li><strong>Data inizio valutazione:</strong> <time datetime="' . ($r['data_inizio_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_inizio_valutazione'] ?? '') . '</time></li>';
+        $dataFine = '<dt>Data fine valutazione</dt><dd><time datetime="' . ($r['data_fine_valutazione'] ?? '') . '" >' .displayDateItalianFormat($r['data_fine_valutazione'] ?? ''). '</time></dd>';
+        $dataInizio = '<dt>Data inizio valutazione</dt><dd><time datetime="' . ($r['data_inizio_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_inizio_valutazione'] ?? '') . '</time></dd>';
     }
 	if(($r['stato'] ?? '') === 'In valutazione') {
-		$dataInizio = '<li><strong>Data inizio valutazione:</strong> <time datetime="' . ($r['data_inizio_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_inizio_valutazione'] ?? '') . '</time></li>';
+		$dataInizio = '<dt>Data inizio valutazione</dt><dd><time datetime="' . ($r['data_inizio_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_inizio_valutazione'] ?? '') . '</time></dd>';
 	}
 	if(($r['stato'] ?? '') === 'Annullata') {
-		$dataInizio = '<li><strong>Data inizio valutazione:</strong> <time datetime="' . ($r['data_inizio_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_inizio_valutazione'] ?? '') . '</time></li>';
-		$dataRifiuto = '<li><strong>Data annullamento:</strong> <time datetime="' . ($r['data_fine_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_fine_valutazione'] ?? '') . '</time></li>';
+		$dataInizio = '<dt>Data inizio valutazione</dt><dd><time datetime="' . ($r['data_inizio_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_inizio_valutazione'] ?? '') . '</time></dd>';
+		$dataRifiuto = '<dt>Data annullamento</dt><dd><time datetime="' . ($r['data_fine_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_fine_valutazione'] ?? '') . '</time></dd>';
 	}
     return [$dataInizio, $dataFine, $dataRifiuto];
 }
@@ -212,14 +212,14 @@ function handlePostActions(DBAccess $conn, array $r, string $email, int $idAnima
 
 function controlAccess(): bool{
 	//controlla se l'utente è loggato e se è un admin
-	if(!isset($_SESSION['user']) || $_SESSION['role'] !== 'admin'){
+	if(!isset($_SESSION['email']) || $_SESSION['role'] !== 'admin'){
 		return false;
 	}
 	return true;
 }
 
 function imTheAdmin($r): bool{
-	if(($r['email-admin'] ?? '') === ($_SESSION['user'] ?? '')){
+	if(($r['email-admin'] ?? '') === ($_SESSION['email'] ?? '')){
 		return true;
 	}
 	return false;
@@ -231,12 +231,12 @@ $paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore: templ
 $email = $_GET['email'];
 $idAnimale = $_GET['id-animale'];
 
-$connessione = new DBAccess();
-$connessioneOK = $connessione->openDBConnection();
 $richiesta = [];
 $dataRichiestaRespinta = '';
 $dataInizioValutazione = '';
 $dataFineValutazione = '';
+$connessione = new DBAccess();
+$connessioneOK = $connessione->openDBConnection();
 
 if ($connessioneOK) {
     $richiesta = $connessione->getRequestDetails($email, $idAnimale);
@@ -269,6 +269,7 @@ if(!imTheAdmin($richiesta)){
 }
 $main = str_replace('[di chi]', $di_chi, $main);
 $dataRichiesta='<time datetime="' . ($richiesta['data-richiesta'] ?? '') . '">' . displayDateItalianFormat($richiesta['data-richiesta'] ?? '') . '</time>';
+
 $main = str_replace('[data]', $dataRichiesta, $main);
 $main = str_replace('[contenutoLettera]', e($richiesta['lettera-di-presentazione'] ?? ''), $main);
 $main = str_replace('[paginaAnimale]', './animale?id=' . e($richiesta['id-animale'] ?? ''), $main);
@@ -279,12 +280,27 @@ $main = str_replace('[stato]', e($richiesta['stato'] ?? ''), $main);
 $main = str_replace('[nome]', e($richiesta['nome-richiedente'] ?? ''), $main);
 $main = str_replace('[imgPath]', e($richiesta['imgPath'] ?? ''), $main);
 $main = str_replace('[cognome]', e($richiesta['cognome-richiedente'] ?? ''), $main);
-$main = str_replace('[telefono]', e($richiesta['telefono-richiedente'] ?? ''), $main);
+//telefono e indirizzo sono opzionali
+if($richiesta['telefono-richiedente'] ?? ''){
+    $telefono_richiedente='<dt>Telefono</dt><dd>' . $richiesta['telefono-richiedente']. '</dd>';
+}
+$main = str_replace('[telefono-richiedente]', $telefono_richiedente, $main);
 $main = str_replace('[email]', e($richiesta['email-richiedente'] ?? ''), $main);
-$main = str_replace('[indirizzo]', e($richiesta['indirizzo-richiedente'] ?? ''), $main);
+$indirizzo_richiedente='';
+if($richiesta['trasporto-richiesta']===1 && $richiesta['indirizzo-richiedente']){
+    $indirizzo_richiedente='<dt>Indirizzo</dt><dd>' . $richiesta['indirizzo-richiedente']. '</dd>';
+}elseif($richiesta['trasporto-richiesta']===1 && !$richiesta['indirizzo-richiedente']){
+    // per sicurezza aggiuntiva, controllo il caso in cui non sia presente (MA dovrebbe se è stato richiesto il trasporto!)
+    $indirizzo_richiedente='<dt class="data-error">Indirizzo</dt><dd>MANCANTE</dd>'; //
+}
+$main = str_replace('[indirizzo-richiedente]', $indirizzo_richiedente, $main);
 $main = str_replace('[nomeAnimale]', e($richiesta['nome-animale'] ?? ''), $main);
 $main = str_replace('[animalImgPath]', e($richiesta['animalImgPath'] ?? ''), $main);
-$main = str_replace('[sessoAnimale]', e($richiesta['sesso-animale'] ?? ''), $main);
+if($richiesta['sesso-animale'] === 'F')
+    $main = str_replace('[sessoAnimale]', '<abbr title="Femmina">F</abbr>', $main);
+elseif($richiesta['sesso-animale'] === 'M')
+    $main = str_replace('[sessoAnimale]', '<abbr title="Maschio">M</abbr>', $main);
+
 $main = str_replace('[etaAnimale]', e($richiesta['eta-animale'] ?? ''), $main);
 $main = str_replace('[razzaAnimale]', e($richiesta['razza-animale'] ?? ''), $main);
 $main = str_replace('[trasportoAnimale]', siNo($richiesta['trasporto-animale'] ?? 0), $main);
