@@ -163,7 +163,7 @@ input:checked + #slider {
 
 #events-list::before{
     width: 150%;
-    left: -20%;
+    left: -25%;
 }
 
 #events-list .polaroid:nth-child(3){
@@ -196,7 +196,12 @@ input:checked + #slider {
 }
 
 #sponsor img{
-    width: 140px; 
+    width: 130px; 
+    padding:0.5em;
+}
+
+#sponsor{
+    padding:1.5em;
 }
 
 #timeline summary::-webkit-details-marker {

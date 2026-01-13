@@ -1117,8 +1117,9 @@ details:not([open]) .popup {
     background-size: cover;
     background-repeat: no-repeat;
     background-position:top;
-    height:fit-content;
+    /* height:fit-content; */
     padding-top: 3em;
+    margin-bottom:1em;
 }
 
 #sponsor .column-container{
@@ -1130,7 +1131,8 @@ details:not([open]) .popup {
     padding:1em;
     height: auto; 
     object-fit: contain; 
-    margin-bottom:12.5%;
+    margin-bottom:17%;
+    padding-top:3em;
 }
 
 #sponsor img:nth-child(3){
@@ -1142,7 +1144,7 @@ details:not([open]) .popup {
 }
 
 #sponsor + .container a{
-    margin-top:-8%;
+    margin-top:-13%;
 }
 
 
@@ -1152,7 +1154,7 @@ details:not([open]) .popup {
 #affidamento-home{
     background-color: var(--headercolor);
     color:var(--bgcolor);
-    margin-top: 5em;
+    margin-top: 7%;
 }
 
 #content-affidamento p{
