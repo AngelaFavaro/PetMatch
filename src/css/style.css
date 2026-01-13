@@ -572,6 +572,11 @@ input:focus{
     pointer-events: none;
 }
 
+#layout-user #currentLink a:visited{
+    color:var(--headerlink);
+}
+
+
 #layout-user #currentLink a{
     font-weight: 600;
 }
@@ -1110,9 +1115,9 @@ details:not([open]) .popup {
     background-size: cover;
     background-repeat: no-repeat;
     background-position:top;
-    /* height:fit-content; */
+    height:fit-content;
     padding-top: 3em;
-    margin-bottom:1em;
+    margin-bottom:3em;
 }
 
 #sponsor .column-container{
@@ -1136,8 +1141,9 @@ details:not([open]) .popup {
     margin-left:2.5em;
 }
 
-#sponsor + .container a{
-    margin-top:-13%;
+#section-sponsor + .container a{
+    margin-top:-16%;
+    margin-bottom:10%;
 }
 
 

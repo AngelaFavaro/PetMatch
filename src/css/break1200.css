@@ -44,8 +44,8 @@
     margin:0;
 }
 
-#sponsor + .container a{
-    margin-top:1em;
+#section-sponsor + .container a{
+    margin-top:-2em;
 }
 
 

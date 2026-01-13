@@ -156,14 +156,23 @@ input:checked + #slider {
     margin: 1em 0 0.8em 0;
 }
 
+#section-events{
+    max-width: 700px;
+    padding:2em 1em 1em 1em;
+}
+
 #events-list{
     margin:0;
     padding:3em 0 0 0;
 }
 
 #events-list::before{
-    width: 150%;
-    left: -25%;
+    width: 100%;
+    left: -0%;
+}
+
+#events-list .polaroid:before{
+    left: 30%;
 }
 
 #events-list .polaroid:nth-child(3){
@@ -176,9 +185,13 @@ input:checked + #slider {
 
 #events-list .polaroid:first-child,
 #events-list .polaroid:nth-child(2){
-    width: 50%;
-    margin-left:-5px;
+    width: 40%;
 }
+
+#events-list .polaroid:first-child{
+    margin-left:5%;
+}
+
 
 #form-affidamento {
     background-color: var(--bgcolor);
@@ -206,6 +219,10 @@ input:checked + #slider {
 
 #timeline summary::-webkit-details-marker {
     display: none;
+}
+
+#section-events + a{
+    margin-bottom:3em;
 }
 
 /* ================== REGISTRATI ==================*/
