@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
     $idAnimale = (int)$_POST['id-animale-preferito'];
 
     if (isset($_SESSION['email'])) {
-        // 🔵 UTENTE LOGGATO → DB
+        // UTENTE LOGGATO → DB
         $email = $_SESSION['email'];
 
         $conn = new DBAccess();
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
         }
 
     } else {
-        // 🟡 UTENTE NON LOGGATO → COOKIE
+        // UTENTE NON LOGGATO → COOKIE
         $preferiti = getGuestFavorites();
 
         if (in_array($idAnimale, $preferiti)) {
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
         saveGuestFavorites($preferiti);
     }
 
-    // 🔁 TORNA DOVE ERI
+    // TORNA DOVE ERI
     $redirect = $_SERVER['HTTP_REFERER'] ?? 'animali';
     header("Location: $redirect");
     exit;

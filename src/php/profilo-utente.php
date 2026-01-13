@@ -650,6 +650,10 @@ if ($connessioneOK) {
     exit;    
 }
 
+if (empty($infoUtente['ImgPath']) || !file_exists($infoUtente['ImgPath'])) {
+    $infoUtente['ImgPath'] = 'assets/images/users/default-pic.png';
+}
+
 //se non riesco a prendere le info dell'utente rimando alla pagina di login, vuol dire che l'utente non era nel db 
 // (impossibile ma meglio essere sicuri)
 if ($infoUtente == null) {

@@ -459,19 +459,13 @@ input:focus{
 
 /* ==================LAVORA CON NOI ================== */
 
-body#lavora-con-noi {
-    margin: 0;
-    overflow-x: hidden;
-}
 
 #introduction-lavora-con-noi {
-    padding: 5em 0em;
-    margin-left: 5em;
-    margin-right: 5em;
+    padding-bottom:3em;
 }
 #introduction-lavora-con-noi .container {
     display: flex;
-    gap: 7%;
+    gap: 4em;
 }
 #introduction-lavora-con-noi .column-user {
     flex: 1; 
@@ -480,15 +474,26 @@ body#lavora-con-noi {
     margin-bottom: 0.5em;
     font-size: 2.3em;
 }
-.underline {
-    text-decoration: underline;
+
+#introduction-lavora-con-noi a{
+    color:var(--headerlink);
 }
+
 
 #come-diventare-volontario {
     background-color: var(--greencolor); 
     color: var(--bgcolor);                       
     width: 100%;
-    padding: 5em;
+    padding: 2.5em;
+}
+
+#come-diventare-sostenitore .lavora-con-noi-img img{
+    border-radius: 2px;
+}
+
+#come-diventare-volontario p,
+#come-diventare-sostenitore p{
+    margin-bottom:1.5em;
 }
 
 #come-diventare-volontario h2 {
@@ -501,30 +506,29 @@ body#lavora-con-noi {
     gap: 3em;
 }
 
-.volontari-text {
-    flex: 1.7;
+.lavora-con-noi-img{
+    flex: 0 0 20%;
 }
 
-.volontari-image {
-    flex: 0.4;
-    background-image: url("../../assets/images/cane.png");
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
+.lavora-con-noi-img img{
+    width: 100%;
+    pointer-events: none;
+}
+
+.lavora-con-noi-text {
+    flex: 1 1 70%;
 }
 
 #come-diventare-sostenitore {
-    margin-top: 5em;
-    margin-left: 5em;
-    margin-right: 5em;
+    margin-top: 3em;
     background-color: var(--footercolor); 
     color: var(--bgcolor);        
-    border-top-right-radius: 5em;
-    border-top-left-radius: 5em;     
-    padding: 5em;
+    border-top-right-radius: 2.5em;
+    border-top-left-radius: 2.5em;     
+    padding: 2em 4em;
 }
 
-#come-diventare-sostenitore h1 {
+#come-diventare-sostenitore h2 {
     margin-bottom: 1em;
     font-size: 2.1em;
 }
@@ -535,22 +539,11 @@ body#lavora-con-noi {
     gap: 3em;
 }
 
-.sostenitori-text {
-    flex: 1.7;
-}
-
-.sostenitori-image {
-    flex: 0.7;
-    background-image: url("../../assets/images/sostenitore.jpg");
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    aspect-ratio: 1 / 1;
-     
-}
 
 #contatto-sostenitore {
-    padding: 5em;
+    margin-top: 3em;
+    margin-bottom:-2em;
+    text-align: center;
 }
 
 #contatto-sostenitore a {
@@ -577,6 +570,11 @@ body#lavora-con-noi {
 #layout-user #currentLink{
     pointer-events: none;
 }
+
+#layout-user #currentLink a:visited{
+    color:var(--headerlink);
+}
+
 
 #layout-user #currentLink a{
     font-weight: 600;
@@ -1118,6 +1116,7 @@ details:not([open]) .popup {
     background-position:top;
     height:fit-content;
     padding-top: 3em;
+    margin-bottom:3em;
 }
 
 #sponsor .column-container{
@@ -1129,7 +1128,8 @@ details:not([open]) .popup {
     padding:1em;
     height: auto; 
     object-fit: contain; 
-    margin-bottom:12.5%;
+    margin-bottom:17%;
+    padding-top:3em;
 }
 
 #sponsor img:nth-child(3){
@@ -1140,8 +1140,9 @@ details:not([open]) .popup {
     margin-left:2.5em;
 }
 
-#sponsor + .container a{
-    margin-top:-8%;
+#section-sponsor + .container a{
+    margin-top:-16%;
+    margin-bottom:10%;
 }
 
 
@@ -1151,7 +1152,7 @@ details:not([open]) .popup {
 #affidamento-home{
     background-color: var(--headercolor);
     color:var(--bgcolor);
-    margin-top: 5em;
+    margin-top: 7%;
 }
 
 #content-affidamento p{

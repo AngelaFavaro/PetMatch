@@ -156,14 +156,23 @@ input:checked + #slider {
     margin: 1em 0 0.8em 0;
 }
 
+#section-events{
+    max-width: 700px;
+    padding:2em 1em 1em 1em;
+}
+
 #events-list{
     margin:0;
     padding:3em 0 0 0;
 }
 
 #events-list::before{
-    width: 150%;
-    left: -20%;
+    width: 100%;
+    left: -0%;
+}
+
+#events-list .polaroid:before{
+    left: 30%;
 }
 
 #events-list .polaroid:nth-child(3){
@@ -176,9 +185,13 @@ input:checked + #slider {
 
 #events-list .polaroid:first-child,
 #events-list .polaroid:nth-child(2){
-    width: 50%;
-    margin-left:-5px;
+    width: 40%;
 }
+
+#events-list .polaroid:first-child{
+    margin-left:5%;
+}
+
 
 #form-affidamento {
     background-color: var(--bgcolor);
@@ -196,11 +209,20 @@ input:checked + #slider {
 }
 
 #sponsor img{
-    width: 140px; 
+    width: 130px; 
+    padding:0.5em;
+}
+
+#sponsor{
+    padding:1.5em;
 }
 
 #timeline summary::-webkit-details-marker {
     display: none;
+}
+
+#section-events + a{
+    margin-bottom:3em;
 }
 
 /* ================== REGISTRATI ==================*/
@@ -490,29 +512,19 @@ body#lavora-con-noi {
 }
 
 #introduction-lavora-con-noi .column-user {
-    flex: unset;
     width: 100%;
+}
+
+#introduction-lavora-con-noi .column-user:first-of-type{
     margin-bottom: 2em; 
 }
 
-#introduction-lavora-con-noi h1 {
-    margin-bottom: 0.5em;
-    font-size: 1.8em;
-}
-
-.underline {
-    text-decoration: underline;
-}
-
-#come-diventare-volontario {
-    background-color: var(--greencolor); 
-    color: var(--bgcolor);                       
+#come-diventare-volontario {                     
     width: 100%;
-    padding: 5em;
+    padding:3em 1em 1em 1em;
 }
 
 #come-diventare-volontario h2 {
-    margin-bottom: 1em;
     font-size: 1.8em;
 }
 
@@ -521,27 +533,17 @@ body#lavora-con-noi {
     gap: 0;
 }
 
-.volontari-text {
+#volontari-text {
     flex: unset;
     width: 100%;
 }
 
-.volontari-image {
-    display: none;  
-}
-
 #come-diventare-sostenitore {
-    margin-top: 5em;
-    margin-left: 5em;
-    margin-right: 5em;
-    background-color: var(--footercolor); 
-    color: var(--bgcolor);        
-    border-top-right-radius: 5em;
-    border-top-left-radius: 5em;     
-    padding: 5em;
+    margin-top: 3em; 
+    padding:3em 1em 1em 1em;
 }
 
-#come-diventare-sostenitore h1 {
+#come-diventare-sostenitore h2 {
     margin-bottom: 1em;
     font-size: 2.1em;
 }
@@ -556,15 +558,15 @@ body#lavora-con-noi {
     width: 100%;  
 }
 
-.sostenitori-image {
-    display: none;  
-}
-
 #contatto-sostenitore {
-    padding: 5em;
+    padding: 0em;
 }
 
 #contatto-sostenitore a {
     color: var(--txtcolor);
     text-decoration: underline;
+}
+
+.lavora-con-noi-img img{
+    display: none;
 }
