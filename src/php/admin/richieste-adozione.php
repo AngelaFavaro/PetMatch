@@ -14,7 +14,94 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
 }else{
     include './src/utils.php';
     include './src/DBconnection.php';
-    // $_SESSION['email'] = 'lindorlinor@gmail.com';
+
+
+    function renderTabs(): string{
+        $html = '';
+        if(isset($_GET['stato'])){
+            //se ha valore Nuova, In valutazione, Da trasportare, Annullata, Respinta
+            $stato = $_GET['stato'];
+            $selected = [
+                'Nuove' => '',
+                'In valutazione' => '',
+                'Da trasportare' => '',
+                'Annullata' => '',
+                'Respinta' => ''
+            ];
+            $checked = [
+                'Nuove' => '',
+                'In valutazione' => '',
+                'Da trasportare' => '',
+                'Annullata' => '',
+                'Respinta' => ''
+            ];
+            if(array_key_exists($stato, $selected)){
+                $checked[$stato] = 'checked';
+                $selected[$stato] = 'selected';
+            }
+            $html = '
+            <select id="mobile-select" name="tab-group">
+                <option value="tab1" '.$selected['Nuove'].'>
+                    NUOVE ([n-nuove])
+                </option>
+                <option value="tab2" '.$selected['In valutazione'].'>
+                    IN VALUTAZIONE ([n-in-valutazione])
+                </option>
+                <option value="tab3" '.$selected['Da trasportare'].'>
+                    DA TRASPORTARE ([n-da-trasportare])
+                </option>
+                <option value="tab4" '.$selected['Annullata'].'>
+                    ANNULLATE ([n-annullate])
+                </option>
+                <option value="tab5" '.$selected['Respinta'].'>
+                    RESPINTE ([n-respinte])
+                </option>
+            </select>
+            <input class="sr-only" type="radio" id="tab1" name="tab-group" '.$checked['Nuove'].'>
+            <label for="tab1"><h2>NUOVE ([n-nuove])</h2></label>
+            <input class="sr-only" type="radio" id="tab2" name="tab-group" '.$checked['In valutazione'].'>
+            <label for="tab2"><h2>IN VALUTAZIONE ([n-in-valutazione])</h2></label>
+            <input class="sr-only" type="radio" id="tab3" name="tab-group" '.$checked['Da trasportare'].'>
+            <label for="tab3"><h2>DA TRASPORTARE ([n-da-trasportare])</h2></label>
+            <input class="sr-only" type="radio" id="tab4" name="tab-group" '.$checked['Annullata'].'>
+            <label for="tab4"><h2>ANNULLATE ([n-annullate])</h2></label>
+            <input class="sr-only" type="radio" id="tab5" name="tab-group" '.$checked['Respinta'].'>
+            <label for="tab5"><h2>RESPINTE ([n-respinte])</h2></label> '; 
+        }else{
+            $html = '
+            <select id="mobile-select" name="tab-group">
+                <option value="tab1" selected>
+                    NUOVE ([n-nuove])
+                </option>
+                <option value="tab2">
+                    IN VALUTAZIONE ([n-in-valutazione])
+                </option>
+                <option value="tab3">
+                    DA TRASPORTARE ([n-da-trasportare])
+                </option>
+                <option value="tab4">
+                    ANNULLATE ([n-annullate])
+                </option>
+                <option value="tab5">
+                    RESPINTE ([n-respinte])
+                </option>
+            </select>
+
+            <input class="sr-only" type="radio" id="tab1" name="tab-group" checked>
+            <label for="tab1"><h2>NUOVE ([n-nuove])</h2></label>
+            <input class="sr-only" type="radio" id="tab2" name="tab-group">
+            <label for="tab2"><h2>IN VALUTAZIONE ([n-in-valutazione])</h2></label>
+            <input class="sr-only" type="radio" id="tab3" name="tab-group">
+            <label for="tab3"><h2>DA TRASPORTARE ([n-da-trasportare])</h2></label>
+            <input class="sr-only" type="radio" id="tab4" name="tab-group">
+            <label for="tab4"><h2>ANNULLATE ([n-annullate])</h2></label>
+            <input class="sr-only" type="radio" id="tab5" name="tab-group">
+            <label for="tab5"><h2>RESPINTE ([n-respinte])</h2></label> ';
+        }
+
+        return $html;
+        
+    }
     function renderTbodyNuove(DBAccess $conn, array $NRequestsByStatus): string {
         if($NRequestsByStatus['Nuova'] == 0){
             return '<tbody><tr><td colspan="4">Non ci sono nuove richieste di adozione.</td></tr></tbody>';
@@ -121,7 +208,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
         return $main;
     }
 
-
+    
     $tbody_nuove_richieste = "";
     $tbody_in_valutazione_richieste = "";
     $tbody_da_trasportare_richieste = "";
@@ -152,8 +239,9 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     $paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore: template layout.html non trovato o non leggibile.</p>');
     $breadcrumb = getBreadcrumb('richieste-adozione', $pagine);
     $nav = buildAdminNav($adminMenu,'./richieste-adozione');
-
+    
     $main = loadTemplate('./src/template/main/admin/richieste-adozione.html');
+    $main = str_replace('[tab-richieste-adozione]', renderTabs(), $main);
     $main = str_replace('[tbody-nuove-richieste]', $tbody_nuove_richieste, $main);
     $main = str_replace('[tbody-in-valutazione-richieste]', $tbody_in_valutazione_richieste, $main);
     $main = str_replace('[tbody-da-trasportare-richieste]', $tbody_da_trasportare_richieste, $main);

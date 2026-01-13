@@ -20,7 +20,7 @@ function buildToDoList(DBAccess $conn): string {
 		['href' => '', 'type' => 'ANIMALI SENZA ADMIN'],
 		['href' => '', 'type' => 'APPUNTI DA PRENDERE'],
 		['href' => '', 'type' => 'ACCOGLIENZE'],
-		['href' => '', 'type' => 'ADOZIONI DA VALUTARE'],
+		['href' => './richieste-adozione?stato=Nuove', 'type' => 'ADOZIONI DA VALUTARE'],
 		['href' => '', 'type' => 'TRASPORTI DA ORGANIZZARE'],
 	];
 	foreach ($links as $index => $link) {
