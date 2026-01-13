@@ -2,7 +2,12 @@
 include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
-// $_SESSION['email'] = 'lindorlinor@gmail.com';
+session_start();
+
+if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo controlla se esiste la variabile admin in session, la seconda controlla che sia affettivamente admin
+    header("Location: ./accedi");
+    exit;
+}
 
 
 

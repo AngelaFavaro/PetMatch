@@ -34,7 +34,6 @@
 
 a{
     color: var(--linkcolor);
-    font-weight: 400;
 }
 
 a:visited{
@@ -1843,19 +1842,19 @@ input:-webkit-autofill:active{
     flex: 1 1 35%;
 }
 
-#user-profile .tabs-container select:focus{
+#user-profile .tabs-container select:focus, #admin-area .tabs-container select:focus{
     border: 2px solid var(--headercolor);
     margin:4px;
 }
 
 /* tab */
-#user-profile .tabs-container {
+#user-profile .tabs-container, #admin-area .tabs-container {
     display: flex;
     flex-wrap: wrap;
     box-sizing: border-box;
 }
 
-#user-profile .tabs-container input{
+#user-profile .tabs-container input, #admin-area .tabs-container input {
     position: absolute;
     opacity: 0;
     width: 0;
@@ -1863,7 +1862,7 @@ input:-webkit-autofill:active{
 }
 
 
-#user-profile .tabs-container input + label {
+#user-profile .tabs-container input + label, #admin-area .tabs-container input + label {
     flex: 1 0 46%;
     padding: 1.8% 2%;
     height: 50px;
@@ -1874,7 +1873,7 @@ input:-webkit-autofill:active{
     cursor: pointer; 
 }
 
-#user-profile .tabs-container .tab-content {
+#user-profile .tabs-container .tab-content, #admin-area .tabs-container .tab-content{
     flex: 1 0 50%;
     height: fit-content;
     border-bottom: 1px solid var(--headercolor);
@@ -1885,7 +1884,7 @@ input:-webkit-autofill:active{
     border-radius: 0 0 0.5em 0.5em;
 }
 
-#user-profile input:checked + label {
+#user-profile input:checked + label, #admin-area input:checked + label {
     border-top: 1px solid var(--headercolor); 
     border-left: 1px solid var(--headercolor); 
     border-right: 1px solid var(--headercolor); 
@@ -1897,7 +1896,12 @@ input:-webkit-autofill:active{
 }
 
 #user-profile .tabs-container #tab1:checked  ~ .tab-content:nth-of-type(1),
-#user-profile .tabs-container #tab2:checked  ~ .tab-content:nth-of-type(2){
+#user-profile .tabs-container #tab2:checked  ~ .tab-content:nth-of-type(2), 
+#admin-area .tabs-container #tab1:checked  ~ .tab-content:nth-of-type(1),
+#admin-area .tabs-container #tab2:checked  ~ .tab-content:nth-of-type(2), 
+#admin-area .tabs-container #tab3:checked  ~ .tab-content:nth-of-type(3),
+#admin-area .tabs-container #tab4:checked  ~ .tab-content:nth-of-type(4),
+#admin-area .tabs-container #tab5:checked  ~ .tab-content:nth-of-type(5){
     display: block;
 }
 
@@ -2572,11 +2576,10 @@ nav#menu-admin li#currentLink {
 nav#menu-admin li a:visited{
     color: var(--visitedcolor);
 }
-nav#menu-admin li#currentLink{
+nav#menu-admin li#currentLink a{
     font-weight: 700;
     color: var(--txtcolor);
 }
-
 nav#menu-admin span{
     color: var(--bgcolor);
     font-weight: 700;
@@ -2696,30 +2699,41 @@ div#row2 article{
 
 
 /*================= DETTAGLI RICHIESTE DI ADOZIONE ==================*/
-.tab {
+
+#mobile-select{
+    display: none;
+}
+.tabs-container {
     overflow: hidden;
     display: flex;
 }
 
-.tab button {
+/* .tab button {
   background-color: inherit;
   border: none;
-  /* traduco in em */
   padding: 0.9em 1em;
   transition: 0.3s;
-  flex: 1; /* questo serve per far si che i tab siano grandi uguali e riempiano lo spazio*/
-}
+  flex: 1;
+} */
 
-.tab button.active {
+/* .tab button.active {
     padding-bottom: 0.3em;
     border: 1px solid var(--txtcolor);
     border-bottom: none;
-}
+} */
 
-.tab button {
+/* .tab button {
    border-bottom: 1px solid var(--txtcolor);
+} */
+
+#admin-area .tabs-container#richieste input + label{
+    flex:1;
+    height: auto;
 }
 
+#admin-area .tabs-container#richieste .tab-content{
+    border: none;
+}
 .tabcontent#Richiedente .orange-button{
     margin: 0em 0em 0em auto;
 }
@@ -2727,8 +2741,8 @@ div#row2 article{
 #animale-richiesta .orange-button{
     margin: 0em auto 2em 0em;
 }
-#details-container h2, .tab h2{
-    font-size: 1.2em;
+#admin-area .tabs-container h2{
+    font-size: 1.1em;
     /* margin-bottom: 1em; */
     color: var(--txtcolor);
 }
@@ -2939,10 +2953,6 @@ div#admin-area article#stato-trasporto{
 
 /*================= RICHIESTE DI ADOZIONE ==================*/
 
-div#admin-area .tab-richieste{
-    border: none;
-    padding: 0.5em;
-}
 
 /* 1. Tabella: Impostazioni fondamentali per il raggio */
 table {
