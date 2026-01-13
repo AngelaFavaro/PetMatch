@@ -225,11 +225,11 @@ input:checked + #slider {
 
 /*=================== ANIMALI ====================*/
 
-li.card {
+#animali li.card {
     flex-shrink: 1;
 }
 
-#nav-animali-type ul {
+#animali #nav-animali-type ul {
     display: flex;
     list-style: none;
     padding: 0;
@@ -238,45 +238,45 @@ li.card {
     width: 100%;    
     flex-shrink: 1;      
 }
-#nav-animali-type::after {
+#animali #nav-animali-type::after {
     display: none;
 }
-#nav-animali-type li {
+#animali #nav-animali-type li {
     min-width: 100px;
 }
 
-.cards-container {
+#animali .cards-container {
     justify-content: center;
 }
 
-#filtri .capsula-filtro{
+#animali #filtri .capsula-filtro{
     width: 100%;
     max-width: none;
     justify-content: left;
 }
 
-#filtri #searchSex.capsula-filtro,
-#filtri #searchSize.capsula-filtro{
+#animali #filtri #searchSex.capsula-filtro,
+#animali #filtri #searchSize.capsula-filtro{
     width: 48.5%;
 }
 
-#filtri .capsula-filtro .eta-range{
+#animali #filtri .capsula-filtro .eta-range{
     margin:auto;
     padding-right: 2em;
 }
 
-#filtri #searchName.capsula-filtro {
+#animali #filtri #searchName.capsula-filtro {
     width: 100%;
 }
 
-#filtri {
+#animali #filtri {
     display: flex;
     flex-direction: column;  /* mette tutto in colonna */
     gap: 1em;              /* spazio tra righe */
     align-items: center;     /* centra tutto orizzontalmente */
 }
 
-#filtri ul {
+#animali #filtri ul {
     display: flex;
     flex-wrap: wrap;
     list-style: none;
@@ -286,10 +286,57 @@ li.card {
     justify-content: flex-start; /* centra le capsule nella riga */
 }
 
-#filtri button.orange-button {
+#animali #filtri button.orange-button {
     margin-top: 0.5em;  /* spazio sopra il bottone */
-    margin: auto;
+    margin-left: 50%;
+    margin-right: 50%;
     align-self: center;  /* centra il bottone nella colonna */
+}
+
+#animali li.card {
+    cursor: pointer;
+    width: 9em;
+    height: 14em;
+    list-style: none;
+    margin: 0.5em;
+    border-radius: 0.2em;
+    position: relative;
+    background-color: var(--darkbgcolor);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    overflow: hidden;
+    border: 3px solid var(--darkbgcolor);
+    transition: 
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+        /* border: 0.3 ease; */
+    
+}
+
+#animali li.card ul {
+    width: 9em;
+    height: 14em;
+    overflow: hidden;
+}
+
+#animali .card li.interessamento {
+    float: right;   /* non serve più */
+    clear: left;
+    padding-right: 0.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    color: var(--txtcolor);
+
+}
+
+#animali li.immagine {
+    height: 50%;
+    width: 100%;
+    align-content: center;
+    /* overflow: hidden; */
+    box-sizing: border-box;
+    position: relative;
+    border-bottom: 1px solid var(--text-buttoncolor);
 }
 
 
