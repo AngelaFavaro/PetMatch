@@ -353,26 +353,29 @@ $main = str_replace('[pulsanti-azioni-richiesta]', renderPulsantiAzioni($richies
 // Annotazioni
 $annotazioni = '';
 if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($richiesta['stato']==='Annullata' && ($richiesta['appunti'] !== '' || $richiesta['appunti'] !== NULL))){
-
+    
     $annotazioni = '
-    <div class="note">
-        <div class="header-note">
-            <h2>LE TUE ANNOTAZIONI</h2>
-            <a type="button" id="edit-note" class="edit-btn" aria-label="Modifica le annotazioni">
-                <img src="./assets/icons/edit-pencil.svg" alt="" aria-hidden="true">
-            </a>
-        </div>
+            <div class="note">
+                <div class="header-note">
+                    <h2>LE TUE ANNOTAZIONI</h2>
+                    <a href="?mode=note&email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') . '" type="button" id="edit-note" class="edit-btn" aria-label="Modifica le annotazioni">
+                        <img src="./assets/icons/edit-pencil.svg" alt="" aria-hidden="true">
+                    </a>
+                </div>';
 
-        <div id="note-container">
-            <p id="note-text">' . e($richiesta['appunti'] ?? '') . '</p>
-
-            <form id="form-note" class="hidden">
-                <label for="input-note" class="sr-only">Modifica annotazioni:</label>
-                <textarea id="input-note" name="note" rows="4">' . e($richiesta['appunti'] ?? '') . '</textarea>
-                <button type="submit" class="sr-only">Salva annotazioni</button>
-            </form>
-        </div>
-    </div>';
+    if(isset($_GET['mode']) && $_GET['mode'] === 'note'){
+        $annotazioni = '
+                <form id="form-note">
+                    <label for="input-note" class="sr-only">Modifica annotazioni:</label>
+                    <textarea id="input-note" name="note" rows="4">' . e($richiesta['appunti'] ?? '') . '</textarea>
+                    <button type="submit" class="sr-only">Salva annotazioni</button>
+                </form>
+            </div>
+        </div>';
+    }else{
+        $annotazioni .='</div>';
+    }
+    return $annotazioni;
 }
 $main = str_replace('[annotazioni]', $annotazioni, $main);
 
