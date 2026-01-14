@@ -2675,7 +2675,7 @@ div#row2 article{
     float: left;
 }
 
-.header-info a.btn-edit {
+.header-info a.pencil {
     float: right;
     background: none;
     border: none;
@@ -2905,6 +2905,11 @@ div#admin-area article#stato-trasporto{
     margin: auto 0em 0em auto;
 }
 
+div.note{
+    background-color: var(--darkbgcolor);
+    padding: 1em;
+    border-radius: 0.5em 0.5em 0 0;
+}
 #bottom-container form{
     margin: 1em 0em 0em auto;
 }
@@ -2915,6 +2920,7 @@ div#admin-area article#stato-trasporto{
     display: flex;
     flex-wrap: wrap;
     gap: 2em;
+    padding-bottom: 2em;
 
 }
 
@@ -2965,11 +2971,16 @@ div#admin-area article#stato-trasporto{
     width: 100%;
     padding: 0.5rem;
     background-color: var(--darkbgcolor);
-    border: 1px solid var(--bordercolor, #ccc);
+    border: 1px solid var(--txtcolor);
     border-radius: 4px;
     font-family: inherit;
     font-size: 1rem;
-    resize: vertical; /* Permette all'utente di allungare l'area */
+    resize: none;
+}
+
+#input-note:focus {
+    outline: 3px solid var(--txtcolor);
+    /* outline-offset: 1px; */
 }
 .orange-button.respinta {
     background-color: var(--darkbgcolor);
