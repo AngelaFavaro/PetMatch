@@ -773,6 +773,58 @@ class DBAccess {
         return $requests;
     }
 
+    function getAddressPermissionEdit($email): bool {
+        
+        $query = "SELECT count(*) 
+                FROM RICHIESTE_ADOZIONI 
+                WHERE Email = ? 
+                AND Stato = 'Da trasportare'"; 
+
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            
+            if ($row = mysqli_fetch_array($result)) {
+                $count = $row[0];
+
+                return $count>0 ? false : true;
+
+            } 
+            mysqli_stmt_close($stmt);
+        }
+
+        return true;
+    }
+
+    function getAddressPermissionRemove($email): bool {
+        
+        $query = "SELECT count(*) 
+                FROM RICHIESTE_ADOZIONI 
+                WHERE Email = ? 
+                AND Stato IN ('Nuova', 'In valutazione') AND Trasporto = 1"; 
+
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            
+            if ($row = mysqli_fetch_array($result)) {
+                $count = $row[0];
+
+                return $count>0 ? false : true;
+
+            } 
+            mysqli_stmt_close($stmt);
+        }
+
+        return true;
+    }
+
     public function getRole($email): ?string {
         
         $query = "SELECT Ruolo FROM UTENTI WHERE Email = ?";
@@ -851,7 +903,6 @@ class DBAccess {
         return $row;
     }
 
-    // Aggiungi il '?' prima di array
     function getAnimalRequest($email, $idAnimale): ?array {
         
         $request = null; 

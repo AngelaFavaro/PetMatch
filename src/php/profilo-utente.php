@@ -69,10 +69,10 @@ function createMovementList(DBAccess $conn, $filtro = 'all'): string {
                     $statoRichiesta = 'Siamo spiacenti di informarti che la tua richiesta di adozione per <em>'.$nomeAnimale.'</em> è stata <strong>respinta.</strong>';
                     break;
                 case 'Annullata':   
-                    $statoRichiesta = 'Hai annullato la tua richiesta di adozione per <em>'.$nomeAnimale.'</em>.';
+                    $statoRichiesta = 'Hai <strong>annullato</strong> la tua richiesta di adozione per <em>'.$nomeAnimale.'</em>.';
                     break;
                 case 'Nuova':
-                    $statoRichiesta = 'La tua richiesta di adozione per <em>'.$nomeAnimale.'</em> è stata inviata con successo e sarà valutata a breve.';
+                    $statoRichiesta = 'La tua richiesta di adozione per <em>'.$nomeAnimale.'</em> è stata <strong>inviata</strong> con successo e sarà valutata a breve.';
                     break;
             }
 
@@ -155,7 +155,7 @@ $NewUserManagement = [
     'Newpassword' => ''
 ];
 
-function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente): array {
+function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente, $editAddress, $removeAddress): array {
 	
 	$message = [
         'generic' => '',
@@ -237,7 +237,7 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente): array {
         $surname = mb_convert_case($surname, MB_CASE_TITLE, "UTF-8");
         $address = mb_convert_case($address, MB_CASE_TITLE, "UTF-8");
         $city = mb_convert_case($city, MB_CASE_TITLE, "UTF-8");
-        $phoneNumber = preg_replace('/[^0-9]/', '', $phoneNumber); // rimuove tutti i caratteri non numerici
+        $phoneNumber = str_replace(' ','', $phoneNumber); // rimuove tutti i caratteri non numerici
 
         // Sanitizzazione per redisplay
         $NewUserValues['name'] = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
@@ -251,7 +251,7 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente): array {
         $errors = [];
 
         $regexNome = "/^(?=.*[\p{L}]{2})[\p{L}\s']+$/u"; 
-        $regexPhone = "/^[0-9]{10}$/";
+        $regexPhone = "/^(\+[0-9]{1,3}\s?)[0-9]{10}$/";
         $regex_indirizzo = '/^[a-zA-Z\.\']{3,}\s+.+\s+(?:n\.?\s?)?\d+[a-zA-Z]?$/';
         $regex_citta = '/^[a-zA-Z\s\.\']{2,}$/';
         $regex_cap = '/^\d{5}$/';
@@ -269,39 +269,59 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente): array {
             $errors['surname'] = "Il cognome contiene caratteri non validi.";
         }
 
-        if(strlen($NewUserValues['address']) === 0){
-            $NewUserValues['address'] = null;
-        }else if (strlen($NewUserValues['address']) < 3) {
-            $errors['address'] = "L'indirizzo è troppo corto.";
-        } elseif (!preg_match($regex_indirizzo, $NewUserValues['address'])) {
-            $errors['address'] = "L'indirizzo non è valido.";
-        }
+        $hasAddress = strlen($NewUserValues['address']) > 0;
+        $hasCity    = strlen($NewUserValues['city']) > 0;
+        $hasCAP     = strlen($NewUserValues['CAP']) > 0;
 
-        if(strlen($NewUserValues['city']) === 0){
-            $NewUserValues['city'] = null;
-        }else if (strlen($NewUserValues['city']) < 2) {
-            $errors['city'] = "La città è troppo corta.";
-        } elseif (!preg_match($regex_citta, $NewUserValues['city'])) {
-            $errors['city'] = "La città contiene caratteri non validi.";
-        }
+        $isAllEmpty = (!$hasAddress && !$hasCity && !$hasCAP);
+        $isAllFull  = ($hasAddress && $hasCity && $hasCAP);
+        $isPartial  = !($isAllEmpty || $isAllFull);
 
-        if(strlen($NewUserValues['CAP']) === 0){
-            $NewUserValues['CAP'] = null;
-        }else if (!preg_match($regex_cap, $NewUserValues['CAP'])) {
-            $errors['CAP'] = "Il CAP non è valido.";
-        }
+        if ($isPartial) {
+             $errors['indirizzo-totale'] = "L'indirizzo è incompleto: devi compilare Via, Città e CAP insieme o lasciarli tutti vuoti.";
+        } 
+        else {
+            
+            if ($isAllEmpty) {
+                if (!$removeAddress) { 
+                    $errors['indirizzo-totale'] = "Impossibile rimuovere l'indirizzo: ci sono richieste di adozioni aperte.";
+                }
+            } 
+            else {
+                if (!$editAddress) {
+                    $errors['indirizzo-totale'] = "Impossibile modificare l'indirizzo: c'è un trasporto attivo.";
+                } 
+                else {
+                    if(strlen($NewUserValues['address']) === 0){
+                        $NewUserValues['address'] = null;
+                    }else if (strlen($NewUserValues['address']) < 3) {
+                        $errors['address'] = "L'indirizzo è troppo corto.";
+                    } elseif (!preg_match($regex_indirizzo, $NewUserValues['address'])) {
+                        $errors['address'] = "L'indirizzo non è valido.";
+                    }
 
-        $hasAddress = ($NewUserValues['address'] !== null);
-        $hasCity    = ($NewUserValues['city'] !== null);
-        $hasCAP     = ($NewUserValues['CAP'] !== null);
+                    if(strlen($NewUserValues['city']) === 0){
+                        $NewUserValues['city'] = null;
+                    }else if (strlen($NewUserValues['city']) < 2) {
+                        $errors['city'] = "La città è troppo corta.";
+                    } elseif (!preg_match($regex_citta, $NewUserValues['city'])) {
+                        $errors['city'] = "La città contiene caratteri non validi.";
+                    }
 
-        if (!($hasAddress === $hasCity && $hasCity === $hasCAP)) {
-            $errors['indirizzo-totale'] = "L'indirizzo è incompleto: devi compilare Via, Città e CAP insieme o lasciarli tutti vuoti.";
+                    if(strlen($NewUserValues['CAP']) === 0){
+                        $NewUserValues['CAP'] = null;
+                    }else if (!preg_match($regex_cap, $NewUserValues['CAP'])) {
+                        $errors['CAP'] = "Il CAP non è valido.";
+                    }
+                }
+            }
         }
+        
+
 
         if(strlen($NewUserValues['phoneNumber']) === 0){
             $NewUserValues['phoneNumber'] = null;
-        }else if (strlen($NewUserValues['phoneNumber']) !== 10 || !preg_match($regexPhone, $NewUserValues['phoneNumber'])) {
+        }else if (strlen($NewUserValues['phoneNumber']) >= 14 || !preg_match($regexPhone, $NewUserValues['phoneNumber'])) {
             $errors['phoneNumber'] = "Il numero di telefono non è valido.";
         }
 
@@ -512,17 +532,16 @@ $htmlEdit = '
                     <p class="error-form">[erroriCognome]</p>
                 </div>
                 <div class="edit-number">
-                    <label for="new-number">Telefono</label>
+                    <label for="new-number">Telefono con prefisso</label>
                     <div>
-                        <span>+39 </span>
-                        <input type="tel" id="new-number" name="new-number" autocomplete="tel" value="[telefono-utente]" placeholder="000 000 0000">
+                        <input type="tel" id="new-number" name="new-number" autocomplete="tel" value="[telefono-utente]" placeholder="+39 000 000 0000">
                     </div>
                     <p class="error-form">[erroriTelefono]</p>
                 </div>
             </fieldset>
             <fieldset class="fieldset-indirizzo">
                 <legend>Indirizzo</legend>
-                    <p class="hidden-indirizzo">Tutti i campi dell\'indirizzo devono essere completi, altrimenti nessuno.</p>
+                    <p>Tutti i campi dell\'indirizzo devono essere completi, altrimenti nessuno.</p>
                     <div>
                         <label for="new-address">Via e numero civico</label>
                         <input type="text" id="new-address" name="new-address" autocomplete="street-address" 
@@ -627,6 +646,8 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'edit') {
 $infoUtente = null;
 $listaAvvisi = "";
 $listaRichieste = "";
+$editAddressPermission = false;
+$removeAddressPermission = false;
 
 //connesisone al DB
 $connessione = new DBAccess();
@@ -634,10 +655,12 @@ $connessioneOK = $connessione->openDBConnection();
 if ($connessioneOK) {
 	if (isset($_SESSION['email'])) {
         checkRole($connessione);
+        $editAddressPermission = $connessione ->getAddressPermissionEdit($_SESSION['email']);
+        $removeAddressPermission = $connessione ->getAddressPermissionRemove($_SESSION['email']);
         $infoUtente = $connessione->getUserInfo($_SESSION['email']);
         $listaAvvisi = createMovementList($connessione, $filtroCorrenteAvvisi);
         $listaRichieste = createRequestList($connessione, $filtroCorrenteRichieste);
-        $messageInfoForm = editInfoAccount($connessione, $NewUserInfo, $infoUtente);
+        $messageInfoForm = editInfoAccount($connessione, $NewUserInfo, $infoUtente, $editAddressPermission, $removeAddressPermission);
         $messageManagementForm = editManagementAccount($connessione, $NewUserManagement, $infoUtente);
     }else{
         header("Location: ./login"); 
@@ -665,6 +688,13 @@ if($infoUtente['Via'] === null || $infoUtente['Citta'] === null || $infoUtente['
     $indirizzoCompleto = "<em>Sconosciuto</em>";
 }else{
     $indirizzoCompleto = $infoUtente['Via'] . ', ' . $infoUtente['Citta'] . ' ' . $infoUtente['CAP'];
+}
+
+if($infoUtente['Telefono']){
+    $telefonoGrezzo = $infoUtente['Telefono'];
+    $numero = substr($telefonoGrezzo, -10);
+    $prefisso = substr($telefonoGrezzo, 0, -10);
+    $printTelefono = trim($prefisso . ' ' . $numero);
 }
 
 $paginaHTML = file_get_contents('./src/template/layout.html');
@@ -722,7 +752,7 @@ $paginaHTML = str_replace('[via-utente]', $NewUserInfo['address'] ? $NewUserInfo
 $paginaHTML = str_replace('[citta-utente]', $NewUserInfo['city'] ? $NewUserInfo['city'] : $infoUtente['Citta'], $paginaHTML);
 $paginaHTML = str_replace('[cap-utente]', $NewUserInfo['CAP'] ? $NewUserInfo['CAP'] : $infoUtente['CAP'], $paginaHTML);
 $paginaHTML = str_replace('[telefono-utente]', $NewUserInfo['phoneNumber'] ? $NewUserInfo['phoneNumber'] : $infoUtente['Telefono'], $paginaHTML);
-$paginaHTML = str_replace('[telefono-utente-view]', $infoUtente['Telefono'] ? '+39 ' . $infoUtente['Telefono'] : "<em>Sconosciuto</em>", $paginaHTML);
+$paginaHTML = str_replace('[telefono-utente-view]', $infoUtente['Telefono'] ? $printTelefono : "<em>Sconosciuto</em>", $paginaHTML);
 $paginaHTML = str_replace('[footer]', $footer, $paginaHTML);
 
 echo $paginaHTML;

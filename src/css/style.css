@@ -128,6 +128,7 @@ h4{
 #form-signup + p a,
 #form-login + p a{
     color:var(--txtcolor);
+    font-weight: 500;
 }
 
 .success-form{
@@ -1211,7 +1212,7 @@ legend {
 #home label + input,
 #user-profile label + input,
 #login label + input,
-.edit-number div span + input, 
+.edit-number div input, 
 .password-container input, div#admin-area label + input {
     border-radius: 5em;
     padding: 0.5em 1em;
@@ -2310,13 +2311,6 @@ input[type="file"]::file-selector-button:hover {
 {
     border:2px solid transparent;
     background-color: transparent;
-}
-.hidden-indirizzo{
-    display: none;
-    margin-top:0.5em;
-}
-.fieldset-indirizzo:focus-within .hidden-indirizzo{
-    display: block;
 }
 
 /* ================== REVISIONE RICHIESTA ==================*/
