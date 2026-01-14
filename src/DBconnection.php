@@ -479,7 +479,7 @@ class DBAccess {
     function getNewRequests($email): array {
         $requests = [];
         
-        $query = "SELECT R.Email AS email_richiedente, A.ImgPath, A.Nome AS nome_animale, R.DataRichiesta, R.IDanimale AS id_animale
+        $query = "SELECT R.Email AS email_richiedente, A.ImgPath, A.Nome AS nome_animale, R.DataRichiesta AS data_richiesta, R.IDanimale AS id_animale
                 FROM RICHIESTE_ADOZIONI R
                 JOIN ANIMALI A ON R.IDanimale = A.IDanimale
                 WHERE R.Stato = 'Nuova' 
@@ -699,7 +699,9 @@ class DBAccess {
             return false;
         }
 
-        mysqli_stmt_bind_param($stmt, 'ssss', $email, $name, $surname, $hashedPassword, 'User');
+        $role ='User';
+
+        mysqli_stmt_bind_param($stmt, 'sssss', $email, $name, $surname, $hashedPassword, $role);
         $result = mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
         return $result;
@@ -769,6 +771,58 @@ class DBAccess {
             mysqli_stmt_close($stmt);
         }
         return $requests;
+    }
+
+    function getAddressPermissionEdit($email): bool {
+        
+        $query = "SELECT count(*) 
+                FROM RICHIESTE_ADOZIONI 
+                WHERE Email = ? 
+                AND Stato = 'Da trasportare'"; 
+
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            
+            if ($row = mysqli_fetch_array($result)) {
+                $count = $row[0];
+
+                return $count>0 ? false : true;
+
+            } 
+            mysqli_stmt_close($stmt);
+        }
+
+        return true;
+    }
+
+    function getAddressPermissionRemove($email): bool {
+        
+        $query = "SELECT count(*) 
+                FROM RICHIESTE_ADOZIONI 
+                WHERE Email = ? 
+                AND Stato IN ('Nuova', 'In valutazione') AND Trasporto = 1"; 
+
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            
+            if ($row = mysqli_fetch_array($result)) {
+                $count = $row[0];
+
+                return $count>0 ? false : true;
+
+            } 
+            mysqli_stmt_close($stmt);
+        }
+
+        return true;
     }
 
     public function getRole($email): ?string {
@@ -849,7 +903,6 @@ class DBAccess {
         return $row;
     }
 
-    // Aggiungi il '?' prima di array
     function getAnimalRequest($email, $idAnimale): ?array {
         
         $request = null; 
@@ -944,6 +997,267 @@ class DBAccess {
         }
         return $state;
     }
+
+    // restituisce tipo, immagine, nome, sesso e età di tutti gli animali, oppure solo di cani o solo gatti(valori possibili per $type=tutti,cani,gatti)
+    public function getListAnimalsByType(string $type): array|null {
+        // 1. Controllo connessione
+        if (!$this->connection) {
+            return null;
+        }
+
+        // 2. Query (con o senza filtro)
+        if ($type === "tutti") {
+            $query = "
+                SELECT Nome, Sesso, DataNascita, ImgPath, Tipo
+                FROM ANIMALI
+                ORDER BY IDanimale ASC
+            ";
+            $stmt = mysqli_prepare($this->connection, $query);
+        } else {
+            $query = "
+                SELECT Nome, Sesso, DataNascita, ImgPath, Tipo
+                FROM ANIMALI
+                WHERE Tipo = ?
+                ORDER BY IDanimale ASC
+            ";
+            $stmt = mysqli_prepare($this->connection, $query);
+        }
+
+        // 3. Controllo prepare
+        if ($stmt === false) {
+            return null;
+        }
+
+        // 4. Bind param (solo se necessario)
+        if ($type !== "tutti") {
+            mysqli_stmt_bind_param($stmt, 's', $type);
+        }
+
+        // 5. Esecuzione
+        if (!mysqli_stmt_execute($stmt)) {
+            mysqli_stmt_close($stmt);
+            return null;
+        }
+
+        // 6. Recupero risultati
+        $queryResult = mysqli_stmt_get_result($stmt);
+
+        if ($queryResult === false || mysqli_num_rows($queryResult) === 0) {
+            mysqli_stmt_close($stmt);
+            return null;
+        }
+
+        // 7. Costruzione array risultati
+        $result = [];
+
+        while ($row = mysqli_fetch_assoc($queryResult)) {
+            $result[] = [
+                'nome' => $row['Nome'],
+                'sesso' => $row['Sesso'],
+                'eta' => calcolareEta($row['DataNascita']),
+                'immagine' => $row['ImgPath'],
+                'tipo' => $row['Tipo']
+            ];
+        }
+
+        // 8. Chiusura statement
+        mysqli_stmt_close($stmt);
+
+        return $result;
+    }
+
+    public function countAnimalsFiltered(string $type, array $filters): int {
+
+    if (!$this->connection) return 0;
+
+    $where = [];
+    $params = [];
+    $types = '';
+
+    if ($type !== 'tutti') {
+        $where[] = 'Tipo = ?';
+        $params[] = $type;
+        $types .= 's';
+    }
+
+    if (!empty($filters['name'])) {
+        $where[] = 'Nome LIKE ?';
+        $params[] = '%' . $filters['name'] . '%';
+        $types .= 's';
+    }
+
+    if (!empty($filters['taglia'])) {
+        $where[] = 'Taglia = ?';
+        $params[] = $filters['taglia'];
+        $types .= 's';
+    }
+
+    if (!empty($filters['sesso'])) {
+        $where[] = 'Sesso = ?';
+        $params[] = strtoupper(substr($filters['sesso'], 0, 1));
+        $types .= 's';
+    }
+
+    if (!empty($filters['eta_min'])) {
+        $where[] = 'TIMESTAMPDIFF(YEAR, DataNascita, CURDATE()) >= ?';
+        $params[] = (int)$filters['eta_min'];
+        $types .= 'i';
+    }
+
+    if (!empty($filters['eta_max'])) {
+        $where[] = 'TIMESTAMPDIFF(YEAR, DataNascita, CURDATE()) <= ?';
+        $params[] = (int)$filters['eta_max'];
+        $types .= 'i';
+    }
+
+    $query = "SELECT COUNT(*) AS totale FROM ANIMALI";
+
+    if ($where) {
+        $query .= ' WHERE ' . implode(' AND ', $where);
+    }
+
+    $stmt = mysqli_prepare($this->connection, $query);
+    if ($params) {
+        mysqli_stmt_bind_param($stmt, $types, ...$params);
+    }
+
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($res);
+
+    mysqli_stmt_close($stmt);
+    return (int)$row['totale'];
+}
+
+
+    public function getAnimalsFilteredPaged(string $type, array $filters, int $limit, int $offset): array {
+
+    if (!$this->connection) return [];
+
+    $where = [];
+    $params = [];
+    $types = '';
+
+    /* ---------- FILTRO TIPO ---------- */
+    if ($type !== 'tutti') {
+        $where[] = 'Tipo = ?';
+        $params[] = $type;
+        $types .= 's';
+    }
+
+    /* ---------- FILTRO NOME ---------- */
+    if (!empty($filters['name-animal'])) {
+        $where[] = 'Nome LIKE ?';
+        $params[] = '%' . $filters['name-animal'] . '%';
+        $types .= 's';
+    }
+
+    /* ---------- FILTRO TAGLIA ---------- */
+    if (!empty($filters['taglia'])) {
+        $where[] = 'Taglia = ?';
+        $params[] = $filters['taglia'];
+        $types .= 's';
+    }
+
+    /* ---------- FILTRO SESSO ---------- */
+    if (!empty($filters['sesso'])) {
+        $where[] = 'Sesso = ?';
+        $params[] = strtoupper(substr($filters['sesso'], 0, 1)); // M / F
+        $types .= 's';
+    }
+
+    /* ---------- FILTRO ETÀ ---------- */
+    if (!empty($filters['eta_min'])) {
+        $where[] = 'TIMESTAMPDIFF(YEAR, DataNascita, CURDATE()) >= ?';
+        $params[] = (int)$filters['eta_min'];
+        $types .= 'i';
+    }
+
+    if (!empty($filters['eta_max'])) {
+        $where[] = 'TIMESTAMPDIFF(YEAR, DataNascita, CURDATE()) <= ?';
+        $params[] = (int)$filters['eta_max'];
+        $types .= 'i';
+    }
+
+    /* ---------- QUERY ---------- */
+    $query = "
+        SELECT a.Nome, a.Sesso, a.DataNascita, a.ImgPath, a.Tipo, a.IDanimale AS Id
+        FROM ANIMALI a
+        LEFT JOIN RICHIESTE_ADOZIONI r 
+        ON a.IDanimale = r.IDanimale AND r.Stato = 'Accettata'
+        WHERE r.IDanimale IS NULL
+    ";
+
+    if ($where) {
+        $query .= ' AND ' . implode(' AND ', $where);
+    }
+
+    $query .= " ORDER BY Id ASC LIMIT ? OFFSET ?";
+
+    $params[] = $limit;
+    $params[] = $offset;
+    $types .= 'ii';
+
+    $stmt = mysqli_prepare($this->connection, $query);
+    mysqli_stmt_bind_param($stmt, $types, ...$params);
+    mysqli_stmt_execute($stmt);
+
+    $res = mysqli_stmt_get_result($stmt);
+    if (!$res) return [];
+
+    $animali = [];
+    while ($row = mysqli_fetch_assoc($res)) {
+        $animali[] = [
+            'nome'     => $row['Nome'],
+            'sesso'    => $row['Sesso'],
+            'eta'      => calcolareEta($row['DataNascita']),
+            'immagine' => $row['ImgPath'],
+            'tipo'     => $row['Tipo'],
+            'id'     => $row['Id']
+        ];
+    }
+
+    mysqli_stmt_close($stmt);
+    return $animali;
+}
+
+function isAnimalInFavorites(string $email, int $id): bool {
+    $stmt = $this->connection->prepare("SELECT 1 FROM PREFERITI WHERE Email=? AND IDanimale=?");
+    $stmt->bind_param("si", $email, $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->num_rows > 0;
+}
+
+function addToFavorites(string $email, int $id): void {
+    $stmt = $this->connection->prepare("INSERT IGNORE INTO PREFERITI (Email, IDanimale) VALUES (?, ?)");
+    $stmt->bind_param("si", $email, $id);
+    $stmt->execute();
+}
+
+function removeFromFavorites(string $email, int $id): void {
+    $stmt = $this->connection->prepare("DELETE FROM PREFERITI WHERE Email=? AND IDanimale=?");
+    $stmt->bind_param("si", $email, $id);
+    $stmt->execute();
+}
+
+public function hasActiveAdoptionRequest(int $idAnimale): bool {
+    $sql = "SELECT 1 FROM RICHIESTE_ADOZIONI 
+            WHERE IDanimale = ? AND Stato IN ('Nuova', 'In valutazione', 'Da trasportare')
+            LIMIT 1";
+
+    $stmt = $this->connection->prepare($sql);
+    $stmt->bind_param('i', $idAnimale);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $exists = $result->num_rows > 0;
+    $stmt->close();
+    return $exists;
+}
+
+
+
+
 
 }
 ?>

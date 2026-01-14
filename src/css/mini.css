@@ -156,14 +156,23 @@ input:checked + #slider {
     margin: 1em 0 0.8em 0;
 }
 
+#section-events{
+    max-width: 700px;
+    padding:2em 1em 1em 1em;
+}
+
 #events-list{
     margin:0;
     padding:3em 0 0 0;
 }
 
 #events-list::before{
-    width: 150%;
-    left: -20%;
+    width: 100%;
+    left: -0%;
+}
+
+#events-list .polaroid:before{
+    left: 30%;
 }
 
 #events-list .polaroid:nth-child(3){
@@ -176,9 +185,13 @@ input:checked + #slider {
 
 #events-list .polaroid:first-child,
 #events-list .polaroid:nth-child(2){
-    width: 50%;
-    margin-left:-5px;
+    width: 40%;
 }
+
+#events-list .polaroid:first-child{
+    margin-left:5%;
+}
+
 
 #form-affidamento {
     background-color: var(--bgcolor);
@@ -196,11 +209,20 @@ input:checked + #slider {
 }
 
 #sponsor img{
-    width: 140px; 
+    width: 130px; 
+    padding:0.5em;
+}
+
+#sponsor{
+    padding:1.5em;
 }
 
 #timeline summary::-webkit-details-marker {
     display: none;
+}
+
+#section-events + a{
+    margin-bottom:3em;
 }
 
 /* ================== REGISTRATI ==================*/
@@ -223,9 +245,60 @@ input:checked + #slider {
     text-align: left;
 }
 
+/*=================== ANIMALI ====================*/
+
+#animali li.card {
+    flex-shrink: 1;
+}
+
+#animali #nav-animali-type ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    width: 100%;    
+    flex-shrink: 1;      
+}
+#animali #nav-animali-type::after {
+    display: none;
+}
+#animali #nav-animali-type li {
+    min-width: 100px;
+}
+
+#animali .cards-container {
+    justify-content: center;
+}
+
+#animali .card .interessamento {
+    float: left;   
+    clear: left;
+    padding:0.5em;
+}
+
+#animali .immagine {
+    height: 50%;
+    width: 100%;
+}
+
+#animali #filtri #searchSex.capsula-filtro,
+#animali #filtri #searchSize.capsula-filtro{
+    width: 48.4%;
+}
+
+#animali li.card:hover {
+    /* background-color: var(--bgcolor); */
+    border-color: var(--darkbgcolor); /* colore evidenziato */
+    border: 3px solid var(--darkbgcolor);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
+
+
+
 /* ================== NAV ADMIN ==================*/
     
-nav#menu-admin {
+/* nav#menu-admin {
     padding-top:0em;
     float: none;
     width: 100%;
@@ -234,21 +307,18 @@ nav#menu-admin {
     max-height: 0;
     overflow: hidden;
     background-color: transparent; 
-    /* transition: max-height 0.3s ease, background-color 0.3s ease; */
     z-index: 1000;
     visibility: hidden;
 }
 
 #menu-admin.active {
     max-height: 100vh;
-
-    background-color: var(--footercolor); /*così lo sfondo appare solo quando apri il menu */
+    background-color: var(--footercolor)
     visibility: visible;
 }
 
 body#admin-body main {
     margin-left: 0;
-    /* transition: margin-top 0.3s ease; */
 }
 
 div#admin-area {
@@ -269,7 +339,69 @@ nav#menu-admin img {
     width: 10em;
     max-width: 100%;
     height: auto;
+} */
+
+/* ================== NAV ADMIN (Versione No-JS) ==================*/
+
+
+#admin-body .menu-toggle {
+    display: flex;
+    margin: 0em 0em 0em auto ;
+    width: fit-content;
+    cursor: pointer;
+    color: var(--bgcolor);
+    padding: 0.5em 0.5em;
 }
+
+/* da vedere se possibile unificare con quello dello user, per ora lascio così */
+#admin-body .menu-toggle::before {
+    content: "\2630";
+    display: block;
+    width: 45px;
+    text-align: center;
+}
+#menu-toggle-checkbox:checked + .menu-toggle::before {
+    content: "\2715"; 
+    width: 45px;
+}
+
+#menu-toggle-checkbox:checked + .menu-toggle {
+    transform: rotate(180deg);
+}
+
+nav#menu-admin {
+    padding-top: 0;
+    width: 100%;
+    position: relative;
+    max-height: 0;
+    overflow: hidden;
+    background-color: transparent; 
+    z-index: 1000;
+    visibility: hidden;
+    transition: max-height 0.3s ease;
+}
+
+#menu-toggle-checkbox:checked ~ nav#menu-admin {
+    max-height: 100vh;
+    background-color: var(--footercolor);
+    visibility: visible;
+}
+
+body#admin-body main {
+    margin-left: 0;
+}
+
+div#admin-area {
+    padding: 1em;
+}
+
+nav#menu-admin img {
+    width: 10em;
+    max-width: 100%;
+    height: auto;
+}
+
+/* ================== ADMIN AREA ==================*/
 div#admin-area article{
     margin-bottom: 1em;
     margin-top: 0.5em;
@@ -355,4 +487,78 @@ nav#breadcrumb {
 
 .dialog-buttons label{
     padding:0.1em 2.7em;
+}
+
+
+/* ==================LAVORA CON NOI ================== */
+
+
+body#lavora-con-noi {
+    margin: 0;
+    overflow-x: hidden;
+}
+
+#introduction-lavora-con-noi .container {
+    display: block;   
+    gap: 0;
+}
+
+#introduction-lavora-con-noi .column-user {
+    width: 100%;
+}
+
+#introduction-lavora-con-noi .column-user:first-of-type{
+    margin-bottom: 2em; 
+}
+
+#come-diventare-volontario {                     
+    width: 100%;
+    padding:3em 1em 1em 1em;
+}
+
+#come-diventare-volontario h2 {
+    font-size: 1.8em;
+}
+
+.volontari-layout {
+    display: block;  
+    gap: 0;
+}
+
+#volontari-text {
+    flex: unset;
+    width: 100%;
+}
+
+#come-diventare-sostenitore {
+    margin-top: 3em; 
+    padding:3em 1em 1em 1em;
+}
+
+#come-diventare-sostenitore h2 {
+    margin-bottom: 1em;
+    font-size: 2.1em;
+}
+
+.sostenitori-layout {
+    display: block;  
+    gap: 0;
+}
+
+.sostenitori-text {
+    flex: unset;
+    width: 100%;  
+}
+
+#contatto-sostenitore {
+    padding: 0em;
+}
+
+#contatto-sostenitore a {
+    color: var(--txtcolor);
+    text-decoration: underline;
+}
+
+.lavora-con-noi-img img{
+    display: none;
 }

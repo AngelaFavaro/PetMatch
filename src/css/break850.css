@@ -166,3 +166,110 @@ details[open] .number::after {
 #events-list .polaroid:nth-child(3){
     transform: rotate(-10deg);
 }
+
+/* ==================ANIMALI==================*/
+
+#animali #filtri .capsula-filtro{
+    width: 100%;
+    max-width: none;
+    justify-content: left;
+}
+
+#animali #filtri #searchSex.capsula-filtro,
+#animali #filtri #searchSize.capsula-filtro{
+    width: 49.4%;
+}
+
+#animali #filtri .capsula-filtro .eta-range{
+    margin:auto;
+    padding-right: 2em;
+}
+
+#animali #filtri #searchName.capsula-filtro {
+    width: 100%;
+}
+
+#animali #filtri {
+    display: flex;
+    flex-direction: column;  /* mette tutto in colonna */
+    gap: 1em;              /* spazio tra righe */
+    align-items: center;     /* centra tutto orizzontalmente */
+}
+
+#animali #filtri ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0.5em;
+    justify-content: flex-start; /* centra le capsule nella riga */
+}
+
+
+#cancel-filter{
+    border-radius: 1em;
+    flex: 0 0 28%;
+}
+
+#animali #content-filter-button{
+    width: 100%;
+    flex: 1 1 100%;
+    gap:2%;
+}
+
+#animali #content-filter-button a{
+    width: 100%;
+}
+
+#animali #content-filter-button button{
+    flex: 0 0 48%;
+    width: 100%;
+}
+
+#animali .is-favorite img,
+#animali .not-favorite img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 44px;
+    height: 44px;
+    transition: none;
+}
+
+#animali .card .nome{
+    padding:0.8em 1.5em 0 0.5em;
+    margin:0 0 0.5em 0;
+    font-size: 1em;
+}
+
+#animali .card .sesso-etaMob{
+    padding:0 0 0 0.5em;
+    display: inline;
+}
+
+#animali .card .sesso-etaMob abbr{
+    text-decoration: none;
+    border-bottom: none;
+    cursor: inherit;
+}
+
+#animali .card .sesso-etaDesk{
+    display: none;
+}
+
+#animali li.card {
+    cursor: pointer;
+    width: 9em;
+    height: 15em;
+    margin: 0.5em;
+    overflow: hidden;
+    
+}
+
+#animali li.card article {
+    width: 9em;
+    height: 15em;
+    overflow: hidden;
+    margin:auto;
+}

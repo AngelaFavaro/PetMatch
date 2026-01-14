@@ -2,7 +2,7 @@
 
 /**da fare (vedi ItaVolley):
     - array in cui vengono definite le pagine esistenti (utili per nav, footer e breadcrumb)
-    - funzione che crea la nav per admin e per utente normale (credo)
+    - funzione che crea la nav per admin e per utente normale (per utente è l'header)
     - funzione che crea il footer (ossia da modificare solo la parte del link circolare alla home se l'utente è già in quella pagina)
 */
 
@@ -28,6 +28,15 @@ $pagine = [
         'url' => './dettagli-richiesta',
         'parent' => 'richieste-adozione'
     ],
+
+
+
+    'animali' => [
+        // 'file' => __DIR__ . '/src/php/animali.php',
+        'label' => 'Animali',
+        'url' => './animali',
+        'parent' => 'home'
+    ],
     'registrati' => [
         'label' => 'Registrati',
         'url' => './registrati',
@@ -47,7 +56,16 @@ $pagine = [
         'label' => 'Revisione richiesta',
         'url' => './revisione-richiesta',
         'parent' => 'profilo-utente'
+    ],
+    'lavora-con-noi' => [
+        //'file' => __DIR__ . '/src/php/lavora-con-noi.php',
+        'label' => 'Lavora con noi',
+        'url' => './lavora-con-noi',
+        'parent' => 'home'
     ]
+
+
+
 ];
 
 $adminMenu = [
@@ -88,15 +106,14 @@ function loadTemplate(string $path, string $default = ''): string {
     return $content === false ? $default : $content;
 }
 
-/**
- * Genera la nav menù admin dinamicamente
- */
+
 function buildAdminNav(array $menuGroups, string $currentHref): string {
-    // Parte iniziale fissa
+    // Parte iniziale: Checkbox e Label (Hamburger)
     $html = '
-    <button class="menu-toggle" id="mobile-menu" aria-label="Apri o chiudi menu di navigazione">
-        ☰
-    </button>
+    <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
+    <label for="menu-toggle-checkbox" class="menu-toggle" aria-label="Apri o chiudi menu di navigazione">
+    <span></span> </label>
+    
     <nav id="menu-admin" aria-label="Menù">
         <a class="navigationHelp" href="#content"> Salta il menù di navigazione</a>
         <a href="./home">
@@ -115,13 +132,11 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
             $active = ($item['href'] === $currentHref) ? ' id="currentLink"' : '';
             
             // In questa versione, anche il link corrente rimane cliccabile 
-            // come nel tuo esempio HTML ( <li id="currentLink"><a href="...">...</a></li> )
             $html .= '<li'.$active.'><a href="'.$item['href'].'">'.$item['text'].'</a></li>';
         }
         $html .= '</ul>';
     }
 
-    // Parte finale fissa
     $html .= '
         <form action="./area-riservata" method="POST">
             <button type="submit" name="logout" class="logout-btn">Esci</button>
@@ -297,18 +312,18 @@ function uploadImage($file, $folder) {
         echo "La cartella non esiste. Provo a crearla...<br>";
         if (!mkdir($basePath, 0755, true)) {
             echo "ERRORE: Impossibile creare la cartella. Controlla i permessi di sistema.<br>";
-            return false;
+            return null;
         }
     }
 
     if (!is_writable($basePath)) {
         echo "ERRORE: La cartella esiste ma NON è scrivibile (permessi negati).<br>";
-        return false;
+        return null;
     }
 
     if ($file['error'] !== UPLOAD_ERR_OK) {
         echo "ERRORE PHP nel file: Codice " . $file['error'] . "<br>";
-        return false;
+        return null;
     }
 
     $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
@@ -320,7 +335,7 @@ function uploadImage($file, $folder) {
         return $dbPathPrefix . $fileName;
     } else {
         echo "ERRORE: move_uploaded_file è fallito. Possibile causa: file temporaneo sparito o restrizioni del server.<br>";
-        return false;
+        return null;
     }
 }
 
@@ -376,5 +391,38 @@ function logout(){
     
     header("Location: ./home");
     exit;
+}
+
+function calcolareEta(?string $dataNascita): ?int {
+    if (!$dataNascita) {
+        return null;
+    }
+
+    try {
+        $nascita = new DateTime($dataNascita);
+        return (new DateTime())->diff($nascita)->y;
+    } catch (Exception $e) {
+        return null;
+    }
+}
+
+// FUNZIONI PER COOKIES
+// Funzione che va a prendere gli animali messi nei preferiti dal guest non loggato
+function getGuestFavorites(): array {
+    if (isset($_COOKIE['preferiti_guest'])) {
+        $data = json_decode($_COOKIE['preferiti_guest'], true);
+        return is_array($data) ? $data : [];
+    }
+    return [];
+}
+
+// Funzione che salva in un array cookie i preferiti di un utente non loggato
+function saveGuestFavorites(array $ids): void {
+    setcookie(
+        'preferiti_guest',
+        json_encode(array_values(array_unique($ids))),
+        time() + 60 * 60 * 24 * 30, // 30 giorni
+        '/'
+    );
 }
 

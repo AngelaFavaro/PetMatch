@@ -18,6 +18,7 @@
     --headervisitedlink: #6D7541;
     --headerlink: #481515;
     --secondsection: #6D7541;
+    --placeholderDarker-text:#5e4232;
     --placeholder-text:#825E49;
     --darkbgcolor: #E4D4BA;
     --bglink-hover: var(--darkbgcolor);
@@ -28,11 +29,11 @@
     --bgconfermbutton:#FFF6D7;
     --txtcancelbutton:var(--bgconfirmbutton);
     --txtclose-request: #735757;
+    --greencolor: #6D7541;
 }
 
 a{
     color: var(--linkcolor);
-    font-weight: 400;
 }
 
 a:visited{
@@ -127,6 +128,7 @@ h4{
 #form-signup + p a,
 #form-login + p a{
     color:var(--txtcolor);
+    font-weight: 500;
 }
 
 .success-form{
@@ -452,8 +454,99 @@ input:focus{
 
 
 
+/* ==================LAVORA CON NOI ================== */
 
 
+#introduction-lavora-con-noi {
+    padding-bottom:3em;
+}
+#introduction-lavora-con-noi .container {
+    display: flex;
+    gap: 4em;
+}
+#introduction-lavora-con-noi .column-user {
+    flex: 1; 
+}
+#introduction-lavora-con-noi h1 {
+    margin-bottom: 0.5em;
+    font-size: 2.3em;
+}
+
+#introduction-lavora-con-noi a{
+    color:var(--headerlink);
+}
+
+
+#come-diventare-volontario {
+    background-color: var(--greencolor); 
+    color: var(--bgcolor);                       
+    width: 100%;
+    padding: 2.5em;
+}
+
+#come-diventare-sostenitore .lavora-con-noi-img img{
+    border-radius: 2px;
+}
+
+#come-diventare-volontario p,
+#come-diventare-sostenitore p{
+    margin-bottom:1.5em;
+}
+
+#come-diventare-volontario h2 {
+    margin-bottom: 1em;
+    font-size: 2.1em;
+}
+
+.volontari-layout {
+    display: flex;
+    gap: 3em;
+}
+
+.lavora-con-noi-img{
+    flex: 0 0 20%;
+}
+
+.lavora-con-noi-img img{
+    width: 100%;
+    pointer-events: none;
+}
+
+.lavora-con-noi-text {
+    flex: 1 1 70%;
+}
+
+#come-diventare-sostenitore {
+    margin-top: 3em;
+    background-color: var(--footercolor); 
+    color: var(--bgcolor);        
+    border-top-right-radius: 2.5em;
+    border-top-left-radius: 2.5em;     
+    padding: 2em 4em;
+}
+
+#come-diventare-sostenitore h2 {
+    margin-bottom: 1em;
+    font-size: 2.1em;
+}
+
+.sostenitori-layout {
+    display: flex;
+    align-items: center;
+    gap: 3em;
+}
+
+
+#contatto-sostenitore {
+    margin-top: 3em;
+    margin-bottom:-2em;
+    text-align: center;
+}
+
+#contatto-sostenitore a {
+    color: var(--txtcolor);
+    text-decoration: underline;
+}
 /* ==================SOLO PER SCREEN READER================== */
 
 /* Gli elementi con questa classe sono visibili solo agli screen reader */
@@ -475,9 +568,13 @@ input:focus{
     pointer-events: none;
 }
 
-#layout-user li #currentLink{
-    font-weight: 500;
-    text-decoration: underline;
+#layout-user #currentLink a:visited{
+    color:var(--headerlink);
+}
+
+
+#layout-user #currentLink a{
+    font-weight: 600;
 }
 
 #menu-toggle-checkbox{
@@ -584,13 +681,17 @@ header a{
 #osso::after {
     right: -1.2em;
 }
-
+ 
 #osso a {
     color: var(--headerlink);
 }
 
 #osso a:hover {
     text-decoration: underline;
+}
+
+#osso a:visited {
+    color: var(--headervisitedlink);
 }
 
 /* ================== 3. azioni (Destra) ================== */
@@ -1012,6 +1113,7 @@ details:not([open]) .popup {
     background-position:top;
     height:fit-content;
     padding-top: 3em;
+    margin-bottom:3em;
 }
 
 #sponsor .column-container{
@@ -1023,7 +1125,8 @@ details:not([open]) .popup {
     padding:1em;
     height: auto; 
     object-fit: contain; 
-    margin-bottom:12.5%;
+    margin-bottom:17%;
+    padding-top:3em;
 }
 
 #sponsor img:nth-child(3){
@@ -1034,8 +1137,9 @@ details:not([open]) .popup {
     margin-left:2.5em;
 }
 
-#sponsor + .container a{
-    margin-top:-8%;
+#section-sponsor + .container a{
+    margin-top:-16%;
+    margin-bottom:10%;
 }
 
 
@@ -1045,7 +1149,7 @@ details:not([open]) .popup {
 #affidamento-home{
     background-color: var(--headercolor);
     color:var(--bgcolor);
-    margin-top: 5em;
+    margin-top: 7%;
 }
 
 #content-affidamento p{
@@ -1108,7 +1212,7 @@ legend {
 #home label + input,
 #user-profile label + input,
 #login label + input,
-.edit-number div span + input, 
+.edit-number div input, 
 .password-container input, div#admin-area label + input {
     border-radius: 5em;
     padding: 0.5em 1em;
@@ -1121,6 +1225,11 @@ legend {
     box-sizing: border-box; 
 }
 
+#animali .navigationHelp{
+    color:var(--txtcolor);
+}
+
+#animali label + input::placeholder,
 #signup label + input::placeholder,
 #home label + input::placeholder,
 #user-profile label + input::placeholder,
@@ -1309,6 +1418,476 @@ input:-webkit-autofill:active{
     color: var(--txtcolor);
 }
 
+
+
+/*=================PAGINA ANIMALI======================*/
+
+/* contenitore principale */
+
+
+
+/* contenitore nav */
+/* NAV container */
+#animali #nav-animali-type {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 1.5em;
+    margin-top: 1.5em;
+}
+
+
+#animali #nav-animali-type ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+         /* 🔑 SEMPRE 1/3 dello schermo */
+    flex-shrink: 0;      /* ❌ non si restringe */
+}
+
+
+#animali #nav-animali-type li {
+    flex: 1;                     /* 1/3 ciascuno */
+    white-space: nowrap;         /* niente a capo */
+    text-align: center;
+    padding: 0.6em 0;
+    border-bottom: 2px solid var(--txtcolor);
+    min-width: 200px;
+}
+
+
+#animali #nav-animali-type::after {
+    content: "";
+    flex: 1;
+    border-bottom: 2px solid var(--txtcolor);
+}
+
+
+
+/* link */
+#animali #nav-animali-type a {
+    display: block;
+    text-decoration: none;
+    color: var(--headerlink);
+}
+
+/* elemento attivo */
+#animali #nav-animali-type .currentType {
+    /*flex: 0 0 auto;*/
+    padding: 0.6em 1.2em;
+    font-weight: bold;
+    border: 2px solid var(--txtcolor);
+    border-top-left-radius: 1em;
+    border-top-right-radius: 1em;
+    border-bottom: none;
+    /*margin-bottom: -2px;*/
+    background: var(--bgcolor);
+}
+
+/* Lista filtri */
+
+#animali #filtri {
+    display: flex;
+    align-items: center; 
+    gap: 1em;
+    flex-wrap: wrap;
+}
+
+#animali #filtri ul {
+    display: flex;
+    /* flex-wrap: wrap; */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0.5em;
+    flex: 1; 
+}
+
+/* Contenitore capsula per ogni filtro */
+#animali #filtri .capsula-filtro {
+    display: inline-flex;        /* label + input/select affiancati */
+    align-items: center;         /* centra verticalmente tutto */
+    justify-content: center;
+    padding: 0 1em;             /* padding uniforme */
+    background-color: var(--bgcolor);
+    color: var(--text-buttoncolor);
+    border-radius: 1em;
+    font-weight: 400;
+    text-align: center;
+    height: 2.8em;              /* altezza uniforme */
+    box-sizing: border-box;
+    border: 1px solid var(--text-buttoncolor);
+    max-width: fit-content;
+}
+
+/* Label dentro la capsula */
+#animali #filtri .capsula-filtro label {
+    margin-right: 0.5em;
+    white-space: nowrap;
+}
+
+#animali #filtri .capsula-filtro label[for="name-animal"] {
+    margin-left: 0;
+}
+
+#animali #filtri .capsula-filtro label[for="name-animal"] +input {
+    width: 100%;
+    min-width: 100px;
+    max-width: none;
+}
+
+#animali label{
+    font-weight: 500;
+}
+
+#animali #filtri #searchName.capsula-filtro{
+    width: 40%;
+    max-width: none;
+    justify-content:left;
+    background-color: var(--darkbgcolor);
+    gap:0;
+    border-color: var(--darkbgcolor);
+}
+
+#cancel-filter{
+    color:var(--text-buttoncolor);
+    border:2px solid var(--buttoncolor);
+    padding:5px 12px;
+    text-align: center;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s;
+    border-radius: 0.5em;
+    height: fit-content;
+    margin-bottom:0;
+}
+
+#animali #content-filter-button{
+    display: flex;
+    margin:auto;
+    gap:1em;
+    height: fit-content;
+}
+
+#animali #content-filter-button a{
+    flex: 1 1 40%;
+}
+
+#animali #content-filter-button button{
+    flex: 1 1 40%;
+}
+
+#cancel-filter:hover{
+    border:2px solid var(--bgcolor);
+}
+
+
+/* Input e select dentro la capsula */
+
+#animali #filtri .capsula-filtro input,
+#animali #filtri .capsula-filtro select {
+    border: none;
+    
+    /* color: var(--txtcolor); */
+    font-weight: 400;
+    outline: none;
+    font-size: 1em;
+    height: 100%;              /* prende tutta l’altezza della capsula */
+    display: flex;
+    align-items: center;        /* centra il testo verticalmente */
+    box-sizing: border-box;
+    min-width: 3em;             /* larghezza minima uniforme */
+    color:var(--text-buttoncolor);    
+    border-radius: 2em;
+    border-color: var(--text-buttoncolor);
+    margin:5px;
+}
+
+#animali #filtri .capsula-filtro input{
+    background: transparent;
+}
+
+#animali #filtri .capsula-filtro select{
+    background-color: var(--bgcolor);
+}
+
+/* Range di età */
+#animali #filtri .capsula-filtro .eta-range {
+    display: flex;
+    align-items: center;
+    gap: 0.3em;
+    height: 100%;
+}
+
+#animali #filtri .capsula-filtro .eta-range input {
+    height: 100%;
+    text-align: center;
+    max-width: 3em;    /* dimensione compatta */
+    width: 100%;
+    color:var(--txtcolor);
+}
+
+#animali #filtri .capsula-filtro .eta-range input::placeholder {
+    color: var(--placeholder-text);
+}
+
+#animali #filtri .capsula-filtro input[type="text"] {
+    max-width:10em;
+    width: 100%;
+    color:var(--txtcolor);
+}
+#animali #filtri .capsula-filtro input[list] {
+    max-width: 10em;   
+    width: 100%;
+    color:var(--txtcolor);
+}
+
+
+#animali .cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; 
+    margin-top: 1em;
+
+}
+
+#animali li article h3{
+    font-size: 1.2em;
+    margin-top:3px;
+    margin-bottom:0px;
+}
+
+#animali li.card {
+    cursor: pointer;
+    width: 11em;
+    height: 14em;
+    margin: 0.5em;
+    border-radius: 0.2em;
+    position: relative;
+    background-color: var(--darkbgcolor);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    overflow: hidden;
+    border: 3px solid var(--darkbgcolor);
+    transition: 
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+        /* border: 0.3 ease; */ 
+}
+
+#animali li.card:hover {
+    /* background-color: var(--bgcolor); */
+    border-color: var(--buttoncolor-hover); /* colore evidenziato */
+    box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+    border: 3px solid var(--buttoncolor-hover);
+}
+
+#animali li.card article {
+    width: 11em;
+    height: 14em;
+    overflow: hidden;
+    align-items: center;
+}
+
+#animali .immagine {
+    height: 60%;
+    width: 100%;
+    align-content: center;
+    /* overflow: hidden; */
+    box-sizing: border-box;
+    position: relative;
+    border-bottom: 1px solid var(--text-buttoncolor);
+}
+
+#animali .card .immagine img {
+    display: block;
+    width: 100%;               /* immagine occupa tutta la larghezza */
+    height: 100%;             
+    object-fit: cover;
+    
+    box-sizing: border-box;
+}
+
+#animali .card .nome {
+    padding-top: 0.5em;
+    padding-left: 1em;
+    float: left;
+    clear: left;
+    width: 80%;
+    /* padding-right: 65%; */
+    font-weight: bold;
+    /* height: 40px; */
+    white-space: nowrap;      /* testo su una sola riga */
+    overflow: hidden;         /* taglia il testo che esce dal box */
+    text-overflow: ellipsis;  /* aggiunge "..." alla fine */
+}
+
+#animali .card .sesso-etaDesk,
+#animali .card .sesso-etaMob {
+    padding-left: 1em;
+    float: left;
+    clear:left;
+}
+
+#animali .card .sesso-etaMob{
+    display: none;
+}
+
+#animali .card .interessamento {
+    float: right;   /* non serve più */
+    clear: left;
+    padding-right: 0.5em;
+    padding-top: 1px;
+
+
+}
+
+
+
+
+#animali .is-favorite,
+#animali .not-favorite{
+    /* float:right; */
+    /* margin-left: 50%; */
+    position: relative;
+    /* top: 0.5em; */
+    right: 0.5em;
+    width: 2em;      /* dimensione pulsante */
+    height: 2em;
+    padding: 1em;
+    border: none;
+    background: none;
+    cursor: pointer;
+    z-index: 2;
+}
+
+/* entrambe le immagini */
+#animali .is-favorite img,
+#animali .not-favorite img {
+    position: absolute;
+    top: 0;
+    /* left: 0; */
+    right: 0;
+    /* width: 100%;
+    height: 100%; */
+    width: 32px;
+    height: 32px;
+    transition: opacity 0.3s ease;
+}
+
+/* stato iniziale */
+#animali .is-favorite .heart-hover,
+#animali .not-favorite .heart-hover {
+    opacity: 0;
+}
+
+/* hover */
+#animali .not-favorite:hover .heart-hover {
+    opacity: 1;
+}
+
+#animali .not-favorite:hover .heart-normal {
+    opacity: 0;
+}
+
+/* Assicurati che la card sia riferimento per il posizionamento */
+.cards-container li.card {
+    position: relative; /* fondamentale per l'overlay */
+}
+
+/* Overlay invisibile */
+#animali .card .dettagli-animale-bottone a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;            /* sotto il cuore */
+    display: block;
+    text-indent: -9999px;   /* nasconde testo se presente */
+    color:var(--txtcolor);
+}
+
+/* Assicurati che il form riempia tutto l'overlay */
+#animali .card .dettagli-animale-bottone:hover {
+    cursor: pointer;
+}
+
+/* LINK NEXT PAGES */
+
+#animali #next-page-links {
+    display: flex;
+    justify-content: center;
+    margin: 2em;
+}
+
+#animali #next-page-links li,
+#animali #next-page-links li a {
+    color: var(--bgform);
+    list-style: none;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#animali #next-page-links li {
+    padding: 0.3em;
+    margin: 0.3em;
+    border: 2.3px solid var(--bgform);
+    border-radius: 0.5em;
+    width: 2.5em;
+    height: 2.5em;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    /* font-size: 1.3em; */
+}
+
+#animali #next-page-links li a:hover{
+    border-bottom:2px solid var(--bgconfirmbutton);
+}
+
+#animali #next-page-links li a {
+    transition: 0.3s;
+    border-bottom:2px solid var(--bgcolor);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+#animali #next-page-links ul {
+    display: flex;
+    justify-content: center;
+    border: 2.3px solid var(--bgform);
+    border-radius: 0.5em;
+    padding: 0.3em;
+}
+
+#animali #next-page-links #currentLink {
+    background-color: var(--bgform);
+    color: var(--bgcolor);
+    justify-content: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ================== PROFILO UTENTE NORMALE ==================*/
 #user-profile h2{
     font-size: 1.6em;
@@ -1332,19 +1911,19 @@ input:-webkit-autofill:active{
     flex: 1 1 35%;
 }
 
-#user-profile .tabs-container select:focus{
+#user-profile .tabs-container select:focus, #admin-area .tabs-container select:focus{
     border: 2px solid var(--headercolor);
     margin:4px;
 }
 
 /* tab */
-#user-profile .tabs-container {
+#user-profile .tabs-container, #admin-area .tabs-container {
     display: flex;
     flex-wrap: wrap;
     box-sizing: border-box;
 }
 
-#user-profile .tabs-container input{
+#user-profile .tabs-container input, #admin-area .tabs-container input {
     position: absolute;
     opacity: 0;
     width: 0;
@@ -1352,7 +1931,7 @@ input:-webkit-autofill:active{
 }
 
 
-#user-profile .tabs-container input + label {
+#user-profile .tabs-container input + label, #admin-area .tabs-container input + label {
     flex: 1 0 46%;
     padding: 1.8% 2%;
     height: 50px;
@@ -1363,7 +1942,7 @@ input:-webkit-autofill:active{
     cursor: pointer; 
 }
 
-#user-profile .tabs-container .tab-content {
+#user-profile .tabs-container .tab-content, #admin-area .tabs-container .tab-content{
     flex: 1 0 50%;
     height: fit-content;
     border-bottom: 1px solid var(--headercolor);
@@ -1374,7 +1953,7 @@ input:-webkit-autofill:active{
     border-radius: 0 0 0.5em 0.5em;
 }
 
-#user-profile input:checked + label {
+#user-profile input:checked + label, #admin-area input:checked + label {
     border-top: 1px solid var(--headercolor); 
     border-left: 1px solid var(--headercolor); 
     border-right: 1px solid var(--headercolor); 
@@ -1386,7 +1965,12 @@ input:-webkit-autofill:active{
 }
 
 #user-profile .tabs-container #tab1:checked  ~ .tab-content:nth-of-type(1),
-#user-profile .tabs-container #tab2:checked  ~ .tab-content:nth-of-type(2){
+#user-profile .tabs-container #tab2:checked  ~ .tab-content:nth-of-type(2), 
+#admin-area .tabs-container #tab1:checked  ~ .tab-content:nth-of-type(1),
+#admin-area .tabs-container #tab2:checked  ~ .tab-content:nth-of-type(2), 
+#admin-area .tabs-container #tab3:checked  ~ .tab-content:nth-of-type(3),
+#admin-area .tabs-container #tab4:checked  ~ .tab-content:nth-of-type(4),
+#admin-area .tabs-container #tab5:checked  ~ .tab-content:nth-of-type(5){
     display: block;
 }
 
@@ -1395,7 +1979,8 @@ input:-webkit-autofill:active{
     margin-bottom:1em;
 }
 
-#user-profile .tab-content label[for="request-state"]{
+#user-profile .tab-content label[for="request-state-movement"],
+#user-profile .tab-content label[for="request-state-richieste"]{
     display: inline-block;
 }
 
@@ -1726,13 +2311,6 @@ input[type="file"]::file-selector-button:hover {
 {
     border:2px solid transparent;
     background-color: transparent;
-}
-.hidden-indirizzo{
-    display: none;
-    margin-top:0.5em;
-}
-.fieldset-indirizzo:focus-within .hidden-indirizzo{
-    display: block;
 }
 
 /* ================== REVISIONE RICHIESTA ==================*/
@@ -2065,7 +2643,6 @@ nav#menu-admin li#currentLink a{
     font-weight: 700;
     color: var(--txtcolor);
 }
-
 nav#menu-admin span{
     color: var(--bgcolor);
     font-weight: 700;
@@ -2185,30 +2762,41 @@ div#row2 article{
 
 
 /*================= DETTAGLI RICHIESTE DI ADOZIONE ==================*/
-.tab {
+
+#mobile-select{
+    display: none;
+}
+.tabs-container {
     overflow: hidden;
     display: flex;
 }
 
-.tab button {
+/* .tab button {
   background-color: inherit;
   border: none;
-  /* traduco in em */
   padding: 0.9em 1em;
   transition: 0.3s;
-  flex: 1; /* questo serve per far si che i tab siano grandi uguali e riempiano lo spazio*/
-}
+  flex: 1;
+} */
 
-.tab button.active {
+/* .tab button.active {
     padding-bottom: 0.3em;
     border: 1px solid var(--txtcolor);
     border-bottom: none;
-}
+} */
 
-.tab button {
+/* .tab button {
    border-bottom: 1px solid var(--txtcolor);
+} */
+
+#admin-area .tabs-container#richieste input + label{
+    flex:1;
+    height: auto;
 }
 
+#admin-area .tabs-container#richieste .tab-content{
+    border: none;
+}
 .tabcontent#Richiedente .orange-button{
     margin: 0em 0em 0em auto;
 }
@@ -2216,8 +2804,8 @@ div#row2 article{
 #animale-richiesta .orange-button{
     margin: 0em auto 2em 0em;
 }
-#details-container h2, .tab h2{
-    font-size: 1.2em;
+#admin-area .tabs-container h2{
+    font-size: 1.1em;
     /* margin-bottom: 1em; */
     color: var(--txtcolor);
 }
@@ -2428,10 +3016,6 @@ div#admin-area article#stato-trasporto{
 
 /*================= RICHIESTE DI ADOZIONE ==================*/
 
-div#admin-area .tab-richieste{
-    border: none;
-    padding: 0.5em;
-}
 
 /* 1. Tabella: Impostazioni fondamentali per il raggio */
 table {
@@ -2551,3 +3135,4 @@ nav#breadcrumb a{
 nav#breadcrumb a:visited{
     color: var(--visitedcolor);
 }
+
