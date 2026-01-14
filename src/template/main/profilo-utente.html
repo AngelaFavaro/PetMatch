@@ -4,7 +4,7 @@
         <div class="column-container">
             <div class="tabs-container">
 
-                <input type="radio" name="tab-group" id="tab1" checked class="sr-only" [tabAvvisi]>
+                <input type="radio" name="tab-group" id="tab1" class="sr-only" [tabAvvisi]>
                 <label for="tab1">Avvisi</label>
                 
                 <input type="radio" name="tab-group" id="tab2" class="sr-only" [tabRichieste]>
@@ -16,8 +16,8 @@
 
                     <form method="GET">
                         <div>
-                            <label for="request-state">Filtra per:</label>
-                            <select name="state-avvisi" id="request-state">
+                            <label for="request-state-movement">Filtra per:</label>
+                            <select name="state-avvisi" id="request-state-movement">
                                 <option value="all">Tutte</option>
                                 <option value="Nuova">Nuove</option> <!-- conclusa, l'animale è suo -->
                                 <option value="Accettata">Accettate</option> <!-- conclusa, l'animale è suo -->
@@ -38,8 +38,8 @@
                     <h2 id="ultime-richieste">Le tue richieste</h2>
                     <form method="GET">
                         <div>
-                            <label for="request-state">Filtra per:</label>
-                            <select name="state-richieste" id="request-state">
+                            <label for="request-state-richieste">Filtra per:</label>
+                            <select name="state-richieste" id="request-state-richieste">
                                 <option value="all">Tutte</option>
                                 <option value="Aperte">Aperte</option> <!-- aperta, in valutazione -->
                                 <option value="Chiuse">Chiuse</option> <!-- accettata, respinta, annullata, in trasporto -->

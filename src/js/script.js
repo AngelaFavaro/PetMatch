@@ -119,6 +119,74 @@ toggleIcons.forEach(icon => {
 document.documentElement.style.scrollBehavior = 'auto';
 setTimeout(function() { document.documentElement.style.scrollBehavior = 'smooth'; }, 500);
 
+
+
+//evita di ricaricare la pagina quando di mettono i like
+document.addEventListener('DOMContentLoaded', () => {
+    
+    const likeForms = document.querySelectorAll('.preferiti-form');
+
+    likeForms.forEach(form => {
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault(); // Blocca il refresh
+
+            // Recupera gli elementi
+            const btn = form.querySelector('button');
+            const imgNormal = btn.querySelector('.heart-normal');
+            const imgHover = btn.querySelector('.heart-hover');
+            
+            // Per accessibilità: recupera il nome dell'animale dalla card
+            const cardContent = form.closest('.card-content');
+            const nomeAnimale = cardContent ? cardContent.querySelector('.nome').innerText : 'animale';
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log("Risposta Server:", data);
+
+                    if (data.status === 'success') {
+                        
+                        //scambio delle due immagini
+                        const tempSrc = imgNormal.src;
+                        imgNormal.src = imgHover.src;
+                        imgHover.src = tempSrc;
+
+                        // --- AGGIORNA ACCESSIBILITÀ ---
+                        if (data.azione === 'aggiunto') {
+                            btn.classList.remove('not-favorite');
+                            btn.classList.add('is-favorite');
+                            btn.setAttribute('aria-label', `Rimuovi ${nomeAnimale} dai preferiti`);
+                        } else {
+                            btn.classList.remove('is-favorite');
+                            btn.classList.add('not-favorite');
+                            btn.setAttribute('aria-label', `Aggiungi ${nomeAnimale} ai preferiti`);
+                        }
+                    }
+                } else {
+                    console.error("Errore server:", response.status);
+                }
+            } catch (error) {
+                console.error('Errore durante la fetch:', error);
+            }
+        });
+    });
+});
+
+
+
+
+
+
 /* ==========================================================================
    FUNZIONI GLOBALI (Sempre disponibili)
    ========================================================================== */
