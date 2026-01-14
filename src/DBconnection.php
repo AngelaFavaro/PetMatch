@@ -1080,9 +1080,9 @@ class DBAccess {
         $types .= 's';
     }
 
-    if (!empty($filters['name'])) {
+    if (!empty($filters['name-animal'])) {
         $where[] = 'Nome LIKE ?';
-        $params[] = '%' . $filters['name'] . '%';
+        $params[] = '%' . $filters['name-animal'] . '%';
         $types .= 's';
     }
 
