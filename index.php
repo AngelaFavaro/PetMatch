@@ -25,11 +25,7 @@ $routes = [
     ],
     'animali' => [
         'file' => __DIR__ . '/src/php/animali.php',
-        /*'params' => [
-            'tipo' => 'tutti'
-        ]*/
     ],
-
     'lavora-con-noi' => [
         'file' => __DIR__ . '/src/php/lavora-con-noi.php'
     ],
@@ -118,22 +114,22 @@ if (isset($routes[$url])) {
 
     // controllo i parametri obbligatori (tipo in dettagli-richiesta non voglio che manchi email o id-animale)
     // Se la rotta richiede parametri che non sono presenti in $_GET, mandiamo al 404
-    if (isset($route['required_params'])) {
-        foreach ($route['required_params'] as $param) {
-            if (!isset($_GET[$param]) || trim($_GET[$param]) === '') {
-                handle404();
-            }
-        }
-    }
+    // if (isset($route['required_params'])) {
+    //     foreach ($route['required_params'] as $param) {
+    //         if (!isset($_GET[$param]) || trim($_GET[$param]) === '') {
+    //             handle404();
+    //         }
+    //     }
+    // }
 
-    // lo lascio ma forse non serve piu
-    if (isset($route['params'])) {
-        foreach ($route['params'] as $key => $value) {
-            if (!isset($_GET[$key])) {
-                $_GET[$key] = $value;
-            }
-        }
-    }
+    // // lo lascio ma forse non serve piu
+    // if (isset($route['params'])) {
+    //     foreach ($route['params'] as $key => $value) {
+    //         if (!isset($_GET[$key])) {
+    //             $_GET[$key] = $value;
+    //         }
+    //     }
+    // }
     if (file_exists($route['file'])) {
         require $route['file'];
         exit;
