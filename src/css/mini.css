@@ -271,94 +271,27 @@ input:checked + #slider {
     justify-content: center;
 }
 
-#animali #filtri .capsula-filtro{
+#animali .card .interessamento {
+    float: left;   
+    clear: left;
+    padding:0.5em;
+}
+
+#animali .immagine {
+    height: 50%;
     width: 100%;
-    max-width: none;
-    justify-content: left;
 }
 
 #animali #filtri #searchSex.capsula-filtro,
 #animali #filtri #searchSize.capsula-filtro{
-    width: 48.5%;
+    width: 48.4%;
 }
 
-#animali #filtri .capsula-filtro .eta-range{
-    margin:auto;
-    padding-right: 2em;
-}
-
-#animali #filtri #searchName.capsula-filtro {
-    width: 100%;
-}
-
-#animali #filtri {
-    display: flex;
-    flex-direction: column;  /* mette tutto in colonna */
-    gap: 1em;              /* spazio tra righe */
-    align-items: center;     /* centra tutto orizzontalmente */
-}
-
-#animali #filtri ul {
-    display: flex;
-    flex-wrap: wrap;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    gap: 0.5em;
-    justify-content: flex-start; /* centra le capsule nella riga */
-}
-
-#animali #filtri button.orange-button {
-    margin-top: 0.5em;  /* spazio sopra il bottone */
-    margin-left: 50%;
-    margin-right: 50%;
-    align-self: center;  /* centra il bottone nella colonna */
-}
-
-#animali li.card {
-    cursor: pointer;
-    width: 9em;
-    height: 14em;
-    list-style: none;
-    margin: 0.5em;
-    border-radius: 0.2em;
-    position: relative;
-    background-color: var(--darkbgcolor);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-    overflow: hidden;
+#animali li.card:hover {
+    /* background-color: var(--bgcolor); */
+    border-color: var(--darkbgcolor); /* colore evidenziato */
     border: 3px solid var(--darkbgcolor);
-    transition: 
-        background-color 0.3s ease,
-        border-color 0.3s ease,
-        box-shadow 0.3s ease;
-        /* border: 0.3 ease; */
-    
-}
-
-#animali li.card ul {
-    width: 9em;
-    height: 14em;
-    overflow: hidden;
-}
-
-#animali .card li.interessamento {
-    float: right;   /* non serve più */
-    clear: left;
-    padding-right: 0.5em;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-    color: var(--txtcolor);
-
-}
-
-#animali li.immagine {
-    height: 50%;
-    width: 100%;
-    align-content: center;
-    /* overflow: hidden; */
-    box-sizing: border-box;
-    position: relative;
-    border-bottom: 1px solid var(--text-buttoncolor);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
 }
 
 
