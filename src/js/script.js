@@ -194,15 +194,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    /* --- per il toggle menu del mobile --- */
-    const menuBtn = document.getElementById('mobile-menu');
-    const menu = document.getElementById('menu-admin');
-    if (menuBtn && menu) {
-        menuBtn.addEventListener('click', () => {
-            menu.classList.toggle('active');
-        });
-    }
-
     const editNoteBtn = document.getElementById('edit-note');
     const noteText = document.getElementById('note-text');
     if (editNoteBtn && noteText) {

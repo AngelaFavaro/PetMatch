@@ -106,15 +106,14 @@ function loadTemplate(string $path, string $default = ''): string {
     return $content === false ? $default : $content;
 }
 
-/**
- * Genera la nav menù admin dinamicamente
- */
+
 function buildAdminNav(array $menuGroups, string $currentHref): string {
-    // Parte iniziale fissa
+    // Parte iniziale: Checkbox e Label (Hamburger)
     $html = '
-    <button class="menu-toggle" id="mobile-menu" aria-label="Apri o chiudi menu di navigazione">
-        ☰
-    </button>
+    <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
+    <label for="menu-toggle-checkbox" class="menu-toggle" aria-label="Apri o chiudi menu di navigazione">
+    <span></span> </label>
+    
     <nav id="menu-admin" aria-label="Menù">
         <a class="navigationHelp" href="#content"> Salta il menù di navigazione</a>
         <a href="./home">
@@ -133,13 +132,11 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
             $active = ($item['href'] === $currentHref) ? ' id="currentLink"' : '';
             
             // In questa versione, anche il link corrente rimane cliccabile 
-            // come nel tuo esempio HTML ( <li id="currentLink"><a href="...">...</a></li> )
             $html .= '<li'.$active.'><a href="'.$item['href'].'">'.$item['text'].'</a></li>';
         }
         $html .= '</ul>';
     }
 
-    // Parte finale fissa
     $html .= '
         <form action="./area-riservata" method="POST">
             <button type="submit" name="logout" class="logout-btn">Esci</button>

@@ -298,7 +298,7 @@ input:checked + #slider {
 
 /* ================== NAV ADMIN ==================*/
     
-nav#menu-admin {
+/* nav#menu-admin {
     padding-top:0em;
     float: none;
     width: 100%;
@@ -307,21 +307,18 @@ nav#menu-admin {
     max-height: 0;
     overflow: hidden;
     background-color: transparent; 
-    /* transition: max-height 0.3s ease, background-color 0.3s ease; */
     z-index: 1000;
     visibility: hidden;
 }
 
 #menu-admin.active {
     max-height: 100vh;
-
-    background-color: var(--footercolor); /*così lo sfondo appare solo quando apri il menu */
+    background-color: var(--footercolor)
     visibility: visible;
 }
 
 body#admin-body main {
     margin-left: 0;
-    /* transition: margin-top 0.3s ease; */
 }
 
 div#admin-area {
@@ -342,7 +339,69 @@ nav#menu-admin img {
     width: 10em;
     max-width: 100%;
     height: auto;
+} */
+
+/* ================== NAV ADMIN (Versione No-JS) ==================*/
+
+
+#admin-body .menu-toggle {
+    display: flex;
+    margin: 0em 0em 0em auto ;
+    width: fit-content;
+    cursor: pointer;
+    color: var(--bgcolor);
+    padding: 0.5em 0.5em;
 }
+
+/* da vedere se possibile unificare con quello dello user, per ora lascio così */
+#admin-body .menu-toggle::before {
+    content: "\2630";
+    display: block;
+    width: 45px;
+    text-align: center;
+}
+#menu-toggle-checkbox:checked + .menu-toggle::before {
+    content: "\2715"; 
+    width: 45px;
+}
+
+#menu-toggle-checkbox:checked + .menu-toggle {
+    transform: rotate(180deg);
+}
+
+nav#menu-admin {
+    padding-top: 0;
+    width: 100%;
+    position: relative;
+    max-height: 0;
+    overflow: hidden;
+    background-color: transparent; 
+    z-index: 1000;
+    visibility: hidden;
+    transition: max-height 0.3s ease;
+}
+
+#menu-toggle-checkbox:checked ~ nav#menu-admin {
+    max-height: 100vh;
+    background-color: var(--footercolor);
+    visibility: visible;
+}
+
+body#admin-body main {
+    margin-left: 0;
+}
+
+div#admin-area {
+    padding: 1em;
+}
+
+nav#menu-admin img {
+    width: 10em;
+    max-width: 100%;
+    height: auto;
+}
+
+/* ================== ADMIN AREA ==================*/
 div#admin-area article{
     margin-bottom: 1em;
     margin-top: 0.5em;
