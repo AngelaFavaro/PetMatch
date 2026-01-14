@@ -304,15 +304,15 @@ if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($ri
 
     if (isset($_GET['mode']) && $_GET['mode'] === 'note') {
         $annotazioni .= '
-                <div class="note">
+                <div id="sezione-note" class="note">
                     <div class="header-note">
                         <h2>LE TUE ANNOTAZIONI</h2>
-                        <a href="?email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') . '" id="edit-note" class="pencil" aria-label="Modifica le annotazioni">
+                        <a href="?email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') . '#sezione-note" id="edit-note" class="pencil" aria-label="Modifica le annotazioni">
                             <img src="./assets/icons/edit-pencil.svg" alt="" aria-hidden="true">
                         </a>
                     </div>
                     <div id="note-container">
-                        <form id="form-note" action="richieste-adozione?email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') . '" method="POST">
+                        <form id="form-note" action="richieste-adozione?email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') .'" method="POST">
                             <label for="input-note" class="sr-only">Modifica annotazioni:</label>
                             <textarea id="input-note" name="note" rows="4">' . htmlspecialchars($richiesta['appunti'] ?? '', ENT_QUOTES, 'UTF-8') . '</textarea>
                             <button name="salva_annotazioni" type="submit" class="orange-button">Salva annotazioni</button>
@@ -321,10 +321,10 @@ if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($ri
                 </div>';
     }else{
         $annotazioni.= '
-            <div class="note">
+            <div id="sezione-note" class="note">
                 <div class="header-note">
                     <h2>LE TUE ANNOTAZIONI</h2>
-                    <a href="?mode=note&email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') . '" id="edit-note" class="pencil" aria-label="Modifica le annotazioni">
+                    <a href="?mode=note&email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') . '#sezione-note" id="edit-note" class="pencil" aria-label="Annulla le annotazioni">
                         <img src="./assets/icons/edit-pencil.svg" alt="" aria-hidden="true">
                     </a>
                 </div>
