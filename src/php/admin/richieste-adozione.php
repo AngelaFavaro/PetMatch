@@ -42,61 +42,61 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
             $html = '
             <select id="mobile-select" name="tab-group">
                 <option value="tab1" '.$selected['Nuove'].'>
-                    NUOVE ([n-nuove])
+                    Nuove ([n-nuove])
                 </option>
                 <option value="tab2" '.$selected['In valutazione'].'>
-                    IN VALUTAZIONE ([n-in-valutazione])
+                    In valutazione ([n-in-valutazione])
                 </option>
                 <option value="tab3" '.$selected['Da trasportare'].'>
-                    DA TRASPORTARE ([n-da-trasportare])
+                    Da trasportare ([n-da-trasportare])
                 </option>
                 <option value="tab4" '.$selected['Annullata'].'>
-                    ANNULLATE ([n-annullate])
+                    Annullate ([n-annullate])
                 </option>
                 <option value="tab5" '.$selected['Respinta'].'>
-                    RESPINTE ([n-respinte])
+                    Respinte ([n-respinte])
                 </option>
             </select>
             <input class="sr-only" type="radio" id="tab1" name="tab-group" '.$checked['Nuove'].'>
-            <label for="tab1"><h2>NUOVE ([n-nuove])</h2></label>
+            <label for="tab1"><h2>Nuove ([n-nuove])</h2></label>
             <input class="sr-only" type="radio" id="tab2" name="tab-group" '.$checked['In valutazione'].'>
-            <label for="tab2"><h2>IN VALUTAZIONE ([n-in-valutazione])</h2></label>
+            <label for="tab2"><h2>In valutazione ([n-in-valutazione])</h2></label>
             <input class="sr-only" type="radio" id="tab3" name="tab-group" '.$checked['Da trasportare'].'>
-            <label for="tab3"><h2>DA TRASPORTARE ([n-da-trasportare])</h2></label>
+            <label for="tab3"><h2>Da trasportare ([n-da-trasportare])</h2></label>
             <input class="sr-only" type="radio" id="tab4" name="tab-group" '.$checked['Annullata'].'>
-            <label for="tab4"><h2>ANNULLATE ([n-annullate])</h2></label>
+            <label for="tab4"><h2>Annullate ([n-annullate])</h2></label>
             <input class="sr-only" type="radio" id="tab5" name="tab-group" '.$checked['Respinta'].'>
-            <label for="tab5"><h2>RESPINTE ([n-respinte])</h2></label> '; 
+            <label for="tab5"><h2>Respinte ([n-respinte])</h2></label> '; 
         }else{
             $html = '
             <select id="mobile-select" name="tab-group">
                 <option value="tab1" selected>
-                    NUOVE ([n-nuove])
+                    Nuove ([n-nuove])
                 </option>
                 <option value="tab2">
-                    IN VALUTAZIONE ([n-in-valutazione])
+                    In valutazione ([n-in-valutazione])
                 </option>
                 <option value="tab3">
-                    DA TRASPORTARE ([n-da-trasportare])
+                    Da trasportare ([n-da-trasportare])
                 </option>
                 <option value="tab4">
-                    ANNULLATE ([n-annullate])
+                    Annullate ([n-annullate])
                 </option>
                 <option value="tab5">
-                    RESPINTE ([n-respinte])
+                    Respinte ([n-respinte])
                 </option>
             </select>
 
             <input class="sr-only" type="radio" id="tab1" name="tab-group" checked>
-            <label for="tab1"><h2>NUOVE ([n-nuove])</h2></label>
+            <label for="tab1"><h2>Nuove ([n-nuove])</h2></label>
             <input class="sr-only" type="radio" id="tab2" name="tab-group">
-            <label for="tab2"><h2>IN VALUTAZIONE ([n-in-valutazione])</h2></label>
+            <label for="tab2"><h2>In valutazione ([n-in-valutazione])</h2></label>
             <input class="sr-only" type="radio" id="tab3" name="tab-group">
-            <label for="tab3"><h2>DA TRASPORTARE ([n-da-trasportare])</h2></label>
+            <label for="tab3"><h2>Da trasportare ([n-da-trasportare])</h2></label>
             <input class="sr-only" type="radio" id="tab4" name="tab-group">
-            <label for="tab4"><h2>ANNULLATE ([n-annullate])</h2></label>
+            <label for="tab4"><h2>Annullate ([n-annullate])</h2></label>
             <input class="sr-only" type="radio" id="tab5" name="tab-group">
-            <label for="tab5"><h2>RESPINTE ([n-respinte])</h2></label> ';
+            <label for="tab5"><h2>Respinte ([n-respinte])</h2></label> ';
         }
 
         return $html;
