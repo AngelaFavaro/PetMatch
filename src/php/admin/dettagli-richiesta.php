@@ -360,14 +360,12 @@ $appuntiNonVuoti = !empty($richiesta['appunti']);
 
 if (($richiesta['stato'] !== 'Annullata' && $richiesta['stato'] !== 'Nuova') || ($richiesta['stato'] === 'Annullata' && $appuntiNonVuoti)) {
     
-    // Iniziamo a costruire la stringa
     $annotazioni .= '
             <div class="note">
                 <div class="header-note">
                     <h2>LE TUE ANNOTAZIONI</h2>';
 
     if (isset($_GET['mode']) && $_GET['mode'] === 'note') {
-        // CORRETTO: Uso .= per non cancellare l'header
         $annotazioni .= '
                     <a href="?email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') . '" id="edit-note" class="edit-btn" aria-label="Modifica le annotazioni">
                         <img src="./assets/icons/edit-pencil.svg" alt="" aria-hidden="true">
@@ -387,7 +385,6 @@ if (($richiesta['stato'] !== 'Annullata' && $richiesta['stato'] !== 'Nuova') || 
                     
                 </div>';
     }
-    // Chiudiamo sempre il div class="note" aperto all'inizio
     $annotazioni .= '</div>';
 }
 
