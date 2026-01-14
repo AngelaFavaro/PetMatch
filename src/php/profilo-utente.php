@@ -287,7 +287,7 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente, $editAddr
                     $errors['indirizzo-totale'] = "Impossibile rimuovere l'indirizzo: ci sono richieste di adozioni aperte.";
                 }
             } 
-            else {
+            if($isAllEmpty || $isAllFull){
                 if (!$editAddress) {
                     $errors['indirizzo-totale'] = "Impossibile modificare l'indirizzo: c'è un trasporto attivo.";
                 } 
