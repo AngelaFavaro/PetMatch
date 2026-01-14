@@ -1478,8 +1478,8 @@ input:-webkit-autofill:active{
     padding: 0.6em 1.2em;
     font-weight: bold;
     border: 2px solid var(--txtcolor);
-    border-top-left-radius: 1em;
-    border-top-right-radius: 1em;
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
     border-bottom: none;
     /*margin-bottom: -2px;*/
     background: var(--bgcolor);
@@ -1550,7 +1550,7 @@ input:-webkit-autofill:active{
     border-color: var(--darkbgcolor);
 }
 
-#cancel-filter{
+#cancel-filter-visible{
     color:var(--text-buttoncolor);
     border:2px solid var(--buttoncolor);
     padding:5px 12px;
@@ -1578,8 +1578,12 @@ input:-webkit-autofill:active{
     flex: 1 1 40%;
 }
 
-#cancel-filter:hover{
+#cancel-filter-visible:hover{
     border:2px solid var(--bgcolor);
+}
+
+#cancel-filter-invisible {
+    display: none;
 }
 
 
