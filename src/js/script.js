@@ -193,33 +193,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-
-    // const editNoteBtn = document.getElementById('edit-note');
-    // const noteText = document.getElementById('note-text');
-    // if (editNoteBtn && noteText) {
-    //     let originalText = '';
-    //     editNoteBtn.addEventListener('click', e => {
-    //         e.preventDefault();
-    //         originalText = noteText.innerText;
-    //         noteText.contentEditable = 'true';
-    //         noteText.classList.add('editing');
-    //         noteText.focus();
-    //     });
-
-    //     noteText.addEventListener('blur', () => {
-    //         noteText.contentEditable = 'false';
-    //         noteText.classList.remove('editing');
-    //         const nuovoTesto = noteText.innerText.trim();
-    //         if (nuovoTesto !== originalText) {
-    //             fetch(window.location.href, {
-    //                 method: 'POST',
-    //                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    //                 body: new URLSearchParams({ salva_note: 1, note: nuovoTesto })
-    //             });
-    //         }
-    //     });
-    // }
-
     /* --- colorazione pulsanti a seconda dello stato della richiesta*/
     const verificaStato = () => {
         const paragrafi = document.querySelectorAll('#Richiesta p');
