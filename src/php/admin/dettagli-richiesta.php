@@ -350,42 +350,46 @@ $main = str_replace('[dataFineValutazione]', $dataFineValutazione, $main);
 $main = str_replace('[dataRichiestaRespinta]', $dataRichiestaRespinta, $main);
 $main = str_replace('[pulsanti-azioni-richiesta]', renderPulsantiAzioni($richiesta), $main);
 
-// Annotazioni
-// Annotazioni
-$annotazioni = '';
 
 // Controllo se mostrare la sezione: 
 // Stato non Nuova/Annullata OPPURE (Stato Annullata E appunti non vuoti)
 $appuntiNonVuoti = !empty($richiesta['appunti']);
 
 if (($richiesta['stato'] !== 'Annullata' && $richiesta['stato'] !== 'Nuova') || ($richiesta['stato'] === 'Annullata' && $appuntiNonVuoti)) {
-    
-    $annotazioni .= '
-            <div class="note">
-                <div class="header-note">
-                    <h2>LE TUE ANNOTAZIONI</h2>';
+
+    $annotazioni = '';
 
     if (isset($_GET['mode']) && $_GET['mode'] === 'note') {
         $annotazioni .= '
-                    <a href="?email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') . '" id="edit-note" class="edit-btn" aria-label="Modifica le annotazioni">
+                <div class="note">
+                    <div class="header-note">
+                        <h2>LE TUE ANNOTAZIONI</h2>
+                        <a href="?email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') . '" id="edit-note" class="edit-btn" aria-label="Modifica le annotazioni">
+                            <img src="./assets/icons/edit-pencil.svg" alt="" aria-hidden="true">
+                        </a>
+                    </div>
+                    <div id="note-container">
+                        <form id="form-note" action="tua_pagina_di_salvataggio.php" method="POST">
+                            <label for="input-note" class="sr-only">Modifica annotazioni:</label>
+                            <textarea id="input-note" name="note" rows="4">' . htmlspecialchars($richiesta['appunti'] ?? '', ENT_QUOTES, 'UTF-8') . '</textarea>
+                            <button type="submit" class="orange-button">Salva annotazioni</button>
+                        </form>
+                    </div>
+                </div>';
+    }else{
+        $annotazioni.= '
+            <div class="note">
+                <div class="header-note">
+                    <h2>LE TUE ANNOTAZIONI</h2>
+                    <a href="?mode=note&email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') . '" id="edit-note" class="edit-btn" aria-label="Modifica le annotazioni">
                         <img src="./assets/icons/edit-pencil.svg" alt="" aria-hidden="true">
                     </a>
                 </div>
                 <div id="note-container">
-                    <form id="form-note" action="tua_pagina_di_salvataggio.php" method="POST">
-                        <label for="input-note" class="sr-only">Modifica annotazioni:</label>
-                        <textarea id="input-note" name="note" rows="4">' . htmlspecialchars($richiesta['appunti'] ?? '', ENT_QUOTES, 'UTF-8') . '</textarea>
-                        <button type="submit" class="save-btn">Salva annotazioni</button>
-                    </form>
-                </div>';
-    }else{
-        $annotazioni.= '<a href="?mode=note&email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') . '" id="edit-note" class="edit-btn" aria-label="Modifica le annotazioni">
-                        <img src="./assets/icons/edit-pencil.svg" alt="" aria-hidden="true">
-                    </a>
-                    
-                </div>';
+                    <p id="note-text">' . e($richiesta['appunti'] ?? '') . '</p>
+                </div>
+            </div>';
     }
-    $annotazioni .= '</div>';
 }
 
 $main = str_replace('[annotazioni]', $annotazioni, $main);
