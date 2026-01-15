@@ -34,6 +34,7 @@
 
 a{
     color: var(--linkcolor);
+    font-weight: 600;
 }
 
 a:visited{
@@ -474,6 +475,7 @@ input:focus{
 
 #introduction-lavora-con-noi a{
     color:var(--headerlink);
+    font-weight: 500;
 }
 
 
@@ -684,6 +686,7 @@ header a{
  
 #osso a {
     color: var(--headerlink);
+    font-weight: normal;
 }
 
 #osso a:hover {
@@ -798,6 +801,15 @@ input:checked + #theme-switch #slider #moon { opacity: 1; }
     flex-wrap: wrap;
     padding: 2em 0em 2em 2em;
 }
+
+footer a{
+    font-weight: normal;
+}
+
+footer a:hover{
+    text-decoration: underline;
+}
+
 
 footer {
     background-color: var(--footercolor);
@@ -1030,9 +1042,9 @@ details:not([open]) .popup {
     content: '';
     display: block;
     position: absolute;
-    width: 140%;
-    top:-33%;
-    left: -18%;
+    width: 100%;
+    /* overflow: hidden; */
+    top:-23%;
     height: 100px;
     background-image: url('../../assets/images/rope.svg');
     background-size: 100% auto;
@@ -1043,12 +1055,48 @@ details:not([open]) .popup {
 }
 
 #events-list .polaroid{
+    display: block;
     flex: 1 1 20%;
     color: var(--txtcolor);
-    padding-top: 1em;
     transform-origin: top center;
     --base-rot: 0deg;
     margin:auto;
+    padding: 1em 0.5em 0 0.5em ;
+    text-decoration: none;
+    font-weight: normal;
+
+    box-sizing: border-box; 
+}
+
+
+#events-list .polaroid h4, 
+#events-list .polaroid p {
+    display: block; /* Importante */
+    width: 100%;
+    
+    white-space: nowrap;      /* Impedisce di andare a capo */
+    overflow: hidden;         /* Nasconde l'eccesso */
+    text-overflow: ellipsis;  /* Aggiunge i puntini ... */
+}
+
+#events-list .polaroid p{
+    width: 100%;
+}
+
+#events-list p.vMobile{
+    display: none;
+}
+
+#events-list .polaroid:hover{
+    text-decoration: underline;
+}
+
+#events-list .polaroid img{
+    width: 100%;
+    margin-top:-0.5em;
+    height: 130px;
+    object-fit: cover;
+    object-position: bottom;
 }
 
 #events-list .polaroid:before{
@@ -1058,7 +1106,7 @@ details:not([open]) .popup {
     background-repeat: no-repeat;
     width: 50px;
     height: 50px;
-    top:-22%;
+    top:-18%;
     left: 38%;
 }
 

@@ -51,8 +51,8 @@ if($infoRequest['DataNascita']){
 }
 
 if($infoRequest['DataPartenza'] && $infoRequest['DataPartenza']){
-    $dataPartenza = '<dt>Data di partenza:</dt><dd><em>'.strtotime($infoRequest['DataPartenza']).'</em></dd>';
-    $dataArrivo = '<dt>Data di partenza:</dt><dd><em>'.strtotime($infoRequest['DataArrivo']).'</em></dd>';
+    $dataPartenza = '<dt>Data di partenza:</dt><dd><em>'. date("d/m/Y",strtotime($infoRequest['DataPartenza'])).'</em></dd>';
+    $dataArrivo = '<dt>Data di partenza:</dt><dd><em>'. date("d/m/Y",strtotime($infoRequest['DataArrivo'])).'</em></dd>';
 }else{
     $dataPartenza = '';
     $dataArrivo = '';

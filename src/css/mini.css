@@ -157,18 +157,22 @@ input:checked + #slider {
 }
 
 #section-events{
-    max-width: 700px;
     padding:2em 1em 1em 1em;
 }
 
 #events-list{
     margin:0;
     padding:3em 0 0 0;
+    gap:5px;
 }
 
 #events-list::before{
     width: 100%;
     left: -0%;
+}
+
+.is-swinging {
+    animation: none;
 }
 
 #events-list .polaroid:before{
@@ -185,13 +189,20 @@ input:checked + #slider {
 
 #events-list .polaroid:first-child,
 #events-list .polaroid:nth-child(2){
-    width: 40%;
+    width: 43%;
 }
 
 #events-list .polaroid:first-child{
     margin-left:5%;
 }
 
+#events-list p.vMobile{
+    display: block;
+}
+
+#events-list p.vDesk{
+    display: none;
+}
 
 #form-affidamento {
     background-color: var(--bgcolor);

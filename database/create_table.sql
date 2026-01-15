@@ -37,6 +37,8 @@ CREATE TABLE EVENTI (
     DescrEvento TEXT NOT NULL,
     ImgPath VARCHAR(512) NOT NULL, -- Già presente, rinominato per coerenza
     PRIMARY KEY (Titolo, DataEvento),
+    Via VARCHAR(255) NOT NULL,
+    Citta VARCHAR(100) NOT NULL
     CHECK (DataEvento >= DataPubblicazione)
 );
 

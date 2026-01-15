@@ -7,6 +7,46 @@ $messaggiForm ='';
 $nameValue ='';
 $emailValue ='';
 
+function createCardEvents(DBAccess $conn){
+	$events = $conn->getLastEvents();
+
+    $mesi=[
+        1 => 'gennaio',  2 => 'febbraio', 3 => 'marzo', 4 => 'aprile',
+        5 => 'maggio',   6 => 'giugno',   7 => 'luglio', 8 => 'agosto',
+        9 => 'settembre',10 => 'ottobre', 11 => 'novembre',12 => 'dicembre'
+    ];
+
+    $lastEvents = "";
+    foreach ($events as $event){
+        // TODO LINK EVENTO
+
+        $data = strtotime($event["DataEvento"]);
+
+        $giorno = date('d', $data);
+        $mese = date('n', $data); 
+        $anno = date('Y', $data);
+
+        $data = $giorno.' '.$mesi[$mese].' '.$anno;
+
+        $lastEvents .= '
+            <a href="./home" class="polaroid" aria-label="evento '.$event["Titolo"].'">
+                
+                <article>
+                    <img src="'.$event["ImgPath"].'" alt=""/>
+                    
+                    <h4>'.$event["Titolo"].'</h4>
+                    <p class="vDesk">'. $data.'</p>
+                    <p class="vMobile">'.date('d/m/Y',strtotime($event["DataEvento"])).'</p>
+                    <p>'.$event["Citta"].'</p>
+                </article>
+                
+            </a>';
+    }
+
+    return $lastEvents;
+}
+
+
 function sendReportForm(DBAccess $conn, &$nameValue, &$emailValue){
 
     $message = '';
@@ -101,10 +141,12 @@ function sendReportForm(DBAccess $conn, &$nameValue, &$emailValue){
     return $message;
 }
 
+$InfoEvents = "";
+
 $connessione = new DBAccess();
 $connessioneOK = $connessione->openDBConnection();
 if ($connessioneOK) {
-	
+    $InfoEvents = createCardEvents($connessione);
 	$messaggiForm = sendReportForm($connessione, $nameValue, $emailValue);
 	$connessione->closeConnection();
 }else{
@@ -135,6 +177,8 @@ $paginaHTML = str_replace('[breadcrumb]', $breadcrumb, $paginaHTML);
 $paginaHTML = str_replace('[nav]', $nav, $paginaHTML);
 $paginaHTML = str_replace('[main]', $main, $paginaHTML);
 $paginaHTML = str_replace('[messaggiForm]', $messaggiForm, $paginaHTML);
+
+$paginaHTML = str_replace('[UltimiEventi]', $InfoEvents, $paginaHTML);
 
 // SOSTITUZIONE DEI VALORI INPUT
 // htmlspecialchars() con ENT_QUOTES converte gli apici singoli e doppi.

@@ -32,7 +32,6 @@
 #header-actions .white-button:hover #account-hover { opacity: 1; }
 
 
-
 #theme-switch {
     width: 32px;
     height: 32px;
@@ -56,6 +55,20 @@
 #slider::before {
     content: none;
     display: none;
+}
+
+/* ==================HOME==================*/
+
+#events-list::before{
+    top:-20%;
+}
+
+#events-list{
+    margin-top: 8%;
+}
+
+#events-list .polaroid p{
+    margin:0 auto; 
 }
 
 #timeline::before {
