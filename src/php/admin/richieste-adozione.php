@@ -180,7 +180,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
             }else{
                 $html .= '
                     <tr>
-                        <td colspan="5">Nessuna richiesta trovata con i filtri selezionati.</td>
+                        <td colspan="5" class="nessuna-richiesta-message" >Nessuna richiesta trovata con i filtri selezionati.</td>
                     </tr>
                 ';
             }
