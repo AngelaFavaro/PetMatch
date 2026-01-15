@@ -2038,6 +2038,10 @@ input:-webkit-autofill:active{
     display: inline-block;
 }
 
+#user-profile .tabs-container legend{
+    display: none;
+}
+
 #user-profile .tab-content form button,
 .logout-btn,
 #revisione-richiesta #button-cancel,
