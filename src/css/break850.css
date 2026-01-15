@@ -207,9 +207,10 @@ details[open] .number::after {
 }
 
 
-#cancel-filter{
+#cancel-filter-visible{
     border-radius: 1em;
     flex: 0 0 28%;
+    padding:6px 12px;
 }
 
 #animali #content-filter-button{
