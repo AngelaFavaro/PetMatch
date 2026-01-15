@@ -2871,6 +2871,7 @@ a.pencil {
 
 #admin-area .tabs-container#richieste .tab-content{
     border: none;
+    margin: 0em;
 }
 .tab-content#Richiedente .orange-button{
     margin: 0em 0em 0em auto;

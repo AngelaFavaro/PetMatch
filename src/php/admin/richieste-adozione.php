@@ -161,13 +161,9 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                 </thead>
                 <tbody>';
 
-            if(isset($_GET['appunti']) && $_GET['appunti'] === '1'){
-                $richieste = $conn->getInEvaluationRequests($_SESSION['email'] ?? '', '1');
-            }elseif(isset($_GET['appunti']) && $_GET['appunti'] === '0'){
-                $richieste = $conn->getInEvaluationRequests($_SESSION['email'] ?? '', '0');
-            }else{
-                $richieste = $conn->getInEvaluationRequests($_SESSION['email'] ?? '');
-            }
+            // mi sento così intelligente dopo aver cambiato il mio if elseif if in una sola riga, lascio questo commento per ricordarmelo
+            $richieste = $conn->getInEvaluationRequests($_SESSION['email'] ?? '',$_GET['appunti'] ?? null);
+
 
             if(!empty($richieste)){
                 foreach($richieste as $richiesta){
@@ -219,17 +215,23 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                     </tr>
                 </thead>
             <tbody>';
-            $richieste = $conn->getTransportRequests($_SESSION['email'] ?? '');
+            $richieste = $conn->getTransportRequests($_SESSION['email'] ?? '',$_GET['trasporto'] ?? null);
 
-            foreach($richieste as $richiesta){
-                // se data_arrivo è null, mostra una stringa vuota
+            if(!empty($richieste)){
+                foreach($richieste as $richiesta){
+                    $html .= '
+                        <tr>
+                            <th data-title="Nome Animale" scope="row">'.htmlspecialchars($richiesta['nome_animale']).'</th>
+                            <td data-title="Email Richiedente">'.htmlspecialchars($richiesta['email_richiedente']).'</td>
+                            <td data-title="Data accettazione"><time datetime="'.htmlspecialchars($richiesta['data_fine_valutazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($richiesta['data_fine_valutazione']))).'</time></td>
+                            <td data-title="Data arrivo">'.($richiesta['data_arrivo'] ? '<time datetime="'.htmlspecialchars($richiesta['data_arrivo']).'">'.date('d/m/Y', strtotime($richiesta['data_arrivo'])).'</time>' : '<span>Da organizzare</span>').'</td>
+                            <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="orange-button">Vai ai dettagli</a></td>
+                        </tr>';
+                }
+            }else{
                 $html .= '
                     <tr>
-                        <th data-title="Nome Animale" scope="row">'.htmlspecialchars($richiesta['nome_animale']).'</th>
-                        <td data-title="Email Richiedente">'.htmlspecialchars($richiesta['email_richiedente']).'</td>
-                        <td data-title="Data accettazione"><time datetime="'.htmlspecialchars($richiesta['data_fine_valutazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($richiesta['data_fine_valutazione']))).'</time></td>
-                        <td data-title="Data arrivo">'.($richiesta['data_arrivo'] ? '<time datetime="'.htmlspecialchars($richiesta['data_arrivo']).'">'.date('d/m/Y', strtotime($richiesta['data_arrivo'])).'</time>' : '<span>Da pianificare</span>').'</td>
-                        <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="orange-button">Vai ai dettagli</a></td>
+                        <td colspan="5">Nessuna richiesta trovata con i filtri selezionati.</td>
                     </tr>
                 ';
             }
@@ -379,6 +381,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     /* ---- sostituzioni varie per i filtri ---*/
     $rawFilters = [
         'appunti'   => $_GET['appunti'] ?? '',
+        'trasporto' => $_GET['trasporto'] ?? '',
     ];
 
 
@@ -386,6 +389,9 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
         '[APPUNTI_SELECTED_TUTTI]'   => $rawFilters['appunti'] === '' ? 'selected' : '',
         '[APPUNTI_SELECTED_SI]' => $rawFilters['appunti'] === '1' ? 'selected' : '',
         '[APPUNTI_SELECTED_NO]'   => $rawFilters['appunti'] === '0' ? 'selected' : '',
+        '[TRASPORTO_SELECTED_TUTTI]' => $rawFilters['trasporto'] === '' ? 'selected' : '',
+        '[TRASPORTO_SELECTED_ORGANIZZATO]' => $rawFilters['trasporto'] === '1' ? 'selected' : '',
+        '[TRASPORTO_SELECTED_DA_ORGANIZZARE]'   => $rawFilters['trasporto'] === '0' ? 'selected' : '',
     ];
 
 

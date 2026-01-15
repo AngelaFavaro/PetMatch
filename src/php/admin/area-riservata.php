@@ -21,7 +21,7 @@ function buildToDoList(DBAccess $conn): string {
 		['href' => './richieste-adozione?stato=In+valutazione&appunti=0', 'type' => 'Appunti da prendere'],
 		['href' => '', 'type' => 'Accoglienze'],
 		['href' => './richieste-adozione?stato=Nuove', 'type' => 'Adozioni da valutare'],
-		['href' => '', 'type' => 'Trasporti da organizzare'],
+		['href' => 'richieste-adozione?stato=Da+trasportare&trasporto=0', 'type' => 'Trasporti da organizzare'],
 	];
 	foreach ($links as $index => $link) {
 		$nQuery = $tasks[$index] ?? 0;
