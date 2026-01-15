@@ -8,6 +8,29 @@
         </article>
         
         <article class="tab-content tab2">
+            <form id="filtri" method="get" action="?stato=In valutazione" >
+                <input type="hidden" name="stato" value="In valutazione">
+                <ul aria-label="Filtri di ricerca">
+                    <!-- <li class="capsula-filtro" id="searchName">
+                        <label for="name-animal">Nome</label>
+                        <input type="text" id="name-animal" name="name-animal" 
+                            value="[NAME]" 
+                            placeholder="Cerca...">
+                    </li> -->
+                    <li class="capsula-filtro" role="presentation">
+                        <label for="filtro-appunti">Appunti</label>
+                        <select name="appunti" id="filtro-appunti">
+                            <option value="" [APPUNTI_SELECTED_TUTTI]>Tutti</option>
+                            <option value="1" [APPUNTI_SELECTED_SI]>Sì</option>
+                            <option value="0" [APPUNTI_SELECTED_NO]>No</option>
+                        </select>
+                    </li>
+                </ul>
+                <div id="content-filter-button">
+                    <a href="[URL-RESERFILTRI]" id="[VISIBILITA-FILTRO]" aria-label="elimina i filtri">X</a>
+                    <button type="submit" class="orange-button">Applica</button>
+                </div>
+            </form>
             [contenuto-in-valutazione-richieste]
         </article>
         

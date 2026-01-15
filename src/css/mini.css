@@ -397,7 +397,7 @@ nav#menu-admin {
 }
 
 #menu-toggle-checkbox:checked ~ nav#menu-admin {
-    max-height: 100vh;
+    max-height: 120vh;
     background-color: var(--footercolor);
     visibility: visible;
 }

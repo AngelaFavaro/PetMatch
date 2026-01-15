@@ -502,7 +502,11 @@ class DBAccess {
         return $requests;
     }
 
-    function getInEvaluationRequests($email): array {
+    /**
+     * @param string $email Email dell'admin
+     * @param string|null $filtroAppunti Valori attesi: '1' (Sì), '0' (No)
+     */
+    function getInEvaluationRequests($email, $filtroAppunti = null): array {
         $requests = [];
         
         $query = "SELECT 
@@ -514,11 +518,19 @@ class DBAccess {
                 FROM RICHIESTE_ADOZIONI R
                 JOIN ANIMALI A ON R.IDanimale = A.IDanimale
                 WHERE R.Stato = 'In valutazione' 
-                AND A.Email = ?
-                ORDER BY R.DataInizioValutazione ASC";
+                AND A.Email = ?";
+
+        if ($filtroAppunti === '1') {
+            $query .= " AND R.Appunti IS NOT NULL AND R.Appunti <> ''";
+        } elseif ($filtroAppunti === '0') {
+            $query .= " AND (R.Appunti IS NULL OR R.Appunti = '')";
+        }
+
+        $query .= " ORDER BY R.DataInizioValutazione ASC";
 
         $stmt = mysqli_prepare($this->connection, $query);
         if ($stmt) {
+            //il parametro bind è uno perché i filtri li aggiungo hardcoded nella query sopra!! 
             mysqli_stmt_bind_param($stmt, 's', $email);
             mysqli_stmt_execute($stmt);
             $result = mysqli_stmt_get_result($stmt);
@@ -532,7 +544,6 @@ class DBAccess {
         
         return $requests;
     }
-
     function getTransportRequests($email): array {
         $requests = [];
         // data arrivo può essere null, in quel caso va in fondo alla lista

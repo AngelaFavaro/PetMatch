@@ -15,7 +15,6 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     include './src/utils.php';
     include './src/DBconnection.php';
 
-
     function renderTabs(): string{
         $html = '';
         if(isset($_GET['stato'])){
@@ -161,16 +160,31 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                     </tr>
                 </thead>
                 <tbody>';
-            $richieste = $conn->getInEvaluationRequests($_SESSION['email'] ?? '');
 
-            foreach($richieste as $richiesta){
+            if(isset($_GET['appunti']) && $_GET['appunti'] === '1'){
+                $richieste = $conn->getInEvaluationRequests($_SESSION['email'] ?? '', '1');
+            }elseif(isset($_GET['appunti']) && $_GET['appunti'] === '0'){
+                $richieste = $conn->getInEvaluationRequests($_SESSION['email'] ?? '', '0');
+            }else{
+                $richieste = $conn->getInEvaluationRequests($_SESSION['email'] ?? '');
+            }
+
+            if(!empty($richieste)){
+                foreach($richieste as $richiesta){
+                    $html .= '
+                        <tr>
+                            <th data-title="Nome Animale" scope="row">'.htmlspecialchars($richiesta['nome_animale']).'</th>
+                            <td data-title="Email Richiedente">'.htmlspecialchars($richiesta['email_richiedente']).'</td>
+                            <td data-title="Data Inizio Valutazione"><time datetime="'.htmlspecialchars($richiesta['data_inizio_valutazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($richiesta['data_inizio_valutazione']))).'</time></td>
+                            <td data-title="Appunti">'.($richiesta['appunti'] ? 'Sì' : 'No').'</td>
+                            <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="orange-button">Vai ai dettagli</a></td>
+                        </tr>
+                    ';
+                }
+            }else{
                 $html .= '
                     <tr>
-                        <th data-title="Nome Animale" scope="row">'.htmlspecialchars($richiesta['nome_animale']).'</th>
-                        <td data-title="Email Richiedente">'.htmlspecialchars($richiesta['email_richiedente']).'</td>
-                        <td data-title="Data Inizio Valutazione"><time datetime="'.htmlspecialchars($richiesta['data_inizio_valutazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($richiesta['data_inizio_valutazione']))).'</time></td>
-                        <td data-title="Appunti">'.($richiesta['appunti'] ? 'Sì' : 'No').'</td>
-                        <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="orange-button">Vai ai dettagli</a></td>
+                        <td colspan="5">Nessuna richiesta trovata con i filtri selezionati.</td>
                     </tr>
                 ';
             }
@@ -338,7 +352,6 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     if ($connessioneOK) {
         $richiesta = $connessione->getRequestDetails($email, $idAnimale);
 
-        // Gestione POST centralizzata (esegue redirect dove necessario)
         $NRequestsByStatus = $connessione->getNRequestByStatus($_SESSION['email'] ?? '');
         $nuove_richieste_content = renderNuoveContent($connessione, $NRequestsByStatus);
         $richieste_in_valutazione_content = renderInValutazioneContent($connessione, $NRequestsByStatus);
@@ -348,9 +361,6 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
         $connessione->closeConnection();
     }
 
-    
-    
-    // echo 'Qui ci va la pagina delle richieste di adozione, quando metti "<h1>?email=lindorlinor@gmail.com&id-animale=1</h1>" ti apre la singola richiesta (obv metti i valori che vuoi nei parametri)';
     
     $paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore: template layout.html non trovato o non leggibile.</p>');
     $breadcrumb = getBreadcrumb('richieste-adozione', $pagine);
@@ -364,6 +374,24 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     $main = str_replace('[contenuto-annullate-richieste]', $richieste_annullate_content, $main);
     $main = str_replace('[contenuto-respinte-richieste]', $richieste_respinte_content, $main);
     $main = renderNRequestsByStatus($NRequestsByStatus, $main);
+
+
+    /* ---- sostituzioni varie per i filtri ---*/
+    $rawFilters = [
+        'appunti'   => $_GET['appunti'] ?? '',
+    ];
+
+
+    $replaceFilters = [
+        '[APPUNTI_SELECTED_TUTTI]'   => $rawFilters['appunti'] === '' ? 'selected' : '',
+        '[APPUNTI_SELECTED_SI]' => $rawFilters['appunti'] === '1' ? 'selected' : '',
+        '[APPUNTI_SELECTED_NO]'   => $rawFilters['appunti'] === '0' ? 'selected' : '',
+    ];
+
+
+
+
+    $main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);
     $title = "<title>Richieste di Adozione - PetMatch</title>";
     $description = "<meta name='description' content='Visualizza e gestisci le richieste di adozione degli animali presenti su PetMatch.'>";
     $keywords = "<meta name='keywords' content='richieste, adozione, animali, PetMatch'>";

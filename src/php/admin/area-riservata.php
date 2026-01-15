@@ -18,7 +18,7 @@ function buildToDoList(DBAccess $conn): string {
 	$tasks =$conn->createAdminTasks($_SESSION['email'] ?? '');
 	$links= [
 		['href' => '', 'type' => 'Animali senza admin'],
-		['href' => '', 'type' => 'Appunti da prendere'],
+		['href' => './richieste-adozione?stato=In+valutazione&appunti=0', 'type' => 'Appunti da prendere'],
 		['href' => '', 'type' => 'Accoglienze'],
 		['href' => './richieste-adozione?stato=Nuove', 'type' => 'Adozioni da valutare'],
 		['href' => '', 'type' => 'Trasporti da organizzare'],

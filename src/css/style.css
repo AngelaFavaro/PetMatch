@@ -1535,14 +1535,14 @@ input:-webkit-autofill:active{
 
 /* Lista filtri */
 
-#animali #filtri {
+#animali #filtri, .tab-content #filtri {
     display: flex;
     align-items: center; 
     gap: 1em;
     flex-wrap: wrap;
 }
 
-#animali #filtri ul {
+#animali #filtri ul, .tab-content #filtri ul {
     display: flex;
     /* flex-wrap: wrap; */
     list-style: none;
@@ -1553,7 +1553,7 @@ input:-webkit-autofill:active{
 }
 
 /* Contenitore capsula per ogni filtro */
-#animali #filtri .capsula-filtro {
+#animali #filtri .capsula-filtro, .tab-content #filtri .capsula-filtro {
     display: inline-flex;        /* label + input/select affiancati */
     align-items: center;         /* centra verticalmente tutto */
     justify-content: center;
@@ -1570,7 +1570,7 @@ input:-webkit-autofill:active{
 }
 
 /* Label dentro la capsula */
-#animali #filtri .capsula-filtro label {
+#animali #filtri .capsula-filtro label, .tab-content #filtri .capsula-filtro label {
     margin-right: 0.5em;
     white-space: nowrap;
 }
@@ -1638,7 +1638,9 @@ input:-webkit-autofill:active{
 /* Input e select dentro la capsula */
 
 #animali #filtri .capsula-filtro input,
-#animali #filtri .capsula-filtro select {
+#animali #filtri .capsula-filtro select,
+.tab-content #filtri .capsula-filtro input,
+.tab-content #filtri .capsula-filtro select {
     border: none;
     
     /* color: var(--txtcolor); */
@@ -1651,16 +1653,15 @@ input:-webkit-autofill:active{
     box-sizing: border-box;
     min-width: 3em;             /* larghezza minima uniforme */
     color:var(--text-buttoncolor);    
-    border-radius: 2em;
     border-color: var(--text-buttoncolor);
     margin:5px;
 }
 
-#animali #filtri .capsula-filtro input{
+#animali #filtri .capsula-filtro input, .tab-content #filtri .capsula-filtro input {
     background: transparent;
 }
 
-#animali #filtri .capsula-filtro select{
+#animali #filtri .capsula-filtro select, .tab-content #filtri .capsula-filtro select {
     background-color: var(--bgcolor);
 }
 
@@ -2850,6 +2851,7 @@ a.pencil {
 
 
 /*================= DETTAGLI RICHIESTE DI ADOZIONE ==================*/
+
 .pointer-events-none{
     pointer-events: none;
 }
@@ -3112,12 +3114,21 @@ td.col-dettagli a{
 
 .nessuna-richiesta-message{
     margin:auto;
-    width: fit-content;
+    width: 100%;
+    text-align: center;
     font-weight: bold;
+    display: block;
 }
 
 
-
+/*================== FILTRI  ==================*/
+.tab-content #filtri ul{
+    margin: 1em;
+    justify-content: flex-end;
+}
+.tab-content #filtri button{
+    display: inline;
+}
 /*================NAVIGATION HELP ==================*/
 
 .navigationHelp {
