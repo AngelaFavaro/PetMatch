@@ -2882,10 +2882,7 @@ div#admin-area div#animal-container{
 }
 
 div#admin-area article#stato-trasporto{
-    background-color: var(--darkbgcolor);
-    width: 55%;
-    padding: 1em 1em;
-    margin: auto auto 0em 0em;
+    margin: 2em auto 1em 0em;
 } 
 
 #top-container{
@@ -2893,15 +2890,7 @@ div#admin-area article#stato-trasporto{
     flex-wrap: wrap;
 }
 
-#stato-trasporto p{
-    padding-top: 0.7em;
-    float: left;
-    margin-right: 2em;
-}
-#stato-trasporto a{
-    float: right;
-}
-#top-container a.orange-button, #top-container form{
+#top-container a.orange-button,#top-container button.orange-button{
     margin: auto 0em 0em auto;
 }
 
@@ -2933,14 +2922,17 @@ div#admin-area article.note{
     width: 55%;
 }
 
-.header-note h2{
+.header-article h2{
     float: left;
     font-size: 1.3em;
 }
-.header-note a{
+.header-article a{
     float: right;
 }
 
+.header-article dl{
+   width: 80%;
+}
 
 
 .note p.editing {
