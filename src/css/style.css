@@ -2660,12 +2660,16 @@ nav#menu-admin {
     padding: 1em 0em 1em 1em;
     height: 100%;
     overflow: hidden;
-     font-size: 90%;
+     font-size: 100%;
     /* height: 100vh; */
 }
 
 nav#menu-admin a.orange-button{
     margin-top:0.5em;
+}
+nav#menu-admin li a {
+    width: 100%;
+    display: block;
 }
 
 body#admin-body main {
@@ -2676,7 +2680,7 @@ body#admin-body main {
 
 nav#menu-admin img {
     display: block;
-    margin: 0 auto;
+    margin: 1em auto;
     width: 12em;
     max-width: 100%;
     height: auto;
@@ -2724,6 +2728,7 @@ nav#menu-admin li#currentLink a{
 }
 nav#menu-admin span{
     color: var(--bgcolor);
+    margin-left: 0.5em;
     font-weight: 700;
 }
 
