@@ -182,34 +182,34 @@ details[open] .number::after {
 
 /* ==================ANIMALI==================*/
 
-#animali #filtri .capsula-filtro{
+#animali .filtri .capsula-filtro{
     width: 100%;
     max-width: none;
     justify-content: left;
 }
 
-#animali #filtri #searchSex.capsula-filtro,
-#animali #filtri #searchSize.capsula-filtro{
+#animali .filtri #searchSex.capsula-filtro,
+#animali .filtri #searchSize.capsula-filtro{
     width: 49.4%;
 }
 
-#animali #filtri .capsula-filtro .eta-range{
+#animali .filtri .capsula-filtro .eta-range{
     margin:auto;
     padding-right: 2em;
 }
 
-#animali #filtri #searchName.capsula-filtro {
+#animali .filtri #searchName.capsula-filtro {
     width: 100%;
 }
 
-#animali #filtri {
+#animali .filtri {
     display: flex;
     flex-direction: column;  /* mette tutto in colonna */
     gap: 1em;              /* spazio tra righe */
     align-items: center;     /* centra tutto orizzontalmente */
 }
 
-#animali #filtri ul {
+#animali .filtri ul {
     display: flex;
     flex-wrap: wrap;
     list-style: none;

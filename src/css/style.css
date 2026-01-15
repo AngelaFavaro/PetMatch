@@ -1535,14 +1535,14 @@ input:-webkit-autofill:active{
 
 /* Lista filtri */
 
-#animali #filtri, .tab-content #filtri {
+#animali .filtri, .tab-content .filtri {
     display: flex;
     align-items: center; 
     gap: 1em;
     flex-wrap: wrap;
 }
 
-#animali #filtri ul, .tab-content #filtri ul {
+#animali .filtri ul, .tab-content .filtri ul {
     display: flex;
     /* flex-wrap: wrap; */
     list-style: none;
@@ -1553,7 +1553,7 @@ input:-webkit-autofill:active{
 }
 
 /* Contenitore capsula per ogni filtro */
-#animali #filtri .capsula-filtro, .tab-content #filtri .capsula-filtro {
+#animali .filtri .capsula-filtro, .tab-content .filtri .capsula-filtro {
     display: inline-flex;        /* label + input/select affiancati */
     align-items: center;         /* centra verticalmente tutto */
     justify-content: center;
@@ -1570,16 +1570,16 @@ input:-webkit-autofill:active{
 }
 
 /* Label dentro la capsula */
-#animali #filtri .capsula-filtro label, .tab-content #filtri .capsula-filtro label {
+#animali .filtri .capsula-filtro label, .tab-content .filtri .capsula-filtro label {
     margin-right: 0.5em;
     white-space: nowrap;
 }
 
-#animali #filtri .capsula-filtro label[for="name-animal"] {
+#animali .filtri .capsula-filtro label[for="name-animal"] {
     margin-left: 0;
 }
 
-#animali #filtri .capsula-filtro label[for="name-animal"] +input {
+#animali .filtri .capsula-filtro label[for="name-animal"] +input {
     width: 100%;
     min-width: 100px;
     max-width: none;
@@ -1589,7 +1589,7 @@ input:-webkit-autofill:active{
     font-weight: 500;
 }
 
-#animali #filtri #searchName.capsula-filtro{
+#animali .filtri #searchName.capsula-filtro{
     width: 40%;
     max-width: none;
     justify-content:left;
@@ -1637,10 +1637,10 @@ input:-webkit-autofill:active{
 
 /* Input e select dentro la capsula */
 
-#animali #filtri .capsula-filtro input,
-#animali #filtri .capsula-filtro select,
-.tab-content #filtri .capsula-filtro input,
-.tab-content #filtri .capsula-filtro select {
+#animali .filtri .capsula-filtro input,
+#animali .filtri .capsula-filtro select,
+.tab-content .filtri .capsula-filtro input,
+.tab-content .filtri .capsula-filtro select {
     border: none;
     
     /* color: var(--txtcolor); */
@@ -1657,23 +1657,23 @@ input:-webkit-autofill:active{
     margin:5px;
 }
 
-#animali #filtri .capsula-filtro input, .tab-content #filtri .capsula-filtro input {
+#animali .filtri .capsula-filtro input, .tab-content .filtri .capsula-filtro input {
     background: transparent;
 }
 
-#animali #filtri .capsula-filtro select, .tab-content #filtri .capsula-filtro select {
+#animali .filtri .capsula-filtro select, .tab-content .filtri .capsula-filtro select {
     background-color: var(--bgcolor);
 }
 
 /* Range di età */
-#animali #filtri .capsula-filtro .eta-range {
+#animali .filtri .capsula-filtro .eta-range {
     display: flex;
     align-items: center;
     gap: 0.3em;
     height: 100%;
 }
 
-#animali #filtri .capsula-filtro .eta-range input {
+#animali .filtri .capsula-filtro .eta-range input {
     height: 100%;
     text-align: center;
     max-width: 3em;    /* dimensione compatta */
@@ -1681,16 +1681,16 @@ input:-webkit-autofill:active{
     color:var(--txtcolor);
 }
 
-#animali #filtri .capsula-filtro .eta-range input::placeholder {
+#animali .filtri .capsula-filtro .eta-range input::placeholder {
     color: var(--placeholder-text);
 }
 
-#animali #filtri .capsula-filtro input[type="text"] {
+#animali .filtri .capsula-filtro input[type="text"] {
     max-width:10em;
     width: 100%;
     color:var(--txtcolor);
 }
-#animali #filtri .capsula-filtro input[list] {
+#animali .filtri .capsula-filtro input[list] {
     max-width: 10em;   
     width: 100%;
     color:var(--txtcolor);
@@ -3123,11 +3123,11 @@ td.col-dettagli a{
 
 
 /*================== FILTRI  ==================*/
-.tab-content #filtri ul{
+.tab-content .filtri ul{
     margin: 1em;
     justify-content: flex-end;
 }
-.tab-content #filtri button{
+.tab-content .filtri button{
     display: inline;
 }
 /*================NAVIGATION HELP ==================*/
