@@ -146,7 +146,7 @@ button.orange-button{
     padding: 0.7em 1.5em;
     border-radius: 1em;
     font-weight: 600;
-    letter-spacing: 1px;
+    letter-spacing: 0px;
     text-decoration: none;
     transition: background-color 0.6s ease;
 }
@@ -567,7 +567,7 @@ input:focus{
 /* ================== HEADER ================== */
 
 #layout-user #currentLink{
-    pointer-events: none;
+    font-weight: 600;
 }
 
 #layout-user #currentLink a:visited{
@@ -2082,8 +2082,6 @@ input:-webkit-autofill:active{
 
 #user-profile #user-info img.circle-foto{
     margin:auto;
-    display: flex;
-    background-color: var(--bglink-hover);
 }
 
 #user-info{
@@ -2633,10 +2631,12 @@ ul#statistics-list li{
     width:100%; /*riempie tutto il li*/
     color: var(--txtcolor);
     text-decoration: none;
+    font-weight: normal;
 }
 
 p.query-type{
-    font-size: 0.7em;
+    font-size: 0.9em;
+    line-height: normal;
     /* margin: 0 1em; */
 }
 p.n-query{
@@ -2664,6 +2664,10 @@ nav#menu-admin {
     /* height: 100vh; */
 }
 
+nav#menu-admin a.orange-button{
+    margin-top:0.5em;
+}
+
 body#admin-body main {
     background-color: var(--bgcolor);
     margin-left:20%;
@@ -2680,13 +2684,36 @@ nav#menu-admin img {
 
 
 nav#menu-admin li {
-  padding: 1.3em;
+  padding: 1.1em 1.3em;
+}
+
+nav#menu-admin li a{
+  text-decoration: none;
+  font-weight: normal;
+  /* font-size: 1.1em; */
+}
+
+nav#menu-admin button.logout-btn:hover{
+    background-color: var(--buttoncolor-hover);
+    color:var(--text-buttoncolor-hover);
+    border-color: var(--buttoncolor-hover);
+}
+
+#description-menu-animals{
+    font-size: 1.3em;
+    border-bottom:1px solid var(--darkbgcolor);
+    margin-right: 1em;
+}
+
+nav#menu-admin li a:hover{
+  text-decoration: underline;
 }
 
 nav#menu-admin li#currentLink {
     background-color: var(--bgcolor);
     border-radius: 2em 0em 0em 2em;
     color: var(--txtcolor);
+    font-weight: 600;
 }
 nav#menu-admin li a:visited{
     color: var(--visitedcolor);
@@ -2745,7 +2772,8 @@ a.pencil {
 
 
 .generic-info-container label{
-    font-weight: 700;
+    font-weight: 600;
+    margin-top:0.5em;
 }
 
 #submit-edit.orange-button{
@@ -2789,6 +2817,8 @@ a.pencil {
     margin-bottom: 2em;
     pointer-events: none;
     margin-left: 1.5em;
+    display: flex;
+    background-color: var(--bglink-hover);
 }
 
 .square-foto {
