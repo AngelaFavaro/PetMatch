@@ -2581,7 +2581,7 @@ div#admin-area article h2{
 div#admin-area{
     padding: 0em 5em;
     min-height: 100vh;
-    /* margin: auto; */
+    margin-top: 2em;
 }
 
 body#admin-body #breadcrumb{
@@ -2727,7 +2727,7 @@ div#row2 article{
     float: left;
 }
 
-.header-info a.btn-edit {
+a.pencil {
     float: right;
     background: none;
     border: none;
@@ -2814,32 +2814,17 @@ div#row2 article{
 
 
 /*================= DETTAGLI RICHIESTE DI ADOZIONE ==================*/
-
+.pointer-events-none{
+    pointer-events: none;
+}
 #mobile-select{
     display: none;
 }
 .tabs-container {
     overflow: hidden;
     display: flex;
+    margin-top: 2em;
 }
-
-/* .tab button {
-  background-color: inherit;
-  border: none;
-  padding: 0.9em 1em;
-  transition: 0.3s;
-  flex: 1;
-} */
-
-/* .tab button.active {
-    padding-bottom: 0.3em;
-    border: 1px solid var(--txtcolor);
-    border-bottom: none;
-} */
-
-/* .tab button {
-   border-bottom: 1px solid var(--txtcolor);
-} */
 
 #admin-area .tabs-container#richieste input + label{
     flex:1;
@@ -2849,7 +2834,7 @@ div#row2 article{
 #admin-area .tabs-container#richieste .tab-content{
     border: none;
 }
-.tabcontent#Richiedente .orange-button{
+.tab-content#Richiedente .orange-button{
     margin: 0em 0em 0em auto;
 }
 
@@ -2858,26 +2843,9 @@ div#row2 article{
 }
 #admin-area .tabs-container h2{
     font-size: 1.1em;
-    /* margin-bottom: 1em; */
     color: var(--txtcolor);
 }
 
-.tabcontent {
-  display: none;
-  /* padding: 6px 12px; */
-  border: 1px solid #ccc;
-  border-top: none;
-} 
-
-/* #Richiesta ul{
-    list-style: none;
-    padding: 0em;
-} */
-
-/* #Richiesta{
-    display: flex;
-    flex-wrap: wrap;
-} */
 div#admin-area dt{
     font-weight: bold;
     float: left;
@@ -2961,31 +2929,39 @@ div#admin-area div#animal-container{
 }
 
 div#admin-area article#stato-trasporto{
-    background-color: var(--darkbgcolor);
-    width: 55%;
-    padding: 1em 1em;
-    margin: auto auto 0em 0em;
+    margin: 2em auto 1em 0em;
 } 
 
 #top-container{
     display: flex;
+    justify-content: flex-end;
+    align-items: center;
     flex-wrap: wrap;
 }
 
-#stato-trasporto p{
-    padding-top: 0.7em;
-    float: left;
-    margin-right: 2em;
-}
-#stato-trasporto a{
-    float: right;
-}
-#top-container a.orange-button, #top-container form{
-    margin: auto 0em 0em auto;
+#top-container a.orange-button,#top-container button.orange-button{
+   margin: 0em 0em 0em auto;
 }
 
+div#admin-area article.note{
+    background-color: var(--darkbgcolor);
+    padding: 1em;
+    border-radius: 0.5em 0.5em 0 0;
+    border: none;
+    margin: 0em;
+}
 #bottom-container form{
-    margin: auto 0em 0em auto;
+    margin: 1em 0em 0em auto;
+}
+#bottom-container button{
+    margin: 1em 0em 0em auto; /*questa regola seleziona DUE button, quello del form delle annotazioni e quello di scarta richiesta*/
+}
+#bottom-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+    padding-bottom: 2em;
+
 }
 
 .note{
@@ -2994,22 +2970,17 @@ div#admin-area article#stato-trasporto{
     overflow: hidden;
     width: 55%;
 }
-/* .header-note{
-    gap: 1em;
-} */
-.header-note h2{
+
+.header-article h2{
     float: left;
     font-size: 1.3em;
 }
-.header-note a{
+.header-article a{
     float: right;
 }
 
-#bottom-container{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2em;
-
+.header-article dl{
+   width: 80%;
 }
 
 
@@ -3018,52 +2989,26 @@ div#admin-area article#stato-trasporto{
     background-color: var(--darkbgcolor);
 }
 
-/* Nasconde i form quando hanno la classe .hidden */
-#form-data.hidden, 
-#form-note.hidden,
-#data-text.hidden,
-#note-text.hidden {
-    display: none;
-}
-
-/* Quando il form della data è attivo, sta in linea con il testo */
-#form-data {
-    display: inline;
-}
-
-/* Il form delle note lo facciamo apparire come un blocco sotto il titolo */
-#form-note {
-    display: block;
-    margin-top: 0.5rem;
-}
-
-/* --- Stile Input e Textarea --- */
 
 #input-note {
     width: 100%;
     padding: 0.5rem;
     background-color: var(--darkbgcolor);
-    border: 1px solid var(--bordercolor, #ccc);
+    border: 1px solid var(--txtcolor);
     border-radius: 4px;
     font-family: inherit;
     font-size: 1rem;
-    resize: vertical; /* Permette all'utente di allungare l'area */
+    resize: none;
+}
+
+#input-note:focus {
+    outline: 3px solid var(--txtcolor);
 }
 .orange-button.respinta {
     background-color: var(--darkbgcolor);
     border: none;
     cursor: not-allowed;
-}
-
-
-/* Quando il form ha la classe .hidden, sparisce */
-#stato-trasporto .hidden {
-    display: none;
-}
-
-/* Quando il form NON ha .hidden, deve stare sulla stessa riga del testo */
-#form-data {
-    display: inline;
+    pointer-events: none;
 }
 
 /*================= RICHIESTE DI ADOZIONE ==================*/

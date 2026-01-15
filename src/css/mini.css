@@ -389,7 +389,7 @@ nav#menu-admin {
     background-color: transparent; 
     z-index: 1000;
     visibility: hidden;
-    transition: max-height 0.3s ease;
+    transition: max-height 0.3s ease-out;
 }
 
 #menu-toggle-checkbox:checked ~ nav#menu-admin {
@@ -443,6 +443,16 @@ nav#breadcrumb {
     margin: 1em auto;
 }
 
+/* ================== DETTAGLI RICHIESTE ==================*/
+a.pencil img{
+    width: 44px;
+}
+
+.text-details{
+    margin:0 0.5em;
+}
+
+/* ================== 404 PAGE ==================*/
 
 #error-title {
     font-size: 7em;

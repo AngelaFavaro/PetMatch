@@ -184,80 +184,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-
-
-
-/* ==========================================================================
-   FUNZIONI GLOBALI (Sempre disponibili)
-   ========================================================================== */
-
-
+/**cambia il colore dei pulsanti per abbellimento: rende più visibile lo stato della richiesta */
 document.addEventListener('DOMContentLoaded', () => {
-
-    const editNoteBtn = document.getElementById('edit-note');
-    const noteText = document.getElementById('note-text');
-    if (editNoteBtn && noteText) {
-        let originalText = '';
-        editNoteBtn.addEventListener('click', e => {
-            e.preventDefault();
-            originalText = noteText.innerText;
-            noteText.contentEditable = 'true';
-            noteText.classList.add('editing');
-            noteText.focus();
-        });
-
-        noteText.addEventListener('blur', () => {
-            noteText.contentEditable = 'false';
-            noteText.classList.remove('editing');
-            const nuovoTesto = noteText.innerText.trim();
-            if (nuovoTesto !== originalText) {
-                fetch(window.location.href, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: new URLSearchParams({ salva_note: 1, note: nuovoTesto })
-                });
-            }
-        });
-    }
-
-    /* --- colorazione pulsanti a seconda dello stato della richiesta*/
     const verificaStato = () => {
-        const paragrafi = document.querySelectorAll('#Richiesta p');
+        const termini = document.querySelectorAll('#Richiesta dt'); //cerca tutti i dt dentro l'article#Richiesta (che ha lo stato)
         let statoTesto = "";
-        paragrafi.forEach(p => {
-            if (p.textContent.includes('Stato richiesta:')) {
-                statoTesto = p.textContent.replace('Stato richiesta:', '').trim();
+
+        termini.forEach(dt => {
+            if (dt.textContent.trim() === 'Stato richiesta') { //cerca il dt che contiene "Stato richiesta"
+                const ddValue = dt.nextElementSibling; //prende il dd successivo per estrerre il valore
+                if (ddValue) {
+                    statoTesto = ddValue.textContent.trim();
+                }
             }
         });
 
         if (statoTesto !== "" && statoTesto !== '[stato]') {
-            if (statoTesto === 'Respinta' || statoTesto === 'Annullata') {
+            const statiNegativi = ['Respinta', 'Annullata'];
+            
+            if (statiNegativi.includes(statoTesto)) {
                 const p1 = document.querySelector('#animal-container .orange-button');
                 const p2 = document.querySelector('#details-container .orange-button');
-                if (p1) { p1.classList.add('respinta'); p1.style.pointerEvents = 'none'; }
-                if (p2) { p2.classList.add('respinta'); p2.style.pointerEvents = 'none'; }
+                
+                [p1, p2].forEach(p => {
+                    if (p) {
+                        p.classList.add('respinta');
+                        p.setAttribute('aria-disabled', 'true'); // per accessibilità, indica che il pulsante è disabilitato (così è comprensibile anche ad uno screen reader)
+                    }
+                });
             }
         }
     };
+    
     verificaStato();
-
-    /* --- modifica la data di arrivo TO DO DA MODIFICARE--- */
-    const btnEditDate = document.getElementById('btn-attiva-modifica');
-    const dateText = document.getElementById('data-text');
-    const formDate = document.getElementById('form-data');
-    const inputDate = document.getElementById('input-data');
-
-    if (btnEditDate && dateText && formDate && inputDate) {
-        btnEditDate.addEventListener('click', () => {
-            dateText.classList.add('hidden');
-            formDate.classList.remove('hidden');
-            if (typeof inputDate.showPicker === 'function') inputDate.showPicker();
-            inputDate.focus();
-        });
-
-        formDate.addEventListener('submit', (e) => {
-            e.preventDefault();
-            // Qui chiameresti la tua funzione sendData()
-        });
-}
 });
