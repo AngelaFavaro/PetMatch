@@ -2704,7 +2704,7 @@ nav#menu-admin button.logout-btn:hover{
     border-color: var(--buttoncolor-hover);
 }
 
-#description-menu{
+.description-menu{
     font-size: 1.3em;
     border-bottom:1px solid var(--darkbgcolor);
     margin-right: 1em;
