@@ -14,22 +14,22 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])){
 	logout();
 }
 function buildToDoList(DBAccess $conn): string {
-	$html = '<ul id="to-do-list">';
+	$html = '<ul id="to-do-list" aria-label="compiti da completare">';
 	$tasks =$conn->createAdminTasks($_SESSION['email'] ?? '');
 	$links= [
-		['href' => '', 'type' => 'ANIMALI SENZA ADMIN'],
-		['href' => '', 'type' => 'APPUNTI DA PRENDERE'],
-		['href' => '', 'type' => 'ACCOGLIENZE'],
-		['href' => './richieste-adozione?stato=Nuove', 'type' => 'ADOZIONI DA VALUTARE'],
-		['href' => '', 'type' => 'TRASPORTI DA ORGANIZZARE'],
+		['href' => '', 'type' => 'Animali senza admin'],
+		['href' => '', 'type' => 'Appunti da prendere'],
+		['href' => '', 'type' => 'Accoglienze'],
+		['href' => './richieste-adozione?stato=Nuove', 'type' => 'Adozioni da valutare'],
+		['href' => '', 'type' => 'Trasporti da organizzare'],
 	];
 	foreach ($links as $index => $link) {
 		$nQuery = $tasks[$index] ?? 0;
 		$html .= '
 		<li>
-			<a href="' . $link['href'] . '">
-				<p class="n-query">' . $nQuery . '</p>
-				<p class="query-type">' . $link['type'] . '</p>
+			<a href="' . $link['href'] . '" aria-label="' . $nQuery . $link['type'].'">
+				<p class="n-query" aria-hidden="true">' . $nQuery . '</p>
+				<p class="query-type" aria-hidden="true">' . $link['type'] . '</p>
 			</a>
 		</li>
 		';
@@ -40,18 +40,18 @@ function buildToDoList(DBAccess $conn): string {
 
 
 function buildStatisticsArea(DBAccess $conn): string{
-	$html = '<ul id="statistics-list">';
+	$html = '<ul id="statistics-list" aria-labelledby="title-statistiche">';
 	$stats = $conn->createAdminStats($_SESSION['email'] ?? '');
 	$types= [
-		'ADOZIONI COMPLETATE',
-		'RICHIESTE VISIONATE',
-		'IN CORSO DI ADOZIONE',
+		'Adozioni completate',
+		'Richieste visionate',
+		'In corso di adozione',
 	];
 	foreach ($types as $index => $type) {
 		$html .= '
-			<li>
-				<p class="n-query">' . ($stats[$index] ?? 0) . '</p>
-				<p class="query-type">' . $type . '</p>
+			<li aria-label="' . ($stats[$index] ?? 0). $type . '">
+				<p class="n-query" aria-hidden="true">' . ($stats[$index] ?? 0) . '</p>
+				<p class="query-type" aria-hidden="true">' . $type . '</p>
 			</li>
 		';
 	}
@@ -89,10 +89,9 @@ function buildInfoAdmin(): array{
 							<p class="error-form">[erroriCognome]</p>
 						</div>
 						<div class="edit-number">
-							<label for="new-number">Telefono</label>
+							<label for="new-number">Telefono con prefisso</label>
 							<div>
-								<span>+39 </span>
-								<input type="tel" id="new-number" name="new-number" autocomplete="tel" value="[telefono-Admin]" placeholder="000 000 0000">
+								<input type="tel" id="new-number" name="new-number" autocomplete="tel" value="[telefono-Admin]" placeholder="+39 000 000 0000">
 							</div>
 							<p class="error-form">[erroriTelefono]</p>
 						</div>
@@ -177,7 +176,7 @@ function editInfoAdmin(DBAccess $conn, &$NewUserValues, $adminInfo): array {
 
         $name = mb_convert_case($name, MB_CASE_TITLE, "UTF-8");
         $surname = mb_convert_case($surname, MB_CASE_TITLE, "UTF-8");
-        $phoneNumber = preg_replace('/[^0-9]/', '', $phoneNumber); 
+        $phoneNumber = str_replace(' ','', $phoneNumber);
 
         $NewUserValues['name'] = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
         $NewUserValues['surname'] = htmlspecialchars($surname, ENT_QUOTES, 'UTF-8');
@@ -189,7 +188,7 @@ function editInfoAdmin(DBAccess $conn, &$NewUserValues, $adminInfo): array {
 
         $errors = [];
         $regexNome = "/^(?=.*[\p{L}]{2})[\p{L}\s']+$/u"; 
-        $regexPhone = "/^[0-9]{10}$/";
+        $regexPhone = "/^(\+[0-9]{1,3}\s?)[0-9]{10}$/";
 
         if (strlen($NewUserValues['name']) < 2) {
             $errors['name'] = "Il nome è troppo corto.";
@@ -205,7 +204,7 @@ function editInfoAdmin(DBAccess $conn, &$NewUserValues, $adminInfo): array {
 
         if(strlen($NewUserValues['phoneNumber']) === 0){
             $NewUserValues['phoneNumber'] = null;
-        }else if (strlen($NewUserValues['phoneNumber']) !== 10 || !preg_match($regexPhone, $NewUserValues['phoneNumber'])) {
+        }else if (strlen($NewUserValues['phoneNumber']) >= 14 || !preg_match($regexPhone, $NewUserValues['phoneNumber'])) {
             $errors['phoneNumber'] = "Il numero di telefono non è valido.";
         }
 
@@ -285,6 +284,17 @@ if ($connessioneOK) {
 	$connessione->closeConnection();
 }
 
+if($adminInfo['Telefono']){
+    $telefonoGrezzo = $adminInfo['Telefono'];
+    $numero = substr($telefonoGrezzo, -10);
+    $prefisso = substr($telefonoGrezzo, 0, -10);
+    $printTelefono = trim($prefisso . ' ' . $numero);
+}
+
+if (empty($adminInfo['ImgPath']) || !file_exists($adminInfo['ImgPath'])) {
+    $adminInfo['ImgPath'] = 'assets/images/admins/default-pic.png';
+}
+
 
 $paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore: template layout.html non trovato o non leggibile.</p>');
 
@@ -306,8 +316,8 @@ $main = str_replace('[imgPath]', $adminInfo['ImgPath'], $main);
 $main = str_replace('[nomeAdmin]', $adminInfo['Nome'], $main);
 $main = str_replace('[cognomeAdmin]', $adminInfo['Cognome'], $main);
 if(isset($adminInfo['Telefono'])){
-	$main = str_replace('[telefonoAdmin]', $adminInfo['Telefono'], $main);
-	$main = str_replace('[telefono-Admin]', $adminInfo['Telefono'], $main);
+	$main = str_replace('[telefonoAdmin]', $printTelefono, $main);
+	$main = str_replace('[telefono-Admin]', $printTelefono, $main);
 }else{
 	$main = str_replace('[telefonoAdmin]', '<em>Sconosciuto</em>', $main);
 	$main = str_replace('[telefono-Admin]', '', $main);
