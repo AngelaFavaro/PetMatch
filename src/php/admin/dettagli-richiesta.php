@@ -285,18 +285,19 @@ if(isset($_GET['mode']) && $_GET['mode'] === 'edit-data'){
         $stato_trasporto .= '
         <article id="stato-trasporto" class="note">
             <div class="header-article">
+                    <h2>Modifica la data di arrivo</h2>
                     <a href="' . $url_base . '#stato-trasporto" class="pencil">
                         <img src="./assets/icons/edit-pencil.svg" alt="Annulla modifica">
                     </a>
              </div>
-            <form id="form-data" method="POST" action="' . $url_base . '#stato-trasporto">
+            <form method="POST" action="' . $url_base . '#stato-trasporto">
                 <label for="input-data" class="sr-only" >Nuova data di arrivo:</label>
                 <input type="date" name="data_arrivo" id="input-data" value="' . $data_per_input . '">
                 
                 <input type="hidden" name="email_richiedente" value="' . htmlspecialchars($richiesta['email-richiedente']) . '">
                 <input type="hidden" name="id_animale" value="' . htmlspecialchars($richiesta['id-animale']) . '">
                 
-                <button type="submit" name="salva_data_arrivo" class="orange-button">Salva data di arrivo</button>
+                <button type="submit" name="salva_data_arrivo" class="orange-button">Salva data</button>
                 
             </form>
         </article>';
@@ -304,17 +305,18 @@ if(isset($_GET['mode']) && $_GET['mode'] === 'edit-data'){
     } else {
         $data_raw = $richiesta['data-arrivo'] ?? '';
         if($data_raw === '' || $data_raw === null){
-            $contenuto_data_arrivo = 'Ancora nessuna, impostane una!';
+            $contenuto_data_arrivo = 'Ancora nessuna data di arrivo impostata.';
         } else {
             $contenuto_data_arrivo = '<time datetime="' . $data_raw . '">' . displayDateItalianFormat($data_raw) . '</time>';
         }
         $stato_trasporto .= '
             <article id="stato-trasporto" class="note">
                 <div class="header-article">
+                    <h2>Informazioni sul trasporto</h2>
                     <a href="' . $url_base . '&mode=edit-data#stato-trasporto" class="pencil">
                         <img src="./assets/icons/edit-pencil.svg" alt="Modifica data di arrivo">
                     </a>
-                <div>
+                </div>
                 <dl>
                     <dt>Data di arrivo</dt>
                     <dd>' . $contenuto_data_arrivo . '</dd>
@@ -360,7 +362,7 @@ if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($ri
         $annotazioni .= '
                 <article id="sezione-note" class="note">
                     <div class="header-article">
-                        <h2>LE TUE ANNOTAZIONI</h2>
+                        <h2>Le tue annotazioni</h2>
                         <a href="?email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') . '#sezione-note" id="edit-note" class="pencil" aria-label="Modifica le annotazioni">
                             <img src="./assets/icons/edit-pencil.svg" alt="" aria-hidden="true">
                         </a>
@@ -374,10 +376,13 @@ if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($ri
                     </div>
                 </article>';
     }else{
+        if($richiesta['appunti'] === '' || $richiesta['appunti'] === NULL){
+            $richiesta['appunti'] = 'Non hai ancora preso appunti per questa richiesta.';
+        }
         $annotazioni.= '
             <article id="sezione-note" class="note">
                 <div class="header-article">
-                    <h2>LE TUE ANNOTAZIONI</h2>
+                    <h2>Le tue annotazioni</h2>
                     <a href="?mode=note&email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') . '#sezione-note" id="edit-note" class="pencil" aria-label="Annulla le annotazioni">
                         <img src="./assets/icons/edit-pencil.svg" alt="" aria-hidden="true">
                     </a>

@@ -2529,7 +2529,7 @@ div#admin-area article h2{
 div#admin-area{
     padding: 0em 5em;
     min-height: 100vh;
-    /* margin: auto; */
+    margin-top: 2em;
 }
 
 body#admin-body #breadcrumb{
@@ -2762,13 +2762,16 @@ a.pencil {
 
 
 /*================= DETTAGLI RICHIESTE DI ADOZIONE ==================*/
-
+.pointer-events-none{
+    pointer-events: none;
+}
 #mobile-select{
     display: none;
 }
 .tabs-container {
     overflow: hidden;
     display: flex;
+    margin-top: 2em;
 }
 
 #admin-area .tabs-container#richieste input + label{
@@ -2779,7 +2782,7 @@ a.pencil {
 #admin-area .tabs-container#richieste .tab-content{
     border: none;
 }
-.tabcontent#Richiedente .orange-button{
+.tab-content#Richiedente .orange-button{
     margin: 0em 0em 0em auto;
 }
 
@@ -2788,16 +2791,8 @@ a.pencil {
 }
 #admin-area .tabs-container h2{
     font-size: 1.1em;
-    /* margin-bottom: 1em; */
     color: var(--txtcolor);
 }
-
-.tabcontent {
-  display: none;
-  /* padding: 6px 12px; */
-  border: 1px solid #ccc;
-  border-top: none;
-} 
 
 div#admin-area dt{
     font-weight: bold;
@@ -2887,11 +2882,13 @@ div#admin-area article#stato-trasporto{
 
 #top-container{
     display: flex;
+    justify-content: flex-end;
+    align-items: center;
     flex-wrap: wrap;
 }
 
 #top-container a.orange-button,#top-container button.orange-button{
-    margin: auto 0em 0em auto;
+   margin: 0em 0em 0em auto;
 }
 
 div#admin-area article.note{
@@ -2940,26 +2937,6 @@ div#admin-area article.note{
     background-color: var(--darkbgcolor);
 }
 
-/* Nasconde i form quando hanno la classe .hidden */
-#form-data.hidden, 
-#form-note.hidden,
-#data-text.hidden,
-#note-text.hidden {
-    display: none;
-}
-
-/* Quando il form della data è attivo, sta in linea con il testo */
-#form-data {
-    display: inline;
-}
-
-/* Il form delle note lo facciamo apparire come un blocco sotto il titolo */
-#form-note {
-    display: block;
-    margin-top: 0.5rem;
-}
-
-/* --- Stile Input e Textarea --- */
 
 #input-note {
     width: 100%;
@@ -2974,23 +2951,12 @@ div#admin-area article.note{
 
 #input-note:focus {
     outline: 3px solid var(--txtcolor);
-    /* outline-offset: 1px; */
 }
 .orange-button.respinta {
     background-color: var(--darkbgcolor);
     border: none;
     cursor: not-allowed;
-}
-
-
-/* Quando il form ha la classe .hidden, sparisce */
-#stato-trasporto .hidden {
-    display: none;
-}
-
-/* Quando il form NON ha .hidden, deve stare sulla stessa riga del testo */
-#form-data {
-    display: inline;
+    pointer-events: none;
 }
 
 /*================= RICHIESTE DI ADOZIONE ==================*/
