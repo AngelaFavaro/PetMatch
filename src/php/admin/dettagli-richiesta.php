@@ -265,28 +265,78 @@ if (empty($richiesta['condizioni-mediche'])) {
 list($dataInizioValutazione, $dataFineValutazione,$dataRichiestaRespinta) = buildDateInfo($richiesta);
 
 $stato_trasporto = '';
-if($richiesta['data-arrivo']===NULL){
-    $richiesta['data-arrivo'] = 'Ancora nessuna, impostane una';
-}
-if (($richiesta['stato'] ?? '') === 'Da trasportare') {
-    $stato_trasporto = '
-    <article id="stato-trasporto">
-        <p>
-            <strong>Data di arrivo:</strong> 
-            <time datetime="' . $richiesta['data-arrivo'] . '" id="data-text">' . displayDateItalianFormat($richiesta['data-arrivo']) . '</time>
+$email_url = urlencode($richiesta['email-richiedente'] ?? '');
+$id_url = urlencode($richiesta['id-animale'] ?? '');
+$url_base = "?email=$email_url&id-animale=$id_url";
 
-            <form id="form-data" class="hidden">
+if (($richiesta['stato'] ?? '') === 'Da trasportare') {
+    
+    // Gestione modalità MODIFICA
+    if(isset($_GET['mode']) && $_GET['mode'] === 'edit-data'){
+        // Assicuriamoci che il valore per l'input date sia nel formato corretto o vuoto
+        $data_per_input = ($richiesta['data-arrivo'] === 'Ancora nessuna, impostane una' || $richiesta['data-arrivo'] === null) 
+                          ? '' 
+                          : date('Y-m-d', strtotime($richiesta['data-arrivo']));
+
+        $stato_trasporto .= '
+        <article id="stato-trasporto" class="note">
+            <form id="form-data" method="POST" action="' . $url_base . '#stato-trasporto">
                 <label for="input-data">Nuova data di arrivo:</label>
-                <input type="date" name="data_arrivo" id="input-data" 
-                    value="' . $richiesta['data-arrivo'] . '">
-                <button type="submit" class="sr-only" aria-label="Modifica la data di arrivo"></button>
+                <input type="date" name="data_arrivo" id="input-data" value="' . $data_per_input . '">
+                
+                <input type="hidden" name="email_richiedente" value="' . htmlspecialchars($richiesta['email-richiedente']) . '">
+                <input type="hidden" name="id_animale" value="' . htmlspecialchars($richiesta['id-animale']) . '">
+                
+                <button type="submit" name="salva_data_arrivo" class="orange-button">Salva data di arrivo</button>
             </form>
-        </p>
-        <a href="#" id="btn-attiva-modifica" class="edit-btn">
-            <img src="./assets/icons/edit-pencil.svg" alt="Modifica la data">
-        </a>
-    </article>';
+            
+            <a href="' . $url_base . '#stato-trasporto" class="pencil">
+                <img src="./assets/icons/edit-pencil.svg" alt="Annulla modifica">
+            </a>
+        </article>';
+
+    // Gestione modalità VISUALIZZAZIONE
+    } else {
+        $data_raw = $richiesta['data-arrivo'] ?? '';
+        $is_empty = ($data_raw === '' || $data_raw === 'Ancora nessuna, impostane una' || $data_raw === null);
+
+        if($is_empty){
+            $contenuto_p_data_arrivo = 'Ancora nessuna, impostane una!';
+        } else {
+            $contenuto_p_data_arrivo = '<time datetime="' . $data_raw . '">' . displayDateItalianFormat($data_raw) . '</time>';
+        }
+
+        $stato_trasporto .= '
+            <article id="stato-trasporto" class="note">
+                <dl>
+                    <dt>Data di arrivo</dt>
+                    <dd>' . $contenuto_p_data_arrivo . '</dd>
+                </dl>
+                <a href="' . $url_base . '&mode=edit-data#stato-trasporto" class="pencil">
+                    <img src="./assets/icons/edit-pencil.svg" alt="Modifica data di arrivo">
+                </a>
+            </article>';
+    }
 }
+
+    // $stato_trasporto = '
+    // <article id="stato-trasporto" class="note">
+        
+    //         <strong>Data di arrivo:</strong> 
+    //         <time datetime="' . $richiesta['data-arrivo'] . '" id="data-text">' . displayDateItalianFormat($richiesta['data-arrivo']) . '</time>
+
+    //         <form id="form-data">
+    //             <label for="input-data">Nuova data di arrivo:</label>
+    //             <input type="date" name="data_arrivo" id="input-data" 
+    //                 value="' . $richiesta['data-arrivo'] . '">
+    //             <button type="submit" class="sr-only" aria-label="Modifica la data di arrivo"></button>
+    //         </form>
+        
+    //     <a href="#" id="btn-attiva-modifica" class="edit-btn">
+    //         <img src="./assets/icons/edit-pencil.svg" alt="Modifica la data">
+    //     </a>
+    // </article>';
+
 
 $main = str_replace('[stato-trasporto]', $stato_trasporto, $main);
 $main = str_replace('[dataInizioValutazione]', $dataInizioValutazione, $main);
@@ -304,7 +354,7 @@ if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($ri
 
     if (isset($_GET['mode']) && $_GET['mode'] === 'note') {
         $annotazioni .= '
-                <div id="sezione-note" class="note">
+                <article id="sezione-note" class="note">
                     <div class="header-note">
                         <h2>LE TUE ANNOTAZIONI</h2>
                         <a href="?email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') . '#sezione-note" id="edit-note" class="pencil" aria-label="Modifica le annotazioni">
@@ -318,7 +368,7 @@ if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($ri
                             <button name="salva_annotazioni" type="submit" class="orange-button">Salva annotazioni</button>
                         </form>
                     </div>
-                </div>';
+                </article>';
     }else{
         $annotazioni.= '
             <div id="sezione-note" class="note">

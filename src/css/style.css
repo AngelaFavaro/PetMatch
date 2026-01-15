@@ -2675,7 +2675,7 @@ div#row2 article{
     float: left;
 }
 
-.header-info a.pencil {
+a.pencil {
     float: right;
     background: none;
     border: none;
@@ -2905,10 +2905,12 @@ div#admin-area article#stato-trasporto{
     margin: auto 0em 0em auto;
 }
 
-div.note{
+div#admin-area article.note{
     background-color: var(--darkbgcolor);
     padding: 1em;
     border-radius: 0.5em 0.5em 0 0;
+    border: none;
+    margin: 0em;
 }
 #bottom-container form{
     margin: 1em 0em 0em auto;
