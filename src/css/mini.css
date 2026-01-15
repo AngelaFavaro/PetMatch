@@ -256,6 +256,10 @@ input:checked + #slider {
     text-align: left;
 }
 
+.text-details{
+    margin:auto 1em;
+}
+
 /*=================== ANIMALI ====================*/
 
 #animali li.card {
@@ -441,6 +445,24 @@ h1{
 nav#breadcrumb {
     padding: 0.5em 1em;
     margin: 1em auto;
+}
+
+div#row2{
+    gap:0em;
+}
+
+div#admin-area article {
+  padding:1em;
+  width: 100%;
+}
+
+ul#statistics-list,
+div#admin-area article#query{
+    padding:1em 0;
+}
+
+div#admin-area article#query h2{
+    padding:0 1em;
 }
 
 
