@@ -2703,10 +2703,11 @@ nav#menu-admin button.logout-btn:hover{
     border-color: var(--buttoncolor-hover);
 }
 
-#description-menu-animals{
+#description-menu{
     font-size: 1.3em;
     border-bottom:1px solid var(--darkbgcolor);
     margin-right: 1em;
+    margin-top: 2em;
 }
 
 nav#menu-admin li a:hover{
@@ -2734,7 +2735,7 @@ nav#menu-admin span{
 
 nav#menu-admin ul{
     margin-top:1em;
-    margin-bottom: 2em;
+    margin-bottom: 1em;
 }
 
 nav#menu-admin a#logout{

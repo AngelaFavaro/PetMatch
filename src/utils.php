@@ -124,9 +124,10 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
     foreach ($menuGroups as $key => $items) {
 
         if ($key === 'animali') {
-            $html .= '<span id="description-menu-animals" aria-hidden="true">Animali</span>';
+            $html .= '<span id="description-menu" aria-hidden="true">Animali</span>';
             $html .= '<ul aria-label="Menù gestione animali">';
         }else{
+            $html .= '<span id="description-menu" aria-hidden="true">Principale</span>';
             $html .= '<ul aria-label="Menù principale">';
         }
 
