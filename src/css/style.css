@@ -374,7 +374,9 @@ NOTA: modificare il flex se necessario annidando la classe dentro le proprie sez
 }
 
 /*==================ERRORE 404==================*/
-
+.c404 .orange-button{
+    margin-top:1em;
+}
 
 /* Stile per allineare l'immagine ai numeri */
 #error-title {
