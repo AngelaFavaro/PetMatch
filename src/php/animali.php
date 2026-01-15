@@ -85,6 +85,12 @@ $filters = array_filter(
     $rawFilters,
     fn($value) => $value !== ''
 );
+$cancelFiltriId='';
+if($rawFilters['name-animal']||$rawFilters['taglia']||$rawFilters['sesso']||$rawFilters['eta_min']||$rawFilters['eta_max']) {
+    $cancelFiltriId="cancel-filter-visible";
+} else {
+    $cancelFiltriId="cancel-filter-invisible";
+}
 
 
 
@@ -129,6 +135,10 @@ function buildPagination(int $currentPage, int $totalPages, string $type, array 
         $params['page'] = $currentPage - 1;
         $html .= '<li><a href="?' . http_build_query($params) . '"><img src="./assets/icons/arrow-sx-green.svg" alt="vai alla pagina precedente" /></a></li>';
     }
+    if($currentPage===$totalPages&&$totalPages>=3) {
+        $params['page'] = $currentPage-2;
+        $html .= '<li><a href="?' . http_build_query($params) . '" aria-label="vai alla pagina'.$params['page'].'">'.$params['page'].'</a ></li>';
+    }
 
     for ($i = max(1, $currentPage - 1); $i <= min($totalPages, $currentPage + 1); $i++) {
         if ($i === $currentPage) {
@@ -138,12 +148,15 @@ function buildPagination(int $currentPage, int $totalPages, string $type, array 
             $html .= '<li><a href="?' . http_build_query($params) . '" aria-label="vai alla pagina'.$i.'">'.$i.'</a ></li>';
         }
     }
+    if($currentPage===1&&$totalPages>=3) {
+        $params['page'] = 3;
+        $html .= '<li><a href="?' . http_build_query($params) . '" aria-label="vai alla pagina 3">3</a ></li>';
+    }
 
     if ($currentPage < $totalPages) {
         $params['page'] = $currentPage + 1;
         $html .= '<li><a href="?' . http_build_query($params) . '"><img src="./assets/icons/arrow-dx-green.svg" alt="vai alla pagina successiva"/></a></li>';
     }
-
     return $html;
 }
 /* ------------------ NAV TIPO ------------------ */
@@ -269,6 +282,7 @@ $main = str_replace('[NAVTYPE]', $linkNavAnimali, $main);
 $main = str_replace('[LINKPAGINE]', $linkPagine, $main);
 
 $main = str_replace('[URL-RESERFILTRI]', $resetUrl, $main);
+$main = str_replace('[VISIBILITA-FILTRO]', $cancelFiltriId, $main);
 
 $title = '<title>Animali - PetMatch</title>';
 $description = '<meta name="description" content="Animali in adozione su PetMatch">';

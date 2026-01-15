@@ -1,3 +1,5 @@
+/* ================== HOME ==================*/
+
 #paw-1, #paw-2, #paw-3, #paw-4 {
     display: none;
 }
@@ -84,6 +86,15 @@ tr, th, td {
     display: block;
 }
 
+tbody td{
+    width: 70%;
+    white-space: normal; /* permette il wrapping automatico */
+    padding: 0em 1em;
+    overflow-wrap: break-word;
+}
+tbody th{
+    padding: 0em 1em;
+}
 
 /* mette il th del thead nelle celle che descrivono quel contenuto*/
 /* cambio mettendo anche il titolo nella  */
@@ -94,31 +105,46 @@ th[data-title]:before, td[data-title]:not(.presAss):before {
 
 
 
-/* td.col-dettagli a{
-    display: inline;
-} */
-
-
-.tab-mini{
-    display: block;
-    /* width: 100%; */
-}
-
-.tab-mini button{
-    width: 100%;
-    display: block;
-}
-
-.tab-mini button.active{
-    border: 1px solid var(--txtcolor);
-    /* border: none; */
-    border-radius: 1em 1em 0em 0em ;
-    background-color: var(--darkbgcolor);
-}
-
 td.col-dettagli a{
     margin: 0.5em 0.5em 0.5em auto;
 }
+
+/* select per la mobile */
+#mobile-select{
+    display: block;
+    width: 100%;
+    height: 50px;
+    background-color: var(--buttoncolor);
+    text-align: center;
+    margin: auto;
+    border-radius: 1em;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+
+
+
+.tabs-container input, .tabs-container#richieste label,
+.tabs-container#richieste #tab1:checked  ~ .tab-content:nth-of-type(1),
+.tabs-container#richieste #tab2:checked  ~ .tab-content:nth-of-type(2), 
+.tabs-container#richieste #tab3:checked  ~ .tab-content:nth-of-type(3),
+.tabs-container#richieste #tab4:checked  ~ .tab-content:nth-of-type(4),
+.tabs-container#richieste #tab5:checked  ~ .tab-content:nth-of-type(5){
+    display: none;
+}
+
+#richieste:has(#mobile-select option[value="tab1"]:checked)  .tab-content.tab1,
+#richieste:has(#mobile-select option[value="tab2"]:checked) .tab-content.tab2,
+#richieste:has(#mobile-select option[value="tab3"]:checked) .tab-content.tab3,
+#richieste:has(#mobile-select option[value="tab4"]:checked) .tab-content.tab4,
+#richieste:has(#mobile-select option[value="tab5"]:checked) .tab-content.tab5 {
+    display: block;
+}
+/* per i tab: questa regola serve perchè altrimenti si vedono anche gli article che sono stati selezionati con i radio button (schermo più grande) */
+/* per l'input: gli input a vista non si vedono ma hanno sr-only, devono proprio sparire e quindi è necessaria questa regola */
+/* per le label: altrimenti si vedono le tabs */
+
 
 
 /* ================== LOGIN ==================*/

@@ -37,6 +37,8 @@ CREATE TABLE EVENTI (
     DescrEvento TEXT NOT NULL,
     ImgPath VARCHAR(512) NOT NULL, -- Già presente, rinominato per coerenza
     PRIMARY KEY (Titolo, DataEvento),
+    Via VARCHAR(255) NOT NULL,
+    Citta VARCHAR(100) NOT NULL
     CHECK (DataEvento >= DataPubblicazione)
 );
 
@@ -111,6 +113,10 @@ CREATE TABLE RICHIESTE_ADOZIONI(
     CHECK (Stato IN ('Nuova', 'In valutazione','Da trasportare','Accettata', 'Respinta', 'Annullata')),
     CHECK (DataFineValutazione IS NULL OR DataFineValutazione >= DataRichiesta),
     CHECK (DataFineValutazione IS NULL OR DataInizioValutazione IS NULL OR DataFineValutazione >= DataInizioValutazione)
+    CHECK (
+        (Stato <> 'Nuova') OR --se lo stato è diverso da nuova allora tutto ok, altrimenti SE è nuova allora controlla le date
+        (Stato = 'Nuova' AND DataInizioValutazione IS NULL AND DataFineValutazione IS NULL)
+    )
 );
 
 -- TRASPORTI

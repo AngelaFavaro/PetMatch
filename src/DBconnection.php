@@ -479,7 +479,7 @@ class DBAccess {
     function getNewRequests($email): array {
         $requests = [];
         
-        $query = "SELECT R.Email AS email_richiedente, A.ImgPath, A.Nome AS nome_animale, R.DataRichiesta, R.IDanimale AS id_animale
+        $query = "SELECT R.Email AS email_richiedente, A.ImgPath, A.Nome AS nome_animale, R.DataRichiesta AS data_richiesta, R.IDanimale AS id_animale
                 FROM RICHIESTE_ADOZIONI R
                 JOIN ANIMALI A ON R.IDanimale = A.IDanimale
                 WHERE R.Stato = 'Nuova' 
@@ -773,6 +773,58 @@ class DBAccess {
         return $requests;
     }
 
+    function getAddressPermissionEdit($email): bool {
+        
+        $query = "SELECT count(*) 
+                FROM RICHIESTE_ADOZIONI 
+                WHERE Email = ? 
+                AND Stato = 'Da trasportare'"; 
+
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            
+            if ($row = mysqli_fetch_array($result)) {
+                $count = $row[0];
+
+                return $count>0 ? false : true;
+
+            } 
+            mysqli_stmt_close($stmt);
+        }
+
+        return true;
+    }
+
+    function getAddressPermissionRemove($email): bool {
+        
+        $query = "SELECT count(*) 
+                FROM RICHIESTE_ADOZIONI 
+                WHERE Email = ? 
+                AND Stato IN ('Nuova', 'In valutazione') AND Trasporto = 1"; 
+
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            
+            if ($row = mysqli_fetch_array($result)) {
+                $count = $row[0];
+
+                return $count>0 ? false : true;
+
+            } 
+            mysqli_stmt_close($stmt);
+        }
+
+        return true;
+    }
+
     public function getRole($email): ?string {
         
         $query = "SELECT Ruolo FROM UTENTI WHERE Email = ?";
@@ -851,7 +903,6 @@ class DBAccess {
         return $row;
     }
 
-    // Aggiungi il '?' prima di array
     function getAnimalRequest($email, $idAnimale): ?array {
         
         $request = null; 
@@ -1029,9 +1080,9 @@ class DBAccess {
         $types .= 's';
     }
 
-    if (!empty($filters['name'])) {
+    if (!empty($filters['name-animal'])) {
         $where[] = 'Nome LIKE ?';
-        $params[] = '%' . $filters['name'] . '%';
+        $params[] = '%' . $filters['name-animal'] . '%';
         $types .= 's';
     }
 
@@ -1203,6 +1254,25 @@ public function hasActiveAdoptionRequest(int $idAnimale): bool {
     $stmt->close();
     return $exists;
 }
+
+    function getLastEvents(): array {
+        $events = [];
+        $query = "SELECT Titolo, DataEvento, ImgPath, Citta FROM EVENTI 
+                    ORDER BY DataEvento DESC LIMIT 4";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+            mysqli_stmt_close($stmt);
+        }
+
+        return $events;
+    }
 
 
 

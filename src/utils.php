@@ -70,15 +70,15 @@ $pagine = [
 
 $adminMenu = [
     'principale' => [
-        ['href' => './area-riservata', 'text' => 'AREA PERSONALE'],
-        ['href' => './richieste-adozione', 'text' => 'RICHIESTE DI ADOZIONE'],
-        ['href' => './eventi', 'text' => 'EVENTI'],
+        ['href' => './area-riservata', 'text' => 'Area personale'],
+        ['href' => './richieste-adozione', 'text' => 'Richieste di adozione'],
+        ['href' => './eventi', 'text' => 'Eventi'],
     ],
     'animali' => [
-        ['href' => './tuoi-animali', 'text' => 'ASSEGNATI A TE'],
-        ['href' => './animali-senza-amministratore', 'text' => 'SENZA AMMINISTRATORE'],
-        ['href' => './adottati', 'text' => 'ADOTTATI'],
-        ['href' => './nuove-accoglienze', 'text' => 'NUOVE ACCOGLIENZE'],
+        ['href' => './tuoi-animali', 'text' => 'Assegnati a te'],
+        ['href' => './animali-senza-amministratore', 'text' => 'Senza amministratore'],
+        ['href' => './adottati', 'text' => 'Adottati'],
+        ['href' => './nuove-accoglienze', 'text' => 'Nuove accoglienze'],
     ]
 ];
 
@@ -106,15 +106,14 @@ function loadTemplate(string $path, string $default = ''): string {
     return $content === false ? $default : $content;
 }
 
-/**
- * Genera la nav menù admin dinamicamente
- */
+
 function buildAdminNav(array $menuGroups, string $currentHref): string {
-    // Parte iniziale fissa
+    // Parte iniziale: Checkbox e Label (Hamburger)
     $html = '
-    <button class="menu-toggle" id="mobile-menu" aria-label="Apri o chiudi menu di navigazione">
-        ☰
-    </button>
+    <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
+    <label for="menu-toggle-checkbox" class="menu-toggle" aria-label="Apri o chiudi menu di navigazione">
+    <span></span> </label>
+    
     <nav id="menu-admin" aria-label="Menù">
         <a class="navigationHelp" href="#content"> Salta il menù di navigazione</a>
         <a href="./home">
@@ -125,21 +124,23 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
     foreach ($menuGroups as $key => $items) {
 
         if ($key === 'animali') {
-            $html .= '<span>ANIMALI</span>';
+            $html .= '<span id="description-menu-animals" aria-hidden="true">Animali</span>';
+            $html .= '<ul aria-label="Menù gestione animali">';
+        }else{
+            $html .= '<ul aria-label="Menù principale">';
         }
 
-        $html .= '<ul>';
         foreach ($items as $item) {
             $active = ($item['href'] === $currentHref) ? ' id="currentLink"' : '';
+            $linkHref = ($item['href'] === $currentHref) ? '<li'.$active.' aria-label="pagina attuale:'.$item['text'].'">'.$item['text'].'</li>' : '<li'.$active.'><a href="'.$item['href'].'">'.$item['text'].'</a></li>';
             
             // In questa versione, anche il link corrente rimane cliccabile 
-            // come nel tuo esempio HTML ( <li id="currentLink"><a href="...">...</a></li> )
-            $html .= '<li'.$active.'><a href="'.$item['href'].'">'.$item['text'].'</a></li>';
+            //ho sistemato - angelac
+            $html .= $linkHref;
         }
         $html .= '</ul>';
     }
 
-    // Parte finale fissa
     $html .= '
         <form action="./area-riservata" method="POST">
             <button type="submit" name="logout" class="logout-btn">Esci</button>
@@ -159,6 +160,17 @@ function buildUserNav(array $items, string $currentHref, bool $isLogged): string
 
     $homeHref = './home';
     $logoAttributes = ($currentHref === $homeHref)? ' id="currentLink"' : '';
+    $isLogoActive =  ($currentHref === $homeHref)?                    
+    
+    '<div' . $logoAttributes . '>
+        <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
+        <span id="name-site">Pet<span id="not-bold">Match</span></span>
+    </div>' :
+    
+    '<a href="' . $homeHref . '"' . $logoAttributes . '>
+        <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
+        <span id="name-site">Pet<span id="not-bold">Match</span></span>
+    </a>';
     
     $navForm = false;
     foreach ($noNav as $noNavPage) {
@@ -180,16 +192,13 @@ function buildUserNav(array $items, string $currentHref, bool $isLogged): string
                 
                 <nav id="header-logo" aria-label="link alla home">
                     <h1>
-                        <a href="' . $homeHref . '"' . $logoAttributes . '>
-                            <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
-                            <span id="name-site">Pet<span id="not-bold">Match</span></span>
-                        </a>
+                        '.$isLogoActive.'
                     </h1>
                 </nav>
                 
                 <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
     
-                <nav aria-label="Menu principale" id="nav-osso">
+                <nav aria-label="Menù principale" id="nav-osso">
                     <ul id="osso">';
     
         // 2. parte dinamica: ciclo gli items passati come argomento
@@ -198,8 +207,10 @@ function buildUserNav(array $items, string $currentHref, bool $isLogged): string
                 // Controllo se è la pagina corrente
                 // Se l'href corrente corrisponde, aggiungo l'ID active
                 $isActive = ($item['href'] === $currentHref) ? ' id="currentLink" ' : '';
+                $linkHref = ($item['href'] === $currentHref) ? '<li'.$isActive.'>'.$item['text'].'</li>' : '<li'.$isActive.'><a href="'.$item['href'].'">'.$item['text'].'</a></li>';
+            
                 
-                $html .= '<li' . $isActive . '><a href="' . $item['href'] . '">' . $item['text'] . '</a></li>';
+                $html .= $linkHref;
             }
         }
     
