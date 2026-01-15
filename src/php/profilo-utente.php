@@ -415,7 +415,7 @@ function editManagementAccount(DBAccess $conn, &$NewUserValues, $infoUtente): ar
         $errors = [];
 
         $regexEmail = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,10})$/i";
-        $regexPassword = "/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@+?\/,.\-$_=])[a-zA-Z0-9!@+?\/,.\-$_=]{8,32}$/";
+        $regexPassword = '/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@+?\/,.\-$_=])[a-zA-Z0-9!@+?\/,.\-$_=]{8,32}$/';
 
         /* VALIDAZIONE CAMPI */
 
@@ -501,7 +501,7 @@ $htmlView =
         <dt>Telefono: </dt> <dd>[telefono-utente-view]</dd>
     </dl>
     <form action="./profilo-utente" method="POST">
-        <button type="submit" name="logout" class="logout-btn">Esci</button>
+        <button type="submit" name="logout" class="logout-btn">Disconnettiti</button>
     </form>
 </aside>';
 

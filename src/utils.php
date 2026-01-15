@@ -144,7 +144,7 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
 
     $html .= '
         <form action="./area-riservata" method="POST">
-            <button type="submit" name="logout" class="logout-btn">Esci</button>
+            <button type="submit" name="logout" class="logout-btn">Disconnettiti</button>
         </form>
     </nav>';
 

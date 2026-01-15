@@ -2623,10 +2623,11 @@ ul#to-do-list li, ul#statistics-list li{
 
 ul#to-do-list li{
      background-color: var(--buttoncolor);
-}
-
+    }
+    
 ul#statistics-list li{
-    border: 1px solid var(--txtcolor);
+    background-color: var(--darkbgcolor);
+
 }
 #to-do-list a, #statistics-list a{
     width:100%; /*riempie tutto il li*/
