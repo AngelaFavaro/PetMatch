@@ -102,11 +102,23 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
         return $html;
         
     }
-    function renderTbodyNuove(DBAccess $conn, array $NRequestsByStatus): string {
+    function renderNuoveContent(DBAccess $conn, array $NRequestsByStatus): string {
         if($NRequestsByStatus['Nuova'] == 0){
-            return '<tbody><tr><td colspan="4">Non ci sono nuove richieste di adozione.</td></tr></tbody>';
+            return '<p class="nessuna-richiesta-message">Non ci sono nuove richieste di adozione.</p>';
         }else{
-            $html = '<tbody>';
+            $html = '
+            <span id="sumTabellaNuove" class="navigationHelp">In questa tabella vengono elencate le nuove richieste di adozione e i loro dettagli: email utente, nome animale e data di richiesta.</span>
+            <table aria-describedby="sumTabellaNuove">
+                <caption>Nuove Richieste di Adozione</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">ANIMALE</th>
+                            <th scope="col">UTENTE</th>
+                            <th scope="col">DATA RICHIESTA</th>
+                            <th scope="col" class="col-dettagli">Dettagli</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
             $richieste = $conn->getNewRequests($_SESSION['email'] ?? '');
             foreach($richieste as $richiesta){
                 $html .= '
@@ -118,86 +130,190 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                     </tr>
                 ';
             }
-            $html .= '</tbody>';
+            $html .= '
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">Totale nuove richieste</td>
+                        <td>[n-nuove]</td>
+                    </tr>
+                </tfoot>
+            </table>';
             return $html;
         }
     }
 
-    function renderTbodyInValutazione(DBAccess $conn){
-        $html = '<tbody>';
-        $richieste = $conn->getInEvaluationRequests($_SESSION['email'] ?? '');
+    function renderInValutazioneContent(DBAccess $conn,array $NRequestsByStatus){
+        if($NRequestsByStatus['In valutazione'] == 0){
+            return '<p class="nessuna-richiesta-message">Non ci sono richieste di adozione in valutazione.</p>';
+        }else{
+            $html = '
+            <span id="sumTabellaInValutazione" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione in valutazione e i loro dettagli: email utente, nome animale, data di inizio valutazione e presenza di appunti.</span>
+            <table aria-describedby="sumTabellaInValutazione">
+                <caption>Richieste di Adozione in Valutazione</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">ANIMALE</th>
+                        <th scope="col">UTENTE</th>
+                        <th scope="col">DATA INIZIO VALUTAZIONE</th>
+                        <th scope="col">APPUNTI</th>
+                        <th scope="col" class="col-dettagli">Dettagli</th>
+                    </tr>
+                </thead>
+                <tbody>';
+            $richieste = $conn->getInEvaluationRequests($_SESSION['email'] ?? '');
 
-        foreach($richieste as $richiesta){
+            foreach($richieste as $richiesta){
+                $html .= '
+                    <tr>
+                        <th data-title="Nome Animale" scope="row">'.htmlspecialchars($richiesta['nome_animale']).'</th>
+                        <td data-title="Email Richiedente">'.htmlspecialchars($richiesta['email_richiedente']).'</td>
+                        <td data-title="Data Inizio Valutazione"><time datetime="'.htmlspecialchars($richiesta['data_inizio_valutazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($richiesta['data_inizio_valutazione']))).'</time></td>
+                        <td data-title="Appunti">'.($richiesta['appunti'] ? 'Sì' : 'No').'</td>
+                        <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="orange-button">Vai ai dettagli</a></td>
+                    </tr>
+                ';
+            }
             $html .= '
-                <tr>
-                    <th data-title="Nome Animale" scope="row">'.htmlspecialchars($richiesta['nome_animale']).'</th>
-                    <td data-title="Email Richiedente">'.htmlspecialchars($richiesta['email_richiedente']).'</td>
-                    <td data-title="Data Inizio Valutazione"><time datetime="'.htmlspecialchars($richiesta['data_inizio_valutazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($richiesta['data_inizio_valutazione']))).'</time></td>
-                    <td data-title="Appunti">'.($richiesta['appunti'] ? 'Sì' : 'No').'</td>
-                    <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="orange-button">Vai ai dettagli</a></td>
-                </tr>
-            ';
+            </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">Totale richieste in valutazione</td>
+                        <td>[n-in-valutazione]</td>
+                    </tr>
+                </tfoot>
+            </table>';
+            return $html;
         }
-        $html .= '</tbody>';
-        return $html;
     }
 
-    function renderTbodyDaTrasportare(DBAccess $conn){
-        $html = '<tbody>';
-        $richieste = $conn->getTransportRequests($_SESSION['email'] ?? '');
+    function renderDaTrasportareContent(DBAccess $conn,array $NRequestsByStatus){
+        if($NRequestsByStatus['Da trasportare'] == 0){
+            return '<p class="nessuna-richiesta-message">Non ci sono richieste di adozione da trasportare.</p>';
+        }else{
+            $html = '
+            <span id="sumTabellaDaTrasportare" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione da trasportare e i loro dettagli: email utente, nome animale, data di fine valutazione.</span>
+            <table aria-describedby="sumTabellaDaTrasportare">
+            <caption>Richieste di Adozione da Trasportare</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">ANIMALE</th>
+                        <th scope="col">UTENTE</th>
+                        <th scope="col">DATA ACCETTAZIONE</th>
+                        <th scope="col">DATA ARRIVO</th>
+                        <th scope="col" class="col-dettagli">Dettagli</th>
+                    </tr>
+                </thead>
+            <tbody>';
+            $richieste = $conn->getTransportRequests($_SESSION['email'] ?? '');
 
-        foreach($richieste as $richiesta){
-            // se data_arrivo è null, mostra una stringa vuota
+            foreach($richieste as $richiesta){
+                // se data_arrivo è null, mostra una stringa vuota
+                $html .= '
+                    <tr>
+                        <th data-title="Nome Animale" scope="row">'.htmlspecialchars($richiesta['nome_animale']).'</th>
+                        <td data-title="Email Richiedente">'.htmlspecialchars($richiesta['email_richiedente']).'</td>
+                        <td data-title="Data accettazione"><time datetime="'.htmlspecialchars($richiesta['data_fine_valutazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($richiesta['data_fine_valutazione']))).'</time></td>
+                        <td data-title="Data arrivo">'.($richiesta['data_arrivo'] ? '<time datetime="'.htmlspecialchars($richiesta['data_arrivo']).'">'.date('d/m/Y', strtotime($richiesta['data_arrivo'])).'</time>' : '<span>Da pianificare</span>').'</td>
+                        <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="orange-button">Vai ai dettagli</a></td>
+                    </tr>
+                ';
+            }
             $html .= '
-                <tr>
-                    <th data-title="Nome Animale" scope="row">'.htmlspecialchars($richiesta['nome_animale']).'</th>
-                    <td data-title="Email Richiedente">'.htmlspecialchars($richiesta['email_richiedente']).'</td>
-                    <td data-title="Data accettazione"><time datetime="'.htmlspecialchars($richiesta['data_fine_valutazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($richiesta['data_fine_valutazione']))).'</time></td>
-                    <td data-title="Data arrivo">'.($richiesta['data_arrivo'] ? '<time datetime="'.htmlspecialchars($richiesta['data_arrivo']).'">'.date('d/m/Y', strtotime($richiesta['data_arrivo'])).'</time>' : '<span>Da pianificare</span>').'</td>
-                    <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="orange-button">Vai ai dettagli</a></td>
-                </tr>
-            ';
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">Totale richieste da trasportare</td>
+                        <td>[n-da-trasportare]</td>
+                    </tr>
+                </tfoot>
+            </table>';
+            return $html;
         }
-        $html .= '</tbody>';
-        return $html;
-
     }
 
-    function renderTbodyAnnullate(DBAccess $conn){
-        $html = '<tbody>';
-        $richieste = $conn->getCancelledRequests($_SESSION['email'] ?? '');
+    function renderAnnullateContent(DBAccess $conn,array $NRequestsByStatus){
+        if($NRequestsByStatus['Annullata'] == 0){
+            return '<p class="nessuna-richiesta-message">Non ci sono richieste di adozione annullate.</p>';
+        }else{
+            $html = '
+            <span id="sumTabellaAnnullate" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione annullate e i loro dettagli: email utente, nome animale e data di annullamento.</span>
+                <table aria-describedby="sumTabellaAnnullate">
+                    <caption>Richieste di Adozione Annullate</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">ANIMALE</th>
+                            <th scope="col">UTENTE</th>
+                            <th scope="col">DATA ANNULLAMENTO</th>
+                            <th scope="col" class="col-dettagli">Dettagli</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
+            $richieste = $conn->getCancelledRequests($_SESSION['email'] ?? '');
 
-        foreach($richieste as $richiesta){
+            foreach($richieste as $richiesta){
+                $html .= '
+                    <tr>
+                        <th data-title="Nome Animale" scope="row">'.htmlspecialchars($richiesta['nome_animale']).'</th>
+                        <td data-title="Email Richiedente">'.htmlspecialchars($richiesta['email_richiedente']).'</td>
+                        
+                        <td data-title="Data annullamento"><time datetime="'.htmlspecialchars($richiesta['data_fine_valutazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($richiesta['data_fine_valutazione']))).'</time></td>
+                        <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="orange-button">Vai ai dettagli</a></td>
+                    </tr>
+                ';
+            }
             $html .= '
-                <tr>
-                    <th data-title="Nome Animale" scope="row">'.htmlspecialchars($richiesta['nome_animale']).'</th>
-                    <td data-title="Email Richiedente">'.htmlspecialchars($richiesta['email_richiedente']).'</td>
-                    
-                    <td data-title="Data annullamento"><time datetime="'.htmlspecialchars($richiesta['data_fine_valutazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($richiesta['data_fine_valutazione']))).'</time></td>
-                    <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="orange-button">Vai ai dettagli</a></td>
-                </tr>
-            ';
+                </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3">Totale richieste annullate</td>
+                            <td>[n-annullate]</td>
+                        </tr>
+                    </tfoot>
+                </table>';
+            return $html;
         }
-        $html .= '</tbody>';
-        return $html;
     }
 
     //ora per le respinte, che hanno solo nome animale e email richiedente
-    function renderTbodyRespinte(DBAccess $conn){
-        $html = '<tbody>';
-        $richieste = $conn->getRejectedRequests($_SESSION['email'] ?? '');
+    function renderRespinteContent(DBAccess $conn,array $NRequestsByStatus){
+        if($NRequestsByStatus['Respinta'] == 0){
+            return '<p class="nessuna-richiesta-message">Non ci sono richieste di adozione respinte.</p>';
+        }else{
+            $html = '
+            <span id="sumTabellaRespinte" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione respinte e i loro dettagli: email utente, nome animale e data di respinta.</span>
+            <table aria-describedby="sumTabellaRespinte">
+                <caption>Richieste di Adozione Respinte</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">ANIMALE</th>
+                        <th scope="col">UTENTE</th>
+                        <th scope="col" class="col-dettagli">Dettagli</th>
+                    </tr>
+                </thead>
+            <tbody>';
+            $richieste = $conn->getRejectedRequests($_SESSION['email'] ?? '');
 
-        foreach($richieste as $richiesta){
+            foreach($richieste as $richiesta){
+                $html .= '
+                    <tr>
+                        <th data-title="Nome Animale" scope="row">'.htmlspecialchars($richiesta['nome_animale']).'</th>
+                        <td data-title="Email Richiedente">'.htmlspecialchars($richiesta['email_richiedente']).'</td>
+                        <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="orange-button">Vai ai dettagli</a></td>
+                    </tr>
+                ';
+            }
             $html .= '
-                <tr>
-                    <th data-title="Nome Animale" scope="row">'.htmlspecialchars($richiesta['nome_animale']).'</th>
-                    <td data-title="Email Richiedente">'.htmlspecialchars($richiesta['email_richiedente']).'</td>
-                    <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="orange-button">Vai ai dettagli</a></td>
-                </tr>
-            ';
+            </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">Totale richieste respinte</td>
+                        <td>[n-respinte]</td>
+                    </tr>
+                </tfoot>
+            </table>';
+            return $html;
         }
-        $html .= '</tbody>';
-        return $html;
     }
     function renderNRequestsByStatus(array $NRequestsByStatus, string $main): string {
         $main = str_replace('[n-nuove]', $NRequestsByStatus['Nuova'], $main);
@@ -209,11 +325,11 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     }
 
     
-    $tbody_nuove_richieste = "";
-    $tbody_in_valutazione_richieste = "";
-    $tbody_da_trasportare_richieste = "";
-    $tbody_annullate_richieste = "";
-    $tbody_respinte_richieste = "";
+    $nuove_richieste_content = "";
+    $richieste_in_valutazione_content = "";
+    $richieste_da_trasportare_content = "";
+    $richieste_annullate_content = "";
+    $richieste_respinte_content = "";
     $NRequestsByStatus = [];
     
     $connessione = new DBAccess();
@@ -224,11 +340,11 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
 
         // Gestione POST centralizzata (esegue redirect dove necessario)
         $NRequestsByStatus = $connessione->getNRequestByStatus($_SESSION['email'] ?? '');
-        $tbody_nuove_richieste = renderTbodyNuove($connessione, $NRequestsByStatus);
-        $tbody_in_valutazione_richieste = renderTbodyInValutazione($connessione);
-        $tbody_da_trasportare_richieste = renderTbodyDaTrasportare($connessione);
-        $tbody_annullate_richieste = renderTbodyAnnullate($connessione);
-        $tbody_respinte_richieste = renderTbodyRespinte($connessione);
+        $nuove_richieste_content = renderNuoveContent($connessione, $NRequestsByStatus);
+        $richieste_in_valutazione_content = renderInValutazioneContent($connessione, $NRequestsByStatus);
+        $richieste_da_trasportare_content = renderDaTrasportareContent($connessione, $NRequestsByStatus);
+        $richieste_annullate_content = renderAnnullateContent($connessione, $NRequestsByStatus);
+        $richieste_respinte_content = renderRespinteContent($connessione, $NRequestsByStatus);
         $connessione->closeConnection();
     }
 
@@ -241,12 +357,12 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     $nav = buildAdminNav($adminMenu,'./richieste-adozione');
     
     $main = loadTemplate('./src/template/main/admin/richieste-adozione.html');
-    $main = str_replace('[tab-richieste-adozione]', renderTabs(), $main);
-    $main = str_replace('[tbody-nuove-richieste]', $tbody_nuove_richieste, $main);
-    $main = str_replace('[tbody-in-valutazione-richieste]', $tbody_in_valutazione_richieste, $main);
-    $main = str_replace('[tbody-da-trasportare-richieste]', $tbody_da_trasportare_richieste, $main);
-    $main = str_replace('[tbody-annullate-richieste]', $tbody_annullate_richieste, $main);
-    $main = str_replace('[tbody-respinte-richieste]', $tbody_respinte_richieste, $main);
+    $main = str_replace('[tabs-richieste-adozione]', renderTabs(), $main);
+    $main = str_replace('[contenuto-nuove-richieste]', $nuove_richieste_content, $main);
+    $main = str_replace('[contenuto-in-valutazione-richieste]', $richieste_in_valutazione_content, $main);
+    $main = str_replace('[contenuto-da-trasportare-richieste]', $richieste_da_trasportare_content, $main);
+    $main = str_replace('[contenuto-annullate-richieste]', $richieste_annullate_content, $main);
+    $main = str_replace('[contenuto-respinte-richieste]', $richieste_respinte_content, $main);
     $main = renderNRequestsByStatus($NRequestsByStatus, $main);
     $title = "<title>Richieste di Adozione - PetMatch</title>";
     $description = "<meta name='description' content='Visualizza e gestisci le richieste di adozione degli animali presenti su PetMatch.'>";
