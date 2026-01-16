@@ -1250,6 +1250,32 @@ fieldset {
     margin: 0;
 }
 
+.column-container div.radio-group {
+    display: flex;
+    gap: 0.5em;
+    margin: 2em auto;
+}
+
+.column-container div .radio-item {
+    display: flex;
+    align-items: center;
+    margin-left: 2em;
+}
+
+#home form .radio-item label {
+    /* margin-left: 8px; */
+    cursor: pointer;
+    margin:0em;
+    margin-left: 0.5em;
+    width: 100%;
+    border: 1px solid var(--background-color);
+}
+#home form .radio-item input{
+    cursor: pointer;
+    transform: scale(1.5);
+    accent-color: var(--buttoncolor);
+}
+
 #container-form-affidamento{
     display: flex;
     align-items: center;
