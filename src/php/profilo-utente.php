@@ -709,7 +709,7 @@ $keywords = "";
 
 $nav = buildUserNav($userMenu, './profilo-utente',$_SESSION['email'] ?? false);
 
-$footer = file_get_contents('./src/template/partials/footer.html');
+$footer = buildFooter($footerMenu,  './profilo-utente');
 
 $breadcrumb = getBreadcrumb('profilo-utente', $pagine);
 

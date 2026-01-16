@@ -207,7 +207,7 @@ $keywords = "";
 
 $nav = buildUserNav($userMenu, './registrati', $_SESSION['email'] ?? false);
 
-$footer = file_get_contents('./src/template/partials/footer.html');
+$footer = buildFooter($footerMenu,  './registrati');
 
 $breadcrumb = getBreadcrumb('registrati', $pagine);
 

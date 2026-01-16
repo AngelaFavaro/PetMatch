@@ -72,7 +72,7 @@ $description = '<meta name="description" content="Rivedi richiesta di addozione"
 $keywords = "";
 
 $nav = buildUserNav($userMenu, './revisione-richiesta', $_SESSION['email'] ?? false);
-$footer = file_get_contents('./src/template/partials/footer.html');
+$footer = buildFooter($footerMenu,  './revisione-richiesta');
 
 $breadcrumb = getBreadcrumb('revisione-richiesta', $pagine);
 
