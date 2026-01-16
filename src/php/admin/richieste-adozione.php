@@ -125,7 +125,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                         <th data-title="Nome Animale" scope="row">'.htmlspecialchars($richiesta['nome_animale']).'</th>
                         <td data-title="Email Richiedente">'.htmlspecialchars($richiesta['email_richiedente']).'</td>
                         <td data-title="Data Richiesta"><time datetime="'.htmlspecialchars($richiesta['data_richiesta']).'">'.htmlspecialchars(date('d/m/Y', strtotime($richiesta['data_richiesta']))).'</time></td>
-                        <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="orange-button">Vai ai dettagli</a></td>
+                        <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="brown-button">Vai ai dettagli</a></td>
                     </tr>
                 ';
             }
@@ -173,7 +173,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                             <td data-title="Email Richiedente">'.htmlspecialchars($richiesta['email_richiedente']).'</td>
                             <td data-title="Data Inizio Valutazione"><time datetime="'.htmlspecialchars($richiesta['data_inizio_valutazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($richiesta['data_inizio_valutazione']))).'</time></td>
                             <td data-title="Appunti">'.($richiesta['appunti'] ? 'Sì' : 'No').'</td>
-                            <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="orange-button">Vai ai dettagli</a></td>
+                            <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="brown-button">Vai ai dettagli</a></td>
                         </tr>
                     ';
                 }
@@ -225,7 +225,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                             <td data-title="Email Richiedente">'.htmlspecialchars($richiesta['email_richiedente']).'</td>
                             <td data-title="Data accettazione"><time datetime="'.htmlspecialchars($richiesta['data_fine_valutazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($richiesta['data_fine_valutazione']))).'</time></td>
                             <td data-title="Data arrivo">'.($richiesta['data_arrivo'] ? '<time datetime="'.htmlspecialchars($richiesta['data_arrivo']).'">'.date('d/m/Y', strtotime($richiesta['data_arrivo'])).'</time>' : '<span>Da organizzare</span>').'</td>
-                            <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="orange-button">Vai ai dettagli</a></td>
+                            <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="brown-button">Vai ai dettagli</a></td>
                         </tr>';
                 }
             }else{
@@ -274,7 +274,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                         <td data-title="Email Richiedente">'.htmlspecialchars($richiesta['email_richiedente']).'</td>
                         
                         <td data-title="Data annullamento"><time datetime="'.htmlspecialchars($richiesta['data_fine_valutazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($richiesta['data_fine_valutazione']))).'</time></td>
-                        <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="orange-button">Vai ai dettagli</a></td>
+                        <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="brown-button">Vai ai dettagli</a></td>
                     </tr>
                 ';
             }
@@ -315,7 +315,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                     <tr>
                         <th data-title="Nome Animale" scope="row">'.htmlspecialchars($richiesta['nome_animale']).'</th>
                         <td data-title="Email Richiedente">'.htmlspecialchars($richiesta['email_richiedente']).'</td>
-                        <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="orange-button">Vai ai dettagli</a></td>
+                        <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="brown-button">Vai ai dettagli</a></td>
                     </tr>
                 ';
             }
