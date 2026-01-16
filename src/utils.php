@@ -57,6 +57,11 @@ $pagine = [
         'url' => './revisione-richiesta',
         'parent' => 'profilo-utente'
     ],
+    'preferiti' => [
+        'label' => 'Preferiti',
+        'url' => './preferiti',
+        'parent' => 'home'
+    ],
     'lavora-con-noi' => [
         //'file' => __DIR__ . '/src/php/lavora-con-noi.php',
         'label' => 'Lavora con noi',

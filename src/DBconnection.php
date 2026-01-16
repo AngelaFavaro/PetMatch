@@ -1255,9 +1255,238 @@ public function hasActiveAdoptionRequest(int $idAnimale): bool {
     return $exists;
 }
 
+public function countFavourites(string $type, string $email): int {
+    if (!$this->connection) return 0;
+
+    $params = [$email];
+    $types  = 's';
+
+    $where = "
+        p.Email = ?
+        AND NOT EXISTS (
+            SELECT 1
+            FROM RICHIESTE_ADOZIONI r
+            WHERE r.IDanimale = a.IDanimale
+              AND r.Stato = 'Accettata'
+        )
+    ";
+
+    if ($type !== 'tutti') {
+        $where .= ' AND a.Tipo = ?';
+        $params[] = $type;
+        $types   .= 's';
+    }
+
+    $query = "
+        SELECT COUNT(*) AS totale
+        FROM PREFERITI p
+        INNER JOIN ANIMALI a ON p.IDanimale = a.IDanimale
+        WHERE $where
+    ";
+
+    $stmt = mysqli_prepare($this->connection, $query);
+    if (!$stmt) {
+        return 0;
+    }
+
+    mysqli_stmt_bind_param($stmt, $types, ...$params);
+    mysqli_stmt_execute($stmt);
+
+    $res = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($res);
+
+    mysqli_stmt_close($stmt);
+
+    return (int)($row['totale'] ?? 0);
+}
 
 
+public function countGuestFavourites(string $type): int {
+    if (!$this->connection) return 0;
 
+    $guestFavs = getGuestFavorites();
+    if (empty($guestFavs)) {
+        return 0;
+    }
+
+    // placeholder per IN (...)
+    $placeholders = implode(',', array_fill(0, count($guestFavs), '?'));
+    $params = $guestFavs;
+    $types  = str_repeat('i', count($guestFavs));
+
+    $where = "
+        a.IDanimale IN ($placeholders)
+        AND NOT EXISTS (
+            SELECT 1
+            FROM RICHIESTE_ADOZIONI r
+            WHERE r.IDanimale = a.IDanimale
+              AND r.Stato = 'Accettata'
+        )
+    ";
+
+    if ($type !== 'tutti') {
+        $where .= ' AND a.Tipo = ?';
+        $params[] = $type;
+        $types   .= 's';
+    }
+
+    $query = "
+        SELECT COUNT(*) AS totale
+        FROM ANIMALI a
+        WHERE $where
+    ";
+
+    $stmt = mysqli_prepare($this->connection, $query);
+    if (!$stmt) {
+        return 0;
+    }
+
+    mysqli_stmt_bind_param($stmt, $types, ...$params);
+    mysqli_stmt_execute($stmt);
+
+    $res = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($res);
+
+    mysqli_stmt_close($stmt);
+
+    return (int)($row['totale'] ?? 0);
+}
+
+
+public function getFavouritesPaged(string $type, int $perPagina, int $offset, string $email): array{
+    if (!$this->connection) return [];
+
+    $params = [$email];
+    $types  = 's';
+
+    // Costruisco WHERE per l'utente e tipo
+    $where = "p.Email = ?";
+    
+    if ($type !== 'tutti') {
+        $where .= " AND a.Tipo = ?";
+        $params[] = $type;
+        $types .= 's';
+    }
+
+    // Query: animali preferiti dell'utente, senza richieste Accettata
+    $query = "
+        SELECT a.Nome, a.Sesso, a.DataNascita, a.ImgPath, a.Tipo, a.IDanimale AS Id
+        FROM PREFERITI p
+        INNER JOIN ANIMALI a ON p.IDanimale = a.IDanimale
+        WHERE $where
+          AND NOT EXISTS (
+              SELECT 1
+              FROM RICHIESTE_ADOZIONI r
+              WHERE r.IDanimale = a.IDanimale
+                AND r.Stato = 'Accettata'
+          )
+        ORDER BY a.IDanimale ASC
+        LIMIT ? OFFSET ?
+    ";
+
+    $params[] = $perPagina;
+    $params[] = $offset;
+    $types .= 'ii';
+
+    $stmt = mysqli_prepare($this->connection, $query);
+    if (!$stmt) return [];
+
+    mysqli_stmt_bind_param($stmt, $types, ...$params);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+    if (!$res) return [];
+
+    $animali = [];
+    while ($row = mysqli_fetch_assoc($res)) {
+        $animali[] = [
+            'nome'     => $row['Nome'],
+            'sesso'    => $row['Sesso'] === 'M' ? 'Maschio' : 'Femmina',
+            'eta'      => calcolareEta($row['DataNascita']),
+            'immagine' => $row['ImgPath'],
+            'tipo'     => $row['Tipo'],
+            'id'       => $row['Id']
+        ];
+    }
+
+    mysqli_stmt_close($stmt);
+    return $animali;
+}
+
+
+public function getGuestFavPaged(string $type, int $perPagina, int $offset): array
+{
+    if (!$this->connection) return [];
+
+    $guestFavs = getGuestFavorites();
+    if (empty($guestFavs)) {
+        return [];
+    }
+
+    // placeholder per IN (...)
+    $placeholders = implode(',', array_fill(0, count($guestFavs), '?'));
+    $params = $guestFavs;
+    $types  = str_repeat('i', count($guestFavs));
+
+    // Costruiamo WHERE
+    $where = "
+        a.IDanimale IN ($placeholders)
+        AND NOT EXISTS (
+            SELECT 1
+            FROM RICHIESTE_ADOZIONI r
+            WHERE r.IDanimale = a.IDanimale
+              AND r.Stato = 'Accettata'
+        )
+    ";
+
+    // filtro tipo
+    if ($type !== 'tutti') {
+        $where .= " AND a.Tipo = ?";
+        $params[] = $type;
+        $types .= 's';
+    }
+
+    // aggiungiamo LIMIT e OFFSET
+    $query = "
+        SELECT a.Nome, a.Sesso, a.DataNascita, a.ImgPath, a.Tipo, a.IDanimale AS Id
+        FROM ANIMALI a
+        WHERE $where
+        ORDER BY a.IDanimale ASC
+        LIMIT ? OFFSET ?
+    ";
+
+    $params[] = $perPagina;
+    $params[] = $offset;
+    $types .= 'ii';
+
+    $stmt = mysqli_prepare($this->connection, $query);
+    if (!$stmt) return [];
+
+    mysqli_stmt_bind_param($stmt, $types, ...$params);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+    if (!$res) return [];
+
+    $animali = [];
+    while ($row = mysqli_fetch_assoc($res)) {
+        $animali[] = [
+            'nome'     => $row['Nome'],
+            'sesso'    => $row['Sesso'] === 'M' ? 'Maschio' : 'Femmina',
+            'eta'      => calcolareEta($row['DataNascita']),
+            'immagine' => $row['ImgPath'],
+            'tipo'     => $row['Tipo'],
+            'id'       => $row['Id']
+        ];
+    }
+
+    mysqli_stmt_close($stmt);
+    return $animali;
+}
 
 }
+
+
+
+
+
+
 ?>

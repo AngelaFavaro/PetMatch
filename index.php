@@ -32,6 +32,9 @@ $routes = [
     'registrati' => [
         'file' => __DIR__ . '/src/php/registrati.php'
     ],
+    'preferiti' => [
+        'file' => __DIR__ . '/src/php/preferiti.php'
+    ],
 
 
 
