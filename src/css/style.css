@@ -2756,6 +2756,14 @@ nav#menu-admin li#currentLink {
 nav#menu-admin li a:visited{
     color: var(--visitedcolor);
 }
+
+nav#menu-admin li:hover{
+    background-color: var(--darkbgcolor);
+    border-radius: 2em 0em 0em 2em;
+}
+nav#menu-admin li:hover a{
+    color: var(--txtcolor);
+}
 nav#menu-admin li#currentLink a{
     font-weight: 700;
     color: var(--txtcolor);
