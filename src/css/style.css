@@ -1883,14 +1883,14 @@ input:-webkit-autofill:active{
 
 /* LINK NEXT PAGES */
 
-#animali #next-page-links {
+#animali .next-page-links {
     display: flex;
     justify-content: center;
     margin: 2em;
 }
 
 /* per pagina admin!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! , ho dato id="animals" anche nella pagina senza-amministratori*/
-#animali.tabs-container #next-page-links{
+#animali.tabs-container .next-page-links{
     margin: 0em auto;
 }
 
@@ -1898,15 +1898,15 @@ input:-webkit-autofill:active{
     border: none;
 }
 
-#animali #next-page-links li,
-#animali #next-page-links li a {
+#animali .next-page-links li,
+#animali .next-page-links li a {
     color: var(--bgform);
     list-style: none;
     text-decoration: none;
     font-weight: bold;
 }
 
-#animali #next-page-links li {
+#animali .next-page-links li {
     padding: 0.3em;
     margin: 0.3em;
     border: 2.3px solid var(--bgform);
@@ -1920,11 +1920,11 @@ input:-webkit-autofill:active{
     /* font-size: 1.3em; */
 }
 
-#animali #next-page-links li a:hover{
+#animali .next-page-links li a:hover{
     border-bottom:2px solid var(--bgconfirmbutton);
 }
 
-#animali #next-page-links li a {
+#animali .next-page-links li a {
     transition: 0.3s;
     border-bottom:2px solid var(--bgcolor);
     display: flex;
@@ -1934,7 +1934,7 @@ input:-webkit-autofill:active{
     height: 100%;
 }
 
-#animali #next-page-links ul {
+#animali .next-page-links ul {
     display: flex;
     justify-content: center;
     border: 2.3px solid var(--bgform);
@@ -1942,7 +1942,7 @@ input:-webkit-autofill:active{
     padding: 0.3em;
 }
 
-#animali #next-page-links #currentLink {
+#animali .next-page-links #currentLink {
     background-color: var(--bgform);
     color: var(--bgcolor);
     justify-content: center;
