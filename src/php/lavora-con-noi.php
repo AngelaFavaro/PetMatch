@@ -16,7 +16,7 @@ $nav = buildUserNav($userMenu, './lavora-con-noi', $_SESSION['email'] ?? false);
 
 $main = file_get_contents('./src/template/main/lavora-con-noi.html');
 
-$footer = file_get_contents('./src/template/partials/footer.html');
+$footer = buildFooter($footerMenu,  './lavora-con-noi');
 
 $paginaHTML = str_replace('[title]', $title, $paginaHTML);
 $paginaHTML = str_replace('[description]', $description, $paginaHTML);

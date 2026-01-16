@@ -375,7 +375,9 @@ NOTA: modificare il flex se necessario annidando la classe dentro le proprie sez
 }
 
 /*==================ERRORE 404==================*/
-
+.c404 .orange-button{
+    margin-top:1em;
+}
 
 /* Stile per allineare l'immagine ai numeri */
 #error-title {
@@ -799,7 +801,7 @@ input:checked + #theme-switch #slider #moon { opacity: 1; }
     display: flex;
     list-style: none;
     flex-wrap: wrap;
-    padding: 2em 0em 2em 2em;
+    padding: 2em 0em 0em 2em;
 }
 
 footer a{
@@ -818,7 +820,7 @@ footer {
 footer p{
     font-weight: bold;
     font-size: 1.2em;
-    margin-bottom: 0.3em;
+    margin-bottom: 0.5em;
 }
 
 #footer-menu > li{
@@ -831,6 +833,17 @@ footer p{
     list-style: none;
     margin-bottom:0.1em;
 }
+
+footer .container + div{
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+footer .container + div a:visited{
+    color:var(--bgcolor);
+}
+
+
 #grass {
     width: 100%;
     height: 60px; /*altezza fissa dell'erba*/
@@ -846,9 +859,10 @@ footer p{
 
 #copyright{
     text-align: center;
-    font-size: smaller;
     font-weight: 400;
     padding:1em;
+    /* sono 12px, il minimo per l'accessibilità */
+    font-size: 0.85rem; 
     color: var(--darkbgcolor);
     /* font-size: 0.9em; */
     /* margin-bottom: 1em; */
@@ -2035,6 +2049,10 @@ input:-webkit-autofill:active{
 #user-profile .tab-content label[for="request-state-movement"],
 #user-profile .tab-content label[for="request-state-richieste"]{
     display: inline-block;
+}
+
+#user-profile .tabs-container legend{
+    display: none;
 }
 
 #user-profile .tab-content form button,

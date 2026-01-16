@@ -185,7 +185,7 @@ $keywords = "";
 
 $nav = buildUserNav($userMenu, './home', $_SESSION['email'] ?? false);
 
-$footer = file_get_contents('./src/template/partials/footer.html');
+$footer = buildFooter($footerMenu,  './home');
 
 $breadcrumb = getBreadcrumb('home', $pagine);
 

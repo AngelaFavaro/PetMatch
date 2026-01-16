@@ -274,7 +274,7 @@ $connessione->closeConnection();
 $linkNavAnimali = buildNavAnimali($type, $filters);
 $paginaHTML = file_get_contents('./src/template/layout.html');
 $main = file_get_contents('./src/template/main/animali.html');
-$footer = file_get_contents('./src/template/partials/footer.html');
+$footer = buildFooter($footerMenu,  './animali');
 
 $main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);
 $main = str_replace('[ANIMALI]', $cardAnimali, $main);

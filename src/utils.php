@@ -91,6 +91,17 @@ $userMenu = [
     ['href' => './lavora-con-noi', 'text' => 'Lavora con noi'],
 ];
 
+$footerMenu = [
+    'Su di noi' => [
+        ['href' => './animali', 'text' => 'I nostri animali'],
+        ['href' => './eventi', 'text' => 'I nostri eventi'],
+        ['href' => './come-funziona', 'text' => 'Come funziona'],
+        ['href' => './chi-siamo', 'text' => 'Chi siamo']],
+    'Vuoi lavorare con noi?'=>[
+        ['href' => './lavora-con-noi#inizio-volontari', 'text' => 'Diventa un nostro volontario'],
+        ['href' => './lavora-con-noi#inizio-sostenitori', 'text' => 'Diventa un nostro sostenitore'],]
+];
+
 $noNav = [
     ['href' => './registrati'],
     ['href' => './accedi']
@@ -275,6 +286,87 @@ function buildUserNav(array $items, string $currentHref, bool $isLogged): string
     return $html;
 }
 
+
+function buildFooter(array $menuGroups, string $currentHref): string {
+
+    $homeHref = './home';
+    $logoAttributes = ($currentHref === $homeHref)? ' id="currentLink"' : '';
+    $isLogoActive =  ($currentHref === $homeHref)?   
+    '<div' . $logoAttributes . '>
+        <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
+        <span id="name-site">Pet<span id="not-bold">Match</span></span>
+    </div>' :
+    
+    '<div><a href="' . $homeHref . '"' . $logoAttributes . '>
+        <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
+        <span id="name-site">Pet<span id="not-bold">Match</span></span>
+    </a></div>';
+
+    $html = '
+    <div id="grass"></div>
+    <footer>
+        <div class="container">
+            <ul id="footer-menu" aria-label="menù di fine pagina">';
+                foreach ($menuGroups as $key => $items) {
+
+                    if ($key === 'Su di noi') {
+                        $html .= '  <li aria-labelledby="su-di-noi-footer">
+                                    <nav aria-labelledby="su-di-noi-footer">
+                                        <a class="navigationHelp" href="#lavora-con-noi" > Salta il contenuto</a>
+                                        <p aria-hidden="true" id="su-di-noi-footer">Su di noi</p>
+                                        <ul class="footer-submenu" aria-labelledby="su-di-noi-footer">';
+                    }else{
+                        $html .= '  <li aria-labelledby="lavora-con-noi-footer">    
+                                    <nav id="lavora-con-noi" tabindex="-1" aria-labelledby="lavora-con-noi-footer">
+                                        <a class="navigationHelp" href="#contattaci"> Salta il contenuto</a>
+                                        <p id="lavora-con-noi-footer" aria-hidden="true">Vuoi lavorare con noi?</p>
+                                        <ul class="footer-submenu">';
+                    }
+
+                    foreach ($items as $item) {
+                        $pathItem = strtok($item['href'], '#');
+                        $active = ($pathItem === $currentHref) ? ' class="currentLink"' : '';
+                        $linkHref = ($pathItem=== $currentHref) ? '<li'.$active.' aria-label="pagina attuale:'.$item['text'].'">'.$item['text'].'</li>' : '<li'.$active.'><a href="'.$item['href'].'">'.$item['text'].'</a></li>';
+                        
+                        $html .= $linkHref;
+                    }
+                    $html .= '</ul></nav></li>';
+                }
+                $html .= '
+                <li aria-labelledby="contattaci-footer">
+                    <nav id="contattaci" tabindex="-1" aria-labelledby="contattaci-footer">
+                        <a class="navigationHelp" href="#seguici-su"> Salta il contenuto</a>
+                        <p id="contattaci-footer" aria-hidden="true">Contattaci</p>
+                        <ul class="footer-submenu">
+                            <li><a href="mailto:matchpet48@gmail.com" target="_blank">matchpet48@gmail.com</a></li>
+                            <li><a href="tel:+390000000000"> +39 000 000 0000</a></li>
+                        </ul>
+                    </nav>
+                </li>
+                <li aria-labelledby="seguici-footer">
+                    <nav id="seguici-su" tabindex="-1" aria-labelledby="seguici-footer">
+                        <a class="navigationHelp" href="#copyright"> Salta il contenuto</a>
+                        <p id="seguici-footer" aria-hidden="true">Seguici su</p>
+                        <ul class="footer-submenu">
+                            <li class="social-media-links">
+                                <a href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram">
+                                    <img src="./assets/icons/Instagram.svg" id="instagram" alt="">
+                                    @petmatch_shelter
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </li>
+            </ul>
+        </div>
+        '.$isLogoActive.'
+        <p id="copyright" tabindex="-1">
+            &copy; 2025 PetMatch. Diritti e illustrazioni riservate, giù le zampe!
+        </p>
+    </footer>';
+
+    return $html;
+}
 
 
 function getBreadcrumb($currentPageKey, $pagine) {
