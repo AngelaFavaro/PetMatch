@@ -15,36 +15,6 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     include './src/utils.php';
     include './src/DBconnection.php';
 
-
-    function buildPagination(int $currentPage, int $totalPages, string $tipoAttivo, array $filters = []): string {
-    if ($totalPages <= 1) return '<li id="currentLink">1</li>';
-
-    $params = array_merge(['tipo' => $tipoAttivo], $filters);
-    unset($params['page']); // Rimuoviamo la pagina corrente per rigenerarla
-
-    $html = '';
-
-    if ($currentPage > 1) {
-        $params['page'] = $currentPage - 1;
-        $html .= '<li><a href="?' . http_build_query($params) . '"><img src="./assets/icons/arrow-sx-green.svg" alt="vai alla pagina precedente" /></a></li>';
-    }
-
-    for ($i = 1; $i <= $totalPages; $i++) {
-        if ($i === $currentPage) {
-            $html .= '<li id="currentLink" aria-label="pagina attuale">'.$i.'</li>';
-        } else {
-            $params['page'] = $i;
-            $html .= '<li><a href="?' . http_build_query($params) . '" aria-label="vai alla pagina '.$i.'">'.$i.'</a></li>';
-        }
-    }
-
-    if ($currentPage < $totalPages) {
-        $params['page'] = $currentPage + 1;
-        $html .= '<li><a href="?' . http_build_query($params) . '"><img src="./assets/icons/arrow-dx-green.svg" alt="vai alla pagina successiva"/></a></li>';
-    }
-
-    return $html;
-}
     function renderTabs(): string{
         $html = '';
         if(isset($_GET['tipo'])){
@@ -255,7 +225,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     $main = str_replace('[LINKPAGINE-CANI]', $linkCani, $main);
     $main = str_replace('[LINKPAGINE-GATTI]', $linkGatti, $main);
 
-    /* ---- da completare quando aggiungerò i filtri ---*/
+    /* ---- da completare quando aggiungerò i filtri (SE)---*/
     /*$rawFilters = [
         'appunti'   => $_GET['appunti'] ?? '',
         'trasporto' => $_GET['trasporto'] ?? '',

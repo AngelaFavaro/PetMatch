@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
 
 
 /* ------------------ PARAMETRI BASE ------------------ */
-$type = $_GET['type'] ?? 'tutti';
+$type = $_GET['tipo'] ?? 'tutti';
 $perPagina = 12;
 $pagina = max(1, (int)($_GET['page'] ?? 1));
 $offset = ($pagina - 1) * $perPagina;
@@ -117,53 +117,13 @@ $replaceFilters = [
 /* ------------------ DB ------------------ */
 $cardAnimali = '';
 $linkPagine  = '';
-// -------------------FUNZIONI--------------------------
-/* ------------------ PAGINAZIONE ------------------ */
-function buildPagination(int $currentPage, int $totalPages, string $type, array $filters): string {
-    if ($totalPages <= 1) return '<li id="currentLink">1</li>';
 
-    $params = array_merge(
-    ['type' => $type],
-    $filters
-);
 
-    unset($params['page']);
-
-    $html = '';
-
-    if ($currentPage > 1) {
-        $params['page'] = $currentPage - 1;
-        $html .= '<li><a href="?' . http_build_query($params) . '"><img src="./assets/icons/arrow-sx-green.svg" alt="vai alla pagina precedente" /></a></li>';
-    }
-    if($currentPage===$totalPages&&$totalPages>=3) {
-        $params['page'] = $currentPage-2;
-        $html .= '<li><a href="?' . http_build_query($params) . '" aria-label="vai alla pagina'.$params['page'].'">'.$params['page'].'</a ></li>';
-    }
-
-    for ($i = max(1, $currentPage - 1); $i <= min($totalPages, $currentPage + 1); $i++) {
-        if ($i === $currentPage) {
-            $html .= '<li id="currentLink" aria-label="pagina attuale">'.$i.'</li>';
-        } else {
-            $params['page'] = $i;
-            $html .= '<li><a href="?' . http_build_query($params) . '" aria-label="vai alla pagina'.$i.'">'.$i.'</a ></li>';
-        }
-    }
-    if($currentPage===1&&$totalPages>=3) {
-        $params['page'] = 3;
-        $html .= '<li><a href="?' . http_build_query($params) . '" aria-label="vai alla pagina 3">3</a ></li>';
-    }
-
-    if ($currentPage < $totalPages) {
-        $params['page'] = $currentPage + 1;
-        $html .= '<li><a href="?' . http_build_query($params) . '"><img src="./assets/icons/arrow-dx-green.svg" alt="vai alla pagina successiva"/></a></li>';
-    }
-    return $html;
-}
 /* ------------------ NAV TIPO ------------------ */
 function buildNavAnimali(string $type, array $filters): string {
     $base = $filters;
 
-    $link = fn($t) => '?' . http_build_query(array_merge($base, ['type' => $t]));
+    $link = fn($t) => '?' . http_build_query(array_merge($base, ['tipo' => $t]));
 
     return "
     <ul aria-label='Filtri sulla tipologia'>
@@ -246,7 +206,7 @@ function buildAnimalCards(array $animali, ?string $email): string {
 // RESET DEI FILTRI
 $resetUrl = './animali';
 if ($type !== 'tutti') {
-    $resetUrl .= '?type=' . urlencode($type);
+    $resetUrl .= '?tipo=' . urlencode($type);
 }
 
 

@@ -530,3 +530,43 @@ function saveGuestFavorites(array $ids): void {
     );
 }
 
+
+
+function buildPagination(int $currentPage, int $totalPages, string $tipoAttivo, array $filters = []): string {
+    if ($totalPages <= 1) return '<li id="currentLink">1</li>';
+
+    $params = array_merge(['tipo' => $tipoAttivo], $filters);
+    unset($params['page']);
+
+    $html = '';
+
+    if ($currentPage > 1) {
+        $params['page'] = $currentPage - 1;
+        $html .= '<li><a href="?' . http_build_query($params) . '"><img src="./assets/icons/arrow-sx-green.svg" alt="precedente" /></a></li>';
+    }
+
+    $maxVisible = 10;
+    $start = max(1, $currentPage - 4);
+    $end = min($totalPages, $start + $maxVisible - 1);
+
+    if ($end - $start + 1 < $maxVisible) {
+        $start = max(1, $end - $maxVisible + 1);
+    }
+
+    for ($i = $start; $i <= $end; $i++) {
+        if ($i === $currentPage) {
+            $html .= '<li id="currentLink" aria-label="pagina attuale">'.$i.'</li>';
+        } else {
+            $params['page'] = $i;
+            $html .= '<li><a href="?' . http_build_query($params) . '" aria-label="vai alla pagina '.$i.'">'.$i.'</a></li>';
+        }
+    }
+
+    if ($currentPage < $totalPages) {
+        $params['page'] = $currentPage + 1;
+        $html .= '<li><a href="?' . http_build_query($params) . '"><img src="./assets/icons/arrow-dx-green.svg" alt="successiva"/></a></li>';
+    }
+
+    return $html;
+}
+
