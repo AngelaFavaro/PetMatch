@@ -66,8 +66,8 @@ function buildInfoAdmin(): array{
 	if (isset($_GET['mode']) && $_GET['mode'] === 'edit') {
 		$titolo = '<h2>Modifica le tue informazioni</h2>';
 		$html = '
-			<div class="edit-mode">
-				<form class="edit-mode" method="POST" action="area-riservata" enctype="multipart/form-data">
+			<div id="informazioni-admin" class="edit-mode">
+				<form class="edit-mode" method="POST" action="area-riservata#informazioni-admin" enctype="multipart/form-data">
 					<fieldset>
 						<legend class="sr-only">Informazioni personali</legend>
 						<div>
@@ -97,7 +97,7 @@ function buildInfoAdmin(): array{
 						</div>
 					</fieldset>
 					<span>
-						<a href="area-riservata" class="cancel-edit">Annulla</a>
+						<a href="area-riservata#informazioni-admin" class="cancel-edit">Annulla</a>
 						<button type="submit" name="edit-profile">Salva</button>
 					</span>
 				</form>
@@ -106,7 +106,7 @@ function buildInfoAdmin(): array{
 	} else {
 		$titolo = '<h2>Le tue informazioni</h2>';
 		$html =
-			'<div class="text-details"><dl aria-label="informazioni dell\'utente">
+			'<div id="informazioni-admin" class="text-details"><dl aria-label="informazioni dell\'utente">
 				<dt>Nome</dt> <dd>[nomeAdmin]</dd>
 				<dt>Cognome</dt> <dd>[cognomeAdmin]</dd>
 				<dt>Email</dt> <dd>[emailAdmin]</dd>
