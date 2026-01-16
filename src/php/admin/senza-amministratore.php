@@ -96,7 +96,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                         <td data-title="Idoneo al trasporto">'.htmlspecialchars($caneNonAdmin['trasporto_animale']).'</td>
                         <td data-title="Razza animale">'.htmlspecialchars($caneNonAdmin['razza_animale']).'</td>
                         <td data-title="Età animale">'.htmlspecialchars($eta).'</td>
-                        <td class="col-dettagli"><a href="" class="orange-button">Vai all\'animale</a></td>
+                        <td class="col-dettagli"><a href="animali?id='.htmlspecialchars($caneNonAdmin['id_animale']).'" class="brown-button">Vai all\'animale</a></td>
                     </tr>
                 ';
             }
@@ -145,7 +145,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                         <td data-title="Idoneo al trasporto">'.htmlspecialchars($GattoNonAdmin['trasporto_animale']).'</td>
                         <td data-title="Razza animale">'.htmlspecialchars($GattoNonAdmin['razza_animale']).'</td>
                         <td data-title="Età animale">'.htmlspecialchars($eta).'</td>
-                        <td class="col-dettagli"><a href="" class="orange-button">Vai all\'animale</a></td>
+                        <td class="col-dettagli"><a href="animali?id='.htmlspecialchars($GattoNonAdmin['id_animale']).'" class="brown-button">Vai all\'animale</a></td>
                     </tr>
                 ';
             }

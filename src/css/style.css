@@ -2905,11 +2905,11 @@ a.pencil {
     border: none;
     margin: 0em;
 }
-.tab-content#Richiedente .orange-button{
+.tab-content#Richiedente .brown-button{
     margin: 0em 0em 0em auto;
 }
 
-#animale-richiesta .orange-button{
+#animale-richiesta .brown-button{
     margin: 0em auto 2em 0em;
 }
 #admin-area .tabs-container h2{
@@ -3153,7 +3153,9 @@ td.col-dettagli a{
     display: block;
 }
 
-
+tr:hover {
+    background-color: var(--darkbgcolor);          
+}
 /*================== FILTRI  ==================*/
 .tab-content .filtri ul{
     margin: 1em;
