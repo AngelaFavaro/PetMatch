@@ -32,12 +32,16 @@ $routes = [
     'registrati' => [
         'file' => __DIR__ . '/src/php/registrati.php'
     ],
+    'senza-amministratore' => [
+        'file' => __DIR__ . '/src/php/admin/senza-amministratore.php'
+    ],
 
 
 
     /* decommentare quando si vogliono aggiungere le altre pagine
     'accedi' => [
         'file' => __DIR__ . '/src/php/accedi.php'
+    ],
     'richieste-adozione' => [
         'file' => __DIR__ . '/src/php/admin/richieste-adozione.php'
     ],

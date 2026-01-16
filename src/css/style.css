@@ -2020,6 +2020,10 @@ input:-webkit-autofill:active{
     border-radius: 0 0 0.5em 0.5em;
 }
 
+/* con questo se dezoommi richieste di adozione e animali senza amministratore il contenuto delle tab rimane giù */
+#admin-area .tabs-container .tab-content{
+flex: 1 0 100%;
+}
 #user-profile input:checked + label, #admin-area input:checked + label {
     border-top: 1px solid var(--headercolor); 
     border-left: 1px solid var(--headercolor); 

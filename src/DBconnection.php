@@ -616,7 +616,36 @@ class DBAccess {
             mysqli_stmt_close($stmt);
         }
         return $counts;
-    }   
+    }  
+
+    function getNNonAdminByType(): array {
+        $counts = [
+            'Gatto' => 0,
+            'Cane' => 0
+        ];
+
+        $query = "SELECT Tipo, COUNT(*) AS totale
+                FROM ANIMALI
+                WHERE Email IS NULL
+                GROUP BY Tipo";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            
+            while ($row = mysqli_fetch_assoc($result)) {
+                if (isset($counts[$row['Tipo']])) {
+                    $counts[$row['Tipo']] = (int)$row['totale'];
+                }
+            }
+            
+            mysqli_stmt_close($stmt);
+        }
+
+        return $counts;
+    }
 
     function getCancelledRequests($email): array {
         $requests = [];
@@ -671,6 +700,51 @@ class DBAccess {
         }
         return $requests;
     }
+
+    function getDetailsNonAdminAnimals(): array {
+        $results = [
+            'Gatto' => [],
+            'Cane' => []
+        ];
+
+        $query = "SELECT 
+                    IDanimale AS id_animale, 
+                    Nome AS nome_animale, 
+                    DataRegistrazione AS data_registrazione, 
+                    Trasporto AS trasporto_animale, 
+                    Razza AS razza, 
+                    DataNascita AS età 
+                FROM ANIMALI 
+                WHERE Email IS NULL";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            while ($row = mysqli_fetch_assoc($result)) {
+            }
+            
+            mysqli_data_seek($result, 0);
+            
+            $query_completa = "SELECT *, IDanimale AS id_animale, Nome AS nome_animale, 
+                            DataRegistrazione AS data_registrazione, Trasporto AS trasporto_animale, 
+                            Razza AS razza_animale, DataNascita AS data_nascita
+                            FROM ANIMALI WHERE Email IS NULL";
+            
+            $res = mysqli_query($this->connection, $query_completa);
+            
+            while ($row = mysqli_fetch_assoc($res)) {
+                $tipo = $row['Tipo'];
+                if (isset($results[$tipo])) {
+                    $results[$tipo][] = $row;
+                }
+            }
+        }
+
+        return $results;
+}
 
     public function insertReportForm(string $name, string $email): bool {
         if (!$this->connection){

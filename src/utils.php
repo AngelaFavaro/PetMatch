@@ -6,7 +6,7 @@
     - funzione che crea il footer (ossia da modificare solo la parte del link circolare alla home se l'utente è già in quella pagina)
 */
 
-/* Definizione delle pagine esistenti, aggiungerne altre quando possibile*/
+/* Definizione delle pagine esistenti PER LA BREADCRUMB, aggiungerne altre quando possibile*/
 $pagine = [
     'home' => [
         'label' => 'Home', //la label e' quella che viene mostrata nella breadcrumb
@@ -28,11 +28,7 @@ $pagine = [
         'url' => './dettagli-richiesta',
         'parent' => 'richieste-adozione'
     ],
-
-
-
     'animali' => [
-        // 'file' => __DIR__ . '/src/php/animali.php',
         'label' => 'Animali',
         'url' => './animali',
         'parent' => 'home'
@@ -58,14 +54,15 @@ $pagine = [
         'parent' => 'profilo-utente'
     ],
     'lavora-con-noi' => [
-        //'file' => __DIR__ . '/src/php/lavora-con-noi.php',
         'label' => 'Lavora con noi',
         'url' => './lavora-con-noi',
         'parent' => 'home'
-    ]
-
-
-
+    ],
+    'senza-amministratore' => [
+        'label' => 'Animali senza amministratore',
+        'url' => './senza-amministratore',
+        'parent' => 'animali'
+    ],
 ];
 
 $adminMenu = [
@@ -76,7 +73,7 @@ $adminMenu = [
     ],
     'animali' => [
         ['href' => './tuoi-animali', 'text' => 'Assegnati a te'],
-        ['href' => './animali-senza-amministratore', 'text' => 'Senza amministratore'],
+        ['href' => './senza-amministratore', 'text' => 'Senza amministratore'],
         ['href' => './adottati', 'text' => 'Adottati'],
         ['href' => './nuove-accoglienze', 'text' => 'Nuove accoglienze'],
     ]
