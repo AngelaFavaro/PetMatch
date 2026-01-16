@@ -135,9 +135,10 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
     foreach ($menuGroups as $key => $items) {
 
         if ($key === 'animali') {
-            $html .= '<span id="description-menu-animals" aria-hidden="true">Animali</span>';
+            $html .= '<span class="description-menu" aria-hidden="true">Animali</span>';
             $html .= '<ul aria-label="Menù gestione animali">';
         }else{
+            $html .= '<span class="description-menu" aria-hidden="true">Principale</span>';
             $html .= '<ul aria-label="Menù principale">';
         }
 
@@ -154,7 +155,7 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
 
     $html .= '
         <form action="./area-riservata" method="POST">
-            <button type="submit" name="logout" class="logout-btn">Esci</button>
+            <button type="submit" name="logout" class="logout-btn">Disconnettiti</button>
         </form>
     </nav>';
 

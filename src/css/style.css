@@ -1549,14 +1549,14 @@ input:-webkit-autofill:active{
 
 /* Lista filtri */
 
-#animali #filtri {
+#animali .filtri, .tab-content .filtri {
     display: flex;
     align-items: center; 
     gap: 1em;
     flex-wrap: wrap;
 }
 
-#animali #filtri ul {
+#animali .filtri ul, .tab-content .filtri ul {
     display: flex;
     /* flex-wrap: wrap; */
     list-style: none;
@@ -1567,7 +1567,7 @@ input:-webkit-autofill:active{
 }
 
 /* Contenitore capsula per ogni filtro */
-#animali #filtri .capsula-filtro {
+#animali .filtri .capsula-filtro, .tab-content .filtri .capsula-filtro {
     display: inline-flex;        /* label + input/select affiancati */
     align-items: center;         /* centra verticalmente tutto */
     justify-content: center;
@@ -1584,16 +1584,16 @@ input:-webkit-autofill:active{
 }
 
 /* Label dentro la capsula */
-#animali #filtri .capsula-filtro label {
+#animali .filtri .capsula-filtro label, .tab-content .filtri .capsula-filtro label {
     margin-right: 0.5em;
     white-space: nowrap;
 }
 
-#animali #filtri .capsula-filtro label[for="name-animal"] {
+#animali .filtri .capsula-filtro label[for="name-animal"] {
     margin-left: 0;
 }
 
-#animali #filtri .capsula-filtro label[for="name-animal"] +input {
+#animali .filtri .capsula-filtro label[for="name-animal"] +input {
     width: 100%;
     min-width: 100px;
     max-width: none;
@@ -1603,7 +1603,7 @@ input:-webkit-autofill:active{
     font-weight: 500;
 }
 
-#animali #filtri #searchName.capsula-filtro{
+#animali .filtri #searchName.capsula-filtro{
     width: 40%;
     max-width: none;
     justify-content:left;
@@ -1651,8 +1651,10 @@ input:-webkit-autofill:active{
 
 /* Input e select dentro la capsula */
 
-#animali #filtri .capsula-filtro input,
-#animali #filtri .capsula-filtro select {
+#animali .filtri .capsula-filtro input,
+#animali .filtri .capsula-filtro select,
+.tab-content .filtri .capsula-filtro input,
+.tab-content .filtri .capsula-filtro select {
     border: none;
     
     /* color: var(--txtcolor); */
@@ -1665,28 +1667,27 @@ input:-webkit-autofill:active{
     box-sizing: border-box;
     min-width: 3em;             /* larghezza minima uniforme */
     color:var(--text-buttoncolor);    
-    border-radius: 2em;
     border-color: var(--text-buttoncolor);
     margin:5px;
 }
 
-#animali #filtri .capsula-filtro input{
+#animali .filtri .capsula-filtro input, .tab-content .filtri .capsula-filtro input {
     background: transparent;
 }
 
-#animali #filtri .capsula-filtro select{
+#animali .filtri .capsula-filtro select, .tab-content .filtri .capsula-filtro select {
     background-color: var(--bgcolor);
 }
 
 /* Range di età */
-#animali #filtri .capsula-filtro .eta-range {
+#animali .filtri .capsula-filtro .eta-range {
     display: flex;
     align-items: center;
     gap: 0.3em;
     height: 100%;
 }
 
-#animali #filtri .capsula-filtro .eta-range input {
+#animali .filtri .capsula-filtro .eta-range input {
     height: 100%;
     text-align: center;
     max-width: 3em;    /* dimensione compatta */
@@ -1694,16 +1695,16 @@ input:-webkit-autofill:active{
     color:var(--txtcolor);
 }
 
-#animali #filtri .capsula-filtro .eta-range input::placeholder {
+#animali .filtri .capsula-filtro .eta-range input::placeholder {
     color: var(--placeholder-text);
 }
 
-#animali #filtri .capsula-filtro input[type="text"] {
+#animali .filtri .capsula-filtro input[type="text"] {
     max-width:10em;
     width: 100%;
     color:var(--txtcolor);
 }
-#animali #filtri .capsula-filtro input[list] {
+#animali .filtri .capsula-filtro input[list] {
     max-width: 10em;   
     width: 100%;
     color:var(--txtcolor);
@@ -2640,10 +2641,11 @@ ul#to-do-list li, ul#statistics-list li{
 
 ul#to-do-list li{
      background-color: var(--buttoncolor);
-}
-
+    }
+    
 ul#statistics-list li{
-    border: 1px solid var(--txtcolor);
+    background-color: var(--darkbgcolor);
+
 }
 #to-do-list a, #statistics-list a{
     width:100%; /*riempie tutto il li*/
@@ -2678,12 +2680,16 @@ nav#menu-admin {
     padding: 1em 0em 1em 1em;
     height: 100%;
     overflow: hidden;
-     font-size: 90%;
+     font-size: 100%;
     /* height: 100vh; */
 }
 
 nav#menu-admin a.orange-button{
     margin-top:0.5em;
+}
+nav#menu-admin li a {
+    width: 100%;
+    display: block;
 }
 
 body#admin-body main {
@@ -2694,7 +2700,7 @@ body#admin-body main {
 
 nav#menu-admin img {
     display: block;
-    margin: 0 auto;
+    margin: 1em auto;
     width: 12em;
     max-width: 100%;
     height: auto;
@@ -2717,10 +2723,11 @@ nav#menu-admin button.logout-btn:hover{
     border-color: var(--buttoncolor-hover);
 }
 
-#description-menu-animals{
+.description-menu{
     font-size: 1.3em;
     border-bottom:1px solid var(--darkbgcolor);
     margin-right: 1em;
+    margin-top: 2em;
 }
 
 nav#menu-admin li a:hover{
@@ -2742,12 +2749,13 @@ nav#menu-admin li#currentLink a{
 }
 nav#menu-admin span{
     color: var(--bgcolor);
+    margin-left: 0.5em;
     font-weight: 700;
 }
 
 nav#menu-admin ul{
     margin-top:1em;
-    margin-bottom: 2em;
+    margin-bottom: 1em;
 }
 
 nav#menu-admin a#logout{
@@ -2862,6 +2870,7 @@ a.pencil {
 
 
 /*================= DETTAGLI RICHIESTE DI ADOZIONE ==================*/
+
 .pointer-events-none{
     pointer-events: none;
 }
@@ -2881,6 +2890,7 @@ a.pencil {
 
 #admin-area .tabs-container#richieste .tab-content{
     border: none;
+    margin: 0em;
 }
 .tab-content#Richiedente .orange-button{
     margin: 0em 0em 0em auto;
@@ -3062,17 +3072,15 @@ div#admin-area article.note{
 /*================= RICHIESTE DI ADOZIONE ==================*/
 
 
-/* 1. Tabella: Impostazioni fondamentali per il raggio */
 table {
-    border-collapse: separate; /* Permette il border-radius */
-    border-spacing: 0;        /* Elimina lo spazio tra le celle */
+    border-collapse: separate;
+    border-spacing: 0; 
     width: 100%;
-    border-radius: 15px 15px 0 0;      /* Angoli tondi della tabella */
-    overflow: hidden;         /* Taglia lo sfondo del thead sugli angoli */
+    border-radius: 15px 15px 0 0;
+    overflow: hidden;
     margin-bottom: 1em;
 }
 
-/* 2. Header e Footer della tabella */
 thead, tfoot {
     background-color: var(--darkbgcolor);
 }
@@ -3087,7 +3095,6 @@ thead th, tfoot th, tfoot td {
     text-align: left;
 }
 
-/* Arrotondamento manuale delle celle d'angolo del thead */
 thead tr:first-child th:first-child {
     border-top-left-radius: 15px;
 }
@@ -3096,26 +3103,24 @@ thead tr:first-child th:last-child {
     border-top-right-radius: 15px;
 }
 
-/* 3. Corpo della tabella (Righe e Celle) */
 tbody td, tbody th {
-    padding: 0em 2em; /* Aumentato per dare respiro */
+    padding: 0em 2em;
     text-align: left;
     border-bottom: 1px solid var(--txtcolor);
 }
 
-/* Rimuove l'ultimo bordo per non "sporcare" la curva in basso */
 tbody tr:last-child td, 
 tbody tr:last-child th {
     border-bottom: none;
 }
 
-/* 4. Gestione Colonne e Accessibilità */
+
 .col-dettagli {
-    text-align: right; /* Sostituisce il float:right per un allineamento più pulito */
+    text-align: right;
 }
 
+/* TO DO, mettere sr-only */
 th.col-dettagli, caption {
-    /* Nasconde alla vista ma non agli screen reader (SR-ONLY) */
     position: absolute;
     left: -999em;
     width: 1px;
@@ -3127,11 +3132,23 @@ td.col-dettagli a{
     margin: 0.5em;
 }
 
+.nessuna-richiesta-message{
+    margin:1.2em auto;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    display: block;
+}
 
 
-
-
-
+/*================== FILTRI  ==================*/
+.tab-content .filtri ul{
+    margin: 1em;
+    justify-content: flex-end;
+}
+.tab-content .filtri button{
+    display: inline;
+}
 /*================NAVIGATION HELP ==================*/
 
 .navigationHelp {

@@ -297,8 +297,8 @@ input:checked + #slider {
     width: 100%;
 }
 
-#animali #filtri #searchSex.capsula-filtro,
-#animali #filtri #searchSize.capsula-filtro{
+#animali .filtri #searchSex.capsula-filtro,
+#animali .filtri #searchSize.capsula-filtro{
     width: 48.4%;
 }
 
@@ -397,7 +397,7 @@ nav#menu-admin {
 }
 
 #menu-toggle-checkbox:checked ~ nav#menu-admin {
-    max-height: 100vh;
+    max-height: 120vh;
     background-color: var(--footercolor);
     visibility: visible;
 }

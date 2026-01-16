@@ -17,30 +17,51 @@ function createCardEvents(DBAccess $conn){
     ];
 
     $lastEvents = "";
-    foreach ($events as $event){
-        // TODO LINK EVENTO
+    for ($i = 0 ; $i<4; $i++){
 
-        $data = strtotime($event["DataEvento"]);
+        if (isset($events[$i])) {
+        $event = $events[$i];
+        
+        $timestamp = strtotime($event["DataEvento"]);
+        
+        $giorno = date('d', $timestamp);
+        $mese = date('n', $timestamp); 
+        $anno = date('Y', $timestamp);
+    
+        $dataEstesa = $giorno . ' ' . $mesi[$mese] . ' ' . $anno;
+        $dataMobile = date('d/m/Y', $timestamp);
+        
+        $titolo = $event["Titolo"];
+        $img = $event["ImgPath"];
+        $citta = $event["Citta"];
+        $link = "./home"; //TODO LINK EVENTO
+        $ariaLabel = "evento " . $titolo. ': '.$dataEstesa.', '.$citta ;
+        
+    } else {
+        // --- CASO 2: L'evento NON esiste (slot vuoto) ---
+        // Qui metti quello che vuoi mostrare se mancano eventi
+        $titolo = "Prossimamente";
+        $img = "./assets/images/eventi-default.jpg"; // Immagine di default
+        $dataEstesa = ""; 
+        $dataMobile = "";
+        $citta = "";
+        $link = "./eventi";
+        $ariaLabel = "Nessun evento programmato";
+    }
 
-        $giorno = date('d', $data);
-        $mese = date('n', $data); 
-        $anno = date('Y', $data);
-
-        $data = $giorno.' '.$mesi[$mese].' '.$anno;
-
-        $lastEvents .= '
-            <a href="./home" class="polaroid" aria-label="evento '.$event["Titolo"].'">
+    $lastEvents .= '
+        <a href="' . $link . '" class="polaroid" aria-label="' . $ariaLabel . '">
+            
+            <article aria-hidden="true">
+                <img src="' . $img . '" alt=""/>
                 
-                <article>
-                    <img src="'.$event["ImgPath"].'" alt=""/>
-                    
-                    <h4>'.$event["Titolo"].'</h4>
-                    <p class="vDesk">'. $data.'</p>
-                    <p class="vMobile">'.date('d/m/Y',strtotime($event["DataEvento"])).'</p>
-                    <p>'.$event["Citta"].'</p>
-                </article>
-                
-            </a>';
+                <h4>' . $titolo . '</h4>
+                <p class="vDesk">' . $dataEstesa . '</p>
+                <p class="vMobile">' . $dataMobile . '</p>
+                <p>' . $citta . '</p>
+            </article>
+            
+        </a>';
     }
 
     return $lastEvents;
