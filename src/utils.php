@@ -63,6 +63,11 @@ $pagine = [
         'url' => './senza-amministratore',
         'parent' => 'animali'
     ],
+    'nuove-accoglienze' => [
+        'label' => 'Nuove accoglienze',
+        'url' => './nuove-accoglienze',
+        'parent' => 'animali'
+    ],
 ];
 
 $adminMenu = [

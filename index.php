@@ -35,6 +35,9 @@ $routes = [
     'senza-amministratore' => [
         'file' => __DIR__ . '/src/php/admin/senza-amministratore.php'
     ],
+    'nuove-accoglienze' => [
+        'file' => __DIR__ . '/src/php/admin/nuove-accoglienze.php'
+    ],
 
 
 
