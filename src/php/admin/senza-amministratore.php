@@ -15,6 +15,36 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     include './src/utils.php';
     include './src/DBconnection.php';
 
+
+    function buildPagination(int $currentPage, int $totalPages, string $tipoAttivo, array $filters = []): string {
+    if ($totalPages <= 1) return '<li id="currentLink">1</li>';
+
+    $params = array_merge(['tipo' => $tipoAttivo], $filters);
+    unset($params['page']); // Rimuoviamo la pagina corrente per rigenerarla
+
+    $html = '';
+
+    if ($currentPage > 1) {
+        $params['page'] = $currentPage - 1;
+        $html .= '<li><a href="?' . http_build_query($params) . '"><img src="./assets/icons/arrow-sx-green.svg" alt="vai alla pagina precedente" /></a></li>';
+    }
+
+    for ($i = 1; $i <= $totalPages; $i++) {
+        if ($i === $currentPage) {
+            $html .= '<li id="currentLink" aria-label="pagina attuale">'.$i.'</li>';
+        } else {
+            $params['page'] = $i;
+            $html .= '<li><a href="?' . http_build_query($params) . '" aria-label="vai alla pagina '.$i.'">'.$i.'</a></li>';
+        }
+    }
+
+    if ($currentPage < $totalPages) {
+        $params['page'] = $currentPage + 1;
+        $html .= '<li><a href="?' . http_build_query($params) . '"><img src="./assets/icons/arrow-dx-green.svg" alt="vai alla pagina successiva"/></a></li>';
+    }
+
+    return $html;
+}
     function renderTabs(): string{
         $html = '';
         if(isset($_GET['tipo'])){
@@ -65,7 +95,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
         return $html;
         
     }
-    function renderCaniContent(DBAccess $conn, array $CaniNonAdmin, array $NNonAdminByType): string {
+    function renderCaniContent(array $CaniNonAdmin, array $NNonAdminByType): string {
         if($NNonAdminByType['Cane'] == 0){
             return '<p class="nessuna-richiesta-message">Nessun cane senza amministratore</p>';
         }else{
@@ -113,7 +143,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
         }
     }
 
-    function renderGattiContent(DBAccess $conn, array $GattiNonAdmin,array $NNonAdminByType){
+    function renderGattiContent(array $GattiNonAdmin,array $NNonAdminByType){
         if($NNonAdminByType['Gatto'] == 0){
             return '<p class="nessuna-richiesta-message">Nessun gatto senza amministratore</p>';
         }else{
@@ -173,20 +203,45 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     $cani_content = "";
     $gatti_content = "";
     $NNonAdminByType = [];
-    
+    $linkAttivi = '';
+    $perPagina = 8; //8 per pagina? a me sembra un buon numero
+    $tipoAttivo = $_GET['tipo'] ?? 'Cani';
+    $paginaCorrente = max(1, (int)($_GET['page'] ?? 1));
+    $offset = ($paginaCorrente - 1) * $perPagina;
     $connessione = new DBAccess();
     $connessioneOK = $connessione->openDBConnection();
     
     if ($connessioneOK) {
-        $richiesta = $connessione->getRequestDetails($email, $idAnimale);
+        $NNonAdminByType = $connessione->getNNonAdminByType(); 
 
-        $NNonAdminByType = $connessione->getNNonAdminByType();
-        $animali = $connessione->getDetailsNonAdminAnimals();
-        $cani_content = renderCaniContent($connessione, $animali['Cane'], $NNonAdminByType);
-        $gatti_content = renderGattiContent($connessione, $animali['Gatto'], $NNonAdminByType);
+        $offCani = ($tipoAttivo === 'Cani') ? $offset : 0;
+        $offGatti = ($tipoAttivo === 'Gatti') ? $offset : 0;
+
+        $animali = $connessione->getDetailsNonAdminAnimalsPaged($perPagina, $offCani, $offGatti);
+
+        
         $connessione->closeConnection();
     }
 
+    $pagineCani = (int)ceil($NNonAdminByType['Cane'] / $perPagina);
+    $pagineGatti = (int)ceil($NNonAdminByType['Gatto'] / $perPagina);
+    
+    $linkCani = buildPagination(
+        ($tipoAttivo === 'Cani' ? $paginaCorrente : 1), 
+        $pagineCani, 
+        'Cani'
+    );
+
+    $linkGatti = buildPagination(
+        ($tipoAttivo === 'Gatti' ? $paginaCorrente : 1), 
+        $pagineGatti, 
+        'Gatti'
+    );
+    $linkAttivi = ($tipoAttivo === 'Gatti') ? $linkGatti : $linkCani;
+
+    $cani_content = renderCaniContent($animali['Cane'], $NNonAdminByType);
+    $gatti_content = renderGattiContent($animali['Gatto'],$NNonAdminByType);
+    
     
     $paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore: template layout.html non trovato o non leggibile.</p>');
     $breadcrumb = getBreadcrumb('senza-amministratore', $pagine);
@@ -197,27 +252,26 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     $main = str_replace('[contenuto-cani]', $cani_content, $main);
     $main = str_replace('[contenuto-gatti]', $gatti_content, $main);
     $main = renderNNonAdminByType($NNonAdminByType, $main);
+    $main = str_replace('[LINKPAGINE-CANI]', $linkCani, $main);
+    $main = str_replace('[LINKPAGINE-GATTI]', $linkGatti, $main);
+
+    /* ---- da completare quando aggiungerò i filtri ---*/
+    /*$rawFilters = [
+        'appunti'   => $_GET['appunti'] ?? '',
+        'trasporto' => $_GET['trasporto'] ?? '',
+    ];
 
 
-    /* ---- sostituzioni varie per i filtri ---*/
-    // $rawFilters = [
-    //     'appunti'   => $_GET['appunti'] ?? '',
-    //     'trasporto' => $_GET['trasporto'] ?? '',
-    // ];
+    $replaceFilters = [
+        '[APPUNTI_SELECTED_TUTTI]'   => $rawFilters['appunti'] === '' ? 'selected' : '',
+        '[APPUNTI_SELECTED_SI]' => $rawFilters['appunti'] === '1' ? 'selected' : '',
+        '[APPUNTI_SELECTED_NO]'   => $rawFilters['appunti'] === '0' ? 'selected' : '',
+        '[TRASPORTO_SELECTED_TUTTI]' => $rawFilters['trasporto'] === '' ? 'selected' : '',
+        '[TRASPORTO_SELECTED_ORGANIZZATO]' => $rawFilters['trasporto'] === '1' ? 'selected' : '',
+        '[TRASPORTO_SELECTED_DA_ORGANIZZARE]'   => $rawFilters['trasporto'] === '0' ? 'selected' : '',
+    ];
 
-
-    // $replaceFilters = [
-    //     '[APPUNTI_SELECTED_TUTTI]'   => $rawFilters['appunti'] === '' ? 'selected' : '',
-    //     '[APPUNTI_SELECTED_SI]' => $rawFilters['appunti'] === '1' ? 'selected' : '',
-    //     '[APPUNTI_SELECTED_NO]'   => $rawFilters['appunti'] === '0' ? 'selected' : '',
-    //     '[TRASPORTO_SELECTED_TUTTI]' => $rawFilters['trasporto'] === '' ? 'selected' : '',
-    //     '[TRASPORTO_SELECTED_ORGANIZZATO]' => $rawFilters['trasporto'] === '1' ? 'selected' : '',
-    //     '[TRASPORTO_SELECTED_DA_ORGANIZZARE]'   => $rawFilters['trasporto'] === '0' ? 'selected' : '',
-    // ];
-
-    // $main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);
-
-
+    $main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);*/
 
     $title = "<title>Animali senza admin - PetMatch</title>";
     $description = "<meta name='description' content='Pagina di gestione delle richieste di adozione per animali senza amministratore in PetMatch.'>";

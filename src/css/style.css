@@ -1889,6 +1889,15 @@ input:-webkit-autofill:active{
     margin: 2em;
 }
 
+/* per pagina admin!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! , ho dato id="animals" anche nella pagina senza-amministratori*/
+#animali.tabs-container #next-page-links{
+    margin: 0em auto;
+}
+
+#admin-area #animali.tabs-container .tab-content{
+    border: none;
+}
+
 #animali #next-page-links li,
 #animali #next-page-links li a {
     color: var(--bgform);

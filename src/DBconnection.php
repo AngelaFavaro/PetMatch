@@ -713,7 +713,7 @@ class DBAccess {
                     DataRegistrazione AS data_registrazione, 
                     Trasporto AS trasporto_animale, 
                     Razza AS razza, 
-                    DataNascita AS età 
+                    DataNascita AS data_nascita
                 FROM ANIMALI 
                 WHERE Email IS NULL";
 
@@ -744,7 +744,43 @@ class DBAccess {
         }
 
         return $results;
-}
+    }
+
+    function getDetailsNonAdminAnimalsPaged(int $limit, int $offCani, int $offGatti): array {
+        $results = ['Gatto' => [], 'Cane' => []];
+
+        // Usiamo UNION ALL per unire le due selezioni paginate in un colpo solo
+        // Nota: le parentesi sono obbligatorie quando si usa LIMIT/OFFSET dentro una UNION
+        $query = "(SELECT *, IDanimale AS id_animale, Nome AS nome_animale, 
+                    DataRegistrazione AS data_registrazione, Trasporto AS trasporto_animale, 
+                    Razza AS razza_animale, DataNascita AS data_nascita
+                    FROM ANIMALI WHERE Email IS NULL AND Tipo = 'Cane' 
+                    LIMIT ? OFFSET ?)
+                UNION ALL
+                (SELECT *, IDanimale AS id_animale, Nome AS nome_animale, 
+                    DataRegistrazione AS data_registrazione, Trasporto AS trasporto_animale, 
+                    Razza AS razza_animale, DataNascita AS data_nascita
+                    FROM ANIMALI WHERE Email IS NULL AND Tipo = 'Gatto' 
+                    LIMIT ? OFFSET ?)";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            // Passiamo i parametri: limite, offset cani, limite, offset gatti
+            mysqli_stmt_bind_param($stmt, "iiii", $limit, $offCani, $limit, $offGatti);
+            mysqli_stmt_execute($stmt);
+            $res = mysqli_stmt_get_result($stmt);
+
+            while ($row = mysqli_fetch_assoc($res)) {
+                $tipo = $row['Tipo'];
+                if (isset($results[$tipo])) {
+                    $results[$tipo][] = $row;
+                }
+            }
+        }
+
+        return $results;
+    }
 
     public function insertReportForm(string $name, string $email): bool {
         if (!$this->connection){
