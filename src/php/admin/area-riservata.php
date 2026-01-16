@@ -304,7 +304,6 @@ $keywords = ""; //TO DO
 
 
 $nav = buildAdminNav($adminMenu, './area-riservata');
-$footer = loadTemplate('./src/template/partials/footer.html', '<p>Errore: template footer.html non trovato o non leggibile.</p>');
 $breadcrumb = getBreadcrumb('area-riservata', $pagine);
 
 $main = loadTemplate('./src/template/main/admin/area-riservata.html', '<p>Errore: template area-riservata.html non trovato o non leggibile.</p>');
@@ -334,7 +333,6 @@ $paginaHTML = str_replace('[keywords]', $keywords, $paginaHTML);
 $paginaHTML = str_replace('[breadcrumb]', $breadcrumb, $paginaHTML);
 $paginaHTML = str_replace('[nav]', $nav, $paginaHTML);
 $paginaHTML = str_replace('[main]', $main, $paginaHTML);
-$paginaHTML = str_replace('[footer]', $footer, $paginaHTML);
 
 echo $paginaHTML;
 ?>
