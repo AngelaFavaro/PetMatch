@@ -14,166 +14,75 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
 }else{
     include './src/utils.php';
     include './src/DBconnection.php';
-
-    function renderTabs(): string{
-        $html = '';
-        if(isset($_GET['tipo'])){
-            //se ha valore Nuova, In valutazione, Da trasportare, Annullata, Respinta
-            $stato = $_GET['tipo'];
-            $selected = [
-                'Cani' => '',
-                'Gatti' => '',
-            ];
-            $checked = [
-                'Cani' => '',
-                'Gatti' => ''
-            ];
-            if(array_key_exists($stato, $selected)){
-                $checked[$stato] = 'checked';
-                $selected[$stato] = 'selected';
-            }
-            $html = '
-            <select id="mobile-select" name="tab-group">
-                <option value="tab1" '.$selected['Cani'].'>
-                    Cani ([n-cani])
-                </option>
-                <option value="tab2" '.$selected['Gatti'].'>
-                    Gatti ([n-gatti])
-                </option>
-            </select>
-            <input class="sr-only" type="radio" id="tab1" name="tab-group" '.$checked['Cani'].'>
-            <label for="tab1"><h2>Cani ([n-cani])</h2></label>
-            <input class="sr-only" type="radio" id="tab2" name="tab-group" '.$checked['Gatti'].'>
-            <label for="tab2"><h2>Gatti ([n-gatti])</h2></label>';
-        }else{
-            $html = '
-            <select id="mobile-select" name="tab-group">
-                <option value="tab1" selected>
-                    Cani ([n-cani])
-                </option>
-                <option value="tab2">
-                    Gatti ([n-gatti])
-                </option>
-            </select>
-
-            <input class="sr-only" type="radio" id="tab1" name="tab-group" checked>
-            <label for="tab1"><h2>Cani ([n-cani])</h2></label>
-            <input class="sr-only" type="radio" id="tab2" name="tab-group">
-            <label for="tab2"><h2>Gatti ([n-gatti])</h2></label>';
-        }
-
-        return $html;
+    
+    function renderAnimalContent(string $tipo, array $animaliSegnalati, string $NSegnalazioniByType, string $nome_admin): string {
+        $tipoMinuscoloPlurale = ($tipo === 'Cane') ? 'cani' : 'gatti'; //fa un po caca ma va bene per ora
         
-    }
-    function renderCaniContent(array $CaniNonAdmin, array $NNonAdminByType): string {
-        if($NNonAdminByType['Cane'] == 0){
-            return '<p class="nessuna-richiesta-message">Nessun cane senza amministratore</p>';
-        }else{
-            $html = '
-            <span id="sumTabellaCani" class="navigationHelp">In questa tabella vengono elencate le nuove richieste di adozione e i loro dettagli: email utente, nome animale e data di richiesta.</span>
-            <table aria-describedby="sumTabellaCani">
-                <caption>Nuove Richieste di Adozione</caption>
-                    <thead>
-                        <tr>
-                            <th scope="col"><abbr title="Identificativo animale">ID</abbr></th>
-                            <th scope="col">Nome</th>
-                            <th scope="col">Data registrazione</th>
-                            <th scope="col">Trasporto</th>
-                            <th scope="col">Razza</th>
-                            <th scope="col">Età</th>
-                            <th scope="col" class="col-dettagli"></th>
-                        </tr>
-                    </thead>
-                    <tbody>';
-            foreach($CaniNonAdmin as $caneNonAdmin){
-                //calcolo età da data di nascita
-                $eta = date_diff(date_create($caneNonAdmin['data_nascita']), date_create('today'))->y;
-                $html .= '
-                    <tr>
-                        <th data-title="Identificativo animale" scope="row">'.htmlspecialchars($caneNonAdmin['id_animale']).'</th>
-                        <td data-title="Nome animale">'.htmlspecialchars($caneNonAdmin['nome_animale']).'</td>
-                        <td data-title="Data registrazione"><time datetime="'.htmlspecialchars($caneNonAdmin['data_registrazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($caneNonAdmin['data_registrazione']))).'</time></td>
-                        <td data-title="Idoneo al trasporto">'.htmlspecialchars($caneNonAdmin['trasporto_animale']).'</td>
-                        <td data-title="Razza animale">'.htmlspecialchars($caneNonAdmin['razza_animale']).'</td>
-                        <td data-title="Età animale">'.htmlspecialchars($eta).'</td>
-                        <td class="col-dettagli"><a href="animali?id='.htmlspecialchars($caneNonAdmin['id_animale']).'" class="brown-button">Vai all\'animale</a></td>
-                    </tr>
-                ';
-            }
-            $html .= '
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="6">Totale cani senza admin</td>
-                        <td>[n-cani]</td>
-                    </tr>
-                </tfoot>
-            </table>';
-            return $html;
+        if (($NSegnalazioniByType ?? 0) == 0) {
+            return '<p class="nessuna-richiesta-message">Nessuna segnalazione per ' . $tipoMinuscoloPlurale . '.</p>';
         }
-    }
 
-    function renderGattiContent(array $GattiNonAdmin,array $NNonAdminByType){
-        if($NNonAdminByType['Gatto'] == 0){
-            return '<p class="nessuna-richiesta-message">Nessun gatto senza amministratore</p>';
-        }else{
-            $html = '
-            <span id="sumTabellaInValutazione" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione in valutazione e i loro dettagli: email utente, nome animale, data di inizio valutazione e presenza di appunti.</span>
-            <table aria-describedby="sumTabellaInValutazione">
-                <caption>Richieste di Adozione in Valutazione</caption>
+        $idTabella = "sumTabella" . $tipo;
+        $html = '
+            <span id="' . $idTabella . '" class="navigationHelp">In questa tabella vengono elencate le nuove richieste di adozione per ' . $tipoMinuscoloPlurale . ' e i loro dettagli: email utente, nome animale e data di richiesta.</span>
+            <table aria-describedby="' . $idTabella . '">
+                <caption>Nuove Richieste di Adozione (' . $tipo . ')</caption>
                 <thead>
                     <tr>
-                        <th scope="col"><abbr title="Identificativo animale">ID</abbr></th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Data registrazione</th>
-                        <th scope="col">Trasporto</th>
-                        <th scope="col">Razza</th>
-                        <th scope="col">Età</th>
+                        <th scope="col"><abbr title="Identificativo segnalazione">ID</abbr></th>
+                        <th scope="col">Data segnalazione</th>
+                        <th scope="col">Nominativo segnalante</th>
+                        <th scope="col">Email segnalante</th>
                         <th scope="col" class="col-dettagli"></th>
                     </tr>
                 </thead>
                 <tbody>';
 
-            foreach($GattiNonAdmin as $GattoNonAdmin){
-                $eta = date_diff(date_create($GattoNonAdmin['data_nascita']), date_create('today'))->y;
+        foreach ($animaliSegnalati as $animale) {
+            $subject= rawurlencode('PetMatch - Hai bisogno di trovare casa al tuo amico a quattro zampe?');
 
-                $html .= '
-                    <tr>
-                        <th data-title="Identificativo animale" scope="row">'.htmlspecialchars($GattoNonAdmin['id_animale']).'</th>
-                        <td data-title="Nome animale">'.htmlspecialchars($GattoNonAdmin['nome_animale']).'</td>
-                        <td data-title="Data registrazione"><time datetime="'.htmlspecialchars($GattoNonAdmin['data_registrazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($GattoNonAdmin['data_registrazione']))).'</time></td>
-                        <td data-title="Idoneo al trasporto">'.htmlspecialchars($GattoNonAdmin['trasporto_animale']).'</td>
-                        <td data-title="Razza animale">'.htmlspecialchars($GattoNonAdmin['razza_animale']).'</td>
-                        <td data-title="Età animale">'.htmlspecialchars($eta).'</td>
-                        <td class="col-dettagli"><a href="animali?id='.htmlspecialchars($GattoNonAdmin['id_animale']).'" class="brown-button">Vai all\'animale</a></td>
-                    </tr>
-                ';
-            }
-        
-            $html .= '
-            </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="6">Totale gatti senza admin</td>
-                        <td>[n-gatti]</td>
-                    </tr>
-                </tfoot>
-            </table>';
-            return $html;
+            $messaggio = "Ciao! Ho visto la tua segnalazione su PetMatch per un " . strtolower($tipo) . " e siamo interessati a raccogliere maggiori informazioni riguardo al tuo animale.\n\n" .
+            "Potresti raccontarci un po' di più? Non ti preoccupare, ecco alcune domande che ci aiuterebbero molto (se non conosci la risposta ad alcune, scrivi pure 'non so'):\n\n" .
+            "- Qual è la sua storia? (È cresciuto in famiglia o è stato trovato per strada?)\n" .
+            "- Com'è di carattere? (È socievole, timido o un po' timoroso?)\n" .
+            "- Come si comporta con gli altri? (Va d'accordo con cani, gatti o bambini?)\n" .
+            "- Ha qualche problema di salute o assume farmaci?\n" .
+            "- È già sterilizzato/a e microchippato/a?\n\n" .
+            "Se non conosci il suo passato perché lo hai appena trovato, descrivici pure come lo hai visto in questi primi giorni.\n\n" .
+            "Attendo un tuo riscontro. Grazie!\n\n".
+            "Un caro saluto,\n" .
+            $nome_admin. "\n".
+            "Amministratore PetMatch";
+
+            $object =rawurlencode($messaggio);
+            $html .='
+                <tr>
+                    <th data-title="Identificativo segnalazione" scope="row">' . htmlspecialchars($animale['id_segnalazione']) . '</th>
+                    <td data-title="Data segnalazione"><time datetime="' . htmlspecialchars($animale['data_segnalazione']) . '">' . htmlspecialchars(date('d/m/Y', strtotime($animale['data_segnalazione']))) . '</time></td>
+                    <td data-title="Nominativo segnalante">' . htmlspecialchars($animale['nominativo_segnalante']) . '</td>
+                    <td data-title="Email segnalante">' . htmlspecialchars($animale['email_segnalante']) . '</td>
+                    <td class="col-dettagli"><a href="mailto:' . htmlspecialchars($animale['email_segnalante']) . '?subject=' . $subject . '&body=' . $object . '" class="brown-button">Chiedi informazioni</a></td>
+                </tr>';
         }
+
+        $html .= '
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4">Totale ' . $tipoMinuscoloPlurale . ' senza admin</td>
+                    <td>' . htmlspecialchars($NSegnalazioniByType) . '</td>
+                </tr>
+            </tfoot>
+        </table>';
+        return $html;
     }
 
-    function renderNNonAdminByType(array $NNonAdminByType, string $main): string {
-        $main = str_replace('[n-cani]', $NNonAdminByType['Cane'], $main);
-        $main = str_replace('[n-gatti]', $NNonAdminByType['Gatto'], $main);
-        return $main;
-    }
 
-    
     $cani_content = "";
     $gatti_content = "";
-    $NNonAdminByType = [];
     $linkAttivi = '';
+    $NSegnalazioniCani = '';
+    $NSegnalazioniGatti = '';
     $perPagina = 8; //8 per pagina? a me sembra un buon numero
     $tipoAttivo = $_GET['tipo'] ?? 'Cani';
     $paginaCorrente = max(1, (int)($_GET['page'] ?? 1));
@@ -182,19 +91,22 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     $connessioneOK = $connessione->openDBConnection();
     
     if ($connessioneOK) {
-        $NNonAdminByType = $connessione->getNNonAdminByType(); 
+        $NSegnalazioniByType = $connessione->getNSegnalazioni($_SESSION['email']); 
+        $NSegnalazioniCani = $NSegnalazioniByType['no-admin-cani']+$NSegnalazioniByType['mie-segnalazioni-cani'];
+        $NSegnalazioniGatti = $NSegnalazioniByType['no-admin-gatti']+$NSegnalazioniByType['mie-segnalazioni-gatti'];
 
         $offCani = ($tipoAttivo === 'Cani') ? $offset : 0;
         $offGatti = ($tipoAttivo === 'Gatti') ? $offset : 0;
 
-        $animali = $connessione->getDetailsNonAdminAnimalsPaged($perPagina, $offCani, $offGatti);
+        $animaliSegnalati = $connessione->getDetailsSegnalazioniAnimalsPaged($perPagina, $offCani, $offGatti);
+        $nome_admin= ($connessione->findAdminByEmail($_SESSION['email']))['nome']; //per prendere il nome dell'admin da mettere nella mail!!
 
         
         $connessione->closeConnection();
     }
 
-    $pagineCani = (int)ceil($NNonAdminByType['Cane'] / $perPagina);
-    $pagineGatti = (int)ceil($NNonAdminByType['Gatto'] / $perPagina);
+    $pagineCani = (int)ceil($NSegnalazioniCani / $perPagina);
+    $pagineGatti = (int)ceil($NSegnalazioniGatti / $perPagina);
     
     $linkCani = buildPagination(
         ($tipoAttivo === 'Cani' ? $paginaCorrente : 1), 
@@ -209,8 +121,8 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     );
     $linkAttivi = ($tipoAttivo === 'Gatti') ? $linkGatti : $linkCani;
 
-    $cani_content = renderCaniContent($animali['Cane'], $NNonAdminByType);
-    $gatti_content = renderGattiContent($animali['Gatto'],$NNonAdminByType);
+    $cani_content = renderAnimalContent('Cane',$animaliSegnalati['Cane'], $NSegnalazioniCani, $nome_admin);
+    $gatti_content = renderAnimalContent('Gatto',$animaliSegnalati['Gatto'],$NSegnalazioniGatti, $nome_admin);
     
     
     $paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore: template layout.html non trovato o non leggibile.</p>');
@@ -218,10 +130,12 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     $nav = buildAdminNav($adminMenu,'./nuove-accoglienze');
     
     $main = loadTemplate('./src/template/main/admin/nuove-accoglienze.html');
-    $main = str_replace('[tabs-animali]', renderTabs(), $main);
+    $main = str_replace('[tabs-animali]', renderCaniGattiTabs(), $main);
     $main = str_replace('[contenuto-cani]', $cani_content, $main);
     $main = str_replace('[contenuto-gatti]', $gatti_content, $main);
-    $main = renderNNonAdminByType($NNonAdminByType, $main);
+    $main = str_replace('[n-cani]', $NSegnalazioniCani, $main);
+    $main = str_replace('[n-gatti]', $NSegnalazioniGatti, $main);
+
     $main = str_replace('[LINKPAGINE-CANI]', $linkCani, $main);
     $main = str_replace('[LINKPAGINE-GATTI]', $linkGatti, $main);
 

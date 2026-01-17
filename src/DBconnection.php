@@ -749,8 +749,6 @@ class DBAccess {
     function getDetailsNonAdminAnimalsPaged(int $limit, int $offCani, int $offGatti): array {
         $results = ['Gatto' => [], 'Cane' => []];
 
-        // Usiamo UNION ALL per unire le due selezioni paginate in un colpo solo
-        // Nota: le parentesi sono obbligatorie quando si usa LIMIT/OFFSET dentro una UNION
         $query = "(SELECT *, IDanimale AS id_animale, Nome AS nome_animale, 
                     DataRegistrazione AS data_registrazione, Trasporto AS trasporto_animale, 
                     Razza AS razza_animale, DataNascita AS data_nascita
@@ -766,7 +764,6 @@ class DBAccess {
         $stmt = mysqli_prepare($this->connection, $query);
 
         if ($stmt) {
-            // Passiamo i parametri: limite, offset cani, limite, offset gatti
             mysqli_stmt_bind_param($stmt, "iiii", $limit, $offCani, $limit, $offGatti);
             mysqli_stmt_execute($stmt);
             $res = mysqli_stmt_get_result($stmt);
@@ -780,6 +777,90 @@ class DBAccess {
         }
 
         return $results;
+    }
+
+    function getDetailsSegnalazioniAnimalsPaged($perPagina, $offCani, $offGatti): array {
+        $results = [
+            'Gatto' => [],
+            'Cane' => []
+        ];
+
+        $config = [
+            'Cane' => $offCani,
+            'Gatto' => $offGatti
+        ];
+
+        foreach ($config as $tipo => $offset) {
+            $query = "SELECT 
+                        ID AS id_segnalazione, 
+                        DataRichiesta AS data_segnalazione, 
+                        NominativoRichiedente AS nominativo_segnalante, 
+                        EmailRichiedente AS email_segnalante 
+                    FROM SEGNALAZIONI_NUOVE_ACCOGLIENZE 
+                    WHERE TipoAnimale = ? 
+                    AND EmailAmm IS NULL
+                    ORDER BY DataRichiesta DESC 
+                    LIMIT ? OFFSET ?";
+
+            $stmt = mysqli_prepare($this->connection, $query);
+
+            if ($stmt) {
+                mysqli_stmt_bind_param($stmt, 'sii', $tipo, $perPagina, $offset);
+                mysqli_stmt_execute($stmt);
+                $result = mysqli_stmt_get_result($stmt);
+
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $results[$tipo][] = $row;
+                }
+                mysqli_stmt_close($stmt);
+            }
+        }
+
+        return $results;
+    }
+
+    function getNSegnalazioni($email): array {
+        $counts = [
+            'mie-segnalazioni-cani' => 0,
+            'mie-segnalazioni-gatti' => 0,
+            'no-admin-cani' => 0,
+            'no-admin-gatti' => 0
+        ];
+
+        $queryMie = "SELECT TipoAnimale, COUNT(*) AS totale 
+                    FROM SEGNALAZIONI_NUOVE_ACCOGLIENZE 
+                    WHERE EmailAmm = ? 
+                    GROUP BY TipoAnimale";
+        
+        $stmtMie = mysqli_prepare($this->connection, $queryMie);
+        if ($stmtMie) {
+            mysqli_stmt_bind_param($stmtMie, 's', $email);
+            mysqli_stmt_execute($stmtMie);
+            $resMie = mysqli_stmt_get_result($stmtMie);
+            while ($row = mysqli_fetch_assoc($resMie)) {
+                if ($row['TipoAnimale'] === 'Cane') $counts['mie-segnalazioni-cani'] = $row['totale'];
+                if ($row['TipoAnimale'] === 'Gatto') $counts['mie-segnalazioni-gatti'] = $row['totale'];
+            }
+            mysqli_stmt_close($stmtMie);
+        }
+
+        $queryNoAdmin = "SELECT TipoAnimale, COUNT(*) AS totale 
+                        FROM SEGNALAZIONI_NUOVE_ACCOGLIENZE 
+                        WHERE EmailAmm IS NULL 
+                        GROUP BY TipoAnimale";
+        
+        $stmtNoAdmin = mysqli_prepare($this->connection, $queryNoAdmin);
+        if ($stmtNoAdmin) {
+            mysqli_stmt_execute($stmtNoAdmin);
+            $resNoAdmin = mysqli_stmt_get_result($stmtNoAdmin);
+            while ($row = mysqli_fetch_assoc($resNoAdmin)) {
+                if ($row['TipoAnimale'] === 'Cane') $counts['no-admin-cani'] = $row['totale'];
+                if ($row['TipoAnimale'] === 'Gatto') $counts['no-admin-gatti'] = $row['totale'];
+            }
+            mysqli_stmt_close($stmtNoAdmin);
+        }
+
+        return $counts;
     }
 
     public function insertReportForm(string $name, string $email): bool {

@@ -11,56 +11,6 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo cont
 include './src/utils.php';
 include './src/DBconnection.php';
 
-function renderTabs(): string{
-    $html = '';
-    if(isset($_GET['tipo'])){
-        //se ha valore Nuova, In valutazione, Da trasportare, Annullata, Respinta
-        $stato = $_GET['tipo'];
-        $selected = [
-            'Cani' => '',
-            'Gatti' => '',
-        ];
-        $checked = [
-            'Cani' => '',
-            'Gatti' => ''
-        ];
-        if(array_key_exists($stato, $selected)){
-            $checked[$stato] = 'checked';
-            $selected[$stato] = 'selected';
-        }
-        $html = '
-        <select id="mobile-select" name="tab-group">
-            <option value="tab1" '.$selected['Cani'].'>
-                Cani ([n-cani])
-            </option>
-            <option value="tab2" '.$selected['Gatti'].'>
-                Gatti ([n-gatti])
-            </option>
-        </select>
-        <input class="sr-only" type="radio" id="tab1" name="tab-group" '.$checked['Cani'].'>
-        <label for="tab1"><h2>Cani ([n-cani])</h2></label>
-        <input class="sr-only" type="radio" id="tab2" name="tab-group" '.$checked['Gatti'].'>
-        <label for="tab2"><h2>Gatti ([n-gatti])</h2></label>';
-    }else{
-        $html = '
-        <select id="mobile-select" name="tab-group">
-            <option value="tab1" selected>
-                Cani ([n-cani])
-            </option>
-            <option value="tab2">
-                Gatti ([n-gatti])
-            </option>
-        </select>
-
-        <input class="sr-only" type="radio" id="tab1" name="tab-group" checked>
-        <label for="tab1"><h2>Cani ([n-cani])</h2></label>
-        <input class="sr-only" type="radio" id="tab2" name="tab-group">
-        <label for="tab2"><h2>Gatti ([n-gatti])</h2></label>';
-    }
-
-    return $html;
-    
-}
 function renderCaniContent(array $CaniNonAdmin, array $NNonAdminByType): string {
     if($NNonAdminByType['Cane'] == 0){
         return '<p class="nessuna-richiesta-message">Nessun cane senza amministratore</p>';
@@ -214,7 +164,7 @@ $breadcrumb = getBreadcrumb('senza-amministratore', $pagine);
 $nav = buildAdminNav($adminMenu,'./senza-amministratore');
 
 $main = loadTemplate('./src/template/main/admin/senza-amministratore.html');
-$main = str_replace('[tabs-animali]', renderTabs(), $main);
+$main = str_replace('[tabs-animali]', renderCaniGattiTabs(), $main);
 $main = str_replace('[contenuto-cani]', $cani_content, $main);
 $main = str_replace('[contenuto-gatti]', $gatti_content, $main);
 $main = renderNNonAdminByType($NNonAdminByType, $main);
