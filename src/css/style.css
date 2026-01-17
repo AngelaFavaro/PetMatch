@@ -2171,8 +2171,8 @@ flex: 1 0 100%;
     align-items: center;
 }
 
-#user-profile #lista-movimenti article p,
-#user-profile #lista-richieste article p{
+#user-profile #lista-movimenti article p:first-of-type,
+#user-profile #lista-richieste article p:first-of-type{
     flex: 1 1 65%;
     margin-left:1em;
 }
@@ -2185,6 +2185,20 @@ flex: 1 0 100%;
     color:var(--bgcolor);
     padding: 3px 2em;
     transition: 0.3s;
+}
+
+#user-profile #lista-movimenti li p+p,
+#user-profile #lista-richieste li p+p{
+    margin:0.5em auto 0 auto;
+}
+
+.nonDisponibile{
+    border-radius: 2em;
+    background-color: transparent;
+    color:var(--txtcolor);
+    padding: 1px 0.9em;
+    transition: 0.3s;
+    border:2px solid var(--buttoncolor-hover);
 }
 
 #user-profile #lista-movimenti li a:hover,

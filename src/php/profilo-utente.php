@@ -60,7 +60,7 @@ function createMovementList(DBAccess $conn, $filtro = 'all'): string {
                     $statoRichiesta = 'La tua richesta di adozione per <em>'.$nomeAnimale.'</em> è in <strong>valutazione.</strong>';
                     break;
                 case 'Da trasportare':
-                    $statoRichiesta = '<em>'.$nomeAnimale.'</em> partità il giorno <em>'.$richiesta['DataPartenza'].'</em> e arriverà il giorno<em>'.$richiesta['DataArrivo'].'</em>!';
+                    $statoRichiesta = '<em>'.$nomeAnimale.'</em> <strong>partità</strong> il giorno <em>'.$richiesta['DataPartenza'].'</em> e <strong>arriverà</strong> il giorno<em>'.$richiesta['DataArrivo'].'</em>!';
                     break;
                 case 'Accettata':
                     $statoRichiesta = 'Complimenti! <strong>Hai adottato</strong> con successo <em>'.$nomeAnimale.'</em>.';
@@ -79,8 +79,9 @@ function createMovementList(DBAccess $conn, $filtro = 'all'): string {
             // TODO: il link "Vedi animale" deve portare alla pagina di dettaglio dell'animale, da fare quando la pagina sarà pronta
             $listaMovimenti .= '<li>
                 <article>
-                    <p>'.$statoRichiesta.'</p>
-                    <a href="">Vedi animale</a>
+                    <p>'.$statoRichiesta.'</p>';
+                    $listaMovimenti .= $conn->isAnimalAdopted($richiesta['IDanimale'])?'<p class="nonDisponibile"><em>Animale adottato</em></p>':'<a href="">Vedi animale</a>';
+            $listaMovimenti.='        
                 </article>
             </li>';
         }

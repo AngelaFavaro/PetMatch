@@ -443,15 +443,16 @@ function uploadImage($file, $folder) {
     }
 }
 
-function getCardAnimal():string{
+function getCardAnimal(int $idanimale, bool $isAdmin, bool $isAdopted):string{
     $html = '<section id=\'info-animal\'>
             <h2>Animale interessato</h2>
             <div class=\'details-card-animale\'>
                 <div>
                     <div>
-                        <img src="[imgAnimale]" alt="" />
-                        <!-- TODO: aggiungere link alla pagina dell\'animale -->
-                        <a href="" class="brown-button">Vedi animale</a>
+                        <img src="[imgAnimale]" alt="" />';
+                        // <!-- TODO: aggiungere link alla pagina dell\'animale -->'
+                    $html .= ($isAdopted&&!$isAdmin)?'<p class="nonDisponibile"><em>Animale adottato</em></p>':'<a href="" class="brown-button">Vedi animale</a>';
+                    $html.='
                     </div>
                     <dl aria-label="Descizione superficiale dell\'animale">
                         <dt>Nome:</dt>
