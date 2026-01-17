@@ -575,3 +575,55 @@ function buildPagination(int $currentPage, int $totalPages, string $tipoAttivo, 
     return $html;
 }
 
+
+function renderCaniGattiTabs(): string{
+    $html = '';
+    if(isset($_GET['tipo'])){
+        //se ha valore Nuova, In valutazione, Da trasportare, Annullata, Respinta
+        $stato = $_GET['tipo'];
+        $selected = [
+            'Cani' => '',
+            'Gatti' => '',
+        ];
+        $checked = [
+            'Cani' => '',
+            'Gatti' => ''
+        ];
+        if(array_key_exists($stato, $selected)){
+            $checked[$stato] = 'checked';
+            $selected[$stato] = 'selected';
+        }
+        $html = '
+        <select id="mobile-select" name="tab-group">
+            <option value="tab1" '.$selected['Cani'].'>
+                Cani ([n-cani])
+            </option>
+            <option value="tab2" '.$selected['Gatti'].'>
+                Gatti ([n-gatti])
+            </option>
+        </select>
+        <input class="sr-only" type="radio" id="tab1" name="tab-group" '.$checked['Cani'].'>
+        <label for="tab1"><h2>Cani ([n-cani])</h2></label>
+        <input class="sr-only" type="radio" id="tab2" name="tab-group" '.$checked['Gatti'].'>
+        <label for="tab2"><h2>Gatti ([n-gatti])</h2></label>';
+    }else{
+        $html = '
+        <select id="mobile-select" name="tab-group">
+            <option value="tab1" selected>
+                Cani ([n-cani])
+            </option>
+            <option value="tab2">
+                Gatti ([n-gatti])
+            </option>
+        </select>
+
+        <input class="sr-only" type="radio" id="tab1" name="tab-group" checked>
+        <label for="tab1"><h2>Cani ([n-cani])</h2></label>
+        <input class="sr-only" type="radio" id="tab2" name="tab-group">
+        <label for="tab2"><h2>Gatti ([n-gatti])</h2></label>';
+    }
+
+    return $html;
+    
+}
+
