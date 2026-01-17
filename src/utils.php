@@ -62,7 +62,13 @@ $pagine = [
         'label' => 'Lavora con noi',
         'url' => './lavora-con-noi',
         'parent' => 'home'
+    ],
+    'visualizzazione-animale' => [
+        'label' => 'Visualizzazione animale',//da modificare con il nome dell'animale quando si implementa
+        'url' => './visualizzazione-animale', 
+        'parent' => 'animali'
     ]
+    
 
 
 

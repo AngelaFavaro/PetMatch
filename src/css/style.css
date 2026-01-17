@@ -96,6 +96,7 @@ strong{
     font-weight:600;
 }
 
+
 /* se troppo grandi per altre pagine allora avvisate linor prima di trovare altre soluzioni */
 h1{
     font-size: 2em; 
@@ -3136,3 +3137,57 @@ nav#breadcrumb a:visited{
     color: var(--visitedcolor);
 }
 
+
+/*================VISUALIZZAZIONE ANIMALI ==================*/
+
+#titolo-dettagli-animale{
+    font-size: 1.8em;
+    margin-bottom: 1em;
+}
+#info-generiche{
+    border: 1px solid var(--txtcolor);
+    border-radius: 0.5em;
+    padding: 1em;
+}
+
+#info-aggiuntive{
+    border: 1px solid var(--txtcolor);
+    border-radius: 0.5em;
+    padding: 1em;
+
+}
+
+#dettagli-animale .tipo-info {
+    font-weight: 600;
+}
+#dettagli-animale h2{
+    font-size:1.5em;
+    margin-bottom: 0.5em;
+}
+
+#altre-info-animale .tipo-info {
+    font-weight: 600;
+}
+#altre-info-animale h2{
+    font-size:1.5em;
+    margin-bottom: 0.5em;
+}
+
+#contatta-rifugio{
+    background-color: var(--darkbgcolor);
+    padding: 1.5em;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    text-align: center;
+    font-style: oblique;
+    font-weight: 400;
+}
+
+#richiesta-adozione-img{
+    flex: 0 0 50%;
+    height: auto;
+}
+
+#richiesta-adozione-form{
+    flex: 1 1 50%;
+}

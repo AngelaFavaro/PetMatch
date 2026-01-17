@@ -1255,6 +1255,25 @@ public function hasActiveAdoptionRequest(int $idAnimale): bool {
     return $exists;
 }
 
+public function getRequestStatus(string $email, int $idAnimale): array {
+    $sql ="
+    SELECT Stato
+    FROM RICHIESTE_ADOZIONI
+    WHERE Email = ? AND IDanimale = ?";
+
+    $stmt = $this->connection->prepare($sql);
+    $stmt->bind_param('si',$email, $idAnimale);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $richieste = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $richieste[] = [
+            'stato'     => $row['Stato']
+        ];
+    }
+    $stmt->close();
+    return $richieste;
+}
 
 
 

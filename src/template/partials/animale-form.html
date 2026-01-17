@@ -1,0 +1,25 @@
+<div id="richiesta-adozione">
+    <div class="column-container">
+        <img id="richiesta-adozione-img" src="./assets/images/adozione.jpg" alt=""/>
+        <form id="richiesta-adozione-form" method="POST" action="#"> 
+            <fieldset>
+                <legend id="richiesta-adozione-legend">
+                    Invia una richiesta di adozione!
+                </legend>
+                <label for="indirizzo">Indirizzo</label>
+                <input type="text" id="indirizzo" name="indirizzo" placeholder="Via L. Da Vinci n.10" required>
+                <label for="lettera-presentazione">Scrivi una breve lettera di presentazione:</label>
+                <textarea id="lettera-presentazione" name="lettera-presentazione" rows="4" cols="50" placeholder="Inserisci presentazione" required></textarea>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="trasporto" name="trasporto" value="1">
+                    <label for="trasporto">Voglio il trasporto dell’animale a casa </label>
+                </div>
+            <button type="submit">Invia il Form</button>
+            </fieldset>
+        </form>
+    </div>
+    <a href = "#top-page" class="torna-su-button">
+        <img src="./assets/icons/torna-su.svg" class="static" alt="torna su"/>
+        <img src="./assets/icons/torna-su.gif" class="active" alt=""/>
+    </a>
+</div>

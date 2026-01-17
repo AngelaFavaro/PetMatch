@@ -32,7 +32,10 @@ $routes = [
     'registrati' => [
         'file' => __DIR__ . '/src/php/registrati.php'
     ],
-
+   'visualizzazione-animale' => [
+        'file' => __DIR__ . '/src/php/visualizzazione-animale.php'
+    ],
+    
 
 
     /* decommentare quando si vogliono aggiungere le altre pagine
