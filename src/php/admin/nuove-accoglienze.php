@@ -92,8 +92,8 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     
     if ($connessioneOK) {
         $NSegnalazioniByType = $connessione->getNSegnalazioni($_SESSION['email']); 
-        $NSegnalazioniCani = $NSegnalazioniByType['no-admin-cani']+$NSegnalazioniByType['mie-segnalazioni-cani'];
-        $NSegnalazioniGatti = $NSegnalazioniByType['no-admin-gatti']+$NSegnalazioniByType['mie-segnalazioni-gatti'];
+        $NSegnalazioniCani = $NSegnalazioniByType['no-admin-cani'];
+        $NSegnalazioniGatti = $NSegnalazioniByType['no-admin-gatti'];
 
         $offCani = ($tipoAttivo === 'Cani') ? $offset : 0;
         $offGatti = ($tipoAttivo === 'Gatti') ? $offset : 0;

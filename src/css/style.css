@@ -2748,6 +2748,8 @@ nav#menu-admin img {
 
 nav#menu-admin li {
   padding: 1.1em 1.3em;
+  border-radius: 2em 0em 0em 2em;
+  transition: background-color 0.1s ease, color 0.4s ease;
 }
 
 nav#menu-admin li a{
@@ -2775,7 +2777,6 @@ nav#menu-admin li a:hover{
 
 nav#menu-admin li#currentLink {
     background-color: var(--bgcolor);
-    border-radius: 2em 0em 0em 2em;
     color: var(--txtcolor);
     font-weight: 600;
 }
