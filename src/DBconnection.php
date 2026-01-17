@@ -1263,12 +1263,6 @@ public function countFavourites(string $type, string $email): int {
 
     $where = "
         p.Email = ?
-        AND NOT EXISTS (
-            SELECT 1
-            FROM RICHIESTE_ADOZIONI r
-            WHERE r.IDanimale = a.IDanimale
-              AND r.Stato = 'Accettata'
-        )
     ";
 
     if ($type !== 'tutti') {
@@ -1316,12 +1310,6 @@ public function countGuestFavourites(string $type): int {
 
     $where = "
         a.IDanimale IN ($placeholders)
-        AND NOT EXISTS (
-            SELECT 1
-            FROM RICHIESTE_ADOZIONI r
-            WHERE r.IDanimale = a.IDanimale
-              AND r.Stato = 'Accettata'
-        )
     ";
 
     if ($type !== 'tutti') {
@@ -1353,46 +1341,60 @@ public function countGuestFavourites(string $type): int {
 }
 
 
-public function getFavouritesPaged(string $type, int $perPagina, int $offset, string $email): array{
+public function getFavouritesPaged(
+    string $type,
+    int $perPagina,
+    int $offset,
+    string $email
+): array {
     if (!$this->connection) return [];
 
     $params = [$email];
     $types  = 's';
 
-    // Costruisco WHERE per l'utente e tipo
-    $where = "p.Email = ?";
-    
+    // WHERE base
+    $where = 'p.Email = ?';
+
     if ($type !== 'tutti') {
-        $where .= " AND a.Tipo = ?";
+        $where .= ' AND a.Tipo = ?';
         $params[] = $type;
-        $types .= 's';
+        $types   .= 's';
     }
 
-    // Query: animali preferiti dell'utente, senza richieste Accettata
     $query = "
-        SELECT a.Nome, a.Sesso, a.DataNascita, a.ImgPath, a.Tipo, a.IDanimale AS Id
+        SELECT
+            a.Nome,
+            a.Sesso,
+            a.DataNascita,
+            a.ImgPath,
+            a.Tipo,
+            a.IDanimale AS Id,
+            CASE
+                WHEN EXISTS (
+                    SELECT 1
+                    FROM RICHIESTE_ADOZIONI r
+                    WHERE r.IDanimale = a.IDanimale
+                      AND r.Stato = 'Accettata'
+                ) THEN 1
+                ELSE 0
+            END AS adottato
         FROM PREFERITI p
         INNER JOIN ANIMALI a ON p.IDanimale = a.IDanimale
         WHERE $where
-          AND NOT EXISTS (
-              SELECT 1
-              FROM RICHIESTE_ADOZIONI r
-              WHERE r.IDanimale = a.IDanimale
-                AND r.Stato = 'Accettata'
-          )
         ORDER BY a.IDanimale ASC
         LIMIT ? OFFSET ?
     ";
 
     $params[] = $perPagina;
     $params[] = $offset;
-    $types .= 'ii';
+    $types   .= 'ii';
 
     $stmt = mysqli_prepare($this->connection, $query);
     if (!$stmt) return [];
 
     mysqli_stmt_bind_param($stmt, $types, ...$params);
     mysqli_stmt_execute($stmt);
+
     $res = mysqli_stmt_get_result($stmt);
     if (!$res) return [];
 
@@ -1400,11 +1402,12 @@ public function getFavouritesPaged(string $type, int $perPagina, int $offset, st
     while ($row = mysqli_fetch_assoc($res)) {
         $animali[] = [
             'nome'     => $row['Nome'],
-            'sesso'    => $row['Sesso'] === 'M' ? 'Maschio' : 'Femmina',
+            'sesso'    => $row['Sesso'],
             'eta'      => calcolareEta($row['DataNascita']),
             'immagine' => $row['ImgPath'],
             'tipo'     => $row['Tipo'],
-            'id'       => $row['Id']
+            'id'       => $row['Id'],
+            'adottato' => (int)$row['adottato']
         ];
     }
 
@@ -1427,27 +1430,30 @@ public function getGuestFavPaged(string $type, int $perPagina, int $offset): arr
     $params = $guestFavs;
     $types  = str_repeat('i', count($guestFavs));
 
-    // Costruiamo WHERE
-    $where = "
-        a.IDanimale IN ($placeholders)
-        AND NOT EXISTS (
-            SELECT 1
-            FROM RICHIESTE_ADOZIONI r
-            WHERE r.IDanimale = a.IDanimale
-              AND r.Stato = 'Accettata'
-        )
-    ";
+    // WHERE base
+    $where = "a.IDanimale IN ($placeholders)";
 
     // filtro tipo
     if ($type !== 'tutti') {
         $where .= " AND a.Tipo = ?";
         $params[] = $type;
-        $types .= 's';
+        $types   .= 's';
     }
 
-    // aggiungiamo LIMIT e OFFSET
     $query = "
-        SELECT a.Nome, a.Sesso, a.DataNascita, a.ImgPath, a.Tipo, a.IDanimale AS Id
+        SELECT 
+            a.Nome,
+            a.Sesso,
+            a.DataNascita,
+            a.ImgPath,
+            a.Tipo,
+            a.IDanimale AS Id,
+            EXISTS (
+                SELECT 1
+                FROM RICHIESTE_ADOZIONI r
+                WHERE r.IDanimale = a.IDanimale
+                  AND r.Stato = 'Accettata'
+            ) AS adottato
         FROM ANIMALI a
         WHERE $where
         ORDER BY a.IDanimale ASC
@@ -1456,13 +1462,14 @@ public function getGuestFavPaged(string $type, int $perPagina, int $offset): arr
 
     $params[] = $perPagina;
     $params[] = $offset;
-    $types .= 'ii';
+    $types   .= 'ii';
 
     $stmt = mysqli_prepare($this->connection, $query);
     if (!$stmt) return [];
 
     mysqli_stmt_bind_param($stmt, $types, ...$params);
     mysqli_stmt_execute($stmt);
+
     $res = mysqli_stmt_get_result($stmt);
     if (!$res) return [];
 
@@ -1470,17 +1477,19 @@ public function getGuestFavPaged(string $type, int $perPagina, int $offset): arr
     while ($row = mysqli_fetch_assoc($res)) {
         $animali[] = [
             'nome'     => $row['Nome'],
-            'sesso'    => $row['Sesso'] === 'M' ? 'Maschio' : 'Femmina',
+            'sesso'    => $row['Sesso'], // lasciato grezzo, lo trasformi dopo
             'eta'      => calcolareEta($row['DataNascita']),
             'immagine' => $row['ImgPath'],
             'tipo'     => $row['Tipo'],
-            'id'       => $row['Id']
+            'id'       => $row['Id'],
+            'adottato' => (int)$row['adottato']
         ];
     }
 
     mysqli_stmt_close($stmt);
     return $animali;
 }
+
 
 }
 

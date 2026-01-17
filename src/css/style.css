@@ -30,6 +30,11 @@
     --txtcancelbutton:var(--bgconfirmbutton);
     --txtclose-request: #735757;
     --greencolor: #6D7541;
+    --elidedCard: rgba(228, 212, 186, 0.6);
+
+;
+
+;
 }
 
 a{
@@ -1662,8 +1667,7 @@ input:-webkit-autofill:active{
     margin-bottom:0px;
 }
 
-#animali li.card {
-    cursor: pointer;
+#animali li.card, #animali li.dark-card {
     width: 11em;
     height: 14em;
     margin: 0.5em;
@@ -1680,14 +1684,24 @@ input:-webkit-autofill:active{
         /* border: 0.3 ease; */ 
 }
 
-#animali li.card:hover {
+#animali li.dark-card {
+    /* background-color:#B6BF88;
+    color: var(--buttoncolor-hover);
+    border: 3px solid #B6BF88; */
+    background-color:var(--elidedCard);
+    color: var(--txtcolor);
+    border: 3px solid var(--elidedCard);
+}
+
+
+#animali li.card:hover{
     /* background-color: var(--bgcolor); */
     border-color: var(--buttoncolor-hover); /* colore evidenziato */
     box-shadow: 0 6px 14px rgba(0,0,0,0.3);
     border: 3px solid var(--buttoncolor-hover);
 }
 
-#animali li.card article {
+#animali li.card article, #animali li.dark-card article {
     width: 11em;
     height: 14em;
     overflow: hidden;
@@ -1704,7 +1718,7 @@ input:-webkit-autofill:active{
     border-bottom: 1px solid var(--text-buttoncolor);
 }
 
-#animali .card .immagine img {
+#animali .card .immagine img, #animali .dark-card .immagine img {
     display: block;
     width: 100%;               /* immagine occupa tutta la larghezza */
     height: 100%;             
@@ -1713,7 +1727,7 @@ input:-webkit-autofill:active{
     box-sizing: border-box;
 }
 
-#animali .card .nome {
+#animali .card .nome, #animali .dark-card .nome {
     padding-top: 0.5em;
     padding-left: 1em;
     float: left;
@@ -1728,17 +1742,17 @@ input:-webkit-autofill:active{
 }
 
 #animali .card .sesso-etaDesk,
-#animali .card .sesso-etaMob {
+#animali .card .sesso-etaMob, #animali .dark-card .sesso-etaDesk, #animali .dark-card .sesso-etaMob {
     padding-left: 1em;
     float: left;
     clear:left;
 }
 
-#animali .card .sesso-etaMob{
+#animali .card .sesso-etaMob, #animali .dark-card .sesso-etaMob{
     display: none;
 }
 
-#animali .card .interessamento {
+#animali .card .interessamento, #animali .dark-card .interessamento {
     float: right;   /* non serve più */
     clear: left;
     padding-right: 0.5em;
@@ -1796,7 +1810,7 @@ input:-webkit-autofill:active{
 }
 
 /* Assicurati che la card sia riferimento per il posizionamento */
-.cards-container li.card {
+.cards-container li.card, .cards-container li.dark-card {
     position: relative; /* fondamentale per l'overlay */
 }
 
@@ -1811,12 +1825,15 @@ input:-webkit-autofill:active{
     display: block;
     text-indent: -9999px;   /* nasconde testo se presente */
     color:var(--txtcolor);
+    cursor: pointer;
+}
+
+#animali .dark-card .dettagli-animale-bottone a {
+    display: none;
 }
 
 /* Assicurati che il form riempia tutto l'overlay */
-#animali .card .dettagli-animale-bottone:hover {
-    cursor: pointer;
-}
+
 
 /* LINK NEXT PAGES */
 
@@ -1881,6 +1898,53 @@ input:-webkit-autofill:active{
 
 
 
+
+/*=================PAGINA ANIMALI PREFERITI======================*/
+/* Banner */
+
+#invitoAdAccedere {
+    width: 100%;
+    background-color:var(--darkbgcolor); /* cambia colore a piacere */
+    color: var(--txtcolor);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-style: italic;
+}
+
+
+
+#invitoAdAccedere img {
+    height: 1.5em;
+    width: 1.5em;
+    margin: 0.5em;
+    margin-bottom:0;
+}
+
+#invitoAdAccedere #invito-accedi-content {
+    margin: 0.5em;
+    width: 20em;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+
+#invitoAdAccedere .white-button {
+    margin: 0.5em;
+    background-color: var(--buttoncolor);
+    font-style:normal;
+    margin-bottom: 1em;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+#invitoAdAccedere .white-button:hover {
+    margin: 0.5em;
+    background-color: var(--bgcolor);
+}
 
 
 

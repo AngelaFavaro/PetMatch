@@ -80,6 +80,8 @@ if($isPreferiti) {
     $titolo.=' preferiti';
 }
 
+
+
 /* ------------------ FILTRI GET ------------------ */
 $rawFilters = [
     'name-animal'   => $_GET['name-animal']    ?? '',
@@ -130,6 +132,7 @@ $cardAnimali = '';
 $linkPagine  = '';
 // -------------------FUNZIONI--------------------------
 /* ------------------ PAGINAZIONE ------------------ */
+
 function buildPagination(int $currentPage, int $totalPages, string $type, array $filters = null): string {
     if ($totalPages <= 1) return '<li id="currentLink">1</li>';
     $params = ['type' => $type];
@@ -211,20 +214,31 @@ function buildNavAnimali(
 function buildAnimalCards(array $animali, ?string $email): string {
     $html = '';
     $conn = new DBAccess();
-   
+
     if ($conn->openDBConnection()) {
         foreach ($animali as $a) {
-            $nome = htmlspecialchars($a['nome']);
-            $sesso = $a['sesso'] === 'M' ? 'Maschio' : 'Femmina';
-            $sessoAbbr = $a['sesso'] === 'M' ? '<abbr title="Maschio" aria-label="Maschio">M</abbr>' :  '<abbr title="Femmina" aria-label="Femmina">F</abbr>';
-            $eta = $a['eta'];
-            $id = $a['id'];
-            $giàInteressato = '';
-            if ($conn->hasActiveAdoptionRequest($id)) {
-                $giàInteressato = 'Già Interessato';
-            }
-            
 
+            $nome  = htmlspecialchars($a['nome']);
+            $sesso = $a['sesso'] === 'M' ? 'Maschio' : 'Femmina';
+            $sessoAbbr = $a['sesso'] === 'M'
+                ? '<abbr title="Maschio" aria-label="Maschio">M</abbr>'
+                : '<abbr title="Femmina" aria-label="Femmina">F</abbr>';
+
+            $eta = $a['eta'];
+            $id  = $a['id'];
+
+            /* -------- ADOTTATO (opzionale) -------- */
+            $adottato = isset($a['adottato']) && (int)$a['adottato'] === 1;
+            $cardClass = $adottato ? 'dark-card' : 'card';
+            $giàInteressato= $adottato ? 'già adottato' : '';
+
+            /* -------- INTERESSAMENTO -------- */
+            
+            if ($conn->hasActiveAdoptionRequest($id)) {
+                $giàInteressato = $adottato ? 'già adottato' : 'Già Interessato';
+            }
+
+            /* -------- PREFERITI -------- */
             if ($email) {
                 $inPreferiti = $conn->isAnimalInFavorites($email, $id);
             } else {
@@ -232,61 +246,91 @@ function buildAnimalCards(array $animali, ?string $email): string {
                 $inPreferiti = in_array($id, $guestFavs);
             }
 
-            $classePreferito = $inPreferiti ? 'is-favorite' : 'not-favorite';
+            // se adottato → niente interazione
+            if ($adottato) {
+                $classePreferito = 'not-favorite disabled';
+                $statusPreferiti = 'Animale adottato';
+            } else {
+                $classePreferito = $inPreferiti ? 'is-favorite' : 'not-favorite';
+                $statusPreferiti = $inPreferiti ? 'Rimuovi dai preferiti' : 'Aggiungi ai preferiti';
+            }
             $heartNormal = $inPreferiti ? 'active-like.svg' : 'inactive-like.svg';
-            $heartHover = $inPreferiti ? 'inactive-like.svg' : 'active-like.svg';
-            $statusPreferiti = $inPreferiti ? 'Rimuovi dai preferiti' : 'Aggiungi ai preferiti';
+            $heartHover  = $inPreferiti ? 'inactive-like.svg' : 'active-like.svg';
 
+            /* -------- IMMAGINE -------- */
             if (!empty($a['immagine']) && file_exists($a['immagine'])) {
                 $img = $a['immagine'];
             } else {
-                $img = ($a['tipo']==='Cane') ? 'assets/images/animals/defaultCane.jpg' : 'assets/images/animals/defaultGatto.jpg';
+                $img = ($a['tipo'] === 'Cane')
+                    ? 'assets/images/animals/defaultCane.jpg'
+                    : 'assets/images/animals/defaultGatto.jpg';
             }
 
+            /* -------- HTML -------- */
             $html .= "
-            <li class='card' aria-labelledby='nome-animale-$id'>
+            <li class='$cardClass' aria-labelledby='nome-animale-$id'>
                 <article aria-label='descrizione:'>
-                    <div class='immagine'><img src='$img' alt=''></div>
+                    <div class='immagine'>
+                        <img src='$img' alt=''>
+                    </div>
+
                     <h3 class='nome' id='nome-animale-$id'>$nome</h3>
                     <p class='sesso-etaDesk'>$sesso - $eta anni</p>
-                    <p class='sesso-etaMob'> $sessoAbbr - $eta anni</p>
+                    <p class='sesso-etaMob'>$sessoAbbr - $eta anni</p>
+
                     <div>
                         <form method='post' action='animali' class='preferiti-form'>
                             <input type='hidden' name='id-animale-preferito' value='$id'>
-                            <button type='submit' class='$classePreferito' aria-label='$statusPreferiti'>
+                            <button type='submit'
+                                    class='$classePreferito'
+                                    aria-label='$statusPreferiti'>
                                 <img class='heart-normal' src='./assets/icons/$heartNormal' alt=''>
                                 <img class='heart-hover' src='./assets/icons/$heartHover' alt=''>
                             </button>
                         </form>
                     </div>
+
                     <p class='interessamento'>$giàInteressato</p>
+
                     <div class='dettagli-animale-bottone'>
                         <a href='visualizzazione-animale?id=$id'>Vedi dettagli</a>
                     </div>
                 </article>
             </li>";
         }
+
         $conn->closeConnection();
     }
+
     return $html;
 }
+
 
 // RESET DEI FILTRI
 $resetUrl = './animali';
 if ($type !== 'tutti') {
     $resetUrl .= '?type=' . urlencode($type);
 }
-
-
+$userEmail = $_SESSION['email'] ?? null;
+$banneraccedi='';
+if($isPreferiti&&!$userEmail) {
+    $banneraccedi="<section id='invitoAdAccedere' aria-labelledby='invito-accedi-title'>
+    <img src='./assets/icons/invitoAccedi.svg' alt=''>
+    <p id='invito-accedi-content'>
+        Accedi per sincronizzare i tuoi preferiti in tutti i tuoi dispositivi!
+    </p>
+    <a class='white-button' href='./accedi'>
+        Accedi
+    </a>
+</section>";
+}
 
 /* ------------------ QUERY ------------------ */
 $connessione = new DBAccess();
 if($isPreferiti) {
     if ($connessione->openDBConnection()) {
-    
-        $userEmail = $_SESSION['email'] ?? null;
         if($userEmail) {
-        $totale = $connessione->countFavourites($type, $filters, $_SESSION['email']);
+        $totale = $connessione->countFavourites($type, $userEmail);
         } else {
             $totale=$connessione->countGuestFavourites($type, $filters);
         }
@@ -338,6 +382,7 @@ $main = str_replace('[TITOLO]', $titolo, $main);
 $main = str_replace('[ANIMALI]', $cardAnimali, $main);
 $main = str_replace('[NAVTYPE]', $linkNavAnimali, $main);
 $main = str_replace('[LINKPAGINE]', $linkPagine, $main);
+$main = str_replace('[BANNERACCEDI]', $banneraccedi, $main);
 $stringaFiltri='';
 if (!$isPreferiti) {
     $stringaFiltri="<form id='filtri' method='get' action='animali'>
