@@ -6,7 +6,7 @@ if ($paginaHTML === false) {
 	$paginaHTML = "<p>Errore: template layout.html non trovato o non leggibile.</p>";
 }
 
-$title = '<title>Pagina Lavora con Noi - PetMatch </title>';
+$title = '<title>Lavora con Noi - PetMatch </title>';
 $description = '<meta name="description" content="Pagina per avere informazioni su come lavorare o fare volontariato o diventare un sostenitore di PetMatch">';
 $keywords = "";
 
@@ -16,7 +16,7 @@ $nav = buildUserNav($userMenu, './lavora-con-noi', $_SESSION['email'] ?? false);
 
 $main = file_get_contents('./src/template/main/lavora-con-noi.html');
 
-$footer = file_get_contents('./src/template/partials/footer.html');
+$footer = buildFooter($footerMenu,  './lavora-con-noi');
 
 $paginaHTML = str_replace('[title]', $title, $paginaHTML);
 $paginaHTML = str_replace('[description]', $description, $paginaHTML);

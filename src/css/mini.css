@@ -156,14 +156,27 @@ input:checked + #slider {
     margin: 1em 0 0.8em 0;
 }
 
+#section-events{
+    padding:2em 1em 1em 1em;
+}
+
 #events-list{
     margin:0;
     padding:3em 0 0 0;
+    gap:5px;
 }
 
 #events-list::before{
-    width: 150%;
-    left: -20%;
+    width: 100%;
+    left: -0%;
+}
+
+.is-swinging {
+    animation: none;
+}
+
+#events-list .polaroid:before{
+    left: 30%;
 }
 
 #events-list .polaroid:nth-child(3){
@@ -176,31 +189,36 @@ input:checked + #slider {
 
 #events-list .polaroid:first-child,
 #events-list .polaroid:nth-child(2){
-    width: 50%;
-    margin-left:-5px;
+    width: 43%;
 }
 
-#form-affidamento {
-    background-color: var(--bgcolor);
-    color: var(--txtcolor);
-    margin:2em 2em 0.1em 2em;
-    padding: 0em 2em;
-    flex: 1 0 40%;
-    border-radius: 2.1em;
+#events-list .polaroid:first-child{
+    margin-left:5%;
 }
 
-#container-form-affidamento{
-    padding: 0;
-    background-image: none;
-    overflow:hidden;
+#events-list p.vMobile{
+    display: block;
+}
+
+#events-list p.vDesk{
+    display: none;
 }
 
 #sponsor img{
-    width: 140px; 
+    width: 130px; 
+    padding:0.5em;
+}
+
+#sponsor{
+    padding:1.5em;
 }
 
 #timeline summary::-webkit-details-marker {
     display: none;
+}
+
+#section-events + a{
+    margin-bottom:3em;
 }
 
 /* ================== REGISTRATI ==================*/
@@ -221,6 +239,10 @@ input:checked + #slider {
 
 #user-profile .tab-content form{
     text-align: left;
+}
+
+.text-details{
+    margin:auto 1em;
 }
 
 /*=================== ANIMALI ====================*/
@@ -249,101 +271,34 @@ input:checked + #slider {
     justify-content: center;
 }
 
-#animali #filtri .capsula-filtro{
-    width: 100%;
-    max-width: none;
-    justify-content: left;
-}
-
-#animali #filtri #searchSex.capsula-filtro,
-#animali #filtri #searchSize.capsula-filtro{
-    width: 48.5%;
-}
-
-#animali #filtri .capsula-filtro .eta-range{
-    margin:auto;
-    padding-right: 2em;
-}
-
-#animali #filtri #searchName.capsula-filtro {
-    width: 100%;
-}
-
-#animali #filtri {
-    display: flex;
-    flex-direction: column;  /* mette tutto in colonna */
-    gap: 1em;              /* spazio tra righe */
-    align-items: center;     /* centra tutto orizzontalmente */
-}
-
-#animali #filtri ul {
-    display: flex;
-    flex-wrap: wrap;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    gap: 0.5em;
-    justify-content: flex-start; /* centra le capsule nella riga */
-}
-
-#animali #filtri button.orange-button {
-    margin-top: 0.5em;  /* spazio sopra il bottone */
-    margin-left: 50%;
-    margin-right: 50%;
-    align-self: center;  /* centra il bottone nella colonna */
-}
-
-#animali li.card {
-    cursor: pointer;
-    width: 9em;
-    height: 14em;
-    list-style: none;
-    margin: 0.5em;
-    border-radius: 0.2em;
-    position: relative;
-    background-color: var(--darkbgcolor);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-    overflow: hidden;
-    border: 3px solid var(--darkbgcolor);
-    transition: 
-        background-color 0.3s ease,
-        border-color 0.3s ease,
-        box-shadow 0.3s ease;
-        /* border: 0.3 ease; */
-    
-}
-
-#animali li.card ul {
-    width: 9em;
-    height: 14em;
-    overflow: hidden;
-}
-
-#animali .card li.interessamento {
-    float: right;   /* non serve più */
+#animali .card .interessamento {
+    float: left;   
     clear: left;
-    padding-right: 0.5em;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-    color: var(--txtcolor);
-
+    padding:0.5em;
 }
 
-#animali li.immagine {
+#animali .immagine {
     height: 50%;
     width: 100%;
-    align-content: center;
-    /* overflow: hidden; */
-    box-sizing: border-box;
-    position: relative;
-    border-bottom: 1px solid var(--text-buttoncolor);
+}
+
+#animali .filtri #searchSex.capsula-filtro,
+#animali .filtri #searchSize.capsula-filtro{
+    width: 48.4%;
+}
+
+#animali li.card:hover {
+    /* background-color: var(--bgcolor); */
+    border-color: var(--darkbgcolor); /* colore evidenziato */
+    border: 3px solid var(--darkbgcolor);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
 }
 
 
 
 /* ================== NAV ADMIN ==================*/
     
-nav#menu-admin {
+/* nav#menu-admin {
     padding-top:0em;
     float: none;
     width: 100%;
@@ -352,22 +307,18 @@ nav#menu-admin {
     max-height: 0;
     overflow: hidden;
     background-color: transparent; 
-    /* transition: max-height 0.3s ease, background-color 0.3s ease; */
     z-index: 1000;
     visibility: hidden;
 }
 
 #menu-admin.active {
     max-height: 100vh;
-
-    background-color: var(--footercolor); /*così lo sfondo appare solo quando apri il menu */
+    background-color: var(--footercolor)
     visibility: visible;
 }
 
 body#admin-body main {
     margin-left: 0;
-    background-color: transparent;
-    /* transition: margin-top 0.3s ease; */
 }
 
 div#admin-area {
@@ -388,7 +339,69 @@ nav#menu-admin img {
     width: 10em;
     max-width: 100%;
     height: auto;
+} */
+
+/* ================== NAV ADMIN (Versione No-JS) ==================*/
+
+
+#admin-body .menu-toggle {
+    display: flex;
+    margin: 0em 0em 0em auto ;
+    width: fit-content;
+    cursor: pointer;
+    color: var(--bgcolor);
+    padding: 0.5em 0.5em;
 }
+
+/* da vedere se possibile unificare con quello dello user, per ora lascio così */
+#admin-body .menu-toggle::before {
+    content: "\2630";
+    display: block;
+    width: 45px;
+    text-align: center;
+}
+#menu-toggle-checkbox:checked + .menu-toggle::before {
+    content: "\2715"; 
+    width: 45px;
+}
+
+#menu-toggle-checkbox:checked + .menu-toggle {
+    transform: rotate(180deg);
+}
+
+nav#menu-admin {
+    padding-top: 0;
+    width: 100%;
+    position: relative;
+    max-height: 0;
+    overflow: hidden;
+    background-color: transparent; 
+    z-index: 1000;
+    visibility: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+#menu-toggle-checkbox:checked ~ nav#menu-admin {
+    max-height: 120vh;
+    background-color: var(--footercolor);
+    visibility: visible;
+}
+
+body#admin-body main {
+    margin-left: 0;
+}
+
+div#admin-area {
+    padding: 1em;
+}
+
+nav#menu-admin img {
+    width: 10em;
+    max-width: 100%;
+    height: auto;
+}
+
+/* ================== ADMIN AREA ==================*/
 div#admin-area article{
     margin-bottom: 1em;
     margin-top: 0.5em;
@@ -417,6 +430,34 @@ h1{
 nav#breadcrumb {
     padding: 0.5em 1em;
     margin: 1em auto;
+}
+
+/* ================== DETTAGLI RICHIESTE ==================*/
+a.pencil img{
+    width: 44px;
+}
+
+.text-details{
+    margin:0 0.5em;
+}
+
+/* ================== 404 PAGE ==================*/
+div#row2{
+    gap:0em;
+}
+
+div#admin-area article {
+  padding:1em;
+  width: 100%;
+}
+
+ul#statistics-list,
+div#admin-area article#query{
+    padding:1em 0;
+}
+
+div#admin-area article#query h2{
+    padding:0 1em;
 }
 
 
@@ -578,29 +619,19 @@ body#lavora-con-noi {
 }
 
 #introduction-lavora-con-noi .column-user {
-    flex: unset;
     width: 100%;
+}
+
+#introduction-lavora-con-noi .column-user:first-of-type{
     margin-bottom: 2em; 
 }
 
-#introduction-lavora-con-noi h1 {
-    margin-bottom: 0.5em;
-    font-size: 1.8em;
-}
-
-.underline {
-    text-decoration: underline;
-}
-
-#come-diventare-volontario {
-    background-color: var(--greencolor); 
-    color: var(--bgcolor);                       
+#come-diventare-volontario {                     
     width: 100%;
-    padding: 5em;
+    padding:3em 1em 1em 1em;
 }
 
 #come-diventare-volontario h2 {
-    margin-bottom: 1em;
     font-size: 1.8em;
 }
 
@@ -609,27 +640,17 @@ body#lavora-con-noi {
     gap: 0;
 }
 
-.volontari-text {
+#volontari-text {
     flex: unset;
     width: 100%;
 }
 
-.volontari-image {
-    display: none;  
-}
-
 #come-diventare-sostenitore {
-    margin-top: 5em;
-    margin-left: 5em;
-    margin-right: 5em;
-    background-color: var(--footercolor); 
-    color: var(--bgcolor);        
-    border-top-right-radius: 5em;
-    border-top-left-radius: 5em;     
-    padding: 5em;
+    margin-top: 3em; 
+    padding:3em 1em 1em 1em;
 }
 
-#come-diventare-sostenitore h1 {
+#come-diventare-sostenitore h2 {
     margin-bottom: 1em;
     font-size: 2.1em;
 }
@@ -644,15 +665,15 @@ body#lavora-con-noi {
     width: 100%;  
 }
 
-.sostenitori-image {
-    display: none;  
-}
-
 #contatto-sostenitore {
-    padding: 5em;
+    padding: 0em;
 }
 
 #contatto-sostenitore a {
     color: var(--txtcolor);
     text-decoration: underline;
+}
+
+.lavora-con-noi-img img{
+    display: none;
 }

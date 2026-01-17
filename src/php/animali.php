@@ -15,35 +15,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
     $idAnimale = (int)$_POST['id-animale-preferito'];
 
     if (isset($_SESSION['email'])) {
-        // 🔵 UTENTE LOGGATO → DB
+        // UTENTE LOGGATO → DB
         $email = $_SESSION['email'];
 
         $conn = new DBAccess();
         if ($conn->openDBConnection()) {
             if ($conn->isAnimalInFavorites($email, $idAnimale)) {
                 $conn->removeFromFavorites($email, $idAnimale);
+                $azione = 'rimosso';
             } else {
                 $conn->addToFavorites($email, $idAnimale);
+                $azione = 'aggiunto';
             }
             $conn->closeConnection();
         }
 
     } else {
-        // 🟡 UTENTE NON LOGGATO → COOKIE
+        // UTENTE NON LOGGATO → COOKIE
         $preferiti = getGuestFavorites();
 
         if (in_array($idAnimale, $preferiti)) {
             // rimuovi
             $preferiti = array_diff($preferiti, [$idAnimale]);
+            $azione = 'rimosso';
         } else {
             // aggiungi
             $preferiti[] = $idAnimale;
+            $azione = 'aggiunto';
         }
 
         saveGuestFavorites($preferiti);
     }
 
-    // 🔁 TORNA DOVE ERI
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+        header('Content-Type: application/json');
+        echo json_encode(['status' => 'success', 'azione' => $azione]);
+        exit; 
+    }
+
+    //torna dov'eri
     $redirect = $_SERVER['HTTP_REFERER'] ?? 'animali';
     header("Location: $redirect");
     exit;
@@ -56,18 +66,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
 
 
 /* ------------------ PARAMETRI BASE ------------------ */
-$type = $_GET['type'] ?? 'tutti';
+$type = $_GET['tipo'] ?? 'tutti';
 $perPagina = 12;
 $pagina = max(1, (int)($_GET['page'] ?? 1));
 $offset = ($pagina - 1) * $perPagina;
 
 /* ------------------ FILTRI GET ------------------ */
 $rawFilters = [
-    'name'    => $_GET['name']    ?? '',
-    'taglia'  => $_GET['taglia']  ?? '',
-    'sesso'   => $_GET['sesso']   ?? '',
-    'eta_min' => $_GET['eta_min'] ?? '',
-    'eta_max' => $_GET['eta_max'] ?? ''
+    'name-animal'   => $_GET['name-animal']    ?? '',
+    'taglia'        => $_GET['taglia']  ?? '',
+    'sesso'         => $_GET['sesso']   ?? '',
+    'eta_min'       => $_GET['eta_min'] ?? '',
+    'eta_max'       => $_GET['eta_max'] ?? ''
 ];
 
 // per DB + paginazione
@@ -75,13 +85,19 @@ $filters = array_filter(
     $rawFilters,
     fn($value) => $value !== ''
 );
+$cancelFiltriId='';
+if($rawFilters['name-animal']||$rawFilters['taglia']||$rawFilters['sesso']||$rawFilters['eta_min']||$rawFilters['eta_max']) {
+    $cancelFiltriId="cancel-filter-visible";
+} else {
+    $cancelFiltriId="cancel-filter-invisible";
+}
 
 
 
 /* ------------------ PREPARAZIONE REPLACE ------------------ */
 // Il placeholder rimane fisso
 $replaceFilters = [
-    '[NAME]' => htmlspecialchars($rawFilters['name']),
+    '[NAME]' => htmlspecialchars($rawFilters['name-animal']),
     '[ETA_MIN]' => htmlspecialchars($rawFilters['eta_min']),
     '[ETA_MAX]' => htmlspecialchars($rawFilters['eta_max']),
 
@@ -101,50 +117,16 @@ $replaceFilters = [
 /* ------------------ DB ------------------ */
 $cardAnimali = '';
 $linkPagine  = '';
-// -------------------FUNZIONI--------------------------
-/* ------------------ PAGINAZIONE ------------------ */
-function buildPagination(int $currentPage, int $totalPages, string $type, array $filters): string {
-    if ($totalPages <= 1) return '<li id="currentLink">1</li>';
 
-    $params = array_merge(
-    ['type' => $type],
-    $filters
-);
-
-    unset($params['page']);
-
-    $html = '';
-
-    if ($currentPage > 1) {
-        $params['page'] = $currentPage - 1;
-        $html .= '<li><a href="?' . http_build_query($params) . '"><img src="./assets/icons/arrow-sx-green.svg"></a></li>';
-    }
-
-    for ($i = max(1, $currentPage - 1); $i <= min($totalPages, $currentPage + 1); $i++) {
-        if ($i === $currentPage) {
-            $html .= '<li id="currentLink">'.$i.'</li>';
-        } else {
-            $params['page'] = $i;
-            $html .= '<li><a href="?' . http_build_query($params) . '">'.$i.'</a></li>';
-        }
-    }
-
-    if ($currentPage < $totalPages) {
-        $params['page'] = $currentPage + 1;
-        $html .= '<li><a href="?' . http_build_query($params) . '"><img src="./assets/icons/arrow-dx-green.svg"></a></li>';
-    }
-
-    return $html;
-}
 
 /* ------------------ NAV TIPO ------------------ */
 function buildNavAnimali(string $type, array $filters): string {
     $base = $filters;
 
-    $link = fn($t) => '?' . http_build_query(array_merge($base, ['type' => $t]));
+    $link = fn($t) => '?' . http_build_query(array_merge($base, ['tipo' => $t]));
 
     return "
-    <ul>
+    <ul aria-label='Filtri sulla tipologia'>
         <li class='".($type==='tutti'?'currentType':'')."'>".
             ($type==='tutti'?'Tutti':'<a href="'.$link('tutti').'">Tutti</a>')."
         </li>
@@ -166,6 +148,7 @@ function buildAnimalCards(array $animali, ?string $email): string {
         foreach ($animali as $a) {
             $nome = htmlspecialchars($a['nome']);
             $sesso = $a['sesso'] === 'M' ? 'Maschio' : 'Femmina';
+            $sessoAbbr = $a['sesso'] === 'M' ? '<abbr title="Maschio" aria-label="Maschio">M</abbr>' :  '<abbr title="Femmina" aria-label="Femmina">F</abbr>';
             $eta = $a['eta'];
             $id = $a['id'];
             $giàInteressato = '';
@@ -181,9 +164,10 @@ function buildAnimalCards(array $animali, ?string $email): string {
                 $inPreferiti = in_array($id, $guestFavs);
             }
 
-
+            $classePreferito = $inPreferiti ? 'is-favorite' : 'not-favorite';
             $heartNormal = $inPreferiti ? 'active-like.svg' : 'inactive-like.svg';
             $heartHover = $inPreferiti ? 'inactive-like.svg' : 'active-like.svg';
+            $statusPreferiti = $inPreferiti ? 'Rimuovi dai preferiti' : 'Aggiungi ai preferiti';
 
             if (!empty($a['immagine']) && file_exists($a['immagine'])) {
                 $img = $a['immagine'];
@@ -192,31 +176,39 @@ function buildAnimalCards(array $animali, ?string $email): string {
             }
 
             $html .= "
-            <li class='card'>
-                <ul>
-                    <li class='immagine'><img src='$img' alt='$nome'></li>
-                    <li class='nome'>$nome</li>
-                    <li class='sesso-eta'>$sesso - $eta anni</li>
-                    <li>
+            <li class='card' aria-labelledby='nome-animale-$id'>
+                <article aria-label='descrizione:'>
+                    <div class='immagine'><img src='$img' alt=''></div>
+                    <h3 class='nome' id='nome-animale-$id'>$nome</h3>
+                    <p class='sesso-etaDesk'>$sesso - $eta anni</p>
+                    <p class='sesso-etaMob'> $sessoAbbr - $eta anni</p>
+                    <div>
                         <form method='post' action='animali' class='preferiti-form'>
                             <input type='hidden' name='id-animale-preferito' value='$id'>
-                            <button type='submit' class='preferiti'>
+                            <button type='submit' class='$classePreferito' aria-label='$statusPreferiti'>
                                 <img class='heart-normal' src='./assets/icons/$heartNormal' alt=''>
                                 <img class='heart-hover' src='./assets/icons/$heartHover' alt=''>
                             </button>
                         </form>
-                    </li>
-                    <li class='interessamento'>$giàInteressato</li>
-                    <li class='dettagli-animale-bottone'>
+                    </div>
+                    <p class='interessamento'>$giàInteressato</p>
+                    <div class='dettagli-animale-bottone'>
                         <a href='visualizzazione-animale?id=$id'>Vedi dettagli</a>
-                    </li>
-                </ul>
+                    </div>
+                </article>
             </li>";
         }
         $conn->closeConnection();
     }
     return $html;
 }
+
+// RESET DEI FILTRI
+$resetUrl = './animali';
+if ($type !== 'tutti') {
+    $resetUrl .= '?tipo=' . urlencode($type);
+}
+
 
 
 /* ------------------ QUERY ------------------ */
@@ -242,12 +234,15 @@ $connessione->closeConnection();
 $linkNavAnimali = buildNavAnimali($type, $filters);
 $paginaHTML = file_get_contents('./src/template/layout.html');
 $main = file_get_contents('./src/template/main/animali.html');
-$footer = file_get_contents('./src/template/partials/footer.html');
+$footer = buildFooter($footerMenu,  './animali');
 
 $main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);
 $main = str_replace('[ANIMALI]', $cardAnimali, $main);
 $main = str_replace('[NAVTYPE]', $linkNavAnimali, $main);
 $main = str_replace('[LINKPAGINE]', $linkPagine, $main);
+
+$main = str_replace('[URL-RESERFILTRI]', $resetUrl, $main);
+$main = str_replace('[VISIBILITA-FILTRO]', $cancelFiltriId, $main);
 
 $title = '<title>Animali - PetMatch</title>';
 $description = '<meta name="description" content="Animali in adozione su PetMatch">';

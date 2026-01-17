@@ -6,7 +6,7 @@
     - funzione che crea il footer (ossia da modificare solo la parte del link circolare alla home se l'utente è già in quella pagina)
 */
 
-/* Definizione delle pagine esistenti, aggiungerne altre quando possibile*/
+/* Definizione delle pagine esistenti PER LA BREADCRUMB, aggiungerne altre quando possibile*/
 $pagine = [
     'home' => [
         'label' => 'Home', //la label e' quella che viene mostrata nella breadcrumb
@@ -34,7 +34,6 @@ $pagine = [
         'parent' => 'home'
     ],
     'animali' => [
-        // 'file' => __DIR__ . '/src/php/animali.php',
         'label' => 'Animali',
         'url' => './animali',
         'parent' => 'home'
@@ -60,25 +59,29 @@ $pagine = [
         'parent' => 'profilo-utente'
     ],
     'lavora-con-noi' => [
-        //'file' => __DIR__ . '/src/php/lavora-con-noi.php',
-        'label' => 'Lavora con Noi',
+        'label' => 'Lavora con noi',
         'url' => './lavora-con-noi',
         'parent' => 'home'
-    ]
+    ],
+    'senza-amministratore' => [
+        'label' => 'Animali senza amministratore',
+        'url' => './senza-amministratore',
+        'parent' => 'animali'
+    ],
 ];
 
 $adminMenu = [
     'principale' => [
-        ['href' => './area-riservata', 'text' => 'AREA PERSONALE'],
-        ['href' => './richieste-adozione', 'text' => 'RICHIESTE DI ADOZIONE'],
-        ['href' => './eventi', 'text' => 'EVENTI'],
+        ['href' => './area-riservata', 'text' => 'Area personale'],
+        ['href' => './richieste-adozione', 'text' => 'Richieste di adozione'],
+        ['href' => './eventi', 'text' => 'Eventi'],
     ],
     'animali' => [
-        ['href' => './tuoi-animali', 'text' => 'ASSEGNATI A TE'],
-        ['href' => './animali-senza-amministratore', 'text' => 'SENZA AMMINISTRATORE'],
-        ['href' => './adottati', 'text' => 'ADOTTATI'],
-        ['href' => './nuove-accoglienze', 'text' => 'NUOVE ACCOGLIENZE'],
-    ],
+        ['href' => './tuoi-animali', 'text' => 'Assegnati a te'],
+        ['href' => './senza-amministratore', 'text' => 'Senza amministratore'],
+        ['href' => './adottati', 'text' => 'Adottati'],
+        ['href' => './nuove-accoglienze', 'text' => 'Nuove accoglienze'],
+    ]
 ];
 
 $userMenu = [
@@ -88,6 +91,17 @@ $userMenu = [
     ['href' => './come-funziona', 'text' => 'Come funziona'],
     ['href' => './chi-siamo', 'text' => 'Chi siamo'],
     ['href' => './lavora-con-noi', 'text' => 'Lavora con noi'],
+];
+
+$footerMenu = [
+    'Su di noi' => [
+        ['href' => './animali', 'text' => 'I nostri animali'],
+        ['href' => './eventi', 'text' => 'I nostri eventi'],
+        ['href' => './come-funziona', 'text' => 'Come funziona'],
+        ['href' => './chi-siamo', 'text' => 'Chi siamo']],
+    'Vuoi lavorare con noi?'=>[
+        ['href' => './lavora-con-noi#inizio-volontari', 'text' => 'Diventa un nostro volontario'],
+        ['href' => './lavora-con-noi#inizio-sostenitori', 'text' => 'Diventa un nostro sostenitore'],]
 ];
 
 $noNav = [
@@ -105,15 +119,14 @@ function loadTemplate(string $path, string $default = ''): string {
     return $content === false ? $default : $content;
 }
 
-/**
- * Genera la nav menù admin dinamicamente
- */
+
 function buildAdminNav(array $menuGroups, string $currentHref): string {
-    // Parte iniziale fissa
+    // Parte iniziale: Checkbox e Label (Hamburger)
     $html = '
-    <button class="menu-toggle" id="mobile-menu" aria-label="Apri o chiudi menu di navigazione">
-        ☰
-    </button>
+    <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
+    <label for="menu-toggle-checkbox" class="menu-toggle" aria-label="Apri o chiudi menu di navigazione">
+    <span></span> </label>
+    
     <nav id="menu-admin" aria-label="Menù">
         <a class="navigationHelp" href="#content"> Salta il menù di navigazione</a>
         <a href="./home">
@@ -124,24 +137,27 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
     foreach ($menuGroups as $key => $items) {
 
         if ($key === 'animali') {
-            $html .= '<span>ANIMALI</span>';
+            $html .= '<span class="description-menu" aria-hidden="true">Animali</span>';
+            $html .= '<ul aria-label="Menù gestione animali">';
+        }else{
+            $html .= '<span class="description-menu" aria-hidden="true">Principale</span>';
+            $html .= '<ul aria-label="Menù principale">';
         }
 
-        $html .= '<ul>';
         foreach ($items as $item) {
             $active = ($item['href'] === $currentHref) ? ' id="currentLink"' : '';
+            $linkHref = ($item['href'] === $currentHref) ? '<li'.$active.' aria-label="pagina attuale:'.$item['text'].'">'.$item['text'].'</li>' : '<li'.$active.'><a href="'.$item['href'].'">'.$item['text'].'</a></li>';
             
             // In questa versione, anche il link corrente rimane cliccabile 
-            // come nel tuo esempio HTML ( <li id="currentLink"><a href="...">...</a></li> )
-            $html .= '<li'.$active.'><a href="'.$item['href'].'">'.$item['text'].'</a></li>';
+            //ho sistemato - angelac
+            $html .= $linkHref;
         }
         $html .= '</ul>';
     }
 
-    // Parte finale fissa
     $html .= '
         <form action="./area-riservata" method="POST">
-            <button type="submit" name="logout" class="logout-btn">Esci</button>
+            <button type="submit" name="logout" class="logout-btn">Disconnettiti</button>
         </form>
     </nav>';
 
@@ -158,6 +174,17 @@ function buildUserNav(array $items, string $currentHref, bool $isLogged): string
 
     $homeHref = './home';
     $logoAttributes = ($currentHref === $homeHref)? ' id="currentLink"' : '';
+    $isLogoActive =  ($currentHref === $homeHref)?                    
+    
+    '<div' . $logoAttributes . '>
+        <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
+        <span id="name-site">Pet<span id="not-bold">Match</span></span>
+    </div>' :
+    
+    '<a href="' . $homeHref . '"' . $logoAttributes . '>
+        <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
+        <span id="name-site">Pet<span id="not-bold">Match</span></span>
+    </a>';
     
     $navForm = false;
     foreach ($noNav as $noNavPage) {
@@ -179,16 +206,13 @@ function buildUserNav(array $items, string $currentHref, bool $isLogged): string
                 
                 <nav id="header-logo" aria-label="link alla home">
                     <h1>
-                        <a href="' . $homeHref . '"' . $logoAttributes . '>
-                            <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
-                            <span id="name-site">Pet<span id="not-bold">Match</span></span>
-                        </a>
+                        '.$isLogoActive.'
                     </h1>
                 </nav>
                 
                 <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
     
-                <nav aria-label="Menu principale" id="nav-osso">
+                <nav aria-label="Menù principale" id="nav-osso">
                     <ul id="osso">';
     
         // 2. parte dinamica: ciclo gli items passati come argomento
@@ -197,8 +221,10 @@ function buildUserNav(array $items, string $currentHref, bool $isLogged): string
                 // Controllo se è la pagina corrente
                 // Se l'href corrente corrisponde, aggiungo l'ID active
                 $isActive = ($item['href'] === $currentHref) ? ' id="currentLink" ' : '';
+                $linkHref = ($item['href'] === $currentHref) ? '<li'.$isActive.'>'.$item['text'].'</li>' : '<li'.$isActive.'><a href="'.$item['href'].'">'.$item['text'].'</a></li>';
+            
                 
-                $html .= '<li' . $isActive . '><a href="' . $item['href'] . '">' . $item['text'] . '</a></li>';
+                $html .= $linkHref;
             }
         }
     
@@ -262,6 +288,87 @@ function buildUserNav(array $items, string $currentHref, bool $isLogged): string
     return $html;
 }
 
+
+function buildFooter(array $menuGroups, string $currentHref): string {
+
+    $homeHref = './home';
+    $logoAttributes = ($currentHref === $homeHref)? ' id="currentLink"' : '';
+    $isLogoActive =  ($currentHref === $homeHref)?   
+    '<div' . $logoAttributes . '>
+        <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
+        <span id="name-site">Pet<span id="not-bold">Match</span></span>
+    </div>' :
+    
+    '<div><a href="' . $homeHref . '"' . $logoAttributes . '>
+        <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
+        <span id="name-site">Pet<span id="not-bold">Match</span></span>
+    </a></div>';
+
+    $html = '
+    <div id="grass"></div>
+    <footer>
+        <div class="container">
+            <ul id="footer-menu" aria-label="menù di fine pagina">';
+                foreach ($menuGroups as $key => $items) {
+
+                    if ($key === 'Su di noi') {
+                        $html .= '  <li aria-labelledby="su-di-noi-footer">
+                                    <nav aria-labelledby="su-di-noi-footer">
+                                        <a class="navigationHelp" href="#lavora-con-noi" > Salta il contenuto</a>
+                                        <p aria-hidden="true" id="su-di-noi-footer">Su di noi</p>
+                                        <ul class="footer-submenu" aria-labelledby="su-di-noi-footer">';
+                    }else{
+                        $html .= '  <li aria-labelledby="lavora-con-noi-footer">    
+                                    <nav id="lavora-con-noi" tabindex="-1" aria-labelledby="lavora-con-noi-footer">
+                                        <a class="navigationHelp" href="#contattaci"> Salta il contenuto</a>
+                                        <p id="lavora-con-noi-footer" aria-hidden="true">Vuoi lavorare con noi?</p>
+                                        <ul class="footer-submenu">';
+                    }
+
+                    foreach ($items as $item) {
+                        $pathItem = strtok($item['href'], '#');
+                        $active = ($pathItem === $currentHref) ? ' class="currentLink"' : '';
+                        $linkHref = ($pathItem=== $currentHref) ? '<li'.$active.' aria-label="pagina attuale:'.$item['text'].'">'.$item['text'].'</li>' : '<li'.$active.'><a href="'.$item['href'].'">'.$item['text'].'</a></li>';
+                        
+                        $html .= $linkHref;
+                    }
+                    $html .= '</ul></nav></li>';
+                }
+                $html .= '
+                <li aria-labelledby="contattaci-footer">
+                    <nav id="contattaci" tabindex="-1" aria-labelledby="contattaci-footer">
+                        <a class="navigationHelp" href="#seguici-su"> Salta il contenuto</a>
+                        <p id="contattaci-footer" aria-hidden="true">Contattaci</p>
+                        <ul class="footer-submenu">
+                            <li><a href="mailto:matchpet48@gmail.com" target="_blank">matchpet48@gmail.com</a></li>
+                            <li><a href="tel:+390000000000"> +39 000 000 0000</a></li>
+                        </ul>
+                    </nav>
+                </li>
+                <li aria-labelledby="seguici-footer">
+                    <nav id="seguici-su" tabindex="-1" aria-labelledby="seguici-footer">
+                        <a class="navigationHelp" href="#copyright"> Salta il contenuto</a>
+                        <p id="seguici-footer" aria-hidden="true">Seguici su</p>
+                        <ul class="footer-submenu">
+                            <li class="social-media-links">
+                                <a href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram">
+                                    <img src="./assets/icons/Instagram.svg" id="instagram" alt="">
+                                    @petmatch_shelter
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </li>
+            </ul>
+        </div>
+        '.$isLogoActive.'
+        <p id="copyright" tabindex="-1">
+            &copy; 2025 PetMatch. Diritti e illustrazioni riservate, giù le zampe!
+        </p>
+    </footer>';
+
+    return $html;
+}
 
 
 function getBreadcrumb($currentPageKey, $pagine) {
@@ -341,15 +448,16 @@ function uploadImage($file, $folder) {
     }
 }
 
-function getCardAnimal():string{
+function getCardAnimal(int $idanimale, bool $isAdmin, bool $isAdopted):string{
     $html = '<section id=\'info-animal\'>
             <h2>Animale interessato</h2>
             <div class=\'details-card-animale\'>
                 <div>
                     <div>
-                        <img src="[imgAnimale]" alt="" />
-                        <!-- TODO: aggiungere link alla pagina dell\'animale -->
-                        <a href="" class="brown-button">Vedi animale</a>
+                        <img src="[imgAnimale]" alt="" />';
+                        // <!-- TODO: aggiungere link alla pagina dell\'animale -->'
+                    $html .= ($isAdopted&&!$isAdmin)?'<p class="nonDisponibile"><em>Animale adottato</em></p>':'<a href="" class="brown-button">Vedi animale</a>';
+                    $html.='
                     </div>
                     <dl aria-label="Descizione superficiale dell\'animale">
                         <dt>Nome:</dt>
@@ -426,5 +534,45 @@ function saveGuestFavorites(array $ids): void {
         time() + 60 * 60 * 24 * 30, // 30 giorni
         '/'
     );
+}
+
+
+
+function buildPagination(int $currentPage, int $totalPages, string $tipoAttivo, array $filters = []): string {
+    if ($totalPages <= 1) return '<li id="currentLink">1</li>';
+
+    $params = array_merge(['tipo' => $tipoAttivo], $filters);
+    unset($params['page']);
+
+    $html = '';
+
+    if ($currentPage > 1) {
+        $params['page'] = $currentPage - 1;
+        $html .= '<li><a href="?' . http_build_query($params) . '"><img src="./assets/icons/arrow-sx-green.svg" alt="precedente" /></a></li>';
+    }
+
+    $maxVisible = 10;
+    $start = max(1, $currentPage - 4);
+    $end = min($totalPages, $start + $maxVisible - 1);
+
+    if ($end - $start + 1 < $maxVisible) {
+        $start = max(1, $end - $maxVisible + 1);
+    }
+
+    for ($i = $start; $i <= $end; $i++) {
+        if ($i === $currentPage) {
+            $html .= '<li id="currentLink" aria-label="pagina attuale">'.$i.'</li>';
+        } else {
+            $params['page'] = $i;
+            $html .= '<li><a href="?' . http_build_query($params) . '" aria-label="vai alla pagina '.$i.'">'.$i.'</a></li>';
+        }
+    }
+
+    if ($currentPage < $totalPages) {
+        $params['page'] = $currentPage + 1;
+        $html .= '<li><a href="?' . http_build_query($params) . '"><img src="./assets/icons/arrow-dx-green.svg" alt="successiva"/></a></li>';
+    }
+
+    return $html;
 }
 

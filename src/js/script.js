@@ -118,85 +118,103 @@ toggleIcons.forEach(icon => {
 document.documentElement.style.scrollBehavior = 'auto';
 setTimeout(function() { document.documentElement.style.scrollBehavior = 'smooth'; }, 500);
 
-/* ==========================================================================
-   FUNZIONI GLOBALI (Sempre disponibili)
-   ========================================================================== */
-
-function openTab(evt, tabName) {
-    let i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-    const targetTab = document.getElementById(tabName);
-    if (targetTab) {
-        targetTab.style.display = "block";
-        evt.currentTarget.className += " active";
-    }
-}
 
 
-
+//evita di ricaricare la pagina quando di mettono i like
 document.addEventListener('DOMContentLoaded', () => {
+    
+    const likeForms = document.querySelectorAll('.preferiti-form');
 
-    /* --- per il toggle menu del mobile --- */
-    const menuBtn = document.getElementById('mobile-menu');
-    const menu = document.getElementById('menu-admin');
-    if (menuBtn && menu) {
-        menuBtn.addEventListener('click', () => {
-            menu.classList.toggle('active');
-        });
-    }
+    likeForms.forEach(form => {
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault(); // Blocca il refresh
 
-    const editNoteBtn = document.getElementById('edit-note');
-    const noteText = document.getElementById('note-text');
-    if (editNoteBtn && noteText) {
-        let originalText = '';
-        editNoteBtn.addEventListener('click', e => {
-            e.preventDefault();
-            originalText = noteText.innerText;
-            noteText.contentEditable = 'true';
-            noteText.classList.add('editing');
-            noteText.focus();
-        });
+            // Recupera gli elementi
+            const btn = form.querySelector('button');
+            const imgNormal = btn.querySelector('.heart-normal');
+            const imgHover = btn.querySelector('.heart-hover');
+            
+            // Per accessibilità: recupera il nome dell'animale dalla card
+            const cardContent = form.closest('.card-content');
+            const nomeAnimale = cardContent ? cardContent.querySelector('.nome').innerText : 'animale';
 
-        noteText.addEventListener('blur', () => {
-            noteText.contentEditable = 'false';
-            noteText.classList.remove('editing');
-            const nuovoTesto = noteText.innerText.trim();
-            if (nuovoTesto !== originalText) {
-                fetch(window.location.href, {
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch(form.action, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: new URLSearchParams({ salva_note: 1, note: nuovoTesto })
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
                 });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log("Risposta Server:", data);
+
+                    if (data.status === 'success') {
+                        
+                        //scambio delle due immagini
+                        const tempSrc = imgNormal.src;
+                        imgNormal.src = imgHover.src;
+                        imgHover.src = tempSrc;
+
+                        // --- AGGIORNA ACCESSIBILITÀ ---
+                        if (data.azione === 'aggiunto') {
+                            btn.classList.remove('not-favorite');
+                            btn.classList.add('is-favorite');
+                            btn.setAttribute('aria-label', `Rimuovi ${nomeAnimale} dai preferiti`);
+                        } else {
+                            btn.classList.remove('is-favorite');
+                            btn.classList.add('not-favorite');
+                            btn.setAttribute('aria-label', `Aggiungi ${nomeAnimale} ai preferiti`);
+                        }
+                    }
+                } else {
+                    console.error("Errore server:", response.status);
+                }
+            } catch (error) {
+                console.error('Errore durante la fetch:', error);
             }
         });
-    }
+    });
+});
 
-    /* --- colorazione pulsanti a seconda dello stato della richiesta*/
+
+
+/**cambia il colore dei pulsanti per abbellimento: rende più visibile lo stato della richiesta */
+document.addEventListener('DOMContentLoaded', () => {
     const verificaStato = () => {
-        const paragrafi = document.querySelectorAll('#Richiesta p');
+        const termini = document.querySelectorAll('#Richiesta dt'); //cerca tutti i dt dentro l'article#Richiesta (che ha lo stato)
         let statoTesto = "";
-        paragrafi.forEach(p => {
-            if (p.textContent.includes('Stato richiesta:')) {
-                statoTesto = p.textContent.replace('Stato richiesta:', '').trim();
+
+        termini.forEach(dt => {
+            if (dt.textContent.trim() === 'Stato richiesta') { //cerca il dt che contiene "Stato richiesta"
+                const ddValue = dt.nextElementSibling; //prende il dd successivo per estrerre il valore
+                if (ddValue) {
+                    statoTesto = ddValue.textContent.trim();
+                }
             }
         });
 
         if (statoTesto !== "" && statoTesto !== '[stato]') {
-            if (statoTesto === 'Respinta' || statoTesto === 'Annullata') {
+            const statiNegativi = ['Respinta', 'Annullata'];
+            
+            if (statiNegativi.includes(statoTesto)) {
                 const p1 = document.querySelector('#animal-container .orange-button');
                 const p2 = document.querySelector('#details-container .orange-button');
-                if (p1) { p1.classList.add('respinta'); p1.style.pointerEvents = 'none'; }
-                if (p2) { p2.classList.add('respinta'); p2.style.pointerEvents = 'none'; }
+                
+                [p1, p2].forEach(p => {
+                    if (p) {
+                        p.classList.add('respinta');
+                        p.setAttribute('aria-disabled', 'true'); // per accessibilità, indica che il pulsante è disabilitato (così è comprensibile anche ad uno screen reader)
+                    }
+                });
             }
         }
     };
+    
     verificaStato();
 
     /* --- modifica la data di arrivo TO DO DA MODIFICARE--- */
