@@ -15,6 +15,10 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     include './src/utils.php';
     include './src/DBconnection.php';
     
+
+    
+
+    
     function renderAnimalContent(string $tipo, array $animaliSegnalati, string $NSegnalazioniByType, string $nome_admin): string {
         $tipoMinuscoloPlurale = ($tipo === 'Cane') ? 'cani' : 'gatti'; //fa un po caca ma va bene per ora
         
@@ -40,7 +44,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                 <tbody>';
         if(!empty($animaliSegnalati)){
             foreach ($animaliSegnalati as $animale) {
-                $subject= rawurlencode('PetMatch - Hai bisogno di trovare casa al tuo amico a quattro zampe?');
+                $subject= rawurlencode('Segnalazione n. ' . $animale['id_segnalazione'] . ' - PetMatch - Hai bisogno di trovare casa al tuo amico a quattro zampe?');
 
                 $messaggio = "Ciao! Ho visto la tua segnalazione su PetMatch per un " . strtolower($tipo) . " e siamo interessati a raccogliere maggiori informazioni riguardo al tuo animale.\n\n" .
                 "Potresti raccontarci un po' di più? Non ti preoccupare, ecco alcune domande che ci aiuterebbero molto (se non conosci la risposta ad alcune, scrivi pure 'non so'):\n\n" .
@@ -65,10 +69,20 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
 
                     if($animale['email_admin']==null)
                         $html .='
-                            <td colspan="2" class="col-dettagli"><a class="orange-button">Assegna a me</a></td>';
+                            <td colspan="2" class="col-dettagli">
+                                <form method="post" action="nuove-accoglienze">
+                                    <input type="hidden" name="id_segnalazione" value="' . htmlspecialchars($animale['id_segnalazione']) . '">
+                                    <button type="submit" name="assegna_segnalazione" class="orange-button">Assegna a me</button>
+                                </form>
+                            </td>';
                     else{
-                        $html .='
-                            <td class="col-dettagli"><a class="orange-button">Elimina</a></td>
+                         $html .='
+                            <td class="col-dettagli">
+                                <form method="post" action="nuove-accoglienze">
+                                    <input type="hidden" name="id_segnalazione" value="' . htmlspecialchars($animale['id_segnalazione']) . '">
+                                    <button type="submit" name="elimina_segnalazione" class="orange-button">Elimina</button>
+                                </form>
+                            </td>
                             <td class="col-dettagli"><a href="mailto:' . htmlspecialchars($animale['email_segnalante']) . '?subject=' . $subject . '&body=' . $object . '" class="brown-button">Chiedi info</a></td>';
                     }
                     $html .='</tr>';
@@ -106,7 +120,8 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     $offset = ($paginaCorrente - 1) * $perPagina;
     $connessione = new DBAccess();
     $connessioneOK = $connessione->openDBConnection();
-    
+    $filtroCorrente = (isset($_GET['assegnate']) && $_GET['assegnate'] !== '') ? $_GET['assegnate'] : 'tutte';
+
     if ($connessioneOK) {
         $NSegnalazioniByType = $connessione->getNSegnalazioni($_SESSION['email']); 
         $NSegnalazioniCani = $NSegnalazioniByType['Cane'];
@@ -114,10 +129,26 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
 
         $offCani = ($tipoAttivo === 'Cani') ? $offset : 0;
         $offGatti = ($tipoAttivo === 'Gatti') ? $offset : 0;
-
-        $animaliSegnalati = $connessione->getDetailsSegnalazioniAnimalsPaged($perPagina, $offCani, $offGatti, ($_GET['assegnate']=='mie' || $_GET['assegnate']==='tutte')? $_SESSION['email'] : null, $_GET['assegnate']==='mie' ? 'mie' : ( $_GET['assegnate']==='nessuno' ? 'nessuno' : 'tutte' ) );
+        $animaliSegnalati = $connessione->getDetailsSegnalazioniAnimalsPaged(
+            $perPagina, 
+            $offCani, 
+            $offGatti, 
+            ($filtroCorrente === 'mie' || $filtroCorrente === 'tutte') ? $_SESSION['email'] : null, 
+            $filtroCorrente
+        );
         $nome_admin= ($connessione->findAdminByEmail($_SESSION['email']))['nome']; //per prendere il nome dell'admin da mettere nella mail!!
 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['assegna_segnalazione'])) {
+            $connessione->assignAdminToSegnalazione($_POST['id_segnalazione'], $_SESSION['email']);
+            header("Location: ./nuove-accoglienze?tipo=$tipoAttivo&page=$paginaCorrente");
+            exit;
+        }
+
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['elimina_segnalazione'])) {
+            $connessione->deleteSegnalazione($_POST['id_segnalazione']);
+            header("Location: ./nuove-accoglienze?tipo=$tipoAttivo&page=$paginaCorrente");
+            exit;
+        }
         
         $connessione->closeConnection();
     }
@@ -156,16 +187,14 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     $main = str_replace('[LINKPAGINE-CANI]', $linkCani, $main);
     $main = str_replace('[LINKPAGINE-GATTI]', $linkGatti, $main);
 
-    /* ---- da completare quando aggiungerò i filtri (SE)---*/
     $rawFilters = [
-        'assegnate'   => $_GET['assegnate'] ?? '',
+        'assegnate' => (isset($_GET['assegnate']) && $_GET['assegnate'] !== '') ? $_GET['assegnate'] : 'tutte',
     ];
-
 
     $replaceFilters = [
         '[ASSEGNATE_SELECTED_TUTTI]'   => $rawFilters['assegnate'] === 'tutte' ? 'selected' : '',
-        '[ASSEGNATE_SELECTED_MIE]' => $rawFilters['assegnate'] === 'mie' ? 'selected' : '',
-        '[ASSEGNATE_SELECTED_NESSUNO]'   => $rawFilters['assegnate'] === 'nessuno' ? 'selected' : '',
+        '[ASSEGNATE_SELECTED_MIE]'     => $rawFilters['assegnate'] === 'mie' ? 'selected' : '',
+        '[ASSEGNATE_SELECTED_NESSUNO]' => $rawFilters['assegnate'] === 'nessuno' ? 'selected' : '',
     ];
 
     $main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);

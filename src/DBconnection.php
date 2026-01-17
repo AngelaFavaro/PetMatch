@@ -828,6 +828,37 @@ class DBAccess {
         return $results;
     }
 
+    public function assignAdminToSegnalazione(int $idSegnalazione, string $emailAdmin): bool {
+        $query = "UPDATE SEGNALAZIONI_NUOVE_ACCOGLIENZE 
+                SET EmailAmm = ? 
+                WHERE ID = ? AND EmailAmm IS NULL";
+                
+        $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'si', $emailAdmin, $idSegnalazione);
+            $success = mysqli_stmt_execute($stmt);
+            $affected = mysqli_stmt_affected_rows($stmt);
+            mysqli_stmt_close($stmt);
+            
+            return $success && $affected > 0;
+        }
+        return false;
+    }
+
+
+    public function deleteSegnalazione(int $idSegnalazione): bool {
+        $query = "DELETE FROM SEGNALAZIONI_NUOVE_ACCOGLIENZE WHERE ID = ?";
+        
+        $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'i', $idSegnalazione);
+            $success = mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+            return $success;
+        }
+        return false;
+    }
+    
     function getNSegnalazioni($email): array {
         $counts = [
             'Cane' => 0,
