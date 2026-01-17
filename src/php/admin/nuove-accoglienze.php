@@ -33,43 +33,60 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                         <th scope="col">Data segnalazione</th>
                         <th scope="col">Nominativo segnalante</th>
                         <th scope="col">Email segnalante</th>
-                        <th scope="col" class="col-dettagli"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>';
+        if(!empty($animaliSegnalati)){
+            foreach ($animaliSegnalati as $animale) {
+                $subject= rawurlencode('PetMatch - Hai bisogno di trovare casa al tuo amico a quattro zampe?');
 
-        foreach ($animaliSegnalati as $animale) {
-            $subject= rawurlencode('PetMatch - Hai bisogno di trovare casa al tuo amico a quattro zampe?');
+                $messaggio = "Ciao! Ho visto la tua segnalazione su PetMatch per un " . strtolower($tipo) . " e siamo interessati a raccogliere maggiori informazioni riguardo al tuo animale.\n\n" .
+                "Potresti raccontarci un po' di più? Non ti preoccupare, ecco alcune domande che ci aiuterebbero molto (se non conosci la risposta ad alcune, scrivi pure 'non so'):\n\n" .
+                "- Qual è la sua storia? (È cresciuto in famiglia o è stato trovato per strada?)\n" .
+                "- Com'è di carattere? (È socievole, timido o un po' timoroso?)\n" .
+                "- Come si comporta con gli altri? (Va d'accordo con cani, gatti o bambini?)\n" .
+                "- Ha qualche problema di salute o assume farmaci?\n" .
+                "- È già sterilizzato/a e microchippato/a?\n\n" .
+                "Se non conosci il suo passato perché lo hai appena trovato, descrivici pure come lo hai visto in questi primi giorni.\n\n" .
+                "Attendo un tuo riscontro. Grazie!\n\n".
+                "Un caro saluto,\n" .
+                $nome_admin. "\n".
+                "Amministratore PetMatch";
 
-            $messaggio = "Ciao! Ho visto la tua segnalazione su PetMatch per un " . strtolower($tipo) . " e siamo interessati a raccogliere maggiori informazioni riguardo al tuo animale.\n\n" .
-            "Potresti raccontarci un po' di più? Non ti preoccupare, ecco alcune domande che ci aiuterebbero molto (se non conosci la risposta ad alcune, scrivi pure 'non so'):\n\n" .
-            "- Qual è la sua storia? (È cresciuto in famiglia o è stato trovato per strada?)\n" .
-            "- Com'è di carattere? (È socievole, timido o un po' timoroso?)\n" .
-            "- Come si comporta con gli altri? (Va d'accordo con cani, gatti o bambini?)\n" .
-            "- Ha qualche problema di salute o assume farmaci?\n" .
-            "- È già sterilizzato/a e microchippato/a?\n\n" .
-            "Se non conosci il suo passato perché lo hai appena trovato, descrivici pure come lo hai visto in questi primi giorni.\n\n" .
-            "Attendo un tuo riscontro. Grazie!\n\n".
-            "Un caro saluto,\n" .
-            $nome_admin. "\n".
-            "Amministratore PetMatch";
+                $object =rawurlencode($messaggio);
+                $html .='
+                    <tr>
+                        <th data-title="Identificativo segnalazione" scope="row">' . htmlspecialchars($animale['id_segnalazione']) . '</th>
+                        <td data-title="Data segnalazione"><time datetime="' . htmlspecialchars($animale['data_segnalazione']) . '">' . htmlspecialchars(date('d/m/Y', strtotime($animale['data_segnalazione']))) . '</time></td>
+                        <td data-title="Nominativo segnalante">' . htmlspecialchars($animale['nominativo_segnalante']) . '</td>
+                        <td data-title="Email segnalante">' . htmlspecialchars($animale['email_segnalante']) . '</td>';
 
-            $object =rawurlencode($messaggio);
-            $html .='
-                <tr>
-                    <th data-title="Identificativo segnalazione" scope="row">' . htmlspecialchars($animale['id_segnalazione']) . '</th>
-                    <td data-title="Data segnalazione"><time datetime="' . htmlspecialchars($animale['data_segnalazione']) . '">' . htmlspecialchars(date('d/m/Y', strtotime($animale['data_segnalazione']))) . '</time></td>
-                    <td data-title="Nominativo segnalante">' . htmlspecialchars($animale['nominativo_segnalante']) . '</td>
-                    <td data-title="Email segnalante">' . htmlspecialchars($animale['email_segnalante']) . '</td>
-                    <td class="col-dettagli"><a href="mailto:' . htmlspecialchars($animale['email_segnalante']) . '?subject=' . $subject . '&body=' . $object . '" class="brown-button">Chiedi informazioni</a></td>
-                </tr>';
-        }
+                    if($animale['email_admin']==null)
+                        $html .='
+                            <td colspan="2" class="col-dettagli"><a class="orange-button">Assegna a me</a></td>';
+                    else{
+                        $html .='
+                            <td class="col-dettagli"><a class="orange-button">Elimina</a></td>
+                            <td class="col-dettagli"><a href="mailto:' . htmlspecialchars($animale['email_segnalante']) . '?subject=' . $subject . '&body=' . $object . '" class="brown-button">Chiedi info</a></td>';
+                    }
+                    $html .='</tr>';
+                }
+            }else{
+                $html .= '
+                    <tr>
+                        <td colspan="5" class="nessuna-richiesta-message" >Nessuna richiesta trovata con i filtri selezionati.</td>
+                    </tr>
+                ';
+            
+            }
 
         $html .= '
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="4">Totale ' . $tipoMinuscoloPlurale . ' senza admin</td>
+                    <td colspan="5">Totale ' . $tipoMinuscoloPlurale . ' senza admin</td>
                     <td>' . htmlspecialchars($NSegnalazioniByType) . '</td>
                 </tr>
             </tfoot>
@@ -92,13 +109,13 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     
     if ($connessioneOK) {
         $NSegnalazioniByType = $connessione->getNSegnalazioni($_SESSION['email']); 
-        $NSegnalazioniCani = $NSegnalazioniByType['no-admin-cani'];
-        $NSegnalazioniGatti = $NSegnalazioniByType['no-admin-gatti'];
+        $NSegnalazioniCani = $NSegnalazioniByType['Cane'];
+        $NSegnalazioniGatti = $NSegnalazioniByType['Gatto'];
 
         $offCani = ($tipoAttivo === 'Cani') ? $offset : 0;
         $offGatti = ($tipoAttivo === 'Gatti') ? $offset : 0;
 
-        $animaliSegnalati = $connessione->getDetailsSegnalazioniAnimalsPaged($perPagina, $offCani, $offGatti);
+        $animaliSegnalati = $connessione->getDetailsSegnalazioniAnimalsPaged($perPagina, $offCani, $offGatti, ($_GET['assegnate']=='mie' || $_GET['assegnate']==='tutte')? $_SESSION['email'] : null, $_GET['assegnate']==='mie' ? 'mie' : ( $_GET['assegnate']==='nessuno' ? 'nessuno' : 'tutte' ) );
         $nome_admin= ($connessione->findAdminByEmail($_SESSION['email']))['nome']; //per prendere il nome dell'admin da mettere nella mail!!
 
         
@@ -140,22 +157,18 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     $main = str_replace('[LINKPAGINE-GATTI]', $linkGatti, $main);
 
     /* ---- da completare quando aggiungerò i filtri (SE)---*/
-    /*$rawFilters = [
-        'appunti'   => $_GET['appunti'] ?? '',
-        'trasporto' => $_GET['trasporto'] ?? '',
+    $rawFilters = [
+        'assegnate'   => $_GET['assegnate'] ?? '',
     ];
 
 
     $replaceFilters = [
-        '[APPUNTI_SELECTED_TUTTI]'   => $rawFilters['appunti'] === '' ? 'selected' : '',
-        '[APPUNTI_SELECTED_SI]' => $rawFilters['appunti'] === '1' ? 'selected' : '',
-        '[APPUNTI_SELECTED_NO]'   => $rawFilters['appunti'] === '0' ? 'selected' : '',
-        '[TRASPORTO_SELECTED_TUTTI]' => $rawFilters['trasporto'] === '' ? 'selected' : '',
-        '[TRASPORTO_SELECTED_ORGANIZZATO]' => $rawFilters['trasporto'] === '1' ? 'selected' : '',
-        '[TRASPORTO_SELECTED_DA_ORGANIZZARE]'   => $rawFilters['trasporto'] === '0' ? 'selected' : '',
+        '[ASSEGNATE_SELECTED_TUTTI]'   => $rawFilters['assegnate'] === 'tutte' ? 'selected' : '',
+        '[ASSEGNATE_SELECTED_MIE]' => $rawFilters['assegnate'] === 'mie' ? 'selected' : '',
+        '[ASSEGNATE_SELECTED_NESSUNO]'   => $rawFilters['assegnate'] === 'nessuno' ? 'selected' : '',
     ];
 
-    $main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);*/
+    $main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);
 
     $title = "<title>Animali senza admin - PetMatch</title>";
     $description = "<meta name='description' content='Pagina di gestione delle richieste di adozione per animali senza amministratore in PetMatch.'>";

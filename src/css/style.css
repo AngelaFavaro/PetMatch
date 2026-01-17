@@ -1582,6 +1582,17 @@ input:-webkit-autofill:active{
     flex-wrap: wrap;
 }
 
+#animali.segnalazioni .filtri {
+    width: 100%;
+    justify-content: flex-end;
+    margin-bottom: 0.5em;
+}
+#animali.segnalazioni .filtri ul{
+    flex: none;
+}
+#animali.segnalazioni .filtri button{
+   margin: 0;
+}
 #animali .filtri ul, .tab-content .filtri ul {
     display: flex;
     /* flex-wrap: wrap; */
@@ -2936,9 +2947,9 @@ a.pencil {
     height: auto;
 }
 
-#admin-area .tabs-container#richieste .tab-content{
+#admin-area .tabs-container#richieste .tab-content, #admin-area .tabs-container#animali .tab-content{
     border: none;
-    margin: 0em;
+    margin: 0.5em;
 }
 .tab-content#Richiedente .brown-button{
     margin: 0em 0em 0em auto;
@@ -3193,8 +3204,12 @@ tr:hover {
 }
 /*================== FILTRI  ==================*/
 .tab-content .filtri ul{
-    margin: 1em;
+    /* margin: 1em; */
     justify-content: flex-end;
+}
+
+.tab-content .filtri{
+    margin-bottom: 1em;
 }
 .tab-content .filtri button{
     display: inline;
