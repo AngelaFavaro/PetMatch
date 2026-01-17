@@ -29,7 +29,7 @@ $pagine = [
         'parent' => 'richieste-adozione'
     ],
     'nuovo-animale' => [
-        'label' => 'Nuovo animale',
+        'label' => 'Aggiungi animale',
         'url' => './nuovo-animale',
         'parent' => 'home'
     ],
@@ -68,9 +68,6 @@ $pagine = [
 ];
 
 $adminMenu = [
-    'azioni' => [
-        ['href' => './nuovo-animale', 'text' => '+ Aggiungi animale']
-    ],    
     'principale' => [
         ['href' => './area-riservata', 'text' => 'AREA PERSONALE'],
         ['href' => './richieste-adozione', 'text' => 'RICHIESTE DI ADOZIONE'],

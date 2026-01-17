@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             // Qui chiameresti la tua funzione sendData()
         });
-}
+    }
 
     /* ==========================================================================
        VALIDAZIONE FORM AGGIUNGI ANIMALE
@@ -261,10 +261,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (name === 'taglia' || name === 'pelo') {
                 if (val === "" || val === null) return "Seleziona un'opzione";
-            }
-
-            if (name === 'condMediche' || name === 'carattere' || name === 'famiglia') {
-                if (val.length > 0 && val.length < 10) return "Descrizione troppo breve (min 10 car.)";
             }
 
             if (name === 'tipologia' || name === 'sesso') {
@@ -324,5 +320,60 @@ document.addEventListener('DOMContentLoaded', () => {
                 firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         });
+    }
+
+    // ========== DRAG & DROP PER FOTO ==========
+    const fileInput = document.getElementById('foto');
+    const fileLabel = document.querySelector('.file-upload-label');
+    const fileNameDisplay = document.querySelector('.file-name-display');
+
+    if (fileInput && fileLabel) {
+        // Previeni comportamento default del browser
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            fileLabel.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            }, false);
+        });
+
+        // Evidenzia area quando drag
+        ['dragenter', 'dragover'].forEach(eventName => {
+            fileLabel.addEventListener(eventName, () => {
+                fileLabel.classList.add('drag-active');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            fileLabel.addEventListener(eventName, () => {
+                fileLabel.classList.remove('drag-active');
+            }, false);
+        });
+
+        // Gestisci il drop
+        fileLabel.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                updateFileName(files[0].name);
+                // Trigger validation
+                setError(fileInput, validateField(fileInput));
+            }
+        }, false);
+
+        // Mostra nome file quando scelto normalmente
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                updateFileName(fileInput.files[0].name);
+            }
+        });
+
+        function updateFileName(name) {
+            fileNameDisplay.textContent = `✓ ${name}`;
+            // Aggiorna anche .foto-caricata-info se esiste
+            const infoDiv = document.querySelector('.foto-caricata-info');
+            if (infoDiv) {
+                infoDiv.textContent = `File selezionato: ${name}`;
+            }
+        }
     }
 });

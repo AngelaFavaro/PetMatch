@@ -2466,7 +2466,6 @@ div#admin-area{
 
 body#admin-body #breadcrumb{
     margin: 0.5em auto 0.5em auto ;
-
 }
 
 div#admin-area div#row2 article{
@@ -2548,7 +2547,6 @@ body#admin-body main {
     background-color: var(--bgcolor);
     margin-left:20%;
 }
-
 
 nav#menu-admin img {
     display: block;
@@ -3011,47 +3009,54 @@ td.col-dettagli a{
 
 /*==================NUOVO ANIMALE==================*/
 
+/* ========================================
+   CONTAINER PRINCIPALE
+   ======================================== */
 #admin-area-aggiungi {
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    /* Centriamo di nuovo per bilanciare gli spazi */
-    align-items: center; 
+    align-items: center;
     background-color: var(--secondsection);
-    /* Padding fisso e piccolo: il verde sarà solo una sottile cornice */
-    padding: 2em 1em; 
+    padding: 2em 1em;
     box-sizing: border-box;
 }
 
+/* ========================================
+   FORM BASE
+   ======================================== */
 #form-add-animal {
     background-color: var(--bgcolor);
-    /* Aumentiamo la larghezza base */
-    width: 95%; 
-    /* Portiamo la larghezza massima a 900px o 1000px per espandere l'area bianca */
-    max-width: 950px; 
-    /* Padding interno generoso per far sembrare il form più grande e importante */
-    padding: 3em 4em; 
+    width: 95%;
+    max-width: 950px;
+    padding: 3em 4em;
     border-radius: 1em;
     box-shadow: 0 0.5em 2em rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
 }
 
-fieldset {
+#form-add-animal fieldset {
+    margin-bottom: 1em;
+    border: none;
+    padding: 0;
+}
+
+#form-add-animal legend {
+    float: left;
+    width: 100%;
+    text-align: left;
+    font-weight: 500;
     margin-bottom: 1em;
 }
 
-legend {
-    float: left;        
-    width: 100%;        
-    text-align: left; 
-    font-weight: 500;   
-}
-
+/* ========================================
+   RADIO BUTTONS - TIPOLOGIA ANIMALE
+   ======================================== */
 .radio-group-cg {
     display: flex;
-    flex-direction: row;    
-    justify-content: center; 
-    clear: both;            
+    flex-direction: row;
+    justify-content: center;
+    clear: both;
     gap: 2em;
     flex-wrap: wrap;
     width: 100%;
@@ -3063,11 +3068,11 @@ legend {
 
 .radio-card {
     display: inline-block;
-    padding: 0.5em 5em;       
-    min-width: 150px;      
-    border: 2px solid var(--text-buttoncolor);   
-    border-radius: 0.5em;  
-    cursor: pointer;         
+    padding: 0.5em 5em;
+    min-width: 150px;
+    border: 2px solid var(--text-buttoncolor);
+    border-radius: 0.5em;
+    cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 500;
     text-align: center;
@@ -3079,47 +3084,19 @@ legend {
 }
 
 .radio-group-cg input[type="radio"]:checked + .radio-card {
-    background-color: var(--buttoncolor-hover); 
-    color: var(--bgcolor);                                  
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-label, p .form-add-animal {
-    font-weight: 550;
-    display: inline-block; /* Consigliato per le label per gestire meglio i margini */
-}
-
-label[for="taglia"] {
-    display: block;      /* Forza la label a occupare tutta la riga */
-    margin-bottom: 0.5em;
-}
-
-select#taglia,
-select#pelo {
-    display: block;     
-    width: 100%;         
-    padding: 0.5em;
-    border: 1px solid var(--text-buttoncolor);
-    border-radius: 1em;
-    font-size: 1em;
-    background-color: var(--bgcolor);
-    transition: background-color 0.2s ease, border-color 0.2s ease;
-    color: var(--buttoncolor-hover);
-    cursor: pointer;
-    appearance: none;    
-}
-
-select#taglia:focus,
-select#pelo:focus {
-    outline: none;
-    background-color: var(--buttoncolor-hover); /* Si colora di bianco o un altro colore quando attivo */
+    background-color: var(--buttoncolor-hover);
     color: var(--bgcolor);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-select#taglia option,
-select#pelo option {
-    background-color: var(--bgcolor); /* Le opzioni dentro la lista rimangono leggibili */
-    color: var(--buttoncolor-hover);
+/* ========================================
+   RADIO BUTTONS - SESSO
+   ======================================== */
+.sex-title {
+    font-weight: 550;
+    display: inline-block;
+    margin-top: 1em;
+    margin-left: 0.5em;
 }
 
 .sex-group {
@@ -3135,7 +3112,7 @@ select#pelo option {
     align-items: center;
     padding: 0.5em 1em;
     border: 1px solid var(--text-buttoncolor);
-    border-radius: 2em; 
+    border-radius: 2em;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -3143,29 +3120,75 @@ select#pelo option {
 .sex-option input[type="radio"] {
     margin-right: 10px;
     accent-color: var(--buttoncolor-hover);
-    transform: scale(1.2); /* Lo rende leggermente più grande e visibile */
+    transform: scale(1.2);
     cursor: pointer;
 }
 
-.sex-title {
+/* ========================================
+   LABELS
+   ======================================== */
+#form-add-animal label {
     font-weight: 550;
-    display: inline-block;
-    margin-top: 1em;
-    margin-left: 0.5em;
+    display: block;
+    margin-bottom: 0.5em;
 }
 
-input#foto {
-    display: block;     
-    width: 100%;         
-    padding: 4em;      
-    cursor: pointer;     
-
+/* ========================================
+   INPUT TEXT E DATE
+   ======================================== */
+#form-add-animal input[type="text"],
+#form-add-animal input[type="date"] {
+    display: block;
+    width: 100%;
+    padding: 0.5em;
+    border: 1px solid var(--text-buttoncolor);
     border-radius: 0.5em;
+    font-size: 1em;
+    font-family: inherit;
+    background-color: var(--bgcolor);
+    color: var(--buttoncolor-hover);
+    transition: all 0.3s ease;
 }
 
-textarea#carattere, 
-textarea#condMediche,
-textarea#famiglia {
+#form-add-animal input[type="text"]:focus,
+#form-add-animal input[type="date"]:focus {
+    outline: none;
+    border-color: var(--buttoncolor-hover);
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.1);
+}
+
+/* ========================================
+   SELECT (TAGLIA E PELO)
+   ======================================== */
+#form-add-animal select {
+    display: block;
+    width: 100%;
+    padding: 0.5em;
+    border: 1px solid var(--text-buttoncolor);
+    border-radius: 1em;
+    font-size: 1em;
+    background-color: var(--bgcolor);
+    color: var(--buttoncolor-hover);
+    cursor: pointer;
+    appearance: none;
+    transition: all 0.3s ease;
+}
+
+#form-add-animal select:focus {
+    outline: none;
+    background-color: var(--buttoncolor-hover);
+    color: var(--bgcolor);
+}
+
+#form-add-animal select option {
+    background-color: var(--bgcolor);
+    color: var(--buttoncolor-hover);
+}
+
+/* ========================================
+   TEXTAREA
+   ======================================== */
+#form-add-animal textarea {
     display: block;
     height: 8em;
     width: 100%;
@@ -3181,38 +3204,105 @@ textarea#famiglia {
     margin-bottom: 0.5em;
 }
 
-textarea#carattere:focus, 
-textarea#condMediche:focus,
-textarea#famiglia:focus {
+#form-add-animal textarea:focus {
     background-color: var(--bgcolor);
     outline: none;
     border-color: var(--buttoncolor-hover);
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.1);
 }
 
-label[for="carattere"],
-label[for="condMediche"],
-label[for="famiglia"] {
+
+.file-upload-label {
     display: block;
-    margin-top: 1.5em;
-    margin-bottom: 0.5em;
-    font-weight: 550;
+    width: 100%;
+    padding: 4em;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.5em;
+    border: 1px solid var(--text-buttoncolor);
+    transition: all 0.3s ease;
+    position: relative;
 }
 
-/* Il div che racchiude i bottoni */
+.file-upload-label:hover {
+    border-color: var(--buttoncolor-hover);
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+.file-upload-label.drag-active {
+    border-color: var(--buttoncolor-hover);
+    background-color: rgba(0, 123, 255, 0.15);
+    transform: scale(1.02);
+}
+
+.file-upload-text {
+    font-weight: 500;
+    color: var(--text-buttoncolor);
+    display: block;
+}
+
+.file-upload-label:hover .file-upload-text {
+    color: var(--buttoncolor-hover);
+}
+
+.file-name-display {
+    display: block;
+    margin-top: 0.5em;
+    font-size: 0.9em;
+    color: var(--buttoncolor-hover);
+    font-weight: 600;
+}
+
+.file-upload-label input[type="file"] {
+    display: none;
+}
+
+/* Info foto caricata */
+.foto-caricata-info {
+    margin-top: 0.5em;
+    font-size: 0.9em;
+    color: var(--buttoncolor-hover);
+}
+
+.transport-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6em;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.checkbox-label.bordered {
+    border: 0.07em solid var(--buttoncolor-hover);
+    padding: 0.7em 1em;
+    border-radius: 0.5em;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 1.1em;
+    height: 1.1em;
+    accent-color: var(--buttoncolor-hover);
+}
+
 .form-buttons-container {
-    display: flex;       
-    gap: 1.5em;          
-    width: 100%;         
-    margin-top: 2.5em;   
+    display: flex;
+    gap: 1.5em;
+    width: 100%;
+    margin-top: 2.5em;
     justify-content: center;
 }
 
 .form-buttons-container button {
-    flex: 1;            
+    flex: 1;
     padding: 1em;
     font-size: 1.1em;
-    font-weight: 600;   
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
     border-radius: 0.8em;
@@ -3221,8 +3311,8 @@ label[for="famiglia"] {
 
 .white-button {
     background-color: var(--bgcolor);
-    color: var(--headervisitedlink); 
-    border: 3px solid var(--headervisitedlink); 
+    color: var(--headervisitedlink);
+    border: 3px solid var(--headervisitedlink);
 }
 
 .white-button:hover {
@@ -3230,38 +3320,14 @@ label[for="famiglia"] {
     color: var(--bgcolor);
 }
 
-.transport-wrapper {
-  display: flex;
-  justify-content: center;  
-}
-
-.checkbox-label {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6em;
-  cursor: pointer;
-  font-size: 1em;
-}
-
-.checkbox-label.bordered {
-  border: 0.07em solid var(--buttoncolor-hover);
-  padding: 0.7em 1em;
-  border-radius: 0.5em;
-}
-
-.checkbox-label input[type="checkbox"] {
-  width: 1.1em;
-  height: 1.1em;
-  accent-color: currentColor;
-}
-
-/* Stile per i messaggi sotto i campi del form */
+/* ========================================
+   MESSAGGI DI ERRORE
+   ======================================== */
 .error-form {
-    color: #d93025; 
+    color: var(--footercolor);
     font-size: 0.9em;
     margin-top: 5px;
-    display: block; 
+    display: block;
 }
 
 /*================NAVIGATION HELP ==================*/

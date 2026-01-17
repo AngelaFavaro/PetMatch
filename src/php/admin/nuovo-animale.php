@@ -136,6 +136,11 @@ if ($connessione->openDBConnection()) {
 // COSTRUZIONE PAGINA HTML
 $paginaHTML = file_get_contents('./src/template/layout-admin.html');
 $main = file_get_contents('./src/template/main/admin/nuovo-animale.html');
+$breadcrumb = getBreadcrumb('nuovo-animale', $pagine);
+$nav = buildAdminNav($adminMenu,'./nuovo-animale');
+$keywords = "<meta name='keywords' content='aggiungi, animale, adozione, amministratore'>";
+$title = "<title>Aggiungi un animale - PetMatch</title>";
+$description = "<meta name='description' content='Aggiungi un animale al database di PetMatch per poterlo visualizzare nel sito.'>";
 
 $paginaHTML = str_replace('[title]', $title, $paginaHTML);
 $paginaHTML = str_replace('[description]', $description, $paginaHTML);
