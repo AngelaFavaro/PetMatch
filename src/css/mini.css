@@ -204,21 +204,6 @@ input:checked + #slider {
     display: none;
 }
 
-#form-affidamento {
-    background-color: var(--bgcolor);
-    color: var(--txtcolor);
-    margin:2em 2em 0.1em 2em;
-    padding: 0em 2em;
-    flex: 1 0 40%;
-    border-radius: 2.1em;
-}
-
-#container-form-affidamento{
-    padding: 0;
-    background-image: none;
-    overflow:hidden;
-}
-
 #sponsor img{
     width: 130px; 
     padding:0.5em;

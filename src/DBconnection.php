@@ -782,19 +782,19 @@ class DBAccess {
         return $results;
     }
 
-    public function insertReportForm(string $name, string $email): bool {
+    public function insertReportForm(string $name, string $email, string $animal): bool {
         if (!$this->connection){
             return false;
         }
 
-        $query = "INSERT INTO SEGNALAZIONI_NUOVE_ACCOGLIENZE (NominativoRichiedente, EmailRichiedente) VALUES (?, ?)";
+        $query = "INSERT INTO SEGNALAZIONI_NUOVE_ACCOGLIENZE (NominativoRichiedente, EmailRichiedente, TipoAnimale) VALUES (?, ?, ?)";
 
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
             return false;
         }
 
-        mysqli_stmt_bind_param($stmt, 'ss', $name, $email);
+        mysqli_stmt_bind_param($stmt, 'sss', $name, $email, $animal);
         $result = mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
         return $result;

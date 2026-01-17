@@ -1250,6 +1250,25 @@ fieldset {
     margin: 0;
 }
 
+#home input[name="type-animal"]{
+    float: left;
+    align-items: center;
+    outline-color: var(--buttoncolor-hover);
+}
+
+#home input[name="type-animal"]+label{
+    padding:6px;
+    margin:auto 2em;
+}
+
+.radio-input{
+    display: flex;
+}
+
+.radio-input div{
+    flex: 1 1 50%;
+}
+
 #container-form-affidamento{
     display: flex;
     align-items: center;
@@ -2033,7 +2052,7 @@ input:-webkit-autofill:active{
 #admin-area .tabs-container .tab-content{
 flex: 1 0 100%;
 }
-#user-profile input:checked + label, #admin-area input:checked + label {
+#user-profile input:checked + label, #admin-area input:checked + label{
     border-top: 1px solid var(--headercolor); 
     border-left: 1px solid var(--headercolor); 
     border-right: 1px solid var(--headercolor); 
@@ -2264,7 +2283,8 @@ a:hover .hover-icon {opacity: 1;}
     gap: 10px;                 
 }
 
-.checkbox-container-pic input[type="checkbox"] {
+.checkbox-container-pic input[type="checkbox"],
+#home input[name="type-animal"] {
     -webkit-appearance: none;
     appearance: none;
     
@@ -2279,12 +2299,14 @@ a:hover .hover-icon {opacity: 1;}
     margin: 0;                  
 }
 
-.checkbox-container-pic input[type="checkbox"]:checked {
+.checkbox-container-pic input[type="checkbox"]:checked,
+#home input[name="type-animal"]:checked {
     background-color: var(--buttoncolor);   
     border-color: var(--buttoncolor);  
 }
 
-.checkbox-container-pic input[type="checkbox"]::before {
+.checkbox-container-pic input[type="checkbox"]::before,
+#home input[name="type-animal"]::before {
     content: "";
     position: absolute;
     width: 15px;
@@ -2299,7 +2321,8 @@ a:hover .hover-icon {opacity: 1;}
     transition: 0.2s transform ease-in-out;
 }
 
-.checkbox-container-pic input[type="checkbox"]:checked::before {
+.checkbox-container-pic input[type="checkbox"]:checked::before,
+#home input[name="type-animal"]:checked::before {
     transform: scale(1);        
 }
 
