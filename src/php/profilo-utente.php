@@ -60,7 +60,7 @@ function createMovementList(DBAccess $conn, $filtro = 'all'): string {
                     $statoRichiesta = 'La tua richesta di adozione per <em>'.$nomeAnimale.'</em> è in <strong>valutazione.</strong>';
                     break;
                 case 'Da trasportare':
-                    $statoRichiesta = '<em>'.$nomeAnimale.'</em> partità il giorno <em>'.$richiesta['DataPartenza'].'</em> e arriverà il giorno<em>'.$richiesta['DataArrivo'].'</em>!';
+                    $statoRichiesta = '<em>'.$nomeAnimale.'</em> <strong>partità</strong> il giorno <em>'.$richiesta['DataPartenza'].'</em> e <strong>arriverà</strong> il giorno<em>'.$richiesta['DataArrivo'].'</em>!';
                     break;
                 case 'Accettata':
                     $statoRichiesta = 'Complimenti! <strong>Hai adottato</strong> con successo <em>'.$nomeAnimale.'</em>.';
@@ -79,8 +79,9 @@ function createMovementList(DBAccess $conn, $filtro = 'all'): string {
             // TODO: il link "Vedi animale" deve portare alla pagina di dettaglio dell'animale, da fare quando la pagina sarà pronta
             $listaMovimenti .= '<li>
                 <article>
-                    <p>'.$statoRichiesta.'</p>
-                    <a href="">Vedi animale</a>
+                    <p>'.$statoRichiesta.'</p>';
+                    $listaMovimenti .= $conn->isAnimalAdopted($richiesta['IDanimale'])?'<p class="nonDisponibile"><em>Animale adottato</em></p>':'<a href="">Vedi animale</a>';
+            $listaMovimenti.='        
                 </article>
             </li>';
         }
@@ -415,7 +416,7 @@ function editManagementAccount(DBAccess $conn, &$NewUserValues, $infoUtente): ar
         $errors = [];
 
         $regexEmail = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,10})$/i";
-        $regexPassword = "/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@+?\/,.\-$_=])[a-zA-Z0-9!@+?\/,.\-$_=]{8,32}$/";
+        $regexPassword = '/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@+?\/,.\-$_=])[a-zA-Z0-9!@+?\/,.\-$_=]{8,32}$/';
 
         /* VALIDAZIONE CAMPI */
 
@@ -501,7 +502,7 @@ $htmlView =
         <dt>Telefono: </dt> <dd>[telefono-utente-view]</dd>
     </dl>
     <form action="./profilo-utente" method="POST">
-        <button type="submit" name="logout" class="logout-btn">Esci</button>
+        <button type="submit" name="logout" class="logout-btn">Disconnettiti</button>
     </form>
 </aside>';
 
@@ -709,7 +710,7 @@ $keywords = "";
 
 $nav = buildUserNav($userMenu, './profilo-utente',$_SESSION['email'] ?? false);
 
-$footer = file_get_contents('./src/template/partials/footer.html');
+$footer = buildFooter($footerMenu,  './profilo-utente');
 
 $breadcrumb = getBreadcrumb('profilo-utente', $pagine);
 

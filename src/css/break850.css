@@ -32,7 +32,6 @@
 #header-actions .white-button:hover #account-hover { opacity: 1; }
 
 
-
 #theme-switch {
     width: 32px;
     height: 32px;
@@ -56,6 +55,20 @@
 #slider::before {
     content: none;
     display: none;
+}
+
+/* ==================HOME==================*/
+
+#events-list::before{
+    top:-20%;
+}
+
+#events-list{
+    margin-top: 8%;
+}
+
+#events-list .polaroid p{
+    margin:0 auto; 
 }
 
 #timeline::before {
@@ -167,36 +180,52 @@ details[open] .number::after {
     transform: rotate(-10deg);
 }
 
+
+#form-affidamento {
+    background-color: var(--bgcolor);
+    color: var(--txtcolor);
+    margin:2em auto 0.1em auto;
+    padding: 0em 2em;
+    flex: 1 0 40%;
+    border-radius: 2.1em;
+}
+
+#container-form-affidamento{
+    padding: 0;
+    background-image: none;
+    overflow:hidden;
+}
+
 /* ==================ANIMALI==================*/
 
-#animali #filtri .capsula-filtro{
+#animali .filtri .capsula-filtro{
     width: 100%;
     max-width: none;
     justify-content: left;
 }
 
-#animali #filtri #searchSex.capsula-filtro,
-#animali #filtri #searchSize.capsula-filtro{
+#animali .filtri #searchSex.capsula-filtro,
+#animali .filtri #searchSize.capsula-filtro{
     width: 49.4%;
 }
 
-#animali #filtri .capsula-filtro .eta-range{
+#animali .filtri .capsula-filtro .eta-range{
     margin:auto;
     padding-right: 2em;
 }
 
-#animali #filtri #searchName.capsula-filtro {
+#animali .filtri #searchName.capsula-filtro {
     width: 100%;
 }
 
-#animali #filtri {
+#animali .filtri {
     display: flex;
     flex-direction: column;  /* mette tutto in colonna */
     gap: 1em;              /* spazio tra righe */
     align-items: center;     /* centra tutto orizzontalmente */
 }
 
-#animali #filtri ul {
+#animali .filtri ul {
     display: flex;
     flex-wrap: wrap;
     list-style: none;
@@ -207,9 +236,10 @@ details[open] .number::after {
 }
 
 
-#cancel-filter{
+#cancel-filter-visible{
     border-radius: 1em;
     flex: 0 0 28%;
+    padding:6px 12px;
 }
 
 #animali #content-filter-button{

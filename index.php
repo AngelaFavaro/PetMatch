@@ -35,12 +35,29 @@ $routes = [
     'preferiti' => [
         'file' => __DIR__ . '/src/php/preferiti.php'
     ],
-
-
-
+    'senza-amministratore' => [
+        'file' => __DIR__ . '/src/php/admin/senza-amministratore.php'
+    ],
+    'nuove-accoglienze' => [
+        'file' => __DIR__ . '/src/php/admin/nuove-accoglienze.php'
+    ],
+    'accedi' => [
+        'file' => __DIR__ . '/src/php/accedi.php'
+    ],
+    'profilo-utente' => [
+        'file' => __DIR__ . '/src/php/profilo-utente.php'
+    ],
+    'revisione-richiesta' => [
+        'file' => __DIR__ . '/src/php/revisione-richiesta.php'
+    ],
+    'nuovo-animale' => [
+        'file' => __DIR__ . '/src/php/admin/nuovo-animale.php'
+    ]
+];
     /* decommentare quando si vogliono aggiungere le altre pagine
     'accedi' => [
         'file' => __DIR__ . '/src/php/accedi.php'
+    ],
     'richieste-adozione' => [
         'file' => __DIR__ . '/src/php/admin/richieste-adozione.php'
     ],
@@ -57,10 +74,6 @@ $routes = [
     'lavora-con-noi' => [
         'file' => __DIR__ . '/src/php/lavora-con-noi.php'
     ],
-    
-
-
-
     'animali/cani' => [
         'file' => __DIR__ . '/src/php/animali.php',
         'params' => [ //in questo modo è come se l'utente avesse scritto animali.php?tipo=cani
@@ -90,15 +103,6 @@ $routes = [
             'tipo' => 'gatti'
         ]
     ]*/
-    'accedi' => [
-        'file' => __DIR__ . '/src/php/accedi.php'
-    ],
-    'profilo-utente' => [
-        'file' => __DIR__ . '/src/php/profilo-utente.php'
-    ],
-    'revisione-richiesta' => [
-        'file' => __DIR__ . '/src/php/revisione-richiesta.php'
-    ]
     // 'animali' => [
     //     'file' => __DIR__ . '/src/php/animali.php',
     // ],
@@ -109,30 +113,11 @@ $routes = [
     // 'animali/gatti' => [
     //     'file' => __DIR__ . '/src/php/animali.php',
     // ]
-];
+
 
 // inizio della logica del routing
 if (isset($routes[$url])) {
     $route = $routes[$url];
-
-    // controllo i parametri obbligatori (tipo in dettagli-richiesta non voglio che manchi email o id-animale)
-    // Se la rotta richiede parametri che non sono presenti in $_GET, mandiamo al 404
-    // if (isset($route['required_params'])) {
-    //     foreach ($route['required_params'] as $param) {
-    //         if (!isset($_GET[$param]) || trim($_GET[$param]) === '') {
-    //             handle404();
-    //         }
-    //     }
-    // }
-
-    // // lo lascio ma forse non serve piu
-    // if (isset($route['params'])) {
-    //     foreach ($route['params'] as $key => $value) {
-    //         if (!isset($_GET[$key])) {
-    //             $_GET[$key] = $value;
-    //         }
-    //     }
-    // }
     if (file_exists($route['file'])) {
         require $route['file'];
         exit;

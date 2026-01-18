@@ -1,0 +1,127 @@
+<div id="admin-area-aggiungi">
+    <form method="post" id="form-add-animal" enctype="multipart/form-data" novalidate>
+        <h1>Aggiungi un Animale</h1>
+        <div class="message-container">[erroriGeneric]</div>
+        <fieldset>
+            <legend>Tipologia di animale</legend>
+            <div class="radio-group-cg">
+                <input type="radio" name="tipologia" id="cane" value="0" [tipoCane_checked]>
+                <label for="cane" class="radio-card">Cane</label>
+
+                <input type="radio" name="tipologia" id="gatto" value="1" [tipoGatto_checked]>
+                <label for="gatto" class="radio-card">Gatto</label>
+            </div>
+            <p class="error-form">[erroriTipologia]</p>
+            
+        </fieldset>
+
+        <fieldset>
+            <legend>Informazioni animale</legend>
+            <div class="column-container">
+                <div class="column-user">
+                    <div>
+                        <label for="nome">Nome</label>
+                        <input type="text" name="nome" id="nome" placeholder="Nome" autocomplete="nome" value="[nome]">
+                        <p class="error-form">[erroriNome]</p>
+                    </div>
+
+                    <div>
+                        <label for="razza">Razza</label>
+                        <input type="text" name="razza" id="razza" placeholder="Razza" autocomplete="razza" value="[razza]">
+                        <p class="error-form">[erroriRazza]</p>
+                    </div>
+
+                    <label for="taglia">Taglia</label>
+                    <select name="taglia" id="taglia">
+                        <option value="" disabled [tagliaVuota_selected]>Seleziona un'opzione</option>
+                        <option value="Piccola" [tagliaPiccola_selected]>Piccola</option>
+                        <option value="Media" [tagliaMedia_selected]>Media</option>
+                        <option value="Grande" [tagliaGrande_selected]>Grande</option>
+                    </select>
+                    <p class="error-form">[erroriTaglia]</p>
+
+                    <p class="sex-title">Sesso</p>
+                    <div class="sex-group">
+                        <label class="sex-option">
+                            <input type="radio" name="sesso" id="Maschio" value="0" required [sessoM_checked]>
+                            <span>Maschio</span>
+                        </label>
+
+                        <label class="sex-option">
+                            <input type="radio" name="sesso" id="Femmina" value="1" [sessoF_checked]>
+                            <span>Femmina</span>
+                        </label>
+                    </div>
+                    <p class="error-form">[erroriSesso]</p>
+                    
+                    <label for="foto" class="file-upload-label">
+                        <span class="file-upload-text"> Aggiungi o trascina foto</span>
+                        <span class="file-name-display"></span>
+                        <input type="file" id="foto" name="foto" accept="image/*">
+                        <div class="foto-caricata-info">
+                            [infoFotoCaricata]
+                        </div>
+                    </label>
+
+                    <div class="transport-wrapper">
+                        <label class="checkbox-label">
+                            Disponibile al trasporto
+                            <input type="checkbox" name="trasporto" id="trasporto" value="1" [trasporto_checked]>
+                        </label>
+                    </div> 
+                    
+                </div>
+
+                <div class="column-user">
+                    <div>
+                        <label for="dataNascita">Data di Nascita: </label>
+                        <input type="date" name="dataNascita" id="dataNascita" autocomplete="Data di nascita" value="[dataNascita]">
+                        <p class="error-form">[erroriDataNascita]</p>
+                    </div>
+
+                    <label for="pelo">Pelo</label>
+                    <select name="pelo" id="pelo">
+                        <option value="" disabled [peloVuoto_selected]>Seleziona un'opzione</option>
+                        <option value="Corto" [peloCorto_selected]>Corto</option>
+                        <option value="Lungo" [peloLungo_selected]>Lungo</option>
+                        <option value="Misto" [peloMisto_selected]>Misto</option>
+                    </select>  
+                    <p class="error-form">[erroriPelo]</p>
+                    
+                    <div>
+                        <label for="colore">Colore</label>
+                        <input type="text" name="colore" id="colore" placeholder="Colore" autocomplete="colore" value="[colore]">
+                        <p class="error-form">[erroriColore]</p>
+                    </div>
+
+                    <div>
+                        <label for="condMediche">Condizioni mediche: </label>
+                        <textarea id="condMediche" name="condMediche" placeholder="Inserire testo">[condMediche]</textarea>
+                        <p class="error-form">[erroriCondMediche]</p>
+                    </div>
+
+                    <div>
+                        <label for="carattere">Descrizione caratteriale: </label>
+                        <textarea id="carattere" name="carattere" placeholder="Inserire testo">[carattere]</textarea>
+                        <p class="error-form">[erroriCarattere]</p>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Informazioni famiglia</legend>
+            <div>
+                <label for="famiglia">Famiglia ideale: </label>
+                <textarea id="famiglia" name="famiglia" placeholder="Inserire testo">[famiglia]</textarea>
+                <p class="error-form">[erroriFamiglia]</p>
+            </div>
+        </fieldset>   
+
+        <div class="form-buttons-container">
+            <a href="./area-riservata" id="cancel-add-animal">Annulla</a>
+            <button type="submit" name="submit-animal">Salva</button>
+        </div>
+
+    </form>
+</div>

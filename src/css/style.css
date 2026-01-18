@@ -39,6 +39,7 @@
 
 a{
     color: var(--linkcolor);
+    font-weight: 600;
 }
 
 a:visited{
@@ -141,6 +142,7 @@ h4{
 }
 
 /*==================PULSANTI==================*/
+#currentLink.orange-button,
 a.orange-button, a.brown-button,
 button.orange-button{
     display: block;
@@ -150,7 +152,7 @@ button.orange-button{
     padding: 0.7em 1.5em;
     border-radius: 1em;
     font-weight: 600;
-    letter-spacing: 1px;
+    letter-spacing: 0px;
     text-decoration: none;
     transition: background-color 0.6s ease;
 }
@@ -161,6 +163,7 @@ button.orange-button:hover {
     color: var(--linkcolor);
 }
 
+#currentLink.orange-button,
 a.orange-button,
 button.orange-button,
 .white-button:hover{
@@ -358,12 +361,11 @@ details[open] .popup{
     pointer-events: auto; /*così si può passare sopra con il pointer senza che il popup si chiuda*/
 }
 
-
-
 /*==================FLEX COLUMNS AND GRID==================*/
 /* mettere un div con questo come contenutore */
 .column-container{
     max-width: 1200px;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     gap: 1em;
@@ -379,7 +381,9 @@ NOTA: modificare il flex se necessario annidando la classe dentro le proprie sez
 }
 
 /*==================ERRORE 404==================*/
-
+.c404 .orange-button{
+    margin-top:1em;
+}
 
 /* Stile per allineare l'immagine ai numeri */
 #error-title {
@@ -446,14 +450,17 @@ NOTA: modificare il flex se necessario annidando la classe dentro le proprie sez
 input:focus-visible + label,
 a:focus-visible,
 button:focus-visible,
-input [type="checkbox"]:focus-visible {
+textarea:focus-visible,
+input [type="checkbox"]:focus-visible{
     outline: 3px solid red;
     outline-offset: 2px;
     transition: none;
 }
 
-input:focus{
-    outline:3px solid var(--headercolor);
+input:focus,
+textarea:focus,
+select:focus{
+    outline:2px solid var(--headercolor);
     outline-offset: 0px;
 }
 
@@ -479,6 +486,7 @@ input:focus{
 
 #introduction-lavora-con-noi a{
     color:var(--headerlink);
+    font-weight: 500;
 }
 
 
@@ -570,7 +578,12 @@ input:focus{
 /* ================== HEADER ================== */
 
 #layout-user #currentLink{
-    pointer-events: none;
+    font-weight: 600;
+}
+
+#layout-user #currentLink.white-button:hover{
+    background-color: var(--bgcolor);
+    color:var(--txtcolor);
 }
 
 #layout-user #currentLink a:visited{
@@ -689,6 +702,7 @@ header a{
  
 #osso a {
     color: var(--headerlink);
+    font-weight: normal;
 }
 
 #osso a:hover {
@@ -801,8 +815,17 @@ input:checked + #theme-switch #slider #moon { opacity: 1; }
     display: flex;
     list-style: none;
     flex-wrap: wrap;
-    padding: 2em 0em 2em 2em;
+    padding: 2em 0em 0em 2em;
 }
+
+footer a{
+    font-weight: normal;
+}
+
+footer a:hover{
+    text-decoration: underline;
+}
+
 
 footer {
     background-color: var(--footercolor);
@@ -811,7 +834,7 @@ footer {
 footer p{
     font-weight: bold;
     font-size: 1.2em;
-    margin-bottom: 0.3em;
+    margin-bottom: 0.5em;
 }
 
 #footer-menu > li{
@@ -824,6 +847,17 @@ footer p{
     list-style: none;
     margin-bottom:0.1em;
 }
+
+footer .container + div{
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+footer .container + div a:visited{
+    color:var(--bgcolor);
+}
+
+
 #grass {
     width: 100%;
     height: 60px; /*altezza fissa dell'erba*/
@@ -839,9 +873,10 @@ footer p{
 
 #copyright{
     text-align: center;
-    font-size: smaller;
     font-weight: 400;
     padding:1em;
+    /* sono 12px, il minimo per l'accessibilità */
+    font-size: 0.85rem; 
     color: var(--darkbgcolor);
     /* font-size: 0.9em; */
     /* margin-bottom: 1em; */
@@ -1035,9 +1070,9 @@ details:not([open]) .popup {
     content: '';
     display: block;
     position: absolute;
-    width: 140%;
-    top:-33%;
-    left: -18%;
+    width: 100%;
+    /* overflow: hidden; */
+    top:-23%;
     height: 100px;
     background-image: url('../../assets/images/rope.svg');
     background-size: 100% auto;
@@ -1048,12 +1083,48 @@ details:not([open]) .popup {
 }
 
 #events-list .polaroid{
+    display: block;
     flex: 1 1 20%;
     color: var(--txtcolor);
-    padding-top: 1em;
     transform-origin: top center;
     --base-rot: 0deg;
     margin:auto;
+    padding: 1em 0.5em 0 0.5em ;
+    text-decoration: none;
+    font-weight: normal;
+
+    box-sizing: border-box; 
+}
+
+
+#events-list .polaroid h4, 
+#events-list .polaroid p {
+    display: block; /* Importante */
+    width: 100%;
+    
+    white-space: nowrap;      /* Impedisce di andare a capo */
+    overflow: hidden;         /* Nasconde l'eccesso */
+    text-overflow: ellipsis;  /* Aggiunge i puntini ... */
+}
+
+#events-list .polaroid p{
+    width: 100%;
+}
+
+#events-list p.vMobile{
+    display: none;
+}
+
+#events-list .polaroid:hover{
+    text-decoration: underline;
+}
+
+#events-list .polaroid img{
+    width: 100%;
+    margin-top:-0.5em;
+    height: 130px;
+    object-fit: cover;
+    object-position: bottom;
 }
 
 #events-list .polaroid:before{
@@ -1063,7 +1134,7 @@ details:not([open]) .popup {
     background-repeat: no-repeat;
     width: 50px;
     height: 50px;
-    top:-22%;
+    top:-18%;
     left: 38%;
 }
 
@@ -1191,6 +1262,25 @@ fieldset {
     min-width: 0;
     padding: 0;
     margin: 0;
+}
+
+#home input[name="type-animal"]{
+    float: left;
+    align-items: center;
+    outline-color: var(--buttoncolor-hover);
+}
+
+#home input[name="type-animal"]+label{
+    padding:6px;
+    margin:auto 2em;
+}
+
+.radio-input{
+    display: flex;
+}
+
+.radio-input div{
+    flex: 1 1 50%;
 }
 
 #container-form-affidamento{
@@ -1492,14 +1582,25 @@ input:-webkit-autofill:active{
 
 /* Lista filtri */
 
-#animali #filtri {
+#animali .filtri, .tab-content .filtri {
     display: flex;
     align-items: center; 
     gap: 1em;
     flex-wrap: wrap;
 }
 
-#animali #filtri ul {
+#animali.segnalazioni .filtri {
+    width: 100%;
+    justify-content: flex-end;
+    margin-bottom: 0.5em;
+}
+#animali.segnalazioni .filtri ul{
+    flex: none;
+}
+#animali.segnalazioni .filtri button{
+   margin: 0;
+}
+#animali .filtri ul, .tab-content .filtri ul {
     display: flex;
     /* flex-wrap: wrap; */
     list-style: none;
@@ -1510,7 +1611,7 @@ input:-webkit-autofill:active{
 }
 
 /* Contenitore capsula per ogni filtro */
-#animali #filtri .capsula-filtro {
+#animali .filtri .capsula-filtro, .tab-content .filtri .capsula-filtro {
     display: inline-flex;        /* label + input/select affiancati */
     align-items: center;         /* centra verticalmente tutto */
     justify-content: center;
@@ -1527,16 +1628,16 @@ input:-webkit-autofill:active{
 }
 
 /* Label dentro la capsula */
-#animali #filtri .capsula-filtro label {
+#animali .filtri .capsula-filtro label, .tab-content .filtri .capsula-filtro label {
     margin-right: 0.5em;
     white-space: nowrap;
 }
 
-#animali #filtri .capsula-filtro label[for="name-animal"] {
+#animali .filtri .capsula-filtro label[for="name-animal"] {
     margin-left: 0;
 }
 
-#animali #filtri .capsula-filtro label[for="name-animal"] +input {
+#animali .filtri .capsula-filtro label[for="name-animal"] +input {
     width: 100%;
     min-width: 100px;
     max-width: none;
@@ -1546,7 +1647,7 @@ input:-webkit-autofill:active{
     font-weight: 500;
 }
 
-#animali #filtri #searchName.capsula-filtro{
+#animali .filtri #searchName.capsula-filtro{
     width: 40%;
     max-width: none;
     justify-content:left;
@@ -1594,8 +1695,10 @@ input:-webkit-autofill:active{
 
 /* Input e select dentro la capsula */
 
-#animali #filtri .capsula-filtro input,
-#animali #filtri .capsula-filtro select {
+#animali .filtri .capsula-filtro input,
+#animali .filtri .capsula-filtro select,
+.tab-content .filtri .capsula-filtro input,
+.tab-content .filtri .capsula-filtro select {
     border: none;
     
     /* color: var(--txtcolor); */
@@ -1608,28 +1711,27 @@ input:-webkit-autofill:active{
     box-sizing: border-box;
     min-width: 3em;             /* larghezza minima uniforme */
     color:var(--text-buttoncolor);    
-    border-radius: 2em;
     border-color: var(--text-buttoncolor);
     margin:5px;
 }
 
-#animali #filtri .capsula-filtro input{
+#animali .filtri .capsula-filtro input, .tab-content .filtri .capsula-filtro input {
     background: transparent;
 }
 
-#animali #filtri .capsula-filtro select{
+#animali .filtri .capsula-filtro select, .tab-content .filtri .capsula-filtro select {
     background-color: var(--bgcolor);
 }
 
 /* Range di età */
-#animali #filtri .capsula-filtro .eta-range {
+#animali .filtri .capsula-filtro .eta-range {
     display: flex;
     align-items: center;
     gap: 0.3em;
     height: 100%;
 }
 
-#animali #filtri .capsula-filtro .eta-range input {
+#animali .filtri .capsula-filtro .eta-range input {
     height: 100%;
     text-align: center;
     max-width: 3em;    /* dimensione compatta */
@@ -1637,16 +1739,16 @@ input:-webkit-autofill:active{
     color:var(--txtcolor);
 }
 
-#animali #filtri .capsula-filtro .eta-range input::placeholder {
+#animali .filtri .capsula-filtro .eta-range input::placeholder {
     color: var(--placeholder-text);
 }
 
-#animali #filtri .capsula-filtro input[type="text"] {
+#animali .filtri .capsula-filtro input[type="text"] {
     max-width:10em;
     width: 100%;
     color:var(--txtcolor);
 }
-#animali #filtri .capsula-filtro input[list] {
+#animali .filtri .capsula-filtro input[list] {
     max-width: 10em;   
     width: 100%;
     color:var(--txtcolor);
@@ -1837,21 +1939,30 @@ input:-webkit-autofill:active{
 
 /* LINK NEXT PAGES */
 
-#animali #next-page-links {
+#animali .next-page-links {
     display: flex;
     justify-content: center;
     margin: 2em;
 }
 
-#animali #next-page-links li,
-#animali #next-page-links li a {
+/* per pagina admin!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! , ho dato id="animals" anche nella pagina senza-amministratori*/
+#animali.tabs-container .next-page-links{
+    margin: 0em auto;
+}
+
+#admin-area #animali.tabs-container .tab-content{
+    border: none;
+}
+
+#animali .next-page-links li,
+#animali .next-page-links li a {
     color: var(--bgform);
     list-style: none;
     text-decoration: none;
     font-weight: bold;
 }
 
-#animali #next-page-links li {
+#animali .next-page-links li {
     padding: 0.3em;
     margin: 0.3em;
     border: 2.3px solid var(--bgform);
@@ -1865,11 +1976,11 @@ input:-webkit-autofill:active{
     /* font-size: 1.3em; */
 }
 
-#animali #next-page-links li a:hover{
+#animali .next-page-links li a:hover{
     border-bottom:2px solid var(--bgconfirmbutton);
 }
 
-#animali #next-page-links li a {
+#animali .next-page-links li a {
     transition: 0.3s;
     border-bottom:2px solid var(--bgcolor);
     display: flex;
@@ -1879,7 +1990,7 @@ input:-webkit-autofill:active{
     height: 100%;
 }
 
-#animali #next-page-links ul {
+#animali .next-page-links ul {
     display: flex;
     justify-content: center;
     border: 2.3px solid var(--bgform);
@@ -1887,7 +1998,7 @@ input:-webkit-autofill:active{
     padding: 0.3em;
 }
 
-#animali #next-page-links #currentLink {
+#animali .next-page-links .currentPage {
     background-color: var(--bgform);
     color: var(--bgcolor);
     justify-content: center;
@@ -2021,7 +2132,11 @@ input:-webkit-autofill:active{
     border-radius: 0 0 0.5em 0.5em;
 }
 
-#user-profile input:checked + label, #admin-area input:checked + label {
+/* con questo se dezoommi richieste di adozione e animali senza amministratore il contenuto delle tab rimane giù */
+#admin-area .tabs-container .tab-content{
+flex: 1 0 100%;
+}
+#user-profile input:checked + label, #admin-area input:checked + label{
     border-top: 1px solid var(--headercolor); 
     border-left: 1px solid var(--headercolor); 
     border-right: 1px solid var(--headercolor); 
@@ -2050,6 +2165,10 @@ input:-webkit-autofill:active{
 #user-profile .tab-content label[for="request-state-movement"],
 #user-profile .tab-content label[for="request-state-richieste"]{
     display: inline-block;
+}
+
+#user-profile .tabs-container legend{
+    display: none;
 }
 
 #user-profile .tab-content form button,
@@ -2098,8 +2217,6 @@ input:-webkit-autofill:active{
 
 #user-profile #user-info img.circle-foto{
     margin:auto;
-    display: flex;
-    background-color: var(--bglink-hover);
 }
 
 #user-info{
@@ -2138,8 +2255,8 @@ input:-webkit-autofill:active{
     align-items: center;
 }
 
-#user-profile #lista-movimenti article p,
-#user-profile #lista-richieste article p{
+#user-profile #lista-movimenti article p:first-of-type,
+#user-profile #lista-richieste article p:first-of-type{
     flex: 1 1 65%;
     margin-left:1em;
 }
@@ -2152,6 +2269,20 @@ input:-webkit-autofill:active{
     color:var(--bgcolor);
     padding: 3px 2em;
     transition: 0.3s;
+}
+
+#user-profile #lista-movimenti li p+p,
+#user-profile #lista-richieste li p+p{
+    margin:0.5em auto 0 auto;
+}
+
+.nonDisponibile{
+    border-radius: 2em;
+    background-color: transparent;
+    color:var(--txtcolor);
+    padding: 1px 0.9em;
+    transition: 0.3s;
+    border:2px solid var(--buttoncolor-hover);
 }
 
 #user-profile #lista-movimenti li a:hover,
@@ -2250,14 +2381,15 @@ a:hover .hover-icon {opacity: 1;}
     gap: 10px;                 
 }
 
-.checkbox-container-pic input[type="checkbox"] {
+.checkbox-container-pic input[type="checkbox"],
+#home input[name="type-animal"],
+#form-add-animal .checkbox-label input[type="checkbox"]{
     -webkit-appearance: none;
     appearance: none;
-    
-    position: relative;
-    top:5px;
     width: 25px;
     height: 25px;
+    position: relative;
+    top:5px;
     background-color: transparent;    
     border: 1px solid var(--txtcolor);     
     border-radius: 4px;         
@@ -2265,12 +2397,30 @@ a:hover .hover-icon {opacity: 1;}
     margin: 0;                  
 }
 
-.checkbox-container-pic input[type="checkbox"]:checked {
+.sex-option input[type="radio"]{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top:5px;
+    background-color: transparent;    
+    border: 1px solid var(--txtcolor);     
+    border-radius: 2em;         
+    cursor: pointer;
+    margin: 0;      
+}
+
+.checkbox-container-pic input[type="checkbox"]:checked,
+#home input[name="type-animal"]:checked,
+.sex-option input[type="radio"]:checked,
+#form-add-animal .checkbox-label input[type="checkbox"]:checked {
     background-color: var(--buttoncolor);   
     border-color: var(--buttoncolor);  
 }
 
-.checkbox-container-pic input[type="checkbox"]::before {
+.checkbox-container-pic input[type="checkbox"]::before,
+#home input[name="type-animal"]::before.active{
     content: "";
     position: absolute;
     width: 15px;
@@ -2285,7 +2435,41 @@ a:hover .hover-icon {opacity: 1;}
     transition: 0.2s transform ease-in-out;
 }
 
-.checkbox-container-pic input[type="checkbox"]:checked::before {
+#form-add-animal .checkbox-label input[type="checkbox"]::before{
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    top:4px;
+    left:4px;
+    /* icona dlla v */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    transform: scale(0);
+    transition: 0.2s transform ease-in-out;
+    
+}
+
+.sex-option input[type="radio"]::before{
+    content: "";
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    top:3px;
+    left:3px;
+    /* icona dlla v */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    transform: scale(0);
+    transition: 0.2s transform ease-in-out;
+}
+
+.checkbox-container-pic input[type="checkbox"]:checked::before,
+#home input[name="type-animal"]:checked::before,
+.sex-option input[type="radio"]:checked::before,
+#form-add-animal .checkbox-label input[type="checkbox"]:checked::before {
     transform: scale(1);        
 }
 
@@ -2335,7 +2519,8 @@ input[type="file"]::file-selector-button:hover {
 }
 
 .edit-mode form span,
-.edit-management form span{
+.edit-management form span,
+#form-add-animal .form-buttons-container{
     display: flex;
     flex-wrap: wrap;
     margin: 1em auto 0 auto;
@@ -2344,8 +2529,9 @@ input[type="file"]::file-selector-button:hover {
 .edit-mode form span a,
 .edit-mode form span button,
 .edit-management form span a,
-.edit-management form span button
-{
+.edit-management form span button,
+#form-add-animal button[name="submit-animal"],
+#form-add-animal a#cancel-add-animal{
     flex: 1 1 44%;
     text-align: center;
     border-radius: 1em;
@@ -2356,16 +2542,19 @@ input[type="file"]::file-selector-button:hover {
 }
 
 .edit-mode form span button,
-.edit-management form span button{
+.edit-management form span button,
+#form-add-animal button[name="submit-animal"]{
     background-color: var(--buttoncolor);
     color:var(--text-buttoncolor);
     border:2px solid var(--buttoncolor);
     cursor: pointer;
     margin-left:0.5em;
+    font-family: "Parkinsans", Roboto, sans serif;
 }
 
 .edit-mode form span a,
-.edit-management form span a{
+.edit-management form span a,
+#form-add-animal a#cancel-add-animal{
     color:var(--text-buttoncolor);
     border:2px solid var(--buttoncolor);
     text-decoration: none;
@@ -2375,7 +2564,9 @@ input[type="file"]::file-selector-button:hover {
 .edit-mode form span a:hover,
 .edit-mode form span button:hover,
 .edit-management form span a:hover,
-.edit-management form span button:hover
+.edit-management form span button:hover,
+#form-add-animal button[name="submit-animal"]:hover,
+#form-add-animal a#cancel-add-animal:hover
 {
     border:2px solid transparent;
     background-color: transparent;
@@ -2597,12 +2788,11 @@ div#admin-area article h2{
 div#admin-area{
     padding: 0em 5em;
     min-height: 100vh;
-    /* margin: auto; */
+    margin-top: 2em;
 }
 
 body#admin-body #breadcrumb{
     margin: 0.5em auto 0.5em auto ;
-
 }
 
 div#admin-area div#row2 article{
@@ -2628,6 +2818,11 @@ ul#to-do-list, ul#statistics-list {
     padding: 1em 1em;
 }
 
+ul#to-do-list li:has(a:focus-visible){
+    outline: 3px solid red;
+    outline-offset: 2px;
+}
+
 ul#to-do-list li, ul#statistics-list li{
     display: inline-block;
     padding: 1.8em 1.2em 1.2em 1.2em;
@@ -2640,19 +2835,22 @@ ul#to-do-list li, ul#statistics-list li{
 
 ul#to-do-list li{
      background-color: var(--buttoncolor);
-}
-
+    }
+    
 ul#statistics-list li{
-    border: 1px solid var(--txtcolor);
+    background-color: var(--darkbgcolor);
+
 }
 #to-do-list a, #statistics-list a{
     width:100%; /*riempie tutto il li*/
     color: var(--txtcolor);
     text-decoration: none;
+    font-weight: normal;
 }
 
 p.query-type{
-    font-size: 0.7em;
+    font-size: 0.9em;
+    line-height: normal;
     /* margin: 0 1em; */
 }
 p.n-query{
@@ -2676,8 +2874,13 @@ nav#menu-admin {
     padding: 1em 0em 1em 1em;
     height: 100%;
     overflow: hidden;
-     font-size: 90%;
+     font-size: 100%;
     /* height: 100vh; */
+}
+
+nav#menu-admin li a {
+    width: 100%;
+    display: block;
 }
 
 body#admin-body main {
@@ -2685,10 +2888,9 @@ body#admin-body main {
     margin-left:20%;
 }
 
-
 nav#menu-admin img {
     display: block;
-    margin: 0 auto;
+    margin: 1em auto;
     width: 12em;
     max-width: 100%;
     height: auto;
@@ -2696,16 +2898,49 @@ nav#menu-admin img {
 
 
 nav#menu-admin li {
-  padding: 1.3em;
+  padding: 1.1em 1.3em;
+  border-radius: 2em 0em 0em 2em;
+  transition: background-color 0.1s ease, color 0.4s ease;
+}
+
+nav#menu-admin li a{
+  text-decoration: none;
+  font-weight: normal;
+  /* font-size: 1.1em; */
+}
+
+nav#menu-admin button.logout-btn:hover{
+    background-color: var(--buttoncolor-hover);
+    color:var(--text-buttoncolor-hover);
+    border-color: var(--buttoncolor-hover);
+}
+
+.description-menu{
+    font-size: 1.3em;
+    border-bottom:1px solid var(--darkbgcolor);
+    margin-right: 1em;
+    margin-top: 2em;
+}
+
+nav#menu-admin li a:hover{
+  text-decoration: underline;
 }
 
 nav#menu-admin li#currentLink {
     background-color: var(--bgcolor);
-    border-radius: 2em 0em 0em 2em;
     color: var(--txtcolor);
+    font-weight: 600;
 }
 nav#menu-admin li a:visited{
     color: var(--visitedcolor);
+}
+
+nav#menu-admin li:hover{
+    background-color: var(--darkbgcolor);
+    border-radius: 2em 0em 0em 2em;
+}
+nav#menu-admin li:hover a{
+    color: var(--txtcolor);
 }
 nav#menu-admin li#currentLink a{
     font-weight: 700;
@@ -2713,12 +2948,13 @@ nav#menu-admin li#currentLink a{
 }
 nav#menu-admin span{
     color: var(--bgcolor);
+    margin-left: 0.5em;
     font-weight: 700;
 }
 
 nav#menu-admin ul{
     margin-top:1em;
-    margin-bottom: 2em;
+    margin-bottom: 1em;
 }
 
 nav#menu-admin a#logout{
@@ -2743,7 +2979,7 @@ div#row2 article{
     float: left;
 }
 
-.header-info a.btn-edit {
+a.pencil {
     float: right;
     background: none;
     border: none;
@@ -2761,7 +2997,8 @@ div#row2 article{
 
 
 .generic-info-container label{
-    font-weight: 700;
+    font-weight: 600;
+    margin-top:0.5em;
 }
 
 #submit-edit.orange-button{
@@ -2805,6 +3042,8 @@ div#row2 article{
     margin-bottom: 2em;
     pointer-events: none;
     margin-left: 1.5em;
+    display: flex;
+    background-color: var(--bglink-hover);
 }
 
 .square-foto {
@@ -2831,69 +3070,39 @@ div#row2 article{
 
 /*================= DETTAGLI RICHIESTE DI ADOZIONE ==================*/
 
+.pointer-events-none{
+    pointer-events: none;
+}
 #mobile-select{
     display: none;
 }
 .tabs-container {
     overflow: hidden;
     display: flex;
+    margin-top: 2em;
 }
-
-/* .tab button {
-  background-color: inherit;
-  border: none;
-  padding: 0.9em 1em;
-  transition: 0.3s;
-  flex: 1;
-} */
-
-/* .tab button.active {
-    padding-bottom: 0.3em;
-    border: 1px solid var(--txtcolor);
-    border-bottom: none;
-} */
-
-/* .tab button {
-   border-bottom: 1px solid var(--txtcolor);
-} */
 
 #admin-area .tabs-container#richieste input + label{
     flex:1;
     height: auto;
 }
 
-#admin-area .tabs-container#richieste .tab-content{
+#admin-area .tabs-container#richieste .tab-content, #admin-area .tabs-container#animali .tab-content{
     border: none;
+    margin: 0.5em;
 }
-.tabcontent#Richiedente .orange-button{
+.tab-content#Richiedente .brown-button{
     margin: 0em 0em 0em auto;
 }
 
-#animale-richiesta .orange-button{
+#animale-richiesta .brown-button{
     margin: 0em auto 2em 0em;
 }
 #admin-area .tabs-container h2{
     font-size: 1.1em;
-    /* margin-bottom: 1em; */
     color: var(--txtcolor);
 }
 
-.tabcontent {
-  display: none;
-  /* padding: 6px 12px; */
-  border: 1px solid #ccc;
-  border-top: none;
-} 
-
-/* #Richiesta ul{
-    list-style: none;
-    padding: 0em;
-} */
-
-/* #Richiesta{
-    display: flex;
-    flex-wrap: wrap;
-} */
 div#admin-area dt{
     font-weight: bold;
     float: left;
@@ -2977,31 +3186,39 @@ div#admin-area div#animal-container{
 }
 
 div#admin-area article#stato-trasporto{
-    background-color: var(--darkbgcolor);
-    width: 55%;
-    padding: 1em 1em;
-    margin: auto auto 0em 0em;
+    margin: 2em auto 1em 0em;
 } 
 
 #top-container{
     display: flex;
+    justify-content: flex-end;
+    align-items: center;
     flex-wrap: wrap;
 }
 
-#stato-trasporto p{
-    padding-top: 0.7em;
-    float: left;
-    margin-right: 2em;
-}
-#stato-trasporto a{
-    float: right;
-}
-#top-container a.orange-button, #top-container form{
-    margin: auto 0em 0em auto;
+#top-container a.orange-button,#top-container button.orange-button{
+   margin: 0em 0em 0em auto;
 }
 
+div#admin-area article.note{
+    background-color: var(--darkbgcolor);
+    padding: 1em;
+    border-radius: 0.5em 0.5em 0 0;
+    border: none;
+    margin: 0em;
+}
 #bottom-container form{
-    margin: auto 0em 0em auto;
+    margin: 1em 0em 0em auto;
+}
+#bottom-container button{
+    margin: 1em 0em 0em auto; /*questa regola seleziona DUE button, quello del form delle annotazioni e quello di scarta richiesta*/
+}
+#bottom-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+    padding-bottom: 2em;
+
 }
 
 .note{
@@ -3010,22 +3227,17 @@ div#admin-area article#stato-trasporto{
     overflow: hidden;
     width: 55%;
 }
-/* .header-note{
-    gap: 1em;
-} */
-.header-note h2{
+
+.header-article h2{
     float: left;
     font-size: 1.3em;
 }
-.header-note a{
+.header-article a{
     float: right;
 }
 
-#bottom-container{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2em;
-
+.header-article dl{
+   width: 80%;
 }
 
 
@@ -3034,68 +3246,40 @@ div#admin-area article#stato-trasporto{
     background-color: var(--darkbgcolor);
 }
 
-/* Nasconde i form quando hanno la classe .hidden */
-#form-data.hidden, 
-#form-note.hidden,
-#data-text.hidden,
-#note-text.hidden {
-    display: none;
-}
-
-/* Quando il form della data è attivo, sta in linea con il testo */
-#form-data {
-    display: inline;
-}
-
-/* Il form delle note lo facciamo apparire come un blocco sotto il titolo */
-#form-note {
-    display: block;
-    margin-top: 0.5rem;
-}
-
-/* --- Stile Input e Textarea --- */
 
 #input-note {
     width: 100%;
     padding: 0.5rem;
     background-color: var(--darkbgcolor);
-    border: 1px solid var(--bordercolor, #ccc);
+    border: 1px solid var(--txtcolor);
     border-radius: 4px;
     font-family: inherit;
     font-size: 1rem;
-    resize: vertical; /* Permette all'utente di allungare l'area */
+    resize: none;
+}
+
+#input-note:focus {
+    outline: 2px solid var(--txtcolor);
 }
 .orange-button.respinta {
     background-color: var(--darkbgcolor);
     border: none;
     cursor: not-allowed;
-}
-
-
-/* Quando il form ha la classe .hidden, sparisce */
-#stato-trasporto .hidden {
-    display: none;
-}
-
-/* Quando il form NON ha .hidden, deve stare sulla stessa riga del testo */
-#form-data {
-    display: inline;
+    pointer-events: none;
 }
 
 /*================= RICHIESTE DI ADOZIONE ==================*/
 
 
-/* 1. Tabella: Impostazioni fondamentali per il raggio */
 table {
-    border-collapse: separate; /* Permette il border-radius */
-    border-spacing: 0;        /* Elimina lo spazio tra le celle */
+    border-collapse: separate;
+    border-spacing: 0; 
     width: 100%;
-    border-radius: 15px 15px 0 0;      /* Angoli tondi della tabella */
-    overflow: hidden;         /* Taglia lo sfondo del thead sugli angoli */
+    border-radius: 15px 15px 0 0;
+    overflow: hidden;
     margin-bottom: 1em;
 }
 
-/* 2. Header e Footer della tabella */
 thead, tfoot {
     background-color: var(--darkbgcolor);
 }
@@ -3110,7 +3294,6 @@ thead th, tfoot th, tfoot td {
     text-align: left;
 }
 
-/* Arrotondamento manuale delle celle d'angolo del thead */
 thead tr:first-child th:first-child {
     border-top-left-radius: 15px;
 }
@@ -3119,26 +3302,24 @@ thead tr:first-child th:last-child {
     border-top-right-radius: 15px;
 }
 
-/* 3. Corpo della tabella (Righe e Celle) */
 tbody td, tbody th {
-    padding: 0em 2em; /* Aumentato per dare respiro */
+    padding: 0em 2em;
     text-align: left;
     border-bottom: 1px solid var(--txtcolor);
 }
 
-/* Rimuove l'ultimo bordo per non "sporcare" la curva in basso */
 tbody tr:last-child td, 
 tbody tr:last-child th {
     border-bottom: none;
 }
 
-/* 4. Gestione Colonne e Accessibilità */
+
 .col-dettagli {
-    text-align: right; /* Sostituisce il float:right per un allineamento più pulito */
+    text-align: right;
 }
 
+/* TO DO, mettere sr-only */
 th.col-dettagli, caption {
-    /* Nasconde alla vista ma non agli screen reader (SR-ONLY) */
     position: absolute;
     left: -999em;
     width: 1px;
@@ -3150,10 +3331,374 @@ td.col-dettagli a{
     margin: 0.5em;
 }
 
+.nessuna-richiesta-message{
+    margin:1.2em auto;
+    width: 100%;
+    text-align: center;
+    display: block;
+}
+
+tr:hover {
+    background-color: var(--darkbgcolor);          
+}
+/*================== FILTRI  ==================*/
+.tab-content .filtri ul{
+    /* margin: 1em; */
+    justify-content: flex-end;
+}
+
+.tab-content .filtri{
+    margin-bottom: 1em;
+}
+.tab-content .filtri button{
+    display: inline;
+}
+
+/*==================NUOVO ANIMALE==================*/
+
+/* ========================================
+   CONTAINER PRINCIPALE
+   ======================================== */
+#admin-area-aggiungi {
+    margin-top:-6em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--secondsection);
+    padding: 2em 1em;
+    box-sizing: border-box;
+    background-image: url('../../assets/images/bg-pow.svg');
+    background-repeat: repeat;
+    background-size: contain;
+}
+
+/* ========================================
+   FORM BASE
+   ======================================== */
+#form-add-animal {
+    background-color: var(--bgcolor);
+    width: 95%;
+    max-width: 950px;
+    padding: 3em 4em;
+    margin-top:6em;
+    border-radius: 1em;
+    box-shadow: 0 0.5em 2em rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+#form-add-animal fieldset {
+    margin-bottom: 1em;
+    border: none;
+    padding: 0;
+}
+
+#form-add-animal legend {
+    float: left;
+    width: 100%;
+    font-weight: 600;
+    padding-top:0.5em;
+    margin-bottom: 1em;
+    border-top:2px solid var(--darkbgcolor);
+}
+
+#form-add-animal fieldset:first-of-type legend{
+    margin-top:1.5em;
+}
+
+/* ========================================
+   RADIO BUTTONS - TIPOLOGIA ANIMALE
+   ======================================== */
+.radio-group-cg {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    clear: both;
+    gap: 1em;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.radio-group-cg input[type="radio"] {
+    opacity: 0;
+}
+
+.radio-card {
+    display: inline-block;
+    padding: 0.5em 5em;
+    min-width: 150px;
+    border: 2px solid var(--text-buttoncolor);
+    background-color: var(--darkbgcolor);
+    border-radius: 0.5em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    text-align: center;
+}
+
+.radio-card:hover {
+    color: var(--bgcolor);
+    background-color: var(--buttoncolor-hover);
+}
+
+.radio-group-cg input[type="radio"]:checked + .radio-card {
+    background-color: var(--buttoncolor);
+    color: var(--text-buttoncolor);
+    border-color: var(--buttoncolor);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================
+   RADIO BUTTONS - SESSO
+   ======================================== */
+#form-add-animal p+p.sex-title {
+    font-weight: 550;
+    display: inline-block;
+    margin-top: 1.5em;
+}
+
+.sex-group {
+    display: flex;
+    gap: 1.5em;
+    flex-wrap: wrap;
+}
+
+.sex-option {
+    display: flex;
+    flex:1 1 46%;
+    align-items: center;
+    padding: 0.5em 1em;
+    border: 1px solid var(--text-buttoncolor);
+    border-radius: 2em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#form-add-animal label.sex-option{
+    margin:0;
+}
+
+/* ========================================
+   LABELS
+   ======================================== */
+#form-add-animal label {
+    font-weight: 500;
+    display: block;
+    margin: 1.5em 0 0 0;
+}
+
+#form-add-animal .checkbox-label input[type="checkbox"]{
+    margin-left: 0.5em;
+}
+
+/* ========================================
+   INPUT TEXT E DATE
+   ======================================== */
+#form-add-animal input[type="text"],
+#form-add-animal input[type="date"] {
+    display: block;
+    width: 100%;
+    border: 1px solid var(--text-buttoncolor);
+    border-radius: 0.2em;
+    font-size: 1em;
+    font-family: inherit;
+    background-color: var(--bgcolor);
+    color: var(--buttoncolor-hover);
+    transition: all 0.3s ease;
+}
+
+#form-add-animal input[type="text"]{
+    padding: 0.55em;
+}
+
+#form-add-animal input[type="date"] {
+    padding: 0.5em;
+}
+
+/* #form-add-animal input[type="text"]:focus,
+#form-add-animal input[type="date"]:focus {
+    outline: none;
+    border-color: var(--buttoncolor);
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.1);
+} */
+
+#form-add-animal input::placeholder,
+#form-add-animal select::placeholder,
+#form-add-animal textarea::placeholder{
+    color:var(--placeholder-text);
+}
+
+/* ========================================
+   SELECT (TAGLIA E PELO)
+   ======================================== */
+#form-add-animal select {
+    display: block;
+    width: 100%;
+    padding: 0.5em;
+    border: 1px solid var(--text-buttoncolor);
+    border-radius: 2em;
+    font-size: 1em;
+    background-color: var(--bgcolor);
+    color: var(--buttoncolor-hover);
+    cursor: pointer;
+    /* appearance: none; */
+    transition: all 0.3s ease;
+    font-family: "Parkinsans", Roboto, sans serif;
+}
+
+/* ========================================
+   TEXTAREA
+   ======================================== */
+#form-add-animal textarea {
+    display: block;
+    height: 8em;
+    width: 100%;
+    padding: 0.5em;
+    border: 1px solid var(--text-buttoncolor);
+    border-radius: 0.2em;
+    font-size: 1em;
+    font-family: inherit;
+    background-color: var(--bgcolor);
+    color: var(--text-color, #333);
+    resize: vertical;
+    transition: all 0.3s ease;
+    margin-bottom: 0.5em;
+}
+
+/* #form-add-animal textarea:focus {
+    background-color: var(--bgcolor);
+    outline: none;
+    border-color: var(--buttoncolor-hover);
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.1);
+} */
 
 
+.file-upload-label {
+    display: block;
+    width: 100%;
+    padding: 4em 0 2.5em 0;
+    margin:auto;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.2em;
+    border: 2px dashed var(--text-buttoncolor);
+    transition: all 0.3s ease;
+    position: relative;
+}
 
+.file-upload-label:hover {
+    border-color: var(--buttoncolor-hover);
+    background-color: var(--darkbgcolor);
+    text-decoration: underline;
+}
 
+.file-upload-label.drag-active {
+    border-color: var(--buttoncolor-hover);
+    background-color: rgba(0, 123, 255, 0.15);
+    transform: scale(1.02);
+}
+
+.file-upload-text {
+    font-weight: 500;
+    color: var(--text-buttoncolor);
+    display: block;
+}
+
+.file-upload-label:hover .file-upload-text {
+    color: var(--buttoncolor-hover);
+}
+
+.file-name-display {
+    display: block;
+    margin-top: 0.5em;
+    font-size: 0.9em;
+    color: var(--buttoncolor-hover);
+    font-weight: 600;
+}
+
+.file-upload-label input[type="file"] {
+    opacity: 0;
+
+}
+
+.file-upload-label input[type="file"]:focus-visible{
+    border:3px solid red;
+    opacity: 1;
+}
+
+/* Info foto caricata */
+.foto-caricata-info {
+    margin-top: 0.5em;
+    font-size: 0.9em;
+    color: var(--buttoncolor-hover);
+}
+
+.transport-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6em;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+}
+
+.checkbox-label{
+    border: 0.07em solid var(--buttoncolor-hover);
+    padding: 0.4em 1em 0.5em 1em;
+    border-radius: 0.5em;
+    text-align: center;
+}
+
+/* .checkbox-label input[type="checkbox"] {
+    width: 1.1em;
+    height: 1.1em;
+    accent-color: var(--buttoncolor-hover);
+} */
+
+/* .form-buttons-container {
+    display: flex;
+    gap: 1.5em;
+    width: 100%;
+    margin-top: 2.5em;
+    justify-content: center;
+}
+
+.form-buttons-container button {
+    flex: 1;
+    padding: 1em;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 0.8em;
+    text-align: center;
+} */
+
+/* .form-buttons-container .white-button {
+    background-color: var(--bgcolor);
+    color: var(--headervisitedlink);
+    border: 3px solid var(--headervisitedlink);
+}
+
+.form-buttons-container .white-button:hover {
+    background-color: var(--headervisitedlink);
+    color: var(--bgcolor);
+} */
+
+/* ========================================
+   MESSAGGI DI ERRORE
+   ======================================== */
+.error-form {
+    color: var(--footercolor);
+    font-size: 0.9em;
+    margin-top: 5px;
+    display: block;
+}
 
 /*================NAVIGATION HELP ==================*/
 
@@ -3203,4 +3748,3 @@ nav#breadcrumb a{
 nav#breadcrumb a:visited{
     color: var(--visitedcolor);
 }
-
