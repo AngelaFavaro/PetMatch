@@ -62,6 +62,13 @@
                             [infoFotoCaricata]
                         </div>
                     </label>
+
+                    <div class="transport-wrapper">
+                        <label class="checkbox-label">
+                            Disponibile al trasporto
+                            <input type="checkbox" name="trasporto" id="trasporto" value="1" [trasporto_checked]>
+                        </label>
+                    </div> 
                     
                 </div>
 
@@ -111,16 +118,9 @@
             </div>
         </fieldset>   
 
-        <div class="transport-wrapper">
-                <label class="checkbox-label bordered">
-                    Disponibile al trasporto
-                    <input type="checkbox" name="trasporto" id="trasporto" value="1" [trasporto_checked]>
-                </label>
-            </div> 
-
         <div class="form-buttons-container">
-            <button type="submit" name="submit-animal" class="white-button">Salva</button>
-            <button type="reset" name="reset" class="white-button">Annulla</button>
+            <a href="./area-riservata" id="cancel-add-animal">Annulla</a>
+            <button type="submit" name="submit-animal">Salva</button>
         </div>
 
     </form>

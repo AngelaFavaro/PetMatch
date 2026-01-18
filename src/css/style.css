@@ -137,6 +137,7 @@ h4{
 }
 
 /*==================PULSANTI==================*/
+#currentLink.orange-button,
 a.orange-button, a.brown-button,
 button.orange-button{
     display: block;
@@ -157,6 +158,7 @@ button.orange-button:hover {
     color: var(--linkcolor);
 }
 
+#currentLink.orange-button,
 a.orange-button,
 button.orange-button,
 .white-button:hover{
@@ -443,14 +445,17 @@ NOTA: modificare il flex se necessario annidando la classe dentro le proprie sez
 input:focus-visible + label,
 a:focus-visible,
 button:focus-visible,
-input [type="checkbox"]:focus-visible {
+textarea:focus-visible,
+input [type="checkbox"]:focus-visible{
     outline: 3px solid red;
     outline-offset: 2px;
     transition: none;
 }
 
-input:focus{
-    outline:3px solid var(--headercolor);
+input:focus,
+textarea:focus,
+select:focus{
+    outline:2px solid var(--headercolor);
     outline-offset: 0px;
 }
 
@@ -2297,14 +2302,14 @@ a:hover .hover-icon {opacity: 1;}
 }
 
 .checkbox-container-pic input[type="checkbox"],
-#home input[name="type-animal"] {
+#home input[name="type-animal"],
+#form-add-animal .checkbox-label input[type="checkbox"]{
     -webkit-appearance: none;
     appearance: none;
-    
-    position: relative;
-    top:5px;
     width: 25px;
     height: 25px;
+    position: relative;
+    top:5px;
     background-color: transparent;    
     border: 1px solid var(--txtcolor);     
     border-radius: 4px;         
@@ -2312,14 +2317,30 @@ a:hover .hover-icon {opacity: 1;}
     margin: 0;                  
 }
 
+.sex-option input[type="radio"]{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top:5px;
+    background-color: transparent;    
+    border: 1px solid var(--txtcolor);     
+    border-radius: 2em;         
+    cursor: pointer;
+    margin: 0;      
+}
+
 .checkbox-container-pic input[type="checkbox"]:checked,
-#home input[name="type-animal"]:checked {
+#home input[name="type-animal"]:checked,
+.sex-option input[type="radio"]:checked,
+#form-add-animal .checkbox-label input[type="checkbox"]:checked {
     background-color: var(--buttoncolor);   
     border-color: var(--buttoncolor);  
 }
 
 .checkbox-container-pic input[type="checkbox"]::before,
-#home input[name="type-animal"]::before {
+#home input[name="type-animal"]::before.active{
     content: "";
     position: absolute;
     width: 15px;
@@ -2334,8 +2355,41 @@ a:hover .hover-icon {opacity: 1;}
     transition: 0.2s transform ease-in-out;
 }
 
+#form-add-animal .checkbox-label input[type="checkbox"]::before{
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    top:4px;
+    left:4px;
+    /* icona dlla v */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    transform: scale(0);
+    transition: 0.2s transform ease-in-out;
+    
+}
+
+.sex-option input[type="radio"]::before{
+    content: "";
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    top:3px;
+    left:3px;
+    /* icona dlla v */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    transform: scale(0);
+    transition: 0.2s transform ease-in-out;
+}
+
 .checkbox-container-pic input[type="checkbox"]:checked::before,
-#home input[name="type-animal"]:checked::before {
+#home input[name="type-animal"]:checked::before,
+.sex-option input[type="radio"]:checked::before,
+#form-add-animal .checkbox-label input[type="checkbox"]:checked::before {
     transform: scale(1);        
 }
 
@@ -2385,7 +2439,8 @@ input[type="file"]::file-selector-button:hover {
 }
 
 .edit-mode form span,
-.edit-management form span{
+.edit-management form span,
+#form-add-animal .form-buttons-container{
     display: flex;
     flex-wrap: wrap;
     margin: 1em auto 0 auto;
@@ -2394,8 +2449,9 @@ input[type="file"]::file-selector-button:hover {
 .edit-mode form span a,
 .edit-mode form span button,
 .edit-management form span a,
-.edit-management form span button
-{
+.edit-management form span button,
+#form-add-animal button[name="submit-animal"],
+#form-add-animal a#cancel-add-animal{
     flex: 1 1 44%;
     text-align: center;
     border-radius: 1em;
@@ -2406,16 +2462,19 @@ input[type="file"]::file-selector-button:hover {
 }
 
 .edit-mode form span button,
-.edit-management form span button{
+.edit-management form span button,
+#form-add-animal button[name="submit-animal"]{
     background-color: var(--buttoncolor);
     color:var(--text-buttoncolor);
     border:2px solid var(--buttoncolor);
     cursor: pointer;
     margin-left:0.5em;
+    font-family: "Parkinsans", Roboto, sans serif;
 }
 
 .edit-mode form span a,
-.edit-management form span a{
+.edit-management form span a,
+#form-add-animal a#cancel-add-animal{
     color:var(--text-buttoncolor);
     border:2px solid var(--buttoncolor);
     text-decoration: none;
@@ -2425,7 +2484,9 @@ input[type="file"]::file-selector-button:hover {
 .edit-mode form span a:hover,
 .edit-mode form span button:hover,
 .edit-management form span a:hover,
-.edit-management form span button:hover
+.edit-management form span button:hover,
+#form-add-animal button[name="submit-animal"]:hover,
+#form-add-animal a#cancel-add-animal:hover
 {
     border:2px solid transparent;
     background-color: transparent;
@@ -2732,9 +2793,6 @@ nav#menu-admin {
     /* height: 100vh; */
 }
 
-nav#menu-admin a.orange-button{
-    margin-top:0.5em;
-}
 nav#menu-admin li a {
     width: 100%;
     display: block;
@@ -3115,7 +3173,7 @@ div#admin-area article.note{
 }
 
 #input-note:focus {
-    outline: 3px solid var(--txtcolor);
+    outline: 2px solid var(--txtcolor);
 }
 .orange-button.respinta {
     background-color: var(--darkbgcolor);
@@ -3213,13 +3271,16 @@ tr:hover {
    CONTAINER PRINCIPALE
    ======================================== */
 #admin-area-aggiungi {
-    min-height: 100vh;
+    margin-top:-6em;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: var(--secondsection);
     padding: 2em 1em;
     box-sizing: border-box;
+    background-image: url('../../assets/images/bg-pow.svg');
+    background-repeat: repeat;
+    background-size: contain;
 }
 
 /* ========================================
@@ -3230,6 +3291,7 @@ tr:hover {
     width: 95%;
     max-width: 950px;
     padding: 3em 4em;
+    margin-top:6em;
     border-radius: 1em;
     box-shadow: 0 0.5em 2em rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
@@ -3244,9 +3306,14 @@ tr:hover {
 #form-add-animal legend {
     float: left;
     width: 100%;
-    text-align: left;
-    font-weight: 500;
+    font-weight: 600;
+    padding-top:0.5em;
     margin-bottom: 1em;
+    border-top:2px solid var(--darkbgcolor);
+}
+
+#form-add-animal fieldset:first-of-type legend{
+    margin-top:1.5em;
 }
 
 /* ========================================
@@ -3257,13 +3324,13 @@ tr:hover {
     flex-direction: row;
     justify-content: center;
     clear: both;
-    gap: 2em;
+    gap: 1em;
     flex-wrap: wrap;
     width: 100%;
 }
 
 .radio-group-cg input[type="radio"] {
-    display: none;
+    opacity: 0;
 }
 
 .radio-card {
@@ -3271,6 +3338,7 @@ tr:hover {
     padding: 0.5em 5em;
     min-width: 150px;
     border: 2px solid var(--text-buttoncolor);
+    background-color: var(--darkbgcolor);
     border-radius: 0.5em;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -3284,31 +3352,30 @@ tr:hover {
 }
 
 .radio-group-cg input[type="radio"]:checked + .radio-card {
-    background-color: var(--buttoncolor-hover);
-    color: var(--bgcolor);
+    background-color: var(--buttoncolor);
+    color: var(--text-buttoncolor);
+    border-color: var(--buttoncolor);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* ========================================
    RADIO BUTTONS - SESSO
    ======================================== */
-.sex-title {
+#form-add-animal p+p.sex-title {
     font-weight: 550;
     display: inline-block;
-    margin-top: 1em;
-    margin-left: 0.5em;
+    margin-top: 1.5em;
 }
 
 .sex-group {
     display: flex;
     gap: 1.5em;
-    margin-top: 0.5em;
     flex-wrap: wrap;
-    padding: 1em;
 }
 
 .sex-option {
     display: flex;
+    flex:1 1 46%;
     align-items: center;
     padding: 0.5em 1em;
     border: 1px solid var(--text-buttoncolor);
@@ -3317,20 +3384,21 @@ tr:hover {
     transition: all 0.3s ease;
 }
 
-.sex-option input[type="radio"] {
-    margin-right: 10px;
-    accent-color: var(--buttoncolor-hover);
-    transform: scale(1.2);
-    cursor: pointer;
+#form-add-animal label.sex-option{
+    margin:0;
 }
 
 /* ========================================
    LABELS
    ======================================== */
 #form-add-animal label {
-    font-weight: 550;
+    font-weight: 500;
     display: block;
-    margin-bottom: 0.5em;
+    margin: 1.5em 0 0 0;
+}
+
+#form-add-animal .checkbox-label input[type="checkbox"]{
+    margin-left: 0.5em;
 }
 
 /* ========================================
@@ -3340,9 +3408,8 @@ tr:hover {
 #form-add-animal input[type="date"] {
     display: block;
     width: 100%;
-    padding: 0.5em;
     border: 1px solid var(--text-buttoncolor);
-    border-radius: 0.5em;
+    border-radius: 0.2em;
     font-size: 1em;
     font-family: inherit;
     background-color: var(--bgcolor);
@@ -3350,11 +3417,25 @@ tr:hover {
     transition: all 0.3s ease;
 }
 
-#form-add-animal input[type="text"]:focus,
+#form-add-animal input[type="text"]{
+    padding: 0.55em;
+}
+
+#form-add-animal input[type="date"] {
+    padding: 0.5em;
+}
+
+/* #form-add-animal input[type="text"]:focus,
 #form-add-animal input[type="date"]:focus {
     outline: none;
-    border-color: var(--buttoncolor-hover);
+    border-color: var(--buttoncolor);
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.1);
+} */
+
+#form-add-animal input::placeholder,
+#form-add-animal select::placeholder,
+#form-add-animal textarea::placeholder{
+    color:var(--placeholder-text);
 }
 
 /* ========================================
@@ -3365,24 +3446,14 @@ tr:hover {
     width: 100%;
     padding: 0.5em;
     border: 1px solid var(--text-buttoncolor);
-    border-radius: 1em;
+    border-radius: 2em;
     font-size: 1em;
     background-color: var(--bgcolor);
     color: var(--buttoncolor-hover);
     cursor: pointer;
-    appearance: none;
+    /* appearance: none; */
     transition: all 0.3s ease;
-}
-
-#form-add-animal select:focus {
-    outline: none;
-    background-color: var(--buttoncolor-hover);
-    color: var(--bgcolor);
-}
-
-#form-add-animal select option {
-    background-color: var(--bgcolor);
-    color: var(--buttoncolor-hover);
+    font-family: "Parkinsans", Roboto, sans serif;
 }
 
 /* ========================================
@@ -3392,9 +3463,9 @@ tr:hover {
     display: block;
     height: 8em;
     width: 100%;
-    padding: 1.5em;
+    padding: 0.5em;
     border: 1px solid var(--text-buttoncolor);
-    border-radius: 0.5em;
+    border-radius: 0.2em;
     font-size: 1em;
     font-family: inherit;
     background-color: var(--bgcolor);
@@ -3404,29 +3475,31 @@ tr:hover {
     margin-bottom: 0.5em;
 }
 
-#form-add-animal textarea:focus {
+/* #form-add-animal textarea:focus {
     background-color: var(--bgcolor);
     outline: none;
     border-color: var(--buttoncolor-hover);
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.1);
-}
+} */
 
 
 .file-upload-label {
     display: block;
     width: 100%;
-    padding: 4em;
+    padding: 4em 0 2.5em 0;
+    margin:auto;
     text-align: center;
     cursor: pointer;
-    border-radius: 0.5em;
-    border: 1px solid var(--text-buttoncolor);
+    border-radius: 0.2em;
+    border: 2px dashed var(--text-buttoncolor);
     transition: all 0.3s ease;
     position: relative;
 }
 
 .file-upload-label:hover {
     border-color: var(--buttoncolor-hover);
-    background-color: rgba(0, 123, 255, 0.05);
+    background-color: var(--darkbgcolor);
+    text-decoration: underline;
 }
 
 .file-upload-label.drag-active {
@@ -3454,7 +3527,13 @@ tr:hover {
 }
 
 .file-upload-label input[type="file"] {
-    display: none;
+    opacity: 0;
+
+}
+
+.file-upload-label input[type="file"]:focus-visible{
+    border:3px solid red;
+    opacity: 1;
 }
 
 /* Info foto caricata */
@@ -3476,21 +3555,23 @@ tr:hover {
     gap: 0.6em;
     cursor: pointer;
     font-size: 1em;
+    width: 100%;
 }
 
-.checkbox-label.bordered {
+.checkbox-label{
     border: 0.07em solid var(--buttoncolor-hover);
-    padding: 0.7em 1em;
+    padding: 0.4em 1em 0.5em 1em;
     border-radius: 0.5em;
+    text-align: center;
 }
 
-.checkbox-label input[type="checkbox"] {
+/* .checkbox-label input[type="checkbox"] {
     width: 1.1em;
     height: 1.1em;
     accent-color: var(--buttoncolor-hover);
-}
+} */
 
-.form-buttons-container {
+/* .form-buttons-container {
     display: flex;
     gap: 1.5em;
     width: 100%;
@@ -3507,18 +3588,18 @@ tr:hover {
     transition: all 0.3s ease;
     border-radius: 0.8em;
     text-align: center;
-}
+} */
 
-.white-button {
+/* .form-buttons-container .white-button {
     background-color: var(--bgcolor);
     color: var(--headervisitedlink);
     border: 3px solid var(--headervisitedlink);
 }
 
-.white-button:hover {
+.form-buttons-container .white-button:hover {
     background-color: var(--headervisitedlink);
     color: var(--bgcolor);
-}
+} */
 
 /* ========================================
    MESSAGGI DI ERRORE
