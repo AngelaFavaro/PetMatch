@@ -1605,7 +1605,7 @@ input:-webkit-autofill:active{
     white-space: nowrap;
 }
 /* Contenitore capsula per ogni filtro */
-#animali .filtri .capsula-filtro, .tab-content .filtri .capsula-filtro {
+#animali .filtri .capsula-filtro, .tab-content .filtri .capsula-filtro, #eventi .filtri .capsula-filtro {
     display: inline-flex;        /* label + input/select affiancati */
     align-items: center;         /* centra verticalmente tutto */
     justify-content: center;
@@ -1642,7 +1642,7 @@ input:-webkit-autofill:active{
 }
 
 #animali .filtri #searchName.capsula-filtro, #eventi .filtri #searchName.capsula-filtro{
-    width: 40%;
+    /* width: 40%; */
     max-width: none;
     justify-content:left;
     background-color: var(--darkbgcolor);
@@ -1727,7 +1727,7 @@ input:-webkit-autofill:active{
 }
 
 #eventi .filtri .capsula-filtro .data-range input {
-    max-width: 10em;
+    max-width: 20em;
     height: 100%;
     text-align: center;
     width: 100%;
@@ -1737,7 +1737,7 @@ input:-webkit-autofill:active{
 #animali .filtri .capsula-filtro .eta-range input {
     height: 100%;
     text-align: center;
-    max-width: 3em;    /* dimensione compatta */
+    /* max-width: 3em;    dimensione compatta */
     width: 100%;
     color:var(--txtcolor);
 }
@@ -2014,6 +2014,7 @@ input:-webkit-autofill:active{
 /*=================PAGINA EVENTI======================*/
 #eventi .filtri .capsula-filtro label[for="name-event"] {
     margin-left: 0;
+    flex-grow: 1;
 }
 
 #eventi .filtri .capsula-filtro label[for="name-event"] +input {
@@ -2025,17 +2026,31 @@ input:-webkit-autofill:active{
 #eventi .filtri .capsula-filtro {
     margin-right: 0.5em;
     margin-left: 0.5em;
+    flex-grow: 1;
+    width: 100%;
+    align-self: center;
 }
+
+ #eventi .filtri .capsula-filtro ul {
+    display: flex;
+    width: 100%;
+ }
+
+ #eventi .filtri .capsula-filtro .data-range {
+    width: 100%;
+ }
 
 #eventi .evento {
     list-style: none;
     width: 100%;
     height: 10em;
     display: block;
+    padding-right: 1em;
     background-color: var(--darkbgcolor);
     /* border: 0.1em solid var(--darkbgcolor); */
     border-radius: 0.5em;
     /* margin: 0.2em; */
+    
 }
 
 #eventi .cards-container li {
@@ -2048,7 +2063,7 @@ input:-webkit-autofill:active{
     margin: 0.5em;
 }
 
-#eventi .evento img {
+#eventi .evento img.immagine-evento {
     width: 11em;
     height: 100%;
     padding: 0.8em;
@@ -2064,40 +2079,38 @@ input:-webkit-autofill:active{
     padding: 0em;
     height: 1.5em;
     width: 1.5em;
-    margin-right: 0.2em;
+    /* margin-right: 0.2em; */
     object-fit: contain;
 }
 
 #eventi .evento .data-evento {
     float:right;
-    margin-right: 0.4em;
+    gap: 0.2em;
+    margin-right: 0.6em;
     margin-top: 0.4em;
+    margin-bottom: 0.2em;
+    align-items: center;
+    display: flex;
 }
 
 #eventi .evento .descrizione-evento {
-    /* float: left; */
-    clear:right;
-    max-width: 22em;
+    max-width: 35em;
     margin-top: 0.2em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-height: 6em;
-    display: flex;
-    flex-direction: column;
+    clear: right;
+    /* padding-bottom: 0.6em; */
     /* float: left; */
-
-    /* margin-left: 1em; */
 }
 
+
 #eventi .evento .descrizione-evento p {
-    text-align:left;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 4;   /* numero di righe */
-    text-wrap: wrap;
-    /* text-overflow: ellipsis; */
+    overflow: hidden;
+
+    text-align: left;
 }
+
 
 #eventi .evento h2 {
     /* padding-top: 3em; */

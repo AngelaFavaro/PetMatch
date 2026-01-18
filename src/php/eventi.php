@@ -8,6 +8,20 @@ error_reporting(E_ALL);
 use DB\DBAccess;
 
 
+
+// $rawFilters = [
+//     'name-animal'   => $_GET['name-animal']    ?? '',
+//     'taglia'        => $_GET['taglia']  ?? '',
+//     'sesso'         => $_GET['sesso']   ?? '',
+//     'eta_min'       => $_GET['eta_min'] ?? '',
+//     'eta_max'       => $_GET['eta_max'] ?? ''
+// ];
+
+// $eventi
+
+
+
+
 $paginaHTML = file_get_contents('./src/template/layout.html');
 $main = file_get_contents('./src/template/main/eventi.html');
 $footer = buildFooter($footerMenu,  './eventi');
