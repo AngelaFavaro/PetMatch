@@ -68,7 +68,7 @@ function createCardEvents(DBAccess $conn){
 }
 
 
-function sendReportForm(DBAccess $conn, &$nameValue, &$emailValue){
+function sendReportForm(DBAccess $conn, &$nameValue, &$emailValue, &$animalValue){
 
     $message = '';
 
@@ -78,6 +78,7 @@ function sendReportForm(DBAccess $conn, &$nameValue, &$emailValue){
         
         $nameValue = '';
         $emailValue = '';
+        $animalValue = '';
         
         unset($_SESSION['form_status']); //rimuovo la variabile della sessione, se la pagina viene ricaricata non mostro di nuovo il messaggio
     }else if(isset($_SESSION['form_status']) && $_SESSION['form_status'] === 'error'){
@@ -96,6 +97,7 @@ function sendReportForm(DBAccess $conn, &$nameValue, &$emailValue){
         if (isset($_SESSION['form_inputs'])) {
             $nameValue = $_SESSION['form_inputs']['name'];
             $emailValue = $_SESSION['form_inputs']['email'];
+            $animalValue = $_SESSION['form_inputs']['animal'];
         }
 
         unset($_SESSION['form_status']);
@@ -105,6 +107,7 @@ function sendReportForm(DBAccess $conn, &$nameValue, &$emailValue){
 	}else if(!isset($_SESSION['form_status'])){
 		$nameValue = '';
         $emailValue = '';
+        $animalValue = '';
 		$message = '';
 	}
     
@@ -112,6 +115,7 @@ function sendReportForm(DBAccess $conn, &$nameValue, &$emailValue){
 
         $name = trim($_POST['name-surname'] ?? '');
         $email = trim($_POST['email'] ?? '');
+        $animalValue = $_POST['type-animal'];
 
         $nameValue = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
         $emailValue = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
@@ -123,6 +127,10 @@ function sendReportForm(DBAccess $conn, &$nameValue, &$emailValue){
 
 		$words = array_filter(explode(' ', $name));
         
+        if($animalValue === null){
+            $errors[] = "Indica il tipo di animale.";
+        }
+
         if (count($words) < 2) {
             $errors[] = "Inserisci sia il nome che il cognome.";
         }
@@ -138,7 +146,7 @@ function sendReportForm(DBAccess $conn, &$nameValue, &$emailValue){
         }
 
         if (empty($errors)) {
-            $send = $conn->insertReportForm($name, $email);
+            $send = $conn->insertReportForm($name, $email, $animalValue);
             
             if ($send) {
 				$_SESSION['form_status'] = 'ok';
@@ -147,13 +155,13 @@ function sendReportForm(DBAccess $conn, &$nameValue, &$emailValue){
             } else {
 				$_SESSION['form_status'] = 'error';
                 $_SESSION['form_errors'] = ["Impossibile inviare la richiesta, riprova più tardi."];
-                $_SESSION['form_inputs'] = ['name' => $nameValue, 'email' => $emailValue];
+                $_SESSION['form_inputs'] = ['name' => $nameValue, 'email' => $emailValue, 'animal' => $animalValue];
                 $message = "<p class='error-form'>Impossibile inviare la richiesta, riprova più tardi.</p>";
             }
         }else{
 			$_SESSION['form_status'] = 'error';
 			$_SESSION['form_errors'] = $errors;
-			$_SESSION['form_inputs'] = ['name' => $nameValue, 'email' => $emailValue];
+			$_SESSION['form_inputs'] = ['name' => $nameValue, 'email' => $emailValue, 'animal' => $animalValue];
 			header("Location: ./home");
 			exit;
 		}
@@ -168,7 +176,7 @@ $connessione = new DBAccess();
 $connessioneOK = $connessione->openDBConnection();
 if ($connessioneOK) {
     $InfoEvents = createCardEvents($connessione);
-	$messaggiForm = sendReportForm($connessione, $nameValue, $emailValue);
+	$messaggiForm = sendReportForm($connessione, $nameValue, $emailValue, $animalValue);
 	$connessione->closeConnection();
 }else{
 	$messaggiForm = "<p class='error-form'>Impossibile inviare la richiesta, riprova più tardi.</p>";
@@ -207,6 +215,10 @@ $paginaHTML = str_replace('[UltimiEventi]', $InfoEvents, $paginaHTML);
 // Diventa: &lt;script&gt;alert(&#039;ciao&#039;)&lt;/script&gt; -> testo innocuo
 $paginaHTML = str_replace('[nameValue]', $nameValue, $paginaHTML);
 $paginaHTML = str_replace('[emailValue]', $emailValue, $paginaHTML);
+$paginaHTML = str_replace('[emailValue]', $emailValue, $paginaHTML);
+$paginaHTML = str_replace( 'value="' . $animalValue . '"', 'value="' . $animalValue . '" checked', $paginaHTML);
+
+
 $paginaHTML = str_replace('[footer]', $footer, $paginaHTML);
 
 echo $paginaHTML;

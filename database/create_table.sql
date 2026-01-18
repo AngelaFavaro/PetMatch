@@ -143,7 +143,7 @@ CREATE TABLE SEGNALAZIONI_NUOVE_ACCOGLIENZE (
     EmailRichiedente VARCHAR(255) NOT NULL,
     FOREIGN KEY (EmailAmm) REFERENCES UTENTI (Email) ON DELETE SET NULL ON UPDATE CASCADE,
 
-    CHECK (Tipo IN ('Gatto','Cane'))
+    CHECK (TipoAnimale IN ('Gatto','Cane'))
 );
 
 

@@ -263,7 +263,6 @@ $main = str_replace('[razzaAnimale]', e($richiesta['razza-animale'] ?? ''), $mai
 $main = str_replace('[trasportoAnimale]', siNo($richiesta['trasporto-animale'] ?? 0), $main);
 $main = str_replace('[famigliaIdeale]', e($richiesta['famiglia-ideale'] ?? ''), $main);
 
-// Se non ci sono condizioni mediche, mostra "Nessuna"
 if (empty($richiesta['condizioni-mediche'])) {
     $main = str_replace('[condizioniMediche]', 'Nessuna', $main);
 } else {

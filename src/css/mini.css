@@ -204,21 +204,6 @@ input:checked + #slider {
     display: none;
 }
 
-#form-affidamento {
-    background-color: var(--bgcolor);
-    color: var(--txtcolor);
-    margin:2em 2em 0.1em 2em;
-    padding: 0em 2em;
-    flex: 1 0 40%;
-    border-radius: 2.1em;
-}
-
-#container-form-affidamento{
-    padding: 0;
-    background-image: none;
-    overflow:hidden;
-}
-
 #sponsor img{
     width: 130px; 
     padding:0.5em;
@@ -368,6 +353,10 @@ nav#menu-admin img {
     padding: 0.5em 0.5em;
 }
 
+nav#menu-admin li{
+    padding:0.8em 1.3em;
+}
+
 /* da vedere se possibile unificare con quello dello user, per ora lascio così */
 #admin-body .menu-toggle::before {
     content: "\2630";
@@ -394,6 +383,9 @@ nav#menu-admin {
     z-index: 1000;
     visibility: hidden;
     transition: max-height 0.3s ease-out;
+    padding-bottom:2em;
+    margin-bottom:1em;
+    border-bottom:2px solid var(--bgcolor);
 }
 
 #menu-toggle-checkbox:checked ~ nav#menu-admin {
@@ -497,6 +489,105 @@ div#admin-area article#query h2{
 #error-info{
     width: 70%;
     margin: 0 auto;
+}
+
+/* ================== NUOVO ANIMALE ==================*/
+
+#admin-area-aggiungi {
+    min-height: 100vh;
+    display: block; 
+    background-color: var(--bgcolor); 
+    padding: 0;
+    margin: 0;
+}
+
+#admin-area-aggiungi h1{
+    font-size: 2em;
+}
+
+#form-add-animal {
+    background-color: var(--bgcolor);
+    width: 100%;
+    margin: 0;
+    padding: 1.5em; 
+    border-radius: 0;
+    box-shadow: none;
+    box-sizing: border-box;
+}
+
+#form-add-animal .column-container, 
+#form-add-animal .column-user {
+    display: flex;
+    flex-direction: column; 
+    gap: 0; 
+    width: 100%;
+    padding:0;
+}
+
+#form-add-animal fieldset {
+    margin-bottom: 1.5em;
+    border: none;
+    padding: 0;
+    width: 100%;
+}
+
+#form-add-animal .form-group, 
+#form-add-animal .column-user > div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em; 
+    width: 100%;
+}
+
+#form-add-animal label{
+    margin-top:0.8em;
+}
+
+#form-add-animal input[type="text"],
+#form-add-animal input[type="date"],
+#form-add-animal select,
+#form-add-animal textarea {
+    width: 100%;
+    padding: 0.6em 0.5em;
+    font-size: 1em; 
+    border: 1px solid var(--text-buttoncolor);
+    box-sizing: border-box;
+}
+
+#form-add-animal input[type="text"],
+#form-add-animal input[type="date"],
+#form-add-animal textarea{
+    border-radius: 0.2em;
+}
+
+#form-add-animal select{
+    border-radius: 2em;
+}
+
+#form-add-animal .radio-group-cg {
+    gap: 0.3em;
+}
+
+#form-add-animal .radio-card {
+    width: 100%;
+    padding: 0.7em;
+    box-sizing: border-box;
+}
+
+#form-add-animal button[name="submit-animal"],
+#form-add-animal a#cancel-add-animal{
+    width: 100%;
+    display: block;
+    margin:0;
+    padding:0.5em 0;
+}
+
+#form-add-animal a#cancel-add-animal{
+    margin-bottom:1em;
+}
+
+#form-add-animal .form-buttons-container{
+    display: block;
 }
 
 /* ================== LOGIN ==================*/

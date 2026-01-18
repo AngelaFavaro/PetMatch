@@ -28,6 +28,11 @@ $pagine = [
         'url' => './dettagli-richiesta',
         'parent' => 'richieste-adozione'
     ],
+    'nuovo-animale' => [
+        'label' => 'Aggiungi animale',
+        'url' => './nuovo-animale',
+        'parent' => 'home'
+    ],
     'animali' => [
         'label' => 'Animali',
         'url' => './animali',
@@ -131,8 +136,8 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
         <a class="navigationHelp" href="#content"> Salta il menù di navigazione</a>
         <a href="./home">
             <img src="./assets/icons/logo.svg" id="logo" alt="Home" lang="en">
-        </a>
-        <a class="orange-button" href="./nuovo-animale">+ Aggiungi animale</a>';
+        </a>';
+        $html .= $currentHref==='./nuovo-animale' ? '<p class="orange-button" id="currentLink" href="./nuovo-animale">+ Aggiungi animale</p>' : '<a class="orange-button" href="./nuovo-animale">+ Aggiungi animale</a>';
 
     foreach ($menuGroups as $key => $items) {
 
@@ -251,14 +256,17 @@ function buildUserNav(array $items, string $currentHref, bool $isLogged): string
                                 </a>
                             </li>
                             
-                            <li>
-                                <a class="white-button" href="./accedi">';
+                            <li>';
+                                $html.= ($currentHref==='./profilo-utente')?'<p class="white-button" href="./accedi" id="currentLink">':'<a class="white-button" href="./accedi">';
+                                
                                 $html .= $isLogged ? '<span id="text-accedi">Profilo</span>' : '<span id="text-accedi">Accedi</span>';
                                 
                                 $html .= '
-                                    <img src="./assets/icons/account-normal.svg" id="account-normal" alt="" />
-                                    <img src="./assets/icons/account-hover.svg" id="account-hover" alt="" />
-                                </a>
+                                <img src="./assets/icons/account-normal.svg" id="account-normal" alt="" />
+                                <img src="./assets/icons/account-hover.svg" id="account-hover" alt="" />';
+
+                                $html.= ($currentHref==='./profilo-utente')?'</p>':'</a>';
+                                $html .= '
                             </li>
                         </ul> 
                     </nav>
@@ -448,15 +456,16 @@ function uploadImage($file, $folder) {
     }
 }
 
-function getCardAnimal():string{
+function getCardAnimal(int $idanimale, bool $isAdmin, bool $isAdopted):string{
     $html = '<section id=\'info-animal\'>
             <h2>Animale interessato</h2>
             <div class=\'details-card-animale\'>
                 <div>
                     <div>
-                        <img src="[imgAnimale]" alt="" />
-                        <!-- TODO: aggiungere link alla pagina dell\'animale -->
-                        <a href="" class="brown-button">Vedi animale</a>
+                        <img src="[imgAnimale]" alt="" />';
+                        // <!-- TODO: aggiungere link alla pagina dell\'animale -->'
+                    $html .= ($isAdopted&&!$isAdmin)?'<p class="nonDisponibile"><em>Animale adottato</em></p>':'<a href="" class="brown-button">Vedi animale</a>';
+                    $html.='
                     </div>
                     <dl aria-label="Descizione superficiale dell\'animale">
                         <dt>Nome:</dt>
