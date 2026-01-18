@@ -133,10 +133,32 @@ $linkPagine  = '';
 
 
 /* ------------------ NAV TIPO ------------------ */
-function buildNavAnimali(string $type, array $filters): string {
-    $base = $filters;
+function buildNavAnimali(
+    string $type,
+    bool $isPreferiti,
+    array $filters = []
+): string {
 
-    $link = fn($t) => '?' . http_build_query(array_merge($base, ['tipo' => $t]));
+    // funzione che genera il link giusto
+    $buildLink = function (string $t) use ($filters, $isPreferiti) {
+        if ($isPreferiti) {
+            // niente filtri, solo type
+            return 'preferiti?tipo=' . urlencode($t);
+        }
+
+        // pagina animali: mantieni i filtri
+        $params = array_merge($filters, ['tipo' => $t]);
+        return '?' . http_build_query($params);
+    };
+
+    // helper per ogni voce
+    $item = function (string $t, string $label) use ($type, $buildLink) {
+        if ($type === $t) {
+            return "<li class='currentType'>$label</li>";
+        }
+
+        return "<li><a href='{$buildLink($t)}'>$label</a></li>";
+    };
 
     return "
     <ul aria-label='Filtri sulla tipologia'>
@@ -325,7 +347,7 @@ if (!$isPreferiti) {
     $stringaFiltri="<form class='filtri' method='get' action='animali'>
         <!-- rotta gestita dal router -->
         
-        <input type='hidden' name='type' value='[TYPE]'>
+        <input type='hidden' name='tipo' value='[TYPE]'>
 
         <ul aria-label='Filtri di ricerca'>
             <li class='capsula-filtro' id='searchName'>

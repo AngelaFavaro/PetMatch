@@ -1533,39 +1533,11 @@ public function addAnimal(array $data, string $emailAdmin): int|bool {
 
  
 
-function isAnimalInFavorites(string $email, int $id): bool {
-    $stmt = $this->connection->prepare("SELECT 1 FROM PREFERITI WHERE Email=? AND IDanimale=?");
-    $stmt->bind_param("si", $email, $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    return $result->num_rows > 0;
-}
 
-function addToFavorites(string $email, int $id): void {
-    $stmt = $this->connection->prepare("INSERT IGNORE INTO PREFERITI (Email, IDanimale) VALUES (?, ?)");
-    $stmt->bind_param("si", $email, $id);
-    $stmt->execute();
-}
 
-function removeFromFavorites(string $email, int $id): void {
-    $stmt = $this->connection->prepare("DELETE FROM PREFERITI WHERE Email=? AND IDanimale=?");
-    $stmt->bind_param("si", $email, $id);
-    $stmt->execute();
-}
 
-public function hasActiveAdoptionRequest(int $idAnimale): bool {
-    $sql = "SELECT 1 FROM RICHIESTE_ADOZIONI 
-            WHERE IDanimale = ? AND Stato IN ('Nuova', 'In valutazione', 'Da trasportare')
-            LIMIT 1";
 
-    $stmt = $this->connection->prepare($sql);
-    $stmt->bind_param('i', $idAnimale);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $exists = $result->num_rows > 0;
-    $stmt->close();
-    return $exists;
-}
+
 
 public function countFavourites(string $type, string $email): int {
     if (!$this->connection) return 0;
