@@ -23,22 +23,22 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
         $tipoMinuscoloPlurale = ($tipo === 'Cane') ? 'cani' : 'gatti'; //fa un po caca ma va bene per ora
         
         if (($NSegnalazioniByType ?? 0) == 0) {
-            return '<p class="nessuna-richiesta-message">Nessuna segnalazione per ' . $tipoMinuscoloPlurale . '.</p>';
+            return '<p role="status" class="nessuna-richiesta-message">Nessuna segnalazione per ' . $tipoMinuscoloPlurale . '.</p>';
         }
 
         $idTabella = "sumTabella" . $tipo;
         $html = '
-            <span id="' . $idTabella . '" class="navigationHelp">In questa tabella vengono elencate le nuove richieste di adozione per ' . $tipoMinuscoloPlurale . ' e i loro dettagli: email utente, nome animale e data di richiesta.</span>
+            <span id="' . $idTabella . '" class="sr-only" aria-hidden="true">In questa tabella vengono elencate le segnalazioni per nuove accoglienze per ' . $tipoMinuscoloPlurale . ' e i loro dettagli: identificativo segnalazione, data segnalazione, nominativo del segnalante (nome e cognome), email segnalante. Infine per ogni segnalazione un link alla gestione della segnalazione e eventualmente un pulsante per contattare il segnalante.</span>
             <table aria-describedby="' . $idTabella . '">
-                <caption>Nuove Richieste di Adozione (' . $tipo . ')</caption>
+                <caption>Segnalazioni di accoglienze per (' . $tipo . ')</caption>
                 <thead>
                     <tr>
-                        <th scope="col"><abbr title="Identificativo segnalazione">ID</abbr></th>
+                        <th scope="col"><abbr title="Identificativo segnalazione"><span lang="en">Id</span></abbr></th>
                         <th scope="col">Data segnalazione</th>
-                        <th scope="col">Nominativo segnalante</th>
+                        <th scope="col">Segnalante</th>
                         <th scope="col">Email segnalante</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
+                        <th scope="col"><span class= "sr-only">Gestione segnalazione</span></th>
+                        <th scope="col"><span class= "sr-only">Contatto</span></th>
                     </tr>
                 </thead>
                 <tbody>';

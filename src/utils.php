@@ -538,7 +538,7 @@ function saveGuestFavorites(array $ids): void {
 
 
 function buildPagination(int $currentPage, int $totalPages, string $tipoAttivo, array $filters = []): string {
-    if ($totalPages <= 1) return '<li id="currentLink">1</li>';
+    if ($totalPages <= 1) return '<li class="currentPage">1</li>';
 
     $params = array_merge(['tipo' => $tipoAttivo], $filters);
     unset($params['page']);
@@ -560,7 +560,7 @@ function buildPagination(int $currentPage, int $totalPages, string $tipoAttivo, 
 
     for ($i = $start; $i <= $end; $i++) {
         if ($i === $currentPage) {
-            $html .= '<li id="currentLink" aria-label="pagina attuale">'.$i.'</li>';
+            $html .= '<li class="currentPage" aria-label="pagina attuale">'.$i.'</li>';
         } else {
             $params['page'] = $i;
             $html .= '<li><a href="?' . http_build_query($params) . '" aria-label="vai alla pagina '.$i.'">'.$i.'</a></li>';

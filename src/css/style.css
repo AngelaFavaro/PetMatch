@@ -1979,7 +1979,7 @@ input:-webkit-autofill:active{
     padding: 0.3em;
 }
 
-#animali .next-page-links #currentLink {
+#animali .next-page-links .currentPage {
     background-color: var(--bgform);
     color: var(--bgcolor);
     justify-content: center;

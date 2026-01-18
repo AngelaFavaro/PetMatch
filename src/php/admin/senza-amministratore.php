@@ -16,18 +16,18 @@ function renderCaniContent(array $CaniNonAdmin, array $NNonAdminByType): string 
         return '<p class="nessuna-richiesta-message">Nessun cane senza amministratore</p>';
     }else{
         $html = '
-        <span id="sumTabellaCani" class="navigationHelp">In questa tabella vengono elencate le nuove richieste di adozione e i loro dettagli: email utente, nome animale e data di richiesta.</span>
-        <table aria-describedby="sumTabellaCani">
-            <caption>Nuove Richieste di Adozione</caption>
+        <span id="sumTabellaCaniNoAdmin" class="sr-only"aria-hidden="true">In questa tabella vengono elencate Identificativo cane, Nome cane, Data di registrazione, se è idoneo al trasporto, Razza cane, Età cane e per ogni cane un link alla scheda dettagli dell\'animale.</span>
+        <table aria-describedby="sumTabellaCaniNoAdmin">
+            <caption>Cani senza amministratore</caption>
                 <thead>
                     <tr>
-                        <th scope="col"><abbr title="Identificativo animale">ID</abbr></th>
+                        <th scope="col"><abbr title="Identificativo cane"><span lang="en">Id</span></abbr></th>
                         <th scope="col">Nome</th>
                         <th scope="col">Data registrazione</th>
                         <th scope="col">Trasporto</th>
                         <th scope="col">Razza</th>
                         <th scope="col">Età</th>
-                        <th scope="col" class="col-dettagli"></th>
+                        <th scope="col" class="col-dettagli"><span class= "sr-only">Dettagli cane</span></th>
                     </tr>
                 </thead>
                 <tbody>';
@@ -36,12 +36,12 @@ function renderCaniContent(array $CaniNonAdmin, array $NNonAdminByType): string 
             $eta = date_diff(date_create($caneNonAdmin['data_nascita']), date_create('today'))->y;
             $html .= '
                 <tr>
-                    <th data-title="Identificativo animale" scope="row">'.htmlspecialchars($caneNonAdmin['id_animale']).'</th>
-                    <td data-title="Nome animale">'.htmlspecialchars($caneNonAdmin['nome_animale']).'</td>
-                    <td data-title="Data registrazione"><time datetime="'.htmlspecialchars($caneNonAdmin['data_registrazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($caneNonAdmin['data_registrazione']))).'</time></td>
-                    <td data-title="Idoneo al trasporto">'.htmlspecialchars($caneNonAdmin['trasporto_animale']).'</td>
-                    <td data-title="Razza animale">'.htmlspecialchars($caneNonAdmin['razza_animale']).'</td>
-                    <td data-title="Età animale">'.htmlspecialchars($eta).'</td>
+                    <th scope="row">'.htmlspecialchars($caneNonAdmin['id_animale']).'</th>
+                    <td data-title="Nome">'.htmlspecialchars($caneNonAdmin['nome_animale']).'</td>
+                    <td data-title="Data"><time datetime="'.htmlspecialchars($caneNonAdmin['data_registrazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($caneNonAdmin['data_registrazione']))).'</time></td>
+                    <td data-title="Trasporto">'.htmlspecialchars($caneNonAdmin['trasporto_animale']).'</td>
+                    <td data-title="Razza">'.htmlspecialchars($caneNonAdmin['razza_animale']).'</td>
+                    <td data-title="Età">'.htmlspecialchars($eta).'</td>
                     <td class="col-dettagli"><a href="animali?id='.htmlspecialchars($caneNonAdmin['id_animale']).'" class="brown-button">Vai all\'animale</a></td>
                 </tr>
             ';
@@ -61,21 +61,21 @@ function renderCaniContent(array $CaniNonAdmin, array $NNonAdminByType): string 
 
 function renderGattiContent(array $GattiNonAdmin,array $NNonAdminByType){
     if($NNonAdminByType['Gatto'] == 0){
-        return '<p class="nessuna-richiesta-message">Nessun gatto senza amministratore</p>';
+        return '<p role="status" class="nessuna-richiesta-message">Nessun gatto senza amministratore</p>';
     }else{
         $html = '
-        <span id="sumTabellaInValutazione" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione in valutazione e i loro dettagli: email utente, nome animale, data di inizio valutazione e presenza di appunti.</span>
-        <table aria-describedby="sumTabellaInValutazione">
-            <caption>Richieste di Adozione in Valutazione</caption>
+        <span id="sumTabellaGattiNoAdmin" class="sr-only" aria-hidden="true">In questa tabella vengono elencate Identificativo gatto, Nome gatto, Data di registrazione, se è idoneo al trasporto, Razza gatto, Età gatto e per ogni gatto un link alla scheda dettagli dell\'animale.</span>
+        <table aria-describedby="sumTabellaGattiNoAdmin">
+            <caption>Gatti senza amministratore</caption>
             <thead>
                 <tr>
-                    <th scope="col"><abbr title="Identificativo animale">ID</abbr></th>
+                    <th scope="col"><abbr title="Identificativo gatto"><span lang="en">Id</span></abbr></th>
                     <th scope="col">Nome</th>
                     <th scope="col">Data registrazione</th>
                     <th scope="col">Trasporto</th>
                     <th scope="col">Razza</th>
                     <th scope="col">Età</th>
-                    <th scope="col" class="col-dettagli"></th>
+                    <th scope="col" class="col-dettagli"><span class= "sr-only">Dettagli animale</span></th>
                 </tr>
             </thead>
             <tbody>';
@@ -85,12 +85,12 @@ function renderGattiContent(array $GattiNonAdmin,array $NNonAdminByType){
 
             $html .= '
                 <tr>
-                    <th data-title="Identificativo animale" scope="row">'.htmlspecialchars($GattoNonAdmin['id_animale']).'</th>
-                    <td data-title="Nome animale">'.htmlspecialchars($GattoNonAdmin['nome_animale']).'</td>
-                    <td data-title="Data registrazione"><time datetime="'.htmlspecialchars($GattoNonAdmin['data_registrazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($GattoNonAdmin['data_registrazione']))).'</time></td>
-                    <td data-title="Idoneo al trasporto">'.htmlspecialchars($GattoNonAdmin['trasporto_animale']).'</td>
-                    <td data-title="Razza animale">'.htmlspecialchars($GattoNonAdmin['razza_animale']).'</td>
-                    <td data-title="Età animale">'.htmlspecialchars($eta).'</td>
+                    <th scope="row">'.htmlspecialchars($GattoNonAdmin['id_animale']).'</th>
+                    <td data-title="Nome">'.htmlspecialchars($GattoNonAdmin['nome_animale']).'</td>
+                    <td data-title="Data di registrazione"><time datetime="'.htmlspecialchars($GattoNonAdmin['data_registrazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($GattoNonAdmin['data_registrazione']))).'</time></td>
+                    <td data-title="Trasporto">'.htmlspecialchars($GattoNonAdmin['trasporto_animale']).'</td>
+                    <td data-title="Razza">'.htmlspecialchars($GattoNonAdmin['razza_animale']).'</td>
+                    <td data-title="Età">'.htmlspecialchars($eta).'</td>
                     <td class="col-dettagli"><a href="animali?id='.htmlspecialchars($GattoNonAdmin['id_animale']).'" class="brown-button">Vai all\'animale</a></td>
                 </tr>
             ';
