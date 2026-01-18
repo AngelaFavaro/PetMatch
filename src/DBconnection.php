@@ -751,8 +751,6 @@ public function addAnimal(array $data, string $emailAdmin): int|bool {
     function getDetailsNonAdminAnimalsPaged(int $limit, int $offCani, int $offGatti): array {
         $results = ['Gatto' => [], 'Cane' => []];
 
-        // Usiamo UNION ALL per unire le due selezioni paginate in un colpo solo
-        // Nota: le parentesi sono obbligatorie quando si usa LIMIT/OFFSET dentro una UNION
         $query = "(SELECT *, IDanimale AS id_animale, Nome AS nome_animale, 
                     DataRegistrazione AS data_registrazione, Trasporto AS trasporto_animale, 
                     Razza AS razza_animale, DataNascita AS data_nascita
@@ -768,7 +766,6 @@ public function addAnimal(array $data, string $emailAdmin): int|bool {
         $stmt = mysqli_prepare($this->connection, $query);
 
         if ($stmt) {
-            // Passiamo i parametri: limite, offset cani, limite, offset gatti
             mysqli_stmt_bind_param($stmt, "iiii", $limit, $offCani, $limit, $offGatti);
             mysqli_stmt_execute($stmt);
             $res = mysqli_stmt_get_result($stmt);
@@ -782,6 +779,113 @@ public function addAnimal(array $data, string $emailAdmin): int|bool {
         }
 
         return $results;
+    }
+
+    // per vedere solo le segnalazioni proprie, si passa mode = 'mie' e l'email dell'admin
+    // per vedere solo le segnalazioni senza admin, si passa mode = 'nessuno' e si può lasciare emailAdmin a null
+    // per vedere tutte le segnalazioni, si passa mode = 'tutte' e l'email dell'admin
+    function getDetailsSegnalazioniAnimalsPaged($perPagina, $offCani, $offGatti, string $emailAdmin = null, string $mode = 'tutte'): array {
+        $results = ['Gatto' => [], 'Cane' => []];
+        $config = ['Cane' => $offCani, 'Gatto' => $offGatti];
+
+        foreach ($config as $tipo => $offset) {
+            $query = "SELECT 
+                        ID AS id_segnalazione, 
+                        DataRichiesta AS data_segnalazione, 
+                        NominativoRichiedente AS nominativo_segnalante, 
+                        EmailRichiedente AS email_segnalante,
+                        EmailAmm AS email_admin
+                    FROM SEGNALAZIONI_NUOVE_ACCOGLIENZE 
+                    WHERE TipoAnimale = ? ";
+
+            if ($mode === 'nessuno') {
+                $query .= "AND EmailAmm IS NULL ";
+            } elseif ($mode === 'mie') {
+                $query .= "AND EmailAmm = ? ";
+            } else {
+                $query .= "AND (EmailAmm IS NULL OR EmailAmm = ?) ";
+            }
+
+            $query .= "ORDER BY DataRichiesta DESC LIMIT ? OFFSET ?";
+
+            $stmt = mysqli_prepare($this->connection, $query);
+
+            if ($stmt) {
+                if ($mode === 'nessuno') {
+                    mysqli_stmt_bind_param($stmt, 'sii', $tipo, $perPagina, $offset);
+                } else {
+                    mysqli_stmt_bind_param($stmt, 'ssii', $tipo, $emailAdmin, $perPagina, $offset);
+                }
+
+                mysqli_stmt_execute($stmt);
+                $result = mysqli_stmt_get_result($stmt);
+
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $results[$tipo][] = $row;
+                }
+                mysqli_stmt_close($stmt);
+            }
+        }
+
+        return $results;
+    }
+
+    public function assignAdminToSegnalazione(int $idSegnalazione, string $emailAdmin): bool {
+        $query = "UPDATE SEGNALAZIONI_NUOVE_ACCOGLIENZE 
+                SET EmailAmm = ? 
+                WHERE ID = ? AND EmailAmm IS NULL";
+                
+        $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'si', $emailAdmin, $idSegnalazione);
+            $success = mysqli_stmt_execute($stmt);
+            $affected = mysqli_stmt_affected_rows($stmt);
+            mysqli_stmt_close($stmt);
+            
+            return $success && $affected > 0;
+        }
+        return false;
+    }
+
+
+    public function deleteSegnalazione(int $idSegnalazione): bool {
+        $query = "DELETE FROM SEGNALAZIONI_NUOVE_ACCOGLIENZE WHERE ID = ?";
+        
+        $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'i', $idSegnalazione);
+            $success = mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+            return $success;
+        }
+        return false;
+    }
+    
+    public function getNSegnalazioni($email): array {
+        $counts = [
+            'Cane' => 0,
+            'Gatto' => 0
+        ];
+        $query = "SELECT TipoAnimale, COUNT(*) AS totale 
+                FROM SEGNALAZIONI_NUOVE_ACCOGLIENZE 
+                WHERE EmailAmm = ? OR EmailAmm IS NULL 
+                GROUP BY TipoAnimale";
+    
+        $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $res = mysqli_stmt_get_result($stmt);
+            
+            while ($row = mysqli_fetch_assoc($res)) {
+                if (isset($counts[$row['TipoAnimale']])) {
+                    $counts[$row['TipoAnimale']] = $row['totale'];
+                }
+            }
+            mysqli_stmt_close($stmt);
+        }
+
+        return $counts;
     }
 
     public function insertReportForm(string $name, string $email, string $animal): bool {

@@ -35,7 +35,10 @@ $routes = [
     'senza-amministratore' => [
         'file' => __DIR__ . '/src/php/admin/senza-amministratore.php'
     ],
-        'accedi' => [
+    'nuove-accoglienze' => [
+        'file' => __DIR__ . '/src/php/admin/nuove-accoglienze.php'
+    ],
+    'accedi' => [
         'file' => __DIR__ . '/src/php/accedi.php'
     ],
     'profilo-utente' => [
@@ -47,6 +50,7 @@ $routes = [
     'nuovo-animale' => [
         'file' => __DIR__ . '/src/php/admin/nuovo-animale.php'
     ]
+];
     /* decommentare quando si vogliono aggiungere le altre pagine
     'accedi' => [
         'file' => __DIR__ . '/src/php/accedi.php'
@@ -106,7 +110,7 @@ $routes = [
     // 'animali/gatti' => [
     //     'file' => __DIR__ . '/src/php/animali.php',
     // ]
-];
+
 
 // inizio della logica del routing
 if (isset($routes[$url])) {

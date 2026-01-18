@@ -112,7 +112,7 @@ CREATE TABLE RICHIESTE_ADOZIONI(
     FOREIGN KEY (IDanimale) REFERENCES ANIMALI (IDanimale) ON DELETE CASCADE ON UPDATE CASCADE,
     CHECK (Stato IN ('Nuova', 'In valutazione','Da trasportare','Accettata', 'Respinta', 'Annullata')),
     CHECK (DataFineValutazione IS NULL OR DataFineValutazione >= DataRichiesta),
-    CHECK (DataFineValutazione IS NULL OR DataInizioValutazione IS NULL OR DataFineValutazione >= DataInizioValutazione)
+    CHECK (DataFineValutazione IS NULL OR DataInizioValutazione IS NULL OR DataFineValutazione >= DataInizioValutazione),
     CHECK (
         (Stato <> 'Nuova') OR --se lo stato è diverso da nuova allora tutto ok, altrimenti SE è nuova allora controlla le date
         (Stato = 'Nuova' AND DataInizioValutazione IS NULL AND DataFineValutazione IS NULL)
@@ -138,10 +138,12 @@ CREATE TABLE SEGNALAZIONI_NUOVE_ACCOGLIENZE (
     ID INT AUTO_INCREMENT PRIMARY KEY, 
     NominativoRichiedente VARCHAR(255) NOT NULL,
     DataRichiesta DATETIME DEFAULT CURRENT_TIMESTAMP,
+    TipoAnimale VARCHAR(5) NOT NULL,
     EmailAmm VARCHAR(255),
     EmailRichiedente VARCHAR(255) NOT NULL,
-    TipoAnimale VARCHAR(5) NOT NULL,
-    FOREIGN KEY (EmailAmm) REFERENCES UTENTI (Email) ON DELETE SET NULL ON UPDATE CASCADE
+    FOREIGN KEY (EmailAmm) REFERENCES UTENTI (Email) ON DELETE SET NULL ON UPDATE CASCADE,
+
+    CHECK (TipoAnimale IN ('Gatto','Cane'))
 );
 
 

@@ -19,7 +19,7 @@ function buildToDoList(DBAccess $conn): string {
 	$links= [
 		['href' => './senza-amministratore', 'type' => 'Animali senza admin'],
 		['href' => './richieste-adozione?stato=In+valutazione&appunti=0', 'type' => 'Appunti da prendere'],
-		['href' => '', 'type' => 'Accoglienze'],
+		['href' => './nuove-accoglienze', 'type' => 'Accoglienze'],
 		['href' => './richieste-adozione?stato=Nuove', 'type' => 'Adozioni da valutare'],
 		['href' => 'richieste-adozione?stato=Da+trasportare&trasporto=0', 'type' => 'Trasporti da organizzare'],
 	];
