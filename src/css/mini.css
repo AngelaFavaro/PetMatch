@@ -439,6 +439,10 @@ nav#breadcrumb {
     margin: 1em auto;
 }
 
+/* ================== PROFILO RICHIEDENTE ==================*/
+#profilo-richiedente{
+    padding: 0 1em;
+}
 /* ================== DETTAGLI RICHIESTE ==================*/
 a.pencil img{
     width: 44px;

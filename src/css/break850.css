@@ -309,3 +309,7 @@ details[open] .number::after {
 #contatto-sostenitore {
     margin-bottom:0em;
 }
+/* ==================PROFILO RICHIEDENTE==================*/
+#profilo-richiedente #visualizza-richiedente{
+    margin-bottom: 4em;
+}

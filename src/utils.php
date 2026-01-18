@@ -6,6 +6,12 @@
     - funzione che crea il footer (ossia da modificare solo la parte del link circolare alla home se l'utente è già in quella pagina)
 */
 
+if (isset($_GET['email']) && isset($_POST['view-profile'])){
+    $richiesteAdozioneHref = './richieste-adozione?email='.urlencode($_GET['email']).'&id-animale='.urlencode($_POST['id-animale']);
+}else{
+    $richiesteAdozioneHref = './richieste-adozione';
+}
+
 /* Definizione delle pagine esistenti PER LA BREADCRUMB, aggiungerne altre quando possibile*/
 $pagine = [
     'home' => [
@@ -25,7 +31,7 @@ $pagine = [
     ],
     'dettagli-richiesta' => [
         'label' => 'Dettagli richiesta',
-        'url' => './dettagli-richiesta',
+        'url' => $richiesteAdozioneHref,
         'parent' => 'richieste-adozione'
     ],
     'nuovo-animale' => [
@@ -72,6 +78,11 @@ $pagine = [
         'label' => 'Nuove accoglienze',
         'url' => './nuove-accoglienze',
         'parent' => 'animali'
+    ],
+    'profilo-richiedente' => [
+        'label' => 'Profilo richiedente',
+        'url' => './profilo-richiedente',
+        'parent' => 'dettagli-richiesta'
     ],
 ];
 

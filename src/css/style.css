@@ -139,13 +139,14 @@ h4{
 /*==================PULSANTI==================*/
 #currentLink.orange-button,
 a.orange-button, a.brown-button,
+button.brown-button,
 button.orange-button{
     display: block;
     text-align: center;
     margin: auto;
     width: fit-content;
     padding: 0.7em 1.5em;
-    border-radius: 1em;
+    border-radius: 1.5em;
     font-weight: 600;
     letter-spacing: 0px;
     text-decoration: none;
@@ -176,7 +177,7 @@ button.orange-button{
     color: var(--txtcolor);
 }
 
-a.brown-button{
+a.brown-button, button.brown-button{
     background-color: var(--text-buttoncolor);
     color: var(--linkcolor);
     margin: 0.7em auto 0.7em auto;
@@ -188,10 +189,17 @@ a.brown-button:visited{
     color: var(--visitedcolor);
 }
 
-.brown-button:hover,
+.brown-button:hover, button.brown-button:hover,
 .brown-button:visited:hover{
     background-color:transparent; 
     color: var(--text-buttoncolor);
+    cursor: pointer;
+}
+
+button.brown-button{
+    border:none;
+    font-family: "Parkinsans", Roboto, sans-serif;
+    font-size: 1em;
 }
 
 .white-button{
@@ -442,7 +450,7 @@ NOTA: modificare il flex se necessario annidando la classe dentro le proprie sez
 }
 
 /* ==================FOCUS================== */
-input:focus-visible + label,
+input[type="radio"]:focus-visible + label,
 a:focus-visible,
 button:focus-visible,
 textarea:focus-visible,
@@ -2103,6 +2111,10 @@ flex: 1 0 100%;
     z-index: 1;
 }
 
+#admin-area input:checked + label h2{
+    font-weight: 600;
+}
+
 #user-profile .tabs-container #tab1:checked  ~ .tab-content:nth-of-type(1),
 #user-profile .tabs-container #tab2:checked  ~ .tab-content:nth-of-type(2), 
 #admin-area .tabs-container #tab1:checked  ~ .tab-content:nth-of-type(1),
@@ -2162,13 +2174,15 @@ flex: 1 0 100%;
 
 
 
-#user-profile .tabs-container select{
+#user-profile .tabs-container select,
+#profilo-richiedente .tabs-container select{
     padding:0.5em;
     background-color: var(--bgcolor);
     border-radius: 2em;
     border-color: var(--text-buttoncolor);
     color:var(--text-buttoncolor);
     margin:5px;
+    font-size: 1em;
 }
 
 #user-profile #user-info img.circle-foto{
@@ -2190,7 +2204,8 @@ flex: 1 0 100%;
 }
 
 #user-profile #lista-movimenti li,
-#user-profile #lista-richieste li{
+#user-profile #lista-richieste li,
+#profilo-richiedente .tabs-container li{
     list-style: none;
     background-color: var(--darkbgcolor);
     border:2px solid var(--darkbgcolor);
@@ -2205,26 +2220,30 @@ flex: 1 0 100%;
 } 
 
 #user-profile #lista-movimenti article,
-#user-profile #lista-richieste article{
+#user-profile #lista-richieste article,
+#profilo-richiedente .tabs-container article{
     display: flex;
     flex-wrap: wrap;
     align-items: center;
 }
 
 #user-profile #lista-movimenti article p:first-of-type,
-#user-profile #lista-richieste article p:first-of-type{
+#user-profile #lista-richieste article p:first-of-type,
+#profilo-richiedente .tabs-container article p:first-of-type{
     flex: 1 1 65%;
     margin-left:1em;
 }
 
 #user-profile #lista-movimenti li a,
-#user-profile #lista-richieste li a{
+#user-profile #lista-richieste li a,
+#profilo-richiedente .tabs-container li a{
     margin:0.5em auto 0 auto;
     border-radius: 2em;
     background-color: var(--buttoncolor-hover);
     color:var(--bgcolor);
     padding: 3px 2em;
     transition: 0.3s;
+    font-weight: normal;
 }
 
 #user-profile #lista-movimenti li p+p,
@@ -2244,13 +2263,16 @@ flex: 1 0 100%;
 #user-profile #lista-movimenti li a:hover,
 #user-profile #lista-movimenti li a:visited:hover,
 #user-profile #lista-richieste li a:hover,
-#user-profile #lista-richieste li a:visited:hover{
+#user-profile #lista-richieste li a:visited:hover,
+#profilo-richiedente .tabs-container li a:hover,
+#profilo-richiedente .tabs-container li a:visited:hover{
     color: var(--txtcolor);
     background-color:transparent;
 }
 
 #user-profile #lista-movimenti li a:visited,
-#user-profile #lista-richieste li a:visited{
+#user-profile #lista-richieste li a:visited,
+#profilo-richiedente .tabs-container li a:visited{
     color:var(--buttoncolor);
 }
 
@@ -2892,12 +2914,19 @@ nav#menu-admin li a:visited{
 }
 
 nav#menu-admin li:hover{
-    background-color: var(--darkbgcolor);
+    /* background-color: var(--darkbgcolor); */
+    outline: 2px solid var(--bgcolor);
     border-radius: 2em 0em 0em 2em;
 }
-nav#menu-admin li:hover a{
-    color: var(--txtcolor);
+
+nav#menu-admin li#currentLink:hover{
+    outline:none;
 }
+
+/* nav#menu-admin li:hover a{
+    color: var(--txtcolor);
+} */
+
 nav#menu-admin li#currentLink a{
     font-weight: 700;
     color: var(--txtcolor);
@@ -3057,6 +3086,7 @@ a.pencil {
 #admin-area .tabs-container h2{
     font-size: 1.1em;
     color: var(--txtcolor);
+    font-weight: normal;
 }
 
 div#admin-area dt{
@@ -3104,7 +3134,7 @@ div#admin-area #details-container article{
 
 div#admin-area #details-container article#animale-richiesta{
     margin: 0em;
-    border-radius: 1em;
+    border-radius: 0.5em;
     border-bottom-left-radius: 0em;
     border-bottom-right-radius: 0em;
     border-top: 1px solid var(--txtcolor);
@@ -3114,7 +3144,7 @@ div#admin-area #details-container article#animale-richiesta{
 #details-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 6em;
+    gap: 4em;
     align-items: flex-start;
     margin: 2em 0em;
 }
@@ -3661,6 +3691,116 @@ tr:hover {
     margin-top: 5px;
     display: block;
 }
+/*================ PROFILO RICHIEDENTE ==================*/
+#profilo-richiedente{
+    height: 100vh;
+    margin-top:2em;
+}
+
+#profilo-richiedente h1{
+    font-size: 2em;
+    margin-bottom:1em;
+}
+
+#profilo-richiedente h2{
+    font-size: 1.5em;
+}
+
+#profilo-richiedente{
+    padding:0 5em;
+}
+
+#profilo-richiedente .column-container{
+    padding:0;
+    max-width: none;
+}
+
+#profilo-richiedente .column-container article{
+    border:1px solid var(--txtcolor);
+    border-radius: 0.5em;
+    padding:1em;
+}
+
+#profilo-richiedente .column-container article:first-of-type{
+    flex: 1 1 60%;
+}
+
+#profilo-richiedente .column-container article:last-of-type{
+    flex: 1 1 35%;
+}
+
+#profilo-richiedente #visualizza-richiedente dt{
+    float: left;
+    margin-right: 0.5em;
+    font-weight: 600;
+}
+
+#profilo-richiedente #visualizza-richiedente dd{
+    margin-bottom: 0.5em;
+}
+
+#profilo-richiedente #visualizza-richiedente img.circle-foto{
+    margin:2em auto;
+}
+
+#profilo-richiedente .tabs-container .tab-content{
+    display: none;
+}
+
+#profilo-richiedente:has(option[value="tab1"]:checked) .tab-content:nth-of-type(1),
+#profilo-richiedente:has(option[value="tab2"]:checked) .tab-content:nth-of-type(2),
+#profilo-richiedente:has(option[value="tab3"]:checked) .tab-content:nth-of-type(3),
+#profilo-richiedente:has(option[value="tab4"]:checked) .tab-content:nth-of-type(4),
+#profilo-richiedente:has(option[value="tab5"]:checked) .tab-content:nth-of-type(5),
+#profilo-richiedente:has(option[value="tab6"]:checked) .tab-content:nth-of-type(6) {
+    display: block;
+}
+
+#profilo-richiedente .tabs-container select{
+    margin:1em 0;
+    float: right;
+    border: 2px solid var(--buttoncolor);
+    background-color: var(--buttoncolor);
+    font-weight: 550;
+}
+
+#profilo-richiedente .tabs-container option{
+    background-color: var(--bgcolor);
+}
+
+
+#profilo-richiedente .tabs-container legend{
+    font-size: 1.5em;
+    font-weight: bold;
+    padding:0;
+    font-family: "Parkinsans", Roboto, sans-serif;
+    text-align: left;
+}
+
+#profilo-richiedente .tabs-container li{
+    list-style: none;
+}
+
+.no-visible{
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+#profilo-richiedente .tabs-container li article p+a{
+    padding: 3px 1.3em;
+}
+
+#profilo-richiedente .tabs-container li article{
+    border: none;
+    padding:0;
+}
+
+#profilo-richiedente .column-container .tabs-container li article p:first-of-type{
+    flex:1 1 50%;
+}
+
 
 /*================NAVIGATION HELP ==================*/
 
