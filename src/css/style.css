@@ -28,7 +28,7 @@
     --bgconfirmbutton:#6D7541;
     --bgconfermbutton:#FFF6D7;
     --txtcancelbutton:var(--bgconfirmbutton);
-    --txtclose-request: #735757;
+    --txtclose-request: #6b5050;
     --greencolor: #6D7541;
 }
 
@@ -190,7 +190,7 @@ a.brown-button:visited{
 
 .brown-button:hover,
 .brown-button:visited:hover{
-    background-color: var(--text-buttoncolor-hover); 
+    background-color:transparent; 
     color: var(--text-buttoncolor);
 }
 
@@ -453,12 +453,13 @@ input [type="checkbox"]:focus-visible{
 }
 
 input:focus,
+li:has(input:focus),
+li:has(select:focus),
 textarea:focus,
 select:focus{
     outline:2px solid var(--headercolor);
     outline-offset: 0px;
 }
-
 
 
 /* ==================LAVORA CON NOI ================== */
@@ -635,11 +636,12 @@ header a{
     color: var(--linkcolor);
 }
 
-#not-bold{
+.not-bold{
     font-weight: 200;
 }
 
-#name-site{
+#name-site,
+#name-site-footer{
     font-weight:600;
     display: block;
     font-size: 1.6rem;
@@ -1324,7 +1326,7 @@ legend {
 #home label + input::placeholder,
 #user-profile label + input::placeholder,
 #login label + input::placeholder{
-    color: var(--placeholder-text);
+    color: var(--placeholderDarker-text);
 }
 
 label {
@@ -1695,9 +1697,23 @@ input:-webkit-autofill:active{
     box-sizing: border-box;
     min-width: 3em;             /* larghezza minima uniforme */
     color:var(--text-buttoncolor);    
-    border-color: var(--text-buttoncolor);
     margin:5px;
 }
+
+#animali .filtri .capsula-filtro input
+.tab-content .filtri .capsula-filtro input{
+    border-color: var(--text-buttoncolor);
+}
+
+#animali .filtri .capsula-filtro select,
+.tab-content .filtri .capsula-filtro select{
+    border:1px solid var(--bgcolor);
+} 
+
+#animali .filtri .capsula-filtro select:hover,
+.tab-content .filtri .capsula-filtro select:hover{
+    border:1px solid var(--buttoncolor);
+} 
 
 #animali .filtri .capsula-filtro input, .tab-content .filtri .capsula-filtro input {
     background: transparent;
@@ -1723,8 +1739,12 @@ input:-webkit-autofill:active{
     color:var(--txtcolor);
 }
 
+#animali .filtri .capsula-filtro .eta-range input:nth-of-type(2) {
+    margin-left: 0.5em;    
+}
+
 #animali .filtri .capsula-filtro .eta-range input::placeholder {
-    color: var(--placeholder-text);
+    color: var(--placeholderDarker-text);
 }
 
 #animali .filtri .capsula-filtro input[type="text"] {
@@ -1970,7 +1990,7 @@ input:-webkit-autofill:active{
     padding: 0.3em;
 }
 
-#animali .next-page-links #currentLink {
+#animali .next-page-links #currentLinkPagination {
     background-color: var(--bgform);
     color: var(--bgcolor);
     justify-content: center;
@@ -3000,7 +3020,7 @@ a.pencil {
 #mobile-select{
     display: none;
 }
-.tabs-container {
+#admin-area .tabs-container {
     overflow: hidden;
     display: flex;
     margin-top: 2em;
@@ -3444,14 +3464,14 @@ tr:hover {
 #form-add-animal input::placeholder,
 #form-add-animal select::placeholder,
 #form-add-animal textarea::placeholder{
-    color:var(--placeholder-text);
+    color:var(--placeholderDarker-text);
 }
 
 /* ========================================
    SELECT (TAGLIA E PELO)
    ======================================== */
 #form-add-animal select {
-    display: block;
+    /* display: block;
     width: 100%;
     padding: 0.5em;
     border: 1px solid var(--text-buttoncolor);
@@ -3461,8 +3481,14 @@ tr:hover {
     color: var(--buttoncolor-hover);
     cursor: pointer;
     /* appearance: none; */
-    transition: all 0.3s ease;
-    font-family: "Parkinsans", Roboto, sans serif;
+    /* transition: all 0.3s ease;
+    font-family: "Parkinsans", Roboto, sans serif; */ 
+    padding:0.5em;
+    background-color: var(--bgcolor);
+    border-radius: 2em;
+    border-color: var(--text-buttoncolor);
+    color:var(--text-buttoncolor);
+    margin:5px;
 }
 
 /* ========================================
