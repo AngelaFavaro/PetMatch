@@ -59,6 +59,11 @@
 
 
 
+table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+}
 
 table, tbody, tr {
 	border:none;
@@ -86,11 +91,10 @@ tr, th, td {
     display: block;
 }
 
-tbody td{
-    width: 70%;
-    white-space: normal; /* permette il wrapping automatico */
-    padding: 0em 1em;
+tbody td {
+    white-space: normal;
     overflow-wrap: break-word;
+    word-break: break-word; 
 }
 tbody th{
     padding: 0em 1em;
