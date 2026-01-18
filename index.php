@@ -35,6 +35,9 @@ $routes = [
     'senza-amministratore' => [
         'file' => __DIR__ . '/src/php/admin/senza-amministratore.php'
     ],
+    'eventi' => [
+        'file' => __DIR__ . '/src/php/eventi.php'
+    ],
 
 
 

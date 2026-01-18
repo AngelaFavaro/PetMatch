@@ -1568,14 +1568,14 @@ input:-webkit-autofill:active{
 
 /* Lista filtri */
 
-#animali .filtri, .tab-content .filtri {
+#animali .filtri, #eventi .filtri, .tab-content .filtri {
     display: flex;
     align-items: center; 
     gap: 1em;
     flex-wrap: wrap;
 }
 
-#animali .filtri ul, .tab-content .filtri ul {
+#animali .filtri ul, #eventi .filtri ul, .tab-content .filtri ul {
     display: flex;
     /* flex-wrap: wrap; */
     list-style: none;
@@ -1584,7 +1584,26 @@ input:-webkit-autofill:active{
     gap: 0.5em;
     flex: 1; 
 }
+.capsula-filtro {
+    display: inline-flex;        /* label + input/select affiancati */
+    align-items: center;         /* centra verticalmente tutto */
+    justify-content: center;
+    padding: 0 1em;             /* padding uniforme */
+    background-color: var(--bgcolor);
+    color: var(--text-buttoncolor);
+    border-radius: 1em;
+    font-weight: 400;
+    text-align: center;
+    height: 2.8em;              /* altezza uniforme */
+    box-sizing: border-box;
+    border: 1px solid var(--text-buttoncolor);
+    max-width: fit-content;
+}
 
+.capsula-filtro label {
+    margin-right: 0.5em;
+    white-space: nowrap;
+}
 /* Contenitore capsula per ogni filtro */
 #animali .filtri .capsula-filtro, .tab-content .filtri .capsula-filtro {
     display: inline-flex;        /* label + input/select affiancati */
@@ -1622,7 +1641,7 @@ input:-webkit-autofill:active{
     font-weight: 500;
 }
 
-#animali .filtri #searchName.capsula-filtro{
+#animali .filtri #searchName.capsula-filtro, #eventi .filtri #searchName.capsula-filtro{
     width: 40%;
     max-width: none;
     justify-content:left;
@@ -1644,18 +1663,18 @@ input:-webkit-autofill:active{
     margin-bottom:0;
 }
 
-#animali #content-filter-button{
+#animali #content-filter-button, #eventi #content-filter-button{
     display: flex;
     margin:auto;
     gap:1em;
     height: fit-content;
 }
 
-#animali #content-filter-button a{
+#animali #content-filter-button a, #eventi #content-filter-button a{
     flex: 1 1 40%;
 }
 
-#animali #content-filter-button button{
+#animali #content-filter-button button, #eventi #content-filter-button button{
     flex: 1 1 40%;
 }
 
@@ -1673,7 +1692,8 @@ input:-webkit-autofill:active{
 #animali .filtri .capsula-filtro input,
 #animali .filtri .capsula-filtro select,
 .tab-content .filtri .capsula-filtro input,
-.tab-content .filtri .capsula-filtro select {
+.tab-content .filtri .capsula-filtro select, #eventi .filtri .capsula-filtro input,
+#eventi .filtri .capsula-filtro select {
     border: none;
     
     /* color: var(--txtcolor); */
@@ -1690,20 +1710,28 @@ input:-webkit-autofill:active{
     margin:5px;
 }
 
-#animali .filtri .capsula-filtro input, .tab-content .filtri .capsula-filtro input {
+#animali .filtri .capsula-filtro input, .tab-content .filtri .capsula-filtro input, #eventi .filtri .capsula-filtro input {
     background: transparent;
 }
 
-#animali .filtri .capsula-filtro select, .tab-content .filtri .capsula-filtro select {
+#animali .filtri .capsula-filtro select, .tab-content .filtri .capsula-filtro select, #eventi .filtri .capsula-filtro select {
     background-color: var(--bgcolor);
 }
 
 /* Range di età */
-#animali .filtri .capsula-filtro .eta-range {
+#animali .filtri .capsula-filtro .eta-range, #eventi .filtri .capsula-filtro .data-range {
     display: flex;
     align-items: center;
     gap: 0.3em;
     height: 100%;
+}
+
+#eventi .filtri .capsula-filtro .data-range input {
+    max-width: 10em;
+    height: 100%;
+    text-align: center;
+    width: 100%;
+    color:var(--txtcolor);
 }
 
 #animali .filtri .capsula-filtro .eta-range input {
@@ -1714,11 +1742,11 @@ input:-webkit-autofill:active{
     color:var(--txtcolor);
 }
 
-#animali .filtri .capsula-filtro .eta-range input::placeholder {
+#animali .filtri .capsula-filtro .eta-range input::placeholder, #eventi .filtri .capsula-filtro .data-range input::placeholder {
     color: var(--placeholder-text);
 }
 
-#animali .filtri .capsula-filtro input[type="text"] {
+#animali .filtri .capsula-filtro input[type="text"], #eventi .filtri .capsula-filtro input[type="text"] {
     max-width:10em;
     width: 100%;
     color:var(--txtcolor);
@@ -1973,6 +2001,125 @@ input:-webkit-autofill:active{
 
 
 
+
+
+
+
+
+
+
+
+
+
+/*=================PAGINA EVENTI======================*/
+#eventi .filtri .capsula-filtro label[for="name-event"] {
+    margin-left: 0;
+}
+
+#eventi .filtri .capsula-filtro label[for="name-event"] +input {
+    width: 100%;
+    min-width: 100px;
+    max-width: none;
+}
+
+#eventi .filtri .capsula-filtro {
+    margin-right: 0.5em;
+    margin-left: 0.5em;
+}
+
+#eventi .evento {
+    list-style: none;
+    width: 100%;
+    height: 10em;
+    display: block;
+    background-color: var(--darkbgcolor);
+    /* border: 0.1em solid var(--darkbgcolor); */
+    border-radius: 0.5em;
+    /* margin: 0.2em; */
+}
+
+#eventi .cards-container li {
+    border-radius: 0.5em;
+    list-style: none;
+    width: 47%;
+    height: 10em;
+    display: block;
+    background-color: var(--darkbgcolor);
+    margin: 0.5em;
+}
+
+#eventi .evento img {
+    width: 11em;
+    height: 100%;
+    padding: 0.8em;
+   float:left;
+   padding-right: 2em;
+   object-fit: cover;
+   min-width: 8em;
+   /* margin-right: 2em; */
+   /* display: flex; */
+}
+
+#eventi .evento .data-evento img {
+    padding: 0em;
+    height: 1.5em;
+    width: 1.5em;
+    margin-right: 0.2em;
+    object-fit: contain;
+}
+
+#eventi .evento .data-evento {
+    float:right;
+    margin-right: 0.4em;
+    margin-top: 0.4em;
+}
+
+#eventi .evento .descrizione-evento {
+    /* float: left; */
+    clear:right;
+    max-width: 22em;
+    margin-top: 0.2em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 6em;
+    display: flex;
+    flex-direction: column;
+    /* float: left; */
+
+    /* margin-left: 1em; */
+}
+
+#eventi .evento .descrizione-evento p {
+    text-align:left;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;   /* numero di righe */
+    text-wrap: wrap;
+    /* text-overflow: ellipsis; */
+}
+
+#eventi .evento h2 {
+    /* padding-top: 3em; */
+    /* clear:right;
+    float: left; */
+    /* margin: auto; */
+    /* text-overflow: ellipsis; */
+    font-size: 1em;
+    text-align: left;
+    flex-wrap: wrap;
+    display: flex;
+    /* width: fit-content; */
+    /* display: flex; */
+}
+
+#eventi .cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 2em;
+}
 
 
 
