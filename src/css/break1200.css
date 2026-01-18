@@ -145,6 +145,10 @@ td.col-dettagli a,td.col-dettagli button{
     display: none;
 }
 
+.tabs-container#animali .filtri label,.tabs-container#richieste .filtri label{
+    display: block;
+}
+
 #richieste:has(#mobile-select option[value="tab1"]:checked)  .tab-content.tab1,
 #richieste:has(#mobile-select option[value="tab2"]:checked) .tab-content.tab2,
 #richieste:has(#mobile-select option[value="tab3"]:checked) .tab-content.tab3,
