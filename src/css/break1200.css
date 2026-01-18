@@ -105,7 +105,7 @@ th[data-title]:before, td[data-title]:not(.presAss):before {
 
 
 
-td.col-dettagli a{
+td.col-dettagli a,td.col-dettagli button{
     margin: 0.5em 0.5em 0.5em auto;
 }
 
