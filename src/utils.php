@@ -28,6 +28,11 @@ $pagine = [
         'url' => './dettagli-richiesta',
         'parent' => 'richieste-adozione'
     ],
+    'nuovo-animale' => [
+        'label' => 'Aggiungi animale',
+        'url' => './nuovo-animale',
+        'parent' => 'home'
+    ],
     'animali' => [
         'label' => 'Animali',
         'url' => './animali',
@@ -67,6 +72,11 @@ $pagine = [
         'label' => 'Eventi',
         'url' => './eventi',
         'parent' => 'home'
+    ],
+    'nuove-accoglienze' => [
+        'label' => 'Nuove accoglienze',
+        'url' => './nuove-accoglienze',
+        'parent' => 'animali'
     ],
 ];
 
@@ -131,8 +141,8 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
         <a class="navigationHelp" href="#content"> Salta il menù di navigazione</a>
         <a href="./home">
             <img src="./assets/icons/logo.svg" id="logo" alt="Home" lang="en">
-        </a>
-        <a class="orange-button" href="./nuovo-animale">+ Aggiungi animale</a>';
+        </a>';
+        $html .= $currentHref==='./nuovo-animale' ? '<p class="orange-button" id="currentLink" href="./nuovo-animale">+ Aggiungi animale</p>' : '<a class="orange-button" href="./nuovo-animale">+ Aggiungi animale</a>';
 
     foreach ($menuGroups as $key => $items) {
 
@@ -178,12 +188,12 @@ function buildUserNav(array $items, string $currentHref, bool $isLogged): string
     
     '<div' . $logoAttributes . '>
         <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
-        <span id="name-site">Pet<span id="not-bold">Match</span></span>
+        <span id="name-site">Pet<span class="not-bold">Match</span></span>
     </div>' :
     
     '<a href="' . $homeHref . '"' . $logoAttributes . '>
         <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
-        <span id="name-site">Pet<span id="not-bold">Match</span></span>
+        <span id="name-site">Pet<span class="not-bold">Match</span></span>
     </a>';
     
     $navForm = false;
@@ -251,14 +261,23 @@ function buildUserNav(array $items, string $currentHref, bool $isLogged): string
                                 </a>
                             </li>
                             
-                            <li>
-                                <a class="white-button" href="./accedi">';
+                            <li>';
+                                if($currentHref==='./profilo-utente'){
+                                    $html.= '<p class="white-button" href="./accedi" id="currentLink">';
+                                }else if($isLogged){
+                                    $html.= '<a class="white-button" href="./profilo-utente">';
+                                }else{
+                                    $html.= '<a class="white-button" href="./accedi">';
+                                }
+                                
                                 $html .= $isLogged ? '<span id="text-accedi">Profilo</span>' : '<span id="text-accedi">Accedi</span>';
                                 
                                 $html .= '
-                                    <img src="./assets/icons/account-normal.svg" id="account-normal" alt="" />
-                                    <img src="./assets/icons/account-hover.svg" id="account-hover" alt="" />
-                                </a>
+                                <img src="./assets/icons/account-normal.svg" id="account-normal" alt="" />
+                                <img src="./assets/icons/account-hover.svg" id="account-hover" alt="" />';
+
+                                $html.= ($currentHref==='./profilo-utente')?'</p>':'</a>';
+                                $html .= '
                             </li>
                         </ul> 
                     </nav>
@@ -277,7 +296,7 @@ function buildUserNav(array $items, string $currentHref, bool $isLogged): string
                     <h1>
                         <a href="./home">
                             <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
-                            <span id="name-site">Pet<span id="not-bold">Match</span></span>
+                            <span id="name-site">Pet<span class="not-bold">Match</span></span>
                         </a>
                     </h1>
                 </nav>
@@ -292,16 +311,16 @@ function buildUserNav(array $items, string $currentHref, bool $isLogged): string
 function buildFooter(array $menuGroups, string $currentHref): string {
 
     $homeHref = './home';
-    $logoAttributes = ($currentHref === $homeHref)? ' id="currentLink"' : '';
+    $logoAttributes = ($currentHref === $homeHref)? ' id="currentLinkFooter"' : '';
     $isLogoActive =  ($currentHref === $homeHref)?   
     '<div' . $logoAttributes . '>
-        <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
-        <span id="name-site">Pet<span id="not-bold">Match</span></span>
+        <img src="./assets/icons/logo.svg" id="logo-footer" alt="PetMatch Home">
+        <span id="name-site-footer">Pet<span class="not-bold">Match</span></span>
     </div>' :
     
     '<div><a href="' . $homeHref . '"' . $logoAttributes . '>
-        <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
-        <span id="name-site">Pet<span id="not-bold">Match</span></span>
+        <img src="./assets/icons/logo.svg" id="logo-footer" alt="PetMatch Home">
+        <span id="name-site-footer">Pet<span class="not-bold">Match</span></span>
     </a></div>';
 
     $html = '
@@ -327,7 +346,7 @@ function buildFooter(array $menuGroups, string $currentHref): string {
 
                     foreach ($items as $item) {
                         $pathItem = strtok($item['href'], '#');
-                        $active = ($pathItem === $currentHref) ? ' class="currentLink"' : '';
+                        $active = ($pathItem === $currentHref) ? ' class="currentLinkFooter"' : '';
                         $linkHref = ($pathItem=== $currentHref) ? '<li'.$active.' aria-label="pagina attuale:'.$item['text'].'">'.$item['text'].'</li>' : '<li'.$active.'><a href="'.$item['href'].'">'.$item['text'].'</a></li>';
                         
                         $html .= $linkHref;
@@ -539,7 +558,7 @@ function saveGuestFavorites(array $ids): void {
 
 
 function buildPagination(int $currentPage, int $totalPages, string $tipoAttivo, array $filters = []): string {
-    if ($totalPages <= 1) return '<li id="currentLink">1</li>';
+    if ($totalPages <= 1) return '<li id="currentLinkPagination">1</li>';
 
     $params = array_merge(['tipo' => $tipoAttivo], $filters);
     unset($params['page']);
@@ -561,7 +580,7 @@ function buildPagination(int $currentPage, int $totalPages, string $tipoAttivo, 
 
     for ($i = $start; $i <= $end; $i++) {
         if ($i === $currentPage) {
-            $html .= '<li id="currentLink" aria-label="pagina attuale">'.$i.'</li>';
+            $html .= '<li id="currentLinkPagination" aria-label="pagina attuale">'.$i.'</li>';
         } else {
             $params['page'] = $i;
             $html .= '<li><a href="?' . http_build_query($params) . '" aria-label="vai alla pagina '.$i.'">'.$i.'</a></li>';
@@ -574,5 +593,57 @@ function buildPagination(int $currentPage, int $totalPages, string $tipoAttivo, 
     }
 
     return $html;
+}
+
+
+function renderCaniGattiTabs(): string{
+    $html = '';
+    if(isset($_GET['tipo'])){
+        //se ha valore Nuova, In valutazione, Da trasportare, Annullata, Respinta
+        $stato = $_GET['tipo'];
+        $selected = [
+            'Cani' => '',
+            'Gatti' => '',
+        ];
+        $checked = [
+            'Cani' => '',
+            'Gatti' => ''
+        ];
+        if(array_key_exists($stato, $selected)){
+            $checked[$stato] = 'checked';
+            $selected[$stato] = 'selected';
+        }
+        $html = '
+        <select id="mobile-select" name="tab-group">
+            <option value="tab1" '.$selected['Cani'].'>
+                Cani ([n-cani])
+            </option>
+            <option value="tab2" '.$selected['Gatti'].'>
+                Gatti ([n-gatti])
+            </option>
+        </select>
+        <input class="sr-only" type="radio" id="tab1" name="tab-group" '.$checked['Cani'].'>
+        <label for="tab1"><h2>Cani ([n-cani])</h2></label>
+        <input class="sr-only" type="radio" id="tab2" name="tab-group" '.$checked['Gatti'].'>
+        <label for="tab2"><h2>Gatti ([n-gatti])</h2></label>';
+    }else{
+        $html = '
+        <select id="mobile-select" name="tab-group">
+            <option value="tab1" selected>
+                Cani ([n-cani])
+            </option>
+            <option value="tab2">
+                Gatti ([n-gatti])
+            </option>
+        </select>
+
+        <input class="sr-only" type="radio" id="tab1" name="tab-group" checked>
+        <label for="tab1"><h2>Cani ([n-cani])</h2></label>
+        <input class="sr-only" type="radio" id="tab2" name="tab-group">
+        <label for="tab2"><h2>Gatti ([n-gatti])</h2></label>';
+    }
+
+    return $html;
+    
 }
 

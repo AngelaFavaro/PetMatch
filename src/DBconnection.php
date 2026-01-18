@@ -319,50 +319,52 @@ class DBAccess {
         return $result;
     }
 
-    public function addAnimal($data): int|bool {
-        if (!$this->connection) {
-            return false;
-        }
-    
-        $query = "INSERT INTO ANIMALI (
-            Nome, DataNascita, DataRegistrazione, Sesso, Tipo, Colore, 
-            Pelo, Taglia, Razza, DescrFamiglia, DescrComportamentale, 
-            CondizioniMediche, Trasporto, ImgPath, Email
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    
-        $stmt = mysqli_prepare($this->connection, $query);
-        if ($stmt === false) {
-            return false;
-        }
-
-        mysqli_stmt_bind_param($stmt, 'ssssssssssssiss', 
-            $data['nome'], 
-            $data['data_nascita'], 
-            $data['data_reg'], 
-            $data['sesso'], 
-            $data['tipo'], 
-            $data['colore'], 
-            $data['pelo'], 
-            $data['taglia'], 
-            $data['razza'], 
-            $data['descr_famiglia'], 
-            $data['descr_comportamento'], 
-            $data['medico'], 
-            $data['trasporto'], 
-            $data['imgPath'], 
-            $data['email_admin']
-        );
-    
-        $success = mysqli_stmt_execute($stmt);
-
-        // ritorna l'ID dell'animale inserito o false in caso di fallimento (utile per sapere l'ID dell'animale appena aggiunto, magari si mette un pulsante 'vai all'animale' dopo averlo aggiunto)
-        $insertedId = $success ? mysqli_insert_id($this->connection) : false;
-        
-        mysqli_stmt_close($stmt);
-
-
-        return $insertedId;
+public function addAnimal(array $data, string $emailAdmin): int|bool {
+    if (!$this->connection) {
+        return false;
     }
+
+    $query = "INSERT INTO ANIMALI (
+        Nome, DataNascita, DataRegistrazione, Sesso, Tipo, Colore,
+        Pelo, Taglia, Razza, DescrFamiglia, DescrComportamentale,
+        CondizioniMediche, ImgPath, Trasporto, Email
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    $stmt = mysqli_prepare($this->connection, $query);
+    if ($stmt === false) {
+        return false;
+    }
+
+    $data_reg = date('Y-m-d');
+
+    // La stringa dei tipi 'sssssssssssssis'
+    mysqli_stmt_bind_param(
+        $stmt,
+        'sssssssssssssis', 
+        $data['nome'],
+        $data['dataNascita'], 
+        $data_reg,            
+        $data['sesso'],
+        $data['tipologia'],   
+        $data['colore'],
+        $data['pelo'],
+        $data['taglia'],
+        $data['razza'],
+        $data['famiglia'],      
+        $data['carattere'],   
+        $data['condMediche'], 
+        $data['foto'],
+        $data['trasporto'],
+        $emailAdmin // L'email dell'admin loggato
+    );
+
+    $success = mysqli_stmt_execute($stmt);
+    $insertedId = $success ? mysqli_insert_id($this->connection) : false;
+    
+    mysqli_stmt_close($stmt);
+    return $insertedId;
+}
+
 
     function createAdminTasks($email): array {
         // che bella questa funzione
@@ -749,8 +751,6 @@ class DBAccess {
     function getDetailsNonAdminAnimalsPaged(int $limit, int $offCani, int $offGatti): array {
         $results = ['Gatto' => [], 'Cane' => []];
 
-        // Usiamo UNION ALL per unire le due selezioni paginate in un colpo solo
-        // Nota: le parentesi sono obbligatorie quando si usa LIMIT/OFFSET dentro una UNION
         $query = "(SELECT *, IDanimale AS id_animale, Nome AS nome_animale, 
                     DataRegistrazione AS data_registrazione, Trasporto AS trasporto_animale, 
                     Razza AS razza_animale, DataNascita AS data_nascita
@@ -766,7 +766,6 @@ class DBAccess {
         $stmt = mysqli_prepare($this->connection, $query);
 
         if ($stmt) {
-            // Passiamo i parametri: limite, offset cani, limite, offset gatti
             mysqli_stmt_bind_param($stmt, "iiii", $limit, $offCani, $limit, $offGatti);
             mysqli_stmt_execute($stmt);
             $res = mysqli_stmt_get_result($stmt);
@@ -780,6 +779,113 @@ class DBAccess {
         }
 
         return $results;
+    }
+
+    // per vedere solo le segnalazioni proprie, si passa mode = 'mie' e l'email dell'admin
+    // per vedere solo le segnalazioni senza admin, si passa mode = 'nessuno' e si può lasciare emailAdmin a null
+    // per vedere tutte le segnalazioni, si passa mode = 'tutte' e l'email dell'admin
+    function getDetailsSegnalazioniAnimalsPaged($perPagina, $offCani, $offGatti, string $emailAdmin = null, string $mode = 'tutte'): array {
+        $results = ['Gatto' => [], 'Cane' => []];
+        $config = ['Cane' => $offCani, 'Gatto' => $offGatti];
+
+        foreach ($config as $tipo => $offset) {
+            $query = "SELECT 
+                        ID AS id_segnalazione, 
+                        DataRichiesta AS data_segnalazione, 
+                        NominativoRichiedente AS nominativo_segnalante, 
+                        EmailRichiedente AS email_segnalante,
+                        EmailAmm AS email_admin
+                    FROM SEGNALAZIONI_NUOVE_ACCOGLIENZE 
+                    WHERE TipoAnimale = ? ";
+
+            if ($mode === 'nessuno') {
+                $query .= "AND EmailAmm IS NULL ";
+            } elseif ($mode === 'mie') {
+                $query .= "AND EmailAmm = ? ";
+            } else {
+                $query .= "AND (EmailAmm IS NULL OR EmailAmm = ?) ";
+            }
+
+            $query .= "ORDER BY DataRichiesta DESC LIMIT ? OFFSET ?";
+
+            $stmt = mysqli_prepare($this->connection, $query);
+
+            if ($stmt) {
+                if ($mode === 'nessuno') {
+                    mysqli_stmt_bind_param($stmt, 'sii', $tipo, $perPagina, $offset);
+                } else {
+                    mysqli_stmt_bind_param($stmt, 'ssii', $tipo, $emailAdmin, $perPagina, $offset);
+                }
+
+                mysqli_stmt_execute($stmt);
+                $result = mysqli_stmt_get_result($stmt);
+
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $results[$tipo][] = $row;
+                }
+                mysqli_stmt_close($stmt);
+            }
+        }
+
+        return $results;
+    }
+
+    public function assignAdminToSegnalazione(int $idSegnalazione, string $emailAdmin): bool {
+        $query = "UPDATE SEGNALAZIONI_NUOVE_ACCOGLIENZE 
+                SET EmailAmm = ? 
+                WHERE ID = ? AND EmailAmm IS NULL";
+                
+        $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'si', $emailAdmin, $idSegnalazione);
+            $success = mysqli_stmt_execute($stmt);
+            $affected = mysqli_stmt_affected_rows($stmt);
+            mysqli_stmt_close($stmt);
+            
+            return $success && $affected > 0;
+        }
+        return false;
+    }
+
+
+    public function deleteSegnalazione(int $idSegnalazione): bool {
+        $query = "DELETE FROM SEGNALAZIONI_NUOVE_ACCOGLIENZE WHERE ID = ?";
+        
+        $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'i', $idSegnalazione);
+            $success = mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+            return $success;
+        }
+        return false;
+    }
+    
+    public function getNSegnalazioni($email): array {
+        $counts = [
+            'Cane' => 0,
+            'Gatto' => 0
+        ];
+        $query = "SELECT TipoAnimale, COUNT(*) AS totale 
+                FROM SEGNALAZIONI_NUOVE_ACCOGLIENZE 
+                WHERE EmailAmm = ? OR EmailAmm IS NULL 
+                GROUP BY TipoAnimale";
+    
+        $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $res = mysqli_stmt_get_result($stmt);
+            
+            while ($row = mysqli_fetch_assoc($res)) {
+                if (isset($counts[$row['TipoAnimale']])) {
+                    $counts[$row['TipoAnimale']] = $row['totale'];
+                }
+            }
+            mysqli_stmt_close($stmt);
+        }
+
+        return $counts;
     }
 
     public function insertReportForm(string $name, string $email, string $animal): bool {

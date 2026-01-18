@@ -38,9 +38,22 @@ $routes = [
     'eventi' => [
         'file' => __DIR__ . '/src/php/eventi.php'
     ],
-
-
-
+    'nuove-accoglienze' => [
+        'file' => __DIR__ . '/src/php/admin/nuove-accoglienze.php'
+    ],
+    'accedi' => [
+        'file' => __DIR__ . '/src/php/accedi.php'
+    ],
+    'profilo-utente' => [
+        'file' => __DIR__ . '/src/php/profilo-utente.php'
+    ],
+    'revisione-richiesta' => [
+        'file' => __DIR__ . '/src/php/revisione-richiesta.php'
+    ],
+    'nuovo-animale' => [
+        'file' => __DIR__ . '/src/php/admin/nuovo-animale.php'
+    ]
+];
     /* decommentare quando si vogliono aggiungere le altre pagine
     'accedi' => [
         'file' => __DIR__ . '/src/php/accedi.php'
@@ -61,10 +74,6 @@ $routes = [
     'lavora-con-noi' => [
         'file' => __DIR__ . '/src/php/lavora-con-noi.php'
     ],
-    
-
-
-
     'animali/cani' => [
         'file' => __DIR__ . '/src/php/animali.php',
         'params' => [ //in questo modo è come se l'utente avesse scritto animali.php?tipo=cani
@@ -94,15 +103,6 @@ $routes = [
             'tipo' => 'gatti'
         ]
     ]*/
-    'accedi' => [
-        'file' => __DIR__ . '/src/php/accedi.php'
-    ],
-    'profilo-utente' => [
-        'file' => __DIR__ . '/src/php/profilo-utente.php'
-    ],
-    'revisione-richiesta' => [
-        'file' => __DIR__ . '/src/php/revisione-richiesta.php'
-    ]
     // 'animali' => [
     //     'file' => __DIR__ . '/src/php/animali.php',
     // ],
@@ -113,7 +113,7 @@ $routes = [
     // 'animali/gatti' => [
     //     'file' => __DIR__ . '/src/php/animali.php',
     // ]
-];
+
 
 // inizio della logica del routing
 if (isset($routes[$url])) {

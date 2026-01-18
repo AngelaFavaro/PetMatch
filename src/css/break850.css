@@ -184,7 +184,7 @@ details[open] .number::after {
 #form-affidamento {
     background-color: var(--bgcolor);
     color: var(--txtcolor);
-    margin:2em 2em 0.1em 2em;
+    margin:2em auto 0.1em auto;
     padding: 0em 2em;
     flex: 1 0 40%;
     border-radius: 2.1em;
