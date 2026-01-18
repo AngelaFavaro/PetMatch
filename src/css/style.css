@@ -2001,7 +2001,7 @@ input:-webkit-autofill:active{
     padding: 0.3em;
 }
 
-#animali .next-page-links #currentLinkPagination {
+#animali .next-page-links .currentLinkPagination {
     background-color: var(--bgform);
     color: var(--bgcolor);
     justify-content: center;
