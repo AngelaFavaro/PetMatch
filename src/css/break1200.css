@@ -96,6 +96,7 @@ tbody td {
     overflow-wrap: break-word;
     word-break: break-word; 
 }
+
 tbody th{
     padding: 0em 1em;
 }
@@ -107,7 +108,9 @@ th[data-title]:before, td[data-title]:not(.presAss):before {
     font-weight: bold;
 }
 
-
+tbody tr:last-child th, tbody tr:last-child td {
+  border-bottom: 1px solid var(--txtcolor);
+}
 
 td.col-dettagli a,td.col-dettagli button{
     margin: 0.5em 0.5em 0.5em auto;
