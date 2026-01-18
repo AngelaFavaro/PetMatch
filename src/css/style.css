@@ -576,6 +576,11 @@ select:focus{
     font-weight: 600;
 }
 
+#layout-user #currentLink.white-button:hover{
+    background-color: var(--bgcolor);
+    color:var(--txtcolor);
+}
+
 #layout-user #currentLink a:visited{
     color:var(--headerlink);
 }
@@ -2738,6 +2743,11 @@ ul#to-do-list, ul#statistics-list {
     padding: 1em 1em;
 }
 
+ul#to-do-list li:has(a:focus-visible){
+    outline: 3px solid red;
+    outline-offset: 2px;
+}
+
 ul#to-do-list li, ul#statistics-list li{
     display: inline-block;
     padding: 1.8em 1.2em 1.2em 1.2em;
@@ -3249,7 +3259,6 @@ td.col-dettagli a{
     margin:1.2em auto;
     width: 100%;
     text-align: center;
-    font-weight: bold;
     display: block;
 }
 

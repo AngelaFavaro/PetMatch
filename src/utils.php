@@ -251,14 +251,17 @@ function buildUserNav(array $items, string $currentHref, bool $isLogged): string
                                 </a>
                             </li>
                             
-                            <li>
-                                <a class="white-button" href="./accedi">';
+                            <li>';
+                                $html.= ($currentHref==='./profilo-utente')?'<p class="white-button" href="./accedi" id="currentLink">':'<a class="white-button" href="./accedi">';
+                                
                                 $html .= $isLogged ? '<span id="text-accedi">Profilo</span>' : '<span id="text-accedi">Accedi</span>';
                                 
                                 $html .= '
-                                    <img src="./assets/icons/account-normal.svg" id="account-normal" alt="" />
-                                    <img src="./assets/icons/account-hover.svg" id="account-hover" alt="" />
-                                </a>
+                                <img src="./assets/icons/account-normal.svg" id="account-normal" alt="" />
+                                <img src="./assets/icons/account-hover.svg" id="account-hover" alt="" />';
+
+                                $html.= ($currentHref==='./profilo-utente')?'</p>':'</a>';
+                                $html .= '
                             </li>
                         </ul> 
                     </nav>
