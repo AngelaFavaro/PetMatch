@@ -42,7 +42,7 @@ function renderCaniContent(array $CaniNonAdmin, array $NNonAdminByType): string 
                     <td data-title="Trasporto">'.htmlspecialchars($caneNonAdmin['trasporto_animale']).'</td>
                     <td data-title="Razza">'.htmlspecialchars($caneNonAdmin['razza_animale']).'</td>
                     <td data-title="Età">'.htmlspecialchars($eta).'</td>
-                    <td class="col-dettagli"><a href="animali?id='.htmlspecialchars($caneNonAdmin['id_animale']).'" class="brown-button">Vai all\'animale</a></td>
+                    <td class="col-dettagli"><a href="animali?id='.htmlspecialchars($caneNonAdmin['id_animale']).'" class="brown-button">Vai all\'animale<span class="sr-only">'.htmlspecialchars($caneNonAdmin['nome_animale']).' </span></a></td>
                 </tr>
             ';
         }
@@ -91,7 +91,7 @@ function renderGattiContent(array $GattiNonAdmin,array $NNonAdminByType){
                     <td data-title="Trasporto">'.htmlspecialchars($GattoNonAdmin['trasporto_animale']).'</td>
                     <td data-title="Razza">'.htmlspecialchars($GattoNonAdmin['razza_animale']).'</td>
                     <td data-title="Età">'.htmlspecialchars($eta).'</td>
-                    <td class="col-dettagli"><a href="animali?id='.htmlspecialchars($GattoNonAdmin['id_animale']).'" class="brown-button">Vai all\'animale</a></td>
+                    <td class="col-dettagli"><a href="animali?id='.htmlspecialchars($GattoNonAdmin['id_animale']).'" class="brown-button">Vai all\'animale<span class="sr-only">'.htmlspecialchars($GattoNonAdmin['nome_animale']).'</span></a></td>
                 </tr>
             ';
         }

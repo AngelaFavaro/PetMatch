@@ -2009,7 +2009,7 @@ input:-webkit-autofill:active{
     padding: 0.3em;
 }
 
-#animali .next-page-links #currentLinkPagination {
+#animali .next-page-links .currentLinkPagination {
     background-color: var(--bgform);
     color: var(--bgcolor);
     justify-content: center;
@@ -3313,7 +3313,7 @@ th.col-dettagli, caption {
     overflow: hidden;
 }
 
-td.col-dettagli a{
+td.col-dettagli a,td.col-dettagli button{
     margin: 0.5em;
 }
 
