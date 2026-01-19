@@ -408,7 +408,7 @@ if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($ri
                     </a>
                 </div>
                 <div id="note-container">
-                    <p id="note-text">' . e($richiesta['appunti'] ?? '') . '</p>
+                    <pre id="note-text">' . e($richiesta['appunti'] ?? '') . '</pre>
                 </div>
             </article>';
     }

@@ -3259,10 +3259,11 @@ div#admin-area article.note{
 }
 
 
-.note p.editing {
-    padding: 0.5rem;
-    background-color: var(--darkbgcolor);
+.note pre {
+    font-family: inherit;
 }
+
+
 
 
 #input-note {
