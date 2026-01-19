@@ -1,0 +1,33 @@
+<div id="admin-area">
+    <h1>Animali adottati e dettagli adozione</h1>
+
+    <div id="animali" class="tabs-container tab-mini segnalazioni">
+        <form class="filtri" method="get" action="adottati" >
+            <ul aria-label="Filtri di ricerca">
+                <li class="capsula-filtro" role="presentation">
+                    <label for="filtro-assegnata">Assegnate</label>
+                    <select name="assegnate" id="filtro-assegnata">
+                        <option value="tutte" [ASSEGNATE_SELECTED_TUTTE]>Tutte</option>
+                        <option value="mie" [ASSEGNATE_SELECTED_MIE]>A me</option>
+                        <option value="non mie" [ASSEGNATE_SELECTED_NON_MIE]>Non mie</option>
+                    </select>
+                </li>
+            </ul>
+            <button type="submit" class="orange-button">Applica</button>
+        </form>
+        [tabs-animali]
+        <article class="tab-content tab1">
+            [contenuto-cani]
+            <nav class="next-page-links" aria-label="Pagine cani">
+                <ul>[LINKPAGINE-CANI]</ul>
+            </nav>
+        </article>
+    
+        <article class="tab-content tab2">
+            [contenuto-gatti]
+            <nav class="next-page-links" aria-label="Pagine gatti">
+                <ul>[LINKPAGINE-GATTI]</ul>
+            </nav>
+        </article>
+    </div>
+</div>

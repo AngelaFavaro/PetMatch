@@ -23,7 +23,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
         $tipoMinuscoloPlurale = ($tipo === 'Cane') ? 'cani' : 'gatti'; //fa un po caca ma va bene per ora
         
         if (($NSegnalazioniByType ?? 0) == 0) {
-            return '<p role="status" class="nessuna-richiesta-message">Nessuna segnalazione per ' . $tipoMinuscoloPlurale . '.</p>';
+            return '<p role="status" class="nessun-risultato-message">Nessuna segnalazione per ' . $tipoMinuscoloPlurale . '.</p>';
         }
 
         $idTabella = "sumTabella" . $tipo;
@@ -62,9 +62,9 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                 $object =rawurlencode($messaggio);
                 $html .='
                     <tr>
-                        <th data-title="Identificativo segnalazione" scope="row">' . htmlspecialchars($animale['id_segnalazione']) . '</th>
+                        <th data-title="Id" scope="row">' . htmlspecialchars($animale['id_segnalazione']) . '</th>
                         <td data-title="Data segnalazione"><time datetime="' . htmlspecialchars($animale['data_segnalazione']) . '">' . htmlspecialchars(date('d/m/Y', strtotime($animale['data_segnalazione']))) . '</time></td>
-                        <td data-title="Nominativo segnalante">' . htmlspecialchars($animale['nominativo_segnalante']) . '</td>
+                        <td data-title="Segnalante">' . htmlspecialchars($animale['nominativo_segnalante']) . '</td>
                         <td data-title="Email segnalante">' . htmlspecialchars($animale['email_segnalante']) . '</td>';
 
                     if($animale['email_admin']==null)
@@ -90,7 +90,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
             }else{
                 $html .= '
                     <tr>
-                        <td colspan="5" class="nessuna-richiesta-message" >Nessuna richiesta trovata con i filtri selezionati.</td>
+                        <td colspan="5" class="nessun-risultato-message" >Nessuna richiesta trovata con i filtri selezionati.</td>
                     </tr>
                 ';
             

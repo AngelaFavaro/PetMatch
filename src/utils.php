@@ -84,6 +84,11 @@ $pagine = [
         'url' => './profilo-richiedente',
         'parent' => 'dettagli-richiesta'
     ],
+    'adottati' => [
+        'label' => 'Adottati',
+        'url' => './adottati',
+        'parent' => 'animali'
+    ],
 ];
 
 $adminMenu = [
