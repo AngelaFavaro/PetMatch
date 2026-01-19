@@ -1763,7 +1763,7 @@ input:-webkit-autofill:active{
 
 #animali .filtri .capsula-filtro select:hover,
 .tab-content .filtri .capsula-filtro select:hover{
-    border:1px solid var(--buttoncolor);
+    outline:1px solid var(--buttoncolor);
 } 
 
 #animali .filtri .capsula-filtro input, .tab-content .filtri .capsula-filtro input {

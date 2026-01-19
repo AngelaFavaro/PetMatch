@@ -13,7 +13,13 @@ select,
     min-height: 44px;
 }
 
+.torna-su-button:hover .static{
+    display: block;
+}
 
+.torna-su-button:hover .active{
+    display: none;
+}
 /* ================== NAV USER ==================*/
 #menu-toggle-checkbox{
     display: block;
