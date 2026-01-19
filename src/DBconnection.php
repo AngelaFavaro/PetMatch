@@ -1533,7 +1533,166 @@ public function addAnimal(array $data, string $emailAdmin): int|bool {
 
 
 
-    
+
+    public function getEventsFilteredPaged(array $filters, int $limit, int $offset): array {
+
+    if (!$this->connection) return [];
+
+    $where = [];
+    $params = [];
+    $types = '';
+
+    /* ---------- FILTRO TITOLO ---------- */
+    if (!empty($filters['name-event'])) {
+        $where[] = 'Titolo LIKE ?';
+        $params[] = '%' . $filters['name-event'] . '%';
+        $types .= 's';
+    }
+
+    /* ---------- FILTRO DATA EVENTO (MIN) ---------- */
+    if (!empty($filters['data_inizio'])) {
+        $where[] = 'DataEvento >= ?';
+        $params[] = $filters['data_inizio'];
+        $types .= 's';
+    }
+
+    /* ---------- FILTRO DATA EVENTO (MAX) ---------- */
+    if (!empty($filters['data_fine'])) {
+        $where[] = 'DataEvento <= ?';
+        $params[] = $filters['data_fine'];
+        $types .= 's';
+    }
+
+    /* ---------- FILTRO CITTÀ (opzionale) ---------- */
+    if (!empty($filters['citta'])) {
+        $where[] = 'Citta = ?';
+        $params[] = $filters['citta'];
+        $types .= 's';
+    }
+
+    /* ---------- QUERY BASE ---------- */
+    $query = "
+        SELECT 
+            Titolo,
+            DataEvento,
+            DescrEvento,
+            ImgPath,
+            Via,
+            Citta
+        FROM EVENTI
+        WHERE 1=1
+    ";
+
+    if ($where) {
+        $query .= ' AND ' . implode(' AND ', $where);
+    }
+
+    /* ---------- ORDINAMENTO + PAGINAZIONE ---------- */
+    $query .= " ORDER BY DataEvento ASC LIMIT ? OFFSET ?";
+
+    $params[] = $limit;
+    $params[] = $offset;
+    $types .= 'ii';
+
+    $stmt = mysqli_prepare($this->connection, $query);
+    mysqli_stmt_bind_param($stmt, $types, ...$params);
+    mysqli_stmt_execute($stmt);
+
+    $res = mysqli_stmt_get_result($stmt);
+    if (!$res) return [];
+
+    $eventi = [];
+    while ($row = mysqli_fetch_assoc($res)) {
+        $eventi[] = [
+            'titolo'      => $row['Titolo'],
+            'data_evento' => $row['DataEvento'],
+            'descrizione' => $row['DescrEvento'],
+            'immagine'    => $row['ImgPath'],
+            'via'         => $row['Via'],
+            'citta'       => $row['Citta']
+        ];
+    }
+
+    mysqli_stmt_close($stmt);
+    return $eventi;
+}
+
+public function getEventCities(): array {
+    if (!$this->connection) return [];
+
+    $query = "SELECT DISTINCT Citta FROM EVENTI ORDER BY Citta ASC";
+    $res = mysqli_query($this->connection, $query);
+
+    if (!$res) return [];
+
+    $cities = [];
+    while ($row = mysqli_fetch_assoc($res)) {
+        $cities[] = $row['Citta'];
+    }
+
+    return $cities;
+}
+
+public function countEventsFiltered(array $filters): int {
+
+    if (!$this->connection) return 0;
+
+    $where = [];
+    $params = [];
+    $types = '';
+
+    /* ---------- FILTRO TITOLO EVENTO ---------- */
+    if (!empty($filters['name-event'])) {
+        $where[] = 'Titolo LIKE ?';
+        $params[] = '%' . $filters['name-event'] . '%';
+        $types .= 's';
+    }
+
+    /* ---------- FILTRO DATA EVENTO (MIN) ---------- */
+    if (!empty($filters['data_inizio'])) {
+        $where[] = 'DataEvento >= ?';
+        $params[] = $filters['data_inizio'];
+        $types .= 's';
+    }
+
+    /* ---------- FILTRO DATA EVENTO (MAX) ---------- */
+    if (!empty($filters['data_fine'])) {
+        $where[] = 'DataEvento <= ?';
+        $params[] = $filters['data_fine'];
+        $types .= 's';
+    }
+
+    /* ---------- FILTRO CITTÀ ---------- */
+    if (!empty($filters['citta'])) {
+        $where[] = 'Citta = ?';
+        $params[] = $filters['citta'];
+        $types .= 's';
+    }
+
+    /* ---------- QUERY COUNT ---------- */
+    $query = "SELECT COUNT(*) AS totale FROM EVENTI";
+
+    if ($where) {
+        $query .= ' WHERE ' . implode(' AND ', $where);
+    }
+
+    $stmt = mysqli_prepare($this->connection, $query);
+
+    if ($params) {
+        mysqli_stmt_bind_param($stmt, $types, ...$params);
+    }
+
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($res);
+
+    mysqli_stmt_close($stmt);
+    return (int)$row['totale'];
+}
+
+
+
+
 
 
 }

@@ -557,10 +557,22 @@ function saveGuestFavorites(array $ids): void {
 
 
 
-function buildPagination(int $currentPage, int $totalPages, string $tipoAttivo, array $filters = []): string {
-    if ($totalPages <= 1) return '<li id="currentLinkPagination">1</li>';
+function buildPagination(int $currentPage, int $totalPages, array|string $params = []): string {
+    // NORMALIZZA FILTRI
+    if (is_string($params) && $params !== '') {
+        // stringa semplice → tipo
+        $params = ['tipo' => $params];
+    }
 
-    $params = array_merge(['tipo' => $tipoAttivo], $filters);
+    if (!is_array($params)) {
+        $params = [];
+    }
+
+// rimuove valori vuoti
+    // $params = array_filter($params, fn($v) => $v !== '');
+
+
+    if ($totalPages <= 1) return '<li id="currentLinkPagination">1</li>';
     unset($params['page']);
 
     $html = '';

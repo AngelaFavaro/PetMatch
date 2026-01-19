@@ -699,3 +699,35 @@ body#lavora-con-noi {
 
 /*                  EVENTI                       */
 
+
+
+#eventi .evento .posizione-data-abbr {
+    display: block;
+    /* float: left; */
+    padding-top: 0.5em;
+}
+
+#eventi .evento .posizione-evento {
+    display: none;
+}
+
+#eventi .evento .data-evento {
+    display: none;
+}
+
+#eventi .evento img.immagine-evento {
+    width: 10em;
+    height: 100%;
+    padding: 0.8em;
+   float:left;
+   /* padding-right: 2em; */
+   object-fit: cover;
+   min-width: 8em;
+   /* margin-right: 2em; */
+   /* display: flex; */
+}
+
+#eventi .evento {
+    padding-right: 0.5em;
+    
+}

@@ -31,7 +31,7 @@ CREATE TABLE UTENTI (
 
 -- EVENTI
 CREATE TABLE EVENTI (
-    Titolo VARCHAR(255) NOT NULL,
+    Titolo VARCHAR(40) NOT NULL,
     DataPubblicazione DATE NOT NULL,
     DataEvento DATE NOT NULL,
     DescrEvento TEXT NOT NULL,

@@ -310,28 +310,11 @@ details[open] .number::after {
     margin-bottom:0em;
 }
 
-/*                        EVENTI                     */
-
-#eventi .cards-container {
-    display: flex;
-    flex-direction: column;
-}
-
-#eventi .evento {
-    width: 100%;
-}
-
-#eventi .cards-container li {
-    width: 100%;
-}
-
-#eventi .evento .descrizione-evento {
-    max-width: 60em;
-}
 
 #eventi .filtri {
     display:flex;
     align-items: center;
+    justify-content: center;
     /* flex-direction: column; */
 }
 
