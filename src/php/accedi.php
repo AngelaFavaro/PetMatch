@@ -56,6 +56,27 @@ function checkCredential(DBAccess $conn, &$email) {
         // Azioni
         if (empty($errors)) {
             $_SESSION['email'] = $email;
+            // === MIGRAZIONE PREFERITI DA COOKIE A DB ===
+            if (isset($_COOKIE['preferiti_guest'])) {
+
+                $preferiti = json_decode($_COOKIE['preferiti_guest'], true);
+
+                if (is_array($preferiti) && !empty($preferiti)) {
+
+                    foreach ($preferiti as $idAnimale) {
+                        $idAnimale = (int)$idAnimale;
+
+                        // evita duplicati
+                        if (!$conn->isAnimalInFavorites($email, $idAnimale)) {
+                            $conn->addToFavorites($email, $idAnimale);
+                        }
+                    }
+                }
+
+                // cancella cookie dopo migrazione
+                setcookie('preferiti_guest', '', time() - 3600, '/');
+            }
+
 
             $role = $conn->getRole($email);
 
@@ -103,7 +124,7 @@ $description = '<meta name="description" content="Accedi a PetMatch">';
 $keywords = "";
 
 $nav = buildUserNav($userMenu, './accedi', $_SESSION['email'] ?? false);
-$footer = file_get_contents('./src/template/partials/footer.html');
+$footer = buildFooter($footerMenu,  './accedi');
 
 $breadcrumb = getBreadcrumb('accedi', $pagine);
 

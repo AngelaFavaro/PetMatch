@@ -33,6 +33,7 @@ if (isset($_SESSION['email'])) {//se non sono loggato rimando alla pagina di acc
 
 $infoRequest = "";
 $messageForm = "";
+$isAdopted = false;
 //connesisone al DB
 $connessione = new DBAccess();
 $connessioneOK = $connessione->openDBConnection();
@@ -40,6 +41,7 @@ if ($connessioneOK) {
 	$infoRequest = $connessione->getAnimalRequest($_SESSION['email'],$_GET['id-animale']);
     $messageForm = cancelRequest($connessione);
     $getState = $connessione->getStateRequest($_SESSION['email'],$_GET['id-animale']);
+    $isAdopted = $connessione->isAnimalAdopted($_GET['id-animale']);
 }else{
 	$messageForm['generic'] = "<p class='error'>Impossibile completare l'operazione, riprova più tardi.</p>";
 }
@@ -47,15 +49,12 @@ if ($connessioneOK) {
 $fineRichiesta = $infoRequest['DataFineValutazione']?'<dt>Data fine valutazione:</dt><dd>'.date("d/m/Y", strtotime($infoRequest['DataFineValutazione'])).'</dd>':'';
 
 if($infoRequest['DataNascita']){
-    $nascita = new DateTime($infoRequest['DataNascita']);
-    $oggi = new DateTime();
-    $differenza = $oggi->diff($nascita);
-    $etaAnimale = $differenza->y;
+    $etaAnimale = calcolareEta($infoRequest['DataNascita']);
 }
 
 if($infoRequest['DataPartenza'] && $infoRequest['DataPartenza']){
-    $dataPartenza = '<dt>Data di partenza:</dt><dd><em>'.strtotime($infoRequest['DataPartenza']).'</em></dd>';
-    $dataArrivo = '<dt>Data di partenza:</dt><dd><em>'.strtotime($infoRequest['DataArrivo']).'</em></dd>';
+    $dataPartenza = '<dt>Data di partenza:</dt><dd><em>'. date("d/m/Y",strtotime($infoRequest['DataPartenza'])).'</em></dd>';
+    $dataArrivo = '<dt>Data di partenza:</dt><dd><em>'. date("d/m/Y",strtotime($infoRequest['DataArrivo'])).'</em></dd>';
 }else{
     $dataPartenza = '';
     $dataArrivo = '';
@@ -75,7 +74,7 @@ $description = '<meta name="description" content="Rivedi richiesta di addozione"
 $keywords = "";
 
 $nav = buildUserNav($userMenu, './revisione-richiesta', $_SESSION['email'] ?? false);
-$footer = file_get_contents('./src/template/partials/footer.html');
+$footer = buildFooter($footerMenu,  './revisione-richiesta');
 
 $breadcrumb = getBreadcrumb('revisione-richiesta', $pagine);
 
@@ -89,7 +88,7 @@ $paginaHTML = str_replace('[nav]', $nav, $paginaHTML);
 $paginaHTML = str_replace('[main]', $main, $paginaHTML);
 $paginaHTML = str_replace('[footer]', $footer, $paginaHTML);
 
-$paginaHTML = str_replace('[cardAnimal]', getCardAnimal(), $paginaHTML);
+$paginaHTML = str_replace('[cardAnimal]', getCardAnimal($_GET['id-animale'], $_SESSION['admin'], $isAdopted), $paginaHTML);
 
 $paginaHTML = str_replace('[isDisabled]', $isDisabled, $paginaHTML);
 $paginaHTML = str_replace('[messaggiForm]', $messageForm, $paginaHTML);

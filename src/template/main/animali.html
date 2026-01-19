@@ -1,0 +1,75 @@
+<div id="animali" class="container">
+    <h1>Animali</h1>
+
+    <nav id="nav-animali-type">
+        [NAVTYPE]
+    </nav>
+
+    <a href="#content-animali" class="navigationHelp">salta agli animali in adozione</a>
+    <a href=".next-page-links" class="navigationHelp">salta alla navigazione delle prossime pagine</a>
+    <form class="filtri" method="get" action="animali">
+        <!-- rotta gestita dal router -->
+        
+        <input type="hidden" name="type" value="[TYPE]">
+
+        <ul aria-label="Filtri di ricerca">
+            <li class="capsula-filtro" id="searchName">
+                <label for="name-animal">Nome</label>
+                <input type="text" id="name-animal" name="name-animal" 
+                       value="[NAME]" 
+                       placeholder="Cerca...">
+            </li>
+
+            <li class="capsula-filtro" id="searchSize" role="presentation">
+                <label for="taglia">Taglia</label>
+                <select id="taglia" name="taglia">
+                    <option value="" [TAGLIA_SELECTED_EMPTY]>Tutti</option>
+                    <option value="Piccola" [TAGLIA_SELECTED_PICCOLA]>Piccola</option>
+                    <option value="Media"   [TAGLIA_SELECTED_MEDIA]>Media</option>
+                    <option value="Grande"  [TAGLIA_SELECTED_GRANDE]>Grande</option>
+                </select>
+            </li>
+
+            <li class="capsula-filtro" id="searchSex" role="presentation">
+                <label for="sesso">Sesso</label>
+                <select id="sesso" name="sesso">
+                    <option value="" [SESSO_SELECTED_EMPTY]>Tutti</option>
+                    <option value="maschio" [SESSO_SELECTED_MASCCHIO]>Maschio</option>
+                    <option value="femmina" [SESSO_SELECTED_FEMMINA]>Femmina</option>
+                </select>
+            </li>
+
+            <li class="capsula-filtro" role="presentation">
+                <label>Età</label>
+                <div class="eta-range">
+                    <input type="number" name="eta_min" 
+                           value="[ETA_MIN]" 
+                           placeholder="Da" min="0" aria-label="Età minima">
+                    <span aria-hidden=true>–</span>
+                    <input type="number" name="eta_max" 
+                           value="[ETA_MAX]" 
+                           placeholder="A" min="0" aria-label="Età massima">
+                </div>
+            </li>
+        </ul>
+
+        <div id="content-filter-button">
+            <a href="[URL-RESERFILTRI]" id="[VISIBILITA-FILTRO]" aria-label="elimina i filtri">X</a>
+            <button type="submit" class="orange-button">Cerca</button>
+        </div>
+    </form>
+
+    <!-- CARDS ANIMALI -->
+    <section>
+        <ul class="cards-container" id="content-animali" tabindex="-1" aria-label="Animali in adozione">
+            [ANIMALI]
+        </ul>
+    </section>
+
+    <!-- PAGINAZIONE -->
+    <nav class="next-page-links" tabindex="-1" aria-label="Tutte le pagine">
+        <ul aria-label="Pagine di navigazione">
+            [LINKPAGINE]
+        </ul>
+    </nav>
+</div>
