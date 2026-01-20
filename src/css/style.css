@@ -581,6 +581,11 @@ select:focus{
     color: var(--txtcolor);
     text-decoration: underline;
 }
+
+#contatto-sostenitore address{
+    display: inline;
+}
+
 /* ==================SOLO PER SCREEN READER================== */
 
 /* Gli elementi con questa classe sono visibili solo agli screen reader */
