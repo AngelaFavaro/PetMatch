@@ -79,7 +79,7 @@ $titolo = 'Animali';
 if($isPreferiti) {
     $titolo.=' preferiti';
 }
-$messaggioNoAnimali=$isPreferiti ? 'Non hai ancora salvato nessun animale' : 'Non abbiamo ancora animali disponibili.';
+$messaggioNoAnimali=$isPreferiti ? 'Non hai ancora salvato nessun animale.' : 'Non abbiamo ancora animali disponibili.';
 
 
 

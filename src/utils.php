@@ -293,13 +293,13 @@ function buildNav(array $items, string $currentHref): string {
                             <li>';
                                 if($currentHref==='./profilo-utente'){
                                     $html.= '<p class="white-button" href="./accedi" id="currentLink">';
-                                }else if($_SESSION['email']){
+                                }else if(isset($_SESSION['email'])){
                                     $html.= '<a class="white-button" href="./profilo-utente">';
                                 }else{
                                     $html.= '<a class="white-button" href="./accedi">';
                                 }
                                 
-                                $html .= $_SESSION['email'] ? '<span id="text-accedi">Profilo</span>' : '<span id="text-accedi">Accedi</span>';
+                                $html .= isset($_SESSION['email']) ? '<span id="text-accedi">Profilo</span>' : '<span id="text-accedi">Accedi</span>';
                                 
                                 if($currentHref==='./profilo-utente'){
                                     $html .='<img src="./assets/icons/account-hover.svg" id="account-hover-currentLink" alt="" />';
