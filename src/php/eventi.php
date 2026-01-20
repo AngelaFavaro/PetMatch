@@ -138,7 +138,7 @@ $title = '<title>Eventi - PetMatch</title>';
 $description = '<meta name="description" content="Eventi prossimi qui da PetMatch!">';
 $keywords = '';
 
-$nav = buildUserNav($userMenu, './eventi', $_SESSION['email'] ?? false, $_SESSION['admin']===true);
+$nav = buildNav($userMenu, './eventi');
 $breadcrumb = getBreadcrumb('eventi', $pagine);
 
 $paginaHTML = str_replace(
