@@ -237,7 +237,7 @@ function buildAnimalCards(array $animali, ?string $email): string {
                     <p class='sesso-etaMob'>$sessoAbbr - $eta anni</p>";
             }
             $html.="
-                    <div>
+                    <div class='cuore'>
                         <form method='post' action='animali' class='preferiti-form'>
                             <input type='hidden' name='id-animale-preferito' value='$id'>
                             <button type='submit'
