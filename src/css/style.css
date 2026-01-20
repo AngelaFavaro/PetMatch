@@ -2372,7 +2372,7 @@ cursor: pointer;
 #eventi .evento .descrizione-evento {
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
+    /* -webkit-line-clamp: 4; */
     overflow: hidden;
     clear: right;
     max-width: 35em;
@@ -2412,7 +2412,7 @@ cursor: pointer;
 }
 
 #user-profile{
-    margin-bottom:2em;
+    margin-bottom: 2em;
 }
 
 #user-profile .column-container{
