@@ -181,6 +181,7 @@ function imTheAdmin($r): bool{
 	}
 	return false;
 }
+
 /* -------------------- inizio script -------------------- */
 
 $paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore: template layout.html non trovato o non leggibile.</p>');
@@ -230,7 +231,8 @@ $dataRichiesta='<time datetime="' . ($richiesta['data-richiesta'] ?? '') . '">' 
 $main = str_replace('[data]', $dataRichiesta, $main);
 $main = str_replace('[contenutoLettera]', e($richiesta['lettera-di-presentazione'] ?? ''), $main);
 $main = str_replace('[paginaAnimale]', './animale?id=' . e($richiesta['id-animale'] ?? ''), $main);
-$main = str_replace('[paginaRichiedente]', './profilo-utente?email=' . e($richiesta['email-richiedente'] ?? ''), $main);
+$main = str_replace('[paginaRichiedente]', './profilo-richiedente?email=' . urlencode($_GET['email']) ?? '', $main);
+$main = str_replace('[animalID]', $richiesta['id-animale'] ?? '', $main);
 $main = str_replace('[trasporto]', siNo($richiesta['trasporto-richiesta'] ?? 0), $main);
 $main = str_replace('[scarta-richiesta]', $scarta_richiesta, $main);
 $main = str_replace('[stato]', e($richiesta['stato'] ?? ''), $main);
@@ -238,12 +240,21 @@ $main = str_replace('[nome]', e($richiesta['nome-richiedente'] ?? ''), $main);
 $main = str_replace('[imgPath]', e($richiesta['imgPath'] ?? ''), $main);
 $main = str_replace('[cognome]', e($richiesta['cognome-richiedente'] ?? ''), $main);
 //telefono e indirizzo sono opzionali
-if($richiesta['telefono-richiedente'] ?? ''){
-    $telefono_richiedente='<dt>Telefono</dt><dd>' . $richiesta['telefono-richiedente']. '</dd>';
+if($richiesta['telefono-richiedente'] !== null){
+    $telefonoGrezzo = $richiesta['telefono-richiedente'];
+    $numero = substr($telefonoGrezzo, -10);
+    $prefisso = substr($telefonoGrezzo, 0, -10);
+    $printTelefono = trim($prefisso . ' ' . $numero);
+
+    $telefono_richiedente='<dt>Telefono</dt><dd>' . $printTelefono. '</dd>';
+}else{
+        $telefono_richiedente='<dt>Telefono</dt><dd> <em>Sconosciuto</em> </dd>';
 }
+
+$indirizzo_richiedente='';
+
 $main = str_replace('[telefono-richiedente]', $telefono_richiedente, $main);
 $main = str_replace('[email]', e($richiesta['email-richiedente'] ?? ''), $main);
-$indirizzo_richiedente='';
 if($richiesta['trasporto-richiesta']===1 && $richiesta['indirizzo-richiedente']){
     $indirizzo_richiedente='<dt>Indirizzo</dt><dd>' . $richiesta['indirizzo-richiedente']. '</dd>';
 }elseif($richiesta['trasporto-richiesta']===1 && !$richiesta['indirizzo-richiedente']){
@@ -252,7 +263,17 @@ if($richiesta['trasporto-richiesta']===1 && $richiesta['indirizzo-richiedente'])
 }
 $main = str_replace('[indirizzo-richiedente]', $indirizzo_richiedente, $main);
 $main = str_replace('[nomeAnimale]', e($richiesta['nome-animale'] ?? ''), $main);
-$main = str_replace('[animalImgPath]', e($richiesta['animalImgPath'] ?? ''), $main);
+
+if(!$richiesta['animalImgPath'] || !file_exists($richiesta['animalImgPath'])){
+    if($richiesta['tipo_animale'] === 'Gatto'){
+        $main = str_replace('[animalImgPath]', './assets/images/animals/defaultGatto.jpg', $main);
+    }else{
+        $main = str_replace('[animalImgPath]', './assets/images/animals/defaultCane.jpg', $main);
+    }
+}else{
+    $main = str_replace('[animalImgPath]', e($richiesta['animalImgPath']), $main);
+}
+
 if($richiesta['sesso-animale'] === 'F')
     $main = str_replace('[sessoAnimale]', '<abbr title="Femmina">F</abbr>', $main);
 elseif($richiesta['sesso-animale'] === 'M')
@@ -387,7 +408,7 @@ if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($ri
                     </a>
                 </div>
                 <div id="note-container">
-                    <p id="note-text">' . e($richiesta['appunti'] ?? '') . '</p>
+                    <pre id="note-text">' . e($richiesta['appunti'] ?? '') . '</pre>
                 </div>
             </article>';
     }

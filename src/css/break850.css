@@ -310,7 +310,7 @@ details[open] .number::after {
     margin-bottom:0em;
 }
 
-
+/*                      PAGINA EVENTI                 */
 #eventi .filtri {
     display:flex;
     align-items: center;
@@ -331,4 +331,8 @@ details[open] .number::after {
     display: flex;
     flex-grow: 1;
     margin: 0.5em;
+}
+/* ==================PROFILO RICHIEDENTE==================*/
+#profilo-richiedente #visualizza-richiedente{
+    margin-bottom: 4em;
 }

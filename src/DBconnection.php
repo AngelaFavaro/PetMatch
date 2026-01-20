@@ -55,6 +55,7 @@ class DBAccess {
                 a.Trasporto AS trasporto_animale,
                 a.DescrFamiglia AS famiglia_ideale,
                 a.CondizioniMediche AS condizioni_mediche,
+                a.Tipo AS tipo_animale,
                 a.DescrComportamentale AS descrizione_caratteriale,
                 u.Nome AS nome_richiedente,
                 u.Cognome AS cognome_richiedente,
@@ -1530,6 +1531,36 @@ public function addAnimal(array $data, string $emailAdmin): int|bool {
 
         return $events;
     }
+
+    function getNRequestByStatusUser($email): array {
+        $counts = [
+            'Nuova' => 0,
+            'In valutazione' => 0,
+            'Da trasportare' => 0,
+            'Accettata' => 0,
+            'Annullata' => 0,
+            'Respinta' => 0
+        ];
+
+        $query = "SELECT Stato, COUNT(*) AS totale
+                FROM RICHIESTE_ADOZIONI
+                WHERE Email = ?
+                GROUP BY Stato";
+        $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            
+            while ($row = mysqli_fetch_assoc($result)) {
+                $counts[$row['Stato']] = $row['totale'];
+            }
+            
+            mysqli_stmt_close($stmt);
+        }
+        return $counts;
+    }  
+
 
 
 

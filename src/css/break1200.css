@@ -59,6 +59,11 @@
 
 
 
+table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+}
 
 table, tbody, tr {
 	border:none;
@@ -86,12 +91,12 @@ tr, th, td {
     display: block;
 }
 
-tbody td{
-    width: 70%;
-    white-space: normal; /* permette il wrapping automatico */
-    padding: 0em 1em;
+tbody td {
+    white-space: normal;
     overflow-wrap: break-word;
+    word-break: break-word; 
 }
+
 tbody th{
     padding: 0em 1em;
 }
@@ -103,9 +108,11 @@ th[data-title]:before, td[data-title]:not(.presAss):before {
     font-weight: bold;
 }
 
+tbody tr:last-child th, tbody tr:last-child td {
+  border-bottom: 1px solid var(--txtcolor);
+}
 
-
-td.col-dettagli a{
+td.col-dettagli a,td.col-dettagli button{
     margin: 0.5em 0.5em 0.5em auto;
 }
 
@@ -124,26 +131,34 @@ td.col-dettagli a{
 }
 
 
-
-.tabs-container input, .tabs-container#richieste label,
+/* per i tab: questa regola serve perchè altrimenti si vedono anche gli article che sono stati selezionati con i radio button (schermo più grande) */
+/* per l'input: gli input a vista non si vedono ma hanno sr-only, devono proprio sparire e quindi è necessaria questa regola */
+/* per le label: altrimenti si vedono le tabs */
+.tabs-container input, .tabs-container#richieste label,.tabs-container#animali label,
 .tabs-container#richieste #tab1:checked  ~ .tab-content:nth-of-type(1),
 .tabs-container#richieste #tab2:checked  ~ .tab-content:nth-of-type(2), 
 .tabs-container#richieste #tab3:checked  ~ .tab-content:nth-of-type(3),
 .tabs-container#richieste #tab4:checked  ~ .tab-content:nth-of-type(4),
-.tabs-container#richieste #tab5:checked  ~ .tab-content:nth-of-type(5){
+.tabs-container#richieste #tab5:checked  ~ .tab-content:nth-of-type(5),
+.tabs-container#animali #tab1:checked  ~ .tab-content:nth-of-type(1),
+.tabs-container#animali #tab2:checked  ~ .tab-content:nth-of-type(2){
     display: none;
+}
+
+.tabs-container#animali .filtri label,.tabs-container#richieste .filtri label{
+    display: block;
 }
 
 #richieste:has(#mobile-select option[value="tab1"]:checked)  .tab-content.tab1,
 #richieste:has(#mobile-select option[value="tab2"]:checked) .tab-content.tab2,
 #richieste:has(#mobile-select option[value="tab3"]:checked) .tab-content.tab3,
 #richieste:has(#mobile-select option[value="tab4"]:checked) .tab-content.tab4,
-#richieste:has(#mobile-select option[value="tab5"]:checked) .tab-content.tab5 {
+#richieste:has(#mobile-select option[value="tab5"]:checked) .tab-content.tab5,
+#animali:has(#mobile-select option[value="tab1"]:checked)  .tab-content.tab1,
+#animali:has(#mobile-select option[value="tab2"]:checked) .tab-content.tab2{
     display: block;
 }
-/* per i tab: questa regola serve perchè altrimenti si vedono anche gli article che sono stati selezionati con i radio button (schermo più grande) */
-/* per l'input: gli input a vista non si vedono ma hanno sr-only, devono proprio sparire e quindi è necessaria questa regola */
-/* per le label: altrimenti si vedono le tabs */
+
 
 
 

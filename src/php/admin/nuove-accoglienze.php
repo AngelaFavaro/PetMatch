@@ -83,7 +83,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                                     <button type="submit" name="elimina_segnalazione" class="orange-button">Elimina</button>
                                 </form>
                             </td>
-                            <td class="col-dettagli"><a href="mailto:' . htmlspecialchars($animale['email_segnalante']) . '?subject=' . $subject . '&body=' . $object . '" class="brown-button">Chiedi info</a></td>';
+                            <td class="col-dettagli"><a href="mailto:' . htmlspecialchars($animale['email_segnalante']) . '?subject=' . $subject . '&body=' . $object . '" class="brown-button">Chiedi informazioni'.'<span class="sr-only">a'.htmlspecialchars($animale['nominativo_segnalante']).' per la segnalazione</span></a></td>';
                     }
                     $html .='</tr>';
                 }

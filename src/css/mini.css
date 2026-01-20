@@ -2,6 +2,24 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+
+/*==================PULSANTI==================*/
+/* PER MOBILE DEVE ESSERE MINIMO 44 xx 44 */
+.orange-button,
+.brown-button,
+.orange-button,
+select,
+.white-button{
+    min-height: 44px;
+}
+
+.torna-su-button:hover .static{
+    display: block;
+}
+
+.torna-su-button:hover .active{
+    display: none;
+}
 /* ================== NAV USER ==================*/
 #menu-toggle-checkbox{
     display: block;
@@ -245,6 +263,12 @@ input:checked + #slider {
     margin:auto 1em;
 }
 
+#user-profile #lista-movimenti li a,
+#user-profile #lista-richieste li a,
+#profilo-richiedente .tabs-container li article p+a{
+    padding: 0.7em 2em;
+}
+
 /*=================== ANIMALI ====================*/
 
 #animali li.card {
@@ -439,6 +463,10 @@ nav#breadcrumb {
     margin: 1em auto;
 }
 
+/* ================== PROFILO RICHIEDENTE ==================*/
+#profilo-richiedente{
+    padding: 0 1em;
+}
 /* ================== DETTAGLI RICHIESTE ==================*/
 a.pencil img{
     width: 44px;
@@ -446,6 +474,10 @@ a.pencil img{
 
 .text-details{
     margin:0 0.5em;
+}
+
+img.circle-foto{
+    margin:1em auto;
 }
 
 /* ================== 404 PAGE ==================*/

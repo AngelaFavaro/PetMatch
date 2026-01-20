@@ -52,6 +52,9 @@ $routes = [
     ],
     'nuovo-animale' => [
         'file' => __DIR__ . '/src/php/admin/nuovo-animale.php'
+    ],
+    'profilo-richiedente' => [
+        'file' => __DIR__ . '/src/php/admin/profilo-richiedente.php'
     ]
 ];
     /* decommentare quando si vogliono aggiungere le altre pagine

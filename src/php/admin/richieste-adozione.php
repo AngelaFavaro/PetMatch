@@ -171,7 +171,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                         <tr>
                             <th data-title="Nome Animale" scope="row">'.htmlspecialchars($richiesta['nome_animale']).'</th>
                             <td data-title="Email Richiedente">'.htmlspecialchars($richiesta['email_richiedente']).'</td>
-                            <td data-title="Data Inizio Valutazione"><time datetime="'.htmlspecialchars($richiesta['data_inizio_valutazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($richiesta['data_inizio_valutazione']))).'</time></td>
+                            <td data-title="Inizio Valutazione"><time datetime="'.htmlspecialchars($richiesta['data_inizio_valutazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($richiesta['data_inizio_valutazione']))).'</time></td>
                             <td data-title="Appunti">'.($richiesta['appunti'] ? 'Sì' : 'No').'</td>
                             <td class="col-dettagli"><a href="?email='.urlencode($richiesta['email_richiedente']).'&id-animale='.urlencode($richiesta['id_animale']).'" class="brown-button">Vai ai dettagli</a></td>
                         </tr>
