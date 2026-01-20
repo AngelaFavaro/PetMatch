@@ -32,7 +32,7 @@ function siNo($val): string {
     return ($val === 1 || $val === '1' || $val === true) ? 'Sì' : 'No';
 }
 
-/**
+/** DA TOGLIERE, NON NECESSARIO TODO
  * Genera gli input nascosti usati nei form (id_animale + email_richiedente)
  */
 function hiddenInputsFrom(array $r): string {
