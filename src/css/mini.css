@@ -271,7 +271,7 @@ input:checked + #slider {
 
 /*=================== ANIMALI ====================*/
 
-#animali li.card {
+#animali li.card, #animali li.dark-card {
     flex-shrink: 1;
 }
 
@@ -295,7 +295,7 @@ input:checked + #slider {
     justify-content: center;
 }
 
-#animali .card .interessamento {
+#animali .card .interessamento, #animali .dark-card .interessamento {
     float: left;   
     clear: left;
     padding:0.5em;

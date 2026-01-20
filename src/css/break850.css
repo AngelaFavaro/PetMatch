@@ -267,28 +267,28 @@ details[open] .number::after {
     transition: none;
 }
 
-#animali .card .nome{
+#animali .card .nome, #animali .dark-card .nome{
     padding:0.8em 1.5em 0 0.5em;
     margin:0 0 0.5em 0;
     font-size: 1em;
 }
 
-#animali .card .sesso-etaMob{
+#animali .card .sesso-etaMob, #animali .dark-card .sesso-etaMob{
     padding:0 0 0 0.5em;
     display: inline;
 }
 
-#animali .card .sesso-etaMob abbr{
+#animali .card .sesso-etaMob abbr, #animali .dark-card .sesso-etaMob abbr{
     text-decoration: none;
     border-bottom: none;
     cursor: inherit;
 }
 
-#animali .card .sesso-etaDesk{
+#animali .card .sesso-etaDesk, #animali .dark-card .sesso-etaDesk{
     display: none;
 }
 
-#animali li.card {
+#animali li.card, #animali li.dark-card {
     cursor: pointer;
     width: 9em;
     height: 15em;
@@ -297,8 +297,8 @@ details[open] .number::after {
     
 }
 
-#animali li.card article {
-    width: 9em;
+#animali li.card article, #animali li.dark-card article {
+    /* width: 9em; */
     height: 15em;
     overflow: hidden;
     margin:auto;
