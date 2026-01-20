@@ -298,7 +298,7 @@ details[open] .number::after {
 }
 
 #animali li.card article, #animali li.dark-card article {
-    width: 9em;
+    /* width: 9em; */
     height: 15em;
     overflow: hidden;
     margin:auto;

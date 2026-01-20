@@ -189,12 +189,13 @@ function buildAnimalCards(array $animali, ?string $email): string {
             /* -------- ADOTTATO (opzionale) -------- */
             $adottato = isset($a['adottato']) && (int)$a['adottato'] === 1;
             $cardClass = $adottato ? 'dark-card' : 'card';
-            $giàInteressato= $adottato ? 'già adottato' : '';
+            $giàInteressato= $adottato ? 'Non disponibile' : '';
+            $classeInteressato= $adottato ? 'adottato' : 'interessamento';
 
             /* -------- INTERESSAMENTO -------- */
             
             if ($conn->hasActiveAdoptionRequest($id)) {
-                $giàInteressato = $adottato ? 'già adottato' : 'Già Interessato';
+                $giàInteressato = $adottato ? 'Non disponibile' : 'Già Interessato';
             }
 
             /* -------- PREFERITI -------- */
@@ -233,10 +234,13 @@ function buildAnimalCards(array $animali, ?string $email): string {
                         <img src='$img' alt=''>
                     </div>
 
-                    <h3 class='nome' id='nome-animale-$id'>$nome</h3>
+                    <h3 class='nome' id='nome-animale-$id'>$nome</h3>";
+            if(!$adottato) {
+                $html.="
                     <p class='sesso-etaDesk'>$sesso - $eta anni</p>
-                    <p class='sesso-etaMob'>$sessoAbbr - $eta anni</p>
-
+                    <p class='sesso-etaMob'>$sessoAbbr - $eta anni</p>";
+            }
+            $html.="
                     <div>
                         <form method='post' action='animali' class='preferiti-form'>
                             <input type='hidden' name='id-animale-preferito' value='$id'>
@@ -249,7 +253,7 @@ function buildAnimalCards(array $animali, ?string $email): string {
                         </form>
                     </div>
 
-                    <p class='interessamento'>$giàInteressato</p>
+                    <p class='$classeInteressato'>$giàInteressato</p>
 
                     <div class='dettagli-animale-bottone'>
                         <a href='visualizzazione-animale?id=$id'>Vedi dettagli</a>

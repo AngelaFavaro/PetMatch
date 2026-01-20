@@ -1866,15 +1866,6 @@ input:-webkit-autofill:active{
         /* border: 0.3 ease; */ 
 }
 
-#animali li.dark-card {
-    /* background-color:#B6BF88;
-    color: var(--buttoncolor-hover);
-    border: 3px solid #B6BF88; */
-    background-color:var(--elidedCard);
-    color: var(--txtcolor);
-    border: 3px solid var(--elidedCard);
-}
-
 
 #animali li.card:hover{
     /* background-color: var(--bgcolor); */
@@ -1884,7 +1875,7 @@ input:-webkit-autofill:active{
 }
 
 #animali li.card article, #animali li.dark-card article {
-    width: 11em;
+    /* width: 11em; */
     height: 14em;
     overflow: hidden;
     align-items: center;
@@ -1934,15 +1925,27 @@ input:-webkit-autofill:active{
     display: none;
 }
 
-#animali .card .interessamento, #animali .dark-card .interessamento {
+#animali .card .interessamento {
     float: right;   /* non serve più */
     clear: left;
     padding-right: 0.5em;
     padding-top: 1px;
-
-
 }
 
+#animali .dark-card .adottato {
+    clear: left;
+    text-align: center;
+    border: 1px solid var(--txtcolor);
+    margin-top: 0.7em;
+    margin-left: 1em;
+    margin-right: 1em;
+    border-radius: 1em;
+    font-style: italic;
+}
+
+#animali .dark-card img.immagine {
+    opacity: 50%;
+}
 
 
 
@@ -1994,6 +1997,7 @@ input:-webkit-autofill:active{
 /* Assicurati che la card sia riferimento per il posizionamento */
 .cards-container li.card, .cards-container li.dark-card {
     position: relative; /* fondamentale per l'overlay */
+    width: 11em;
 }
 
 /* Overlay invisibile */
