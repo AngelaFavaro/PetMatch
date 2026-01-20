@@ -2419,8 +2419,7 @@ cursor: pointer;
 }
 
 #user-profile .tabs-container select:focus, #admin-area .tabs-container select:focus{
-    border: 2px solid var(--headercolor);
-    margin:4px;
+    outline: 2px solid var(--headercolor);
 }
 
 /* tab */
