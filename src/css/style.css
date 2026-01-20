@@ -608,7 +608,7 @@ select:focus{
 
 /* ================== HEADER ================== */
 
-#layout-user #currentLink{
+#layout-user #osso #currentLink{
     font-weight: 600;
 }
 
@@ -840,6 +840,12 @@ input:checked + #theme-switch #slider #moon { opacity: 1; }
     display: none;
 } 
 
+#header-actions #currentLink.white-button,
+#header-actions #currentLink.white-button:hover{
+    outline: 1px solid var(--bgcolor);
+    background-color: var(--buttoncolor-hover);
+    color:var(--bgcolor);
+}
 
 /* ==================FOOTER================== */
 #footer-menu {

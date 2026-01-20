@@ -420,7 +420,7 @@ $description = '<meta name="description" content="i tuoi animali preferiti in ad
 }
 $keywords = '';
 
-$nav = $isPreferiti ? buildUserNav($userMenu, './preferiti', $_SESSION['email'] ?? false) : buildUserNav($userMenu, './animali', $_SESSION['email'] ?? false);
+$nav = $isPreferiti ? buildUserNav($userMenu, './preferiti', $_SESSION['email'] ?? false, $_SESSION['admin']===true) : buildUserNav($userMenu, './animali', $_SESSION['email'] ?? false, $_SESSION['admin']===true);
 $breadcrumb = $isPreferiti ? getBreadcrumb('preferiti', $pagine) : getBreadcrumb('animali', $pagine);
 
 $paginaHTML = str_replace(
