@@ -199,7 +199,7 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
 /**
  * Genera la nav menù utente dinamicamente
  */
-function buildUserNav(array $items, string $currentHref, bool $isLogged): string {
+function buildUserNav(array $items, string $currentHref, bool $isLogged, bool $isAdmin): string {
 
     global $noNav;
 
@@ -274,14 +274,22 @@ function buildUserNav(array $items, string $currentHref, bool $isLogged): string
                     </label>
     
                     <nav aria-label="Area personale">
-                        <ul id="personal-area">
-                            <li>
-                                <a href="./preferiti" id="preferiti" aria-label="Preferiti">
-                                    <img src="./assets/icons/heart-normal.svg" id="heart-normal" alt="" />
-                                    <img src="./assets/icons/heart-hover.svg" id="heart-hover" alt="" />
-                                </a>
-                            </li>
-                            
+                        <ul id="personal-area">';
+                        if(!$isAdmin){
+                            if($currentHref==='./preferiti'){
+                               $html .= '<li><p id="preferiti"><img src="./assets/icons/heart-hover.svg" id="heart-hover-currentLink" alt="" /></p></li>';
+                            }else{
+                               $html .= '                            
+                               <li>
+                                   <a href="./preferiti" id="preferiti" aria-label="Preferiti">
+                                       <img src="./assets/icons/heart-normal.svg" id="heart-normal" alt="" />
+                                       <img src="./assets/icons/heart-hover.svg" id="heart-hover" alt="" />
+                                   </a>
+                               </li>';
+                            }
+                        }
+
+                            $html .='
                             <li>';
                                 if($currentHref==='./profilo-utente'){
                                     $html.= '<p class="white-button" href="./accedi" id="currentLink">';
@@ -293,9 +301,13 @@ function buildUserNav(array $items, string $currentHref, bool $isLogged): string
                                 
                                 $html .= $isLogged ? '<span id="text-accedi">Profilo</span>' : '<span id="text-accedi">Accedi</span>';
                                 
-                                $html .= '
-                                <img src="./assets/icons/account-normal.svg" id="account-normal" alt="" />
-                                <img src="./assets/icons/account-hover.svg" id="account-hover" alt="" />';
+                                if($currentHref==='./profilo-utente'){
+                                    $html .='<img src="./assets/icons/account-hover.svg" id="account-hover-currentLink" alt="" />';
+                                }else{
+                                    $html .= '
+                                    <img src="./assets/icons/account-normal.svg" id="account-normal" alt="" />
+                                    <img src="./assets/icons/account-hover.svg" id="account-hover" alt="" />';
+                                }
 
                                 $html.= ($currentHref==='./profilo-utente')?'</p>':'</a>';
                                 $html .= '
