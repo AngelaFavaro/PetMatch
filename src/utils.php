@@ -669,10 +669,10 @@ function renderCaniGattiTabs(): string{
                 Gatti ([n-gatti])
             </option>
         </select>
-        <input class="sr-only" type="radio" id="tab1" name="tab-group" '.$checked['Cani'].'>
-        <label for="tab1"><h2>Cani ([n-cani])</h2></label>
+        <input class="sr-only" type="radio" id="tab1" name="tab-group"'.$checked['Cani'].'>
+        <label for="tab1">Cani ([n-cani])</label>
         <input class="sr-only" type="radio" id="tab2" name="tab-group" '.$checked['Gatti'].'>
-        <label for="tab2"><h2>Gatti ([n-gatti])</h2></label>';
+        <label for="tab2">Gatti ([n-gatti])</label>';
     }else{
         $html = '
         <select id="mobile-select" name="tab-group">
@@ -685,9 +685,9 @@ function renderCaniGattiTabs(): string{
         </select>
 
         <input class="sr-only" type="radio" id="tab1" name="tab-group" checked>
-        <label for="tab1"><h2>Cani ([n-cani])</h2></label>
+        <label for="tab1">Cani ([n-cani])</label>
         <input class="sr-only" type="radio" id="tab2" name="tab-group">
-        <label for="tab2"><h2>Gatti ([n-gatti])</h2></label>';
+        <label for="tab2">Gatti ([n-gatti])</label>';
     }
 
     return $html;
