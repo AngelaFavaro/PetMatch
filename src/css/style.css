@@ -8,28 +8,29 @@
     --bgcolor: #FFF6D7;
     --txtcolor: #481515;
     --buttoncolor: #EA654C;
-    --buttoncolor-hover: #481515;
-    --text-buttoncolor: #481515;
-    --text-buttoncolor-hover: #FFF6D7;
-    --linkcolor:#FFF6D7;
-    --footercolor: #481515;
-    --visitedcolor: #EA654C;
-    --headercolor: var(--footercolor);
-    --headervisitedlink: #6D7541;
-    --headerlink: #481515;
     --secondsection: #6D7541;
     --placeholderDarker-text:#5e4232;
     --placeholder-text:#825E49;
     --darkbgcolor: #E4D4BA;
-    --bglink-hover: var(--darkbgcolor);
-    --bgform: #6D7541;
-    --errortxt: #BA3A24;
     --successtxt:#576F30;
-    --bgconfirmbutton:#6D7541;
-    --bgconfermbutton:#FFF6D7;
-    --txtcancelbutton:var(--bgconfirmbutton);
+    --errortxt: #BA3A24;
     --txtclose-request: #6b5050;
-    --greencolor: #6D7541;
+    --headercolor: var(--txtcolor);
+    --darkSection:var(--txtcolor);
+    --buttoncolor-hover: var(--txtcolor);
+    --text-buttoncolor:  var(--txtcolor);
+    --footercolor:  var(--txtcolor);
+    --headerlink:  var(--txtcolor);
+    --text-buttoncolor-hover: var(--bgcolor);
+    --linkcolor: var(--bgcolor);
+    --bgconfermbutton:var(--bgcolor);
+    --visitedcolor: var(--buttoncolor);
+    --headervisitedlink: var(--secondsection);
+    --bgform: var(--secondsection);
+    --bgconfirmbutton:var(--secondsection);
+    --greencolor: var(--secondsection);
+    --bglink-hover: var(--darkbgcolor);
+    --txtcancelbutton:var(--bgconfirmbutton);
 }
 
 a{
@@ -786,6 +787,11 @@ input:checked + #theme-switch #slider::before {
 input:checked + #theme-switch #slider #sun { opacity: 0; }
 input:checked + #theme-switch #slider #moon { opacity: 1; }
 
+:root:has(input#theme-toggle:checked){
+    /* aiuto non so usare i colori */
+    transition: background-color 0.3s;
+}
+
 /* Icona Preferiti */
 #preferiti {
     position: relative;
@@ -895,7 +901,7 @@ footer .container + div a:visited{
 }
 
 #introduction-home {
-    background-color: var(--headercolor);
+    background-color: var(--darkSection);
     margin-top: -130px;
     padding-top: 130px;
     color: var(--bgcolor);
