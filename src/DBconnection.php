@@ -784,6 +784,24 @@ public function addAnimal(array $data, string $emailAdmin): int|bool {
         return $results;
     }
 
+    public function assignAnimalToAdmin(int $idAnimale, string $emailAdmin): bool {
+        $query = "UPDATE ANIMALI 
+                SET Email = ? 
+                WHERE IDanimale = ? AND Email IS NULL";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'si', $emailAdmin, $idAnimale);
+            mysqli_stmt_execute($stmt);
+            $success = mysqli_stmt_affected_rows($stmt) > 0;          
+            mysqli_stmt_close($stmt);
+            return $success;
+        }
+        
+        return false;
+    }
+
     // per vedere solo le segnalazioni proprie, si passa mode = 'mie' e l'email dell'admin
     // per vedere solo le segnalazioni senza admin, si passa mode = 'nessuno' e si può lasciare emailAdmin a null
     // per vedere tutte le segnalazioni, si passa mode = 'tutte' e l'email dell'admin

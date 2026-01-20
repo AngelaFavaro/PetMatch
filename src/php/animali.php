@@ -79,7 +79,7 @@ $titolo = 'Animali';
 if($isPreferiti) {
     $titolo.=' preferiti';
 }
-$messaggioNoAnimali=$isPreferiti ? 'Non hai ancora salvato nessun animale' : 'Non abbiamo ancora animali disponibili.';
+$messaggioNoAnimali=$isPreferiti ? 'Non hai ancora salvato nessun animale.' : 'Non abbiamo ancora animali disponibili.';
 
 
 
@@ -414,7 +414,7 @@ $description = '<meta name="description" content="i tuoi animali preferiti in ad
 }
 $keywords = '';
 
-$nav = $isPreferiti ? buildUserNav($userMenu, './preferiti', $_SESSION['email'] ?? false) : buildUserNav($userMenu, './animali', $_SESSION['email'] ?? false);
+$nav = $isPreferiti ? buildNav($userMenu, './preferiti') : buildNav($userMenu, './animali');
 $breadcrumb = $isPreferiti ? getBreadcrumb('preferiti', $pagine) : getBreadcrumb('animali', $pagine);
 
 $paginaHTML = str_replace(

@@ -706,7 +706,7 @@ $title = '<title>Profilo - PetMatch </title>';
 $description = '<meta name="description" content="Profilo di PetMatch">';
 $keywords = "";
 
-$nav = buildUserNav($userMenu, './profilo-utente',$_SESSION['email'] ?? false);
+$nav = buildNav($userMenu, './profilo-utente');
 
 $footer = buildFooter($footerMenu,  './profilo-utente');
 

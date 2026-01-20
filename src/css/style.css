@@ -608,7 +608,7 @@ select:focus{
 
 /* ================== HEADER ================== */
 
-#layout-user #currentLink{
+#layout-user #osso #currentLink{
     font-weight: 600;
 }
 
@@ -840,6 +840,12 @@ input:checked + #theme-switch #slider #moon { opacity: 1; }
     display: none;
 } 
 
+#header-actions #currentLink.white-button,
+#header-actions #currentLink.white-button:hover{
+    outline: 1px solid var(--bgcolor);
+    background-color: var(--buttoncolor-hover);
+    color:var(--bgcolor);
+}
 
 /* ==================FOOTER================== */
 #footer-menu {
@@ -1630,6 +1636,7 @@ input:-webkit-autofill:active{
     display: block;
     text-decoration: none;
     color: var(--headerlink);
+    font-weight: normal;
 }
 
 /* elemento attivo */
@@ -1694,6 +1701,12 @@ input:-webkit-autofill:active{
     margin-right: 0.5em;
     white-space: nowrap;
 }
+
+
+.capsula-filtro select {
+    background-position: right 0em center;
+}
+
 /* Contenitore capsula per ogni filtro */
 #animali .filtri .capsula-filtro, .tab-content .filtri .capsula-filtro, #eventi .filtri .capsula-filtro {
     display: inline-flex;        /* label + input/select affiancati */
@@ -1774,6 +1787,10 @@ input:-webkit-autofill:active{
 
 #cancel-filter-invisible {
     display: none;
+}
+
+#animali .filtri .capsula-filtro select#taglia{
+    padding:0 0.8em;
 }
 
 
@@ -3672,8 +3689,7 @@ tbody tr:last-child th {
     text-align: right;
 }
 
-/* TO DO, mettere sr-only */
-th.col-dettagli, caption {
+caption {
     position: absolute;
     left: -999em;
     width: 1px;
