@@ -1945,7 +1945,7 @@ input:-webkit-autofill:active{
     padding-left: 1em;
     float: left;
     clear: left;
-    width: 80%;
+    /* width: 80%; */
     /* padding-right: 65%; */
     font-weight: bold;
     /* height: 40px; */
@@ -2024,6 +2024,17 @@ input:-webkit-autofill:active{
 #animali .is-favorite .heart-hover,
 #animali .not-favorite .heart-hover, #preferiti .is-favorite .heart-hover, #preferiti .not-favorite .heart-hover {
     opacity: 0;
+    /* margin-left: auto; */
+    /* float: right; */
+}
+
+#animali .card .cuore {
+    display: flex;
+    justify-content: end;
+}
+
+#animali .card .cuore .preferiti-form{
+    justify-content:end;
 }
 
 /* hover */

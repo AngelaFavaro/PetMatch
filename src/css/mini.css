@@ -275,6 +275,18 @@ input:checked + #slider {
     flex-shrink: 1;
 }
 
+
+#animali .card .nome, #animali .dark-card .nome {
+    padding-top: 0.5em;
+    padding-left: 0.5em;
+    width: 75%;
+    /* padding-right: 65%; */
+    /* height: 40px; */
+    white-space: nowrap;      /* testo su una sola riga */
+    overflow: hidden;         /* taglia il testo che esce dal box */
+    text-overflow: ellipsis;  /* aggiunge "..." alla fine */
+}
+
 #animali #nav-animali-type ul {
     display: flex;
     list-style: none;

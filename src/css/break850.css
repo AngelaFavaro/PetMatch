@@ -301,7 +301,7 @@ details[open] .number::after {
 #animali li.card, #animali li.dark-card {
     cursor: pointer;
     width: 9em;
-    height: 15em;
+    /* height: 15em; */
     margin: 0.5em;
     overflow: hidden;
     
