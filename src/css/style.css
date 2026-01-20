@@ -3678,8 +3678,7 @@ tbody tr:last-child th {
     text-align: right;
 }
 
-/* TO DO, mettere sr-only */
-th.col-dettagli, caption {
+caption {
     position: absolute;
     left: -999em;
     width: 1px;
