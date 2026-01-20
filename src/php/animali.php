@@ -308,26 +308,27 @@ if($isPreferiti) {
         $connessione->closeConnection();
     }
 } else {
-if ($connessione->openDBConnection()) {
+    if ($connessione->openDBConnection()) {
 
-    $totale = $connessione->countAnimalsFiltered($type, $filters);
-    $pagineTotali = max(1, ceil($totale / $perPagina));
+        $totale = $connessione->countAnimalsFiltered($type, $filters);
+        $pagineTotali = max(1, ceil($totale / $perPagina));
 
-    if ($pagina > $pagineTotali) {
-        $pagina = $pagineTotali;
-        $offset = ($pagina - 1) * $perPagina;
+        if ($pagina > $pagineTotali) {
+            $pagina = $pagineTotali;
+            $offset = ($pagina - 1) * $perPagina;
+        }
+        
+        $animali = $connessione->getAnimalsFilteredPaged($type, $filters, $perPagina, $offset);
+        $userEmail = $_SESSION['email'] ?? null;
+    $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail) : '<p class="errore">Non abbiamo ancora animali disponibili.</p>';
+        if($filters) {
+        $params= array_merge(['tipo' => $type], $filters);
+        } else {
+            $params=$type;
+        }
+        $linkPagine = buildPagination($pagina, $pagineTotali, $params);
+        $connessione->closeConnection();
     }
-    
-    $animali = $connessione->getAnimalsFilteredPaged($type, $filters, $perPagina, $offset);
-    $userEmail = $_SESSION['email'] ?? null;
-$cardAnimali = $animali ? buildAnimalCards($animali, $userEmail) : '<p class="errore">Non abbiamo ancora animali disponibili.</p>';
-    if($filters) {
-    $params= array_merge(['tipo' => $type], $filters);
-    } else {
-        $params=$type;
-    }
-    $linkPagine = buildPagination($pagina, $pagineTotali, $params);
-    $connessione->closeConnection();
 }
 
 /* ------------------ TEMPLATE ------------------ */
