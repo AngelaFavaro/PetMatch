@@ -57,7 +57,9 @@
 
 /* non in mini perchè le tabelle non si vedono bene */
 
-
+#admin-area .tabs-container#richieste .tab-content{
+    margin:auto;
+}
 
 table {
     table-layout: fixed;
@@ -87,6 +89,11 @@ tfoot th{
 	display:none;
 }
 
+tfoot td{
+    padding:0.5em 1em;
+    float: left;
+}
+
 tr, th, td {
     display: block;
 }
@@ -95,10 +102,21 @@ tbody td {
     white-space: normal;
     overflow-wrap: break-word;
     word-break: break-word; 
+    padding: 0.3em 0.2em 0.2em 0.2em;
+    border-bottom: 1px solid var(--borderTable);
+}
+
+#richieste .capsula-filtro select#filtro-appunti{
+    padding-right: 2em;
+}
+
+#richieste .capsula-filtro{
+    margin:auto;
 }
 
 tbody th{
-    padding: 0em 1em;
+    padding: 0.3em;
+    border: none;
 }
 
 /* mette il th del thead nelle celle che descrivono quel contenuto*/
@@ -109,11 +127,13 @@ th[data-title]:before, td[data-title]:not(.presAss):before {
 }
 
 tbody tr:last-child th, tbody tr:last-child td {
-  border-bottom: 1px solid var(--txtcolor);
+    /* border-bottom: 1px solid var(--txtcolor); */
+    padding: 0.3em 0.2em 0.2em 0.2em;
+    border-bottom: 1px solid var(--borderTable);
 }
 
 td.col-dettagli a,td.col-dettagli button{
-    margin: 0.5em 0.5em 0.5em auto;
+    margin: 0.5em 0em 0.5em auto;
 }
 
 /* select per la mobile */
@@ -124,10 +144,16 @@ td.col-dettagli a,td.col-dettagli button{
     background-color: var(--buttoncolor);
     text-align: center;
     margin: auto;
-    border-radius: 1em;
+    border-radius: 2em;
     font-weight: 600;
     letter-spacing: 1px;
     text-decoration: none;
+    border:1px solid var(--buttoncolor);
+    color:var(--txtcolor);
+}
+
+#mobile-select option{
+    background-color: var(--bgcolor);
 }
 
 
