@@ -380,8 +380,8 @@ function buildFooter(array $menuGroups, string $currentHref): string {
                         <a class="navigationHelp" href="#seguici-su"> Salta il contenuto</a>
                         <p id="contattaci-footer" aria-hidden="true">Contattaci</p>
                         <ul class="footer-submenu">
-                            <li><a href="mailto:matchpet48@gmail.com" target="_blank">matchpet48@gmail.com</a></li>
-                            <li><a href="tel:+390000000000"> +39 000 000 0000</a></li>
+                            <li><address><a href="mailto:matchpet48@gmail.com" target="_blank">matchpet48@gmail.com</a></address></li>
+                            <li><address><a href="tel:+390000000000"> +39 000 000 0000</a></address></li>
                         </ul>
                     </nav>
                 </li>
@@ -391,10 +391,12 @@ function buildFooter(array $menuGroups, string $currentHref): string {
                         <p id="seguici-footer" aria-hidden="true">Seguici su</p>
                         <ul class="footer-submenu">
                             <li class="social-media-links">
-                                <a href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram">
-                                    <img src="./assets/icons/Instagram.svg" id="instagram" alt="">
-                                    @petmatch_shelter
-                                </a>
+                                <address>
+                                    <a href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram">
+                                        <img src="./assets/icons/Instagram.svg" id="instagram" alt="">
+                                        @petmatch_shelter
+                                    </a>
+                                </address>
                             </li>
                         </ul>
                     </nav>
