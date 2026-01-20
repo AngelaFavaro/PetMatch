@@ -79,6 +79,7 @@ $titolo = 'Animali';
 if($isPreferiti) {
     $titolo.=' preferiti';
 }
+$messaggioNoAnimali=$isPreferiti ? 'Non hai ancora salvato nessun animale' : 'Non abbiamo ancora animali disponibili.';
 
 
 
@@ -270,20 +271,9 @@ if ($type !== 'tutti') {
     $resetUrl .= '?tipo=' . urlencode($type);
 }
 $userEmail = $_SESSION['email'] ?? null;
-$banneraccedi='';
-if($isPreferiti&&!$userEmail) {
-    $banneraccedi="<section id='invitoAdAccedere' aria-labelledby='invito-accedi-title'>
-    <img src='./assets/icons/invitoAccedi.svg' alt=''>
-    <p id='invito-accedi-content'>
-        Accedi per sincronizzare i tuoi preferiti in tutti i tuoi dispositivi!
-    </p>
-    <a class='white-button' href='./accedi'>
-        Accedi
-    </a>
-</section>";
-}
 
 /* ------------------ QUERY ------------------ */
+$totale=0;
 $connessione = new DBAccess();
 if($isPreferiti) {
     if ($connessione->openDBConnection()) {
@@ -302,7 +292,7 @@ if($isPreferiti) {
         } else {
             $animali = $connessione->getGuestFavPaged($type, $perPagina, $offset);
         }
-        $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail) : '<p class="errore">Non abbiamo ancora animali disponibili.</p>';
+        $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail) : "<p class='errore'>$messaggioNoAnimali</p>";
         $linkPagine = buildPagination($pagina, $pagineTotali, $type);
         $connessione->closeConnection();
     }
@@ -319,7 +309,7 @@ if($isPreferiti) {
         
         $animali = $connessione->getAnimalsFilteredPaged($type, $filters, $perPagina, $offset);
         $userEmail = $_SESSION['email'] ?? null;
-    $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail) : '<p class="errore">Non abbiamo ancora animali disponibili.</p>';
+    $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail) : "<p class='errore'>$messaggioNoAnimali</p>";
         if($filters) {
         $params= array_merge(['tipo' => $type], $filters);
         } else {
@@ -328,6 +318,19 @@ if($isPreferiti) {
         $linkPagine = buildPagination($pagina, $pagineTotali, $params);
         $connessione->closeConnection();
     }
+}
+//  BANNER
+$banneraccedi='';
+if($isPreferiti&&!$userEmail&&$totale!==0) {
+    $banneraccedi="<section id='invitoAdAccedere' aria-labelledby='invito-accedi-title'>
+    <img src='./assets/icons/invitoAccedi.svg' alt=''>
+    <p id='invito-accedi-content'>
+        Accedi per sincronizzare i tuoi preferiti in tutti i tuoi dispositivi!
+    </p>
+    <a class='white-button' href='./accedi'>
+        Accedi
+    </a>
+</section>";
 }
 
 /* ------------------ TEMPLATE ------------------ */
