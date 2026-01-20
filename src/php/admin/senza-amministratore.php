@@ -27,7 +27,8 @@ function renderCaniContent(array $CaniNonAdmin, array $NNonAdminByType): string 
                         <th scope="col">Trasporto</th>
                         <th scope="col">Razza</th>
                         <th scope="col">Età</th>
-                        <th scope="col" class="col-dettagli"><span class= "sr-only">Dettagli cane</span></th>
+                        <th scope="col" class="col-dettagli"><span class="sr-only">Assegna a te</span></th>
+                        <th scope="col" class="col-dettagli"><span class="sr-only">Dettagli cane</span></th>
                     </tr>
                 </thead>
                 <tbody>';
@@ -42,6 +43,12 @@ function renderCaniContent(array $CaniNonAdmin, array $NNonAdminByType): string 
                     <td data-title="Trasporto">'.htmlspecialchars($caneNonAdmin['trasporto_animale']).'</td>
                     <td data-title="Razza">'.htmlspecialchars($caneNonAdmin['razza_animale']).'</td>
                     <td data-title="Età">'.htmlspecialchars($eta).'</td>
+                    <td class="col-dettagli">
+                        <form method="post" action="senza-amministratore" >
+                            <input type="hidden" name="id_animale" value="' . htmlspecialchars($caneNonAdmin['id_animale']) . '">
+                            <button type="submit" name="assegnami_animale" class="orange-button">Assegna a me</button>
+                        </form>
+                    </td>
                     <td class="col-dettagli"><a href="animali?id='.htmlspecialchars($caneNonAdmin['id_animale']).'" class="brown-button">Vai all\'animale<span class="sr-only">'.htmlspecialchars($caneNonAdmin['nome_animale']).' </span></a></td>
                 </tr>
             ';
@@ -50,7 +57,7 @@ function renderCaniContent(array $CaniNonAdmin, array $NNonAdminByType): string 
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="6">Totale cani senza admin</td>
+                    <td colspan="7">Totale cani senza admin</td>
                     <td>[n-cani]</td>
                 </tr>
             </tfoot>
@@ -75,7 +82,8 @@ function renderGattiContent(array $GattiNonAdmin,array $NNonAdminByType){
                     <th scope="col">Trasporto</th>
                     <th scope="col">Razza</th>
                     <th scope="col">Età</th>
-                    <th scope="col" class="col-dettagli"><span class= "sr-only">Dettagli animale</span></th>
+                    <th scope="col" class="col-dettagli"><span class="sr-only">Assegna a te</span></th>
+                    <th scope="col" class="col-dettagli"><span class="sr-only">Dettagli animale</span></th>
                 </tr>
             </thead>
             <tbody>';
@@ -91,6 +99,12 @@ function renderGattiContent(array $GattiNonAdmin,array $NNonAdminByType){
                     <td data-title="Trasporto">'.htmlspecialchars($GattoNonAdmin['trasporto_animale']).'</td>
                     <td data-title="Razza">'.htmlspecialchars($GattoNonAdmin['razza_animale']).'</td>
                     <td data-title="Età">'.htmlspecialchars($eta).'</td>
+                    <td class="col-dettagli">
+                        <form method="post" action="senza-amministratore" >
+                            <input type="hidden" name="id_animale" value="' . htmlspecialchars($GattoNonAdmin['id_animale']) . '">
+                            <button type="submit" name="assegnami_animale" class="orange-button">Assegna a me</button>
+                        </form>
+                    </td>
                     <td class="col-dettagli"><a href="animali?id='.htmlspecialchars($GattoNonAdmin['id_animale']).'" class="brown-button">Vai all\'animale<span class="sr-only">'.htmlspecialchars($GattoNonAdmin['nome_animale']).'</span></a></td>
                 </tr>
             ';
@@ -100,7 +114,7 @@ function renderGattiContent(array $GattiNonAdmin,array $NNonAdminByType){
         </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="6">Totale gatti senza admin</td>
+                    <td colspan="7">Totale gatti senza admin</td>
                     <td>[n-gatti]</td>
                 </tr>
             </tfoot>
@@ -135,6 +149,11 @@ if ($connessioneOK) {
 
     $animali = $connessione->getDetailsNonAdminAnimalsPaged($perPagina, $offCani, $offGatti);
 
+    if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['assegnami_animale'])){
+        $connessione->assignAnimalToAdmin((int)$_POST['id_animale'], $_SESSION['email']); //id è un numero intero
+        header("Location: ./senza-amministratore?tipo=$tipoAttivo&page=$paginaCorrente");
+        exit;
+    }
     
     $connessione->closeConnection();
 }
