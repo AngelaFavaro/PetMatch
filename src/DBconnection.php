@@ -407,7 +407,7 @@ public function addAnimal(array $data, string $emailAdmin): int|bool {
     function createAdminStats($email): array {
         $stats = [0, 0, 0];
         $queries = [
-            "query1" => ["sql" => "SELECT COUNT(*) AS totale FROM RICHIESTE_ADOZIONI R JOIN ANIMALI A ON R.IDanimale = A.IDanimale WHERE R.Stato = 'Conclusa' AND A.Email = ?", "param" => $email],
+            "query1" => ["sql" => "SELECT COUNT(*) AS totale FROM RICHIESTE_ADOZIONI R JOIN ANIMALI A ON R.IDanimale = A.IDanimale WHERE R.Stato = 'Accettata' AND A.Email = ?", "param" => $email],
             "query2" => ["sql" => "SELECT COUNT(*) AS totale FROM RICHIESTE_ADOZIONI R JOIN ANIMALI A ON R.IDanimale = A.IDanimale WHERE R.Stato <> 'Nuova' AND A.Email = ?", "param" => $email],
             "query3" => ["sql" => "SELECT COUNT(*) AS totale FROM RICHIESTE_ADOZIONI R JOIN ANIMALI A ON R.IDanimale = A.IDanimale WHERE R.Stato NOT IN ('Nuova', 'Conclusa', 'Annullata', 'Respinta') AND A.Email = ?", "param" => $email]
         ];
