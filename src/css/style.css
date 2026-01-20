@@ -1968,7 +1968,7 @@ input:-webkit-autofill:active{
 
 
 #animali .is-favorite,
-#animali .not-favorite{
+#animali .not-favorite, #preferiti .is-favorite, #preferiti .not-favorite{
     /* float:right; */
     /* margin-left: 50%; */
     position: relative;
@@ -1985,7 +1985,8 @@ input:-webkit-autofill:active{
 
 /* entrambe le immagini */
 #animali .is-favorite img,
-#animali .not-favorite img {
+#animali .not-favorite img, #preferiti .is-favorite img,
+#preferiti .not-favorite img {
     position: absolute;
     top: 0;
     /* left: 0; */
@@ -1999,16 +2000,16 @@ input:-webkit-autofill:active{
 
 /* stato iniziale */
 #animali .is-favorite .heart-hover,
-#animali .not-favorite .heart-hover {
+#animali .not-favorite .heart-hover, #preferiti .is-favorite .heart-hover, #preferiti .not-favorite .heart-hover {
     opacity: 0;
 }
 
 /* hover */
-#animali .not-favorite:hover .heart-hover {
+#animali .not-favorite:hover .heart-hover, #preferiti .not-favorite:hover .heart-hover {
     opacity: 1;
 }
 
-#animali .not-favorite:hover .heart-normal {
+#animali .not-favorite:hover .heart-normal, #preferiti .not-favorite:hover .heart-normal {
     opacity: 0;
 }
 
