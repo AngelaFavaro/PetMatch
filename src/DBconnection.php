@@ -287,14 +287,16 @@ class DBAccess {
             return false;
         }
 
-        $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Conclusa' SET DataWHERE Email = ? AND IDanimale = ?";
+        //la data di fine valutazione viene settata a oggi
+        $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Accettata', DataFineValutazione = ? WHERE Email = ? AND IDanimale = ?";
 
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
             return false;
         }
 
-        mysqli_stmt_bind_param($stmt, 'si', $emailRichiedente, $idAnimale);
+        $oggi = date('Y-m-d');
+        mysqli_stmt_bind_param($stmt, 'ssi', $oggi, $emailRichiedente, $idAnimale);
         $result = mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
         return $result;
@@ -831,7 +833,7 @@ public function addAnimal(array $data, string $emailAdmin): int|bool {
         return $results;
     }
 
-    public function getAdoptedAnimalsPaged(int $limit, int $offCani, int $offGatti, string $myEmail, string $filtro): array {
+    public function getAdoptedAnimalsPaged(int $limit, int $offCani, int $offGatti, string $myEmail = null, string $filtro): array {
         $results = ['Cane' => [], 'Gatto' => []];
         $tipi = ['Cane', 'Gatto'];
 
@@ -882,6 +884,34 @@ public function addAnimal(array $data, string $emailAdmin): int|bool {
             }
         }
         return $results;
+    }
+
+    public function getNAdoptedAnimals(): array{
+        $counts = [
+            'Cane' => 0,
+            'Gatto' => 0
+        ];
+
+        $query = "SELECT A.Tipo, COUNT(*) AS totale
+                FROM RICHIESTE_ADOZIONI R
+                JOIN ANIMALI A ON R.IDanimale = A.IDanimale
+                WHERE R.Stato = 'Accettata'
+                GROUP BY A.Tipo";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt) {
+            mysqli_stmt_execute($stmt);
+            $res = mysqli_stmt_get_result($stmt);
+
+            while ($row = mysqli_fetch_assoc($res)) {
+                if (isset($counts[$row['Tipo']])) {
+                    $counts[$row['Tipo']] = $row['totale'];
+                }
+            }
+            mysqli_stmt_close($stmt);
+        }
+
+        return $counts;
     }
 
     public function assignAdminToSegnalazione(int $idSegnalazione, string $emailAdmin): bool {

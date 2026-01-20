@@ -1,6 +1,12 @@
 <?php
 
+include './src/utils.php';
+include './src/DBconnection.php';
 use DB\DBAccess;
+
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 session_start();
 
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo controlla se esiste la variabile admin in session, la seconda controlla che sia affettivamente admin
@@ -9,17 +15,13 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo cont
 }
 
 
-    include './src/utils.php';
-    include './src/DBconnection.php';
     
 
     
-
-    
-    function renderAnimalContent(string $tipo, array $animaliAdottati, string $NSegnalazioniByType): string {
+    function renderAnimalContent(string $tipo, array $animaliAdottati, string $NAdoptedAnimal): string {
         $tipoMinuscoloPlurale = ($tipo === 'Cane') ? 'cani' : 'gatti'; //fa un po caca ma va bene per ora
-        
-        if (($NSegnalazioniByType ?? 0) == 0) {
+
+        if (($NAdoptedAnimal ?? 0) == 0) {
             return '<p role="status" class="nessun-risultato-message">Nessun ' . $tipoMinuscoloPlurale . ' adottato.</p>';
         }
 
@@ -51,7 +53,7 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo cont
                         <td data-title="Nome">' . htmlspecialchars($animaleAdottato['nome_animale']) . '</td>
                         <td data-title="Adottante">' . htmlspecialchars($nome_cognome_adottante) . '</td>
                         <td data-title="Email adottante">' . htmlspecialchars($animaleAdottato['email_adottante']) . '</td>
-                        <td data-title="Chiusura adozione"> <time datetime="' . htmlspecialchars($animaleAdottato['data_fine_valutazione']) . '">' . htmlspecialchars(date('d/m/Y', strtotime($animaleAdottato['data_chiusura']))) . '</time></td>
+                        <td data-title="Chiusura adozione"> <time datetime="' . htmlspecialchars($animaleAdottato['data_chiusura']) . '">' . htmlspecialchars(date('d/m/Y', strtotime($animaleAdottato['data_chiusura']))) . '</time></td>
                         <td data-title="Admin">' . htmlspecialchars($nome_cognome_admin) . '</td>
                         <td class="col-dettagli"><a href="richieste-adozione?email=' . htmlspecialchars($animaleAdottato['email_adottante']) . '&id-animale=' . htmlspecialchars($animaleAdottato['id_animale']) . '" class="brown-button">Dettagli richiesta</a></td>';
                     $html .='</tr>';
@@ -69,8 +71,8 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo cont
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="6">Totale ' . $tipoMinuscoloPlurale . ' senza admin</td>
-                    <td>' . htmlspecialchars($NSegnalazioniByType) . '</td>
+                    <td colspan="6">Totale ' . $tipoMinuscoloPlurale . ' adottati</td>
+                    <td>' . htmlspecialchars($NAdoptedAnimal) . '</td>
                 </tr>
             </tfoot>
         </table>';
@@ -90,9 +92,9 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo cont
     $connessione = new DBAccess();
     $filtroCorrente = (isset($_GET['assegnate']) && $_GET['assegnate'] !== '') ? $_GET['assegnate'] : 'tutte';
     $connessioneOK = $connessione->openDBConnection();
-    $NSegnalazioniByType = ['Cane' => 0, 'Gatto' => 0];
+    $NAdoptedAnimals = ['Cane' => 0, 'Gatto' => 0];
     if ($connessioneOK) {
-        $NSegnalazioniByType = $connessione->getNSegnalazioni($_SESSION['email']); 
+        $NAdoptedAnimals = $connessione->getNAdoptedAnimals(); 
 
         $offCani = ($tipoAttivo === 'Cani') ? $offset : 0;
         $offGatti = ($tipoAttivo === 'Gatti') ? $offset : 0;
@@ -107,8 +109,8 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo cont
         $connessione->closeConnection();
     }
 
-    $pagineCani = (int)ceil($NSegnalazioniByType['Cane'] / $perPagina);
-    $pagineGatti = (int)ceil($NSegnalazioniByType['Gatto'] / $perPagina);
+    $pagineCani = (int)ceil($NAdoptedAnimals['Cane'] / $perPagina);
+    $pagineGatti = (int)ceil($NAdoptedAnimals['Gatto'] / $perPagina);
 
     $linkCani = buildPagination(
         ($tipoAttivo === 'Cani' ? $paginaCorrente : 1), 
@@ -123,8 +125,8 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo cont
     );
     $linkAttivi = ($tipoAttivo === 'Gatti') ? $linkGatti : $linkCani;
 
-    $cani_content = renderAnimalContent('Cane',$animaliSegnalati['Cane'], $NSegnalazioniByType['Cane'], $nome_admin);
-    $gatti_content = renderAnimalContent('Gatto',$animaliSegnalati['Gatto'],$NSegnalazioniByType['Gatto'], $nome_admin);
+    $cani_content = renderAnimalContent('Cane',$animaliAdottati['Cane'], $NAdoptedAnimals['Cane']);
+    $gatti_content = renderAnimalContent('Gatto',$animaliAdottati['Gatto'],$NAdoptedAnimals['Gatto']);
 
 
     $paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore: template layout.html non trovato o non leggibile.</p>');
@@ -135,8 +137,8 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo cont
     $main = str_replace('[tabs-animali]', renderCaniGattiTabs(), $main);
     $main = str_replace('[contenuto-cani]', $cani_content, $main);
     $main = str_replace('[contenuto-gatti]', $gatti_content, $main);
-    $main = str_replace('[n-cani]', $NSegnalazioniByType['Cane'], $main);
-    $main = str_replace('[n-gatti]', $NSegnalazioniByType['Gatto'], $main);
+    $main = str_replace('[n-cani]', $NAdoptedAnimals['Cane'], $main);
+    $main = str_replace('[n-gatti]', $NAdoptedAnimals['Gatto'], $main);
 
     $main = str_replace('[LINKPAGINE-CANI]', $linkCani, $main);
     $main = str_replace('[LINKPAGINE-GATTI]', $linkGatti, $main);
@@ -146,9 +148,9 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo cont
     ];
 
     $replaceFilters = [
-        '[ASSEGNATE_SELECTED_TUTTI]'   => $rawFilters['assegnate'] === 'tutte' ? 'selected' : '',
+        '[ASSEGNATE_SELECTED_TUTTE]'   => $rawFilters['assegnate'] === 'tutte' ? 'selected' : '',
         '[ASSEGNATE_SELECTED_MIE]'     => $rawFilters['assegnate'] === 'mie' ? 'selected' : '',
-        '[ASSEGNATE_SELECTED_NESSUNO]' => $rawFilters['assegnate'] === 'nessuno' ? 'selected' : '',
+        '[ASSEGNATE_SELECTED_NON_MIE]' => $rawFilters['assegnate'] === 'non-mie' ? 'selected' : '',
     ];
 
     $main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);
