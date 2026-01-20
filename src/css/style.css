@@ -878,8 +878,9 @@ footer .container + div a:visited{
 
 #copyright{
     text-align: center;
-    font-weight: 400;
+    /* font-weight: 400; */
     padding:1em;
+    display: block;
     /* sono 12px, il minimo per l'accessibilità */
     font-size: 0.85rem; 
     color: var(--darkbgcolor);
