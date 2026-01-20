@@ -321,10 +321,13 @@ if ($connessione->openDBConnection()) {
     $animali = $connessione->getAnimalsFilteredPaged($type, $filters, $perPagina, $offset);
     $userEmail = $_SESSION['email'] ?? null;
 $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail) : '<p class="errore">Non abbiamo ancora animali disponibili.</p>';
-
-    $linkPagine = buildPagination($pagina, $pagineTotali, $type, $filters);
+    if($filters) {
+    $params= array_merge(['tipo' => $type], $filters);
+    } else {
+        $params=$type;
+    }
+    $linkPagine = buildPagination($pagina, $pagineTotali, $params);
     $connessione->closeConnection();
-}
 }
 
 /* ------------------ TEMPLATE ------------------ */

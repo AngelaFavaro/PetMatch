@@ -6,6 +6,12 @@
     - funzione che crea il footer (ossia da modificare solo la parte del link circolare alla home se l'utente è già in quella pagina)
 */
 
+if (isset($_GET['email']) && isset($_POST['view-profile'])){
+    $richiesteAdozioneHref = './richieste-adozione?email='.urlencode($_GET['email']).'&id-animale='.urlencode($_POST['id-animale']);
+}else{
+    $richiesteAdozioneHref = './richieste-adozione';
+}
+
 /* Definizione delle pagine esistenti PER LA BREADCRUMB, aggiungerne altre quando possibile*/
 $pagine = [
     'home' => [
@@ -25,7 +31,7 @@ $pagine = [
     ],
     'dettagli-richiesta' => [
         'label' => 'Dettagli richiesta',
-        'url' => './dettagli-richiesta',
+        'url' => $richiesteAdozioneHref,
         'parent' => 'richieste-adozione'
     ],
     'nuovo-animale' => [
@@ -73,10 +79,20 @@ $pagine = [
         'url' => './senza-amministratore',
         'parent' => 'animali'
     ],
+    'eventi' => [
+        'label' => 'Eventi',
+        'url' => './eventi',
+        'parent' => 'home'
+    ],
     'nuove-accoglienze' => [
         'label' => 'Nuove accoglienze',
         'url' => './nuove-accoglienze',
         'parent' => 'animali'
+    ],
+    'profilo-richiedente' => [
+        'label' => 'Profilo richiedente',
+        'url' => './profilo-richiedente',
+        'parent' => 'dettagli-richiesta'
     ],
 ];
 
@@ -188,12 +204,12 @@ function buildUserNav(array $items, string $currentHref, bool $isLogged): string
     
     '<div' . $logoAttributes . '>
         <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
-        <span id="name-site">Pet<span id="not-bold">Match</span></span>
+        <span id="name-site">Pet<span class="not-bold">Match</span></span>
     </div>' :
     
     '<a href="' . $homeHref . '"' . $logoAttributes . '>
         <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
-        <span id="name-site">Pet<span id="not-bold">Match</span></span>
+        <span id="name-site">Pet<span class="not-bold">Match</span></span>
     </a>';
     
     $navForm = false;
@@ -262,7 +278,13 @@ function buildUserNav(array $items, string $currentHref, bool $isLogged): string
                             </li>
                             
                             <li>';
-                                $html.= ($currentHref==='./profilo-utente')?'<p class="white-button" href="./accedi" id="currentLink">':'<a class="white-button" href="./accedi">';
+                                if($currentHref==='./profilo-utente'){
+                                    $html.= '<p class="white-button" href="./accedi" id="currentLink">';
+                                }else if($isLogged){
+                                    $html.= '<a class="white-button" href="./profilo-utente">';
+                                }else{
+                                    $html.= '<a class="white-button" href="./accedi">';
+                                }
                                 
                                 $html .= $isLogged ? '<span id="text-accedi">Profilo</span>' : '<span id="text-accedi">Accedi</span>';
                                 
@@ -290,7 +312,7 @@ function buildUserNav(array $items, string $currentHref, bool $isLogged): string
                     <h1>
                         <a href="./home">
                             <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
-                            <span id="name-site">Pet<span id="not-bold">Match</span></span>
+                            <span id="name-site">Pet<span class="not-bold">Match</span></span>
                         </a>
                     </h1>
                 </nav>
@@ -305,16 +327,16 @@ function buildUserNav(array $items, string $currentHref, bool $isLogged): string
 function buildFooter(array $menuGroups, string $currentHref): string {
 
     $homeHref = './home';
-    $logoAttributes = ($currentHref === $homeHref)? ' id="currentLink"' : '';
+    $logoAttributes = ($currentHref === $homeHref)? ' id="currentLinkFooter"' : '';
     $isLogoActive =  ($currentHref === $homeHref)?   
     '<div' . $logoAttributes . '>
-        <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
-        <span id="name-site">Pet<span id="not-bold">Match</span></span>
+        <img src="./assets/icons/logo.svg" id="logo-footer" alt="PetMatch Home">
+        <span id="name-site-footer">Pet<span class="not-bold">Match</span></span>
     </div>' :
     
     '<div><a href="' . $homeHref . '"' . $logoAttributes . '>
-        <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
-        <span id="name-site">Pet<span id="not-bold">Match</span></span>
+        <img src="./assets/icons/logo.svg" id="logo-footer" alt="PetMatch Home">
+        <span id="name-site-footer">Pet<span class="not-bold">Match</span></span>
     </a></div>';
 
     $html = '
@@ -340,7 +362,7 @@ function buildFooter(array $menuGroups, string $currentHref): string {
 
                     foreach ($items as $item) {
                         $pathItem = strtok($item['href'], '#');
-                        $active = ($pathItem === $currentHref) ? ' class="currentLink"' : '';
+                        $active = ($pathItem === $currentHref) ? ' class="currentLinkFooter"' : '';
                         $linkHref = ($pathItem=== $currentHref) ? '<li'.$active.' aria-label="pagina attuale:'.$item['text'].'">'.$item['text'].'</li>' : '<li'.$active.'><a href="'.$item['href'].'">'.$item['text'].'</a></li>';
                         
                         $html .= $linkHref;
@@ -551,10 +573,22 @@ function saveGuestFavorites(array $ids): void {
 
 
 
-function buildPagination(int $currentPage, int $totalPages, string $tipoAttivo, array $filters = []): string {
-    if ($totalPages <= 1) return '<li class="currentPage">1</li>';
+function buildPagination(int $currentPage, int $totalPages, array|string $params = []): string {
+    // NORMALIZZA FILTRI
+    if (is_string($params) && $params !== '') {
+        // stringa semplice → tipo
+        $params = ['tipo' => $params];
+    }
 
-    $params = array_merge(['tipo' => $tipoAttivo], $filters);
+    if (!is_array($params)) {
+        $params = [];
+    }
+
+// rimuove valori vuoti
+    // $params = array_filter($params, fn($v) => $v !== '');
+
+
+    if ($totalPages <= 1) return '<li class="currentLinkPagination">1</li>';
     unset($params['page']);
 
     $html = '';
@@ -574,7 +608,7 @@ function buildPagination(int $currentPage, int $totalPages, string $tipoAttivo, 
 
     for ($i = $start; $i <= $end; $i++) {
         if ($i === $currentPage) {
-            $html .= '<li class="currentPage" aria-label="pagina attuale">'.$i.'</li>';
+            $html .= '<li class="currentLinkPagination" aria-label="pagina attuale">'.$i.'</li>';
         } else {
             $params['page'] = $i;
             $html .= '<li><a href="?' . http_build_query($params) . '" aria-label="vai alla pagina '.$i.'">'.$i.'</a></li>';

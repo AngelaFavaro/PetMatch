@@ -309,3 +309,30 @@ details[open] .number::after {
 #contatto-sostenitore {
     margin-bottom:0em;
 }
+
+/*                      PAGINA EVENTI                 */
+#eventi .filtri {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    /* flex-direction: column; */
+}
+
+#eventi .filtri ul {
+    display: contents;
+    /* flex-wrap: nowrap; */
+}
+
+#eventi .filtri .orange-button {
+    text-align: center;
+}
+
+#eventi .filtri #content-filter-button {
+    display: flex;
+    flex-grow: 1;
+    margin: 0.5em;
+}
+/* ==================PROFILO RICHIEDENTE==================*/
+#profilo-richiedente #visualizza-richiedente{
+    margin-bottom: 4em;
+}

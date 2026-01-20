@@ -3,8 +3,6 @@ include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
 
-// $_SESSION['email'] = 'angelacanazza2005@gmail.com';
-
 //se non sono loggato rimando alla pagina di login
 if (!isset($_SESSION['email'])) {
     header("Location: ./accedi");

@@ -38,6 +38,9 @@ $routes = [
     'senza-amministratore' => [
         'file' => __DIR__ . '/src/php/admin/senza-amministratore.php'
     ],
+    'eventi' => [
+        'file' => __DIR__ . '/src/php/eventi.php'
+    ],
     'nuove-accoglienze' => [
         'file' => __DIR__ . '/src/php/admin/nuove-accoglienze.php'
     ],
@@ -52,6 +55,9 @@ $routes = [
     ],
     'nuovo-animale' => [
         'file' => __DIR__ . '/src/php/admin/nuovo-animale.php'
+    ],
+    'profilo-richiedente' => [
+        'file' => __DIR__ . '/src/php/admin/profilo-richiedente.php'
     ]
 ];
     /* decommentare quando si vogliono aggiungere le altre pagine
