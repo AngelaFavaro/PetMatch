@@ -191,7 +191,7 @@ $title = '<title>Home - PetMatch </title>';
 $description = '<meta name="description" content="Home di PetMatch">';
 $keywords = "";
 
-$nav = buildUserNav($userMenu, './home', $_SESSION['email'] ?? false);
+$nav = buildNav($userMenu, './home');
 
 $footer = buildFooter($footerMenu,  './home');
 

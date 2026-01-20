@@ -12,7 +12,7 @@ $keywords = "";
 
 $breadcrumb = getBreadcrumb('lavora-con-noi', $pagine);
 
-$nav = buildUserNav($userMenu, './lavora-con-noi', $_SESSION['email'] ?? false);
+$nav = buildNav($userMenu, './lavora-con-noi');
 
 $main = file_get_contents('./src/template/main/lavora-con-noi.html');
 

@@ -18,6 +18,16 @@
     transition: opacity 0.3s;
 }
 
+#header-actions .white-button img#account-hover-currentLink{
+    opacity: 1;
+    position: absolute;
+    top: 0; left: 0;
+}   
+
+#header-actions #currentLink.white-button{
+    outline: none;
+}
+
 #account-normal{
     position: absolute;
     top: 0; left: 0;
