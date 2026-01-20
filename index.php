@@ -58,6 +58,9 @@ $routes = [
     ],
     'profilo-richiedente' => [
         'file' => __DIR__ . '/src/php/admin/profilo-richiedente.php'
+    ],
+    'adottati' => [
+        'file' => __DIR__ . '/src/php/admin/adottati.php'
     ]
 ];
     /* decommentare quando si vogliono aggiungere le altre pagine

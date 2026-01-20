@@ -94,6 +94,11 @@ $pagine = [
         'url' => './profilo-richiedente',
         'parent' => 'dettagli-richiesta'
     ],
+    'adottati' => [
+        'label' => 'Adottati',
+        'url' => './adottati',
+        'parent' => 'animali'
+    ],
 ];
 
 $adminMenu = [
@@ -397,9 +402,9 @@ function buildFooter(array $menuGroups, string $currentHref): string {
             </ul>
         </div>
         '.$isLogoActive.'
-        <p id="copyright" tabindex="-1">
+        <small id="copyright" tabindex="-1">
             &copy; 2025 PetMatch. Diritti e illustrazioni riservate, giù le zampe!
-        </p>
+        </small>
     </footer>';
 
     return $html;

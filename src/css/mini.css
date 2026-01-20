@@ -463,6 +463,11 @@ nav#breadcrumb {
     margin: 1em auto;
 }
 
+#richieste .capsula-filtro select{
+    padding-right: 1em;
+    background-position: right 0em center; /* Destra, un po' staccata dal bordo, centrata verticale */
+}
+
 /* ================== PROFILO RICHIEDENTE ==================*/
 #profilo-richiedente{
     padding: 0 1em;

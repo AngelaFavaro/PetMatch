@@ -21,6 +21,7 @@
     --placeholderDarker-text:#5e4232;
     --placeholder-text:#825E49;
     --darkbgcolor: #E4D4BA;
+    --borderTable: #cfbfa5;
     --bglink-hover: var(--darkbgcolor);
     --bgform: #6D7541;
     --errortxt: #BA3A24;
@@ -152,7 +153,7 @@ button.orange-button{
     width: fit-content;
     padding: 0.7em 1.5em;
     border-radius: 1.5em;
-    font-weight: 600;
+    font-weight: 500;
     letter-spacing: 0px;
     text-decoration: none;
     transition: background-color 0.6s ease;
@@ -262,6 +263,22 @@ button.brown-button{
 .torna-su-button:hover .static{
     background-color: (var(--buttoncolor));
     color:var(--linkcolor);
+}
+
+button,
+select{
+    font-family: "Parkinsans", Roboto, sans-serif;
+    font-size: 1em;
+}
+
+select{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-repeat: no-repeat;
+    background-position: right 1em center; /* Destra, un po' staccata dal bordo, centrata verticale */
+    background-size: 2em; /* Grandezza della freccia */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%481515" d="M7 10l5 5 5-5z"/></svg>');
 }
 
 /*==================WIDGET UTILI==================*/
@@ -883,8 +900,9 @@ footer .container + div a:visited{
 
 #copyright{
     text-align: center;
-    font-weight: 400;
+    /* font-weight: 400; */
     padding:1em;
+    display: block;
     /* sono 12px, il minimo per l'accessibilità */
     font-size: 0.85rem; 
     color: var(--darkbgcolor);
@@ -1682,7 +1700,7 @@ input:-webkit-autofill:active{
     border-radius: 1em;
     font-weight: 400;
     text-align: center;
-    height: 2.8em;              /* altezza uniforme */
+    height: 2.9em;              /* altezza uniforme */
     box-sizing: border-box;
     border: 1px solid var(--text-buttoncolor);
     max-width: fit-content;
@@ -1773,7 +1791,6 @@ input:-webkit-autofill:active{
     box-sizing: border-box;
     min-width: 3em;             /* larghezza minima uniforme */
     color:var(--text-buttoncolor);    
-    margin:5px;
 }
 
 #animali .filtri .capsula-filtro input
@@ -1784,6 +1801,7 @@ input:-webkit-autofill:active{
 #animali .filtri .capsula-filtro select,
 .tab-content .filtri .capsula-filtro select{
     border:1px solid var(--bgcolor);
+    
 } 
 
 #animali .filtri .capsula-filtro select:hover,
@@ -2566,7 +2584,7 @@ flex: 1 0 100%;
     color:var(--bgcolor);
     padding: 3px 2em;
     transition: 0.3s;
-    font-weight: normal;
+    font-weight: 500;
 }
 
 #user-profile #lista-movimenti li p+p,
@@ -3347,11 +3365,11 @@ a.pencil {
     height: 9em;
     object-fit: cover;
     clip-path: circle(50%);
-    margin-bottom: 2em;
     pointer-events: none;
     margin-left: 1.5em;
     display: flex;
     background-color: var(--bglink-hover);
+    margin-bottom: 1em;
 }
 
 .square-foto {
@@ -3362,7 +3380,7 @@ a.pencil {
 }
 
 .text-details{
-    margin: auto 2em;
+    margin: auto 0;
     max-width: 100%;
     min-width: 50%;
 }
@@ -3373,6 +3391,13 @@ a.pencil {
 }
 .header-info, .generic-info-container{
     margin-bottom: 1em;
+}
+#admin-area #animale-richiesta .text-details{
+    padding-left: 2em;
+}
+
+#admin-area #richieste select{
+    background-position: right 0em center; /* Destra, un po' staccata dal bordo, centrata verticale */
 }
 
 
@@ -3400,11 +3425,11 @@ a.pencil {
     margin: 0.5em;
 }
 .tab-content#Richiedente .brown-button{
-    margin: 0em 0em 0em auto;
+    margin: 0.5em 0em 0em auto;
 }
 
 #animale-richiesta .brown-button{
-    margin: 0em auto 2em 0em;
+    margin: 0em auto 1em 0em;
 }
 #admin-area .tabs-container h2{
     font-size: 1.1em;
@@ -3451,6 +3476,7 @@ div#admin-area #details-container article{
     flex: 1 1 200px;
     gap: 1em;
     margin: 0em;
+    padding:2em;
     border-radius: 0em;
     border-top: none;
 }
@@ -3472,7 +3498,8 @@ div#admin-area #details-container article#animale-richiesta{
     margin: 2em 0em;
 }
 
-.tabs-container {
+
+#admin-area .tabs-container {
     flex: 2 1 300px;
 }
 
@@ -3641,7 +3668,7 @@ td.col-dettagli a,td.col-dettagli button{
     margin: 0.5em;
 }
 
-.nessuna-richiesta-message{
+.nessun-risultato-message{
     margin:1.2em auto;
     width: 100%;
     text-align: center;

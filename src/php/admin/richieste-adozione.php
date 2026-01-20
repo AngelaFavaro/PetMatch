@@ -103,7 +103,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     }
     function renderNuoveContent(DBAccess $conn, array $NRequestsByStatus): string {
         if($NRequestsByStatus['Nuova'] == 0){
-            return '<p class="nessuna-richiesta-message">Non ci sono nuove richieste di adozione.</p>';
+            return '<p class="nessun-risultato-message">Non ci sono nuove richieste di adozione.</p>';
         }else{
             $html = '
             <span id="sumTabellaNuove" class="navigationHelp">In questa tabella vengono elencate le nuove richieste di adozione e i loro dettagli: email utente, nome animale e data di richiesta.</span>
@@ -144,7 +144,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
 
     function renderInValutazioneContent(DBAccess $conn,array $NRequestsByStatus){
         if($NRequestsByStatus['In valutazione'] == 0){
-            return '<p class="nessuna-richiesta-message">Non ci sono richieste di adozione in valutazione.</p>';
+            return '<p class="nessun-risultato-message">Non ci sono richieste di adozione in valutazione.</p>';
         }else{
             $html = '
             <span id="sumTabellaInValutazione" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione in valutazione e i loro dettagli: email utente, nome animale, data di inizio valutazione e presenza di appunti.</span>
@@ -180,7 +180,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
             }else{
                 $html .= '
                     <tr>
-                        <td colspan="5" class="nessuna-richiesta-message" >Nessuna richiesta trovata con i filtri selezionati.</td>
+                        <td colspan="5" class="nessun-risultato-message" >Nessuna richiesta trovata con i filtri selezionati.</td>
                     </tr>
                 ';
             }
@@ -199,7 +199,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
 
     function renderDaTrasportareContent(DBAccess $conn,array $NRequestsByStatus){
         if($NRequestsByStatus['Da trasportare'] == 0){
-            return '<p class="nessuna-richiesta-message">Non ci sono richieste di adozione da trasportare.</p>';
+            return '<p class="nessun-risultato-message">Non ci sono richieste di adozione da trasportare.</p>';
         }else{
             $html = '
             <span id="sumTabellaDaTrasportare" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione da trasportare e i loro dettagli: email utente, nome animale, data di fine valutazione.</span>
@@ -231,7 +231,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
             }else{
                 $html .= '
                     <tr>
-                        <td colspan="5" class="nessuna-richiesta-message">Nessuna richiesta trovata con i filtri selezionati.</td>
+                        <td colspan="5" class="nessun-risultato-message">Nessuna richiesta trovata con i filtri selezionati.</td>
                     </tr>
                 ';
             }
@@ -250,7 +250,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
 
     function renderAnnullateContent(DBAccess $conn,array $NRequestsByStatus){
         if($NRequestsByStatus['Annullata'] == 0){
-            return '<p class="nessuna-richiesta-message">Non ci sono richieste di adozione annullate.</p>';
+            return '<p class="nessun-risultato-message">Non ci sono richieste di adozione annullate.</p>';
         }else{
             $html = '
             <span id="sumTabellaAnnullate" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione annullate e i loro dettagli: email utente, nome animale e data di annullamento.</span>
@@ -294,7 +294,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     //ora per le respinte, che hanno solo nome animale e email richiedente
     function renderRespinteContent(DBAccess $conn,array $NRequestsByStatus){
         if($NRequestsByStatus['Respinta'] == 0){
-            return '<p class="nessuna-richiesta-message">Non ci sono richieste di adozione respinte.</p>';
+            return '<p class="nessun-risultato-message">Non ci sono richieste di adozione respinte.</p>';
         }else{
             $html = '
             <span id="sumTabellaRespinte" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione respinte e i loro dettagli: email utente, nome animale e data di respinta.</span>
