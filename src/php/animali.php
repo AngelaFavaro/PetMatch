@@ -247,8 +247,12 @@ function buildAnimalCards(array $animali, ?string $email): string {
                             <button type='submit'
                                     class='$classePreferito'
                                     aria-label='$statusPreferiti'>
-                                <img class='heart-normal' src='./assets/icons/$heartNormal' alt=''>
-                                <img class='heart-hover' src='./assets/icons/$heartHover' alt=''>
+                                <img class='heart-normal' src='./assets/icons/$heartNormal' alt=''>";
+            if(!$inPreferiti) {
+                $html.="
+                                <img class='heart-hover' src='./assets/icons/$heartHover' alt=''>";
+            }
+            $html.="
                             </button>
                         </form>
                     </div>
