@@ -2126,7 +2126,7 @@ input:-webkit-autofill:active{
     min-width: 5em;
 }
 
-#eventi #cancel-filter-visible {
+#eventi #cancel-filter-visible, #animali #cancel-filter-visible {
     height:auto;
     padding:0.5em;
 }
