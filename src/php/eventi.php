@@ -114,7 +114,7 @@ if ($connessione->openDBConnection()) {
 
 $pagineTotali = max(1, ceil($totale / $perPagina));
 
-$eventiCards= $eventi ? buildEventsCards($eventi) : "<p class='errore'>Per ora non ci sono eventi in programma. Ritorna tra qualche giorno a controllare $totale</p>";
+$eventiCards= $eventi ? buildEventsCards($eventi) : "<p class='errore'>Per ora non ci sono eventi in programma. Ritorna tra qualche giorno a controllare</p>";
 $linkPagine=buildPagination($pagina, $pagineTotali, $filtersPerTitle);
 
 

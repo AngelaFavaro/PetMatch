@@ -1775,7 +1775,7 @@ input:-webkit-autofill:active{
     flex: 1 1 100%;
 }
 
-#animali #content-filter-button button, #eventi #content-filter-button button{
+#animali #content-filter-button button{
     flex: 1 1 40%;
 }
 
@@ -2120,6 +2120,16 @@ input:-webkit-autofill:active{
 
 
 /*=================PAGINA EVENTI======================*/
+
+#eventi #content-filter-button button {
+    flex: 1 1 100%;
+    min-width: 5em;
+}
+
+#eventi #cancel-filter-visible {
+    height:auto;
+    padding:0.5em;
+}
 
 #eventi .filtri .capsula-filtro input {
     width: 30%;

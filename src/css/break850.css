@@ -346,6 +346,23 @@ details[open] .number::after {
     display: flex;
     flex-grow: 1;
     margin: 0.5em;
+    justify-content: center;
+}
+
+#eventi #content-filter-button button {
+    flex: 1 1 100%;
+    min-width: 5em;
+    max-width: 10em;
+}
+
+#eventi #cancel-filter-visible {
+    height:auto;
+    padding:0.5em;
+    max-width: 10em;
+}
+
+#eventi button.orange-button {
+    margin: 0;
 }
 /* ==================PROFILO RICHIEDENTE==================*/
 #profilo-richiedente #visualizza-richiedente{
