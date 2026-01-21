@@ -286,6 +286,10 @@ details[open] .number::after {
     padding:0.8em 1.5em 0 0.5em;
     margin:0 0 0.5em 0;
     font-size: 1em;
+    max-width: 6em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #animali .card .sesso-etaMob, #animali .dark-card .sesso-etaMob{

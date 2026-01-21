@@ -17,7 +17,8 @@ function buildEventsCards($events): string {
             $img = 'assets/images/animals/defaultCane.jpg';
         }
         $citta=$e['citta'];
-        $data=$e['data_evento'];
+        $data=formattaDataItaliana($e['data_evento']);
+        $dataAbbr=date("d/m/Y", strtotime($e['data_evento']));
         $titolo=$e['titolo'];
         $descrEvento=$e['descrizione'];
         $html .= "<li>
@@ -43,7 +44,7 @@ function buildEventsCards($events): string {
                         </p>
 
                         <p class='posizione-data-abbr'>
-                            $citta, $data
+                            $citta, $dataAbbr
                         </p>
 
                         <!-- Descrizione dell'evento -->
