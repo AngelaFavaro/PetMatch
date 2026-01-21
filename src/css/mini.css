@@ -313,6 +313,19 @@ input:checked + #slider {
     padding:0.5em;
 }
 
+/* #animali #content-filter-button button {
+    width: 100%;
+    flex: 0 0 100%;
+} */
+
+#animali .filtri #searchSex.capsula-filtro {
+    max-width: 100%;
+}
+
+#animali .filtri .capsula-filtro {
+    height: 3em;
+}
+
 #animali .immagine {
     height: 50%;
     width: 100%;

@@ -208,20 +208,23 @@ details[open] .number::after {
 
 /* ==================ANIMALI==================*/
 
-#animali .filtri .capsula-filtro{
-    width: 100%;
-    max-width: none;
-    justify-content: left;
-}
 
 #animali .filtri #searchSex.capsula-filtro,
 #animali .filtri #searchSize.capsula-filtro{
     width: 49.4%;
 }
 
-#animali .filtri .capsula-filtro .eta-range{
-    margin:auto;
-    padding-right: 2em;
+#animali .filtri .orange-button {
+    width: 50%;
+    flex-grow: 1;
+    margin: 0;
+    /* max-width: 6em; */
+}
+
+#animali .filtri #content-filter-button {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
 }
 
 #animali .filtri #searchName.capsula-filtro {
@@ -229,13 +232,6 @@ details[open] .number::after {
 }
 
 #animali .filtri {
-    display: flex;
-    flex-direction: column;  /* mette tutto in colonna */
-    gap: 1em;              /* spazio tra righe */
-    align-items: center;     /* centra tutto orizzontalmente */
-}
-
-#animali .filtri ul {
     display: flex;
     flex-wrap: wrap;
     list-style: none;
@@ -245,6 +241,16 @@ details[open] .number::after {
     justify-content: flex-start; /* centra le capsule nella riga */
 }
 
+#animali .filtri ul {
+    display: contents;
+}
+
+#animali .filtri #searchEta.capsula-filtro  {
+    /* display:contents; */
+    max-width: 16em;
+    display:flex;
+}
+
 
 #cancel-filter-visible{
     border-radius: 1em;
@@ -252,19 +258,18 @@ details[open] .number::after {
     padding:6px 12px;
 }
 
-#animali #content-filter-button{
+/* #animali #content-filter-button{
     width: 100%;
     flex: 1 1 100%;
     gap:2%;
-}
+} */
 
 #animali #content-filter-button a{
     width: 100%;
 }
 
 #animali #content-filter-button button{
-    flex: 0 0 48%;
-    width: 100%;
+    flex: 1 1 100%;
 }
 
 #animali .is-favorite img,
