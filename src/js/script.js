@@ -132,8 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Recupera gli elementi
             const btn = form.querySelector('button');
-            const imgNormal = btn.querySelector('.heart-normal');
-            const imgHover = btn.querySelector('.heart-hover');
+            const imgNormal = btn.querySelector('#heart-normal');
+            const imgHover = btn.querySelector('#heart-hover');
             
             // Per accessibilità: recupera il nome dell'animale dalla card
             const cardContent = form.closest('.card-content');

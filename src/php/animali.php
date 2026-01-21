@@ -213,8 +213,8 @@ function buildAnimalCards(array $animali, ?string $email): string {
                         <form method='post' action='animali' class='preferiti-form'>
                             <input type='hidden' name='id-animale-preferito' value='$id'>
                             <button type='submit' class='$classePreferito' aria-label='$statusPreferiti'>
-                                <img class='heart-normal' src='./assets/icons/$heartNormal' alt=''>
-                                <img class='heart-hover' src='./assets/icons/$heartHover' alt=''>
+                                <img id='heart-normal' src='./assets/icons/$heartNormal' alt=''>
+                                <img id='heart-hover' src='./assets/icons/$heartHover' alt=''>
                             </button>
                         </form>
                     </div>

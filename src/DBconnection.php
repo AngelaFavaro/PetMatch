@@ -1255,26 +1255,64 @@ public function hasActiveAdoptionRequest(int $idAnimale): bool {
     return $exists;
 }
 
-public function getRequestStatus(string $email, int $idAnimale): array {
-    $sql ="
-    SELECT Stato
-    FROM RICHIESTE_ADOZIONI
-    WHERE Email = ? AND IDanimale = ?";
+public function getRequestStatus(string $email, int $idAnimale): ?string {
+    $sql = "
+        SELECT Stato
+        FROM RICHIESTE_ADOZIONI
+        WHERE Email = ? AND IDanimale = ?
+        LIMIT 1
+    ";
 
     $stmt = $this->connection->prepare($sql);
-    $stmt->bind_param('si',$email, $idAnimale);
+    $stmt->bind_param('si', $email, $idAnimale);
     $stmt->execute();
     $result = $stmt->get_result();
-    $richieste = [];
-    while ($row = mysqli_fetch_assoc($result)) {
-        $richieste[] = [
-            'stato'     => $row['Stato']
-        ];
+
+    $stato = null;
+    if ($row = $result->fetch_assoc()) {
+        $stato = $row['Stato'];
     }
+
     $stmt->close();
-    return $richieste;
+    return $stato;
 }
 
+    public function getAnimalDetails(int $idAnimale): ?array {
+        $sql = "
+            SELECT Nome, Sesso, DataNascita, ImgPath, Tipo, Colore, Pelo, Taglia, Razza,
+                   DescrFamiglia, DescrComportamentale, CondizioniMediche, Trasporto
+            FROM ANIMALI
+            WHERE IDanimale = ?
+            LIMIT 1
+        ";
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param('i', $idAnimale);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $animalDetails = null;
+        if ($row = $result->fetch_assoc()) {
+            $animalDetails = [
+                'nome' => $row['Nome'],
+                'sesso' => $row['Sesso'],
+                'eta' => calcolareEta($row['DataNascita']),
+                'imgPath' => $row['ImgPath'],
+                'tipo' => $row['Tipo'],
+                'colore' => $row['Colore'],
+                'pelo' => $row['Pelo'],
+                'taglia' => $row['Taglia'],
+                'razza' => $row['Razza'],
+                'descr_famiglia' => $row['DescrFamiglia'],
+                'descr_comportamentale' => $row['DescrComportamentale'],
+                'condizioni_mediche' => $row['CondizioniMediche'],
+                'trasporto' => (bool)$row['Trasporto']
+            ];
+        }
+
+        $stmt->close();
+        return $animalDetails;
+    }
 
 
 

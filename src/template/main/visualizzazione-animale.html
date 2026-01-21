@@ -1,28 +1,21 @@
-<div class="container">
-    <h1 id="titolo-dettagli-animale">Dettagli animale</h1>
+<div id="visualizzazione-animale" class="container">
     <div class="column-container">
-        <div id="dettagli-animale">
+        <h1 id="titolo-dettagli-animale">Dettagli animale</h1>
+        <a href="mailto:matchpet48@gmail.com" class="contattaci">Contatta il rifugio</a>
+    </div>
+    <div class="column-container">
+        <div class="dettagli-animale">
             <h2>Informazioni generiche</h2>
-            <div id="info-generiche">
-                [INFO-ANIMALE]
-                   <!--php compila tutte le informazioni, e mette l0immagine--> 
-                    <p><span class="tipo-info">Nome:</span> {{ animale.nome }}</p>
-                    <p><span class="tipo-info">Sesso:</span> {{ animale.sesso }}</p>
-                    <p><span class="tipo-info">Età:</span> {{ animale.eta}}</p>
-                    <p><span class="tipo-info">Razza:</span> {{ animale.razza }}</p>
-                    <p><span class="tipo-info">Pelo:</span> {{ animale.pelo }}</p>
-                    <p><span class="tipo-info">Taglia:</span> {{ animale.taglia }}</p>
-                    <p><span class="tipo-info">Colore:</span> {{ animale.colore}}</p>
+            <div id='info-generiche'>
+                [INTERESSAMENTO-ANIMALE]
+                <div class="info-animale">
+                    [INFOANIMALE1]
+                </div>
             </div>
         </div>
-        <div id="altre-info-animale">
+        <div class="dettagli-animale">
             <h2> Altre informazioni</h2>
-            <div id ="info-aggiuntive">
-                <p><span class="tipo-info">Può essere trasportato:</span> {{ animale.trasporto}}</p>
-                <p><span class="tipo-info">condizioni_mediche:</span> {{ animale.condizioni_mediche }}</p>
-                <p><span class="tipo-info">Descrizione carattere:</span> {{ animale.carattere }}</p>
-                <p><span class="tipo-info">Famiglia ideale:</span> {{ animale.famiglia_ideale }}</p>
-            </div>
+         [INFOANIMALE2]
         </div>
     </div>
 </div>

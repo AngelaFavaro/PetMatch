@@ -439,8 +439,7 @@ NOTA: modificare il flex se necessario annidando la classe dentro le proprie sez
 }
 
 /* ==================FOCUS================== */
-input:focus-visible + label,
-a:focus-visible,
+input[type="radio"]:focus-visible + label,a:focus-visible,
 button:focus-visible,
 input [type="checkbox"]:focus-visible {
     outline: 3px solid red;
@@ -1748,7 +1747,7 @@ input:-webkit-autofill:active{
 
 
 #animali .is-favorite,
-#animali .not-favorite{
+#animali .not-favorite, #visualizzazione-animale .is-favorite, #visualizzazione-animale .not-favorite {
     /* float:right; */
     /* margin-left: 50%; */
     position: relative;
@@ -1765,7 +1764,9 @@ input:-webkit-autofill:active{
 
 /* entrambe le immagini */
 #animali .is-favorite img,
-#animali .not-favorite img {
+#animali .not-favorite img,
+ #visualizzazione-animale .is-favorite img,
+#visualizzazione-animale .not-favorite img {
     position: absolute;
     top: 0;
     /* left: 0; */
@@ -1778,17 +1779,22 @@ input:-webkit-autofill:active{
 }
 
 /* stato iniziale */
-#animali .is-favorite .heart-hover,
-#animali .not-favorite .heart-hover {
+#animali .is-favorite #heart-hover,
+#animali .not-favorite #heart-hover,
+    #visualizzazione-animale .is-favorite #heart-hover,
+    #visualizzazione-animale .not-favorite #heart-hover 
+ {
     opacity: 0;
 }
 
 /* hover */
-#animali .not-favorite:hover .heart-hover {
+#animali .not-favorite:hover #heart-hover,
+    #visualizzazione-animale .not-favorite:hover #heart-hover {
     opacity: 1;
 }
 
-#animali .not-favorite:hover .heart-normal {
+#animali .not-favorite:hover #heart-normal,
+    #visualizzazione-animale .not-favorite:hover #heart-normal {
     opacity: 0;
 }
 
@@ -3139,16 +3145,80 @@ nav#breadcrumb a:visited{
 
 
 /*================VISUALIZZAZIONE ANIMALI ==================*/
+.contattaci{
+    background-color: var(--secondsection);
+    border-radius: 2em;
+    display: inline;
+    text-decoration: none;
+    text-align: center;
+    height: min-content;
+    padding: 0.6em;
+    margin-left: auto;
+    font-weight: 400;
+}
+
+.contattaci:hover {
+    background-color: var(--buttoncolor-hover);
+}
+
+
+@media (max-width: 550px) {
+
+    .contattaci {
+        margin-right: auto;
+        order: -1;       
+  }
+  #titolo-dettagli-animale{
+   align-self: center;
+}
+}
 
 #titolo-dettagli-animale{
     font-size: 1.8em;
     margin-bottom: 1em;
 }
+
+#interessamento-animale{
+    background-color: var(--darkbgcolor);
+    text-align: center;
+    /* font-weight: 600; */
+    padding: 0.6em;
+    border: 6em 6em;
+    width: 100%;
+    border-radius: 0.5em;
+    margin-bottom: 1em;
+
+}
+
+
 #info-generiche{
     border: 1px solid var(--txtcolor);
     border-radius: 0.5em;
     padding: 1em;
+
 }
+.info-animale{
+    gap: 1em;
+    justify-content:left;
+    display:flex;
+}
+/*  
+.dettagli-animale{
+    display: flex;
+    margin-top: 1em;
+} */
+#foto-animale{
+    max-height: 15em;  
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    
+}
+#info-generiche-testo{
+        flex: 1 1 45%;
+        min-width: 10em;
+}
+
 
 #info-aggiuntive{
     border: 1px solid var(--txtcolor);
@@ -3157,22 +3227,22 @@ nav#breadcrumb a:visited{
 
 }
 
-#dettagli-animale .tipo-info {
+
+.dettagli-animale dt {
+    float: left;
     font-weight: 600;
 }
-#dettagli-animale h2{
+
+.dettagli-animale dt::after{
+    content: ":\00a0";
+}
+.dettagli-animale h2{
     font-size:1.5em;
     margin-bottom: 0.5em;
 }
 
-#altre-info-animale .tipo-info {
-    font-weight: 600;
-}
-#altre-info-animale h2{
-    font-size:1.5em;
-    margin-bottom: 0.5em;
-}
 
+/* SEZIONE FINALE IN CASO DI NO ACCESSO */
 #contatta-rifugio{
     background-color: var(--darkbgcolor);
     padding: 1.5em;
@@ -3183,11 +3253,162 @@ nav#breadcrumb a:visited{
     font-weight: 400;
 }
 
-#richiesta-adozione-img{
-    flex: 0 0 50%;
-    height: auto;
+
+/* SEZIONE FORM RICHIESTA ADOZIONE */
+#richiesta-adozione {
+    background-color: var(--bgform);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:3.5em;
+    margin-top: 2.5em;
+    background-image: url('../../assets/images/bg-pow.svg');
+    background-repeat: repeat;
+    background-size: contain;
+
 }
 
-#richiesta-adozione-form{
-    flex: 1 1 50%;
+#richiesta-adozione .column-container {
+    background-color: var(--bgcolor);
+    max-width: 70em;
+    width: 100%;
+    display: flex;
+    gap: 2em;
+    padding: 1.5em 2em; 
+    border-radius: 0.9em; 
+    
+    
 }
+
+#richiesta-adozione .column-user {
+    display: flex;
+    align-items: center;
+}
+
+#richiesta-adozione-img {
+    width: 100%;
+}
+
+
+#richiesta-adozione form {
+    min-width: 0;
+    
+}
+
+
+#richiesta-adozione fieldset {
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em; 
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+
+}
+
+#richiesta-adozione legend{
+    font-weight: 600;
+    font-size: 1.3em;
+    font-weight: 500;
+    text-align: center;
+    width: 100%;
+    padding-top: 0em;
+}
+
+#richiesta-adozione label {
+    padding-top: 1em;
+    font-weight: 400;
+
+ } 
+
+
+
+#richiesta-adozione input[type="text"]{
+    padding: 0.5em;
+    border-radius: 2.1em;
+    border: 0.1em solid #776B6B; 
+    resize: vertical;
+    background-color: var(--bgcolor);
+    font-family: inherit;
+
+}
+
+#richiesta-adozione textarea {
+    padding: 0.5em;
+    border-radius: 0.5em;
+    border: 0.1em solid #776B6B; 
+    background-color: var(--bgcolor);
+    resize: vertical;
+    font-family: inherit;
+    width: 100%;
+    display: block;
+
+
+}
+
+#richiesta-adozione .checkbox-group {
+    display: flex;
+    flex-wrap: nowrap;
+
+    gap: 0.5em; 
+    padding-top: 1em;
+}
+
+    
+
+#richiesta-adozione .checkbox-group label {
+    display: flex;
+    flex:1 1 90%;
+    flex-direction: column;
+    padding-top: 0;
+    cursor: pointer;}
+
+    #richiesta-adozione .checkbox-description {
+    color: #666666;
+    line-height: 1.4;
+    margin-top: 0.1em;
+}
+
+
+#richiesta-adozione input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background-color: transparent;    
+    border: 1px solid var(--txtcolor);     
+    border-radius: 4px;         
+    cursor: pointer;
+    margin: 0;     
+    position: relative;
+
+}
+
+#richiesta-adozione input[type="checkbox"]:checked {
+    background-color: var(--buttoncolor);   
+    border-color: var(--buttoncolor);  
+}
+
+#richiesta-adozione input[type="checkbox"]::before {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    top:4px;
+    left:4px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    transform: scale(0);
+    transition: 0.2s transform ease-in-out;
+}
+
+#richiesta-adozione input[type="checkbox"]:checked::before {
+    transform: scale(1);        
+}
+
+#richiesta-adozione .orange-button {
+    width: 100%;
+}
+

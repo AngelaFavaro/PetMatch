@@ -1,22 +1,53 @@
 <div id="richiesta-adozione">
     <div class="column-container">
-        <img id="richiesta-adozione-img" src="./assets/images/adozione.jpg" alt=""/>
-        <form id="richiesta-adozione-form" method="POST" action="#"> 
-            <fieldset>
-                <legend id="richiesta-adozione-legend">
-                    Invia una richiesta di adozione!
-                </legend>
-                <label for="indirizzo">Indirizzo</label>
-                <input type="text" id="indirizzo" name="indirizzo" placeholder="Via L. Da Vinci n.10" required>
-                <label for="lettera-presentazione">Scrivi una breve lettera di presentazione:</label>
-                <textarea id="lettera-presentazione" name="lettera-presentazione" rows="4" cols="50" placeholder="Inserisci presentazione" required></textarea>
-                <div class="checkbox-group">
-                    <input type="checkbox" id="trasporto" name="trasporto" value="1">
-                    <label for="trasporto">Voglio il trasporto dell’animale a casa </label>
-                </div>
-            <button type="submit">Invia il Form</button>
-            </fieldset>
-        </form>
+        <div class="column-user">
+            <img id="richiesta-adozione-img" src="./assets/images/adozione.jpg" alt=""/>
+        </div>
+        <div class="column-user">
+            <form  method="POST" action="#" novalidate> 
+                <fieldset>
+                    <legend>
+                        Invia una richiesta di adozione!
+                    </legend>
+                    <label for="lettera-presentazione">Scrivi una breve lettera di presentazione:</label>
+                    <textarea id="lettera-presentazione" name="lettera-presentazione" rows="8" cols="50" placeholder="Inserisci presentazione" required></textarea>
+                </fieldset>
+                <fieldset class="fieldset-indirizzo">
+                <legend>Indirizzo</legend>
+                    <p>Tutti i campi dell\'indirizzo devono essere completi, altrimenti nessuno.</p>
+                    <div>
+                        <label for="new-address">Via e numero civico</label>
+                        <input type="text" id="new-address" name="new-address" autocomplete="street-address" 
+                        value="[via-utente]" placeholder="Via L. Da Vinci n.10" aria-label="Tutti i campi dell\'indirizzo devono essere completi, altrimenti nessuno.">
+                        <p class="error-form">[erroriIndirizzo]</p>
+                    </div>
+                    <div>
+                        <label for="new-city">Città</label>
+                        <input type="text" id="new-city" name="new-city" autocomplete="address-level2" 
+                        value="[citta-utente]" placeholder="Roma">
+                        <p class="error-form">[erroriCitta]</p>
+                    </div>
+                    <div>
+                        <label for="new-cap">CAP</label>
+                        <input type="text" id="new-cap" name="new-cap" autocomplete="postal-code" 
+                        value="[cap-utente]" placeholder="00000">
+                        <p class="error-form">[erroriCAP]</p>
+                        <p class="error-form">[erroriIndirizzoTotale]</p>
+                    </div>
+                    <div>
+                        <label for="trasporto">
+                            <span class="checkbox-title">
+                                Voglio il trasporto dell’animale a casa
+                            </span>
+                            <span class="checkbox-description">
+                                Spuntando la casella, verrà programmato il trasporto dell’animale. Ci si prende la responsabilità di essere presenti nel domicilio indicato alla data che verrà comunicata per email.
+                            </span>
+                        </label>
+                    </div>
+                    <button class="orange-button" name="submit-adoption-request" type="submit">Invia il Form</button>
+                </fieldset>
+            </form>
+        </div>
     </div>
     <a href = "#top-page" class="torna-su-button">
         <img src="./assets/icons/torna-su.svg" class="static" alt="torna su"/>
