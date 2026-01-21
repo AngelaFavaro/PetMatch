@@ -68,18 +68,24 @@ $offset = ($pagina - 1) * $perPagina;
 
 $eventi='';
 
-$filters = [
+$filtersPerTitle = [
     'name-event'   => $_GET['name-event']    ?? '',
     'data_inizio'       => $_GET['data_inizio'] ?? '',
     'data_fine'       => $_GET['data_fine'] ?? '',
-    'citta'       => $_GET['citta'] ?? ''
+    'citta'       => ''
 ];
 
-$replaceFilters = [
-    '[NAME]' => htmlspecialchars($filters['name-event']),
-    '[DATA_INIZIO]' => htmlspecialchars($filters['data_inizio']),
-    '[DATA_FINE]' => htmlspecialchars($filters['data_fine']),
-    '[CITTA]' => htmlspecialchars($filters['citta'])
+$filtersPercity = [
+    'name-event'   => '',
+    'data_inizio'       => $_GET['data_inizio'] ?? '',
+    'data_fine'       => $_GET['data_fine'] ?? '',
+    'citta'       => $_GET['name-event'] ?? ''
+];
+
+$replaceFilters = [ //DA CAMBIARE
+    '[NAME]' => htmlspecialchars($filtersPerTitle['name-event']),
+    '[DATA_INIZIO]' => htmlspecialchars($filtersPerTitle['data_inizio']),
+    '[DATA_FINE]' => htmlspecialchars($filtersPerTitle['data_fine'])
 ];
 
 $userEmail = $_SESSION['email'] ?? null;
@@ -87,7 +93,7 @@ $userEmail = $_SESSION['email'] ?? null;
 
 
 $cancelFiltriId='';
-if($filters['name-event']||$filters['data_inizio']||$filters['data_fine']||$filters['citta']) {
+if($filtersPerTitle['name-event']||$filtersPerTitle['data_inizio']||$filtersPerTitle['data_fine']||$filtersPercity['citta']) {
     $cancelFiltriId="cancel-filter-visible";
 } else {
     $cancelFiltriId="cancel-filter-invisible";
@@ -96,21 +102,20 @@ if($filters['name-event']||$filters['data_inizio']||$filters['data_fine']||$filt
 // DB CONNECTION
 $connessione = new DBAccess();
 if ($connessione->openDBConnection()) {
-    $cities = $connessione->getEventCities();
-    $eventi = $connessione->getEventsFilteredPaged($filters, $perPagina, $offset);
-    $totale = $connessione->countEventsFiltered($filters);
+    $eventi = $connessione->getEventsFilteredPaged($filtersPerTitle, $perPagina, $offset);
+    if(!$eventi) {
+        $eventi=$connessione->getEventsFilteredPaged($filtersPercity, $perPagina, $offset);
+        $totale = $connessione->countEventsFiltered($filtersPercity);
+    } else{
+    $totale = $connessione->countEventsFiltered($filtersPerTitle);
+    }
     $connessione->closeConnection();
 }
 
 $pagineTotali = max(1, ceil($totale / $perPagina));
 
-$options = '';
-foreach ($cities as $city) {
-    $options .= '<option value="' . htmlspecialchars($city) . '"></option>';
-}
-
 $eventiCards= $eventi ? buildEventsCards($eventi) : "<p class='errore'>Per ora non ci sono eventi in programma. Ritorna tra qualche giorno a controllare $totale</p>";
-$linkPagine=buildPagination($pagina, $pagineTotali, $filters);
+$linkPagine=buildPagination($pagina, $pagineTotali, $filtersPerTitle);
 
 
 
@@ -122,8 +127,7 @@ $paginaHTML = file_get_contents('./src/template/layout.html');
 $main = file_get_contents('./src/template/main/eventi.html');
 $footer = buildFooter($footerMenu,  './eventi');
 
-$main = str_replace('[CITY_OPTIONS]', $options, $main);
-$main = str_replace('[CITTA]', htmlspecialchars($_GET['citta'] ?? ''), $main);
+
 $main = str_replace('[EVENTI]', $eventiCards, $main);
 
 
