@@ -1675,9 +1675,9 @@ public function addAnimal(array $data, string $emailAdmin): int|bool {
     $types = '';
 
     /* ---------- FILTRO TITOLO ---------- */
-    if (!empty($filters['name-event'])) {
+    if (!empty($filters['search'])) {
         $where[] = 'Titolo LIKE ?';
-        $params[] = '%' . $filters['name-event'] . '%';
+        $params[] = '%' . $filters['search'] . '%';
         $types .= 's';
     }
 
@@ -1774,9 +1774,9 @@ public function countEventsFiltered(array $filters): int {
     $types = '';
 
     /* ---------- FILTRO TITOLO EVENTO ---------- */
-    if (!empty($filters['name-event'])) {
+    if (!empty($filters['search'])) {
         $where[] = 'Titolo LIKE ?';
-        $params[] = '%' . $filters['name-event'] . '%';
+        $params[] = '%' . $filters['search'] . '%';
         $types .= 's';
     }
 

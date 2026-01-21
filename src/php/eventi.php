@@ -69,21 +69,21 @@ $offset = ($pagina - 1) * $perPagina;
 $eventi='';
 
 $filtersPerTitle = [
-    'name-event'   => $_GET['name-event']    ?? '',
+    'search'   => $_GET['search']    ?? '',
     'data_inizio'       => $_GET['data_inizio'] ?? '',
     'data_fine'       => $_GET['data_fine'] ?? '',
     'citta'       => ''
 ];
 
 $filtersPercity = [
-    'name-event'   => '',
+    'search'   => '',
     'data_inizio'       => $_GET['data_inizio'] ?? '',
     'data_fine'       => $_GET['data_fine'] ?? '',
-    'citta'       => $_GET['name-event'] ?? ''
+    'citta'       => $_GET['search'] ?? ''
 ];
 
 $replaceFilters = [ //DA CAMBIARE
-    '[NAME]' => htmlspecialchars($filtersPerTitle['name-event']),
+    '[NAME]' => htmlspecialchars($filtersPerTitle['search']),
     '[DATA_INIZIO]' => htmlspecialchars($filtersPerTitle['data_inizio']),
     '[DATA_FINE]' => htmlspecialchars($filtersPerTitle['data_fine'])
 ];
@@ -93,7 +93,7 @@ $userEmail = $_SESSION['email'] ?? null;
 
 
 $cancelFiltriId='';
-if($filtersPerTitle['name-event']||$filtersPerTitle['data_inizio']||$filtersPerTitle['data_fine']||$filtersPercity['citta']) {
+if($filtersPerTitle['search']||$filtersPerTitle['data_inizio']||$filtersPerTitle['data_fine']||$filtersPercity['citta']) {
     $cancelFiltriId="cancel-filter-visible";
 } else {
     $cancelFiltriId="cancel-filter-invisible";

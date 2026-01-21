@@ -2153,7 +2153,7 @@ input:-webkit-autofill:active{
     max-width: 21em;
 }
 
-#eventi .filtri .capsula-filtro label[for="name-event"] +input {
+#eventi .filtri .capsula-filtro label[for="search"] +input {
     width: 100%;
     min-width: 100px;
     max-width: none;
@@ -2254,7 +2254,12 @@ cursor: pointer;
     /* border: 0.1em solid var(--darkbgcolor); */
     border-radius: 0.5em;
     /* margin: 0.2em; */
-    
+    border: 2px solid var(--darkbgcolor);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#eventi .evento:hover {
+    border: 2px solid var(--buttoncolor-hover);
 }
 
 #eventi .cards-container li {
