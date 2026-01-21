@@ -390,10 +390,19 @@ function buildFooter(array $menuGroups, string $currentHref): string {
                 <li aria-labelledby="contattaci-footer">
                     <nav id="contattaci" tabindex="-1" aria-labelledby="contattaci-footer">
                         <a class="navigationHelp" href="#seguici-su"> Salta il contenuto</a>
-                        <p id="contattaci-footer" aria-hidden="true">Contattaci</p>
+                        <p id="contattaci-footer" aria-hidden="true" class="vcard"><span class="fn">Contattaci</span></p>
+                        
                         <ul class="footer-submenu">
-                            <li><address><a href="mailto:matchpet48@gmail.com" target="_blank">matchpet48@gmail.com</a></address></li>
-                            <li><address><a href="tel:+390000000000"> +39 000 000 0000</a></address></li>
+                            <li>
+                                <address>
+                                    <a class="email" href="mailto:matchpet48@gmail.com" target="_blank">matchpet48@gmail.com</a>
+                                </address>
+                            </li>
+                            <li>
+                                <address>
+                                    <a class="tel" href="tel:+390000000000"> +39 000 000 0000</a>
+                                </address>
+                            </li>
                         </ul>
                     </nav>
                 </li>
