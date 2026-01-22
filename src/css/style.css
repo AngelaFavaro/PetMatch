@@ -3220,11 +3220,17 @@ nav#breadcrumb a:visited{
 }
 
 
-#info-aggiuntive{
+#info-aggiuntive-separate{
     border: 1px solid var(--txtcolor);
     border-radius: 0.5em;
     padding: 1em;
+}
 
+#info-aggiuntive-unite{
+    margin-top: 1em;
+}
+#info-aggiuntive-unite h2{
+    display: none;
 }
 
 
@@ -3307,7 +3313,7 @@ nav#breadcrumb a:visited{
 
 }
 
-#richiesta-adozione legend{
+#legenda-richiesta-adozione{
     font-weight: 600;
     font-size: 1.3em;
     font-weight: 500;
@@ -3317,7 +3323,7 @@ nav#breadcrumb a:visited{
 }
 
 #richiesta-adozione label {
-    padding-top: 1em;
+    padding-top: 0.3em;
     font-weight: 400;
 
  } 
@@ -3412,3 +3418,35 @@ nav#breadcrumb a:visited{
     width: 100%;
 }
 
+#richiesta-adozione #new-address{
+    width: 100%;
+}
+
+#richiesta-adozione #indirizzo-row {
+    display: flex;
+}
+
+#richiesta-adozione #indirizzo-row #new-city {
+    width: 90%;
+}
+
+#richiesta-adozione #indirizzo-row #new-cap{
+    max-width: 8em;
+}
+
+#richiesta-adozione .checkbox-text {
+    display: flex;
+    align-items: left;
+    flex-direction: column;
+     }
+
+#trasporto-container .column-container{
+    gap: 0.9em;
+    padding:0;
+}
+#richiesta-adozione .fieldset-indirizzo legend{
+   text-align: left;
+   width: 100%;
+   font-size: 1rem;
+   padding-top: 0.1em;
+}

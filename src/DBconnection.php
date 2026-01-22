@@ -1314,6 +1314,61 @@ public function getRequestStatus(string $email, int $idAnimale): ?string {
         return $animalDetails;
     }
 
+    public function updateUserAddress($email, $datiIndirizzo) {     // per aggiornare solo l'indirizzo dell'utente
+
+        if (!$this->connection) {
+            return false;
+        }
+        $via = $datiIndirizzo['address'] ?? null;
+        $citta = $datiIndirizzo['city'] ?? null;
+        $cap = $datiIndirizzo['CAP'] ?? null;
+
+        $query = "UPDATE UTENTI 
+                  SET Via = ?, Citta = ?, CAP = ? 
+                  WHERE Email = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, "ssss", $via, $citta, $cap, $email);        // "ssss" sta per string (Via), string (Citta), string (CAP), string (Email)
+
+            $risultato = mysqli_stmt_execute($stmt);
+            
+            mysqli_stmt_close($stmt);
+            return $risultato;
+        }
+
+        return false;
+    }
+
+    public function insertAdoptionRequest($emailUtente, $idAnimale, $lettera, $trasporto) {
+        if (!$this->connection) {
+            return false;
+        }
+
+        $trasportoInt = $trasporto ? 1 : 0;
+        $statoIniziale = 'Nuova';
+        $dataOggi = date("Y-m-d");
+
+        $query = "INSERT INTO RICHIESTE_ADOZIONI 
+                  (Email, IDanimale, Trasporto, LetteraPresentazione, Stato, DataRichiesta) 
+                  VALUES (?, ?, ?, ?, ?, ?)";
+        
+        $stmt = mysqli_prepare($this->connection, $query);
+        
+        if ($stmt) {
+
+            mysqli_stmt_bind_param($stmt, "siisss", $emailUtente, $idAnimale, $trasportoInt, $lettera, $statoIniziale, $dataOggi);
+            
+
+            $risultato = mysqli_stmt_execute($stmt);
+            
+            mysqli_stmt_close($stmt);
+            return $risultato;
+        }
+        
+        return false;
+    }
 
 
 }
