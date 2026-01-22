@@ -104,6 +104,11 @@ $pagine = [
         'url' => './adottati',
         'parent' => 'animali'
     ],
+    'nuovo-evento' => [
+        'label' => 'Nuovo evento',
+        'url' => './nuovo-evento',
+        'parent' => 'eventi'
+    ],
 ];
 
 $adminMenu = [

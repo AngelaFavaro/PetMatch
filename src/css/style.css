@@ -266,7 +266,8 @@ button.brown-button{
 }
 
 button,
-select{
+select, 
+input{
     font-family: "Parkinsans", Roboto, sans-serif;
     font-size: 1em;
 }
@@ -279,6 +280,11 @@ select{
     background-position: right 1em center; /* Destra, un po' staccata dal bordo, centrata verticale */
     background-size: 2em; /* Grandezza della freccia */
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%481515" d="M7 10l5 5 5-5z"/></svg>');
+}
+
+input:placeholder-shown{
+    font-size: 1em;
+    margin-left: 0.5em;
 }
 
 /*==================WIDGET UTILI==================*/
@@ -1408,7 +1414,6 @@ legend {
 }
 
 label {
-    font-size: 95%;
     display: block; 
     margin-left: 0.5em; 
 }
@@ -1603,6 +1608,7 @@ input:-webkit-autofill:active{
 #animali .filtri, #eventi .filtri {
     display: flex;
     gap: 0.5em;
+    align-items: center;
 }
 
 #animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro {
@@ -1625,9 +1631,10 @@ input:-webkit-autofill:active{
 
 #animali .filtri #searchEta.capsula-filtro {
     /* display:contents; */
-    max-width: 16.5em;
+    max-width: 15em;
     display:flex;
 }
+
 
 #animali .filtri #searchName.capsula-filtro, #eventi .filtri #searchName.capsula-filtro {
     /* display:contents; */
@@ -1667,14 +1674,17 @@ input:-webkit-autofill:active{
 
 #animali .filtri .capsula-filtro select, #eventi .filtri .capsula-filtro select {
     text-align: center;
+    padding-right:2.5em;
+    color: var(--placeholder-text);
+    background-position: right 0em center;
 }
 
 #animali .filtri #searchSize.capsula-filtro {
-    max-width: 9em;
+    max-width: 10em;
 }
 
 #animali .filtri #searchSex.capsula-filtro {
-    max-width: 9em;
+    max-width: 10em;
 }
 
 #animali .filtri .capsula-filtro input::placeholder, #eventi .filtri .capsula-filtro input::placeholder {
@@ -2134,7 +2144,6 @@ input:-webkit-autofill:active{
 #eventi .filtri .capsula-filtro input {
     width: 30%;
     text-align:center;
-    padding-top: 0.2em;
 }
 
 #eventi .filtri {
@@ -2151,6 +2160,11 @@ input:-webkit-autofill:active{
 
 #eventi .filtri #searchData.capsula-filtro {
     max-width: 21em;
+}
+
+#eventi .filtri #searchData.capsula-filtro input{
+    font-size: 0.9em;
+    color:var(--placeholderDarker-text);
 }
 
 #eventi .filtri .capsula-filtro label[for="search"] +input {
@@ -2320,8 +2334,8 @@ cursor: pointer;
     overflow: hidden;
     clear: right;
     max-width: 35em;
-    margin-top: 0.2em;
     text-align: left;
+    padding-top: 0.5em;
 }
 
 #eventi .evento h2 {
@@ -4195,7 +4209,6 @@ nav#breadcrumb a:visited{
 
 #chi-siamo-img img{
     width: 100%;
-
 }
 
 /* Sezione 2 Chi Siamo */
@@ -4204,15 +4217,13 @@ nav#breadcrumb a:visited{
     background-color: var(--headercolor);
     color:var(--bgcolor);
     margin-top: 5em;
-
 }
-
 
 #chi-siamo2-img{
-    flex: 0 1 40%;
+    flex: 0 1 35%;
 }
 #chi-siamo2-img img{
-    width: 100%;
+    width: 90%;
 }
 
 #content-chi-siamo2{
@@ -4228,18 +4239,13 @@ nav#breadcrumb a:visited{
 
 /*Sezione "PetMatch timeline"*/
 
-#petmatch-timeline{
-    padding:2em 0 2em 0;
-} 
-
-#pm-timeline{
-   
+#pm-timeline{   
    display: flex;
     align-items: center;
     justify-content: space-between;
     position: relative;
     align-items: flex-start;
-    margin-top: 3em;
+    margin-top: 2em;
     list-style: none;
   }
 
@@ -4266,6 +4272,10 @@ nav#breadcrumb a:visited{
     font-weight: bold;
 }
 
+#pm-timeline li span:nth-of-type(2){
+    font-weight: normal;    
+}
+
 .pm-timeline-date{
     font-size:1em;
 }
@@ -4273,8 +4283,7 @@ nav#breadcrumb a:visited{
 /*Sezione 3 Chi Siamo */
 
 #third-chapter-chi-siamo{
-    margin: 5em 0em;
-
+    margin: 2em 0em;
 }
 
 
@@ -4293,17 +4302,16 @@ nav#breadcrumb a:visited{
 #chi-siamo3-img img{
     width: 100%;
     border-radius: 0.8em;
-
-    
 }
 
 #chi-siamo3-content{
     padding:2em 0;
     flex: 1 1 60%;
     margin:auto;
- 
+}
 
-    
+#chi-siamo3-content p{
+    margin-bottom: 0.5em;
 }
   
 
@@ -4328,8 +4336,7 @@ nav#breadcrumb a:visited{
 
 
 #ci-presentiamo p{
-    display: inline-block;
-    margin-left:3%;
+    margin-bottom: 0.5em;
 }
 
 #team-img{
@@ -4337,11 +4344,14 @@ nav#breadcrumb a:visited{
     flex-wrap: wrap;
     margin: auto;
     justify-content: center;
-    gap:3em;
+    gap:1em;
     row-gap: 0em;
 } 
-#team-img .column-user{
-  flex: 0 1 10%;
-  margin-top: 0%;
-  margin-bottom: 0%;
-}
+
+#team-img img{
+    width: 100%;
+    flex:0 1 30%;
+    height: auto;
+    max-height: 15em;
+    padding: 0;
+} 
