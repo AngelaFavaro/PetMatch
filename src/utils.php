@@ -59,6 +59,11 @@ $pagine = [
         'url' => './profilo-utente',
         'parent' => 'home'
     ],
+     'chi-siamo' => [
+        'label' => 'Chi Siamo',
+        'url' => './chi-siamo',
+        'parent' => 'home'
+    ],
     'revisione-richiesta' => [
         'label' => 'Revisione richiesta',
         'url' => './revisione-richiesta',
@@ -98,6 +103,11 @@ $pagine = [
         'label' => 'Adottati',
         'url' => './adottati',
         'parent' => 'animali'
+    ],
+    'nuovo-evento' => [
+        'label' => 'Nuovo evento',
+        'url' => './nuovo-evento',
+        'parent' => 'eventi'
     ],
 ];
 
@@ -702,4 +712,30 @@ function renderCaniGattiTabs(): string{
     return $html;
     
 }
+
+function formattaDataItaliana(string $data): string {
+    $mesi = [
+        1 => 'Gennaio',
+        2 => 'Febbraio',
+        3 => 'Marzo',
+        4 => 'Aprile',
+        5 => 'Maggio',
+        6 => 'Giugno',
+        7 => 'Luglio',
+        8 => 'Agosto',
+        9 => 'Settembre',
+        10 => 'Ottobre',
+        11 => 'Novembre',
+        12 => 'Dicembre'
+    ];
+
+    $timestamp = strtotime($data);
+
+    $giorno = date('d', $timestamp);
+    $mese   = $mesi[(int)date('n', $timestamp)];
+    $anno   = date('Y', $timestamp);
+
+    return "$giorno $mese $anno";
+}
+
 

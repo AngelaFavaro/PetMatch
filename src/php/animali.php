@@ -380,7 +380,7 @@ if (!$isPreferiti) {
                 </select>
             </li>
 
-            <li class='capsula-filtro' role='presentation'>
+            <li class='capsula-filtro' id='searchEta' role='presentation'>
                 <label>Età</label>
                 <div class='eta-range'>
                     <input type='number' name='eta_min' 
