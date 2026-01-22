@@ -8,67 +8,69 @@
     <div id="details-container">
         
         <div class="tabs-container">
-            
-            <div class="tab">
-                <button id="tab-richiesta" class="tablinks active" onclick="openTab(event, 'Richiesta')"><h2>INFORMAZIONI RICHIESTA</h2></button>
-                <button id="tab-richiedente" class="tablinks" onclick="openTab(event, 'Richiedente')"><h2>INFORMAZIONI RICHIEDENTE</h2></button>
-            </div>
-
-            <article id="Richiesta" class="tabcontent">
-                <ul>
-                    <li><strong>Stato richiesta:</strong> [stato]</li>
-                    <li><strong>Data richiesta:</strong> [data]</li>
+            <input id="tab1" class="sr-only" type="radio" name="tab-group" checked>
+            <label for="tab1"><h2>Informazioni richiesta</h2></label>
+            <input id="tab2" class="sr-only" type="radio" name="tab-group">
+            <label for="tab2"><h2>Informazioni richiedente</h2></label>
+            <article id="Richiesta" class="tab-content">
+                <dl>
+                    <dt>Stato richiesta</dt><dd>[stato]</dd>
+                    <dt>Data richiesta</dt><dd>[data]</dd>
                     [dataInizioValutazione]
                     [dataFineValutazione]
                     [dataRichiestaRespinta]
-                    <li><strong>Lettera di presentazione:</strong> [contenutoLettera]</li>
-                    <li><strong>Trasporto:</strong> [trasporto]</li>
-                </ul>
+                    <dt class="full-width">Lettera di presentazione</dt><dd>[contenutoLettera]</dd>
+                    <dt>Trasporto</dt><dd>[trasporto]</dd>
+                </dl>
             </article>
 
-            <article id="Richiedente" class="tabcontent">
+            <article id="Richiedente" class="tab-content">
                 <div class="generic-info-container">
                     <img src="[imgPath]" alt="Foto di [nome]" class="circle-foto">
                     
                     <div class="text-details">
-                        <ul>
-                            <li><strong>Nome:</strong> [nome]</li>
-                            <li><strong>Cognome:</strong> [cognome]</li>
-                            <li><strong>Telefono:</strong> [telefono]</li>
-                            <li><strong>Email:</strong> [email]</li>
-                            <li><strong>Indirizzo:</strong> [indirizzo]</li>
-                        </ul>
+                        <dl>
+                            <dt>Nome</dt><dd>[nome]</dd>
+                            <dt>Cognome</dt><dd>[cognome]</dd>
+                            [telefono-richiedente]
+                            <dt>Email</dt><dd>[email]</dd>
+                            [indirizzo-richiedente]
+                        </dl>
                     </div>
                 </div>
 
                 <p id="altre-richieste">Ha altre <strong>[n]</strong> richieste in corso di valutazione</p>
-                <a href="[paginaRichiedente]" class="orange-button">Vedi profilo</a>
+                <form method="POST" action="[paginaRichiedente]">
+                    <input type="hidden" name="id-animale" value="[animalID]">
+                    <button type="submit" name="view-profile" class="brown-button">Vedi profilo</button>
+                </form>
+                <!-- <a href="[paginaRichiedente]" class="brown-button">Vedi profilo</a> -->
             </article>
             
         </div> 
         <div id="animal-container">
-            <h2>INFORMAZIONI ANIMALE</h2>
+            <h2>Informazioni animale</h2>
             <article id="animale-richiesta">
                 <div class="generic-info-container">
                     <img src="[animalImgPath]" alt="Foto di [nomeAnimale]" class="square-foto">
                     
                     <div class="text-details">
-                        <ul>
-                            <li><strong>Nome:</strong> [nomeAnimale]</li>
-                            <li><strong>Sesso:</strong> [sessoAnimale]</li>
-                            <li><strong>Età:</strong> [etaAnimale]</li>
-                            <li><strong>Razza:</strong> [razzaAnimale]</li>
-                            <li><strong>Trasporto:</strong> [trasportoAnimale]</li>
-                        </ul>
+                        <dl>
+                            <dt>Nome</dt><dd>[nomeAnimale]</dd>
+                            <dt>Sesso</dt><dd>[sessoAnimale]</dd>
+                            <dt>Età</dt><dd>[etaAnimale]</dd>
+                            <dt>Razza</dt><dd>[razzaAnimale]</dd>
+                            <dt>Trasporto</dt><dd>[trasportoAnimale]</dd>
+                        </dl>
                     </div>
                 </div>
-                <a href="[paginaAnimale]" class="orange-button">Vedi animale</a>
+                <a href="[paginaAnimale]" class="brown-button">Vedi animale</a>
                 <div id="other-info-container">
-                    <ul>
-                        <li><strong>Famiglia ideale:</strong> [famigliaIdeale]</li>
-                        <li><strong>Condizioni mediche:</strong> [condizioniMediche]</li>
-                        <li><strong>Descrizione caratteriale:</strong> [descrizioneCaratteriale]</li>
-                    </ul>
+                    <dl>
+                        <dt>Famiglia ideale</dt><dd>[famigliaIdeale]</dd>
+                        <dt>Condizioni mediche</dt><dd>[condizioniMediche]</dd>
+                        <dt>Descrizione caratteriale</dt><dd>[descrizioneCaratteriale]</dd>
+                    </dl>
                 </div>
             </article>
 

@@ -14,21 +14,33 @@
     --linkcolor:#FFF6D7;
     --footercolor: #481515;
     --visitedcolor: #EA654C;
-    --headercolor: #481515;
+    --headercolor: var(--footercolor);
     --headervisitedlink: #6D7541;
     --headerlink: #481515;
     --secondsection: #6D7541;
-    --bglink-hover:#E4D4BA;
+    --placeholderDarker-text:#5e4232;
     --placeholder-text:#825E49;
     --darkbgcolor: #E4D4BA;
+    --borderTable: #cfbfa5;
+    --bglink-hover: var(--darkbgcolor);
     --bgform: #6D7541;
     --errortxt: #BA3A24;
     --successtxt:#576F30;
+    --bgconfirmbutton:#6D7541;
+    --bgconfermbutton:#FFF6D7;
+    --txtcancelbutton:var(--bgconfirmbutton);
+    --txtclose-request: #6b5050;
+    --greencolor: #6D7541;
+    --elidedCard: rgba(228, 212, 186, 0.6);
+
+;
+
+;
 }
 
 a{
     color: var(--linkcolor);
-    font-weight: 400;
+    font-weight: 600;
 }
 
 a:visited{
@@ -54,15 +66,26 @@ a.orange-button:hover{
 
 html, body {
     max-width: 100%;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
+}
+body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-
-#layout-user header + #breadcrumb{
-    margin-top:120px;
+main#content{
+    /* min-height: 100vh; */
+    flex: 1;
+    padding-top: 2em;
+    min-height: auto;
 }
 
-#NavHeader + #breadcrumb{
+#layout-user header + main{
+    margin-top:90px;
+}
+
+#NavHeader + main #breadcrumb{
     border: 1px solid var(--bgcolor);
 }
 
@@ -105,21 +128,33 @@ h4{
     color:var(--errortxt);
 }
 
+.error-form + p{
+    margin-top:0.5em;
+}
+
+#form-signup + p a,
+#form-login + p a{
+    color:var(--txtcolor);
+    font-weight: 500;
+}
+
 .success-form{
     color:var(--successtxt);
 }
 
 /*==================PULSANTI==================*/
+#currentLink.orange-button,
 a.orange-button, a.brown-button,
+button.brown-button,
 button.orange-button{
     display: block;
     text-align: center;
     margin: auto;
     width: fit-content;
     padding: 0.7em 1.5em;
-    border-radius: 1em;
-    font-weight: 600;
-    letter-spacing: 1px;
+    border-radius: 1.5em;
+    font-weight: 500;
+    letter-spacing: 0px;
     text-decoration: none;
     transition: background-color 0.6s ease;
 }
@@ -130,6 +165,7 @@ button.orange-button:hover {
     color: var(--linkcolor);
 }
 
+#currentLink.orange-button,
 a.orange-button,
 button.orange-button,
 .white-button:hover{
@@ -147,7 +183,7 @@ button.orange-button{
     color: var(--txtcolor);
 }
 
-a.brown-button{
+a.brown-button, button.brown-button{
     background-color: var(--text-buttoncolor);
     color: var(--linkcolor);
     margin: 0.7em auto 0.7em auto;
@@ -159,9 +195,17 @@ a.brown-button:visited{
     color: var(--visitedcolor);
 }
 
-.brown-button:hover {
-    background-color: var(--text-buttoncolor-hover); 
+.brown-button:hover, button.brown-button:hover,
+.brown-button:visited:hover{
+    background-color:transparent; 
     color: var(--text-buttoncolor);
+    cursor: pointer;
+}
+
+button.brown-button{
+    border:none;
+    font-family: "Parkinsans", Roboto, sans-serif;
+    font-size: 1em;
 }
 
 .white-button{
@@ -176,6 +220,10 @@ a.brown-button:visited{
     transition: background-color 0.6s ease;
     background-color: var(--bgcolor);
     color:var(--text-buttoncolor)
+}
+
+.white-button:visited{
+    color:var(--text-buttoncolor);
 }
 
 .torna-su-button{
@@ -215,6 +263,22 @@ a.brown-button:visited{
 .torna-su-button:hover .static{
     background-color: (var(--buttoncolor));
     color:var(--linkcolor);
+}
+
+button,
+select{
+    font-family: "Parkinsans", Roboto, sans-serif;
+    font-size: 1em;
+}
+
+select{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-repeat: no-repeat;
+    background-position: right 1em center; /* Destra, un po' staccata dal bordo, centrata verticale */
+    background-size: 2em; /* Grandezza della freccia */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%481515" d="M7 10l5 5 5-5z"/></svg>');
 }
 
 /*==================WIDGET UTILI==================*/
@@ -322,12 +386,11 @@ details[open] .popup{
     pointer-events: auto; /*così si può passare sopra con il pointer senza che il popup si chiuda*/
 }
 
-
-
 /*==================FLEX COLUMNS AND GRID==================*/
 /* mettere un div con questo come contenutore */
 .column-container{
     max-width: 1200px;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     gap: 1em;
@@ -343,7 +406,9 @@ NOTA: modificare il flex se necessario annidando la classe dentro le proprie sez
 }
 
 /*==================ERRORE 404==================*/
-
+.c404 .orange-button{
+    margin-top:1em;
+}
 
 /* Stile per allineare l'immagine ai numeri */
 #error-title {
@@ -405,6 +470,127 @@ NOTA: modificare il flex se necessario annidando la classe dentro le proprie sez
 #zzz {
     animation: sleep 4s infinite ease-in-out;
 }
+
+/* ==================FOCUS================== */
+input[type="radio"]:focus-visible + label,
+a:focus-visible,
+button:focus-visible,
+textarea:focus-visible,
+input [type="checkbox"]:focus-visible{
+    outline: 3px solid red;
+    outline-offset: 2px;
+    transition: none;
+}
+
+input:focus,
+li:has(input:focus),
+li:has(select:focus),
+textarea:focus,
+select:focus{
+    outline:2px solid var(--headercolor);
+    outline-offset: 0px;
+}
+
+
+/* ==================LAVORA CON NOI ================== */
+
+
+#introduction-lavora-con-noi {
+    padding-bottom:3em;
+}
+#introduction-lavora-con-noi .container {
+    display: flex;
+    gap: 4em;
+}
+#introduction-lavora-con-noi .column-user {
+    flex: 1; 
+}
+#introduction-lavora-con-noi h1 {
+    margin-bottom: 0.5em;
+    font-size: 2.3em;
+}
+
+#introduction-lavora-con-noi a{
+    color:var(--headerlink);
+    font-weight: 500;
+}
+
+
+#come-diventare-volontario {
+    background-color: var(--greencolor); 
+    color: var(--bgcolor);                       
+    width: 100%;
+    padding: 2.5em;
+}
+
+#come-diventare-sostenitore .lavora-con-noi-img img{
+    border-radius: 2px;
+}
+
+#come-diventare-volontario p,
+#come-diventare-sostenitore p{
+    margin-bottom:1.5em;
+}
+
+#come-diventare-volontario h2 {
+    margin-bottom: 1em;
+    font-size: 2.1em;
+}
+
+.volontari-layout {
+    display: flex;
+    gap: 3em;
+}
+
+.lavora-con-noi-img{
+    flex: 0 0 20%;
+}
+
+.lavora-con-noi-img img{
+    width: 100%;
+    pointer-events: none;
+}
+
+.lavora-con-noi-text {
+    flex: 1 1 70%;
+}
+
+#come-diventare-sostenitore {
+    margin-top: 3em;
+    background-color: var(--footercolor); 
+    color: var(--bgcolor);        
+    border-top-right-radius: 2.5em;
+    border-top-left-radius: 2.5em;     
+    padding: 2em 4em;
+}
+
+#come-diventare-sostenitore h2 {
+    margin-bottom: 1em;
+    font-size: 2.1em;
+}
+
+.sostenitori-layout {
+    display: flex;
+    align-items: center;
+    gap: 3em;
+}
+
+
+#contatto-sostenitore {
+    margin-top: 3em;
+    margin-bottom:-2em;
+    text-align: center;
+}
+
+#contatto-sostenitore a {
+    color: var(--txtcolor);
+    text-decoration: underline;
+}
+
+#contatto-sostenitore address{
+    display: inline;
+}
+
 /* ==================SOLO PER SCREEN READER================== */
 
 /* Gli elementi con questa classe sono visibili solo agli screen reader */
@@ -422,25 +608,28 @@ NOTA: modificare il flex se necessario annidando la classe dentro le proprie sez
 
 /* ================== HEADER ================== */
 
-#layout-user #currentLink{
-    pointer-events: none;
+#layout-user #osso #currentLink{
+    font-weight: 600;
 }
 
-#layout-user li #currentLink{
-    font-weight: 500;
-    text-decoration: underline;
+#layout-user #currentLink.white-button:hover{
+    background-color: var(--bgcolor);
+    color:var(--txtcolor);
+}
+
+#layout-user #currentLink a:visited{
+    color:var(--headerlink);
+}
+
+
+#layout-user #currentLink a{
+    font-weight: 600;
 }
 
 #menu-toggle-checkbox{
     display: none;
 }
 
-#theme-toggle:focus-visible + #theme-switch #slider{
-    transition: none;
-    outline: 2px solid black;
-    border: 1px solid white; 
-    outline-offset: 2px;
-}
 
 header {
     background-color: var(--headercolor);
@@ -482,11 +671,12 @@ header a{
     color: var(--linkcolor);
 }
 
-#not-bold{
+.not-bold{
     font-weight: 200;
 }
 
-#name-site{
+#name-site,
+#name-site-footer{
     font-weight:600;
     display: block;
     font-size: 1.6rem;
@@ -541,13 +731,18 @@ header a{
 #osso::after {
     right: -1.2em;
 }
-
+ 
 #osso a {
     color: var(--headerlink);
+    font-weight: normal;
 }
 
 #osso a:hover {
     text-decoration: underline;
+}
+
+#osso a:visited {
+    color: var(--headervisitedlink);
 }
 
 /* ================== 3. azioni (Destra) ================== */
@@ -557,7 +752,7 @@ header a{
     list-style: none;
     padding: 0;
     margin: 0;
-    gap: 0.7em;
+    gap:0.7em;
 }
 
 #personal-area{
@@ -574,6 +769,7 @@ header a{
     height: 2em;
     position: relative;
     cursor: pointer;
+    margin-left: 0;
 }
 
 #slider {
@@ -644,6 +840,12 @@ input:checked + #theme-switch #slider #moon { opacity: 1; }
     display: none;
 } 
 
+#header-actions #currentLink.white-button,
+#header-actions #currentLink.white-button:hover{
+    outline: 1px solid var(--bgcolor);
+    background-color: var(--buttoncolor-hover);
+    color:var(--bgcolor);
+}
 
 /* ==================FOOTER================== */
 #footer-menu {
@@ -651,33 +853,77 @@ input:checked + #theme-switch #slider #moon { opacity: 1; }
     display: flex;
     list-style: none;
     flex-wrap: wrap;
-    padding: 2em 0em 2em 2em;
+    padding: 2em 0em 0em 2em;
 }
+
+footer a{
+    font-weight: normal;
+}
+
+footer a:hover{
+    text-decoration: underline;
+}
+
 
 footer {
     background-color: var(--footercolor);
     color: var(--bgcolor);
 }
+footer p{
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 0.5em;
+}
+
+footer address{
+    font-style: normal;
+}
+
 #footer-menu > li{
     padding: 0.2em;
     flex: 1 1 250px;
+    margin-bottom: 1em;
 }
-footer h4 {
-    margin-bottom: 0.5em;
-}
+
 .footer-submenu li {
     list-style: none;
     margin-bottom:0.1em;
 }
+
+footer .container + div{
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+footer .container + div a:visited{
+    color:var(--bgcolor);
+}
+
+
 #grass {
-     /* position: absolute; */
-    /* top: 43em; */
     width: 100%;
-    height: 60px; /* Altezza fissa del ciuffo */
-    background-image: url('../../assets/images/grass.svg'); /* Immagine del ciuffo d'erba */
+    height: 60px; /*altezza fissa dell'erba*/
+    background-image: url('../../assets/images/grass.svg'); /* immagine dell'erba */
     background-size: auto 100%; /* da tenere assolutamente altrimenti si taglia */
 }
 
+.social-media-links a{
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+#copyright{
+    text-align: center;
+    /* font-weight: 400; */
+    padding:1em;
+    display: block;
+    /* sono 12px, il minimo per l'accessibilità */
+    font-size: 0.85rem; 
+    color: var(--darkbgcolor);
+    /* font-size: 0.9em; */
+    /* margin-bottom: 1em; */
+}
 /* ================== =========== PAGINE UTENTE================== ============*/
 /* ================== HOME ==================*/
 
@@ -817,6 +1063,38 @@ details:not([open]) .popup {
     pointer-events: none; 
 }
 
+.static-gif {
+    height: 0;
+    width: 0;
+    opacity: 0; /* Parte invisibile */
+    
+    /* Appare dopo 5 secondi */
+    animation: showStatic 0s linear 5s forwards;
+}
+
+.dinamic-gif {
+    opacity: 1; 
+    
+    animation: stopShow 0s linear 5s forwards;
+}
+
+@keyframes showStatic {
+  to {
+    opacity: 1; /* Diventa visibile e copre la GIF */
+    height: auto;
+    width: 100%;
+    padding-bottom: 1.5em;
+  }
+}
+
+@keyframes stopShow {
+  to {
+    opacity: 0; /* Diventa visibile e copre la GIF */
+    height: 0;
+    width: 0;
+  }
+}
+
 /* sezione 4: eventi */
 
 #section-events{
@@ -867,9 +1145,9 @@ details:not([open]) .popup {
     content: '';
     display: block;
     position: absolute;
-    width: 140%;
-    top:-33%;
-    left: -18%;
+    width: 100%;
+    /* overflow: hidden; */
+    top:-23%;
     height: 100px;
     background-image: url('../../assets/images/rope.svg');
     background-size: 100% auto;
@@ -880,12 +1158,48 @@ details:not([open]) .popup {
 }
 
 #events-list .polaroid{
+    display: block;
     flex: 1 1 20%;
     color: var(--txtcolor);
-    padding-top: 1em;
     transform-origin: top center;
     --base-rot: 0deg;
     margin:auto;
+    padding: 1em 0.5em 0 0.5em ;
+    text-decoration: none;
+    font-weight: normal;
+
+    box-sizing: border-box; 
+}
+
+
+#events-list .polaroid h4, 
+#events-list .polaroid p {
+    display: block; /* Importante */
+    width: 100%;
+    
+    white-space: nowrap;      /* Impedisce di andare a capo */
+    overflow: hidden;         /* Nasconde l'eccesso */
+    text-overflow: ellipsis;  /* Aggiunge i puntini ... */
+}
+
+#events-list .polaroid p{
+    width: 100%;
+}
+
+#events-list p.vMobile{
+    display: none;
+}
+
+#events-list .polaroid:hover{
+    text-decoration: underline;
+}
+
+#events-list .polaroid img{
+    width: 100%;
+    margin-top:-0.5em;
+    height: 130px;
+    object-fit: cover;
+    object-position: bottom;
 }
 
 #events-list .polaroid:before{
@@ -895,7 +1209,7 @@ details:not([open]) .popup {
     background-repeat: no-repeat;
     width: 50px;
     height: 50px;
-    top:-22%;
+    top:-18%;
     left: 38%;
 }
 
@@ -950,6 +1264,7 @@ details:not([open]) .popup {
     background-position:top;
     height:fit-content;
     padding-top: 3em;
+    margin-bottom:3em;
 }
 
 #sponsor .column-container{
@@ -961,7 +1276,8 @@ details:not([open]) .popup {
     padding:1em;
     height: auto; 
     object-fit: contain; 
-    margin-bottom:12.5%;
+    margin-bottom:17%;
+    padding-top:3em;
 }
 
 #sponsor img:nth-child(3){
@@ -972,8 +1288,9 @@ details:not([open]) .popup {
     margin-left:2.5em;
 }
 
-#sponsor + .container a{
-    margin-top:-8%;
+#section-sponsor + .container a{
+    margin-top:-16%;
+    margin-bottom:10%;
 }
 
 
@@ -983,7 +1300,7 @@ details:not([open]) .popup {
 #affidamento-home{
     background-color: var(--headercolor);
     color:var(--bgcolor);
-    margin-top: 5em;
+    margin-top: 7%;
 }
 
 #content-affidamento p{
@@ -1022,6 +1339,25 @@ fieldset {
     margin: 0;
 }
 
+#home input[name="type-animal"]{
+    float: left;
+    align-items: center;
+    outline-color: var(--buttoncolor-hover);
+}
+
+#home input[name="type-animal"]+label{
+    padding:6px;
+    margin:auto 2em;
+}
+
+.radio-input{
+    display: flex;
+}
+
+.radio-input div{
+    flex: 1 1 50%;
+}
+
 #container-form-affidamento{
     display: flex;
     align-items: center;
@@ -1038,16 +1374,19 @@ legend {
     padding-top:1em;
     font-weight: 500;
     text-align: center;
-    padding-bottom: 1.5em;
     font-size: 1.1em;
     width: 100%;
 }
 
-label + input,
-.password-container input {
+#signup label + input,
+#home label + input,
+#user-profile label + input,
+#login label + input,
+.edit-number div input, 
+.password-container input, div#admin-area label + input {
     border-radius: 5em;
     padding: 0.5em 1em;
-    margin: 0.2em 0 1.3em 0;
+    margin: 0.2em 0 0.3em 0;
     width: 100%; 
     border: 1px solid var(--headercolor);
     color: var(--txtcolor);
@@ -1056,8 +1395,16 @@ label + input,
     box-sizing: border-box; 
 }
 
-label + input::placeholder{
-    color: var(--placeholder-text);
+#animali .navigationHelp{
+    color:var(--txtcolor);
+}
+
+#animali label + input::placeholder,
+#signup label + input::placeholder,
+#home label + input::placeholder,
+#user-profile label + input::placeholder,
+#login label + input::placeholder{
+    color: var(--placeholderDarker-text);
 }
 
 label {
@@ -1078,44 +1425,40 @@ label {
 
 /* ================== REGISTRATI ==================*/
 
-#form-signup{
-    padding: 2em 10%;
-    margin: 0 15%;
+#signup .container{
+    max-width: 800px;
+    padding: 2em 3em;
     border-radius: 1em;
     background-color: var(--bgcolor);
 }
 
-#signup{
+body:has(#signup), body:has(#login) {
     background-color: var(--bgform);
-    margin: -130px 0 -30px 0;
-    padding: 130px 0 30px 0;
+    /* dopo aver aggiustato il footer
+    le ho commentate perchè altrimenti si rompeva tutto */
+    /* margin: -110px 0 -30px 0; */
+    /* padding: 110px 0 30px 0; */
     background-image: url('../../assets/images/bg-pow.svg');
     background-repeat: repeat;
     background-size: contain;
 }
+
 
 #form-signup .column-container{
     padding: 0;
 }
 
 /* cambio il colore dell'autofill */
-#form-signup input:-webkit-autofill,
-#form-signup input:-webkit-autofill:hover, 
-#form-signup input:-webkit-autofill:focus, 
-#form-signup input:-webkit-autofill:active {
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
     -webkit-box-shadow: 0 0 0 30px var(--bglink-hover) inset;
 }
 
 .column-container div{
     flex: 1 1 48%;
     margin:0;
-}
-
-#form-signup input + p,
-.password-container +p
-{
-    margin-top: -1em;
-    padding-bottom: 1em;
 }
 
 #form-signup p+p{
@@ -1131,7 +1474,8 @@ label {
     margin-left:1.5em;
 }
 
-#form-signup legend{
+#form-signup legend,
+#form-login legend{
     font-size: 2em;
     font-weight: 700;
 }
@@ -1140,15 +1484,18 @@ label {
     width: 50%;
 }
 
-#form-signup a{
+#form-signup a,
+#form-login a{
     color:var(--headerlink);
 }
 
-#form-signup a:visited{
+#form-signup a:visited,
+#form-login a:visited{
     color:var(--headerlink);
 }
 
-#form-signup #signup-accedi{
+#form-signup + p,
+#form-login + p{
     text-align: center;
     padding:1em 0;
 }
@@ -1232,7 +1579,7 @@ label {
 .password-container i {
     position: absolute;
     right: 10px;
-    top: 38%;
+    top: 50%;
     transform: translateY(-50%); 
     color: var(--placeholder-text);
 }
@@ -1242,22 +1589,1511 @@ label {
 }
 
 
+
+/*=================PAGINA ANIMALI======================*/
+
+/* contenitore principale */
+
+/* FILTRI */
+#animali .filtri ul, #eventi .filtri ul {
+    display: contents;
+    list-style: none;
+}
+
+#animali .filtri, #eventi .filtri {
+    display: flex;
+    gap: 0.5em;
+}
+
+#animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro {
+    display: flex;
+    flex: 1 1 fit-content;
+    border: 1px solid var(--text-buttoncolor);
+    border-radius: 1em;
+    padding: 0.5em;
+    height: 2.5em;
+    align-items: center;
+    /* margin: 0.5em; */
+}
+
+#animali .filtri .capsula-filtro .eta-range {
+    /* display:contents; */
+    display: flex;
+    justify-content: center;
+    gap: 0.2em;
+}
+
+#animali .filtri #searchEta.capsula-filtro {
+    /* display:contents; */
+    max-width: 16.5em;
+    display:flex;
+}
+
+#animali .filtri #searchName.capsula-filtro, #eventi .filtri #searchName.capsula-filtro {
+    /* display:contents; */
+    background-color: var(--darkbgcolor);
+    /* border-color: var(--placeholderDarker-text); */
+}
+
+#animali .filtri #searchName.capsula-filtro input, #eventi .filtri #searchName.capsula-filtro input {
+    text-align:left;
+    display: flex;
+    flex-grow: 1;
+    min-width: 4em;
+    /* display:contents; */
+    background-color: var(--darkbgcolor);
+    width: 100%;
+    height: 100%;
+}
+
+#animali .filtri #searchName.capsula-filtro input::placeholder, #eventi .filtri #searchName.capsula-filtro input::placeholder {
+    color: var(--placeholderDarker-text);
+    text-align: start;
+}
+
+#animali .filtri .capsula-filtro input, #animali .filtri .capsula-filtro select,
+#eventi .filtri .capsula-filtro input, #eventi .filtri .capsula-filtro select {
+    min-width: 0;
+    background-color: var(--bgcolor);
+    border: none;
+}
+
+#animali .filtri .capsula-filtro input {
+    width: 30%;
+    text-align: center;
+    padding-top: 0.2em;
+}
+
+
+#animali .filtri .capsula-filtro select, #eventi .filtri .capsula-filtro select {
+    text-align: center;
+}
+
+#animali .filtri #searchSize.capsula-filtro {
+    max-width: 9em;
+}
+
+#animali .filtri #searchSex.capsula-filtro {
+    max-width: 9em;
+}
+
+#animali .filtri .capsula-filtro input::placeholder, #eventi .filtri .capsula-filtro input::placeholder {
+    color: var(--placeholder-text);
+    text-align: center;
+}
+
+#animali .filtri .capsula-filtro label, #eventi .filtri .capsula-filtro label{
+    margin-right: 0.5em;
+    width: fit-content;
+}
+
+/* contenitore nav */
+/* NAV container */
+#animali #nav-animali-type {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 1.5em;
+    margin-top: 1.5em;
+}
+
+
+#animali #nav-animali-type ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+         /* 🔑 SEMPRE 1/3 dello schermo */
+    flex-shrink: 0;      /* ❌ non si restringe */
+}
+
+
+#animali #nav-animali-type li {
+    flex: 1;                     /* 1/3 ciascuno */
+    white-space: nowrap;         /* niente a capo */
+    text-align: center;
+    padding: 0.6em 0;
+    border-bottom: 2px solid var(--txtcolor);
+    min-width: 200px;
+}
+
+
+#animali #nav-animali-type::after {
+    content: "";
+    flex: 1;
+    border-bottom: 2px solid var(--txtcolor);
+}
+
+
+
+/* link */
+#animali #nav-animali-type a {
+    display: block;
+    text-decoration: none;
+    color: var(--headerlink);
+    font-weight: normal;
+}
+
+/* elemento attivo */
+#animali #nav-animali-type .currentType {
+    /*flex: 0 0 auto;*/
+    padding: 0.6em 1.2em;
+    font-weight: bold;
+    border: 2px solid var(--txtcolor);
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+    border-bottom: none;
+    /*margin-bottom: -2px;*/
+    background: var(--bgcolor);
+}
+
+/* Lista filtri */
+
+
+
+#cancel-filter-visible{
+    color:var(--text-buttoncolor);
+    border:2px solid var(--buttoncolor);
+    padding:5px 12px;
+    text-align: center;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s;
+    border-radius: 0.5em;
+    height: fit-content;
+    margin-bottom:0;
+}
+
+#animali #content-filter-button, #eventi #content-filter-button{
+    display: flex;
+    margin:auto;
+    gap:1em;
+    height: fit-content;
+}
+
+#animali #content-filter-button a, #eventi #content-filter-button a{
+    flex: 1 1 100%;
+}
+
+#animali #content-filter-button button{
+    flex: 1 1 40%;
+}
+
+#cancel-filter-visible:hover{
+    border:2px solid var(--bgcolor);
+}
+
+#cancel-filter-invisible {
+    display: none;
+}
+
+
+
+#animali .cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    margin-top: 1em;
+
+}
+
+#animali li article h3{
+    font-size: 1.2em;
+    margin-top:3px;
+    margin-bottom:0px;
+}
+
+#animali li.card, #animali li.dark-card {
+    width: 11em;
+    height: 14em;
+    margin: 0.5em;
+    border-radius: 0.2em;
+    position: relative;
+    background-color: var(--darkbgcolor);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    overflow: hidden;
+    border: 3px solid var(--darkbgcolor);
+    transition: 
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+        /* border: 0.3 ease; */ 
+}
+
+
+#animali li.card:hover{
+    /* background-color: var(--bgcolor); */
+    border-color: var(--buttoncolor-hover); /* colore evidenziato */
+    box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+    border: 3px solid var(--buttoncolor-hover);
+}
+
+#animali li.card article, #animali li.dark-card article {
+    /* width: 11em; */
+    height: 14em;
+    overflow: hidden;
+    align-items: center;
+}
+
+#animali .immagine {
+    height: 60%;
+    width: 100%;
+    align-content: center;
+    /* overflow: hidden; */
+    box-sizing: border-box;
+    position: relative;
+    border-bottom: 1px solid var(--text-buttoncolor);
+}
+
+#animali .card .immagine img, #animali .dark-card .immagine img {
+    display: block;
+    width: 100%;               /* immagine occupa tutta la larghezza */
+    height: 100%;             
+    object-fit: cover;
+    
+    box-sizing: border-box;
+}
+
+#animali .card .nome, #animali .dark-card .nome {
+    padding-top: 0.5em;
+    padding-left: 1em;
+    float: left;
+    clear: left;
+    /* width: 80%; */
+    /* padding-right: 65%; */
+    font-weight: bold;
+    /* height: 40px; */
+    white-space: nowrap;      /* testo su una sola riga */
+    overflow: hidden;         /* taglia il testo che esce dal box */
+    text-overflow: ellipsis;  /* aggiunge "..." alla fine */
+}
+
+#animali .card .sesso-etaDesk,
+#animali .card .sesso-etaMob, #animali .dark-card .sesso-etaDesk, #animali .dark-card .sesso-etaMob {
+    padding-left: 1em;
+    float: left;
+    clear:left;
+}
+
+#animali .card .sesso-etaMob, #animali .dark-card .sesso-etaMob{
+    display: none;
+}
+
+#animali .card .interessamento {
+    float: right;   /* non serve più */
+    clear: left;
+    padding-right: 0.5em;
+    padding-top: 1px;
+}
+
+#animali .dark-card .adottato {
+    clear: left;
+    text-align: center;
+    border: 1px solid var(--txtcolor);
+    margin-top: 0.7em;
+    margin-left: 1em;
+    margin-right: 1em;
+    border-radius: 1em;
+    font-style: italic;
+}
+
+#animali .dark-card img.immagine {
+    opacity: 50%;
+}
+
+
+
+#animali .is-favorite,
+#animali .not-favorite, #preferiti .is-favorite, #preferiti .not-favorite{
+    /* float:right; */
+    /* margin-left: 50%; */
+    position: relative;
+    /* top: 0.5em; */
+    right: 0.5em;
+    width: 2em;      /* dimensione pulsante */
+    height: 2em;
+    padding: 1em;
+    border: none;
+    background: none;
+    cursor: pointer;
+    z-index: 2;
+}
+
+/* entrambe le immagini */
+#animali .is-favorite img,
+#animali .not-favorite img, #preferiti .is-favorite img,
+#preferiti .not-favorite img {
+    position: absolute;
+    top: 0;
+    /* left: 0; */
+    right: 0;
+    /* width: 100%;
+    height: 100%; */
+    width: 32px;
+    height: 32px;
+    transition: opacity 0.3s ease;
+}
+
+/* stato iniziale */
+#animali .is-favorite .heart-hover,
+#animali .not-favorite .heart-hover, #preferiti .is-favorite .heart-hover, #preferiti .not-favorite .heart-hover {
+    opacity: 0;
+    /* margin-left: auto; */
+    /* float: right; */
+}
+
+#animali .card .cuore {
+    display: flex;
+    justify-content: end;
+}
+
+#animali .card .cuore .preferiti-form{
+    justify-content:end;
+}
+
+/* hover */
+#animali .not-favorite:hover .heart-hover, #preferiti .not-favorite:hover .heart-hover {
+    opacity: 1;
+}
+
+#animali .not-favorite:hover .heart-normal, #preferiti .not-favorite:hover .heart-normal {
+    opacity: 0;
+}
+
+/* Assicurati che la card sia riferimento per il posizionamento */
+.cards-container li.card, .cards-container li.dark-card {
+    position: relative; /* fondamentale per l'overlay */
+    width: 11em;
+}
+
+/* Overlay invisibile */
+#animali .card .dettagli-animale-bottone a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;            /* sotto il cuore */
+    display: block;
+    text-indent: -9999px;   /* nasconde testo se presente */
+    color:var(--txtcolor);
+    cursor: pointer;
+}
+
+#animali .dark-card .dettagli-animale-bottone a {
+    display: none;
+}
+
+/* Assicurati che il form riempia tutto l'overlay */
+
+
+/* LINK NEXT PAGES */
+
+#animali .next-page-links, #eventi .next-page-links {
+    display: flex;
+    justify-content: center;
+    margin: 2em;
+}
+
+/* per pagina admin!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! , ho dato id="animals" anche nella pagina senza-amministratori*/
+#animali.tabs-container .next-page-links{
+    margin: 0em auto;
+}
+
+#admin-area #animali.tabs-container .tab-content{
+    border: none;
+}
+
+#animali .next-page-links li,
+#animali .next-page-links li a, 
+#eventi .next-page-links li, 
+#eventi .next-page-links li a {
+    color: var(--bgform);
+    list-style: none;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#animali .next-page-links li, #eventi .next-page-links li {
+    padding: 0.3em;
+    margin: 0.3em;
+    border: 2.3px solid var(--bgform);
+    border-radius: 0.5em;
+    width: 2.5em;
+    height: 2.5em;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    /* font-size: 1.3em; */
+}
+
+#animali .next-page-links li a:hover, #eventi .next-page-links li a:hover{
+    border-bottom:2px solid var(--bgconfirmbutton);
+}
+
+#animali .next-page-links li a, #eventi .next-page-links li a {
+    transition: 0.3s;
+    border-bottom:2px solid var(--bgcolor);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+#animali .next-page-links ul, #eventi .next-page-links ul {
+    display: flex;
+    justify-content: center;
+    border: 2.3px solid var(--bgform);
+    border-radius: 0.5em;
+    padding: 0.3em;
+}
+
+#animali .next-page-links .currentLinkPagination, #eventi .next-page-links .currentLinkPagination {
+    background-color: var(--bgform);
+    color: var(--bgcolor);
+    justify-content: center;
+}
+
+
+
+
+
+
+
+/*=================PAGINA ANIMALI PREFERITI======================*/
+/* Banner */
+
+#invitoAdAccedere {
+    width: 100%;
+    background-color:var(--darkbgcolor); /* cambia colore a piacere */
+    color: var(--txtcolor);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-style: italic;
+}
+
+
+
+#invitoAdAccedere img {
+    height: 1.5em;
+    width: 1.5em;
+    margin: 0.5em;
+    margin-bottom:0;
+}
+
+#invitoAdAccedere #invito-accedi-content {
+    margin: 0.5em;
+    width: 20em;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+
+#invitoAdAccedere .white-button {
+    margin: 0.5em;
+    background-color: var(--buttoncolor);
+    font-style:normal;
+    margin-bottom: 1em;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+#invitoAdAccedere .white-button:hover {
+    margin: 0.5em;
+    background-color: var(--bgcolor);
+}
+
+
+
+
+
+
+
+
+
+
+
+/*=================PAGINA EVENTI======================*/
+
+#eventi #content-filter-button button {
+    flex: 1 1 100%;
+    min-width: 5em;
+}
+
+#eventi #cancel-filter-visible, #animali #cancel-filter-visible {
+    height:auto;
+    padding:0.5em;
+}
+
+#eventi .filtri .capsula-filtro input {
+    width: 30%;
+    text-align:center;
+    padding-top: 0.2em;
+}
+
+#eventi .filtri {
+    flex-wrap: wrap;
+}
+
+
+#eventi .filtri .capsula-filtro .data-range {
+    /* display:contents; */
+    display: flex;
+    justify-content: center;
+    gap: 0.2em;
+}
+
+#eventi .filtri #searchData.capsula-filtro {
+    max-width: 21em;
+}
+
+#eventi .filtri .capsula-filtro label[for="search"] +input {
+    width: 100%;
+    min-width: 100px;
+    max-width: none;
+    background-color: var(--darkbgcolor);
+}
+
+#eventi .filtri .capsula-filtro ul {
+    display: flex;
+    width: 100%;
+}
+
+#eventi .filtri .capsula-filtro .data-range {
+    position: relative;
+    width: 100%;
+    gap: 0em;
+}
+
+
+#eventi .filtri .capsula-filtro .data-range input {
+    width: 100%;
+    background-color: var(--bgcolor);
+    margin: 0em;
+}
+
+#eventi .filtri .capsula-filtro #city-event {
+    display: flex;
+    min-width: 6em;
+    background-color: var(--bgcolor);
+    flex-grow: 1;
+    max-width: none;
+}
+
+#eventi .filtri .capsula-filtro #cityFilter {
+    /* display: flex; */
+    min-width: 0em;
+    background-color: var(--bgcolor);
+    flex-grow: 1;
+    max-width: none;
+}
+
+#eventi .filtri .capsula-filtro #cityFilter #city-suggestions {
+    /* display: flex; */
+    min-width: 0em;
+    background-color: var(--bgcolor);
+    flex-grow: 1;
+    max-width: none;
+}
+
+#eventi #cancel-filter-visible {
+    min-width: 5.7em;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    
+    width: 100%;
+    height: 100%;
+}
+
+#eventi .data-range input[type="date"] {
+    position: relative;
+}
+
+
+#eventi .dettagli-evento-bottone a{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;            /* sotto il cuore */
+    display: block;
+    text-indent: -9999px;   /* nasconde testo se presente */
+    color:var(--txtcolor);    
+}
+
+#eventi .dettagli-evento-bottone a:hover {
+cursor: pointer;
+}
+
+
+#eventi .evento .posizione-data-abbr {
+    display: none;
+}
+
+#eventi .evento {
+    position: relative;
+    list-style: none;
+    width: 100%;
+    height: 10em;
+    display: block;
+    padding-right: 1em;
+    background-color: var(--darkbgcolor);
+    /* border: 0.1em solid var(--darkbgcolor); */
+    border-radius: 0.5em;
+    /* margin: 0.2em; */
+    border: 2px solid var(--darkbgcolor);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#eventi .evento:hover {
+    border: 2px solid var(--buttoncolor-hover);
+}
+
+#eventi .cards-container li {
+    border-radius: 0.5em;
+    list-style: none;
+    width: 47%;
+    height: 10em;
+    display: block;
+    background-color: var(--darkbgcolor);
+    margin: 0.5em;
+}
+
+#eventi .evento img.immagine-evento {
+    width: 11em;
+    height: 100%;
+    padding: 0.8em;
+   float:left;
+   padding-right: 2em;
+   object-fit: cover;
+   min-width: 8em;
+   /* margin-right: 2em; */
+   /* display: flex; */
+}
+
+#eventi .evento .posizione-evento img, 
+#eventi .evento .data-evento img {
+    padding: 0em;
+    height: 1.5em;
+    width: 1.5em;
+    /* margin-right: 0.2em; */
+    object-fit: contain;
+}
+
+#eventi .evento .posizione-evento {
+    float:left;
+    gap: 0.2em;
+    margin-right: 0.6em;
+    margin-top: 0.4em;
+    margin-bottom: 0.2em;
+    align-items: center;
+    display: flex;
+}
+
+#eventi .evento .data-evento{
+    float:right;
+    gap: 0.2em;
+    margin-right: 0.6em;
+    margin-top: 0.4em;
+    margin-bottom: 0.2em;
+    align-items: center;
+    display: flex;
+}
+
+#eventi .evento .descrizione-evento {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    /* -webkit-line-clamp: 4; */
+    overflow: hidden;
+    clear: right;
+    max-width: 35em;
+    margin-top: 0.2em;
+    text-align: left;
+}
+
+#eventi .evento h2 {
+    font-size: 1em;
+    margin: 0 0 0.2em 0;
+}
+
+#eventi .evento .descrizione-evento p {
+    margin: 0;
+}
+
+#eventi .cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 2em;
+}
+
+
+
+
+
+
+
+
+
+
+/* ================== PROFILO UTENTE NORMALE ==================*/
+#user-profile h2{
+    font-size: 1.6em;
+}
+
+#user-profile{
+    margin-bottom: 2em;
+}
+
+#user-profile .column-container{
+    margin-top: 2em;
+    align-items: flex-start;
+}
+
+#user-profile .column-container .tabs-container{
+    flex: 1 1 63%;
+}
+
+
+#user-profile .column-container #user-info{
+    flex: 1 1 35%;
+}
+
+#user-profile .tabs-container select:focus, #admin-area .tabs-container select:focus{
+    outline: 2px solid var(--headercolor);
+}
+
+/* tab */
+#user-profile .tabs-container, #admin-area .tabs-container {
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+
+#user-profile .tabs-container input, #admin-area .tabs-container input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+
+#user-profile .tabs-container input + label, #admin-area .tabs-container input + label {
+    flex: 1 0 46%;
+    padding: 1.8% 2%;
+    height: 50px;
+    border-bottom: 1px solid var(--headercolor);
+    text-align: center;
+    
+    margin:0;
+    cursor: pointer; 
+}
+
+#user-profile .tabs-container .tab-content, #admin-area .tabs-container .tab-content{
+    flex: 1 0 50%;
+    height: fit-content;
+    border-bottom: 1px solid var(--headercolor);
+    border-left: 1px solid var(--headercolor);
+    border-right: 1px solid var(--headercolor);
+    display: none; 
+    padding: 1em;
+    border-radius: 0 0 0.5em 0.5em;
+}
+
+/* con questo se dezoommi richieste di adozione e animali senza amministratore il contenuto delle tab rimane giù */
+#admin-area .tabs-container .tab-content{
+flex: 1 0 100%;
+}
+#user-profile input:checked + label, #admin-area input:checked + label{
+    border-top: 1px solid var(--headercolor); 
+    border-left: 1px solid var(--headercolor); 
+    border-right: 1px solid var(--headercolor); 
+    border-bottom:0;
+    /* border-bottom: 1px solid var(--bgcolor); */
+    border-radius: 0.5em 0.5em 0 0;
+    font-weight: bold;
+    z-index: 1;
+}
+
+#admin-area input:checked + label h2{
+    font-weight: 600;
+}
+
+#user-profile .tabs-container #tab1:checked  ~ .tab-content:nth-of-type(1),
+#user-profile .tabs-container #tab2:checked  ~ .tab-content:nth-of-type(2), 
+#admin-area .tabs-container #tab1:checked  ~ .tab-content:nth-of-type(1),
+#admin-area .tabs-container #tab2:checked  ~ .tab-content:nth-of-type(2), 
+#admin-area .tabs-container #tab3:checked  ~ .tab-content:nth-of-type(3),
+#admin-area .tabs-container #tab4:checked  ~ .tab-content:nth-of-type(4),
+#admin-area .tabs-container #tab5:checked  ~ .tab-content:nth-of-type(5){
+    display: block;
+}
+
+#user-profile .tab-content form{
+    text-align: right;
+    margin-bottom:1em;
+}
+
+#user-profile .tab-content label[for="request-state-movement"],
+#user-profile .tab-content label[for="request-state-richieste"]{
+    display: inline-block;
+}
+
+#user-profile .tabs-container legend{
+    display: none;
+}
+
+#user-profile .tab-content form button,
+.logout-btn,
+#revisione-richiesta #button-cancel,
+#revisione-richiesta button,
+.dialog-buttons label{
+    border-radius: 2em;
+    background-color: var(--buttoncolor);
+    color:var(--txtcolor);
+    padding: 0.5em 2em;
+    transition: 0.3s;
+    border:2px solid var(--buttoncolor);
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#user-profile .tab-content form button{
+    margin:0.5em;
+}
+
+.logout-btn{
+    margin:1em auto 0 auto;
+    display: flex;
+    font-size: 1em;
+    font-weight: 600;
+}
+
+#user-profile .tab-content form button:hover,
+.logout-btn:hover,
+#revisione-richiesta #button-cancel:hover,
+#revisione-richiesta button:hover{
+    background-color:var(--bgcolor);
+}
+
+
+
+#user-profile .tabs-container select,
+#profilo-richiedente .tabs-container select{
+    padding:0.5em;
+    background-color: var(--bgcolor);
+    border-radius: 2em;
+    border-color: var(--text-buttoncolor);
+    color:var(--text-buttoncolor);
+    margin:5px;
+    font-size: 1em;
+}
+
+#user-profile #user-info img.circle-foto{
+    margin:auto;
+}
+
+#user-info{
+    padding: 2em 1em;
+    border:1px solid var(--headercolor);
+    border-radius: 0.5em;
+}
+
+#user-info dt{
+    font-weight: bold;
+}
+
+#user-info dd {
+    margin-bottom:0.5em;
+}
+
+#user-profile #lista-movimenti li,
+#user-profile #lista-richieste li,
+#profilo-richiedente .tabs-container li{
+    list-style: none;
+    background-color: var(--darkbgcolor);
+    border:2px solid var(--darkbgcolor);
+    margin:0.5em 0;
+    padding: 1em;
+    border-radius: 0.5em;
+}
+
+#user-profile #lista-richieste .close-request{
+    background-color: transparent;
+    color: var(--txtclose-request);
+} 
+
+#user-profile #lista-movimenti article,
+#user-profile #lista-richieste article,
+#profilo-richiedente .tabs-container article{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#user-profile #lista-movimenti article p:first-of-type,
+#user-profile #lista-richieste article p:first-of-type,
+#profilo-richiedente .tabs-container article p:first-of-type{
+    flex: 1 1 65%;
+    margin-left:1em;
+}
+
+#user-profile #lista-movimenti li a,
+#user-profile #lista-richieste li a,
+#profilo-richiedente .tabs-container li a{
+    margin:0.5em auto 0 auto;
+    border-radius: 2em;
+    background-color: var(--buttoncolor-hover);
+    color:var(--bgcolor);
+    padding: 3px 2em;
+    transition: 0.3s;
+    font-weight: 500;
+}
+
+#user-profile #lista-movimenti li p+p,
+#user-profile #lista-richieste li p+p{
+    margin:0.5em auto 0 auto;
+}
+
+.nonDisponibile{
+    border-radius: 2em;
+    background-color: transparent;
+    color:var(--txtcolor);
+    padding: 1px 0.9em;
+    transition: 0.3s;
+    border:2px solid var(--buttoncolor-hover);
+}
+
+#user-profile #lista-movimenti li a:hover,
+#user-profile #lista-movimenti li a:visited:hover,
+#user-profile #lista-richieste li a:hover,
+#user-profile #lista-richieste li a:visited:hover,
+#profilo-richiedente .tabs-container li a:hover,
+#profilo-richiedente .tabs-container li a:visited:hover{
+    color: var(--txtcolor);
+    background-color:transparent;
+}
+
+#user-profile #lista-movimenti li a:visited,
+#user-profile #lista-richieste li a:visited,
+#profilo-richiedente .tabs-container li a:visited{
+    color:var(--buttoncolor);
+}
+
+#query-vuota{
+    text-align: center;
+}
+
+.view-mode h2{
+    padding:0.5em 0;
+}
+
+.view-mode dt{
+    float: left;
+    margin-right: 0.5em;
+}
+
+.view-mode span{
+    display: flex;
+    position: relative;
+}
+
+.view-mode .edit-profile-link{
+    margin:0.5em auto;
+    background-color: var(--bglink-hover);
+    padding: 0.5em 1em;
+    color:var(--txtcolor);
+    border-radius: 2em;
+    display: flex;
+    width: fit-content;
+    flex-wrap: nowrap ;
+    text-decoration: none;
+    border:2px solid var(--bglink-hover);
+    transition: 0.4s;
+    letter-spacing: 0.5px;
+}
+
+.view-mode .edit-profile-link:hover{
+    border:2px solid var(--bglink-hover);
+    background-color: transparent;
+}
+
+.view-mode .edit-profile-link p{
+    margin-right: 5px;
+}
+
+
+.view-mode .edit-profile-link img{
+    margin-right: 0;
+    margin-left: auto;
+    margin-top:-5px;
+    height: 25px;
+    width:auto;
+}
+
+.view-mode span h2 + a{
+    color:var(--txtcolor);
+    width: 45px;
+}
+
+.normal-icon,
+.hover-icon{
+    position: absolute;
+    top:4px;
+    right:0;
+    transition: 0.4s;
+    width: 45px;
+    height: 45px;
+    color:var(--txtcolor);
+}
+
+.normal-icon {opacity: 1;}
+.hover-icon {opacity: 0;}
+
+a:hover .normal-icon {opacity: 0;}
+a:hover .hover-icon {opacity: 1;}
+
+/* MODALITA MODIFICA */
+
+.checkbox-container-pic {
+    margin-bottom:-5px;
+    padding:5px;
+    text-align: center;
+    cursor: pointer;           
+    gap: 10px;                 
+}
+
+.checkbox-container-pic input[type="checkbox"],
+#home input[name="type-animal"],
+#form-add-animal .checkbox-label input[type="checkbox"]{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    position: relative;
+    top:5px;
+    background-color: transparent;    
+    border: 1px solid var(--txtcolor);     
+    border-radius: 4px;         
+    cursor: pointer;
+    margin: 0;                  
+}
+
+.sex-option input[type="radio"]{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top:5px;
+    background-color: transparent;    
+    border: 1px solid var(--txtcolor);     
+    border-radius: 2em;         
+    cursor: pointer;
+    margin: 0;      
+}
+
+.checkbox-container-pic input[type="checkbox"]:checked,
+#home input[name="type-animal"]:checked,
+.sex-option input[type="radio"]:checked,
+#form-add-animal .checkbox-label input[type="checkbox"]:checked {
+    background-color: var(--buttoncolor);   
+    border-color: var(--buttoncolor);  
+}
+
+.checkbox-container-pic input[type="checkbox"]::before,
+#home input[name="type-animal"]::before.active{
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    top:4px;
+    left:4px;
+    /* icona dlla v */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    transform: scale(0);
+    transition: 0.2s transform ease-in-out;
+}
+
+#form-add-animal .checkbox-label input[type="checkbox"]::before{
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    top:4px;
+    left:4px;
+    /* icona dlla v */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    transform: scale(0);
+    transition: 0.2s transform ease-in-out;
+    
+}
+
+.sex-option input[type="radio"]::before{
+    content: "";
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    top:3px;
+    left:3px;
+    /* icona dlla v */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    transform: scale(0);
+    transition: 0.2s transform ease-in-out;
+}
+
+.checkbox-container-pic input[type="checkbox"]:checked::before,
+#home input[name="type-animal"]:checked::before,
+.sex-option input[type="radio"]:checked::before,
+#form-add-animal .checkbox-label input[type="checkbox"]:checked::before {
+    transform: scale(1);        
+}
+
+.edit-mode .edit-number div{
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.edit-mode .edit-number div span{
+    margin:auto 5px auto 0;
+}
+
+.edit-mode h2,
+.edit-management h2{
+    text-align: center;
+}
+
+#revisione-richiesta form label,
+#signup form label,
+#user-profile form label,
+#home form label,
+#login form label{
+    margin-top:1em;
+}
+
+.edit-mode input[type="file"]{
+    background-color: var(--darkbgcolor);
+    color: var(--text-buttoncolor);
+    border:none;
+    border-radius: 2em;
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+    background-color: var(--buttoncolor);
+    color: var(--text-buttoncolor);
+    border:none;
+    padding: 0.5em 1em;
+    font-weight: 600;
+    border-radius: 2em;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: var(--darkbgcolor);
+}
+
+.edit-mode form span,
+.edit-management form span,
+#form-add-animal .form-buttons-container{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1em auto 0 auto;
+}
+
+.edit-mode form span a,
+.edit-mode form span button,
+.edit-management form span a,
+.edit-management form span button,
+#form-add-animal button[name="submit-animal"],
+#form-add-animal a#cancel-add-animal{
+    flex: 1 1 44%;
+    text-align: center;
+    border-radius: 1em;
+    padding:0.5em 1em;
+    font-size: 1em;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.edit-mode form span button,
+.edit-management form span button,
+#form-add-animal button[name="submit-animal"]{
+    background-color: var(--buttoncolor);
+    color:var(--text-buttoncolor);
+    border:2px solid var(--buttoncolor);
+    cursor: pointer;
+    margin-left:0.5em;
+    font-family: "Parkinsans", Roboto, sans serif;
+}
+
+.edit-mode form span a,
+.edit-management form span a,
+#form-add-animal a#cancel-add-animal{
+    color:var(--text-buttoncolor);
+    border:2px solid var(--buttoncolor);
+    text-decoration: none;
+    margin-right:0.5em;
+}
+
+.edit-mode form span a:hover,
+.edit-mode form span button:hover,
+.edit-management form span a:hover,
+.edit-management form span button:hover,
+#form-add-animal button[name="submit-animal"]:hover,
+#form-add-animal a#cancel-add-animal:hover
+{
+    border:2px solid transparent;
+    background-color: transparent;
+}
+
+/* ================== REVISIONE RICHIESTA ==================*/
+
+#revisione-richiesta h1{
+    border-bottom:2px solid var(--footercolor);
+}
+
+#revisione-richiesta .column-container{
+    padding:0;
+    margin-top:2em;
+    gap:4.5em;
+}
+
+#revisione-richiesta h2{
+    font-size: 1.6em;
+}
+
+#revisione-richiesta dt{
+    float:left;
+    margin-right:0.5em;
+}
+#revisione-richiesta dd{
+    margin-bottom:0.5em;
+}
+
+#revisione-richiesta .details-card-animale{
+    border:1px solid var(--txtcolor);
+    border-radius:0.5em;
+    padding:1em;
+    margin-top:1em;
+}
+
+#revisione-richiesta #info-request dl,
+#revisione-richiesta #state-request dl{
+    background-color: var(--darkbgcolor);
+    border-radius:0.5em;
+    padding:1em;
+    margin:1em 0;
+}
+
+#revisione-richiesta dt{
+    font-weight: bold;
+}
+
+
+#revisione-richiesta form{
+    margin:1em 0 1em auto;
+    width: fit-content;
+}
+
+.details-card-animale a.brown-button{
+    padding:0.4em 1em;
+    width: 100%;
+    border-radius: 2em;
+    margin:auto;
+}
+
+.details-card-animale div{
+    display: flex;
+    flex-wrap: wrap;
+    margin:auto;
+    gap:1em;
+}
+
+.details-card-animale div div{
+   flex:1 0 46%;
+   padding-bottom:0.5em;
+}
+
+.details-card-animale img{
+   width: 100%;
+   object-fit: contain;
+}
+
+.details-card-animale div dl{
+    flex:0 0 50%;
+}
+
+#revisione-richiesta #info-request{
+    flex:1 1 45%;
+}
+
+#revisione-richiesta #info-animal{
+    flex:1 1 40%;
+}
+
+/* POPUP */
+
+/* Nascondi la checkbox tecnica */
+.popup-checkbox {
+    display: none;
+}
+
+/* Stile base del popup (nascosto di default) */
+.overlay-content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Sfondo scuro semitrasparente */
+    z-index: 1000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-checkbox:checked + label + .overlay-content, 
+.popup-checkbox:checked ~ .overlay-content {
+    display: flex; 
+}
+
+.dialog-box {
+    background: var(--bgcolor);
+    padding: 2em;
+    border-radius: 8px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.dialog-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    margin-top: 1.5em;
+}
+
+#revisione-richiesta #button-cancel,
+#revisione-richiesta button{
+    font-size: 1em;
+    margin:1em 0 1em auto;
+    width: fit-content;
+}
+
+.dialog-buttons label{
+    background-color: var(--bgcolor);
+    margin:auto;
+    width: fit-content;
+    padding:0.3em 2.7em;
+}
+
+.dialog-buttons label:hover,
+#revisione-richiesta button:hover{
+    border-color:var(--bgcolor);
+}
+
+#delete-request-check:disabled + #button-cancel:hover,
+#delete-request-check:disabled + #button-cancel{
+    background-color: var(--darkbgcolor);
+    border-color:var(--darkbgcolor);
+    color:var(--txtclose-request);
+    cursor:default;
+    font-weight: 500;
+}
+
+
+/* ================== LOGIN ==================*/
+#container-image-login{
+    flex: 0 1 50%;
+}
+
+#login img{
+    width: 100%;
+    height: auto;
+    border-radius: 1.5em 0 0 1.5em;
+    display: block;
+    pointer-events: none;
+}
+
+#container-form-login{
+    flex: 1 1 40%;
+}
+
+#form-login{
+    padding:1em 2em 0 2em;
+    height: fit-content;
+}
+#form-login legend{
+    margin-bottom:0.5em;
+}
+
+#login .container .column-container{
+    background-color: var(--bgcolor);
+    border-radius: 1.5em;
+    padding:0;
+    gap:0;
+
+}
+
+#login .container{
+    height: fit-content;
+}
+
+#form-login button{
+    width: 80%;
+    margin-top:3em;
+}
+
 /* ================== =========== PAGINE ADMIN================== ============*/
 
 
 /* ================== AREA RISERVATA ADMIN==================*/
 body#admin-body{
     background-color: var(--footercolor);
+    display: inline-block;
+    width: 100%;
 }
+
 div#admin-area article h2{
      font-size: 1.5em; 
      font-weight: 600;
 }
 
 div#admin-area{
-    padding: 3em 6em;
+    padding: 0em 5em;
+    min-height: 100vh;
+    margin-top: 2em;
 }
 
+body#admin-body #breadcrumb{
+    margin: 0.5em auto 0.5em auto ;
+}
+
+div#admin-area div#row2 article{
+    margin-top:0em;
+}
 div#admin-area article {
   padding:1em 1em 1em 1em;
   border: 1px solid var(--txtcolor);
@@ -1278,6 +3114,11 @@ ul#to-do-list, ul#statistics-list {
     padding: 1em 1em;
 }
 
+ul#to-do-list li:has(a:focus-visible){
+    outline: 3px solid red;
+    outline-offset: 2px;
+}
+
 ul#to-do-list li, ul#statistics-list li{
     display: inline-block;
     padding: 1.8em 1.2em 1.2em 1.2em;
@@ -1290,19 +3131,22 @@ ul#to-do-list li, ul#statistics-list li{
 
 ul#to-do-list li{
      background-color: var(--buttoncolor);
-}
-
+    }
+    
 ul#statistics-list li{
-    border: 1px solid var(--txtcolor);
+    background-color: var(--darkbgcolor);
+
 }
 #to-do-list a, #statistics-list a{
     width:100%; /*riempie tutto il li*/
     color: var(--txtcolor);
     text-decoration: none;
+    font-weight: normal;
 }
 
 p.query-type{
-    font-size: 0.7em;
+    font-size: 0.9em;
+    line-height: normal;
     /* margin: 0 1em; */
 }
 p.n-query{
@@ -1326,7 +3170,13 @@ nav#menu-admin {
     padding: 1em 0em 1em 1em;
     height: 100%;
     overflow: hidden;
-    height: 100vh;
+     font-size: 100%;
+    /* height: 100vh; */
+}
+
+nav#menu-admin li a {
+    width: 100%;
+    display: block;
 }
 
 body#admin-body main {
@@ -1334,20 +3184,9 @@ body#admin-body main {
     margin-left:20%;
 }
 
-main#content{
-    min-height: 100vh;
-    padding-top:2em;
-}
-
-main.c404#content{
-   min-height:  80vh;
-
-}
-
-
 nav#menu-admin img {
     display: block;
-    margin: 0 auto;
+    margin: 1em auto;
     width: 12em;
     max-width: 100%;
     height: auto;
@@ -1355,30 +3194,70 @@ nav#menu-admin img {
 
 
 nav#menu-admin li {
-  padding: 1.3em;
+  padding: 1.1em 1.3em;
+  border-radius: 2em 0em 0em 2em;
+  transition: background-color 0.1s ease, color 0.4s ease;
+}
+
+nav#menu-admin li a{
+  text-decoration: none;
+  font-weight: normal;
+  /* font-size: 1.1em; */
+}
+
+nav#menu-admin button.logout-btn:hover{
+    background-color: var(--buttoncolor-hover);
+    color:var(--text-buttoncolor-hover);
+    border-color: var(--buttoncolor-hover);
+}
+
+.description-menu{
+    font-size: 1.3em;
+    border-bottom:1px solid var(--darkbgcolor);
+    margin-right: 1em;
+    margin-top: 2em;
+}
+
+nav#menu-admin li a:hover{
+  text-decoration: underline;
 }
 
 nav#menu-admin li#currentLink {
     background-color: var(--bgcolor);
-    border-radius: 2em 0em 0em 2em;
     color: var(--txtcolor);
+    font-weight: 600;
 }
 nav#menu-admin li a:visited{
     color: var(--visitedcolor);
 }
+
+nav#menu-admin li:hover{
+    /* background-color: var(--darkbgcolor); */
+    outline: 2px solid var(--bgcolor);
+    border-radius: 2em 0em 0em 2em;
+}
+
+nav#menu-admin li#currentLink:hover{
+    outline:none;
+}
+
+/* nav#menu-admin li:hover a{
+    color: var(--txtcolor);
+} */
+
 nav#menu-admin li#currentLink a{
     font-weight: 700;
     color: var(--txtcolor);
 }
-
 nav#menu-admin span{
     color: var(--bgcolor);
+    margin-left: 0.5em;
     font-weight: 700;
 }
 
 nav#menu-admin ul{
-    margin-top:0.5em;
-    margin-bottom: 2em;
+    margin-top:1em;
+    margin-bottom: 1em;
 }
 
 nav#menu-admin a#logout{
@@ -1403,7 +3282,7 @@ div#row2 article{
     float: left;
 }
 
-.header-info button.btn-edit {
+a.pencil {
     float: right;
     background: none;
     border: none;
@@ -1421,7 +3300,8 @@ div#row2 article{
 
 
 .generic-info-container label{
-    font-weight: 700;
+    font-weight: 600;
+    margin-top:0.5em;
 }
 
 #submit-edit.orange-button{
@@ -1462,7 +3342,11 @@ div#row2 article{
     height: 9em;
     object-fit: cover;
     clip-path: circle(50%);
-    margin-bottom: 2em;
+    pointer-events: none;
+    margin-left: 1.5em;
+    display: flex;
+    background-color: var(--bglink-hover);
+    margin-bottom: 1em;
 }
 
 .square-foto {
@@ -1473,7 +3357,9 @@ div#row2 article{
 }
 
 .text-details{
-    margin: auto 2em;
+    margin: auto 0;
+    max-width: 100%;
+    min-width: 50%;
 }
 
 .text-details ul{
@@ -1483,61 +3369,70 @@ div#row2 article{
 .header-info, .generic-info-container{
     margin-bottom: 1em;
 }
+#admin-area #animale-richiesta .text-details{
+    padding-left: 2em;
+}
+
+#admin-area #richieste select{
+    background-position: right 0em center; /* Destra, un po' staccata dal bordo, centrata verticale */
+}
 
 
 /*================= DETTAGLI RICHIESTE DI ADOZIONE ==================*/
-.tab {
+
+.pointer-events-none{
+    pointer-events: none;
+}
+#mobile-select{
+    display: none;
+}
+#admin-area .tabs-container {
     overflow: hidden;
     display: flex;
+    margin-top: 2em;
 }
 
-.tab button {
-  background-color: inherit;
-  border: none;
-  /* traduco in em */
-  padding: 0.9em 1em;
-  transition: 0.3s;
-  flex: 1; /* questo serve per far si che i tab siano grandi uguali e riempiano lo spazio*/
+#admin-area .tabs-container#richieste input + label{
+    flex:1;
+    height: auto;
 }
 
-.tab button.active {
-    padding-bottom: 0.3em;
-    border: 1px solid var(--txtcolor);
-    border-bottom: none;
+#admin-area .tabs-container#richieste .tab-content, #admin-area .tabs-container#animali .tab-content{
+    border: none;
+    margin: 0.5em;
+}
+.tab-content#Richiedente .brown-button{
+    margin: 0.5em 0em 0em auto;
 }
 
-.tab button {
-   border-bottom: 1px solid var(--txtcolor);
+#animale-richiesta .brown-button{
+    margin: 0em auto 1em 0em;
 }
-
-.tabcontent#Richiedente .orange-button{
-    margin: 0em 0em 0em auto;
-}
-
-#animale-richiesta .orange-button{
-    margin: 0em auto 2em 0em;
-}
-#details-container h2, .tab h2{
-    font-size: 1.2em;
-    /* margin-bottom: 1em; */
+#admin-area .tabs-container h2{
+    font-size: 1.1em;
     color: var(--txtcolor);
+    font-weight: normal;
 }
 
-.tabcontent {
-  display: none;
-  /* padding: 6px 12px; */
-  border: 1px solid #ccc;
-  border-top: none;
-} 
+div#admin-area dt{
+    font-weight: bold;
+    float: left;
+    margin-right: 0.5em;
+}
 
-#Richiesta ul{
-    list-style: none;
-    padding: 0em;
+div#admin-area dt::after {
+  content: ":";
 }
-#Richiedente ul{
-    list-style: none;
-    padding: 0em;
+
+.full-width{
+    width: 100%;
 }
+
+dt.data-error, .data-error+ dd{
+    color: red;
+    font-weight: bold;
+}
+
 
 
 #details-container{
@@ -1558,13 +3453,14 @@ div#admin-area #details-container article{
     flex: 1 1 200px;
     gap: 1em;
     margin: 0em;
+    padding:2em;
     border-radius: 0em;
     border-top: none;
 }
 
 div#admin-area #details-container article#animale-richiesta{
     margin: 0em;
-    border-radius: 1em;
+    border-radius: 0.5em;
     border-bottom-left-radius: 0em;
     border-bottom-right-radius: 0em;
     border-top: 1px solid var(--txtcolor);
@@ -1574,12 +3470,13 @@ div#admin-area #details-container article#animale-richiesta{
 #details-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 6em;
+    gap: 4em;
     align-items: flex-start;
     margin: 2em 0em;
 }
 
-.tabs-container {
+
+#admin-area .tabs-container {
     flex: 2 1 300px;
 }
 
@@ -1602,31 +3499,39 @@ div#admin-area div#animal-container{
 }
 
 div#admin-area article#stato-trasporto{
-    background-color: var(--darkbgcolor);
-    width: 55%;
-    padding: 1em 1em;
-    margin: auto auto 0em 0em;
+    margin: 2em auto 1em 0em;
 } 
 
 #top-container{
     display: flex;
+    justify-content: flex-end;
+    align-items: center;
     flex-wrap: wrap;
 }
 
-#stato-trasporto p{
-    padding-top: 0.7em;
-    float: left;
-    margin-right: 2em;
-}
-#stato-trasporto a{
-    float: right;
-}
-#top-container a.orange-button, #top-container form{
-    margin: auto 0em 0em auto;
+#top-container a.orange-button,#top-container button.orange-button{
+   margin: 0em 0em 0em auto;
 }
 
+div#admin-area article.note{
+    background-color: var(--darkbgcolor);
+    padding: 1em;
+    border-radius: 0.5em 0.5em 0 0;
+    border: none;
+    margin: 0em;
+}
 #bottom-container form{
-    margin: auto 0em 0em auto;
+    margin: 1em 0em 0em auto;
+}
+#bottom-container button{
+    margin: 1em 0em 0em auto; /*questa regola seleziona DUE button, quello del form delle annotazioni e quello di scarta richiesta*/
+}
+#bottom-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+    padding-bottom: 2em;
+
 }
 
 .note{
@@ -1635,106 +3540,74 @@ div#admin-area article#stato-trasporto{
     overflow: hidden;
     width: 55%;
 }
-/* .header-note{
-    gap: 1em;
-} */
-.header-note h2{
+
+.header-article h2{
     float: left;
     font-size: 1.3em;
 }
-.header-note a{
+.header-article a{
     float: right;
 }
 
-#bottom-container{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2em;
-
+.header-article dl{
+   width: 80%;
 }
 
 
-.note p.editing {
-    padding: 0.5rem;
-    background-color: var(--darkbgcolor);
+.note pre {
+    font-family: inherit;
 }
 
-/* Nasconde i form quando hanno la classe .hidden */
-#form-data.hidden, 
-#form-note.hidden,
-#data-text.hidden,
-#note-text.hidden {
-    display: none;
-}
 
-/* Quando il form della data è attivo, sta in linea con il testo */
-#form-data {
-    display: inline;
-}
 
-/* Il form delle note lo facciamo apparire come un blocco sotto il titolo */
-#form-note {
-    display: block;
-    margin-top: 0.5rem;
-}
-
-/* --- Stile Input e Textarea --- */
 
 #input-note {
     width: 100%;
     padding: 0.5rem;
     background-color: var(--darkbgcolor);
-    border: 1px solid var(--bordercolor, #ccc);
+    border: 1px solid var(--txtcolor);
     border-radius: 4px;
     font-family: inherit;
     font-size: 1rem;
-    resize: vertical; /* Permette all'utente di allungare l'area */
+    resize: none;
+}
+
+#input-note:focus {
+    outline: 2px solid var(--txtcolor);
 }
 .orange-button.respinta {
     background-color: var(--darkbgcolor);
     border: none;
     cursor: not-allowed;
-}
-
-
-/* Quando il form ha la classe .hidden, sparisce */
-#stato-trasporto .hidden {
-    display: none;
-}
-
-/* Quando il form NON ha .hidden, deve stare sulla stessa riga del testo */
-#form-data {
-    display: inline;
+    pointer-events: none;
 }
 
 /*================= RICHIESTE DI ADOZIONE ==================*/
 
-div#admin-area .tab-richieste{
-    border: none;
-    padding: 0.5em;
-}
 
-/* 1. Tabella: Impostazioni fondamentali per il raggio */
 table {
-    border-collapse: separate; /* Permette il border-radius */
-    border-spacing: 0;        /* Elimina lo spazio tra le celle */
+    border-collapse: separate;
+    border-spacing: 0; 
     width: 100%;
-    border-radius: 15px 15px 0 0;      /* Angoli tondi della tabella */
-    overflow: hidden;         /* Taglia lo sfondo del thead sugli angoli */
+    border-radius: 15px 15px 0 0;
+    overflow: hidden;
     margin-bottom: 1em;
 }
 
-/* 2. Header e Footer della tabella */
 thead, tfoot {
     background-color: var(--darkbgcolor);
 }
+
+footer a{
+    text-decoration: none;
+}
+
 
 thead th, tfoot th, tfoot td {
     padding: 0.5em 2em;
     text-align: left;
 }
 
-/* Arrotondamento manuale delle celle d'angolo del thead */
 thead tr:first-child th:first-child {
     border-top-left-radius: 15px;
 }
@@ -1743,26 +3616,23 @@ thead tr:first-child th:last-child {
     border-top-right-radius: 15px;
 }
 
-/* 3. Corpo della tabella (Righe e Celle) */
 tbody td, tbody th {
-    padding: 0em 2em; /* Aumentato per dare respiro */
+    padding: 0em 2em;
     text-align: left;
     border-bottom: 1px solid var(--txtcolor);
 }
 
-/* Rimuove l'ultimo bordo per non "sporcare" la curva in basso */
 tbody tr:last-child td, 
 tbody tr:last-child th {
     border-bottom: none;
 }
 
-/* 4. Gestione Colonne e Accessibilità */
+
 .col-dettagli {
-    text-align: right; /* Sostituisce il float:right per un allineamento più pulito */
+    text-align: right;
 }
 
-th.col-dettagli, caption {
-    /* Nasconde alla vista ma non agli screen reader (SR-ONLY) */
+caption {
     position: absolute;
     left: -999em;
     width: 1px;
@@ -1770,13 +3640,493 @@ th.col-dettagli, caption {
     overflow: hidden;
 }
 
-td.col-dettagli a{
+td.col-dettagli a,td.col-dettagli button{
     margin: 0.5em;
 }
 
+.nessun-risultato-message{
+    margin:1.2em auto;
+    width: 100%;
+    text-align: center;
+    display: block;
+}
+
+tr:hover {
+    background-color: var(--darkbgcolor);          
+}
+/*================== FILTRI  ==================*/
+.tab-content .filtri ul{
+    /* margin: 1em; */
+    justify-content: flex-end;
+}
+
+.tab-content .filtri{
+    margin-bottom: 1em;
+}
+.tab-content .filtri button{
+    display: inline;
+}
+
+/*==================NUOVO ANIMALE==================*/
+
+/* ========================================
+   CONTAINER PRINCIPALE
+   ======================================== */
+#admin-area-aggiungi {
+    margin-top:-6em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--secondsection);
+    padding: 2em 1em;
+    box-sizing: border-box;
+    background-image: url('../../assets/images/bg-pow.svg');
+    background-repeat: repeat;
+    background-size: contain;
+}
+
+/* ========================================
+   FORM BASE
+   ======================================== */
+#form-add-animal {
+    background-color: var(--bgcolor);
+    width: 95%;
+    max-width: 950px;
+    padding: 3em 4em;
+    margin-top:6em;
+    border-radius: 1em;
+    box-shadow: 0 0.5em 2em rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+#form-add-animal fieldset {
+    margin-bottom: 1em;
+    border: none;
+    padding: 0;
+}
+
+#form-add-animal legend {
+    float: left;
+    width: 100%;
+    font-weight: 600;
+    padding-top:0.5em;
+    margin-bottom: 1em;
+    border-top:2px solid var(--darkbgcolor);
+}
+
+#form-add-animal fieldset:first-of-type legend{
+    margin-top:1.5em;
+}
+
+/* ========================================
+   RADIO BUTTONS - TIPOLOGIA ANIMALE
+   ======================================== */
+.radio-group-cg {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    clear: both;
+    gap: 1em;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.radio-group-cg input[type="radio"] {
+    opacity: 0;
+}
+
+.radio-card {
+    display: inline-block;
+    padding: 0.5em 5em;
+    min-width: 150px;
+    border: 2px solid var(--text-buttoncolor);
+    background-color: var(--darkbgcolor);
+    border-radius: 0.5em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    text-align: center;
+}
+
+.radio-card:hover {
+    color: var(--bgcolor);
+    background-color: var(--buttoncolor-hover);
+}
+
+.radio-group-cg input[type="radio"]:checked + .radio-card {
+    background-color: var(--buttoncolor);
+    color: var(--text-buttoncolor);
+    border-color: var(--buttoncolor);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================
+   RADIO BUTTONS - SESSO
+   ======================================== */
+#form-add-animal p+p.sex-title {
+    font-weight: 550;
+    display: inline-block;
+    margin-top: 1.5em;
+}
+
+.sex-group {
+    display: flex;
+    gap: 1.5em;
+    flex-wrap: wrap;
+}
+
+.sex-option {
+    display: flex;
+    flex:1 1 46%;
+    align-items: center;
+    padding: 0.5em 1em;
+    border: 1px solid var(--text-buttoncolor);
+    border-radius: 2em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#form-add-animal label.sex-option{
+    margin:0;
+}
+
+/* ========================================
+   LABELS
+   ======================================== */
+#form-add-animal label {
+    font-weight: 500;
+    display: block;
+    margin: 1.5em 0 0 0;
+}
+
+#form-add-animal .checkbox-label input[type="checkbox"]{
+    margin-left: 0.5em;
+}
+
+/* ========================================
+   INPUT TEXT E DATE
+   ======================================== */
+#form-add-animal input[type="text"],
+#form-add-animal input[type="date"] {
+    display: block;
+    width: 100%;
+    border: 1px solid var(--text-buttoncolor);
+    border-radius: 0.2em;
+    font-size: 1em;
+    font-family: inherit;
+    background-color: var(--bgcolor);
+    color: var(--buttoncolor-hover);
+    transition: all 0.3s ease;
+}
+
+#form-add-animal input[type="text"]{
+    padding: 0.55em;
+}
+
+#form-add-animal input[type="date"] {
+    padding: 0.5em;
+}
+
+/* #form-add-animal input[type="text"]:focus,
+#form-add-animal input[type="date"]:focus {
+    outline: none;
+    border-color: var(--buttoncolor);
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.1);
+} */
+
+#form-add-animal input::placeholder,
+#form-add-animal select::placeholder,
+#form-add-animal textarea::placeholder{
+    color:var(--placeholderDarker-text);
+}
+
+/* ========================================
+   SELECT (TAGLIA E PELO)
+   ======================================== */
+#form-add-animal select {
+    /* display: block;
+    width: 100%;
+    padding: 0.5em;
+    border: 1px solid var(--text-buttoncolor);
+    border-radius: 2em;
+    font-size: 1em;
+    background-color: var(--bgcolor);
+    color: var(--buttoncolor-hover);
+    cursor: pointer;
+    /* appearance: none; */
+    /* transition: all 0.3s ease;
+    font-family: "Parkinsans", Roboto, sans serif; */ 
+    padding:0.5em;
+    background-color: var(--bgcolor);
+    border-radius: 2em;
+    border-color: var(--text-buttoncolor);
+    color:var(--text-buttoncolor);
+    margin:5px;
+}
+
+/* ========================================
+   TEXTAREA
+   ======================================== */
+#form-add-animal textarea {
+    display: block;
+    height: 8em;
+    width: 100%;
+    padding: 0.5em;
+    border: 1px solid var(--text-buttoncolor);
+    border-radius: 0.2em;
+    font-size: 1em;
+    font-family: inherit;
+    background-color: var(--bgcolor);
+    color: var(--text-color, #333);
+    resize: vertical;
+    transition: all 0.3s ease;
+    margin-bottom: 0.5em;
+}
+
+/* #form-add-animal textarea:focus {
+    background-color: var(--bgcolor);
+    outline: none;
+    border-color: var(--buttoncolor-hover);
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.1);
+} */
 
 
+.file-upload-label {
+    display: block;
+    width: 100%;
+    padding: 4em 0 2.5em 0;
+    margin:auto;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.2em;
+    border: 2px dashed var(--text-buttoncolor);
+    transition: all 0.3s ease;
+    position: relative;
+}
 
+.file-upload-label:hover {
+    border-color: var(--buttoncolor-hover);
+    background-color: var(--darkbgcolor);
+    text-decoration: underline;
+}
+
+.file-upload-label.drag-active {
+    border-color: var(--buttoncolor-hover);
+    background-color: rgba(0, 123, 255, 0.15);
+    transform: scale(1.02);
+}
+
+.file-upload-text {
+    font-weight: 500;
+    color: var(--text-buttoncolor);
+    display: block;
+}
+
+.file-upload-label:hover .file-upload-text {
+    color: var(--buttoncolor-hover);
+}
+
+.file-name-display {
+    display: block;
+    margin-top: 0.5em;
+    font-size: 0.9em;
+    color: var(--buttoncolor-hover);
+    font-weight: 600;
+}
+
+.file-upload-label input[type="file"] {
+    opacity: 0;
+
+}
+
+.file-upload-label input[type="file"]:focus-visible{
+    border:3px solid red;
+    opacity: 1;
+}
+
+/* Info foto caricata */
+.foto-caricata-info {
+    margin-top: 0.5em;
+    font-size: 0.9em;
+    color: var(--buttoncolor-hover);
+}
+
+.transport-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6em;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+}
+
+.checkbox-label{
+    border: 0.07em solid var(--buttoncolor-hover);
+    padding: 0.4em 1em 0.5em 1em;
+    border-radius: 0.5em;
+    text-align: center;
+}
+
+/* .checkbox-label input[type="checkbox"] {
+    width: 1.1em;
+    height: 1.1em;
+    accent-color: var(--buttoncolor-hover);
+} */
+
+/* .form-buttons-container {
+    display: flex;
+    gap: 1.5em;
+    width: 100%;
+    margin-top: 2.5em;
+    justify-content: center;
+}
+
+.form-buttons-container button {
+    flex: 1;
+    padding: 1em;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 0.8em;
+    text-align: center;
+} */
+
+/* .form-buttons-container .white-button {
+    background-color: var(--bgcolor);
+    color: var(--headervisitedlink);
+    border: 3px solid var(--headervisitedlink);
+}
+
+.form-buttons-container .white-button:hover {
+    background-color: var(--headervisitedlink);
+    color: var(--bgcolor);
+} */
+
+/* ========================================
+   MESSAGGI DI ERRORE
+   ======================================== */
+.error-form {
+    color: var(--footercolor);
+    font-size: 0.9em;
+    margin-top: 5px;
+    display: block;
+}
+/*================ PROFILO RICHIEDENTE ==================*/
+#profilo-richiedente{
+    height: 100vh;
+    margin-top:2em;
+}
+
+#profilo-richiedente h1{
+    font-size: 2em;
+    margin-bottom:1em;
+}
+
+#profilo-richiedente h2{
+    font-size: 1.5em;
+}
+
+#profilo-richiedente{
+    padding:0 5em;
+}
+
+#profilo-richiedente .column-container{
+    padding:0;
+    max-width: none;
+}
+
+#profilo-richiedente .column-container article{
+    border:1px solid var(--txtcolor);
+    border-radius: 0.5em;
+    padding:1em;
+}
+
+#profilo-richiedente .column-container article:first-of-type{
+    flex: 1 1 60%;
+}
+
+#profilo-richiedente .column-container article:last-of-type{
+    flex: 1 1 35%;
+}
+
+#profilo-richiedente #visualizza-richiedente dt{
+    float: left;
+    margin-right: 0.5em;
+    font-weight: 600;
+}
+
+#profilo-richiedente #visualizza-richiedente dd{
+    margin-bottom: 0.5em;
+}
+
+#profilo-richiedente #visualizza-richiedente img.circle-foto{
+    margin:2em auto;
+}
+
+#profilo-richiedente .tabs-container .tab-content{
+    display: none;
+}
+
+#profilo-richiedente:has(option[value="tab1"]:checked) .tab-content:nth-of-type(1),
+#profilo-richiedente:has(option[value="tab2"]:checked) .tab-content:nth-of-type(2),
+#profilo-richiedente:has(option[value="tab3"]:checked) .tab-content:nth-of-type(3),
+#profilo-richiedente:has(option[value="tab4"]:checked) .tab-content:nth-of-type(4),
+#profilo-richiedente:has(option[value="tab5"]:checked) .tab-content:nth-of-type(5),
+#profilo-richiedente:has(option[value="tab6"]:checked) .tab-content:nth-of-type(6) {
+    display: block;
+}
+
+#profilo-richiedente .tabs-container select{
+    margin:1em 0;
+    float: right;
+    border: 2px solid var(--buttoncolor);
+    background-color: var(--buttoncolor);
+    font-weight: 550;
+}
+
+#profilo-richiedente .tabs-container option{
+    background-color: var(--bgcolor);
+}
+
+
+#profilo-richiedente .tabs-container legend{
+    font-size: 1.5em;
+    font-weight: bold;
+    padding:0;
+    font-family: "Parkinsans", Roboto, sans-serif;
+    text-align: left;
+}
+
+#profilo-richiedente .tabs-container li{
+    list-style: none;
+}
+
+.no-visible{
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+#profilo-richiedente .tabs-container li article p+a{
+    padding: 3px 1.3em;
+}
+
+#profilo-richiedente .tabs-container li article{
+    border: none;
+    padding:0;
+}
+
+#profilo-richiedente .column-container .tabs-container li article p:first-of-type{
+    flex:1 1 50%;
+}
 
 
 /*================NAVIGATION HELP ==================*/
@@ -1799,10 +4149,7 @@ td.col-dettagli a{
 	color: var(--visitedcolor);
 }
 
-input:focus{
-    border:1px solid var(--headercolor);
-    outline-color: var(--headercolor);
-}
+
 
 
 /* ================== BREADCRUMB==================*/

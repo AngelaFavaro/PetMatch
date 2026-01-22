@@ -1,0 +1,37 @@
+<div id="login">
+    <div class="container">
+        <div class="column-container">
+            <div id="container-image-login">
+                <img src="./assets/images/login.jpg" alt=""/>
+            </div>
+            <div id="container-form-login">
+                <form method="post" id="form-login" novalidate>
+                    <fieldset>
+                        <legend>Accedi</legend>
+                        <div>
+                            <label for="email">Email*</label>
+                            <input type="email" name="email" id="email" placeholder="esempio@gmail.com" autocomplete="email" value="[emailValue]">
+                        </div>
+                        <div>
+                            <label for="password">Password*</label>
+                            <div class="password-container">
+                                <input type="password" name="password" id="password" placeholder="Password"
+                                onpaste="return false;" 
+                                oncopy="return false;"
+                                autocomplete="current-password">
+                                <i class="fas fa-eye" ></i>
+                            </div>
+                        </div>
+                        <p class="error-form">[erroriLogin]</p>
+                        <div>
+                            <button type="submit" name="login" class="orange-button">
+                                Accedi
+                            </button>
+                        </div>
+                    </fieldset>    
+                </form>
+                <p id="login-registrati">Hai già un account? <a href="./registrati">Registrati!</a></p>
+            </div>
+        </div>
+    </div>
+</div>

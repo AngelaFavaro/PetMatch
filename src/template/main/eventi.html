@@ -1,0 +1,46 @@
+<div id="eventi" class="container">
+    <h1>Prossimi eventi</h1>
+
+    <a href="#content-animali" class="navigationHelp">salta agli eventi</a>
+    <a href=".next-page-links" class="navigationHelp">salta alla navigazione delle prossime pagine</a>
+    
+
+    <form class="filtri" method="get" action="eventi">
+        <ul aria-label="Filtri di ricerca">
+            <li class="capsula-filtro" id="searchName">
+                <label for="search">Nome</label>
+                <input type="text" id="search" name="search" value="[NAME]" placeholder="Cerca...">
+            </li>
+
+            <li class="capsula-filtro" id="searchData" role="presentation">     
+                <div class="data-range">
+                    <label>Data</label>
+                    <input type="date" name="data_inizio" value="[DATA_INIZIO]" placeholder="Da" min="0" aria-label="Data minima">
+                    <img src='assets/icons/calendar.svg' alt='' aria-hidden='true' class='icon-calendar'>
+                    <span aria-hidden=true>–</span>
+                    <input type="date" name="data_fine" value="[DATA_FINE]" placeholder="A" min="0" aria-label="Data massima">
+                    <img src='assets/icons/calendar.svg' alt='' aria-hidden='true' class='icon-calendar'>
+                </div>
+            </li>
+        </ul>
+        <div id="content-filter-button">
+            <a href="eventi" id="[VISIBILITA-FILTRO]" aria-label="elimina i filtri">X</a>
+            <button type="submit" class="orange-button">Cerca</button>
+        </div>
+    </form>
+
+
+    <!-- CARDS EVENTI -->
+    <section>
+        <ul class="cards-container" id="content-animali" tabindex="-1" aria-label="Animali in adozione">
+            [EVENTI]
+        </ul>
+    </section>
+
+    <!-- PAGINAZIONE -->
+    <nav class="next-page-links" tabindex="-1" aria-label="Tutte le pagine">
+        <ul aria-label="Pagine di navigazione">
+            [LINKPAGINE]
+        </ul>
+    </nav>
+</div>

@@ -18,6 +18,16 @@
     transition: opacity 0.3s;
 }
 
+#header-actions .white-button img#account-hover-currentLink{
+    opacity: 1;
+    position: absolute;
+    top: 0; left: 0;
+}   
+
+#header-actions #currentLink.white-button{
+    outline: none;
+}
+
 #account-normal{
     position: absolute;
     top: 0; left: 0;
@@ -30,7 +40,6 @@
 }
 #header-actions .white-button:hover #account-normal { opacity: 0; }
 #header-actions .white-button:hover #account-hover { opacity: 1; }
-
 
 
 #theme-switch {
@@ -56,6 +65,20 @@
 #slider::before {
     content: none;
     display: none;
+}
+
+/* ==================HOME==================*/
+
+#events-list::before{
+    top:-20%;
+}
+
+#events-list{
+    margin-top: 8%;
+}
+
+#events-list .polaroid p{
+    margin:0 auto; 
 }
 
 #timeline::before {
@@ -177,4 +200,185 @@ details[open] .number::after {
 
 #chi-siamo3-img{
     display: none;
+}
+#form-affidamento {
+    background-color: var(--bgcolor);
+    color: var(--txtcolor);
+    margin:2em auto 0.1em auto;
+    padding: 0em 2em;
+    flex: 1 0 40%;
+    border-radius: 2.1em;
+}
+
+#container-form-affidamento{
+    padding: 0;
+    background-image: none;
+    overflow:hidden;
+}
+
+/* ==================ANIMALI==================*/
+
+
+#animali .filtri #searchSex.capsula-filtro,
+#animali .filtri #searchSize.capsula-filtro{
+    width: 49.4%;
+}
+
+#animali .filtri .orange-button {
+    width: 50%;
+    flex-grow: 1;
+    margin: 0;
+    /* max-width: 6em; */
+}
+
+#animali .filtri #content-filter-button {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+#animali .filtri #searchName.capsula-filtro {
+    width: 100%;
+}
+
+#animali .filtri {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0.5em;
+    justify-content: flex-start; /* centra le capsule nella riga */
+}
+
+#animali .filtri ul {
+    display: contents;
+}
+
+#animali .filtri #searchEta.capsula-filtro  {
+    /* display:contents; */
+    max-width: 16em;
+    display:flex;
+}
+
+
+#cancel-filter-visible{
+    border-radius: 1em;
+    flex: 0 0 28%;
+    padding:6px 12px;
+}
+
+/* #animali #content-filter-button{
+    width: 100%;
+    flex: 1 1 100%;
+    gap:2%;
+} */
+
+#animali #content-filter-button a{
+    width: 100%;
+}
+
+#animali #content-filter-button button{
+    flex: 1 1 100%;
+}
+
+#animali .is-favorite img,
+#animali .not-favorite img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 44px;
+    height: 44px;
+    transition: none;
+}
+
+#animali .card .nome, #animali .dark-card .nome{
+    padding:0.8em 1.5em 0 0.5em;
+    margin:0 0 0.5em 0;
+    font-size: 1em;
+    max-width: 6em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#animali .card .sesso-etaMob, #animali .dark-card .sesso-etaMob{
+    padding:0 0 0 0.5em;
+    display: inline;
+}
+
+#animali .card .sesso-etaMob abbr, #animali .dark-card .sesso-etaMob abbr{
+    text-decoration: none;
+    border-bottom: none;
+    cursor: inherit;
+}
+
+#animali .card .sesso-etaDesk, #animali .dark-card .sesso-etaDesk{
+    display: none;
+}
+
+#animali li.card, #animali li.dark-card {
+    cursor: pointer;
+    width: 9em;
+    /* height: 15em; */
+    margin: 0.5em;
+    overflow: hidden;
+    
+}
+
+#animali li.card article, #animali li.dark-card article {
+    /* width: 9em; */
+    height: 15em;
+    overflow: hidden;
+    margin:auto;
+}
+
+/* ==================LAVORA CON NOI==================*/
+
+#contatto-sostenitore {
+    margin-bottom:0em;
+}
+
+/*                      PAGINA EVENTI                 */
+#eventi .filtri {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    /* flex-direction: column; */
+}
+
+#eventi .filtri ul {
+    display: contents;
+    /* flex-wrap: nowrap; */
+}
+
+#eventi .filtri .orange-button {
+    text-align: center;
+}
+
+#eventi .filtri #content-filter-button {
+    display: flex;
+    flex-grow: 1;
+    margin: 0.5em;
+    justify-content: center;
+}
+
+#eventi #content-filter-button button {
+    flex: 1 1 100%;
+    min-width: 5em;
+    max-width: 10em;
+}
+
+#eventi #cancel-filter-visible {
+    height:auto;
+    padding:0.5em;
+    max-width: 10em;
+}
+
+#eventi button.orange-button {
+    margin: 0;
+}
+/* ==================PROFILO RICHIEDENTE==================*/
+#profilo-richiedente #visualizza-richiedente{
+    margin-bottom: 4em;
 }

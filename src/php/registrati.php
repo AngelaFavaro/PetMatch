@@ -1,9 +1,20 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
 
-session_start();
+//se sono loggato rimando alla pagina di profilo
+if (isset($_SESSION['email'])) {
+    if(isset($_SESSION['admin']) && $_SESSION['admin'] === true){
+        header("Location: ./area-riservata");
+    }else{
+        header("Location: ./profilo-utente");
+    }
+    exit; 
+}
 
 $paginaHTML = file_get_contents('./src/template/layout.html');
 if ($paginaHTML === false) {
@@ -79,6 +90,10 @@ function createNewAccount(DBAccess $conn, &$nameValue, &$surnameValue, &$emailVa
         $password = trim($_POST['password'] ?? '');
         $confirmPassword = trim($_POST['confirmPassword'] ?? '');
 
+        $name = mb_convert_case($name, MB_CASE_TITLE, "UTF-8");
+        $surname = mb_convert_case($surname, MB_CASE_TITLE, "UTF-8");
+        $email = mb_strtolower($email, "UTF-8");
+
         // Sanitizzazione per redisplay
         $nameValue    = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
         $surnameValue = htmlspecialchars($surname, ENT_QUOTES, 'UTF-8');
@@ -88,7 +103,7 @@ function createNewAccount(DBAccess $conn, &$nameValue, &$surnameValue, &$emailVa
 
         $regexNome = "/^(?=.*[\p{L}]{2})[\p{L}\s']+$/u"; 
         $regexEmail = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,10})$/i";
-        $regexPassword = "/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@+?\/,.\-$_=])[a-zA-Z0-9!@+?\/,.\-$_=]{8,32}$/";
+        $regexPassword = "/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@+?\/,.\-\$_=])[a-zA-Z0-9!@+?\/,.\-\$_=]{8,32}$/";
 
         /* VALIDAZIONE CAMPI */
         if (strlen($name) < 2) {
@@ -111,9 +126,9 @@ function createNewAccount(DBAccess $conn, &$nameValue, &$surnameValue, &$emailVa
             }
         }
 
-        if (strlen($password) < 8) {
+        if (strlen($password) < 8 || strlen($confirmPassword) < 8   ) {
             $errors['password'] = "La password deve essere di almeno 8 caratteri.";
-        } else if(strlen($password) > 32){
+        } else if(strlen($password) > 32 || strlen($confirmPassword) > 32){
             $errors['password'] = "La password deve essere al massimo di 32 caratteri.";
         }else if (!preg_match($regexPassword, $password) || $password !== $confirmPassword) {
             $errors['password'] = "La password non rispetta i criteri richiesti o non coincide.";
@@ -125,8 +140,29 @@ function createNewAccount(DBAccess $conn, &$nameValue, &$surnameValue, &$emailVa
             $insertResult = $conn->insertNewUser($email, $name, $surname, $hashedPassword);
             
             if ($insertResult) {
-				$_SESSION['loggato'] = true;
 				$_SESSION['email'] = $email;
+				$_SESSION['admin'] = false;
+
+                // === MIGRAZIONE PREFERITI DA COOKIE A DB ===
+            if (isset($_COOKIE['preferiti_guest'])) {
+
+                $preferiti = json_decode($_COOKIE['preferiti_guest'], true);
+
+                if (is_array($preferiti) && !empty($preferiti)) {
+
+                    foreach ($preferiti as $idAnimale) {
+                        $idAnimale = (int)$idAnimale;
+
+                        // evita duplicati
+                        if (!$conn->isAnimalInFavorites($email, $idAnimale)) {
+                            $conn->addToFavorites($email, $idAnimale);
+                        }
+                    }
+                }
+
+                // cancella cookie dopo migrazione
+                setcookie('preferiti_guest', '', time() - 3600, '/');
+            }
 
                 header("Location: ./profilo-utente"); 
                 exit;
@@ -169,9 +205,9 @@ $title = '<title>Registrati - PetMatch </title>';
 $description = '<meta name="description" content="Registrati su PetMatch">';
 $keywords = "";
 
-$nav = buildUserNav($userMenu, './registrati');
+$nav = buildNav($userMenu, './registrati');
 
-$footer = file_get_contents('./src/template/partials/footer.html');
+$footer = buildFooter($footerMenu,  './registrati');
 
 $breadcrumb = getBreadcrumb('registrati', $pagine);
 

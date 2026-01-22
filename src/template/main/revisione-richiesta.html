@@ -1,0 +1,50 @@
+<div id="revisione-richiesta" class="container">
+    <h1>Adozione per [nomeAnimale]</h1>
+    <div class="column-container">
+        <div>
+            <section id="info-request">
+                <h2>La tua domanda</h2>
+                <dl aria-label="Dettagli richiesta inviata">
+                    <dt>Data richiesta: </dt>
+                    <dd>[dataRichiesta]</dd>
+                    [DataFineRichiesta]
+                    <dt>Lettera di presentazione: </dt>
+                    <dd>[letteraPresentazione]</dd>
+                    <dt>Trasporto: </dt>
+                    <dd>[richiestaTrasporto]</dl>
+                </dl>
+            </section>
+            <section id="state-request">
+                <h2>Stato della richiesta</h2>
+                <dl>
+                    <dt>Stato:</dt>
+                    <dd>[StatoRichiesta]</dd>
+                    <dt>Data inizio valutazione:</dt>
+                    <dd>[DataInizio]</dd>
+                    [DataFineRichiesta] 
+                    [dataPartenza]
+                    [dataArrivo]
+                </dl>
+            </section>
+        </div>
+        [cardAnimal]
+    </div>
+
+    [messaggiForm]
+    <input type="checkbox" id="delete-request-check" class="popup-checkbox" [isDisabled]>
+    <label for="delete-request-check" id="button-cancel">Annulla richiesta</label>
+    <div class="overlay-content">
+        <div class="dialog-box">
+            <h3>Sei sicuro?</h3>
+            <p>L'annullamento della richiesta per <em>[nomeAnimale]</em> è <strong>irreversibile</strong>.</p>
+            
+            <div class="dialog-buttons">
+                <label for="delete-request-check">No, tieni</label>
+                
+                <form method="POST">
+                    <button type="submit" name="delete-request">Si, annulla</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

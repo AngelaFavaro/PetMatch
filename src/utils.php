@@ -2,11 +2,17 @@
 
 /**da fare (vedi ItaVolley):
     - array in cui vengono definite le pagine esistenti (utili per nav, footer e breadcrumb)
-    - funzione che crea la nav per admin e per utente normale (credo)
+    - funzione che crea la nav per admin e per utente normale (per utente è l'header)
     - funzione che crea il footer (ossia da modificare solo la parte del link circolare alla home se l'utente è già in quella pagina)
 */
 
-/* Definizione delle pagine esistenti, aggiungerne altre quando possibile*/
+if (isset($_GET['email']) && isset($_POST['view-profile'])){
+    $richiesteAdozioneHref = './richieste-adozione?email='.urlencode($_GET['email']).'&id-animale='.urlencode($_POST['id-animale']);
+}else{
+    $richiesteAdozioneHref = './richieste-adozione';
+}
+
+/* Definizione delle pagine esistenti PER LA BREADCRUMB, aggiungerne altre quando possibile*/
 $pagine = [
     'home' => [
         'label' => 'Home', //la label e' quella che viene mostrata nella breadcrumb
@@ -25,12 +31,27 @@ $pagine = [
     ],
     'dettagli-richiesta' => [
         'label' => 'Dettagli richiesta',
-        'url' => './dettagli-richiesta',
+        'url' => $richiesteAdozioneHref,
         'parent' => 'richieste-adozione'
+    ],
+    'nuovo-animale' => [
+        'label' => 'Aggiungi animale',
+        'url' => './nuovo-animale',
+        'parent' => 'home'
+    ],
+    'animali' => [
+        'label' => 'Animali',
+        'url' => './animali',
+        'parent' => 'home'
     ],
     'registrati' => [
         'label' => 'Registrati',
         'url' => './registrati',
+        'parent' => 'home'
+    ],
+    'accedi' => [
+        'label' => 'Accedi',
+        'url' => './accedi',
         'parent' => 'home'
     ],
     'profilo-utente' => [
@@ -42,20 +63,60 @@ $pagine = [
         'label' => 'Chi Siamo',
         'url' => './chi-siamo',
         'parent' => 'home'
-    ]
+    ],
+    'revisione-richiesta' => [
+        'label' => 'Revisione richiesta',
+        'url' => './revisione-richiesta',
+        'parent' => 'profilo-utente'
+    ],
+    'preferiti' => [
+        'label' => 'Preferiti',
+        'url' => './preferiti',
+        'parent' => 'home'
+    ],
+    'lavora-con-noi' => [
+        'label' => 'Lavora con noi',
+        'url' => './lavora-con-noi',
+        'parent' => 'home'
+    ],
+    'senza-amministratore' => [
+        'label' => 'Animali senza amministratore',
+        'url' => './senza-amministratore',
+        'parent' => 'animali'
+    ],
+    'eventi' => [
+        'label' => 'Eventi',
+        'url' => './eventi',
+        'parent' => 'home'
+    ],
+    'nuove-accoglienze' => [
+        'label' => 'Nuove accoglienze',
+        'url' => './nuove-accoglienze',
+        'parent' => 'animali'
+    ],
+    'profilo-richiedente' => [
+        'label' => 'Profilo richiedente',
+        'url' => './profilo-richiedente',
+        'parent' => 'dettagli-richiesta'
+    ],
+    'adottati' => [
+        'label' => 'Adottati',
+        'url' => './adottati',
+        'parent' => 'animali'
+    ],
 ];
 
 $adminMenu = [
     'principale' => [
-        ['href' => './area-riservata', 'text' => 'AREA PERSONALE'],
-        ['href' => './richieste-adozione', 'text' => 'RICHIESTE DI ADOZIONE'],
-        ['href' => './eventi', 'text' => 'EVENTI'],
+        ['href' => './area-riservata', 'text' => 'Area personale'],
+        ['href' => './richieste-adozione', 'text' => 'Richieste di adozione'],
+        ['href' => './eventi', 'text' => 'Eventi'],
     ],
     'animali' => [
-        ['href' => './tuoi-animali', 'text' => 'ASSEGNATI A TE'],
-        ['href' => './animali-senza-amministratore', 'text' => 'SENZA AMMINISTRATORE'],
-        ['href' => './adottati', 'text' => 'ADOTTATI'],
-        ['href' => './nuove-accoglienze', 'text' => 'NUOVE ACCOGLIENZE'],
+        ['href' => './tuoi-animali', 'text' => 'Assegnati a te'],
+        ['href' => './senza-amministratore', 'text' => 'Senza amministratore'],
+        ['href' => './adottati', 'text' => 'Adottati'],
+        ['href' => './nuove-accoglienze', 'text' => 'Nuove accoglienze'],
     ]
 ];
 
@@ -66,6 +127,17 @@ $userMenu = [
     ['href' => './come-funziona', 'text' => 'Come funziona'],
     ['href' => './chi-siamo', 'text' => 'Chi siamo'],
     ['href' => './lavora-con-noi', 'text' => 'Lavora con noi'],
+];
+
+$footerMenu = [
+    'Su di noi' => [
+        ['href' => './animali', 'text' => 'I nostri animali'],
+        ['href' => './eventi', 'text' => 'I nostri eventi'],
+        ['href' => './come-funziona', 'text' => 'Come funziona'],
+        ['href' => './chi-siamo', 'text' => 'Chi siamo']],
+    'Vuoi lavorare con noi?'=>[
+        ['href' => './lavora-con-noi#inizio-volontari', 'text' => 'Diventa un nostro volontario'],
+        ['href' => './lavora-con-noi#inizio-sostenitori', 'text' => 'Diventa un nostro sostenitore'],]
 ];
 
 $noNav = [
@@ -83,42 +155,46 @@ function loadTemplate(string $path, string $default = ''): string {
     return $content === false ? $default : $content;
 }
 
-/**
- * Genera la nav menù admin dinamicamente
- */
+
 function buildAdminNav(array $menuGroups, string $currentHref): string {
-    // Parte iniziale fissa
+    // Parte iniziale: Checkbox e Label (Hamburger)
     $html = '
-    <button class="menu-toggle" id="mobile-menu" aria-label="Apri o chiudi menu di navigazione">
-        ☰
-    </button>
+    <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
+    <label for="menu-toggle-checkbox" class="menu-toggle" aria-label="Apri o chiudi menu di navigazione">
+    <span></span> </label>
+    
     <nav id="menu-admin" aria-label="Menù">
         <a class="navigationHelp" href="#content"> Salta il menù di navigazione</a>
         <a href="./home">
             <img src="./assets/icons/logo.svg" id="logo" alt="Home" lang="en">
-        </a>
-        <a class="orange-button" href="./nuovo-animale">+ Aggiungi animale</a>';
+        </a>';
+        $html .= $currentHref==='./nuovo-animale' ? '<p class="orange-button" id="currentLink" href="./nuovo-animale">+ Aggiungi animale</p>' : '<a class="orange-button" href="./nuovo-animale">+ Aggiungi animale</a>';
 
     foreach ($menuGroups as $key => $items) {
 
         if ($key === 'animali') {
-            $html .= '<span>ANIMALI</span>';
+            $html .= '<span class="description-menu" aria-hidden="true">Animali</span>';
+            $html .= '<ul aria-label="Menù gestione animali">';
+        }else{
+            $html .= '<span class="description-menu" aria-hidden="true">Principale</span>';
+            $html .= '<ul aria-label="Menù principale">';
         }
 
-        $html .= '<ul>';
         foreach ($items as $item) {
             $active = ($item['href'] === $currentHref) ? ' id="currentLink"' : '';
+            $linkHref = ($item['href'] === $currentHref) ? '<li'.$active.' aria-label="pagina attuale:'.$item['text'].'">'.$item['text'].'</li>' : '<li'.$active.'><a href="'.$item['href'].'">'.$item['text'].'</a></li>';
             
             // In questa versione, anche il link corrente rimane cliccabile 
-            // come nel tuo esempio HTML ( <li id="currentLink"><a href="...">...</a></li> )
-            $html .= '<li'.$active.'><a href="'.$item['href'].'">'.$item['text'].'</a></li>';
+            //ho sistemato - angelac
+            $html .= $linkHref;
         }
         $html .= '</ul>';
     }
 
-    // Parte finale fissa
     $html .= '
-        <a id="logout" class="orange-button" href="./home">← logout</a>
+        <form action="./area-riservata" method="POST">
+            <button type="submit" name="logout" class="logout-btn">Disconnettiti</button>
+        </form>
     </nav>';
 
     return $html;
@@ -128,12 +204,23 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
 /**
  * Genera la nav menù utente dinamicamente
  */
-function buildUserNav(array $items, string $currentHref): string {
+function buildNav(array $items, string $currentHref): string {
 
     global $noNav;
 
     $homeHref = './home';
     $logoAttributes = ($currentHref === $homeHref)? ' id="currentLink"' : '';
+    $isLogoActive =  ($currentHref === $homeHref)?                    
+    
+    '<div' . $logoAttributes . '>
+        <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
+        <span id="name-site">Pet<span class="not-bold">Match</span></span>
+    </div>' :
+    
+    '<a href="' . $homeHref . '"' . $logoAttributes . '>
+        <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
+        <span id="name-site">Pet<span class="not-bold">Match</span></span>
+    </a>';
     
     $navForm = false;
     foreach ($noNav as $noNavPage) {
@@ -155,16 +242,13 @@ function buildUserNav(array $items, string $currentHref): string {
                 
                 <nav id="header-logo" aria-label="link alla home">
                     <h1>
-                        <a href="' . $homeHref . '"' . $logoAttributes . '>
-                            <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
-                            <span id="name-site">Pet<span id="not-bold">Match</span></span>
-                        </a>
+                        '.$isLogoActive.'
                     </h1>
                 </nav>
                 
                 <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
     
-                <nav aria-label="Menu principale" id="nav-osso">
+                <nav aria-label="Menù principale" id="nav-osso">
                     <ul id="osso">';
     
         // 2. parte dinamica: ciclo gli items passati come argomento
@@ -173,8 +257,10 @@ function buildUserNav(array $items, string $currentHref): string {
                 // Controllo se è la pagina corrente
                 // Se l'href corrente corrisponde, aggiungo l'ID active
                 $isActive = ($item['href'] === $currentHref) ? ' id="currentLink" ' : '';
+                $linkHref = ($item['href'] === $currentHref) ? '<li'.$isActive.'>'.$item['text'].'</li>' : '<li'.$isActive.'><a href="'.$item['href'].'">'.$item['text'].'</a></li>';
+            
                 
-                $html .= '<li' . $isActive . '><a href="' . $item['href'] . '">' . $item['text'] . '</a></li>';
+                $html .= $linkHref;
             }
         }
     
@@ -193,25 +279,48 @@ function buildUserNav(array $items, string $currentHref): string {
                     </label>
     
                     <nav aria-label="Area personale">
-                        <ul id="personal-area">
-                            <li>
-                                <a href="./preferiti" id="preferiti" aria-label="Preferiti">
-                                    <img src="./assets/icons/heart-normal.svg" id="heart-normal" alt="" />
-                                    <img src="./assets/icons/heart-hover.svg" id="heart-hover" alt="" />
-                                </a>
-                            </li>
-                            
-                            <li>
-                                <a class="white-button" href="./accedi">
-                                    <span id="text-accedi">Accedi</span>
+                        <ul id="personal-area">';
+                        if(!isset($_SESSION['admin']) || $_SESSION['admin']===false){
+                            if($currentHref==='./preferiti'){
+                               $html .= '<li><p id="preferiti"><img src="./assets/icons/heart-hover.svg" id="heart-hover-currentLink" alt="" /></p></li>';
+                            }else{
+                               $html .= '                            
+                               <li>
+                                   <a href="./preferiti" id="preferiti" aria-label="Preferiti">
+                                       <img src="./assets/icons/heart-normal.svg" id="heart-normal" alt="" />
+                                       <img src="./assets/icons/heart-hover.svg" id="heart-hover" alt="" />
+                                   </a>
+                               </li>';
+                            }
+                        }
+
+                            $html .='
+                            <li>';
+                                if($currentHref==='./profilo-utente'){
+                                    $html.= '<p class="white-button" href="./accedi" id="currentLink">';
+                                }else if(isset($_SESSION['email'])){
+                                    $html.= '<a class="white-button" href="./profilo-utente">';
+                                }else{
+                                    $html.= '<a class="white-button" href="./accedi">';
+                                }
+                                
+                                $html .= isset($_SESSION['email']) ? '<span id="text-accedi">Profilo</span>' : '<span id="text-accedi">Accedi</span>';
+                                
+                                if($currentHref==='./profilo-utente'){
+                                    $html .='<img src="./assets/icons/account-hover.svg" id="account-hover-currentLink" alt="" />';
+                                }else{
+                                    $html .= '
                                     <img src="./assets/icons/account-normal.svg" id="account-normal" alt="" />
-                                    <img src="./assets/icons/account-hover.svg" id="account-hover" alt="" />
-                                </a>
+                                    <img src="./assets/icons/account-hover.svg" id="account-hover" alt="" />';
+                                }
+
+                                $html.= ($currentHref==='./profilo-utente')?'</p>':'</a>';
+                                $html .= '
                             </li>
                         </ul> 
                     </nav>
                     
-                    <label for="menu-toggle-checkbox" id="menu-toggle" aria-label="Apri il menù">
+                    <label for="menu-toggle-checkbox" class="menu-toggle" aria-label="Apri il menù">
                     </label>
     
                 </div>
@@ -225,13 +334,106 @@ function buildUserNav(array $items, string $currentHref): string {
                     <h1>
                         <a href="./home">
                             <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
-                            <span id="name-site">Pet<span id="not-bold">Match</span></span>
+                            <span id="name-site">Pet<span class="not-bold">Match</span></span>
                         </a>
                     </h1>
                 </nav>
             </div>
         </header>';
     }
+
+    return $html;
+}
+
+
+function buildFooter(array $menuGroups, string $currentHref): string {
+
+    $homeHref = './home';
+    $logoAttributes = ($currentHref === $homeHref)? ' id="currentLinkFooter"' : '';
+    $isLogoActive =  ($currentHref === $homeHref)?   
+    '<div' . $logoAttributes . '>
+        <img src="./assets/icons/logo.svg" id="logo-footer" alt="PetMatch Home">
+        <span id="name-site-footer">Pet<span class="not-bold">Match</span></span>
+    </div>' :
+    
+    '<div><a href="' . $homeHref . '"' . $logoAttributes . '>
+        <img src="./assets/icons/logo.svg" id="logo-footer" alt="PetMatch Home">
+        <span id="name-site-footer">Pet<span class="not-bold">Match</span></span>
+    </a></div>';
+
+    $html = '
+    <div id="grass"></div>
+    <footer>
+        <div class="container">
+            <ul id="footer-menu" aria-label="menù di fine pagina">';
+                foreach ($menuGroups as $key => $items) {
+
+                    if ($key === 'Su di noi') {
+                        $html .= '  <li aria-labelledby="su-di-noi-footer">
+                                    <nav aria-labelledby="su-di-noi-footer">
+                                        <a class="navigationHelp" href="#lavora-con-noi" > Salta il contenuto</a>
+                                        <p aria-hidden="true" id="su-di-noi-footer">Su di noi</p>
+                                        <ul class="footer-submenu" aria-labelledby="su-di-noi-footer">';
+                    }else{
+                        $html .= '  <li aria-labelledby="lavora-con-noi-footer">    
+                                    <nav id="lavora-con-noi" tabindex="-1" aria-labelledby="lavora-con-noi-footer">
+                                        <a class="navigationHelp" href="#contattaci"> Salta il contenuto</a>
+                                        <p id="lavora-con-noi-footer" aria-hidden="true">Vuoi lavorare con noi?</p>
+                                        <ul class="footer-submenu">';
+                    }
+
+                    foreach ($items as $item) {
+                        $pathItem = strtok($item['href'], '#');
+                        $active = ($pathItem === $currentHref) ? ' class="currentLinkFooter"' : '';
+                        $linkHref = ($pathItem=== $currentHref) ? '<li'.$active.' aria-label="pagina attuale:'.$item['text'].'">'.$item['text'].'</li>' : '<li'.$active.'><a href="'.$item['href'].'">'.$item['text'].'</a></li>';
+                        
+                        $html .= $linkHref;
+                    }
+                    $html .= '</ul></nav></li>';
+                }
+                $html .= '
+                <li aria-labelledby="contattaci-footer">
+                    <nav id="contattaci" tabindex="-1" aria-labelledby="contattaci-footer">
+                        <a class="navigationHelp" href="#seguici-su"> Salta il contenuto</a>
+                        <p id="contattaci-footer" aria-hidden="true" class="vcard"><span class="fn">Contattaci</span></p>
+                        
+                        <ul class="footer-submenu">
+                            <li>
+                                <address>
+                                    <a class="email" href="mailto:matchpet48@gmail.com" target="_blank">matchpet48@gmail.com</a>
+                                </address>
+                            </li>
+                            <li>
+                                <address>
+                                    <a class="tel" href="tel:+390000000000"> +39 000 000 0000</a>
+                                </address>
+                            </li>
+                        </ul>
+                    </nav>
+                </li>
+                <li aria-labelledby="seguici-footer">
+                    <nav id="seguici-su" tabindex="-1" aria-labelledby="seguici-footer">
+                        <a class="navigationHelp" href="#copyright"> Salta il contenuto</a>
+                        <p id="seguici-footer" aria-hidden="true">Seguici su</p>
+                        <ul class="footer-submenu">
+                            <li class="social-media-links">
+                                <address>
+                                    <a href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram">
+                                        <img src="./assets/icons/Instagram.svg" id="instagram" alt="">
+                                        @petmatch_shelter
+                                    </a>
+                                </address>
+                            </li>
+                        </ul>
+                    </nav>
+                </li>
+            </ul>
+        </div>
+        '.$isLogoActive.'
+        <small id="copyright" tabindex="-1">
+            &copy; 2025 PetMatch. Diritti e illustrazioni riservate, giù le zampe!
+        </small>
+    </footer>';
 
     return $html;
 }
@@ -287,18 +489,18 @@ function uploadImage($file, $folder) {
         echo "La cartella non esiste. Provo a crearla...<br>";
         if (!mkdir($basePath, 0755, true)) {
             echo "ERRORE: Impossibile creare la cartella. Controlla i permessi di sistema.<br>";
-            return false;
+            return null;
         }
     }
 
     if (!is_writable($basePath)) {
         echo "ERRORE: La cartella esiste ma NON è scrivibile (permessi negati).<br>";
-        return false;
+        return null;
     }
 
     if ($file['error'] !== UPLOAD_ERR_OK) {
         echo "ERRORE PHP nel file: Codice " . $file['error'] . "<br>";
-        return false;
+        return null;
     }
 
     $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
@@ -310,6 +512,225 @@ function uploadImage($file, $folder) {
         return $dbPathPrefix . $fileName;
     } else {
         echo "ERRORE: move_uploaded_file è fallito. Possibile causa: file temporaneo sparito o restrizioni del server.<br>";
-        return false;
+        return null;
     }
 }
+
+function getCardAnimal(int $idanimale, bool $isAdmin, bool $isAdopted):string{
+    $html = '<section id=\'info-animal\'>
+            <h2>Animale interessato</h2>
+            <div class=\'details-card-animale\'>
+                <div>
+                    <div>
+                        <img src="[imgAnimale]" alt="" />';
+                        // <!-- TODO: aggiungere link alla pagina dell\'animale -->'
+                    $html .= ($isAdopted&&!$isAdmin)?'<p class="nonDisponibile"><em>Animale adottato</em></p>':'<a href="" class="brown-button">Vedi animale</a>';
+                    $html.='
+                    </div>
+                    <dl aria-label="Descizione superficiale dell\'animale">
+                        <dt>Nome:</dt>
+                        <dd>[nomeAnimale]</dd>
+                        <dt>Sesso:</dt>
+                        <dd>[SessoAnimale]</dd>
+                        <dt>Età:</dt>
+                        <dd>[EtàAnimale]</dd>
+                        <dt>Razza:</dt>
+                        <dd>[RazzaAnimale]</dd>
+                        <dt>Trasporto:</dt>
+                        <dd>[TrasportoAnimale]</dd>
+                    </dl>
+                </div>
+                <dl aria-label="Informazioni approfondite sull\'animale">
+                    <dt>Famiglia ideale:</dt>
+                    <dd>[FamigliaIdealeAnimale]</dd>
+                    <dt>Condizioni mediche:</dt>
+                    <dd>[CondizioniMedicheAnimale]</dd>
+                    <dt>Descrizione caratteriale:</dt>
+                    <dd>[DescrizioneCaratterialeAnimale]</dd>
+                </dl>
+            </div>
+        </section>';
+    return $html;
+}
+
+
+function logout(){
+    $_SESSION = [];
+    
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+    
+    session_destroy();
+    
+    header("Location: ./home");
+    exit;
+}
+
+function calcolareEta(?string $dataNascita): ?int {
+    if (!$dataNascita) {
+        return null;
+    }
+
+    try {
+        $nascita = new DateTime($dataNascita);
+        return (new DateTime())->diff($nascita)->y;
+    } catch (Exception $e) {
+        return null;
+    }
+}
+
+// FUNZIONI PER COOKIES
+// Funzione che va a prendere gli animali messi nei preferiti dal guest non loggato
+function getGuestFavorites(): array {
+    if (isset($_COOKIE['preferiti_guest'])) {
+        $data = json_decode($_COOKIE['preferiti_guest'], true);
+        return is_array($data) ? $data : [];
+    }
+    return [];
+}
+
+// Funzione che salva in un array cookie i preferiti di un utente non loggato
+function saveGuestFavorites(array $ids): void {
+    setcookie(
+        'preferiti_guest',
+        json_encode(array_values(array_unique($ids))),
+        time() + 60 * 60 * 24 * 30, // 30 giorni
+        '/'
+    );
+}
+
+
+
+function buildPagination(int $currentPage, int $totalPages, array|string $params = []): string {
+    // NORMALIZZA FILTRI
+    if (is_string($params) && $params !== '') {
+        // stringa semplice → tipo
+        $params = ['tipo' => $params];
+    }
+
+    if (!is_array($params)) {
+        $params = [];
+    }
+
+// rimuove valori vuoti
+    // $params = array_filter($params, fn($v) => $v !== '');
+
+
+    if ($totalPages <= 1) return '<li class="currentLinkPagination">1</li>';
+    unset($params['page']);
+
+    $html = '';
+
+    if ($currentPage > 1) {
+        $params['page'] = $currentPage - 1;
+        $html .= '<li><a href="?' . http_build_query($params) . '"><img src="./assets/icons/arrow-sx-green.svg" alt="precedente" /></a></li>';
+    }
+
+    $maxVisible = 10;
+    $start = max(1, $currentPage - 4);
+    $end = min($totalPages, $start + $maxVisible - 1);
+
+    if ($end - $start + 1 < $maxVisible) {
+        $start = max(1, $end - $maxVisible + 1);
+    }
+
+    for ($i = $start; $i <= $end; $i++) {
+        if ($i === $currentPage) {
+            $html .= '<li class="currentLinkPagination" aria-label="pagina attuale">'.$i.'</li>';
+        } else {
+            $params['page'] = $i;
+            $html .= '<li><a href="?' . http_build_query($params) . '" aria-label="vai alla pagina '.$i.'">'.$i.'</a></li>';
+        }
+    }
+
+    if ($currentPage < $totalPages) {
+        $params['page'] = $currentPage + 1;
+        $html .= '<li><a href="?' . http_build_query($params) . '"><img src="./assets/icons/arrow-dx-green.svg" alt="successiva"/></a></li>';
+    }
+
+    return $html;
+}
+
+
+function renderCaniGattiTabs(): string{
+    $html = '';
+    if(isset($_GET['tipo'])){
+        //se ha valore Nuova, In valutazione, Da trasportare, Annullata, Respinta
+        $stato = $_GET['tipo'];
+        $selected = [
+            'Cani' => '',
+            'Gatti' => '',
+        ];
+        $checked = [
+            'Cani' => '',
+            'Gatti' => ''
+        ];
+        if(array_key_exists($stato, $selected)){
+            $checked[$stato] = 'checked';
+            $selected[$stato] = 'selected';
+        }
+        $html = '
+        <select id="mobile-select" name="tab-group">
+            <option value="tab1" '.$selected['Cani'].'>
+                Cani ([n-cani])
+            </option>
+            <option value="tab2" '.$selected['Gatti'].'>
+                Gatti ([n-gatti])
+            </option>
+        </select>
+        <input class="sr-only" type="radio" id="tab1" name="tab-group"'.$checked['Cani'].'>
+        <label for="tab1">Cani ([n-cani])</label>
+        <input class="sr-only" type="radio" id="tab2" name="tab-group" '.$checked['Gatti'].'>
+        <label for="tab2">Gatti ([n-gatti])</label>';
+    }else{
+        $html = '
+        <select id="mobile-select" name="tab-group">
+            <option value="tab1" selected>
+                Cani ([n-cani])
+            </option>
+            <option value="tab2">
+                Gatti ([n-gatti])
+            </option>
+        </select>
+
+        <input class="sr-only" type="radio" id="tab1" name="tab-group" checked>
+        <label for="tab1">Cani ([n-cani])</label>
+        <input class="sr-only" type="radio" id="tab2" name="tab-group">
+        <label for="tab2">Gatti ([n-gatti])</label>';
+    }
+
+    return $html;
+    
+}
+
+function formattaDataItaliana(string $data): string {
+    $mesi = [
+        1 => 'Gennaio',
+        2 => 'Febbraio',
+        3 => 'Marzo',
+        4 => 'Aprile',
+        5 => 'Maggio',
+        6 => 'Giugno',
+        7 => 'Luglio',
+        8 => 'Agosto',
+        9 => 'Settembre',
+        10 => 'Ottobre',
+        11 => 'Novembre',
+        12 => 'Dicembre'
+    ];
+
+    $timestamp = strtotime($data);
+
+    $giorno = date('d', $timestamp);
+    $mese   = $mesi[(int)date('n', $timestamp)];
+    $anno   = date('Y', $timestamp);
+
+    return "$giorno $mese $anno";
+}
+
+

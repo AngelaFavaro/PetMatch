@@ -1,0 +1,17 @@
+/*          PAGINA EVENTI            */
+#eventi .cards-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#eventi .evento {
+    width: 100%;
+}
+
+#eventi .cards-container li {
+    width: 100%;
+}
+
+#eventi .evento .descrizione-evento {
+    max-width: 60em;
+}
