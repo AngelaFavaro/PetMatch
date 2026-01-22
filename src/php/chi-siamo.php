@@ -12,7 +12,7 @@ $keywords =     '<meta name="keywords" content= "PetMatch, rifugio, animali, ado
 ;
 
 $breadcrumb = getBreadcrumb('chi-siamo', $pagine);
-$nav = buildUserNav($userMenu, './chi-siamo');
+$nav = buildNav($userMenu, './chi-siamo');
 $main = file_get_contents('./src/template/main/chi-siamo.html');
 
 $footer = file_get_contents('./src/template/partials/footer.html');
