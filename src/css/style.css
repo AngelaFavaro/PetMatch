@@ -3090,6 +3090,23 @@ body#admin-body{
     width: 100%;
 }
 
+body#admin-body #animali .filtri{
+    width: 100%;
+    margin-bottom: 0.5em;
+}
+
+body#admin-body #animali .filtri button{
+    width: fit-content;
+    margin: 0;
+}
+
+body#admin-body #animali .filtri .capsula-filtro{
+    margin-left: auto;
+    margin-right: 0;
+    gap:0;
+    flex:0 0 fit-content;
+}
+
 div#admin-area article h2{
      font-size: 1.5em; 
      font-weight: 600;
@@ -4192,10 +4209,11 @@ nav#breadcrumb a:visited{
     color: var(--visitedcolor);
 }
 
-/* ================== Chi Siamo ==================*/
+/* ================== CHI SIAMO ==================*/
 
-/*Sezione "Chi Siamo"*/
-
+#second-chapter-chi-siamo{
+    margin-top: 1em;
+}
 #first-chapter-chi-siamo .column-container{
     align-items: center;
 }
@@ -4216,7 +4234,7 @@ nav#breadcrumb a:visited{
 #second-chapter-chi-siamo{
     background-color: var(--headercolor);
     color:var(--bgcolor);
-    margin-top: 5em;
+    margin-top: 1em;
 }
 
 #chi-siamo2-img{
