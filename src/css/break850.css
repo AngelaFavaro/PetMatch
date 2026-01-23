@@ -81,7 +81,8 @@
     margin:0 auto; 
 }
 
-#timeline::before {
+#timeline::before,
+#pm-timeline::before{
     top: 0em; 
     bottom: 4.5em; 
     margin:auto;
@@ -100,7 +101,8 @@ details[open] .number::after {
     top: 1em;
 }
 
-#timeline {
+#timeline,
+#pm-timeline {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -108,7 +110,8 @@ details[open] .number::after {
     padding: 0;
 }
 
-#timeline::before {
+#timeline::before,
+#pm-timeline::before {
     max-height: none; 
 }
 
@@ -190,7 +193,6 @@ details[open] .number::after {
     transform: rotate(-10deg);
 }
 
-
 #form-affidamento {
     background-color: var(--bgcolor);
     color: var(--txtcolor);
@@ -205,23 +207,65 @@ details[open] .number::after {
     background-image: none;
     overflow:hidden;
 }
+/* ==================CHI SIAMO==================*/
+
+#pm-timeline li{
+    margin-bottom: 1.5em;
+}
+
+#pm-timeline li span{
+    background-color: var(--bgcolor);
+    padding: 0;
+}
+
+
+#chi-siamo-img{
+    display: none;
+}
+
+#chi-siamo2-img{
+    display: none;
+}
+
+#chi-siamo3-img{
+    display: none;
+}
+
+#third-chapter-chi-siamo{
+    margin: 0;
+}
+
+#chi-siamo3-content{
+    padding: 0;
+}
+
+#ci-presentiamo{
+    padding: 1em;
+}
+
+#team-img img{
+    width: 40%;
+} 
 
 /* ==================ANIMALI==================*/
 
-#animali .filtri .capsula-filtro{
-    width: 100%;
-    max-width: none;
-    justify-content: left;
-}
 
 #animali .filtri #searchSex.capsula-filtro,
 #animali .filtri #searchSize.capsula-filtro{
     width: 49.4%;
 }
 
-#animali .filtri .capsula-filtro .eta-range{
-    margin:auto;
-    padding-right: 2em;
+#animali .filtri .orange-button {
+    width: 50%;
+    flex-grow: 1;
+    margin: 0;
+    /* max-width: 6em; */
+}
+
+#animali .filtri #content-filter-button {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
 }
 
 #animali .filtri #searchName.capsula-filtro {
@@ -229,13 +273,6 @@ details[open] .number::after {
 }
 
 #animali .filtri {
-    display: flex;
-    flex-direction: column;  /* mette tutto in colonna */
-    gap: 1em;              /* spazio tra righe */
-    align-items: center;     /* centra tutto orizzontalmente */
-}
-
-#animali .filtri ul {
     display: flex;
     flex-wrap: wrap;
     list-style: none;
@@ -245,6 +282,16 @@ details[open] .number::after {
     justify-content: flex-start; /* centra le capsule nella riga */
 }
 
+#animali .filtri ul {
+    display: contents;
+}
+
+#animali .filtri #searchEta.capsula-filtro  {
+    /* display:contents; */
+    max-width: 16em;
+    display:flex;
+}
+
 
 #cancel-filter-visible{
     border-radius: 1em;
@@ -252,19 +299,18 @@ details[open] .number::after {
     padding:6px 12px;
 }
 
-#animali #content-filter-button{
+/* #animali #content-filter-button{
     width: 100%;
     flex: 1 1 100%;
     gap:2%;
-}
+} */
 
 #animali #content-filter-button a{
     width: 100%;
 }
 
 #animali #content-filter-button button{
-    flex: 0 0 48%;
-    width: 100%;
+    flex: 1 1 100%;
 }
 
 #animali .is-favorite img,
@@ -281,6 +327,10 @@ details[open] .number::after {
     padding:0.8em 1.5em 0 0.5em;
     margin:0 0 0.5em 0;
     font-size: 1em;
+    max-width: 6em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #animali .card .sesso-etaMob, #animali .dark-card .sesso-etaMob{
@@ -301,7 +351,7 @@ details[open] .number::after {
 #animali li.card, #animali li.dark-card {
     cursor: pointer;
     width: 9em;
-    height: 15em;
+    /* height: 15em; */
     margin: 0.5em;
     overflow: hidden;
     
@@ -341,6 +391,23 @@ details[open] .number::after {
     display: flex;
     flex-grow: 1;
     margin: 0.5em;
+    justify-content: center;
+}
+
+#eventi #content-filter-button button {
+    flex: 1 1 100%;
+    min-width: 5em;
+    max-width: 10em;
+}
+
+#eventi #cancel-filter-visible {
+    height:auto;
+    padding:0.5em;
+    max-width: 10em;
+}
+
+#eventi button.orange-button {
+    margin: 0;
 }
 /* ==================PROFILO RICHIEDENTE==================*/
 #profilo-richiedente #visualizza-richiedente{

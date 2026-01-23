@@ -8,34 +8,18 @@
     <form class="filtri" method="get" action="eventi">
         <ul aria-label="Filtri di ricerca">
             <li class="capsula-filtro" id="searchName">
-                <label for="name-event">Nome</label>
-                <input type="text" id="name-event" name="name-event" value="[NAME]" placeholder="Cerca...">
-            </li>
-            <li class="capsula-filtro" id="cityFilter">
-                <label for="city-event">Città</label>
-                <input 
-                    type="text"
-                    id="city-event"
-                    name="citta"
-                    list="city-suggestions"
-                    value="[CITTA]"
-                    placeholder="Cerca..."
-                    autocomplete="on"
-                >
-
-                <datalist id="city-suggestions">
-                    [CITY_OPTIONS]
-                </datalist>
+                <label for="search">Cerca</label>
+                <input type="text" id="search" name="search" value="[NAME]" placeholder="Per nome o città...">
             </li>
 
-            <li class="capsula-filtro" role="presentation">     
+            <li class="capsula-filtro" id="searchData" role="presentation">     
                 <div class="data-range">
                     <label>Data</label>
                     <input type="date" name="data_inizio" value="[DATA_INIZIO]" placeholder="Da" min="0" aria-label="Data minima">
-                    <img src='assets/icons/calendar.svg' alt='' aria-hidden='true' class='icon-calendar'>
+                    <!-- <img src='assets/icons/calendar.svg' alt='' aria-hidden='true' class='icon-calendar'> -->
                     <span aria-hidden=true>–</span>
                     <input type="date" name="data_fine" value="[DATA_FINE]" placeholder="A" min="0" aria-label="Data massima">
-                    <img src='assets/icons/calendar.svg' alt='' aria-hidden='true' class='icon-calendar'>
+                    <!-- <img src='assets/icons/calendar.svg' alt='' aria-hidden='true' class='icon-calendar'> -->
                 </div>
             </li>
         </ul>

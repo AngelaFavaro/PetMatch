@@ -266,7 +266,8 @@ button.brown-button{
 }
 
 button,
-select{
+select, 
+input{
     font-family: "Parkinsans", Roboto, sans-serif;
     font-size: 1em;
 }
@@ -279,6 +280,11 @@ select{
     background-position: right 1em center; /* Destra, un po' staccata dal bordo, centrata verticale */
     background-size: 2em; /* Grandezza della freccia */
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%481515" d="M7 10l5 5 5-5z"/></svg>');
+}
+
+input:placeholder-shown{
+    font-size: 1em;
+    margin-left: 0.5em;
 }
 
 /*==================WIDGET UTILI==================*/
@@ -1408,7 +1414,6 @@ legend {
 }
 
 label {
-    font-size: 95%;
     display: block; 
     margin-left: 0.5em; 
 }
@@ -1594,7 +1599,103 @@ input:-webkit-autofill:active{
 
 /* contenitore principale */
 
+/* FILTRI */
+#animali .filtri ul, #eventi .filtri ul {
+    display: contents;
+    list-style: none;
+}
 
+#animali .filtri, #eventi .filtri {
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+}
+
+#animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro {
+    display: flex;
+    flex: 1 1 fit-content;
+    border: 1px solid var(--text-buttoncolor);
+    border-radius: 1em;
+    padding: 0.5em;
+    height: 2.5em;
+    align-items: center;
+    /* margin: 0.5em; */
+}
+
+#animali .filtri .capsula-filtro .eta-range {
+    /* display:contents; */
+    display: flex;
+    justify-content: center;
+    gap: 0.2em;
+}
+
+#animali .filtri #searchEta.capsula-filtro {
+    /* display:contents; */
+    max-width: 15em;
+    display:flex;
+}
+
+
+#animali .filtri #searchName.capsula-filtro, #eventi .filtri #searchName.capsula-filtro {
+    /* display:contents; */
+    background-color: var(--darkbgcolor);
+    /* border-color: var(--placeholderDarker-text); */
+}
+
+#animali .filtri #searchName.capsula-filtro input, #eventi .filtri #searchName.capsula-filtro input {
+    text-align:left;
+    display: flex;
+    flex-grow: 1;
+    min-width: 4em;
+    /* display:contents; */
+    background-color: var(--darkbgcolor);
+    width: 100%;
+    height: 100%;
+}
+
+#animali .filtri #searchName.capsula-filtro input::placeholder, #eventi .filtri #searchName.capsula-filtro input::placeholder {
+    color: var(--placeholderDarker-text);
+    text-align: start;
+}
+
+#animali .filtri .capsula-filtro input, #animali .filtri .capsula-filtro select,
+#eventi .filtri .capsula-filtro input, #eventi .filtri .capsula-filtro select {
+    min-width: 0;
+    background-color: var(--bgcolor);
+    border: none;
+}
+
+#animali .filtri .capsula-filtro input {
+    width: 30%;
+    text-align: center;
+    padding-top: 0.2em;
+}
+
+
+#animali .filtri .capsula-filtro select, #eventi .filtri .capsula-filtro select {
+    text-align: center;
+    padding-right:2.5em;
+    color: var(--placeholder-text);
+    background-position: right 0em center;
+}
+
+#animali .filtri #searchSize.capsula-filtro {
+    max-width: 10em;
+}
+
+#animali .filtri #searchSex.capsula-filtro {
+    max-width: 10em;
+}
+
+#animali .filtri .capsula-filtro input::placeholder, #eventi .filtri .capsula-filtro input::placeholder {
+    color: var(--placeholder-text);
+    text-align: center;
+}
+
+#animali .filtri .capsula-filtro label, #eventi .filtri .capsula-filtro label{
+    margin-right: 0.5em;
+    width: fit-content;
+}
 
 /* contenitore nav */
 /* NAV container */
@@ -1640,6 +1741,7 @@ input:-webkit-autofill:active{
     display: block;
     text-decoration: none;
     color: var(--headerlink);
+    font-weight: normal;
 }
 
 /* elemento attivo */
@@ -1657,98 +1759,7 @@ input:-webkit-autofill:active{
 
 /* Lista filtri */
 
-#animali .filtri, #eventi .filtri, .tab-content .filtri {
-    display: flex;
-    align-items: center; 
-    gap: 1em;
-    flex-wrap: wrap;
-}
-/* QUIIIIII */
-#animali.segnalazioni .filtri {
-    width: 100%;
-    justify-content: flex-end;
-    margin-bottom: 0.5em;
-}
-#animali.segnalazioni .filtri ul{
-    flex: none;
-}
-#animali.segnalazioni .filtri button{
-   margin: 0;
-}
-#animali .filtri ul, .tab-content .filtri ul, #eventi .filtri ul {
-    display: flex;
-    /* flex-wrap: wrap; */
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    gap: 0.5em;
-    flex: 1; 
-}
-.capsula-filtro {
-    display: inline-flex;        /* label + input/select affiancati */
-    align-items: center;         /* centra verticalmente tutto */
-    justify-content: center;
-    padding: 0 1em;             /* padding uniforme */
-    background-color: var(--bgcolor);
-    color: var(--text-buttoncolor);
-    border-radius: 1em;
-    font-weight: 400;
-    text-align: center;
-    height: 2.8em;              /* altezza uniforme */
-    box-sizing: border-box;
-    border: 1px solid var(--text-buttoncolor);
-    max-width: fit-content;
-}
 
-.capsula-filtro label {
-    margin-right: 0.5em;
-    white-space: nowrap;
-}
-/* Contenitore capsula per ogni filtro */
-#animali .filtri .capsula-filtro, .tab-content .filtri .capsula-filtro, #eventi .filtri .capsula-filtro {
-    display: inline-flex;        /* label + input/select affiancati */
-    align-items: center;         /* centra verticalmente tutto */
-    justify-content: center;
-    padding: 0 1em;             /* padding uniforme */
-    background-color: var(--bgcolor);
-    color: var(--text-buttoncolor);
-    border-radius: 1em;
-    font-weight: 400;
-    text-align: center;
-    height: 2.9em;              /* altezza uniforme */
-    box-sizing: border-box;
-    border: 1px solid var(--text-buttoncolor);
-    max-width: fit-content;
-}
-
-/* Label dentro la capsula */
-#animali .filtri .capsula-filtro label, .tab-content .filtri .capsula-filtro label {
-    margin-right: 0.5em;
-    white-space: nowrap;
-}
-
-#animali .filtri .capsula-filtro label[for="name-animal"] {
-    margin-left: 0;
-}
-
-#animali .filtri .capsula-filtro label[for="name-animal"] +input {
-    width: 100%;
-    min-width: 100px;
-    max-width: none;
-}
-
-#animali label{
-    font-weight: 500;
-}
-
-#animali .filtri #searchName.capsula-filtro, #eventi .filtri #searchName.capsula-filtro{
-    /* width: 40%; */
-    max-width: none;
-    justify-content:left;
-    background-color: var(--darkbgcolor);
-    gap:0;
-    border-color: var(--darkbgcolor);
-}
 
 #cancel-filter-visible{
     color:var(--text-buttoncolor);
@@ -1771,10 +1782,10 @@ input:-webkit-autofill:active{
 }
 
 #animali #content-filter-button a, #eventi #content-filter-button a{
-    flex: 1 1 40%;
+    flex: 1 1 100%;
 }
 
-#animali #content-filter-button button, #eventi #content-filter-button button{
+#animali #content-filter-button button{
     flex: 1 1 40%;
 }
 
@@ -1786,86 +1797,6 @@ input:-webkit-autofill:active{
     display: none;
 }
 
-
-/* Input e select dentro la capsula */
-
-#animali .filtri .capsula-filtro input,
-#animali .filtri .capsula-filtro select,
-.tab-content .filtri .capsula-filtro input,
-.tab-content .filtri .capsula-filtro select, #eventi .filtri .capsula-filtro input,
-#eventi .filtri .capsula-filtro select {
-    border: none;
-    
-    /* color: var(--txtcolor); */
-    font-weight: 400;
-    outline: none;
-    font-size: 1em;
-    height: 100%;              /* prende tutta l’altezza della capsula */
-    display: flex;
-    align-items: center;        /* centra il testo verticalmente */
-    box-sizing: border-box;
-    min-width: 3em;             /* larghezza minima uniforme */
-    color:var(--text-buttoncolor);    
-}
-
-#animali .filtri .capsula-filtro input
-.tab-content .filtri .capsula-filtro input{
-    border-color: var(--text-buttoncolor);
-}
-
-#animali .filtri .capsula-filtro select,
-.tab-content .filtri .capsula-filtro select{
-    border:1px solid var(--bgcolor);
-    
-} 
-
-#animali .filtri .capsula-filtro select:hover,
-.tab-content .filtri .capsula-filtro select:hover{
-    outline:1px solid var(--buttoncolor);
-} 
-
-#animali .filtri .capsula-filtro input, .tab-content .filtri .capsula-filtro input {
-    background: transparent;
-}
-
-#animali .filtri .capsula-filtro select, .tab-content .filtri .capsula-filtro select, #eventi .filtri .capsula-filtro select {
-    background-color: var(--bgcolor);
-}
-
-/* Range di età */
-#animali .filtri .capsula-filtro .eta-range, #eventi .filtri .capsula-filtro .data-range {
-    display: flex;
-    align-items: center;
-    gap: 0.3em;
-    height: 100%;
-}
-
-#eventi .filtri .capsula-filtro .data-range input {
-    max-width: 6.8em;
-    height: 100%;
-    text-align: center;
-    width: 100%;
-    color:var(--txtcolor);
-}
-
-#animali .filtri .capsula-filtro .eta-range input:nth-of-type(2) {
-    margin-left: 0.5em;    
-}
-
-#animali .filtri .capsula-filtro .eta-range input::placeholder, #eventi .filtri .capsula-filtro .data-range input::placeholder {
-    color: var(--placeholderDarker-text);
-}
-
-#animali .filtri .capsula-filtro input[type="text"], #eventi .filtri .capsula-filtro input[type="text"] {
-    max-width:10em;
-    width: 100%;
-    color:var(--txtcolor);
-}
-#animali .filtri .capsula-filtro input[list] {
-    max-width: 10em;   
-    width: 100%;
-    color:var(--txtcolor);
-}
 
 
 #animali .cards-container {
@@ -1938,7 +1869,7 @@ input:-webkit-autofill:active{
     padding-left: 1em;
     float: left;
     clear: left;
-    width: 80%;
+    /* width: 80%; */
     /* padding-right: 65%; */
     font-weight: bold;
     /* height: 40px; */
@@ -2017,6 +1948,17 @@ input:-webkit-autofill:active{
 #animali .is-favorite .heart-hover,
 #animali .not-favorite .heart-hover, #preferiti .is-favorite .heart-hover, #preferiti .not-favorite .heart-hover {
     opacity: 0;
+    /* margin-left: auto; */
+    /* float: right; */
+}
+
+#animali .card .cuore {
+    display: flex;
+    justify-content: end;
+}
+
+#animali .card .cuore .preferiti-form{
+    justify-content:end;
 }
 
 /* hover */
@@ -2188,33 +2130,53 @@ input:-webkit-autofill:active{
 
 
 /*=================PAGINA EVENTI======================*/
-#eventi .filtri .capsula-filtro label[for="name-event"] {
-    margin-left: 0;
-    flex-grow: 1;
+
+#eventi #content-filter-button button {
+    flex: 1 1 100%;
+    min-width: 5em;
 }
 
-#eventi .filtri .capsula-filtro label[for="name-event"] +input {
+#eventi #cancel-filter-visible, #animali #cancel-filter-visible {
+    height:auto;
+    padding:0.5em;
+}
+
+#eventi .filtri .capsula-filtro input {
+    width: 30%;
+    text-align:center;
+}
+
+#eventi .filtri {
+    flex-wrap: wrap;
+}
+
+
+#eventi .filtri .capsula-filtro .data-range {
+    /* display:contents; */
+    display: flex;
+    justify-content: center;
+    gap: 0.2em;
+}
+
+#eventi .filtri #searchData.capsula-filtro {
+    max-width: 21em;
+}
+
+#eventi .filtri #searchData.capsula-filtro input{
+    font-size: 0.9em;
+    color:var(--placeholderDarker-text);
+}
+
+#eventi .filtri .capsula-filtro label[for="search"] +input {
     width: 100%;
     min-width: 100px;
     max-width: none;
     background-color: var(--darkbgcolor);
 }
 
-#eventi .evento .posizione-data-abbr {
-    display: none;
-}
-
-#eventi .filtri .capsula-filtro {
-    margin-right: 0.5em;
-    margin-left: 0.5em;
-    flex-grow: 1;
-    width: 100%;
-    align-self: center;
-}
-
 #eventi .filtri .capsula-filtro ul {
-display: flex;
-width: 100%;
+    display: flex;
+    width: 100%;
 }
 
 #eventi .filtri .capsula-filtro .data-range {
@@ -2269,6 +2231,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     height: 100%;
 }
 
+#eventi .data-range input[type="date"] {
+    position: relative;
+}
+
 
 #eventi .dettagli-evento-bottone a{
     position: absolute;
@@ -2286,6 +2252,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 cursor: pointer;
 }
 
+
+#eventi .evento .posizione-data-abbr {
+    display: none;
+}
+
 #eventi .evento {
     position: relative;
     list-style: none;
@@ -2297,7 +2268,12 @@ cursor: pointer;
     /* border: 0.1em solid var(--darkbgcolor); */
     border-radius: 0.5em;
     /* margin: 0.2em; */
-    
+    border: 2px solid var(--darkbgcolor);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#eventi .evento:hover {
+    border: 2px solid var(--buttoncolor-hover);
 }
 
 #eventi .cards-container li {
@@ -2354,12 +2330,12 @@ cursor: pointer;
 #eventi .evento .descrizione-evento {
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
+    /* -webkit-line-clamp: 4; */
     overflow: hidden;
     clear: right;
     max-width: 35em;
-    margin-top: 0.2em;
     text-align: left;
+    padding-top: 0.5em;
 }
 
 #eventi .evento h2 {
@@ -2375,7 +2351,7 @@ cursor: pointer;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    align-items: center;
+    justify-content: center;
     margin-top: 2em;
 }
 
@@ -2394,7 +2370,7 @@ cursor: pointer;
 }
 
 #user-profile{
-    margin-bottom:2em;
+    margin-bottom: 2em;
 }
 
 #user-profile .column-container{
@@ -2412,8 +2388,7 @@ cursor: pointer;
 }
 
 #user-profile .tabs-container select:focus, #admin-area .tabs-container select:focus{
-    border: 2px solid var(--headercolor);
-    margin:4px;
+    outline: 2px solid var(--headercolor);
 }
 
 /* tab */
@@ -3113,6 +3088,23 @@ body#admin-body{
     background-color: var(--footercolor);
     display: inline-block;
     width: 100%;
+}
+
+body#admin-body #animali .filtri{
+    width: 100%;
+    margin-bottom: 0.5em;
+}
+
+body#admin-body #animali .filtri button{
+    width: fit-content;
+    margin: 0;
+}
+
+body#admin-body #animali .filtri .capsula-filtro{
+    margin-left: auto;
+    margin-right: 0;
+    gap:0;
+    flex:0 0 fit-content;
 }
 
 div#admin-area article h2{
@@ -4216,3 +4208,168 @@ nav#breadcrumb a{
 nav#breadcrumb a:visited{
     color: var(--visitedcolor);
 }
+
+/* ================== CHI SIAMO ==================*/
+
+#second-chapter-chi-siamo{
+    margin-top: 1em;
+}
+#first-chapter-chi-siamo .column-container{
+    align-items: center;
+}
+
+#chi-siamo-content {
+    flex: 1 1 50%;
+}
+#chi-siamo-img{
+    flex: 0 1 40%;
+}
+
+#chi-siamo-img img{
+    width: 100%;
+}
+
+/* Sezione 2 Chi Siamo */
+
+#second-chapter-chi-siamo{
+    background-color: var(--headercolor);
+    color:var(--bgcolor);
+    margin-top: 1em;
+}
+
+#chi-siamo2-img{
+    flex: 0 1 35%;
+}
+#chi-siamo2-img img{
+    width: 90%;
+}
+
+#content-chi-siamo2{
+    vertical-align: middle;
+    padding:2em 0;
+    flex: 1 1 50%;
+    margin:auto;
+    /* height: fit-content; */
+
+
+}
+
+
+/*Sezione "PetMatch timeline"*/
+
+#pm-timeline{   
+   display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    align-items: flex-start;
+    margin-top: 2em;
+    list-style: none;
+  }
+
+#pm-timeline::before {
+    content: '';
+    position: absolute;
+    top: 1.5em; 
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background-image: linear-gradient(to right, var(--buttoncolor) 50%, transparent 50%);
+    background-size: 20px 100%;
+    z-index: 0;
+  }
+
+  #pm-timeline li{
+    position: relative; 
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 0 0 18%;
+    font-weight: bold;
+}
+
+#pm-timeline li span:nth-of-type(2){
+    font-weight: normal;    
+}
+
+.pm-timeline-date{
+    font-size:1em;
+}
+
+/*Sezione 3 Chi Siamo */
+
+#third-chapter-chi-siamo{
+    margin: 2em 0em;
+}
+
+
+#third-chapter-chi-siamo .column-container{
+    gap: 3em;
+    align-items: center;
+} 
+
+#chi-siamo3-img{
+    flex: 0 0 25%;
+    max-width: 25%;
+    height: auto;
+
+
+}
+#chi-siamo3-img img{
+    width: 100%;
+    border-radius: 0.8em;
+}
+
+#chi-siamo3-content{
+    padding:2em 0;
+    flex: 1 1 60%;
+    margin:auto;
+}
+
+#chi-siamo3-content p{
+    margin-bottom: 0.5em;
+}
+  
+
+/*Sezione "Ci Presentiamo"*/
+#ci-presentiamo{
+    background-color: var(--secondsection); /* nel caso non caricasse l'immagine */
+    background-image: 
+        linear-gradient(to bottom, transparent 70%, var(--secondsection) 98%),
+        url('../../assets/images/cat-bg.svg');
+    background-size: 102% auto;
+    background-repeat: no-repeat;
+    background-position:top;
+    height: fit-content;
+    color: var(--bgcolor);
+    padding: 3em;
+    border-radius: 1em;
+}
+
+#ci-presentiamo h2{
+    margin: 2em 0 0.8em 0;
+}
+
+
+#ci-presentiamo p{
+    margin-bottom: 0.5em;
+}
+
+#team-img{
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    justify-content: center;
+    gap:1em;
+    row-gap: 0em;
+} 
+
+#team-img img{
+    width: 100%;
+    flex:0 1 30%;
+    height: auto;
+    max-height: 15em;
+    padding: 0;
+} 

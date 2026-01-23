@@ -59,6 +59,11 @@ $pagine = [
         'url' => './profilo-utente',
         'parent' => 'home'
     ],
+     'chi-siamo' => [
+        'label' => 'Chi Siamo',
+        'url' => './chi-siamo',
+        'parent' => 'home'
+    ],
     'revisione-richiesta' => [
         'label' => 'Revisione richiesta',
         'url' => './revisione-richiesta',
@@ -98,6 +103,11 @@ $pagine = [
         'label' => 'Adottati',
         'url' => './adottati',
         'parent' => 'animali'
+    ],
+    'nuovo-evento' => [
+        'label' => 'Nuovo evento',
+        'url' => './nuovo-evento',
+        'parent' => 'eventi'
     ],
 ];
 
@@ -293,13 +303,13 @@ function buildNav(array $items, string $currentHref): string {
                             <li>';
                                 if($currentHref==='./profilo-utente'){
                                     $html.= '<p class="white-button" href="./accedi" id="currentLink">';
-                                }else if($_SESSION['email']){
+                                }else if(isset($_SESSION['email'])){
                                     $html.= '<a class="white-button" href="./profilo-utente">';
                                 }else{
                                     $html.= '<a class="white-button" href="./accedi">';
                                 }
                                 
-                                $html .= $_SESSION['email'] ? '<span id="text-accedi">Profilo</span>' : '<span id="text-accedi">Accedi</span>';
+                                $html .= isset($_SESSION['email']) ? '<span id="text-accedi">Profilo</span>' : '<span id="text-accedi">Accedi</span>';
                                 
                                 if($currentHref==='./profilo-utente'){
                                     $html .='<img src="./assets/icons/account-hover.svg" id="account-hover-currentLink" alt="" />';
@@ -390,10 +400,19 @@ function buildFooter(array $menuGroups, string $currentHref): string {
                 <li aria-labelledby="contattaci-footer">
                     <nav id="contattaci" tabindex="-1" aria-labelledby="contattaci-footer">
                         <a class="navigationHelp" href="#seguici-su"> Salta il contenuto</a>
-                        <p id="contattaci-footer" aria-hidden="true">Contattaci</p>
+                        <p id="contattaci-footer" aria-hidden="true" class="vcard"><span class="fn">Contattaci</span></p>
+                        
                         <ul class="footer-submenu">
-                            <li><address><a href="mailto:matchpet48@gmail.com" target="_blank">matchpet48@gmail.com</a></address></li>
-                            <li><address><a href="tel:+390000000000"> +39 000 000 0000</a></address></li>
+                            <li>
+                                <address>
+                                    <a class="email" href="mailto:matchpet48@gmail.com" target="_blank">matchpet48@gmail.com</a>
+                                </address>
+                            </li>
+                            <li>
+                                <address>
+                                    <a class="tel" href="tel:+390000000000"> +39 000 000 0000</a>
+                                </address>
+                            </li>
                         </ul>
                     </nav>
                 </li>
@@ -669,10 +688,10 @@ function renderCaniGattiTabs(): string{
                 Gatti ([n-gatti])
             </option>
         </select>
-        <input class="sr-only" type="radio" id="tab1" name="tab-group" '.$checked['Cani'].'>
-        <label for="tab1"><h2>Cani ([n-cani])</h2></label>
+        <input class="sr-only" type="radio" id="tab1" name="tab-group"'.$checked['Cani'].'>
+        <label for="tab1">Cani ([n-cani])</label>
         <input class="sr-only" type="radio" id="tab2" name="tab-group" '.$checked['Gatti'].'>
-        <label for="tab2"><h2>Gatti ([n-gatti])</h2></label>';
+        <label for="tab2">Gatti ([n-gatti])</label>';
     }else{
         $html = '
         <select id="mobile-select" name="tab-group">
@@ -685,12 +704,38 @@ function renderCaniGattiTabs(): string{
         </select>
 
         <input class="sr-only" type="radio" id="tab1" name="tab-group" checked>
-        <label for="tab1"><h2>Cani ([n-cani])</h2></label>
+        <label for="tab1">Cani ([n-cani])</label>
         <input class="sr-only" type="radio" id="tab2" name="tab-group">
-        <label for="tab2"><h2>Gatti ([n-gatti])</h2></label>';
+        <label for="tab2">Gatti ([n-gatti])</label>';
     }
 
     return $html;
     
 }
+
+function formattaDataItaliana(string $data): string {
+    $mesi = [
+        1 => 'Gennaio',
+        2 => 'Febbraio',
+        3 => 'Marzo',
+        4 => 'Aprile',
+        5 => 'Maggio',
+        6 => 'Giugno',
+        7 => 'Luglio',
+        8 => 'Agosto',
+        9 => 'Settembre',
+        10 => 'Ottobre',
+        11 => 'Novembre',
+        12 => 'Dicembre'
+    ];
+
+    $timestamp = strtotime($data);
+
+    $giorno = date('d', $timestamp);
+    $mese   = $mesi[(int)date('n', $timestamp)];
+    $anno   = date('Y', $timestamp);
+
+    return "$giorno $mese $anno";
+}
+
 

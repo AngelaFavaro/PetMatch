@@ -79,7 +79,7 @@ $titolo = 'Animali';
 if($isPreferiti) {
     $titolo.=' preferiti';
 }
-$messaggioNoAnimali=$isPreferiti ? 'Non hai ancora salvato nessun animale' : 'Non abbiamo ancora animali disponibili.';
+$messaggioNoAnimali=$isPreferiti ? 'Non hai ancora salvato nessun animale.' : 'Non abbiamo ancora animali disponibili.';
 
 
 
@@ -237,7 +237,7 @@ function buildAnimalCards(array $animali, ?string $email): string {
                     <p class='sesso-etaMob'>$sessoAbbr - $eta anni</p>";
             }
             $html.="
-                    <div>
+                    <div class='cuore'>
                         <form method='post' action='animali' class='preferiti-form'>
                             <input type='hidden' name='id-animale-preferito' value='$id'>
                             <button type='submit'
@@ -380,7 +380,7 @@ if (!$isPreferiti) {
                 </select>
             </li>
 
-            <li class='capsula-filtro' role='presentation'>
+            <li class='capsula-filtro' id='searchEta' role='presentation'>
                 <label>Età</label>
                 <div class='eta-range'>
                     <input type='number' name='eta_min' 
