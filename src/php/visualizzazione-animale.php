@@ -199,6 +199,7 @@ $success = $connection->insertAdoptionRequest($emailUtente, $idAnimale, $lettera
 
 // DEFINIZIONE CONTENUTO PAGINA (Form o Stato)
 $contenutoPagina = "";
+$statoRichiesta = "";
 
 if (!$utenteAccesso) {
     $contenutoPagina = "
@@ -283,6 +284,17 @@ if (!$utenteAccesso) {
     switch ($richiesta) {
         case 'Nuova': {
                 $infoAggiuntive='info-aggiuntive-unite';
+                $contenutoPagina = "";
+                $statoRichiesta = "
+                <div class='dettagli-animale'>
+                <h2> Richiesta di adozione </h2>
+                    <div id='stato-richiesta'>
+                        <p> <span class='enfatizzato'> Stato: </span> richiesta pendente </p>
+                        <p> Hai una richiesta di adozione pendente per questo animale, attendi che ti venga comunicato l’esito! </p>
+                        <p> Qualche problema o domanda? Valuta di contattarci </p>
+                    </div>
+                </div>";
+                break;
 
         }
         case 'In valutazione':
@@ -362,8 +374,7 @@ $title = "<title>$nome - PetMatch</title>";
 $description = "<meta name='description' content='Scheda di $nome disponibile per adozione'>";
 $keywords = "<meta name='keywords' content='$nome, adozione, PetMatch, $razza'>";
 $breadcrumb = getBreadcrumb('visualizzazione-animale', $pagine);
-
-$nav = buildUserNav($userMenu, './visualizzazione-animale', $_SESSION['email'] ?? false);
+$nav = buildNav($userMenu, './visualizzazione-animale', $_SESSION['email'] ?? false);
 $main = file_get_contents('./src/template/main/visualizzazione-animale.html');
 $footer = file_get_contents('./src/template/partials/footer.html');
 
@@ -376,7 +387,7 @@ if($infoAggiuntive==='info-aggiuntive-separate'){
 } else{
     $infoAggUnite=$CARDANIMALE2;
     $main = str_replace('[CARDANIMALE1]', $CARDANIMALE1, $main);
-    $main = str_replace('[CARDANIMALE2]', '', $main);
+    $main = str_replace('[CARDANIMALE2]', $statoRichiesta, $main);
 }
 $main = str_replace('[INFO-AGGIUNTIVE]', $infoAggUnite, $main);
 

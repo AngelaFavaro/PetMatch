@@ -80,14 +80,10 @@ $pagine = [
         'parent' => 'home'
     ],
     'visualizzazione-animale' => [
-        'label' => 'Visualizzazione animale',//da modificare con il nome dell'animale quando si implementa
+        'label' => 'Visualizzazione animale',
         'url' => './visualizzazione-animale', 
         'parent' => 'animali'
-    ]
-    
-
-
-
+    ], 
     'senza-amministratore' => [
         'label' => 'Animali senza amministratore',
         'url' => './senza-amministratore',

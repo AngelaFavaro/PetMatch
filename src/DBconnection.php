@@ -2066,7 +2066,6 @@ public function getGuestFavPaged(string $type, int $perPagina, int $offset): arr
 }
 
 
-}
 
 public function getRequestStatus(string $email, int $idAnimale): ?string {
     $sql = "
@@ -2183,6 +2182,6 @@ public function getRequestStatus(string $email, int $idAnimale): ?string {
         return false;
     }
 
-
+}
 
 ?>
