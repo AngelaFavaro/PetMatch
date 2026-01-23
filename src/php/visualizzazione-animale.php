@@ -219,7 +219,7 @@ if (!$utenteAccesso) {
                     <fieldset>
                         <legend id='legenda-richiesta-adozione'>Invia una richiesta di adozione!</legend>
                         <label for='lettera-presentazione'>Scrivi una breve lettera di presentazione:</label>
-                        <textarea id='lettera-presentazione' name='lettera-presentazione' rows='8' cols='50' placeholder='Inserisci presentazione' required>[VALORE_LETTERA]</textarea>
+                        <textarea id='lettera-presentazione' name='lettera-presentazione' rows='7' cols='50' placeholder='Inserisci presentazione' required>[VALORE_LETTERA]</textarea>
                         <p class='error-form'>[ERROR_LETTERA]</p>
                     </fieldset>
                     <fieldset class='fieldset-indirizzo'>
@@ -228,20 +228,20 @@ if (!$utenteAccesso) {
                         <div>
                             <label for='new-address'>Via e numero civico</label>
                             <input type='text' id='new-address' name='new-address' autocomplete='street-address' 
-                            value='[via-utente]' placeholder='Via L. Da Vinci n.10'>
+                            value='[via-utente]' placeholder='Via L. Da Vinci n.10' required>
                             <p class='error-form'>[erroriIndirizzo]</p>   
                         </div>
                         <div id='indirizzo-row'>
                             <div id='citta-container'>
                                 <label for='new-city'>Città</label>
                                 <input type='text' id='new-city' name='new-city' autocomplete='address-level2' 
-                                value='[citta-utente]' placeholder='Roma'>
+                                value='[citta-utente]' placeholder='Roma' required>
                                 <p class='error-form'>[erroriCitta]</p>
                             </div>
                             <div id='cap-container'>
                                 <label for='new-cap'>CAP</label>
                                 <input type='text' id='new-cap' name='new-cap' autocomplete='postal-code' 
-                                value='[cap-utente]' placeholder='00000'>
+                                value='[cap-utente]' placeholder='00000' required>
                                 <p class='error-form'>[erroriCAP]</p>
                                 <p class='error-form'>[erroriIndirizzoTotale]</p>   
                             </div>
