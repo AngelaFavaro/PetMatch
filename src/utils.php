@@ -44,6 +44,11 @@ $pagine = [
         'url' => './animali',
         'parent' => 'home'
     ],
+    'come-funziona' => [
+        'label' => 'Come Funziona',
+        'url' => './come-funziona',
+        'parent' => 'home'
+    ],
     'registrati' => [
         'label' => 'Registrati',
         'url' => './registrati',

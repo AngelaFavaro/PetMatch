@@ -29,6 +29,9 @@ $routes = [
     'lavora-con-noi' => [
         'file' => __DIR__ . '/src/php/lavora-con-noi.php'
     ],
+    'come-funziona' => [
+        'file' => __DIR__ . '/src/php/come-funziona.php'
+    ],
     'registrati' => [
         'file' => __DIR__ . '/src/php/registrati.php'
     ],
