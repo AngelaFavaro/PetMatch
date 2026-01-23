@@ -266,7 +266,8 @@ button.brown-button{
 }
 
 button,
-select{
+select, 
+input{
     font-family: "Parkinsans", Roboto, sans-serif;
     font-size: 1em;
 }
@@ -279,6 +280,11 @@ select{
     background-position: right 1em center; /* Destra, un po' staccata dal bordo, centrata verticale */
     background-size: 2em; /* Grandezza della freccia */
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%481515" d="M7 10l5 5 5-5z"/></svg>');
+}
+
+input:placeholder-shown{
+    font-size: 1em;
+    margin-left: 0.5em;
 }
 
 /*==================WIDGET UTILI==================*/
@@ -1408,7 +1414,6 @@ legend {
 }
 
 label {
-    font-size: 95%;
     display: block; 
     margin-left: 0.5em; 
 }
@@ -1603,6 +1608,7 @@ input:-webkit-autofill:active{
 #animali .filtri, #eventi .filtri {
     display: flex;
     gap: 0.5em;
+    align-items: center;
 }
 
 #animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro {
@@ -1625,9 +1631,10 @@ input:-webkit-autofill:active{
 
 #animali .filtri #searchEta.capsula-filtro {
     /* display:contents; */
-    max-width: 16.5em;
+    max-width: 15em;
     display:flex;
 }
+
 
 #animali .filtri #searchName.capsula-filtro, #eventi .filtri #searchName.capsula-filtro {
     /* display:contents; */
@@ -1667,14 +1674,17 @@ input:-webkit-autofill:active{
 
 #animali .filtri .capsula-filtro select, #eventi .filtri .capsula-filtro select {
     text-align: center;
+    padding-right:2.5em;
+    color: var(--placeholder-text);
+    background-position: right 0em center;
 }
 
 #animali .filtri #searchSize.capsula-filtro {
-    max-width: 9em;
+    max-width: 10em;
 }
 
 #animali .filtri #searchSex.capsula-filtro {
-    max-width: 9em;
+    max-width: 10em;
 }
 
 #animali .filtri .capsula-filtro input::placeholder, #eventi .filtri .capsula-filtro input::placeholder {
@@ -2134,7 +2144,6 @@ input:-webkit-autofill:active{
 #eventi .filtri .capsula-filtro input {
     width: 30%;
     text-align:center;
-    padding-top: 0.2em;
 }
 
 #eventi .filtri {
@@ -2151,6 +2160,11 @@ input:-webkit-autofill:active{
 
 #eventi .filtri #searchData.capsula-filtro {
     max-width: 21em;
+}
+
+#eventi .filtri #searchData.capsula-filtro input{
+    font-size: 0.9em;
+    color:var(--placeholderDarker-text);
 }
 
 #eventi .filtri .capsula-filtro label[for="search"] +input {
@@ -2320,8 +2334,8 @@ cursor: pointer;
     overflow: hidden;
     clear: right;
     max-width: 35em;
-    margin-top: 0.2em;
     text-align: left;
+    padding-top: 0.5em;
 }
 
 #eventi .evento h2 {
@@ -3074,6 +3088,23 @@ body#admin-body{
     background-color: var(--footercolor);
     display: inline-block;
     width: 100%;
+}
+
+body#admin-body #animali .filtri{
+    width: 100%;
+    margin-bottom: 0.5em;
+}
+
+body#admin-body #animali .filtri button{
+    width: fit-content;
+    margin: 0;
+}
+
+body#admin-body #animali .filtri .capsula-filtro{
+    margin-left: auto;
+    margin-right: 0;
+    gap:0;
+    flex:0 0 fit-content;
 }
 
 div#admin-area article h2{
@@ -4177,3 +4208,168 @@ nav#breadcrumb a{
 nav#breadcrumb a:visited{
     color: var(--visitedcolor);
 }
+
+/* ================== CHI SIAMO ==================*/
+
+#second-chapter-chi-siamo{
+    margin-top: 1em;
+}
+#first-chapter-chi-siamo .column-container{
+    align-items: center;
+}
+
+#chi-siamo-content {
+    flex: 1 1 50%;
+}
+#chi-siamo-img{
+    flex: 0 1 40%;
+}
+
+#chi-siamo-img img{
+    width: 100%;
+}
+
+/* Sezione 2 Chi Siamo */
+
+#second-chapter-chi-siamo{
+    background-color: var(--headercolor);
+    color:var(--bgcolor);
+    margin-top: 1em;
+}
+
+#chi-siamo2-img{
+    flex: 0 1 35%;
+}
+#chi-siamo2-img img{
+    width: 90%;
+}
+
+#content-chi-siamo2{
+    vertical-align: middle;
+    padding:2em 0;
+    flex: 1 1 50%;
+    margin:auto;
+    /* height: fit-content; */
+
+
+}
+
+
+/*Sezione "PetMatch timeline"*/
+
+#pm-timeline{   
+   display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    align-items: flex-start;
+    margin-top: 2em;
+    list-style: none;
+  }
+
+#pm-timeline::before {
+    content: '';
+    position: absolute;
+    top: 1.5em; 
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background-image: linear-gradient(to right, var(--buttoncolor) 50%, transparent 50%);
+    background-size: 20px 100%;
+    z-index: 0;
+  }
+
+  #pm-timeline li{
+    position: relative; 
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 0 0 18%;
+    font-weight: bold;
+}
+
+#pm-timeline li span:nth-of-type(2){
+    font-weight: normal;    
+}
+
+.pm-timeline-date{
+    font-size:1em;
+}
+
+/*Sezione 3 Chi Siamo */
+
+#third-chapter-chi-siamo{
+    margin: 2em 0em;
+}
+
+
+#third-chapter-chi-siamo .column-container{
+    gap: 3em;
+    align-items: center;
+} 
+
+#chi-siamo3-img{
+    flex: 0 0 25%;
+    max-width: 25%;
+    height: auto;
+
+
+}
+#chi-siamo3-img img{
+    width: 100%;
+    border-radius: 0.8em;
+}
+
+#chi-siamo3-content{
+    padding:2em 0;
+    flex: 1 1 60%;
+    margin:auto;
+}
+
+#chi-siamo3-content p{
+    margin-bottom: 0.5em;
+}
+  
+
+/*Sezione "Ci Presentiamo"*/
+#ci-presentiamo{
+    background-color: var(--secondsection); /* nel caso non caricasse l'immagine */
+    background-image: 
+        linear-gradient(to bottom, transparent 70%, var(--secondsection) 98%),
+        url('../../assets/images/cat-bg.svg');
+    background-size: 102% auto;
+    background-repeat: no-repeat;
+    background-position:top;
+    height: fit-content;
+    color: var(--bgcolor);
+    padding: 3em;
+    border-radius: 1em;
+}
+
+#ci-presentiamo h2{
+    margin: 2em 0 0.8em 0;
+}
+
+
+#ci-presentiamo p{
+    margin-bottom: 0.5em;
+}
+
+#team-img{
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    justify-content: center;
+    gap:1em;
+    row-gap: 0em;
+} 
+
+#team-img img{
+    width: 100%;
+    flex:0 1 30%;
+    height: auto;
+    max-height: 15em;
+    padding: 0;
+} 

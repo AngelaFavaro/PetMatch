@@ -53,6 +53,9 @@ $routes = [
     'profilo-utente' => [
         'file' => __DIR__ . '/src/php/profilo-utente.php'
     ],
+    'chi-siamo' => [
+        'file' => __DIR__ . '/src/php/chi-siamo.php'
+    ], 
     'revisione-richiesta' => [
         'file' => __DIR__ . '/src/php/revisione-richiesta.php'
     ],

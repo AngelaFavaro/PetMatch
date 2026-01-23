@@ -64,6 +64,11 @@ $pagine = [
         'url' => './profilo-utente',
         'parent' => 'home'
     ],
+     'chi-siamo' => [
+        'label' => 'Chi Siamo',
+        'url' => './chi-siamo',
+        'parent' => 'home'
+    ],
     'revisione-richiesta' => [
         'label' => 'Revisione richiesta',
         'url' => './revisione-richiesta',
@@ -103,6 +108,11 @@ $pagine = [
         'label' => 'Adottati',
         'url' => './adottati',
         'parent' => 'animali'
+    ],
+    'nuovo-evento' => [
+        'label' => 'Nuovo evento',
+        'url' => './nuovo-evento',
+        'parent' => 'eventi'
     ],
 ];
 

@@ -81,7 +81,8 @@
     margin:0 auto; 
 }
 
-#timeline::before {
+#timeline::before,
+#pm-timeline::before{
     top: 0em; 
     bottom: 4.5em; 
     margin:auto;
@@ -100,7 +101,8 @@ details[open] .number::after {
     top: 1em;
 }
 
-#timeline {
+#timeline,
+#pm-timeline {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -108,7 +110,8 @@ details[open] .number::after {
     padding: 0;
 }
 
-#timeline::before {
+#timeline::before,
+#pm-timeline::before {
     max-height: none; 
 }
 
@@ -190,7 +193,6 @@ details[open] .number::after {
     transform: rotate(-10deg);
 }
 
-
 #form-affidamento {
     background-color: var(--bgcolor);
     color: var(--txtcolor);
@@ -205,6 +207,45 @@ details[open] .number::after {
     background-image: none;
     overflow:hidden;
 }
+/* ==================CHI SIAMO==================*/
+
+#pm-timeline li{
+    margin-bottom: 1.5em;
+}
+
+#pm-timeline li span{
+    background-color: var(--bgcolor);
+    padding: 0;
+}
+
+
+#chi-siamo-img{
+    display: none;
+}
+
+#chi-siamo2-img{
+    display: none;
+}
+
+#chi-siamo3-img{
+    display: none;
+}
+
+#third-chapter-chi-siamo{
+    margin: 0;
+}
+
+#chi-siamo3-content{
+    padding: 0;
+}
+
+#ci-presentiamo{
+    padding: 1em;
+}
+
+#team-img img{
+    width: 40%;
+} 
 
 /* ==================ANIMALI==================*/
 
