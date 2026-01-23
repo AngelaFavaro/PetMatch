@@ -2,6 +2,24 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+
+/*==================PULSANTI==================*/
+/* PER MOBILE DEVE ESSERE MINIMO 44 xx 44 */
+.orange-button,
+.brown-button,
+.orange-button,
+select,
+.white-button{
+    min-height: 44px;
+}
+
+.torna-su-button:hover .static{
+    display: block;
+}
+
+.torna-su-button:hover .active{
+    display: none;
+}
 /* ================== NAV USER ==================*/
 #menu-toggle-checkbox{
     display: block;
@@ -157,18 +175,22 @@ input:checked + #slider {
 }
 
 #section-events{
-    max-width: 700px;
     padding:2em 1em 1em 1em;
 }
 
 #events-list{
     margin:0;
     padding:3em 0 0 0;
+    gap:5px;
 }
 
 #events-list::before{
     width: 100%;
     left: -0%;
+}
+
+.is-swinging {
+    animation: none;
 }
 
 #events-list .polaroid:before{
@@ -185,27 +207,19 @@ input:checked + #slider {
 
 #events-list .polaroid:first-child,
 #events-list .polaroid:nth-child(2){
-    width: 40%;
+    width: 43%;
 }
 
 #events-list .polaroid:first-child{
     margin-left:5%;
 }
 
-
-#form-affidamento {
-    background-color: var(--bgcolor);
-    color: var(--txtcolor);
-    margin:2em 2em 0.1em 2em;
-    padding: 0em 2em;
-    flex: 1 0 40%;
-    border-radius: 2.1em;
+#events-list p.vMobile{
+    display: block;
 }
 
-#container-form-affidamento{
-    padding: 0;
-    background-image: none;
-    overflow:hidden;
+#events-list p.vDesk{
+    display: none;
 }
 
 #sponsor img{
@@ -245,10 +259,33 @@ input:checked + #slider {
     text-align: left;
 }
 
+.text-details{
+    margin:auto 1em;
+}
+
+#user-profile #lista-movimenti li a,
+#user-profile #lista-richieste li a,
+#profilo-richiedente .tabs-container li article p+a{
+    padding: 0.7em 2em;
+}
+
 /*=================== ANIMALI ====================*/
 
-#animali li.card {
+#animali li.card, #animali li.dark-card {
     flex-shrink: 1;
+}
+
+
+
+#animali .card .nome, #animali .dark-card .nome {
+    padding-top: 0.5em;
+    padding-left: 0.5em;
+    width: 75%;
+    /* padding-right: 65%; */
+    /* height: 40px; */
+    white-space: nowrap;      /* testo su una sola riga */
+    overflow: hidden;         /* taglia il testo che esce dal box */
+    text-overflow: ellipsis;  /* aggiunge "..." alla fine */
 }
 
 #animali #nav-animali-type ul {
@@ -271,10 +308,24 @@ input:checked + #slider {
     justify-content: center;
 }
 
-#animali .card .interessamento {
+#animali .card .interessamento, #animali .dark-card .interessamento {
     float: left;   
     clear: left;
     padding:0.5em;
+}
+
+/* #animali #content-filter-button button {
+    width: 100%;
+    flex: 0 0 100%;
+} */
+
+#animali .filtri #searchSex.capsula-filtro,
+#animali .filtri #searchEta.capsula-filtro {
+    max-width: 100%;
+}
+
+#animali .filtri .capsula-filtro {
+    height: 3em;
 }
 
 #animali .immagine {
@@ -282,9 +333,9 @@ input:checked + #slider {
     width: 100%;
 }
 
-#animali #filtri #searchSex.capsula-filtro,
-#animali #filtri #searchSize.capsula-filtro{
-    width: 48.4%;
+#animali .filtri #searchSex.capsula-filtro,
+#animali .filtri #searchSize.capsula-filtro{
+    max-width: 48.4%;
 }
 
 #animali li.card:hover {
@@ -353,6 +404,10 @@ nav#menu-admin img {
     padding: 0.5em 0.5em;
 }
 
+nav#menu-admin li{
+    padding:0.8em 1.3em;
+}
+
 /* da vedere se possibile unificare con quello dello user, per ora lascio così */
 #admin-body .menu-toggle::before {
     content: "\2630";
@@ -378,11 +433,14 @@ nav#menu-admin {
     background-color: transparent; 
     z-index: 1000;
     visibility: hidden;
-    transition: max-height 0.3s ease;
+    transition: max-height 0.3s ease-out;
+    padding-bottom:2em;
+    margin-bottom:1em;
+    border-bottom:2px solid var(--bgcolor);
 }
 
 #menu-toggle-checkbox:checked ~ nav#menu-admin {
-    max-height: 100vh;
+    max-height: 120vh;
     background-color: var(--footercolor);
     visibility: visible;
 }
@@ -432,6 +490,47 @@ nav#breadcrumb {
     margin: 1em auto;
 }
 
+#richieste .capsula-filtro select{
+    padding-right: 1em;
+    background-position: right 0em center; /* Destra, un po' staccata dal bordo, centrata verticale */
+}
+
+/* ================== PROFILO RICHIEDENTE ==================*/
+#profilo-richiedente{
+    padding: 0 1em;
+}
+/* ================== DETTAGLI RICHIESTE ==================*/
+a.pencil img{
+    width: 44px;
+}
+
+.text-details{
+    margin:0 0.5em;
+}
+
+img.circle-foto{
+    margin:1em auto;
+}
+
+/* ================== 404 PAGE ==================*/
+div#row2{
+    gap:0em;
+}
+
+div#admin-area article {
+  padding:1em;
+  width: 100%;
+}
+
+ul#statistics-list,
+div#admin-area article#query{
+    padding:1em 0;
+}
+
+div#admin-area article#query h2{
+    padding:0 1em;
+}
+
 
 #error-title {
     font-size: 7em;
@@ -454,6 +553,105 @@ nav#breadcrumb {
 #error-info{
     width: 70%;
     margin: 0 auto;
+}
+
+/* ================== NUOVO ANIMALE ==================*/
+
+#admin-area-aggiungi {
+    min-height: 100vh;
+    display: block; 
+    background-color: var(--bgcolor); 
+    padding: 0;
+    margin: 0;
+}
+
+#admin-area-aggiungi h1{
+    font-size: 2em;
+}
+
+#form-add-animal {
+    background-color: var(--bgcolor);
+    width: 100%;
+    margin: 0;
+    padding: 1.5em; 
+    border-radius: 0;
+    box-shadow: none;
+    box-sizing: border-box;
+}
+
+#form-add-animal .column-container, 
+#form-add-animal .column-user {
+    display: flex;
+    flex-direction: column; 
+    gap: 0; 
+    width: 100%;
+    padding:0;
+}
+
+#form-add-animal fieldset {
+    margin-bottom: 1.5em;
+    border: none;
+    padding: 0;
+    width: 100%;
+}
+
+#form-add-animal .form-group, 
+#form-add-animal .column-user > div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em; 
+    width: 100%;
+}
+
+#form-add-animal label{
+    margin-top:0.8em;
+}
+
+#form-add-animal input[type="text"],
+#form-add-animal input[type="date"],
+#form-add-animal select,
+#form-add-animal textarea {
+    width: 100%;
+    padding: 0.6em 0.5em;
+    font-size: 1em; 
+    border: 1px solid var(--text-buttoncolor);
+    box-sizing: border-box;
+}
+
+#form-add-animal input[type="text"],
+#form-add-animal input[type="date"],
+#form-add-animal textarea{
+    border-radius: 0.2em;
+}
+
+#form-add-animal select{
+    border-radius: 2em;
+}
+
+#form-add-animal .radio-group-cg {
+    gap: 0.3em;
+}
+
+#form-add-animal .radio-card {
+    width: 100%;
+    padding: 0.7em;
+    box-sizing: border-box;
+}
+
+#form-add-animal button[name="submit-animal"],
+#form-add-animal a#cancel-add-animal{
+    width: 100%;
+    display: block;
+    margin:0;
+    padding:0.5em 0;
+}
+
+#form-add-animal a#cancel-add-animal{
+    margin-bottom:1em;
+}
+
+#form-add-animal .form-buttons-container{
+    display: block;
 }
 
 /* ================== LOGIN ==================*/
@@ -561,4 +759,66 @@ body#lavora-con-noi {
 
 .lavora-con-noi-img img{
     display: none;
+}
+
+/*                  EVENTI                       */
+
+
+
+#eventi .cards-container{
+    margin:auto;
+}
+
+#eventi .cards-container li{
+    margin:1em auto 0 auto;
+    min-height: 10em;
+    height: auto;
+}
+
+#eventi .evento .descrizione-evento{
+    clear: both;
+    margin:0 auto;
+    padding:0 1em;
+}
+
+#eventi .evento .posizione-data-abbr {
+    margin:0 auto 0.3em auto;
+    display: block;
+    text-align: center;
+    padding: 1em;
+    min-height: 8em;
+    border-bottom: 1px solid var(--txtcolor);
+    border-top: 1px solid var(--txtcolor);
+    /* float: left; */
+}
+
+#eventi .filtri #searchData.capsula-filtro {
+    max-width: 100%;
+}
+
+#eventi .evento .posizione-evento {
+    display: none;
+}
+
+#eventi .evento .data-evento {
+    display: none;
+}
+
+#eventi .evento img.immagine-evento {
+    width: 10em;
+    height: 8em;
+    padding: 0.8em;
+    float:left;
+    /* padding-right: 2em; */
+    object-fit: cover;
+    min-width: 8em;
+    /* margin-right: 2em; */
+    /* display: flex; */
+}
+
+#eventi .evento {
+    height: fit-content;
+    margin-bottom: 2em;
+    margin:auto;
+    padding:0.3em;
 }

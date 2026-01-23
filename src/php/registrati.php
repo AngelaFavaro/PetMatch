@@ -205,9 +205,9 @@ $title = '<title>Registrati - PetMatch </title>';
 $description = '<meta name="description" content="Registrati su PetMatch">';
 $keywords = "";
 
-$nav = buildUserNav($userMenu, './registrati', $_SESSION['email'] ?? false);
+$nav = buildNav($userMenu, './registrati');
 
-$footer = file_get_contents('./src/template/partials/footer.html');
+$footer = buildFooter($footerMenu,  './registrati');
 
 $breadcrumb = getBreadcrumb('registrati', $pagine);
 

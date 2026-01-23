@@ -123,8 +123,8 @@ $title = '<title>Accedi - PetMatch </title>';
 $description = '<meta name="description" content="Accedi a PetMatch">';
 $keywords = "";
 
-$nav = buildUserNav($userMenu, './accedi', $_SESSION['email'] ?? false);
-$footer = file_get_contents('./src/template/partials/footer.html');
+$nav = buildNav($userMenu, './accedi');
+$footer = buildFooter($footerMenu,  './accedi');
 
 $breadcrumb = getBreadcrumb('accedi', $pagine);
 

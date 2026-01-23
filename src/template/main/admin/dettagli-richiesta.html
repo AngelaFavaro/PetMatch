@@ -40,7 +40,11 @@
                 </div>
 
                 <p id="altre-richieste">Ha altre <strong>[n]</strong> richieste in corso di valutazione</p>
-                <a href="[paginaRichiedente]" class="orange-button">Vedi profilo</a>
+                <form method="POST" action="[paginaRichiedente]">
+                    <input type="hidden" name="id-animale" value="[animalID]">
+                    <button type="submit" name="view-profile" class="brown-button">Vedi profilo</button>
+                </form>
+                <!-- <a href="[paginaRichiedente]" class="brown-button">Vedi profilo</a> -->
             </article>
             
         </div> 
@@ -60,7 +64,7 @@
                         </dl>
                     </div>
                 </div>
-                <a href="[paginaAnimale]" class="orange-button">Vedi animale</a>
+                <a href="[paginaAnimale]" class="brown-button">Vedi animale</a>
                 <div id="other-info-container">
                     <dl>
                         <dt>Famiglia ideale</dt><dd>[famigliaIdeale]</dd>

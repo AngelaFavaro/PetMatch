@@ -31,18 +31,20 @@ CREATE TABLE UTENTI (
 
 -- EVENTI
 CREATE TABLE EVENTI (
-    Titolo VARCHAR(255) NOT NULL,
+    Titolo VARCHAR(40) NOT NULL,
     DataPubblicazione DATE NOT NULL,
     DataEvento DATE NOT NULL,
     DescrEvento TEXT NOT NULL,
     ImgPath VARCHAR(512) NOT NULL, -- Già presente, rinominato per coerenza
     PRIMARY KEY (Titolo, DataEvento),
+    Via VARCHAR(255) NOT NULL,
+    Citta VARCHAR(100) NOT NULL
     CHECK (DataEvento >= DataPubblicazione)
 );
 
 -- ORGANIZZAZIONE
 CREATE TABLE ORGANIZZAZIONE(
-    Titolo VARCHAR(255) NOT NULL,
+    Titolo VARCHAR(40) NOT NULL,
     DataEvento DATE NOT NULL,
     Email VARCHAR(255) NOT NULL,
     PRIMARY KEY (Titolo, DataEvento, Email),
@@ -110,7 +112,11 @@ CREATE TABLE RICHIESTE_ADOZIONI(
     FOREIGN KEY (IDanimale) REFERENCES ANIMALI (IDanimale) ON DELETE CASCADE ON UPDATE CASCADE,
     CHECK (Stato IN ('Nuova', 'In valutazione','Da trasportare','Accettata', 'Respinta', 'Annullata')),
     CHECK (DataFineValutazione IS NULL OR DataFineValutazione >= DataRichiesta),
-    CHECK (DataFineValutazione IS NULL OR DataInizioValutazione IS NULL OR DataFineValutazione >= DataInizioValutazione)
+    CHECK (DataFineValutazione IS NULL OR DataInizioValutazione IS NULL OR DataFineValutazione >= DataInizioValutazione),
+    CHECK (
+        (Stato <> 'Nuova') OR --se lo stato è diverso da nuova allora tutto ok, altrimenti SE è nuova allora controlla le date
+        (Stato = 'Nuova' AND DataInizioValutazione IS NULL AND DataFineValutazione IS NULL)
+    )
 );
 
 -- TRASPORTI
@@ -132,9 +138,12 @@ CREATE TABLE SEGNALAZIONI_NUOVE_ACCOGLIENZE (
     ID INT AUTO_INCREMENT PRIMARY KEY, 
     NominativoRichiedente VARCHAR(255) NOT NULL,
     DataRichiesta DATETIME DEFAULT CURRENT_TIMESTAMP,
+    TipoAnimale VARCHAR(5) NOT NULL,
     EmailAmm VARCHAR(255),
     EmailRichiedente VARCHAR(255) NOT NULL,
-    FOREIGN KEY (EmailAmm) REFERENCES UTENTI (Email) ON DELETE SET NULL ON UPDATE CASCADE
+    FOREIGN KEY (EmailAmm) REFERENCES UTENTI (Email) ON DELETE SET NULL ON UPDATE CASCADE,
+
+    CHECK (TipoAnimale IN ('Gatto','Cane'))
 );
 
 

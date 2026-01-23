@@ -43,7 +43,6 @@ polaroids.forEach(card => {
 });
 
 //chiude il menu da telefono se non lo si fa manualmente e si passa oltre 
-
 document.addEventListener('DOMContentLoaded', () => {
     const themeToggle = document.getElementById('theme-toggle');
     const menuCheckbox = document.getElementById('menu-toggle-checkbox');
@@ -184,61 +183,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-
-
-
-/* ==========================================================================
-   FUNZIONI GLOBALI (Sempre disponibili)
-   ========================================================================== */
-
-
+/**cambia il colore dei pulsanti per abbellimento: rende più visibile lo stato della richiesta */
 document.addEventListener('DOMContentLoaded', () => {
-
-    const editNoteBtn = document.getElementById('edit-note');
-    const noteText = document.getElementById('note-text');
-    if (editNoteBtn && noteText) {
-        let originalText = '';
-        editNoteBtn.addEventListener('click', e => {
-            e.preventDefault();
-            originalText = noteText.innerText;
-            noteText.contentEditable = 'true';
-            noteText.classList.add('editing');
-            noteText.focus();
-        });
-
-        noteText.addEventListener('blur', () => {
-            noteText.contentEditable = 'false';
-            noteText.classList.remove('editing');
-            const nuovoTesto = noteText.innerText.trim();
-            if (nuovoTesto !== originalText) {
-                fetch(window.location.href, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: new URLSearchParams({ salva_note: 1, note: nuovoTesto })
-                });
-            }
-        });
-    }
-
-    /* --- colorazione pulsanti a seconda dello stato della richiesta*/
     const verificaStato = () => {
-        const paragrafi = document.querySelectorAll('#Richiesta p');
+        const termini = document.querySelectorAll('#Richiesta dt'); //cerca tutti i dt dentro l'article#Richiesta (che ha lo stato)
         let statoTesto = "";
-        paragrafi.forEach(p => {
-            if (p.textContent.includes('Stato richiesta:')) {
-                statoTesto = p.textContent.replace('Stato richiesta:', '').trim();
+
+        termini.forEach(dt => {
+            if (dt.textContent.trim() === 'Stato richiesta') { //cerca il dt che contiene "Stato richiesta"
+                const ddValue = dt.nextElementSibling; //prende il dd successivo per estrerre il valore
+                if (ddValue) {
+                    statoTesto = ddValue.textContent.trim();
+                }
             }
         });
 
         if (statoTesto !== "" && statoTesto !== '[stato]') {
-            if (statoTesto === 'Respinta' || statoTesto === 'Annullata') {
+            const statiNegativi = ['Respinta', 'Annullata'];
+            
+            if (statiNegativi.includes(statoTesto)) {
                 const p1 = document.querySelector('#animal-container .orange-button');
                 const p2 = document.querySelector('#details-container .orange-button');
-                if (p1) { p1.classList.add('respinta'); p1.style.pointerEvents = 'none'; }
-                if (p2) { p2.classList.add('respinta'); p2.style.pointerEvents = 'none'; }
+                
+                [p1, p2].forEach(p => {
+                    if (p) {
+                        p.classList.add('respinta');
+                        p.setAttribute('aria-disabled', 'true'); // per accessibilità, indica che il pulsante è disabilitato (così è comprensibile anche ad uno screen reader)
+                    }
+                });
             }
         }
     };
+    
     verificaStato();
 
     /* --- modifica la data di arrivo TO DO DA MODIFICARE--- */
@@ -259,5 +235,163 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             // Qui chiameresti la tua funzione sendData()
         });
-}
+    }
+
+    /* ==========================================================================
+       VALIDAZIONE FORM AGGIUNGI ANIMALE
+       ========================================================================== */
+    
+    const formAdd = document.getElementById('form-add-animal');
+
+   if (formAdd) {
+        formAdd.querySelectorAll('.error-form').forEach(p => {
+            if (p.textContent.trim() === "") {
+                p.style.display = 'none'; 
+            } else {
+                p.style.display = 'block'; // Se il PHP ha scritto qualcosa, mostralo!
+            }
+        });
+
+        const setError = (input, message) => {
+            const container = input.closest('div') || input.closest('fieldset');
+            if (!container) return;
+            
+            const errorElement = container.querySelector('.error-form');
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.style.display = message ? 'block' : 'none';
+            }
+        };
+
+        const validateField = (field) => {
+            const val = field.value.trim();
+            const name = field.name;
+
+            if (name === 'nome' || name === 'razza' || name === 'colore') {
+                if (val.length < 2) return "Minimo 2 caratteri";
+                if (!/^[a-zA-ZÀ-ÿ\s']+$/.test(val)) return "Usa solo lettere";
+            }
+            
+            if (name === 'dataNascita') {
+                if (val === "") return "Data obbligatoria";
+                if (new Date(val) > new Date()) return "La data non può essere futura";
+            }
+
+            if (name === 'taglia' || name === 'pelo') {
+                if (val === "" || val === null) return "Seleziona un'opzione";
+            }
+
+            if (name === 'tipologia' || name === 'sesso') {
+                const radioGroup = document.getElementsByName(name);
+                const isChecked = Array.from(radioGroup).some(r => r.checked);
+                if (!isChecked) return "Selezione obbligatoria";
+            }
+
+            if (name === 'foto' && field.files.length > 0) {
+                const file = field.files[0];
+                if (file.size > 2 * 1024 * 1024) return "Immagine troppo pesante (max 2MB)";
+            }
+
+            return ""; // Nessun errore
+        };
+
+        formAdd.querySelectorAll('input, textarea, select').forEach(input => {
+            const type = (input.type === 'radio' || input.tagName === 'SELECT') ? 'change' : 'blur';
+            
+            input.addEventListener(type, () => {
+                setError(input, validateField(input));
+            });
+
+            input.addEventListener('input', () => {
+                const container = input.closest('div') || input.closest('fieldset');
+                const errorDisplay = container.querySelector('.error-form');
+                if (errorDisplay && errorDisplay.style.display === 'block') {
+                    if (!validateField(input)) setError(input, "");
+                }
+            });
+        });
+
+        formAdd.addEventListener('submit', (e) => {
+            let firstErrorField = null;
+            const fieldsToValidate = formAdd.querySelectorAll('input, textarea, select');
+            const validatedGroups = new Set();
+
+            fieldsToValidate.forEach(input => {
+                const name = input.name;
+                if (input.type === 'radio') {
+                    if (validatedGroups.has(name)) return;
+                    validatedGroups.add(name);
+                }
+
+                const msg = validateField(input);
+                if (msg) {
+                    setError(input, msg);
+                    if (!firstErrorField) firstErrorField = input;
+                }
+            });
+
+            if (firstErrorField) {
+                // COMMENTA LA RIGA SOTTO PER NON BLOCCARE IL PHP
+                // e.preventDefault(); 
+                
+                console.log("JS ha trovato errori, ma lascio inviare al PHP...");
+                firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+    }
+
+    // ========== DRAG & DROP PER FOTO ==========
+    const fileInput = document.getElementById('foto');
+    const fileLabel = document.querySelector('.file-upload-label');
+    const fileNameDisplay = document.querySelector('.file-name-display');
+
+    if (fileInput && fileLabel) {
+        // Previeni comportamento default del browser
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            fileLabel.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            }, false);
+        });
+
+        // Evidenzia area quando drag
+        ['dragenter', 'dragover'].forEach(eventName => {
+            fileLabel.addEventListener(eventName, () => {
+                fileLabel.classList.add('drag-active');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            fileLabel.addEventListener(eventName, () => {
+                fileLabel.classList.remove('drag-active');
+            }, false);
+        });
+
+        // Gestisci il drop
+        fileLabel.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                updateFileName(files[0].name);
+                // Trigger validation
+                setError(fileInput, validateField(fileInput));
+            }
+        }, false);
+
+        // Mostra nome file quando scelto normalmente
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                updateFileName(fileInput.files[0].name);
+            }
+        });
+
+        function updateFileName(name) {
+            fileNameDisplay.textContent = `✓ ${name}`;
+            // Aggiorna anche .foto-caricata-info se esiste
+            const infoDiv = document.querySelector('.foto-caricata-info');
+            if (infoDiv) {
+                infoDiv.textContent = `File selezionato: ${name}`;
+            }
+        }
+    }
 });
