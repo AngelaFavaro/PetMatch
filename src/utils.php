@@ -72,7 +72,7 @@ $pagine = [
     'preferiti' => [
         'label' => 'Preferiti',
         'url' => './preferiti',
-        'parent' => 'home'
+        'parent' => 'animali'
     ],
     'lavora-con-noi' => [
         'label' => 'Lavora con noi',
@@ -109,6 +109,11 @@ $pagine = [
         'url' => './nuovo-evento',
         'parent' => 'eventi'
     ],
+    'assegnati-a-te' => [
+        'label' => 'Assegnati a te',
+        'url' => './assegnati-a-te',
+        'parent' => 'animali'
+    ]
 ];
 
 $adminMenu = [
@@ -118,7 +123,7 @@ $adminMenu = [
         ['href' => './eventi', 'text' => 'Eventi'],
     ],
     'animali' => [
-        ['href' => './tuoi-animali', 'text' => 'Assegnati a te'],
+        ['href' => './assegnati-a-te', 'text' => 'Assegnati a te'],
         ['href' => './senza-amministratore', 'text' => 'Senza amministratore'],
         ['href' => './adottati', 'text' => 'Adottati'],
         ['href' => './nuove-accoglienze', 'text' => 'Nuove accoglienze'],
@@ -162,7 +167,6 @@ function loadTemplate(string $path, string $default = ''): string {
 
 
 function buildAdminNav(array $menuGroups, string $currentHref): string {
-    // Parte iniziale: Checkbox e Label (Hamburger)
     $html = '
     <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
     <label for="menu-toggle-checkbox" class="menu-toggle" aria-label="Apri o chiudi menu di navigazione">
@@ -188,9 +192,6 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
         foreach ($items as $item) {
             $active = ($item['href'] === $currentHref) ? ' id="currentLink"' : '';
             $linkHref = ($item['href'] === $currentHref) ? '<li'.$active.' aria-label="pagina attuale:'.$item['text'].'">'.$item['text'].'</li>' : '<li'.$active.'><a href="'.$item['href'].'">'.$item['text'].'</a></li>';
-            
-            // In questa versione, anche il link corrente rimane cliccabile 
-            //ho sistemato - angelac
             $html .= $linkHref;
         }
         $html .= '</ul>';

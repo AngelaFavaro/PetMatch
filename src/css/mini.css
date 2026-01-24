@@ -527,7 +527,7 @@ div#row2{
     gap:0em;
 }
 
-div#admin-area article {
+div#admin-area article:not(.card) {
   padding:1em;
   width: 100%;
 }

@@ -64,6 +64,10 @@ a.orange-button:hover{
     padding-right:1em;
 }
 
+div#admin-area .container{
+    padding: 0;
+}
+
 html, body {
     max-width: 100%;
     /* overflow-x: hidden; */
@@ -3340,7 +3344,7 @@ body#admin-body #breadcrumb{
 div#admin-area div#row2 article{
     margin-top:0em;
 }
-div#admin-area article {
+div#admin-area article:not(.card) { /*aggiunto il not(.card) perchè così visualizzo bene le card degli animali in "assegnati a te" di admin*/
   padding:1em 1em 1em 1em;
   border: 1px solid var(--txtcolor);
   border-radius:0.5em;
