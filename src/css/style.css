@@ -912,6 +912,10 @@ footer .container + div a:visited{
     height: 2em;
 }
 
+#logo-footer{
+    max-width: 130px;
+}
+
 
 #grass {
     width: 100%;
