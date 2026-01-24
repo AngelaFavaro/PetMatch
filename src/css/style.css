@@ -4234,8 +4234,8 @@ tr:hover {
 }
 
 .success-form +img{
-    width: 50%;
-    max-height: 50%;
+    max-width: 50%;
+    max-height: 250px;
     text-align: center;
 }
 
@@ -4481,6 +4481,10 @@ nav#breadcrumb a:visited{
     width: 100%;
     gap: 1em;
     margin: auto;
+}
+
+#ModifiedMode{
+    display: none;
 }
 
 #new-event .split-input div{

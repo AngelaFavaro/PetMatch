@@ -3,21 +3,25 @@ include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
 
+// modifica-evento?titolo=altro+evento+eventoso&data=2026-01-24
+
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { 
     header("Location: ./eventi");
     exit;
 }
 
 $NewEventInfo= [
-    'titolo' => '', 
-	'data' => '', 
-	'descrizione' => '', 
-	'foto' => '',
-	'via' => '',
-	'citta' => ''
+    'Titolo' => '', 
+	'DataEvento' => '', 
+	'DescrEvento' => '', 
+	'ImgPath' => '',
+	'Via' => '',
+	'Citta' => '',
+    'createMore' => ''
 ];
 
-function createNewEvent(DBAccess $conn, &$newEventValues): array {
+function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): array {
+
     $message = [
         'generic' => '', 'titolo' => '', 'data' => '', 'descrizione' => '',
         'foto' => '', 'via' => '','citta' => ''
@@ -30,12 +34,12 @@ function createNewEvent(DBAccess $conn, &$newEventValues): array {
         }
         $savedInputs = $_SESSION['form_inputs'] ?? [];
 
-		$newEventValues['titolo']      = $savedInputs['title-event'] ?? '';
-        $newEventValues['data']        = $savedInputs['day-event'] ?? '';
-        $newEventValues['descrizione'] = $savedInputs['desc-event'] ?? '';
-        $newEventValues['via']         = $savedInputs['address-event'] ?? '';
-        $newEventValues['citta']       = $savedInputs['city-event'] ?? '';
-        $newEventValues['foto']        = $savedInputs['foto'] ?? '';
+		$newEventValues['Titolo']      = $savedInputs['title-event'] ?? '';
+        $newEventValues['DataEvento']        = $savedInputs['day-event'] ?? '';
+        $newEventValues['DescrEvento'] = $savedInputs['desc-event'] ?? '';
+        $newEventValues['Via']         = $savedInputs['address-event'] ?? '';
+        $newEventValues['Citta']       = $savedInputs['city-event'] ?? '';
+        $newEventValues['ImgPath']        = $savedInputs['foto'] ?? '';
         $newEventValues['createMore']  = $savedInputs['createMore'] ?? '';
 		
         unset($_SESSION['form_status_info'], $_SESSION['form_errors_info'], $_SESSION['form_inputs']);
@@ -100,9 +104,17 @@ function createNewEvent(DBAccess $conn, &$newEventValues): array {
             $errors['data'] = "L'evento non può essere nel passato.";
         }
 
+        if($isModified){
+            $oldTitle = $_GET['titolo'];
+            $oldData = $_GET['data'];
+        }
+
+        $oldTitle = isset($_GET['titolo'])? $_GET['titolo'] : '';
+        $oldData = isset($_GET['data'])? $_GET['data'] : '';
 
         if($conn -> checkEventExists($titoloValue, $dayValue)){
-            $errors['existEvent'] ='Un evento con il titolo '.$titoloValue.' e data '.date("d/m/Y",strtotime($dayValue)).' esiste già.';
+            if(!($oldTitle!=='' && $oldData!=='' && $titoloValue === $oldTitle && $dayValue === $oldData))
+                $errors['existEvent'] ='Un evento con il titolo '.$titoloValue.' e data '.date("d/m/Y",strtotime($dayValue)).' esiste già.';
         }
         
         // Gestione Foto
@@ -127,17 +139,28 @@ function createNewEvent(DBAccess $conn, &$newEventValues): array {
                 'foto' => $fotoPath
             ];
 
-			if ($conn->insertNewEvent($infoDB)) {
-				unset($_SESSION['form_inputs'], $_SESSION['form_errors_info']);
-                if($createMoreValue){
-                    header("Location: ./nuovo-evento?createMore=1");
+            if($isModified){
+                if($conn->updateNewEvent($infoDB, $oldTitle, $oldData)){
+                    unset($_SESSION['form_inputs'], $_SESSION['form_errors_info']);
+                    // TO DO: mettere l'evento appena modificato
+                    header("Location: ./eventi"); 
+                    exit;
                 }else{
-                    header("Location: ./eventi");
+                    $errors['generic'] = "L'inserimenti dell'evento non è andato a buon fine, riprovare più tardi.";
                 }
-				exit;
-			} else {
-				$errors['generic'] = "L'inserimenti dell'evento non è andato a buon fine, riprovare più tardi.";
-			}
+
+            }else{
+                if ($conn->insertNewEvent($infoDB)) {
+                    unset($_SESSION['form_inputs'], $_SESSION['form_errors_info']);
+                    if($createMoreValue){
+                        header("Location: ./nuovo-evento?createMore=1");
+                    }else header("Location: ./eventi");
+                    exit;
+                } else {
+                    $errors['generic'] = "L'inserimenti dell'evento non è andato a buon fine, riprovare più tardi.";
+                }
+            }
+
 		}
 
         $_SESSION['form_status_info'] = 'error';
@@ -151,27 +174,44 @@ function createNewEvent(DBAccess $conn, &$newEventValues): array {
         $inputsToSave['createMore'] = $createMoreValue; 
         $_SESSION['form_inputs'] = $inputsToSave; 
 
-        header("Location: ./nuovo-evento");
+        if($isModified){
+            header('Location: ./modifica-evento?titolo='.urlencode($oldTitle).'&data='.urlencode($oldData));
+        }else{
+            header("Location: ./nuovo-evento");
+        }
+
         exit;
     }
     return $message;
 }
 
+$isModifiedEvent=false;
+if(isset($_GET['titolo']) && isset($_GET['data'])){
+    $dataEvento = $_GET['data'];
+    $titoloEvento = $_GET['titolo'];
+    $isModifiedEvent=true;
+}
+
 $connessione = new DBAccess();
 $connessioneOK = $connessione->openDBConnection();
 if ($connessioneOK) {
-    $messaggiForm = createNewEvent($connessione, $NewEventInfo);
+    if($isModifiedEvent){
+        $NewEventInfo = $connessione->getInfoEvent($titoloEvento, $dataEvento);
+    }
+    $messaggiForm = createNewEvent($connessione, $NewEventInfo, $isModifiedEvent);
 }else{
 	$messaggiForm['generic'] = "<p class='error-form'>Impossibile inserire nuovi dati, riprovare più tardi.</p>";
 }
 
 $paginaHTML = file_get_contents('./src/template/layout-admin.html');
 $main = file_get_contents('./src/template/main/admin/nuovo-evento.html');
-$breadcrumb = getBreadcrumb('nuovo-evento', $pagine);
+
+$breadcrumb = $isModifiedEvent?getBreadcrumb('modifica-evento', $pagine): getBreadcrumb('nuovo-evento', $pagine);;
+
 $nav = buildAdminNav($adminMenu,'./nuovo-evento');
-$keywords = "<meta name='keywords' content='nuovo evento, PetMatch'>";
-$title = "<title>Nuovo evento - PetMatch</title>";
-$description = "<meta name='description' content='Organizza e pubblica un nuovo evento nel sito di PetMatch.'>";
+$keywords = $isModifiedEvent? "<meta name='keywords' content='modifica evento, PetMatch'>":"<meta name='keywords' content='nuovo evento, PetMatch'>";
+$title = $isModifiedEvent? "<title>Modifica evento - PetMatch</title>" : "<title>Nuovo evento - PetMatch</title>";
+$description = $isModifiedEvent? "<meta name='description' content='Modifica un evento presente nel sito di PetMatch.'>" : "<meta name='description' content='Organizza e pubblica un nuovo evento nel sito di PetMatch.'>";
 
 $paginaHTML = str_replace('[title]', $title, $paginaHTML);
 $paginaHTML = str_replace('[description]', $description, $paginaHTML);
@@ -181,25 +221,36 @@ $paginaHTML = str_replace('[breadcrumb]', $breadcrumb, $paginaHTML);
 $paginaHTML = str_replace('[main]', $main, $paginaHTML);
 
 $fotoInfo = "";
-if (!empty($NewEventInfo['foto']) && $NewEventInfo['foto'] !== '../../assets/images/events/eventi-default.jpg') {
-    $nomeFile = basename($NewEventInfo['foto']);
+if (!empty($NewEventInfo['ImgPath']) && $NewEventInfo['ImgPath'] !== '../../assets/images/events/eventi-default.jpg') {
+    $nomeFile = basename($NewEventInfo['ImgPath']);
     $fotoInfo = "<p class='success-form'>Immagine caricata: <strong>$nomeFile</strong></p>";
-    $fotoInfo .= "<img src='{$NewEventInfo['foto']}' alt='Anteprima immagine caricata'>";
-    $inputHiddenFoto = "<input type='hidden' name='old-foto' value='{$NewEventInfo['foto']}'>";
+    $fotoInfo .= "<img src='{$NewEventInfo['ImgPath']}' alt='Anteprima immagine caricata'>";
+    $inputHiddenFoto = "<input type='hidden' name='old-foto' value='{$NewEventInfo['ImgPath']}'>";
+    $paginaHTML = str_replace('[input-hidden-foto]', $inputHiddenFoto, $paginaHTML);
 }
 $paginaHTML = str_replace('[foto-event-upload]', $fotoInfo, $paginaHTML);
-$paginaHTML = str_replace('[input-hidden-foto]', $inputHiddenFoto, $paginaHTML);
 
-$paginaHTML = str_replace('[title-event-value]', ($NewEventInfo['titolo']?? ''), $paginaHTML);
-$paginaHTML = str_replace('[day-event-value]', ($NewEventInfo['data']?? ''), $paginaHTML);
-$paginaHTML = str_replace('[desc-event-place]', ($NewEventInfo['descrizione']?? ''), $paginaHTML);
-$paginaHTML = str_replace('[address-event-value]', ($NewEventInfo['via']?? ''), $paginaHTML);
-$paginaHTML = str_replace('[city-event-value]', ($NewEventInfo['citta']?? ''), $paginaHTML);
+$paginaHTML = str_replace('[title-event-value]', ($NewEventInfo['Titolo']?? ''), $paginaHTML);
+$paginaHTML = str_replace('[day-event-value]', ($NewEventInfo['DataEvento']?? ''), $paginaHTML);
+$paginaHTML = str_replace('[desc-event-place]', ($NewEventInfo['DescrEvento']?? ''), $paginaHTML);
+$paginaHTML = str_replace('[address-event-value]', ($NewEventInfo['Via']?? ''), $paginaHTML);
+$paginaHTML = str_replace('[city-event-value]', ($NewEventInfo['Citta']?? ''), $paginaHTML);
 
-if(isset($_GET['createMore']) && $_GET['createMore'] == 1){
-    $paginaHTML = str_replace('[checkCreateMore]', 'checked', $paginaHTML);
+if($isModifiedEvent){
+     $paginaHTML = str_replace('id="createMore-container"', 'id="ModifiedMode"', $paginaHTML);
+     $paginaHTML = str_replace('[Action-modified]', 'Modifica', $paginaHTML);
+     $paginaHTML = str_replace('[Action-modified-legend]', 'Modifica l\'organizzazione dell\'evento', $paginaHTML);
+     $paginaHTML = str_replace('[urlCancel]', './eventi', $paginaHTML); //TODO : modifica mettendo l'evento che si stava visualizzando
+     $paginaHTML = str_replace('[urlCancel]', './eventi', $paginaHTML); //TODO : modifica mettendo l'evento che si stava visualizzando
 }else{
-    $paginaHTML = str_replace('[checkCreateMore]', ($NewEventInfo['createMore']? 'checked':''), $paginaHTML);
+    $paginaHTML = str_replace('[Action-modified]', 'Aggiungi', $paginaHTML);
+    $paginaHTML = str_replace('[Action-modified-legend]', 'Organizza il nuovo evento', $paginaHTML);
+    $paginaHTML = str_replace('[urlCancel]', './eventi', $paginaHTML); //TODO : modifica mettendo eventi versione admin
+    if(isset($_GET['createMore']) && $_GET['createMore'] == 1){
+        $paginaHTML = str_replace('[checkCreateMore]', 'checked', $paginaHTML);
+    }else{
+        $paginaHTML = str_replace('[checkCreateMore]', ($NewEventInfo['createMore']? 'checked':''), $paginaHTML);
+    }
 }
 
 $campi_errori = [

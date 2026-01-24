@@ -109,6 +109,11 @@ $pagine = [
         'url' => './nuovo-evento',
         'parent' => 'eventi'
     ],
+    'modifica-evento' => [
+        'label' => 'Modifica evento',
+        'url' => './modifica-evento',
+        'parent' => 'eventi'
+    ],
 ];
 
 $adminMenu = [
