@@ -109,6 +109,11 @@ $pagine = [
         'url' => './nuovo-evento',
         'parent' => 'eventi'
     ],
+    'modifica-evento' => [
+        'label' => 'Modifica evento',
+        'url' => './modifica-evento',
+        'parent' => 'eventi'
+    ],
 ];
 
 $adminMenu = [
@@ -171,7 +176,7 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
     <nav id="menu-admin" aria-label="Menù">
         <a class="navigationHelp" href="#content"> Salta il menù di navigazione</a>
         <a href="./home">
-            <img src="./assets/icons/logo.svg" id="logo" alt="Home" lang="en">
+            <img src="./assets/icons/light-mode-logo.svg" id="logo" alt="Home" lang="en">
         </a>';
         $html .= $currentHref==='./nuovo-animale' ? '<p class="orange-button" id="currentLink" href="./nuovo-animale">+ Aggiungi animale</p>' : '<a class="orange-button" href="./nuovo-animale">+ Aggiungi animale</a>';
 
@@ -218,12 +223,12 @@ function buildNav(array $items, string $currentHref): string {
     $isLogoActive =  ($currentHref === $homeHref)?                    
     
     '<div' . $logoAttributes . '>
-        <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
+        <img src="./assets/icons/light-mode-logo.svg" id="logo-header" alt="PetMatch Home">
         <span id="name-site">Pet<span class="not-bold">Match</span></span>
     </div>' :
     
     '<a href="' . $homeHref . '"' . $logoAttributes . '>
-        <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
+        <img src="./assets/icons/light-mode-logo.svg" id="logo-header" alt="PetMatch Home">
         <span id="name-site">Pet<span class="not-bold">Match</span></span>
     </a>';
     
@@ -338,7 +343,7 @@ function buildNav(array $items, string $currentHref): string {
                 <nav id="header-logo" aria-label="link alla home">
                     <h1>
                         <a href="./home">
-                            <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
+                            <img src="./assets/icons/light-mode-logo.svg" id="logo-header" alt="PetMatch Home">
                             <span id="name-site">Pet<span class="not-bold">Match</span></span>
                         </a>
                     </h1>
@@ -357,12 +362,12 @@ function buildFooter(array $menuGroups, string $currentHref): string {
     $logoAttributes = ($currentHref === $homeHref)? ' id="currentLinkFooter"' : '';
     $isLogoActive =  ($currentHref === $homeHref)?   
     '<div' . $logoAttributes . '>
-        <img src="./assets/icons/logo.svg" id="logo-footer" alt="PetMatch Home">
+        <img src="./assets/icons/light-mode-logo.svg" id="logo-footer" alt="PetMatch Home">
         <span id="name-site-footer">Pet<span class="not-bold">Match</span></span>
     </div>' :
     
     '<div><a href="' . $homeHref . '"' . $logoAttributes . '>
-        <img src="./assets/icons/logo.svg" id="logo-footer" alt="PetMatch Home">
+        <img src="./assets/icons/light-mode-logo.svg" id="logo-footer" alt="PetMatch Home">
         <span id="name-site-footer">Pet<span class="not-bold">Match</span></span>
     </a></div>';
 
@@ -423,7 +428,7 @@ function buildFooter(array $menuGroups, string $currentHref): string {
                         <ul class="footer-submenu">
                             <li class="social-media-links">
                                 <address>
-                                    <a rel="me" href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram">
+                                    <a rel="me" id="insta-link" href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram">
                                         <img src="./assets/icons/Instagram.svg" id="instagram" alt="">
                                         @petmatch_shelter
                                     </a>
@@ -486,37 +491,42 @@ function getBreadcrumb($currentPageKey, $pagine) {
 */
 // se $_FILES['foto'] non esiste o è vuoto, la funzione ritorna false
 function uploadImage($file, $folder) {
-
     $basePath = dirname(__DIR__) . '/assets/images/' . $folder . '/';
     $dbPathPrefix = 'assets/images/' . $folder . '/';
     
+    // Verifica se la cartella esiste, altrimenti creala
     if (!file_exists($basePath)) {
-        echo "La cartella non esiste. Provo a crearla...<br>";
         if (!mkdir($basePath, 0755, true)) {
-            echo "ERRORE: Impossibile creare la cartella. Controlla i permessi di sistema.<br>";
+            // Log l'errore invece di stamparlo
+            error_log("ERRORE uploadImage: Impossibile creare la cartella $basePath");
             return null;
         }
     }
-
+    
+    // Verifica permessi di scrittura
     if (!is_writable($basePath)) {
-        echo "ERRORE: La cartella esiste ma NON è scrivibile (permessi negati).<br>";
+        error_log("ERRORE uploadImage: La cartella $basePath non è scrivibile");
         return null;
     }
-
+    
+    // Verifica errori di upload
     if ($file['error'] !== UPLOAD_ERR_OK) {
-        echo "ERRORE PHP nel file: Codice " . $file['error'] . "<br>";
+        error_log("ERRORE uploadImage: Errore PHP upload, codice: " . $file['error']);
         return null;
     }
-
+    
+    // Genera nome file univoco
     $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
     $fileName = $folder . "_" . time() . "_" . bin2hex(random_bytes(4)) . "." . $extension;
     $targetFile = $basePath . $fileName;
-
+    
+    // Sposta il file
     if (move_uploaded_file($file['tmp_name'], $targetFile)) {
-        echo "SUCCESSO: File spostato correttamente!<br>";
+        // Log successo (opzionale, puoi commentare)
+        error_log("uploadImage: File caricato con successo - $fileName");
         return $dbPathPrefix . $fileName;
     } else {
-        echo "ERRORE: move_uploaded_file è fallito. Possibile causa: file temporaneo sparito o restrizioni del server.<br>";
+        error_log("ERRORE uploadImage: move_uploaded_file fallito per $fileName");
         return null;
     }
 }
@@ -576,7 +586,7 @@ function logout(){
     exit;
 }
 
-function calcolareEta(?string $dataNascita): ?int {
+function calcolaEta(?string $dataNascita): ?int {
     if (!$dataNascita) {
         return null;
     }

@@ -34,8 +34,8 @@
                     <label for="taglia">Taglia</label>
                     <select name="taglia" id="taglia">
                         <option value="" disabled [tagliaVuota_selected]>Seleziona un'opzione</option>
-                        <option value="Piccola" [tagliaPiccola_selected]>Piccola</option>
-                        <option value="Media" [tagliaMedia_selected]>Media</option>
+                        <option value="Piccolo" [tagliaPiccola_selected]>Piccola</option>
+                        <option value="Medio" [tagliaMedia_selected]>Media</option>
                         <option value="Grande" [tagliaGrande_selected]>Grande</option>
                     </select>
                     <p class="error-form">[erroriTaglia]</p>
@@ -54,10 +54,11 @@
                     </div>
                     <p class="error-form">[erroriSesso]</p>
                     
+                    <span id="label-foto">Seleziona una foto</span>
                     <label for="foto" class="file-upload-label">
-                        <span class="file-upload-text"> Aggiungi o trascina foto</span>
+                        <span class="file-upload-text"> Importa un immagine o trascinala</span>
                         <span class="file-name-display"></span>
-                        <input type="file" id="foto" name="foto" accept="image/*">
+                        <input type="file" id="foto" name="foto" accept=".jpg, .jpeg, .png">
                         <div class="foto-caricata-info">
                             [infoFotoCaricata]
                         </div>
@@ -83,8 +84,8 @@
                     <select name="pelo" id="pelo">
                         <option value="" disabled [peloVuoto_selected]>Seleziona un'opzione</option>
                         <option value="Corto" [peloCorto_selected]>Corto</option>
+                        <option value="Medio" [peloMedio_selected]>Medio</option>
                         <option value="Lungo" [peloLungo_selected]>Lungo</option>
-                        <option value="Misto" [peloMisto_selected]>Misto</option>
                     </select>  
                     <p class="error-form">[erroriPelo]</p>
                     
@@ -100,7 +101,7 @@
                         <p class="error-form">[erroriCondMediche]</p>
                     </div>
 
-                    <div>
+                    <div id="div-carattere">
                         <label for="carattere">Descrizione caratteriale: </label>
                         <textarea id="carattere" name="carattere" placeholder="Inserire testo">[carattere]</textarea>
                         <p class="error-form">[erroriCarattere]</p>
@@ -117,6 +118,12 @@
                 <p class="error-form">[erroriFamiglia]</p>
             </div>
         </fieldset>   
+
+        <div id="createMore-container">
+            <label for="createMore">Aggiungine altri
+                <input type="checkbox" name="createMore" id="createMore" [checkCreateMore]>
+            </label> 
+        </div>
 
         <div class="form-buttons-container">
             <a href="./area-riservata" id="cancel-add-animal">Annulla</a>
