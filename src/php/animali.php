@@ -323,11 +323,10 @@ if($isPreferiti) {
 $banneraccedi='';
 if($isPreferiti&&!$userEmail&&$totale!==0) {
     $banneraccedi="<section id='invitoAdAccedere' aria-labelledby='invito-accedi-title'>
-    <img src='./assets/icons/invitoAccedi.svg' alt=''>
     <p id='invito-accedi-content'>
         Accedi per sincronizzare i tuoi preferiti in tutti i tuoi dispositivi!
     </p>
-    <a class='white-button' href='./accedi'>
+    <a class='orange-button' href='./accedi'>
         Accedi
     </a>
 </section>";

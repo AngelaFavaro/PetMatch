@@ -269,6 +269,16 @@ input:checked + #slider {
     padding: 0.7em 2em;
 }
 
+#request-state-movement,
+#request-state-richieste{
+    width: 60%;
+}
+
+#user-profile #request-state-movement + button,
+#user-profile #request-state-richieste + button{
+    width: 100%;
+}
+
 /*=================== ANIMALI ====================*/
 
 #animali li.card, #animali li.dark-card {
@@ -305,7 +315,7 @@ input:checked + #slider {
 }
 
 #animali .cards-container {
-    justify-content: center;
+    justify-content: left;
 }
 
 #animali .card .interessamento, #animali .dark-card .interessamento {

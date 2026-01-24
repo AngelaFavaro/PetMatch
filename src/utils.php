@@ -423,7 +423,7 @@ function buildFooter(array $menuGroups, string $currentHref): string {
                         <ul class="footer-submenu">
                             <li class="social-media-links">
                                 <address>
-                                    <a href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram">
+                                    <a id="insta-link" href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram">
                                         <img src="./assets/icons/Instagram.svg" id="instagram" alt="">
                                         @petmatch_shelter
                                     </a>

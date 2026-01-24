@@ -911,6 +911,11 @@ footer .container + div a:visited{
     color:var(--bgcolor);
 }
 
+#insta-link img{
+    width: 2em;
+    height: 2em;
+}
+
 
 #grass {
     width: 100%;
@@ -1414,9 +1419,12 @@ legend {
 #animali label + input::placeholder,
 #signup label + input::placeholder,
 #home label + input::placeholder,
+.password-container input::placeholder,
 #user-profile label + input::placeholder,
 #login label + input::placeholder{
-    color: var(--placeholderDarker-text);
+    color: var(--placeholder-text);
+    font-weight: lighter;
+    font-size: 0.9em;
 }
 
 label {
@@ -1663,6 +1671,7 @@ input:-webkit-autofill:active{
 #animali .filtri #searchName.capsula-filtro input::placeholder, #eventi .filtri #searchName.capsula-filtro input::placeholder {
     color: var(--placeholderDarker-text);
     text-align: start;
+    font-size: 0.9em;
 }
 
 #animali .filtri .capsula-filtro input, #animali .filtri .capsula-filtro select,
@@ -1699,6 +1708,7 @@ input:-webkit-autofill:active{
 #animali .filtri .capsula-filtro input::placeholder, #eventi .filtri .capsula-filtro input::placeholder {
     color: var(--placeholder-text);
     text-align: center;
+    font-size: 0.9em;
 }
 
 #animali .filtri .capsula-filtro label, #eventi .filtri .capsula-filtro label,
@@ -1812,9 +1822,12 @@ input:-webkit-autofill:active{
 #animali .cards-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; 
+    justify-content: left; 
     margin-top: 1em;
+}
 
+#animali .cards-container:has(.errore) {
+    justify-content: center; 
 }
 
 #animali li article h3{
@@ -2096,6 +2109,11 @@ input:-webkit-autofill:active{
     justify-content: center;
     text-align: center;
     font-style: italic;
+    padding-bottom: 1em;
+}
+
+#invitoAdAccedere a{
+    font-style: normal;
 }
 
 
@@ -2369,7 +2387,7 @@ cursor: pointer;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: center;
+    justify-content: left;
     margin-top: 2em;
 }
 
@@ -2383,6 +2401,14 @@ cursor: pointer;
 
 
 /* ================== PROFILO Utente NORMALE ==================*/
+
+
+#gestisci-profilo:focus,
+#modifica-profilo:focus{
+    outline: none;
+}
+
+
 #user-profile h2{
     font-size: 1.6em;
 }
@@ -4080,6 +4106,7 @@ tr:hover {
 #form-add-animal textarea::placeholder{
     color:var(--placeholder-text);
     font-weight: lighter;
+    font-size: 0.9em;
 }
 
 /* ========================================

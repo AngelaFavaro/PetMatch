@@ -484,13 +484,13 @@ $htmlView =
 '<aside class="view-mode">
     <span>
         <h2>Le tue informazioni</h2>
-        <a href="?mode=management" aria-label="Gestione dell\'account">
+        <a href="?mode=management#gestisci-profilo" aria-label="Gestione dell\'account">
             <img src="./assets/icons/setting.svg" alt="" class="normal-icon"/>
             <img src="./assets/icons/setting-hover.svg" alt="" class="hover-icon"/>
         </a>
     </span>
     <img src="[imgPath]" alt="foto profilo" class="circle-foto"/>
-    <a href="?mode=edit" class="edit-profile-link">
+    <a href="?mode=edit#modifica-profilo" class="edit-profile-link">
        <p aria-hidden=true>Modifica profilo</p> <img src="./assets/icons/edit-pencil.svg" alt=""></a>
     <dl aria-label="informazioni dell\'utente">
         <dt>Nome: </dt> <dd>[nome-utente]</dd>
@@ -507,7 +507,7 @@ $htmlView =
 // --- HTML MODIFICA ---
 
 $htmlEdit = '
-    <div class="edit-mode">
+    <div class="edit-mode" id="modifica-profilo" tabindex="-1">
         <h2>Modifica il profilo</h2>
         <form class="edit-mode" method="POST" action="profilo-utente" enctype="multipart/form-data">
             <fieldset>
@@ -572,7 +572,7 @@ $htmlEdit = '
 // --- HTML GESTIONE ---
 
 $htmlManagement = '
-    <div class="edit-management">
+    <div class="edit-management" id="gestisci-profilo" tabindex="-1">
         <h2>Gestisci il profilo</h2>
         <form class="edit-mode" method="POST" action="profilo-utente" novalidate>
             <fieldset class="fieldset-edit-email">
