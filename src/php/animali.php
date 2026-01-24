@@ -75,11 +75,18 @@ if (defined('PAGINA_PREFERITI')) {
     $isPreferiti=1;
 }
 
+$isAdmin=0;
+if (defined('ADMIN_ANIMALI')) {
+    $isAdmin=1;
+}
+
 $titolo = 'Animali';
 if($isPreferiti) {
     $titolo.=' preferiti';
+}else if($isAdmin) {
+    $titolo='Animali assegnati a te';
 }
-$messaggioNoAnimali=$isPreferiti ? 'Non hai ancora salvato nessun animale.' : 'Non abbiamo ancora animali disponibili.';
+$messaggioNoAnimali = $isPreferiti? 'Non hai ancora salvato nessun animale.': ($isAdmin ? 'Non ci sono animali assegnati a te.' : 'Non abbiamo ancora animali disponibili.');
 
 
 
