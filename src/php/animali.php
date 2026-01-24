@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
     $idAnimale = (int)$_POST['id-animale-preferito'];
 
     if (isset($_SESSION['email'])) {
-        // UTENTE LOGGATO → DB
+        // Utente LOGGATO → DB
         $email = $_SESSION['email'];
 
         $conn = new DBAccess();
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
         }
 
     } else {
-        // UTENTE NON LOGGATO = COOKIE
+        // Utente NON LOGGATO = COOKIE
         $preferiti = getGuestFavorites();
 
         if (in_array($idAnimale, $preferiti)) {

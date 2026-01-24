@@ -238,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* ==========================================================================
-       VALIDAZIONE FORM AGGIUNGI ANIMALE
+       VALIDAZIONE FORM AGGIUNGI Animali
        ========================================================================== */
     
     const formAdd = document.getElementById('form-add-animal');

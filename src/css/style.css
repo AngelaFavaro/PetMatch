@@ -497,6 +497,12 @@ select:focus{
     outline-offset: 0px;
 }
 
+li.capsula-filtro select:focus{
+    outline:1px solid var(--placeholder-text);
+    outline-offset: 4px;
+    border-radius: 0.5em;
+}
+
 
 /* ==================LAVORA CON NOI ================== */
 
@@ -930,7 +936,7 @@ footer .container + div a:visited{
     /* font-size: 0.9em; */
     /* margin-bottom: 1em; */
 }
-/* ================== =========== PAGINE UTENTE================== ============*/
+/* ================== =========== PAGINE Utente================== ============*/
 /* ================== HOME ==================*/
 
 /* introduzione */
@@ -1600,18 +1606,19 @@ input:-webkit-autofill:active{
 /* contenitore principale */
 
 /* FILTRI */
-#animali .filtri ul, #eventi .filtri ul {
+#animali .filtri ul, #eventi .filtri ul, #richieste .filtri ul{
     display: contents;
     list-style: none;
 }
 
-#animali .filtri, #eventi .filtri {
+#animali .filtri, #eventi .filtri, #richieste .filtri{
     display: flex;
     gap: 0.5em;
     align-items: center;
 }
 
-#animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro {
+#animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro
+, #richieste .filtri .capsula-filtro {
     display: flex;
     flex: 1 1 fit-content;
     border: 1px solid var(--text-buttoncolor);
@@ -1659,7 +1666,8 @@ input:-webkit-autofill:active{
 }
 
 #animali .filtri .capsula-filtro input, #animali .filtri .capsula-filtro select,
-#eventi .filtri .capsula-filtro input, #eventi .filtri .capsula-filtro select {
+#eventi .filtri .capsula-filtro input, #eventi .filtri .capsula-filtro select,
+#richieste .filtri .capsula-filtro select {
     min-width: 0;
     background-color: var(--bgcolor);
     border: none;
@@ -1672,7 +1680,8 @@ input:-webkit-autofill:active{
 }
 
 
-#animali .filtri .capsula-filtro select, #eventi .filtri .capsula-filtro select {
+#animali .filtri .capsula-filtro select, #eventi .filtri .capsula-filtro select,
+#richieste .filtri .capsula-filtro select {
     text-align: center;
     padding-right:2.5em;
     color: var(--placeholder-text);
@@ -1692,7 +1701,8 @@ input:-webkit-autofill:active{
     text-align: center;
 }
 
-#animali .filtri .capsula-filtro label, #eventi .filtri .capsula-filtro label{
+#animali .filtri .capsula-filtro label, #eventi .filtri .capsula-filtro label,
+#richieste .filtri .capsula-filtro label{
     margin-right: 0.5em;
     width: fit-content;
 }
@@ -1723,7 +1733,7 @@ input:-webkit-autofill:active{
     white-space: nowrap;         /* niente a capo */
     text-align: center;
     padding: 0.6em 0;
-    border-bottom: 2px solid var(--txtcolor);
+    border-bottom: 1px solid var(--txtcolor);
     min-width: 200px;
 }
 
@@ -1731,7 +1741,7 @@ input:-webkit-autofill:active{
 #animali #nav-animali-type::after {
     content: "";
     flex: 1;
-    border-bottom: 2px solid var(--txtcolor);
+    border-bottom: 1px solid var(--txtcolor);
 }
 
 
@@ -1749,7 +1759,7 @@ input:-webkit-autofill:active{
     /*flex: 0 0 auto;*/
     padding: 0.6em 1.2em;
     font-weight: bold;
-    border: 2px solid var(--txtcolor);
+    border: 1px solid var(--txtcolor);
     border-top-left-radius: 0.5em;
     border-top-right-radius: 0.5em;
     border-bottom: none;
@@ -2372,7 +2382,7 @@ cursor: pointer;
 
 
 
-/* ================== PROFILO UTENTE NORMALE ==================*/
+/* ================== PROFILO Utente NORMALE ==================*/
 #user-profile h2{
     font-size: 1.6em;
 }
@@ -2393,10 +2403,6 @@ cursor: pointer;
 
 #user-profile .column-container #user-info{
     flex: 1 1 35%;
-}
-
-#user-profile .tabs-container select:focus, #admin-area .tabs-container select:focus{
-    outline: 2px solid var(--headercolor);
 }
 
 /* tab */
@@ -3270,17 +3276,20 @@ body#admin-body{
     width: 100%;
 }
 
-body#admin-body #animali .filtri{
+body#admin-body #animali .filtri,
+body#admin-body #richieste .filtri{
     width: 100%;
     margin-bottom: 0.5em;
 }
 
-body#admin-body #animali .filtri button{
+body#admin-body #animali .filtri button,
+body#admin-body #richieste .filtri button{
     width: fit-content;
     margin: 0;
 }
 
-body#admin-body #animali .filtri .capsula-filtro{
+body#admin-body #animali .filtri .capsula-filtro,
+body#admin-body #richieste .filtri .capsula-filtro{
     margin-left: auto;
     margin-right: 0;
     gap:0;
@@ -3308,7 +3317,7 @@ div#admin-area div#row2 article{
 div#admin-area article {
   padding:1em 1em 1em 1em;
   border: 1px solid var(--txtcolor);
-  border-radius:1em;
+  border-radius:0.5em;
   margin: 2em 0em;
 }
 
@@ -3568,7 +3577,7 @@ a.pencil {
 }
 
 .text-details{
-    margin: auto 0;
+    margin: auto 0 auto 1em;
     max-width: 100%;
     min-width: 50%;
 }
@@ -3665,15 +3674,12 @@ div#admin-area #details-container article{
     gap: 1em;
     margin: 0em;
     padding:2em;
-    border-radius: 0em;
     border-top: none;
 }
 
 div#admin-area #details-container article#animale-richiesta{
     margin: 0em;
     border-radius: 0.5em;
-    border-bottom-left-radius: 0em;
-    border-bottom-right-radius: 0em;
     border-top: 1px solid var(--txtcolor);
     width: 100%;
 }
@@ -3878,7 +3884,7 @@ tr:hover {
     display: inline;
 }
 
-/*==================NUOVO ANIMALE==================*/
+/*==================NUOVO Animali==================*/
 
 /* ========================================
    CONTAINER PRINCIPALE
@@ -3934,7 +3940,7 @@ tr:hover {
 }
 
 /* ========================================
-   RADIO BUTTONS - TIPOLOGIA ANIMALE
+   RADIO BUTTONS - TIPOLOGIA Animali
    ======================================== */
 .radio-group-cg {
     display: flex;

@@ -253,7 +253,7 @@ input:checked + #slider {
 #form-signup .column-container div{
     flex: 1 1 51%;
 }
-/* ================== UTENTE NORMALE ==================*/
+/* ================== Utente NORMALE ==================*/
 
 #user-profile .tab-content form{
     text-align: left;
@@ -555,7 +555,7 @@ div#admin-area article#query h2{
     margin: 0 auto;
 }
 
-/* ================== NUOVO ANIMALE ==================*/
+/* ================== NUOVO Animali ==================*/
 
 #admin-area-aggiungi,
 #nuovo-evento {

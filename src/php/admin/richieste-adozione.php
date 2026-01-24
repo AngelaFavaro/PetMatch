@@ -111,9 +111,9 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                 <caption>Nuove Richieste di Adozione</caption>
                     <thead>
                         <tr>
-                            <th scope="col">ANIMALE</th>
-                            <th scope="col">UTENTE</th>
-                            <th scope="col">DATA RICHIESTA</th>
+                            <th scope="col">Animale</th>
+                            <th scope="col">Utente</th>
+                            <th scope="col">Data richiesta</th>
                             <th scope="col" class="col-dettagli">Dettagli</th>
                         </tr>
                     </thead>
@@ -152,10 +152,10 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                 <caption>Richieste di Adozione in Valutazione</caption>
                 <thead>
                     <tr>
-                        <th scope="col">ANIMALE</th>
-                        <th scope="col">UTENTE</th>
-                        <th scope="col">DATA INIZIO VALUTAZIONE</th>
-                        <th scope="col">APPUNTI</th>
+                        <th scope="col">Animale</th>
+                        <th scope="col">Utente</th>
+                        <th scope="col">Data inizio valutazione</th>
+                        <th scope="col">Appunti</th>
                         <th scope="col" class="col-dettagli">Dettagli</th>
                     </tr>
                 </thead>
@@ -207,10 +207,10 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
             <caption>Richieste di Adozione da Trasportare</caption>
                 <thead>
                     <tr>
-                        <th scope="col">ANIMALE</th>
-                        <th scope="col">UTENTE</th>
-                        <th scope="col">DATA ACCETTAZIONE</th>
-                        <th scope="col">DATA ARRIVO</th>
+                        <th scope="col">Animali</th>
+                        <th scope="col">Utente</th>
+                        <th scope="col">Data accettazione</th>
+                        <th scope="col">Data arrivo</th>
                         <th scope="col" class="col-dettagli">Dettagli</th>
                     </tr>
                 </thead>
@@ -258,8 +258,8 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                     <caption>Richieste di Adozione Annullate</caption>
                     <thead>
                         <tr>
-                            <th scope="col">ANIMALE</th>
-                            <th scope="col">UTENTE</th>
+                            <th scope="col">Animali</th>
+                            <th scope="col">Utente</th>
                             <th scope="col">DATA ANNULLAMENTO</th>
                             <th scope="col" class="col-dettagli">Dettagli</th>
                         </tr>
@@ -302,8 +302,8 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                 <caption>Richieste di Adozione Respinte</caption>
                 <thead>
                     <tr>
-                        <th scope="col">ANIMALE</th>
-                        <th scope="col">UTENTE</th>
+                        <th scope="col">Animali</th>
+                        <th scope="col">Utente</th>
                         <th scope="col" class="col-dettagli">Dettagli</th>
                     </tr>
                 </thead>
