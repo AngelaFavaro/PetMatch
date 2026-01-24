@@ -2089,6 +2089,28 @@ public function getGuestFavPaged(string $type, int $perPagina, int $offset): arr
         mysqli_stmt_close($stmt);
         return $result;
     }
+
+    function checkEventExists(string $title, string $date): bool {
+        $requests = [];
+        
+        $query = "  SELECT COUNT(*)
+                    FROM EVENTI
+                    WHERE Titolo = ? AND DataEvento = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'ss', $title, $date);
+            mysqli_stmt_execute($stmt);
+
+            mysqli_stmt_bind_result($stmt, $totale);
+            mysqli_stmt_fetch($stmt);
+
+            mysqli_stmt_close($stmt);
+
+            return $totale > 0;
+        }
+        return false;
+    }
     
 
 }
