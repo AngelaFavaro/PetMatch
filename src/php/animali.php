@@ -276,7 +276,11 @@ function buildAnimalCards(array $animali, ?string $email, bool $isAdminView): st
 
 
 // RESET DEI FILTRI
-$resetUrl = './animali';
+if(!$isAdmin) {
+    $resetUrl = './animali';
+} else {
+    $resetUrl = './assegnati-a-te';
+}
 if ($type !== 'tutti') {
     $resetUrl .= '?tipo=' . urlencode($type);
 }
@@ -370,7 +374,7 @@ $main = str_replace('[LINKPAGINE]', $linkPagine, $main);
 $main = str_replace('[BANNERACCEDI]', $banneraccedi, $main);
 $stringaFiltri='';
 if (!$isPreferiti) {
-    $stringaFiltri="<form class='filtri' method='get' action='animali'>
+    $stringaFiltri="<form class='filtri' method='get' action=".($isAdmin ? './assegnati-a-te' : './animali').">
         <!-- rotta gestita dal router -->
         
         <input type='hidden' name='tipo' value='[TYPE]'>
