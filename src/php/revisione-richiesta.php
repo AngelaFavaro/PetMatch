@@ -49,7 +49,7 @@ if ($connessioneOK) {
 $fineRichiesta = $infoRequest['DataFineValutazione']?'<dt>Data fine valutazione:</dt><dd>'.date("d/m/Y", strtotime($infoRequest['DataFineValutazione'])).'</dd>':'';
 
 if($infoRequest['DataNascita']){
-    $etaAnimale = calcolareEta($infoRequest['DataNascita']);
+    $etaAnimale = calcolaEta($infoRequest['DataNascita']);
 }
 
 if($infoRequest['DataPartenza'] && $infoRequest['DataPartenza']){
@@ -73,7 +73,7 @@ $title = '<title>Revisione richiesta - PetMatch </title>';
 $description = '<meta name="description" content="Rivedi richiesta di addozione">';
 $keywords = "";
 
-$nav = buildUserNav($userMenu, './revisione-richiesta', $_SESSION['email'] ?? false);
+$nav = buildNav($userMenu, './revisione-richiesta');
 $footer = buildFooter($footerMenu,  './revisione-richiesta');
 
 $breadcrumb = getBreadcrumb('revisione-richiesta', $pagine);

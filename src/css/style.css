@@ -31,6 +31,7 @@
     --greencolor: var(--secondsection);
     --bglink-hover: var(--darkbgcolor);
     --txtcancelbutton:var(--bgconfirmbutton);
+    --greencolor: #6D7541;
 }
 
 a{
@@ -119,10 +120,6 @@ h4{
     /* line-height: 1.3; */
 }
 
-.error-form{
-    color:var(--errortxt);
-}
-
 .error-form + p{
     margin-top:0.5em;
 }
@@ -148,7 +145,7 @@ button.orange-button{
     width: fit-content;
     padding: 0.7em 1.5em;
     border-radius: 1.5em;
-    font-weight: 600;
+    font-weight: 500;
     letter-spacing: 0px;
     text-decoration: none;
     transition: background-color 0.6s ease;
@@ -258,6 +255,28 @@ button.brown-button{
 .torna-su-button:hover .static{
     background-color: (var(--buttoncolor));
     color:var(--linkcolor);
+}
+
+button,
+select, 
+input{
+    font-family: "Parkinsans", Roboto, sans-serif;
+    font-size: 1em;
+}
+
+select{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-repeat: no-repeat;
+    background-position: right 1em center; /* Destra, un po' staccata dal bordo, centrata verticale */
+    background-size: 2em; /* Grandezza della freccia */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%481515" d="M7 10l5 5 5-5z"/></svg>');
+}
+
+input:placeholder-shown{
+    font-size: 1em;
+    margin-left: 0.5em;
 }
 
 /*==================WIDGET UTILI==================*/
@@ -470,6 +489,12 @@ select:focus{
     outline-offset: 0px;
 }
 
+li.capsula-filtro select:focus{
+    outline:1px solid var(--placeholder-text);
+    outline-offset: 4px;
+    border-radius: 0.5em;
+}
+
 
 /* ==================LAVORA CON NOI ================== */
 
@@ -565,6 +590,11 @@ select:focus{
     color: var(--txtcolor);
     text-decoration: underline;
 }
+
+#contatto-sostenitore address{
+    display: inline;
+}
+
 /* ==================SOLO PER SCREEN READER================== */
 
 /* Gli elementi con questa classe sono visibili solo agli screen reader */
@@ -582,7 +612,7 @@ select:focus{
 
 /* ================== HEADER ================== */
 
-#layout-user #currentLink{
+#layout-user #osso #currentLink{
     font-weight: 600;
 }
 
@@ -819,6 +849,12 @@ input:checked + #theme-switch #slider #moon { opacity: 1; }
     display: none;
 } 
 
+#header-actions #currentLink.white-button,
+#header-actions #currentLink.white-button:hover{
+    outline: 1px solid var(--bgcolor);
+    background-color: var(--buttoncolor-hover);
+    color:var(--bgcolor);
+}
 
 /* ==================FOOTER================== */
 #footer-menu {
@@ -848,6 +884,10 @@ footer p{
     margin-bottom: 0.5em;
 }
 
+footer address{
+    font-style: normal;
+}
+
 #footer-menu > li{
     padding: 0.2em;
     flex: 1 1 250px;
@@ -868,6 +908,15 @@ footer .container + div a:visited{
     color:var(--bgcolor);
 }
 
+#insta-link img{
+    width: 2em;
+    height: 2em;
+}
+
+#logo-footer{
+    max-width: 130px;
+}
+
 
 #grass {
     width: 100%;
@@ -884,15 +933,16 @@ footer .container + div a:visited{
 
 #copyright{
     text-align: center;
-    font-weight: 400;
+    /* font-weight: 400; */
     padding:1em;
+    display: block;
     /* sono 12px, il minimo per l'accessibilità */
     font-size: 0.85rem; 
     color: var(--darkbgcolor);
     /* font-size: 0.9em; */
     /* margin-bottom: 1em; */
 }
-/* ================== =========== PAGINE UTENTE================== ============*/
+/* ================== =========== PAGINE Utente================== ============*/
 /* ================== HOME ==================*/
 
 /* introduzione */
@@ -1132,6 +1182,7 @@ details:not([open]) .popup {
     transform-origin: top center;
     --base-rot: 0deg;
     margin:auto;
+    max-width: 200px;
     padding: 1em 0.5em 0 0.5em ;
     text-decoration: none;
     font-weight: normal;
@@ -1142,7 +1193,7 @@ details:not([open]) .popup {
 
 #events-list .polaroid h4, 
 #events-list .polaroid p {
-    display: block; /* Importante */
+    display: block;
     width: 100%;
     
     white-space: nowrap;      /* Impedisce di andare a capo */
@@ -1341,7 +1392,7 @@ fieldset {
 legend {
     padding-top:1em;
     font-weight: 500;
-    text-align: center;
+    /* text-align: center; */
     font-size: 1.1em;
     width: 100%;
 }
@@ -1370,13 +1421,15 @@ legend {
 #animali label + input::placeholder,
 #signup label + input::placeholder,
 #home label + input::placeholder,
+.password-container input::placeholder,
 #user-profile label + input::placeholder,
 #login label + input::placeholder{
-    color: var(--placeholderDarker-text);
+    color: var(--placeholder-text);
+    font-weight: lighter;
+    font-size: 0.9em;
 }
 
 label {
-    font-size: 95%;
     display: block; 
     margin-left: 0.5em; 
 }
@@ -1562,7 +1615,109 @@ input:-webkit-autofill:active{
 
 /* contenitore principale */
 
+/* FILTRI */
+#animali .filtri ul, #eventi .filtri ul, #richieste .filtri ul{
+    display: contents;
+    list-style: none;
+}
 
+#animali .filtri, #eventi .filtri, #richieste .filtri{
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+}
+
+#animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro
+, #richieste .filtri .capsula-filtro {
+    display: flex;
+    flex: 1 1 fit-content;
+    border: 1px solid var(--text-buttoncolor);
+    border-radius: 1em;
+    padding: 0.5em;
+    height: 2.5em;
+    align-items: center;
+    /* margin: 0.5em; */
+}
+
+#animali .filtri .capsula-filtro .eta-range {
+    /* display:contents; */
+    display: flex;
+    justify-content: center;
+    gap: 0.2em;
+}
+
+#animali .filtri #searchEta.capsula-filtro {
+    /* display:contents; */
+    max-width: 15em;
+    display:flex;
+}
+
+
+#animali .filtri #searchName.capsula-filtro, #eventi .filtri #searchName.capsula-filtro {
+    /* display:contents; */
+    background-color: var(--darkbgcolor);
+    /* border-color: var(--placeholderDarker-text); */
+}
+
+#animali .filtri #searchName.capsula-filtro input, #eventi .filtri #searchName.capsula-filtro input {
+    text-align:left;
+    display: flex;
+    flex-grow: 1;
+    min-width: 4em;
+    /* display:contents; */
+    background-color: var(--darkbgcolor);
+    width: 100%;
+    height: 100%;
+}
+
+#animali .filtri #searchName.capsula-filtro input::placeholder, #eventi .filtri #searchName.capsula-filtro input::placeholder {
+    color: var(--placeholderDarker-text);
+    text-align: start;
+    font-size: 0.9em;
+}
+
+#animali .filtri .capsula-filtro input, #animali .filtri .capsula-filtro select,
+#eventi .filtri .capsula-filtro input, #eventi .filtri .capsula-filtro select,
+#richieste .filtri .capsula-filtro select {
+    min-width: 0;
+    background-color: var(--bgcolor);
+    border: none;
+}
+
+#animali .filtri .capsula-filtro input {
+    width: 30%;
+    text-align: center;
+    padding-top: 0.2em;
+}
+
+
+#animali .filtri .capsula-filtro select, #eventi .filtri .capsula-filtro select,
+#richieste .filtri .capsula-filtro select {
+    text-align: center;
+    padding-right:2.5em;
+    color: var(--placeholder-text);
+    background-position: right 0em center;
+}
+
+#animali .filtri #searchSize.capsula-filtro {
+    max-width: 10em;
+}
+
+#animali .filtri #searchSex.capsula-filtro {
+    max-width: 10em;
+}
+
+#animali .filtri .capsula-filtro input::placeholder, #eventi .filtri .capsula-filtro input::placeholder {
+    color: var(--placeholder-text);
+    text-align: center;
+    font-size: 0.9em;
+}
+
+#animali .filtri .capsula-filtro label, #eventi .filtri .capsula-filtro label,
+#richieste .filtri .capsula-filtro label{
+    margin-right: 0.5em;
+    width: fit-content;
+}
 
 /* contenitore nav */
 /* NAV container */
@@ -1590,7 +1745,7 @@ input:-webkit-autofill:active{
     white-space: nowrap;         /* niente a capo */
     text-align: center;
     padding: 0.6em 0;
-    border-bottom: 2px solid var(--txtcolor);
+    border-bottom: 1px solid var(--txtcolor);
     min-width: 200px;
 }
 
@@ -1598,7 +1753,7 @@ input:-webkit-autofill:active{
 #animali #nav-animali-type::after {
     content: "";
     flex: 1;
-    border-bottom: 2px solid var(--txtcolor);
+    border-bottom: 1px solid var(--txtcolor);
 }
 
 
@@ -1608,6 +1763,7 @@ input:-webkit-autofill:active{
     display: block;
     text-decoration: none;
     color: var(--headerlink);
+    font-weight: normal;
 }
 
 /* elemento attivo */
@@ -1615,7 +1771,7 @@ input:-webkit-autofill:active{
     /*flex: 0 0 auto;*/
     padding: 0.6em 1.2em;
     font-weight: bold;
-    border: 2px solid var(--txtcolor);
+    border: 1px solid var(--txtcolor);
     border-top-left-radius: 0.5em;
     border-top-right-radius: 0.5em;
     border-bottom: none;
@@ -1625,79 +1781,7 @@ input:-webkit-autofill:active{
 
 /* Lista filtri */
 
-#animali .filtri, .tab-content .filtri {
-    display: flex;
-    align-items: center; 
-    gap: 1em;
-    flex-wrap: wrap;
-}
 
-#animali.segnalazioni .filtri {
-    width: 100%;
-    justify-content: flex-end;
-    margin-bottom: 0.5em;
-}
-#animali.segnalazioni .filtri ul{
-    flex: none;
-}
-#animali.segnalazioni .filtri button{
-   margin: 0;
-}
-#animali .filtri ul, .tab-content .filtri ul {
-    display: flex;
-    /* flex-wrap: wrap; */
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    gap: 0.5em;
-    flex: 1; 
-}
-
-/* Contenitore capsula per ogni filtro */
-#animali .filtri .capsula-filtro, .tab-content .filtri .capsula-filtro {
-    display: inline-flex;        /* label + input/select affiancati */
-    align-items: center;         /* centra verticalmente tutto */
-    justify-content: center;
-    padding: 0 1em;             /* padding uniforme */
-    background-color: var(--bgcolor);
-    color: var(--text-buttoncolor);
-    border-radius: 1em;
-    font-weight: 400;
-    text-align: center;
-    height: 2.8em;              /* altezza uniforme */
-    box-sizing: border-box;
-    border: 1px solid var(--text-buttoncolor);
-    max-width: fit-content;
-}
-
-/* Label dentro la capsula */
-#animali .filtri .capsula-filtro label, .tab-content .filtri .capsula-filtro label {
-    margin-right: 0.5em;
-    white-space: nowrap;
-}
-
-#animali .filtri .capsula-filtro label[for="name-animal"] {
-    margin-left: 0;
-}
-
-#animali .filtri .capsula-filtro label[for="name-animal"] +input {
-    width: 100%;
-    min-width: 100px;
-    max-width: none;
-}
-
-#animali label{
-    font-weight: 500;
-}
-
-#animali .filtri #searchName.capsula-filtro{
-    width: 40%;
-    max-width: none;
-    justify-content:left;
-    background-color: var(--darkbgcolor);
-    gap:0;
-    border-color: var(--darkbgcolor);
-}
 
 #cancel-filter-visible{
     color:var(--text-buttoncolor);
@@ -1712,15 +1796,15 @@ input:-webkit-autofill:active{
     margin-bottom:0;
 }
 
-#animali #content-filter-button{
+#animali #content-filter-button, #eventi #content-filter-button{
     display: flex;
     margin:auto;
     gap:1em;
     height: fit-content;
 }
 
-#animali #content-filter-button a{
-    flex: 1 1 40%;
+#animali #content-filter-button a, #eventi #content-filter-button a{
+    flex: 1 1 100%;
 }
 
 #animali #content-filter-button button{
@@ -1736,92 +1820,16 @@ input:-webkit-autofill:active{
 }
 
 
-/* Input e select dentro la capsula */
-
-#animali .filtri .capsula-filtro input,
-#animali .filtri .capsula-filtro select,
-.tab-content .filtri .capsula-filtro input,
-.tab-content .filtri .capsula-filtro select {
-    border: none;
-    
-    /* color: var(--txtcolor); */
-    font-weight: 400;
-    outline: none;
-    font-size: 1em;
-    height: 100%;              /* prende tutta l’altezza della capsula */
-    display: flex;
-    align-items: center;        /* centra il testo verticalmente */
-    box-sizing: border-box;
-    min-width: 3em;             /* larghezza minima uniforme */
-    color:var(--text-buttoncolor);    
-    margin:5px;
-}
-
-#animali .filtri .capsula-filtro input
-.tab-content .filtri .capsula-filtro input{
-    border-color: var(--text-buttoncolor);
-}
-
-#animali .filtri .capsula-filtro select,
-.tab-content .filtri .capsula-filtro select{
-    border:1px solid var(--bgcolor);
-} 
-
-#animali .filtri .capsula-filtro select:hover,
-.tab-content .filtri .capsula-filtro select:hover{
-    outline:1px solid var(--buttoncolor);
-} 
-
-#animali .filtri .capsula-filtro input, .tab-content .filtri .capsula-filtro input {
-    background: transparent;
-}
-
-#animali .filtri .capsula-filtro select, .tab-content .filtri .capsula-filtro select {
-    background-color: var(--bgcolor);
-}
-
-/* Range di età */
-#animali .filtri .capsula-filtro .eta-range {
-    display: flex;
-    align-items: center;
-    gap: 0.3em;
-    height: 100%;
-}
-
-#animali .filtri .capsula-filtro .eta-range input {
-    height: 100%;
-    text-align: center;
-    max-width: 3em;    /* dimensione compatta */
-    width: 100%;
-    color:var(--txtcolor);
-}
-
-#animali .filtri .capsula-filtro .eta-range input:nth-of-type(2) {
-    margin-left: 0.5em;    
-}
-
-#animali .filtri .capsula-filtro .eta-range input::placeholder {
-    color: var(--placeholderDarker-text);
-}
-
-#animali .filtri .capsula-filtro input[type="text"] {
-    max-width:10em;
-    width: 100%;
-    color:var(--txtcolor);
-}
-#animali .filtri .capsula-filtro input[list] {
-    max-width: 10em;   
-    width: 100%;
-    color:var(--txtcolor);
-}
-
 
 #animali .cards-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start; 
+    justify-content: left; 
     margin-top: 1em;
+}
 
+#animali .cards-container:has(.errore) {
+    justify-content: center; 
 }
 
 #animali li article h3{
@@ -1830,8 +1838,7 @@ input:-webkit-autofill:active{
     margin-bottom:0px;
 }
 
-#animali li.card {
-    cursor: pointer;
+#animali li.card, #animali li.dark-card {
     width: 11em;
     height: 14em;
     margin: 0.5em;
@@ -1848,15 +1855,16 @@ input:-webkit-autofill:active{
         /* border: 0.3 ease; */ 
 }
 
-#animali li.card:hover {
+
+#animali li.card:hover{
     /* background-color: var(--bgcolor); */
     border-color: var(--buttoncolor-hover); /* colore evidenziato */
     box-shadow: 0 6px 14px rgba(0,0,0,0.3);
     border: 3px solid var(--buttoncolor-hover);
 }
 
-#animali li.card article {
-    width: 11em;
+#animali li.card article, #animali li.dark-card article {
+    /* width: 11em; */
     height: 14em;
     overflow: hidden;
     align-items: center;
@@ -1872,7 +1880,7 @@ input:-webkit-autofill:active{
     border-bottom: 1px solid var(--text-buttoncolor);
 }
 
-#animali .card .immagine img {
+#animali .card .immagine img, #animali .dark-card .immagine img {
     display: block;
     width: 100%;               /* immagine occupa tutta la larghezza */
     height: 100%;             
@@ -1881,12 +1889,12 @@ input:-webkit-autofill:active{
     box-sizing: border-box;
 }
 
-#animali .card .nome {
+#animali .card .nome, #animali .dark-card .nome {
     padding-top: 0.5em;
     padding-left: 1em;
     float: left;
     clear: left;
-    width: 80%;
+    /* width: 80%; */
     /* padding-right: 65%; */
     font-weight: bold;
     /* height: 40px; */
@@ -1896,13 +1904,13 @@ input:-webkit-autofill:active{
 }
 
 #animali .card .sesso-etaDesk,
-#animali .card .sesso-etaMob {
+#animali .card .sesso-etaMob, #animali .dark-card .sesso-etaDesk, #animali .dark-card .sesso-etaMob {
     padding-left: 1em;
     float: left;
     clear:left;
 }
 
-#animali .card .sesso-etaMob{
+#animali .card .sesso-etaMob, #animali .dark-card .sesso-etaMob{
     display: none;
 }
 
@@ -1911,15 +1919,27 @@ input:-webkit-autofill:active{
     clear: left;
     padding-right: 0.5em;
     padding-top: 1px;
+}
 
+#animali .dark-card .adottato {
+    clear: left;
+    text-align: center;
+    border: 1px solid var(--txtcolor);
+    margin-top: 0.7em;
+    margin-left: 1em;
+    margin-right: 1em;
+    border-radius: 1em;
+    font-style: italic;
+}
 
+#animali .dark-card img.immagine {
+    opacity: 50%;
 }
 
 
 
-
 #animali .is-favorite,
-#animali .not-favorite{
+#animali .not-favorite, #preferiti .is-favorite, #preferiti .not-favorite{
     /* float:right; */
     /* margin-left: 50%; */
     position: relative;
@@ -1936,7 +1956,8 @@ input:-webkit-autofill:active{
 
 /* entrambe le immagini */
 #animali .is-favorite img,
-#animali .not-favorite img {
+#animali .not-favorite img, #preferiti .is-favorite img,
+#preferiti .not-favorite img {
     position: absolute;
     top: 0;
     /* left: 0; */
@@ -1950,22 +1971,34 @@ input:-webkit-autofill:active{
 
 /* stato iniziale */
 #animali .is-favorite .heart-hover,
-#animali .not-favorite .heart-hover {
+#animali .not-favorite .heart-hover, #preferiti .is-favorite .heart-hover, #preferiti .not-favorite .heart-hover {
     opacity: 0;
+    /* margin-left: auto; */
+    /* float: right; */
+}
+
+#animali .card .cuore {
+    display: flex;
+    justify-content: end;
+}
+
+#animali .card .cuore .preferiti-form{
+    justify-content:end;
 }
 
 /* hover */
-#animali .not-favorite:hover .heart-hover {
+#animali .not-favorite:hover .heart-hover, #preferiti .not-favorite:hover .heart-hover {
     opacity: 1;
 }
 
-#animali .not-favorite:hover .heart-normal {
+#animali .not-favorite:hover .heart-normal, #preferiti .not-favorite:hover .heart-normal {
     opacity: 0;
 }
 
 /* Assicurati che la card sia riferimento per il posizionamento */
-.cards-container li.card {
+.cards-container li.card, .cards-container li.dark-card {
     position: relative; /* fondamentale per l'overlay */
+    width: 11em;
 }
 
 /* Overlay invisibile */
@@ -1979,16 +2012,19 @@ input:-webkit-autofill:active{
     display: block;
     text-indent: -9999px;   /* nasconde testo se presente */
     color:var(--txtcolor);
-}
-
-/* Assicurati che il form riempia tutto l'overlay */
-#animali .card .dettagli-animale-bottone:hover {
     cursor: pointer;
 }
 
+#animali .dark-card .dettagli-animale-bottone a {
+    display: none;
+}
+
+/* Assicurati che il form riempia tutto l'overlay */
+
+
 /* LINK NEXT PAGES */
 
-#animali .next-page-links {
+#animali .next-page-links, #eventi .next-page-links {
     display: flex;
     justify-content: center;
     margin: 2em;
@@ -2004,14 +2040,16 @@ input:-webkit-autofill:active{
 }
 
 #animali .next-page-links li,
-#animali .next-page-links li a {
+#animali .next-page-links li a, 
+#eventi .next-page-links li, 
+#eventi .next-page-links li a {
     color: var(--bgform);
     list-style: none;
     text-decoration: none;
     font-weight: bold;
 }
 
-#animali .next-page-links li {
+#animali .next-page-links li, #eventi .next-page-links li {
     padding: 0.3em;
     margin: 0.3em;
     border: 2.3px solid var(--bgform);
@@ -2025,11 +2063,11 @@ input:-webkit-autofill:active{
     /* font-size: 1.3em; */
 }
 
-#animali .next-page-links li a:hover{
+#animali .next-page-links li a:hover, #eventi .next-page-links li a:hover{
     border-bottom:2px solid var(--bgconfirmbutton);
 }
 
-#animali .next-page-links li a {
+#animali .next-page-links li a, #eventi .next-page-links li a {
     transition: 0.3s;
     border-bottom:2px solid var(--bgcolor);
     display: flex;
@@ -2039,7 +2077,7 @@ input:-webkit-autofill:active{
     height: 100%;
 }
 
-#animali .next-page-links ul {
+#animali .next-page-links ul, #eventi .next-page-links ul {
     display: flex;
     justify-content: center;
     border: 2.3px solid var(--bgform);
@@ -2047,7 +2085,7 @@ input:-webkit-autofill:active{
     padding: 0.3em;
 }
 
-#animali .next-page-links .currentLinkPagination {
+#animali .next-page-links .currentLinkPagination, #eventi .next-page-links .currentLinkPagination {
     background-color: var(--bgform);
     color: var(--bgcolor);
     justify-content: center;
@@ -2059,6 +2097,57 @@ input:-webkit-autofill:active{
 
 
 
+/*=================PAGINA ANIMALI PREFERITI======================*/
+/* Banner */
+
+#invitoAdAccedere {
+    width: 100%;
+    background-color:var(--darkbgcolor); /* cambia colore a piacere */
+    color: var(--txtcolor);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-style: italic;
+    padding-bottom: 1em;
+}
+
+#invitoAdAccedere a{
+    font-style: normal;
+}
+
+
+
+#invitoAdAccedere img {
+    height: 1.5em;
+    width: 1.5em;
+    margin: 0.5em;
+    margin-bottom:0;
+}
+
+#invitoAdAccedere #invito-accedi-content {
+    margin: 0.5em;
+    width: 20em;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+
+#invitoAdAccedere .white-button {
+    margin: 0.5em;
+    background-color: var(--buttoncolor);
+    font-style:normal;
+    margin-bottom: 1em;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+#invitoAdAccedere .white-button:hover {
+    margin: 0.5em;
+    background-color: var(--bgcolor);
+}
 
 
 
@@ -2069,13 +2158,265 @@ input:-webkit-autofill:active{
 
 
 
-/* ================== PROFILO UTENTE NORMALE ==================*/
+
+/*=================PAGINA EVENTI======================*/
+
+#eventi #content-filter-button button {
+    flex: 1 1 100%;
+    min-width: 5em;
+}
+
+#eventi #cancel-filter-visible, #animali #cancel-filter-visible {
+    height:auto;
+    padding:0.5em;
+}
+
+#eventi .filtri .capsula-filtro input {
+    width: 30%;
+    text-align:center;
+}
+
+#eventi .filtri {
+    flex-wrap: wrap;
+}
+
+
+#eventi .filtri .capsula-filtro .data-range {
+    /* display:contents; */
+    display: flex;
+    justify-content: center;
+    gap: 0.2em;
+}
+
+#eventi .filtri #searchData.capsula-filtro {
+    max-width: 21em;
+}
+
+#eventi .filtri #searchData.capsula-filtro input{
+    font-size: 0.9em;
+    color:var(--placeholderDarker-text);
+}
+
+#eventi .filtri .capsula-filtro label[for="search"] +input {
+    width: 100%;
+    min-width: 100px;
+    max-width: none;
+    background-color: var(--darkbgcolor);
+}
+
+#eventi .filtri .capsula-filtro ul {
+    display: flex;
+    width: 100%;
+}
+
+#eventi .filtri .capsula-filtro .data-range {
+    position: relative;
+    width: 100%;
+    gap: 0em;
+}
+
+
+#eventi .filtri .capsula-filtro .data-range input {
+    width: 100%;
+    background-color: var(--bgcolor);
+    margin: 0em;
+}
+
+#eventi .filtri .capsula-filtro #city-event {
+    display: flex;
+    min-width: 6em;
+    background-color: var(--bgcolor);
+    flex-grow: 1;
+    max-width: none;
+}
+
+#eventi .filtri .capsula-filtro #cityFilter {
+    /* display: flex; */
+    min-width: 0em;
+    background-color: var(--bgcolor);
+    flex-grow: 1;
+    max-width: none;
+}
+
+#eventi .filtri .capsula-filtro #cityFilter #city-suggestions {
+    /* display: flex; */
+    min-width: 0em;
+    background-color: var(--bgcolor);
+    flex-grow: 1;
+    max-width: none;
+}
+
+#eventi #cancel-filter-visible {
+    min-width: 5.7em;
+}
+
+#eventi input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    
+    width: 100%;
+    height: 100%;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+}
+
+input[type="date"]{
+    cursor:text;
+}
+
+#eventi .data-range input[type="date"] {
+    position: relative;
+}
+
+
+#eventi .dettagli-evento-bottone a{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;            /* sotto il cuore */
+    display: block;
+    text-indent: -9999px;   /* nasconde testo se presente */
+    color:var(--txtcolor);    
+}
+
+#eventi .dettagli-evento-bottone a:hover {
+cursor: pointer;
+}
+
+
+#eventi .evento .posizione-data-abbr {
+    display: none;
+}
+
+#eventi .evento {
+    position: relative;
+    list-style: none;
+    width: 100%;
+    height: 10em;
+    display: block;
+    padding-right: 1em;
+    background-color: var(--darkbgcolor);
+    /* border: 0.1em solid var(--darkbgcolor); */
+    border-radius: 0.5em;
+    /* margin: 0.2em; */
+    border: 2px solid var(--darkbgcolor);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#eventi .evento:hover {
+    border: 2px solid var(--buttoncolor-hover);
+}
+
+#eventi .cards-container li {
+    border-radius: 0.5em;
+    list-style: none;
+    width: 47%;
+    height: 10em;
+    display: block;
+    background-color: var(--darkbgcolor);
+    margin: 0.5em;
+}
+
+#eventi .evento img.immagine-evento {
+    width: 11em;
+    height: 100%;
+    padding: 0.8em;
+   float:left;
+   padding-right: 2em;
+   object-fit: cover;
+   min-width: 8em;
+   /* margin-right: 2em; */
+   /* display: flex; */
+}
+
+#eventi .evento .posizione-evento img, 
+#eventi .evento .data-evento img {
+    padding: 0em;
+    height: 1.5em;
+    width: 1.5em;
+    /* margin-right: 0.2em; */
+    object-fit: contain;
+}
+
+#eventi .evento .posizione-evento {
+    float:left;
+    gap: 0.2em;
+    margin-right: 0.6em;
+    margin-top: 0.4em;
+    margin-bottom: 0.2em;
+    align-items: center;
+    display: flex;
+}
+
+#eventi .evento .data-evento{
+    float:right;
+    gap: 0.2em;
+    margin-right: 0.6em;
+    margin-top: 0.4em;
+    margin-bottom: 0.2em;
+    align-items: center;
+    display: flex;
+}
+
+#eventi .evento .descrizione-evento {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    /* -webkit-line-clamp: 4; */
+    overflow: hidden;
+    clear: right;
+    max-width: 35em;
+    text-align: left;
+    padding-top: 0.5em;
+}
+
+#eventi .evento h2 {
+    font-size: 1em;
+    margin: 0 0 0.2em 0;
+}
+
+#eventi .evento .descrizione-evento p {
+    margin: 0;
+}
+
+#eventi .cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: left;
+    margin-top: 2em;
+}
+
+
+
+
+
+
+
+
+
+
+/* ================== PROFILO Utente NORMALE ==================*/
+
+
+#gestisci-profilo:focus,
+#modifica-profilo:focus{
+    outline: none;
+}
+
+
 #user-profile h2{
     font-size: 1.6em;
 }
 
 #user-profile{
-    margin-bottom:2em;
+    margin-bottom: 2em;
 }
 
 #user-profile .column-container{
@@ -2090,11 +2431,6 @@ input:-webkit-autofill:active{
 
 #user-profile .column-container #user-info{
     flex: 1 1 35%;
-}
-
-#user-profile .tabs-container select:focus, #admin-area .tabs-container select:focus{
-    border: 2px solid var(--headercolor);
-    margin:4px;
 }
 
 /* tab */
@@ -2281,7 +2617,7 @@ flex: 1 0 100%;
     color:var(--bgcolor);
     padding: 3px 2em;
     transition: 0.3s;
-    font-weight: normal;
+    font-weight: 500;
 }
 
 #user-profile #lista-movimenti li p+p,
@@ -2399,22 +2735,30 @@ a:hover .hover-icon {opacity: 1;}
 
 .checkbox-container-pic input[type="checkbox"],
 #home input[name="type-animal"],
+input#createMore,
 #form-add-animal .checkbox-label input[type="checkbox"]{
-    -webkit-appearance: none;
     appearance: none;
     width: 25px;
     height: 25px;
     position: relative;
     top:5px;
-    background-color: transparent;    
-    border: 1px solid var(--txtcolor);     
-    border-radius: 4px;         
+    background-color: transparent;
+    border: 1px solid var(--txtcolor);
     cursor: pointer;
-    margin: 0;                  
+    margin: 0;
+}
+
+.checkbox-container-pic input[type="checkbox"],
+#home input[name="type-animal"]{
+    border-radius: 2em;
+}
+
+#form-add-animal .checkbox-label input[type="checkbox"],
+input#createMore{
+    border-radius: 4px;
 }
 
 .sex-option input[type="radio"]{
-    -webkit-appearance: none;
     appearance: none;
     width: 20px;
     height: 20px;
@@ -2429,14 +2773,14 @@ a:hover .hover-icon {opacity: 1;}
 
 .checkbox-container-pic input[type="checkbox"]:checked,
 #home input[name="type-animal"]:checked,
+input#createMore:checked,
 .sex-option input[type="radio"]:checked,
 #form-add-animal .checkbox-label input[type="checkbox"]:checked {
     background-color: var(--buttoncolor);   
     border-color: var(--buttoncolor);  
 }
 
-.checkbox-container-pic input[type="checkbox"]::before,
-#home input[name="type-animal"]::before.active{
+.checkbox-container-pic input[type="checkbox"]::before{
     content: "";
     position: absolute;
     width: 15px;
@@ -2451,6 +2795,9 @@ a:hover .hover-icon {opacity: 1;}
     transition: 0.2s transform ease-in-out;
 }
 
+.checkbox-container-pic input[type="checkbox"]::before,
+input#createMore::before,
+#home input[name="type-animal"]::before,
 #form-add-animal .checkbox-label input[type="checkbox"]::before{
     content: "";
     position: absolute;
@@ -2484,6 +2831,7 @@ a:hover .hover-icon {opacity: 1;}
 
 .checkbox-container-pic input[type="checkbox"]:checked::before,
 #home input[name="type-animal"]:checked::before,
+input#createMore:checked:before,
 .sex-option input[type="radio"]:checked::before,
 #form-add-animal .checkbox-label input[type="checkbox"]:checked::before {
     transform: scale(1);        
@@ -2536,7 +2884,8 @@ input[type="file"]::file-selector-button:hover {
 
 .edit-mode form span,
 .edit-management form span,
-#form-add-animal .form-buttons-container{
+#form-add-animal .form-buttons-container,
+#new-event .form-buttons-container{
     display: flex;
     flex-wrap: wrap;
     margin: 1em auto 0 auto;
@@ -2547,7 +2896,9 @@ input[type="file"]::file-selector-button:hover {
 .edit-management form span a,
 .edit-management form span button,
 #form-add-animal button[name="submit-animal"],
-#form-add-animal a#cancel-add-animal{
+#form-add-animal a#cancel-add-animal,
+#new-event button[name="submit-event"],
+#new-event a#cancel-new-event{
     flex: 1 1 44%;
     text-align: center;
     border-radius: 1em;
@@ -2559,7 +2910,8 @@ input[type="file"]::file-selector-button:hover {
 
 .edit-mode form span button,
 .edit-management form span button,
-#form-add-animal button[name="submit-animal"]{
+#form-add-animal button[name="submit-animal"],
+#new-event button[name="submit-event"]{
     background-color: var(--buttoncolor);
     color:var(--text-buttoncolor);
     border:2px solid var(--buttoncolor);
@@ -2570,7 +2922,8 @@ input[type="file"]::file-selector-button:hover {
 
 .edit-mode form span a,
 .edit-management form span a,
-#form-add-animal a#cancel-add-animal{
+#form-add-animal a#cancel-add-animal,
+#new-event a#cancel-new-event{
     color:var(--text-buttoncolor);
     border:2px solid var(--buttoncolor);
     text-decoration: none;
@@ -2582,7 +2935,9 @@ input[type="file"]::file-selector-button:hover {
 .edit-management form span a:hover,
 .edit-management form span button:hover,
 #form-add-animal button[name="submit-animal"]:hover,
-#form-add-animal a#cancel-add-animal:hover
+#form-add-animal a#cancel-add-animal:hover,
+#new-event button[name="submit-event"]:hover,
+#new-event a#cancel-new-event:hover
 {
     border:2px solid transparent;
     background-color: transparent;
@@ -2786,6 +3141,171 @@ input[type="file"]::file-selector-button:hover {
     margin-top:3em;
 }
 
+/* ================== CHI SIAMO ==================*/
+
+#second-chapter-chi-siamo{
+    margin-top: 1em;
+}
+#first-chapter-chi-siamo .column-container{
+    align-items: center;
+}
+
+#chi-siamo-content {
+    flex: 1 1 50%;
+}
+#chi-siamo-img{
+    flex: 0 1 40%;
+}
+
+#chi-siamo-img img{
+    width: 100%;
+}
+
+/* Sezione 2 Chi Siamo */
+
+#second-chapter-chi-siamo{
+    background-color: var(--headercolor);
+    color:var(--bgcolor);
+    margin-top: 1em;
+}
+
+#chi-siamo2-img{
+    flex: 0 1 35%;
+}
+#chi-siamo2-img img{
+    width: 90%;
+}
+
+#content-chi-siamo2{
+    vertical-align: middle;
+    padding:2em 0;
+    flex: 1 1 50%;
+    margin:auto;
+    /* height: fit-content; */
+
+
+}
+
+
+/*Sezione "PetMatch timeline"*/
+
+#pm-timeline{   
+   display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    align-items: flex-start;
+    margin-top: 2em;
+    list-style: none;
+  }
+
+#pm-timeline::before {
+    content: '';
+    position: absolute;
+    top: 1.5em; 
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background-image: linear-gradient(to right, var(--buttoncolor) 50%, transparent 50%);
+    background-size: 20px 100%;
+    z-index: 0;
+  }
+
+  #pm-timeline li{
+    position: relative; 
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 0 0 18%;
+    font-weight: bold;
+}
+
+#pm-timeline li span:nth-of-type(2){
+    font-weight: normal;    
+}
+
+.pm-timeline-date{
+    font-size:1em;
+}
+
+/*Sezione 3 Chi Siamo */
+
+#third-chapter-chi-siamo{
+    margin: 2em 0em;
+}
+
+
+#third-chapter-chi-siamo .column-container{
+    gap: 3em;
+    align-items: center;
+} 
+
+#chi-siamo3-img{
+    flex: 0 0 25%;
+    max-width: 25%;
+    height: auto;
+
+
+}
+#chi-siamo3-img img{
+    width: 100%;
+    border-radius: 0.8em;
+}
+
+#chi-siamo3-content{
+    padding:2em 0;
+    flex: 1 1 60%;
+    margin:auto;
+}
+
+#chi-siamo3-content p{
+    margin-bottom: 0.5em;
+}
+  
+
+/*Sezione "Ci Presentiamo"*/
+#ci-presentiamo{
+    background-color: var(--secondsection); /* nel caso non caricasse l'immagine */
+    background-image: 
+        linear-gradient(to bottom, transparent 70%, var(--secondsection) 98%),
+        url('../../assets/images/cat-bg.svg');
+    background-size: 102% auto;
+    background-repeat: no-repeat;
+    background-position:top;
+    height: fit-content;
+    color: var(--bgcolor);
+    padding: 3em;
+    border-radius: 1em;
+}
+
+#ci-presentiamo h2{
+    margin: 2em 0 0.8em 0;
+}
+
+
+#ci-presentiamo p{
+    margin-bottom: 0.5em;
+}
+
+#team-img{
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    justify-content: center;
+    gap:1em;
+    row-gap: 0em;
+} 
+
+#team-img img{
+    width: 100%;
+    flex:0 1 30%;
+    height: auto;
+    max-height: 15em;
+    padding: 0;
+} 
+
 /* ================== =========== PAGINE ADMIN================== ============*/
 
 
@@ -2794,6 +3314,26 @@ body#admin-body{
     background-color: var(--footercolor);
     display: inline-block;
     width: 100%;
+}
+
+body#admin-body #animali .filtri,
+body#admin-body #richieste .filtri{
+    width: 100%;
+    margin-bottom: 0.5em;
+}
+
+body#admin-body #animali .filtri button,
+body#admin-body #richieste .filtri button{
+    width: fit-content;
+    margin: 0;
+}
+
+body#admin-body #animali .filtri .capsula-filtro,
+body#admin-body #richieste .filtri .capsula-filtro{
+    margin-left: auto;
+    margin-right: 0;
+    gap:0;
+    flex:0 0 fit-content;
 }
 
 div#admin-area article h2{
@@ -2817,7 +3357,7 @@ div#admin-area div#row2 article{
 div#admin-area article {
   padding:1em 1em 1em 1em;
   border: 1px solid var(--txtcolor);
-  border-radius:1em;
+  border-radius:0.5em;
   margin: 2em 0em;
 }
 
@@ -3062,11 +3602,11 @@ a.pencil {
     height: 9em;
     object-fit: cover;
     clip-path: circle(50%);
-    margin-bottom: 2em;
     pointer-events: none;
     margin-left: 1.5em;
     display: flex;
     background-color: var(--bglink-hover);
+    margin-bottom: 1em;
 }
 
 .square-foto {
@@ -3077,7 +3617,7 @@ a.pencil {
 }
 
 .text-details{
-    margin: auto 2em;
+    margin: auto 0 auto 1em;
     max-width: 100%;
     min-width: 50%;
 }
@@ -3088,6 +3628,13 @@ a.pencil {
 }
 .header-info, .generic-info-container{
     margin-bottom: 1em;
+}
+#admin-area #animale-richiesta .text-details{
+    padding-left: 2em;
+}
+
+#admin-area #richieste select{
+    background-position: right 0em center; /* Destra, un po' staccata dal bordo, centrata verticale */
 }
 
 
@@ -3115,11 +3662,11 @@ a.pencil {
     margin: 0.5em;
 }
 .tab-content#Richiedente .brown-button{
-    margin: 0em 0em 0em auto;
+    margin: 0.5em 0em 0em auto;
 }
 
 #animale-richiesta .brown-button{
-    margin: 0em auto 2em 0em;
+    margin: 0em auto 1em 0em;
 }
 #admin-area .tabs-container h2{
     font-size: 1.1em;
@@ -3166,15 +3713,13 @@ div#admin-area #details-container article{
     flex: 1 1 200px;
     gap: 1em;
     margin: 0em;
-    border-radius: 0em;
+    padding:2em;
     border-top: none;
 }
 
 div#admin-area #details-container article#animale-richiesta{
     margin: 0em;
     border-radius: 0.5em;
-    border-bottom-left-radius: 0em;
-    border-bottom-right-radius: 0em;
     border-top: 1px solid var(--txtcolor);
     width: 100%;
 }
@@ -3187,7 +3732,8 @@ div#admin-area #details-container article#animale-richiesta{
     margin: 2em 0em;
 }
 
-.tabs-container {
+
+#admin-area .tabs-container {
     flex: 2 1 300px;
 }
 
@@ -3265,10 +3811,11 @@ div#admin-area article.note{
 }
 
 
-.note p.editing {
-    padding: 0.5rem;
-    background-color: var(--darkbgcolor);
+.note pre {
+    font-family: inherit;
 }
+
+
 
 
 #input-note {
@@ -3342,8 +3889,7 @@ tbody tr:last-child th {
     text-align: right;
 }
 
-/* TO DO, mettere sr-only */
-th.col-dettagli, caption {
+caption {
     position: absolute;
     left: -999em;
     width: 1px;
@@ -3355,7 +3901,7 @@ td.col-dettagli a,td.col-dettagli button{
     margin: 0.5em;
 }
 
-.nessuna-richiesta-message{
+.nessun-risultato-message{
     margin:1.2em auto;
     width: 100%;
     text-align: center;
@@ -3378,12 +3924,13 @@ tr:hover {
     display: inline;
 }
 
-/*==================NUOVO ANIMALE==================*/
+/*==================NUOVO Animali==================*/
 
 /* ========================================
    CONTAINER PRINCIPALE
    ======================================== */
-#admin-area-aggiungi {
+#admin-area-aggiungi,
+#nuovo-evento {
     margin-top:-6em;
     display: flex;
     justify-content: center;
@@ -3399,7 +3946,8 @@ tr:hover {
 /* ========================================
    FORM BASE
    ======================================== */
-#form-add-animal {
+#form-add-animal,
+#new-event {
     background-color: var(--bgcolor);
     width: 95%;
     max-width: 950px;
@@ -3410,13 +3958,15 @@ tr:hover {
     box-sizing: border-box;
 }
 
-#form-add-animal fieldset {
+#form-add-animal fieldset,
+#new-event fieldset {
     margin-bottom: 1em;
     border: none;
     padding: 0;
 }
 
-#form-add-animal legend {
+#form-add-animal legend,
+#new-event legend {
     float: left;
     width: 100%;
     font-weight: 600;
@@ -3430,7 +3980,7 @@ tr:hover {
 }
 
 /* ========================================
-   RADIO BUTTONS - TIPOLOGIA ANIMALE
+   RADIO BUTTONS - TIPOLOGIA Animali
    ======================================== */
 .radio-group-cg {
     display: flex;
@@ -3476,8 +4026,9 @@ tr:hover {
    ======================================== */
 #form-add-animal p+p.sex-title {
     font-weight: 550;
-    display: inline-block;
+    /* display: inline-block; */
     margin-top: 1.5em;
+    width: 100%;
 }
 
 .sex-group {
@@ -3504,10 +4055,18 @@ tr:hover {
 /* ========================================
    LABELS
    ======================================== */
-#form-add-animal label {
+#form-add-animal label,
+#new-event label,
+#form-add-animal #label-foto,
+#new-event #label-foto{
     font-weight: 500;
     display: block;
     margin: 1.5em 0 0 0;
+}
+
+#form-add-animal label.file-upload-label,
+#new-event label.file-upload-label{
+    margin: 0;
 }
 
 #form-add-animal .checkbox-label input[type="checkbox"]{
@@ -3518,7 +4077,9 @@ tr:hover {
    INPUT TEXT E DATE
    ======================================== */
 #form-add-animal input[type="text"],
-#form-add-animal input[type="date"] {
+#form-add-animal input[type="date"],
+#new-event input[type="text"],
+#new-event input[type="date"]{
     display: block;
     width: 100%;
     border: 1px solid var(--text-buttoncolor);
@@ -3530,11 +4091,15 @@ tr:hover {
     transition: all 0.3s ease;
 }
 
-#form-add-animal input[type="text"]{
+#form-add-animal input[type="text"],
+#new-event input[type="text"]{
     padding: 0.55em;
+    margin:0;
 }
 
-#form-add-animal input[type="date"] {
+#form-add-animal input[type="date"],
+#new-event input[type="date"] {
+    margin:0;
     padding: 0.5em;
 }
 
@@ -3545,10 +4110,14 @@ tr:hover {
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.1);
 } */
 
+#new-event input::placeholder,
+#new-event textarea::placeholder,
 #form-add-animal input::placeholder,
 #form-add-animal select::placeholder,
 #form-add-animal textarea::placeholder{
-    color:var(--placeholderDarker-text);
+    color:var(--placeholder-text);
+    font-weight: lighter;
+    font-size: 0.9em;
 }
 
 /* ========================================
@@ -3567,20 +4136,24 @@ tr:hover {
     /* appearance: none; */
     /* transition: all 0.3s ease;
     font-family: "Parkinsans", Roboto, sans serif; */ 
-    padding:0.5em;
+    padding:0.5em 2em 0.5em 0.5em;
     background-color: var(--bgcolor);
     border-radius: 2em;
     border-color: var(--text-buttoncolor);
     color:var(--text-buttoncolor);
-    margin:5px;
+    margin:0;
+    width: 100%;
+    min-height: 44px;
+    background-position: right 0em center; 
+
 }
 
 /* ========================================
    TEXTAREA
    ======================================== */
-#form-add-animal textarea {
+#form-add-animal textarea,
+#new-event textarea {
     display: block;
-    height: 8em;
     width: 100%;
     padding: 0.5em;
     border: 1px solid var(--text-buttoncolor);
@@ -3588,10 +4161,16 @@ tr:hover {
     font-size: 1em;
     font-family: inherit;
     background-color: var(--bgcolor);
-    color: var(--text-color, #333);
+    color: var(--txtcolor);
     resize: vertical;
     transition: all 0.3s ease;
-    margin-bottom: 0.5em;
+}
+#form-add-animal textarea{
+    height: 9.3em;
+}
+
+#new-event textarea{
+    height: 7em;
 }
 
 /* #form-add-animal textarea:focus {
@@ -3605,7 +4184,7 @@ tr:hover {
 .file-upload-label {
     display: block;
     width: 100%;
-    padding: 4em 0 2.5em 0;
+    padding: 4.5em 0 2.5em 0;
     margin:auto;
     text-align: center;
     cursor: pointer;
@@ -3628,7 +4207,7 @@ tr:hover {
 }
 
 .file-upload-text {
-    font-weight: 500;
+    font-weight: 300;
     color: var(--text-buttoncolor);
     display: block;
 }
@@ -3653,6 +4232,12 @@ tr:hover {
 .file-upload-label input[type="file"]:focus-visible{
     border:3px solid red;
     opacity: 1;
+}
+
+.success-form +img{
+    max-width: 50%;
+    max-height: 250px;
+    text-align: center;
 }
 
 /* Info foto caricata */
@@ -3724,9 +4309,10 @@ tr:hover {
    MESSAGGI DI ERRORE
    ======================================== */
 .error-form {
-    color: var(--footercolor);
+    color: var(--errortxt);
     font-size: 0.9em;
     margin-top: 5px;
+    font-weight: 600;
     display: block;
 }
 /*================ PROFILO RICHIEDENTE ==================*/
@@ -3887,4 +4473,65 @@ nav#breadcrumb a{
 
 nav#breadcrumb a:visited{
     color: var(--visitedcolor);
+}
+
+/* ================== NUOVO EVENTO ==================*/
+#new-event .split-input{
+    display: flex;
+    flex-wrap:wrap;
+    width: 100%;
+    gap: 1em;
+    margin: auto;
+}
+
+#ModifiedMode{
+    display: none;
+}
+
+#new-event .split-input div{
+    flex: 1 1 48%;
+}
+
+#new-event .split-input div label{
+    margin:0;
+}
+
+.conteggio-testo {
+    text-align: right;
+    display: block;
+    font-size: 0.85rem; 
+    color: var(--placeholderDarker-text);       
+    margin-top: 5px;
+}
+
+#nuovo-evento {
+    padding-bottom: 5em;
+}
+
+.labelledby-element{
+    position: absolute;
+    left:-999em;
+}
+
+#new-event .split-input:nth-of-type(2) label{
+    margin: 0;
+}
+
+#new-event #help-counter-evento + p.error-form{
+    margin-top:-0.5em;
+    margin-bottom:1.5em;
+}
+
+#foto-container{
+    padding-bottom: 1.5em;
+}
+
+#createMore-container{
+    text-align: right;
+    border-top:2px solid var(--darkbgcolor);
+}
+
+#createMore-container label{
+    font-weight: normal;
+    margin-top: 0;
 }

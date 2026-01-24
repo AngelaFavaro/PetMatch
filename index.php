@@ -32,8 +32,14 @@ $routes = [
     'registrati' => [
         'file' => __DIR__ . '/src/php/registrati.php'
     ],
+    'preferiti' => [
+        'file' => __DIR__ . '/src/php/preferiti.php'
+    ],
     'senza-amministratore' => [
         'file' => __DIR__ . '/src/php/admin/senza-amministratore.php'
+    ],
+    'eventi' => [
+        'file' => __DIR__ . '/src/php/eventi.php'
     ],
     'nuove-accoglienze' => [
         'file' => __DIR__ . '/src/php/admin/nuove-accoglienze.php'
@@ -44,6 +50,9 @@ $routes = [
     'profilo-utente' => [
         'file' => __DIR__ . '/src/php/profilo-utente.php'
     ],
+    'chi-siamo' => [
+        'file' => __DIR__ . '/src/php/chi-siamo.php'
+    ], 
     'revisione-richiesta' => [
         'file' => __DIR__ . '/src/php/revisione-richiesta.php'
     ],
@@ -52,6 +61,15 @@ $routes = [
     ],
     'profilo-richiedente' => [
         'file' => __DIR__ . '/src/php/admin/profilo-richiedente.php'
+    ],
+    'adottati' => [
+        'file' => __DIR__ . '/src/php/admin/adottati.php'
+    ],
+    'nuovo-evento' => [
+        'file' => __DIR__ . '/src/php/admin/nuovo-evento.php'
+    ],
+    'modifica-evento' => [
+        'file' => __DIR__ . '/src/php/admin/modifica-evento.php'
     ]
 ];
     /* decommentare quando si vogliono aggiungere le altre pagine
@@ -118,25 +136,6 @@ $routes = [
 // inizio della logica del routing
 if (isset($routes[$url])) {
     $route = $routes[$url];
-
-    // controllo i parametri obbligatori (tipo in dettagli-richiesta non voglio che manchi email o id-animale)
-    // Se la rotta richiede parametri che non sono presenti in $_GET, mandiamo al 404
-    // if (isset($route['required_params'])) {
-    //     foreach ($route['required_params'] as $param) {
-    //         if (!isset($_GET[$param]) || trim($_GET[$param]) === '') {
-    //             handle404();
-    //         }
-    //     }
-    // }
-
-    // // lo lascio ma forse non serve piu
-    // if (isset($route['params'])) {
-    //     foreach ($route['params'] as $key => $value) {
-    //         if (!isset($_GET[$key])) {
-    //             $_GET[$key] = $value;
-    //         }
-    //     }
-    // }
     if (file_exists($route['file'])) {
         require $route['file'];
         exit;
