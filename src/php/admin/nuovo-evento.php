@@ -3,6 +3,11 @@ include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
 
+if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { 
+    header("Location: ./eventi");
+    exit;
+}
+
 $NewEventInfo= [
     'titolo' => '', 
 	'data' => '', 
