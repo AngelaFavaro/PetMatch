@@ -82,9 +82,11 @@ function checkCredential(DBAccess $conn, &$email) {
 
             if ($role === 'Admin') {
                 $_SESSION['admin'] = true;
+                $_SESSION['ruolo'] = 'Admin';  // ⭐ AGGIUNGI QUESTA RIGA
                 header("Location: ./area-riservata");
             } else if($role === 'User'){
                 $_SESSION['admin'] = false;
+                $_SESSION['ruolo'] = 'User';  // ⭐ AGGIUNGI QUESTA RIGA
                 header("Location: ./profilo-utente"); 
             }
             exit;

@@ -1,6 +1,7 @@
 <?php
 include './src/utils.php';
 include './src/DBconnection.php';
+
 use DB\DBAccess;
 
 $NewAnimalInfo = [
@@ -62,17 +63,32 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues): array {
         if (strlen($nome) < 2 || !preg_match($regexTxt, $nome)) $errors['nome'] = "Nome non valido.";
         if (strlen($razza) < 2 || !preg_match($regexTxt, $razza)) $errors['razza'] = "Razza non valida.";
         if (strlen($colore) < 2 || !preg_match($regexTxt, $colore)) $errors['colore'] = "Colore non valido.";
-        if (!in_array($taglia, ['Piccola', 'Media', 'Grande'])) $errors['taglia'] = "Seleziona una taglia.";
+        if (!in_array($taglia, ['Piccolo', 'Medio', 'Grande'])) $errors['taglia'] = "Seleziona una taglia.";
         if (!in_array($sesso_txt, ['Maschio', 'Femmina'])) $errors['sesso'] = "Seleziona il sesso.";
-        if (!preg_match($regexData, $dataNascita)) $errors['dataNascita'] = "Data non valida.";
-        if (!in_array($pelo, ['Lungo', 'Corto', 'Misto'])) $errors['pelo'] = "Seleziona tipo pelo.";
+        if (!preg_match($regexData, $dataNascita)) {
+            $errors['dataNascita'] = "Data non valida.";
+        } else {
+            $dataInserita = new DateTime($dataNascita);
+            $oggi = new DateTime();
+            $limitePassato = (new DateTime())->modify('-18 years');
+            if ($dataInserita > $oggi) {
+                $errors['dataNascita'] = "L'animale non può essere nato nel futuro!";
+            } elseif ($dataInserita < $limitePassato) {
+                $errors['dataNascita'] = "Data non valida: un animale adottabile non può avere più di 18 anni.";
+            }
+        }
+        if (!in_array($pelo, ['Lungo', 'Corto', 'Medio'])) $errors['pelo'] = "Seleziona tipo pelo.";
         
         // Gestione Foto
-        $fotoPath = (!empty($NewAnimalValues['foto'])) ? $NewAnimalValues['foto'] : '../../assets/images/animals/default.png';
+        $fotoPath = (!empty($NewAnimalValues['foto'])) ? $NewAnimalValues['foto'] : 'assets/images/animals/default.png';
         if(isset($_FILES['foto']) && $_FILES['foto']['name'] != "") {
+            echo "Tentativo upload foto...<br>";
             $path = uploadImage($_FILES['foto'], 'animals');
+            echo "Path ritornato: " . ($path ?? 'NULL') . "<br>";
             if ($path !== null) {
                 $fotoPath = $path;
+            } else {
+                echo "ERRORE: upload fallito<br>";
             }
         }
 
@@ -86,9 +102,9 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues): array {
                 'dataNascita' => $dataNascita,
                 'pelo' => $pelo,
                 'colore' => mb_convert_case($colore, MB_CASE_TITLE, "UTF-8"),
-                'carattere' => $carattere,
-                'condMediche' => $condMediche,
-                'famiglia' => $famiglia,
+                'carattere' => trim($carattere),      
+                'condMediche' => trim($condMediche),  
+                'famiglia' => trim($famiglia),        
                 'foto' => $fotoPath,
                 'trasporto' => $trasporto
             ];
@@ -97,13 +113,14 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues): array {
             $email_admin = $_SESSION['email'] ?? null; 
 
             if ($email_admin) {
-                if ($conn->addAnimal($dataDB, $email_admin)) {
+                $result = $conn->addAnimal($dataDB, $email_admin);
+                if ($result) {
                     unset($_SESSION['form_inputs'], $_SESSION['form_errors_info']);
                     header("Location: ./area-riservata?success=1");
                     exit;
                 } else {
-                    $errors['generic'] = "Errore durante l'inserimento nel database.";
-                }
+                    // Mostra l'errore specifico MySQL
+                    $errors['generic'] = "Errore database: " . htmlspecialchars($conn->getConnectionError());                }
             } else {
                 $errors['generic'] = "Errore: Sessione amministratore non trovata. Effettua il login.";
             }
@@ -113,7 +130,7 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues): array {
         $_SESSION['form_errors_info'] = $errors;
         $_SESSION['form_inputs'] = $_POST; 
         $inputsToSave = $_POST;
-        $inputsToSave['foto'] = $fotoPath; // Fondamentale: salviamo il path della foto caricata
+        $inputsToSave['foto'] = $fotoPath; 
         $_SESSION['form_inputs'] = $inputsToSave; 
 
         header("Location: ./nuovo-animale");
@@ -174,14 +191,14 @@ $paginaHTML = str_replace('[tipoCane_checked]', ($NewAnimalInfo['tipologia'] ===
 $paginaHTML = str_replace('[tipoGatto_checked]', ($NewAnimalInfo['tipologia'] === '1' ? 'checked="checked"' : ''), $paginaHTML);
 
 $paginaHTML = str_replace('[tagliaVuota_selected]', (empty($NewAnimalInfo['taglia']) ? 'selected' : ''), $paginaHTML);
-$paginaHTML = str_replace('[tagliaPiccola_selected]', ($NewAnimalInfo['taglia'] === 'Piccola' ? 'selected' : ''), $paginaHTML);
-$paginaHTML = str_replace('[tagliaMedia_selected]', ($NewAnimalInfo['taglia'] === 'Media' ? 'selected' : ''), $paginaHTML);
+$paginaHTML = str_replace('[tagliaPiccola_selected]', ($NewAnimalInfo['taglia'] === 'Piccolo' ? 'selected' : ''), $paginaHTML);
+$paginaHTML = str_replace('[tagliaMedia_selected]', ($NewAnimalInfo['taglia'] === 'Medio' ? 'selected' : ''), $paginaHTML);
 $paginaHTML = str_replace('[tagliaGrande_selected]', ($NewAnimalInfo['taglia'] === 'Grande' ? 'selected' : ''), $paginaHTML);
 
 $paginaHTML = str_replace('[peloVuoto_selected]', (empty($NewAnimalInfo['pelo']) ? 'selected' : ''), $paginaHTML);
 $paginaHTML = str_replace('[peloCorto_selected]', ($NewAnimalInfo['pelo'] === 'Corto' ? 'selected' : ''), $paginaHTML);
 $paginaHTML = str_replace('[peloLungo_selected]', ($NewAnimalInfo['pelo'] === 'Lungo' ? 'selected' : ''), $paginaHTML);
-$paginaHTML = str_replace('[peloMisto_selected]', ($NewAnimalInfo['pelo'] === 'Misto' ? 'selected' : ''), $paginaHTML);
+$paginaHTML = str_replace('[peloMedio_selected]', ($NewAnimalInfo['pelo'] === 'Medio' ? 'selected' : ''), $paginaHTML);
 
 $trasporto_val = $NewAnimalInfo['trasporto'];
 $paginaHTML = str_replace('[trasporto_checked]', ($trasporto_val == 1 || $trasporto_val === 'on' ? 'checked="checked"' : ''), $paginaHTML);

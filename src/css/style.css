@@ -3472,6 +3472,7 @@ tr:hover {
     font-weight: 550;
     display: inline-block;
     margin-top: 1.5em;
+    width: 100%;
 }
 
 .sex-group {

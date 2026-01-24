@@ -438,37 +438,42 @@ function getBreadcrumb($currentPageKey, $pagine) {
 */
 // se $_FILES['foto'] non esiste o è vuoto, la funzione ritorna false
 function uploadImage($file, $folder) {
-
     $basePath = dirname(__DIR__) . '/assets/images/' . $folder . '/';
     $dbPathPrefix = 'assets/images/' . $folder . '/';
     
+    // Verifica se la cartella esiste, altrimenti creala
     if (!file_exists($basePath)) {
-        echo "La cartella non esiste. Provo a crearla...<br>";
         if (!mkdir($basePath, 0755, true)) {
-            echo "ERRORE: Impossibile creare la cartella. Controlla i permessi di sistema.<br>";
+            // Log l'errore invece di stamparlo
+            error_log("ERRORE uploadImage: Impossibile creare la cartella $basePath");
             return null;
         }
     }
-
+    
+    // Verifica permessi di scrittura
     if (!is_writable($basePath)) {
-        echo "ERRORE: La cartella esiste ma NON è scrivibile (permessi negati).<br>";
+        error_log("ERRORE uploadImage: La cartella $basePath non è scrivibile");
         return null;
     }
-
+    
+    // Verifica errori di upload
     if ($file['error'] !== UPLOAD_ERR_OK) {
-        echo "ERRORE PHP nel file: Codice " . $file['error'] . "<br>";
+        error_log("ERRORE uploadImage: Errore PHP upload, codice: " . $file['error']);
         return null;
     }
-
+    
+    // Genera nome file univoco
     $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
     $fileName = $folder . "_" . time() . "_" . bin2hex(random_bytes(4)) . "." . $extension;
     $targetFile = $basePath . $fileName;
-
+    
+    // Sposta il file
     if (move_uploaded_file($file['tmp_name'], $targetFile)) {
-        echo "SUCCESSO: File spostato correttamente!<br>";
+        // Log successo (opzionale, puoi commentare)
+        error_log("uploadImage: File caricato con successo - $fileName");
         return $dbPathPrefix . $fileName;
     } else {
-        echo "ERRORE: move_uploaded_file è fallito. Possibile causa: file temporaneo sparito o restrizioni del server.<br>";
+        error_log("ERRORE uploadImage: move_uploaded_file fallito per $fileName");
         return null;
     }
 }

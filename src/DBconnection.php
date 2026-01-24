@@ -320,52 +320,57 @@ class DBAccess {
         return $result;
     }
 
-public function addAnimal(array $data, string $emailAdmin): int|bool {
-    if (!$this->connection) {
-        return false;
+    public function getConnectionError() {
+    return $this->connection->error; 
     }
 
-    $query = "INSERT INTO ANIMALI (
-        Nome, DataNascita, DataRegistrazione, Sesso, Tipo, Colore,
-        Pelo, Taglia, Razza, DescrFamiglia, DescrComportamentale,
-        CondizioniMediche, ImgPath, Trasporto, Email
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public function addAnimal(array $data, string $email) {
+        // La data di registrazione la impostiamo al momento dell'inserimento (CURDATE())
+        $query = "INSERT INTO ANIMALI (
+                    Nome, DataNascita, DataRegistrazione, Sesso, Tipo, 
+                    Colore, Pelo, Taglia, Razza, DescrFamiglia, 
+                    DescrComportamentale, CondizioniMediche, Trasporto, ImgPath, Email
+                ) VALUES (?, ?, CURDATE(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    $stmt = mysqli_prepare($this->connection, $query);
-    if ($stmt === false) {
-        return false;
+        $stmt = $this->connection->prepare($query);
+
+        if ($stmt === false) {
+            return false;
+        }
+
+        // "sssssssssssiss" indica i tipi: s = string, i = integer
+        // Nota: Trasporto è un TINYINT(1), lo passiamo come integer 'i'
+        $stmt->bind_param(
+            "ssssssssssisss",
+            $data['nome'],
+            $data['dataNascita'],
+            $data['sesso'],
+            $data['tipologia'],
+            $data['colore'],
+            $data['pelo'],
+            $data['taglia'],
+            $data['razza'],
+            $data['famiglia'],
+            $data['carattere'],
+            $data['condMediche'],
+            $data['trasporto'],
+            $data['foto'],
+            $email
+        );
+
+        $success = $stmt->execute();
+        
+        if ($success) {
+            $insertedId = $this->connection->insert_id;
+            $stmt->close();
+            return $insertedId;
+        } else {
+            // Log dell'errore per debugging
+            error_log("Errore inserimento animale: " . $stmt->error);
+            $stmt->close();
+            return false;
+        }
     }
-
-    $data_reg = date('Y-m-d');
-
-    // La stringa dei tipi 'sssssssssssssis'
-    mysqli_stmt_bind_param(
-        $stmt,
-        'sssssssssssssis', 
-        $data['nome'],
-        $data['dataNascita'], 
-        $data_reg,            
-        $data['sesso'],
-        $data['tipologia'],   
-        $data['colore'],
-        $data['pelo'],
-        $data['taglia'],
-        $data['razza'],
-        $data['famiglia'],      
-        $data['carattere'],   
-        $data['condMediche'], 
-        $data['foto'],
-        $data['trasporto'],
-        $emailAdmin // L'email dell'admin loggato
-    );
-
-    $success = mysqli_stmt_execute($stmt);
-    $insertedId = $success ? mysqli_insert_id($this->connection) : false;
-    
-    mysqli_stmt_close($stmt);
-    return $insertedId;
-}
-
 
     function createAdminTasks($email): array {
         // che bella questa funzione
@@ -1560,11 +1565,5 @@ public function addAnimal(array $data, string $emailAdmin): int|bool {
         }
         return $counts;
     }  
-
-
-
-
-
-
 }
 ?>

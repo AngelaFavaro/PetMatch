@@ -102,8 +102,8 @@ $replaceFilters = [
     '[ETA_MAX]' => htmlspecialchars($rawFilters['eta_max']),
 
     '[TAGLIA_SELECTED_EMPTY]'   => $rawFilters['taglia'] === '' ? 'selected' : '',
-    '[TAGLIA_SELECTED_PICCOLA]' => $rawFilters['taglia'] === 'Piccola' ? 'selected' : '',
-    '[TAGLIA_SELECTED_MEDIA]'   => $rawFilters['taglia'] === 'Media' ? 'selected' : '',
+    '[TAGLIA_SELECTED_PICCOLA]' => $rawFilters['taglia'] === 'Piccolo' ? 'selected' : '',
+    '[TAGLIA_SELECTED_MEDIA]'   => $rawFilters['taglia'] === 'Medio' ? 'selected' : '',
     '[TAGLIA_SELECTED_GRANDE]'  => $rawFilters['taglia'] === 'Grande' ? 'selected' : '',
 
     '[SESSO_SELECTED_EMPTY]'    => $rawFilters['sesso'] === '' ? 'selected' : '',
