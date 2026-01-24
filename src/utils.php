@@ -113,7 +113,12 @@ $pagine = [
         'label' => 'Assegnati a te',
         'url' => './assegnati-a-te',
         'parent' => 'animali'
-    ]
+    ],
+    'modifica-evento' => [
+        'label' => 'Modifica evento',
+        'url' => './modifica-evento',
+        'parent' => 'eventi'
+    ],
 ];
 
 $adminMenu = [
@@ -424,7 +429,7 @@ function buildFooter(array $menuGroups, string $currentHref): string {
                         <ul class="footer-submenu">
                             <li class="social-media-links">
                                 <address>
-                                    <a id="insta-link" href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram">
+                                    <a rel="me" id="insta-link" href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram">
                                         <img src="./assets/icons/Instagram.svg" id="instagram" alt="">
                                         @petmatch_shelter
                                     </a>

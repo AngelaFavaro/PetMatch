@@ -2191,6 +2191,35 @@ public function getGuestFavPaged(string $type, int $perPagina, int $offset): arr
         mysqli_stmt_close($stmt);
         return $result;
     }
+    
+    public function updateNewEvent(array $EventValues, string $oldTitolo ,string $oldData): bool {
+        if (!$this->connection){
+            return false;
+        }
+
+        $query = "UPDATE EVENTI SET Titolo = ?, DataEvento = ?, DescrEvento = ?, ImgPath = ?, Via = ?, Citta = ?
+                    WHERE Titolo = ? AND DataEvento = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 'ssssssss', 
+            $EventValues['titolo'], 
+            $EventValues['data'],
+            $EventValues['descrizione'],
+            $EventValues['foto'],
+            $EventValues['via'],
+            $EventValues['citta'],
+            $oldTitolo,
+            $oldData);
+        $result = mysqli_stmt_execute($stmt);
+
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
+
 
     function checkEventExists(string $title, string $date): bool {
         $requests = [];
@@ -2213,7 +2242,30 @@ public function getGuestFavPaged(string $type, int $perPagina, int $offset): arr
         }
         return false;
     }
-    
+
+    public function getInfoEvent(string $titolo, string $data): ?array { 
+        if (!$this->connection) {
+            return null;
+        }
+
+        $query = "SELECT * FROM EVENTI WHERE Titolo = ? AND DataEvento = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        
+        $evento = null;
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'ss', $titolo, $data);
+
+            mysqli_stmt_execute($stmt);
+            $res = mysqli_stmt_get_result($stmt);
+            $evento = mysqli_fetch_assoc($res); 
+
+            mysqli_stmt_close($stmt);
+        }
+
+        return $evento;
+    }
 
 }
 

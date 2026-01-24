@@ -70,6 +70,9 @@ $routes = [
     ],
     'assegnati-a-te' => [
         'file' => __DIR__ . '/src/php/admin/assegnati-a-te.php'
+    ],
+    'modifica-evento' => [
+        'file' => __DIR__ . '/src/php/admin/modifica-evento.php'
     ]
 ];
 
