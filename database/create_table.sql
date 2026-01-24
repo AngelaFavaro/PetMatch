@@ -31,11 +31,11 @@ CREATE TABLE UTENTI (
 
 -- EVENTI
 CREATE TABLE EVENTI (
-    Titolo VARCHAR(255) NOT NULL,
+    Titolo VARCHAR(40) NOT NULL,
     DataPubblicazione DATE NOT NULL,
     DataEvento DATE NOT NULL,
     DescrEvento TEXT NOT NULL,
-    ImgPath VARCHAR(512) NOT NULL, -- Già presente, rinominato per coerenza
+    ImgPath VARCHAR(512) NOT NULL,
     PRIMARY KEY (Titolo, DataEvento),
     Via VARCHAR(255) NOT NULL,
     Citta VARCHAR(100) NOT NULL
@@ -44,7 +44,7 @@ CREATE TABLE EVENTI (
 
 -- ORGANIZZAZIONE
 CREATE TABLE ORGANIZZAZIONE(
-    Titolo VARCHAR(255) NOT NULL,
+    Titolo VARCHAR(40) NOT NULL,
     DataEvento DATE NOT NULL,
     Email VARCHAR(255) NOT NULL,
     PRIMARY KEY (Titolo, DataEvento, Email),

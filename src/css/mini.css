@@ -253,7 +253,7 @@ input:checked + #slider {
 #form-signup .column-container div{
     flex: 1 1 51%;
 }
-/* ================== UTENTE NORMALE ==================*/
+/* ================== Utente NORMALE ==================*/
 
 #user-profile .tab-content form{
     text-align: left;
@@ -269,10 +269,33 @@ input:checked + #slider {
     padding: 0.7em 2em;
 }
 
+#request-state-movement,
+#request-state-richieste{
+    width: 60%;
+}
+
+#user-profile #request-state-movement + button,
+#user-profile #request-state-richieste + button{
+    width: 100%;
+}
+
 /*=================== ANIMALI ====================*/
 
-#animali li.card {
+#animali li.card, #animali li.dark-card {
     flex-shrink: 1;
+}
+
+
+
+#animali .card .nome, #animali .dark-card .nome {
+    padding-top: 0.5em;
+    padding-left: 0.5em;
+    width: 75%;
+    /* padding-right: 65%; */
+    /* height: 40px; */
+    white-space: nowrap;      /* testo su una sola riga */
+    overflow: hidden;         /* taglia il testo che esce dal box */
+    text-overflow: ellipsis;  /* aggiunge "..." alla fine */
 }
 
 #animali #nav-animali-type ul {
@@ -292,13 +315,27 @@ input:checked + #slider {
 }
 
 #animali .cards-container {
-    justify-content: center;
+    justify-content: left;
 }
 
-#animali .card .interessamento {
+#animali .card .interessamento, #animali .dark-card .interessamento {
     float: left;   
     clear: left;
     padding:0.5em;
+}
+
+/* #animali #content-filter-button button {
+    width: 100%;
+    flex: 0 0 100%;
+} */
+
+#animali .filtri #searchSex.capsula-filtro,
+#animali .filtri #searchEta.capsula-filtro {
+    max-width: 100%;
+}
+
+#animali .filtri .capsula-filtro {
+    height: 3em;
 }
 
 #animali .immagine {
@@ -308,7 +345,7 @@ input:checked + #slider {
 
 #animali .filtri #searchSex.capsula-filtro,
 #animali .filtri #searchSize.capsula-filtro{
-    width: 48.4%;
+    max-width: 48.4%;
 }
 
 #animali li.card:hover {
@@ -463,6 +500,11 @@ nav#breadcrumb {
     margin: 1em auto;
 }
 
+#richieste .capsula-filtro select{
+    padding-right: 1em;
+    background-position: right 0em center; /* Destra, un po' staccata dal bordo, centrata verticale */
+}
+
 /* ================== PROFILO RICHIEDENTE ==================*/
 #profilo-richiedente{
     padding: 0 1em;
@@ -523,9 +565,10 @@ div#admin-area article#query h2{
     margin: 0 auto;
 }
 
-/* ================== NUOVO ANIMALE ==================*/
+/* ================== NUOVO Animali ==================*/
 
-#admin-area-aggiungi {
+#admin-area-aggiungi,
+#nuovo-evento {
     min-height: 100vh;
     display: block; 
     background-color: var(--bgcolor); 
@@ -533,11 +576,13 @@ div#admin-area article#query h2{
     margin: 0;
 }
 
-#admin-area-aggiungi h1{
+#admin-area-aggiungi h1,
+#nuovo-evento h1{
     font-size: 2em;
 }
 
-#form-add-animal {
+#form-add-animal,
+#new-event {
     background-color: var(--bgcolor);
     width: 100%;
     margin: 0;
@@ -556,7 +601,8 @@ div#admin-area article#query h2{
     padding:0;
 }
 
-#form-add-animal fieldset {
+#form-add-animal fieldset,
+#new-event fieldset {
     margin-bottom: 1.5em;
     border: none;
     padding: 0;
@@ -607,18 +653,22 @@ div#admin-area article#query h2{
 }
 
 #form-add-animal button[name="submit-animal"],
-#form-add-animal a#cancel-add-animal{
+#form-add-animal a#cancel-add-animal,
+#new-event button[name="submit-event"],
+#new-event a#cancel-new-event{
     width: 100%;
     display: block;
     margin:0;
     padding:0.5em 0;
 }
 
-#form-add-animal a#cancel-add-animal{
+#form-add-animal a#cancel-add-animal,
+#new-event a#cancel-new-event{
     margin-bottom:1em;
 }
 
-#form-add-animal .form-buttons-container{
+#form-add-animal .form-buttons-container,
+#new-event .form-buttons-container{
     display: block;
 }
 
@@ -727,4 +777,66 @@ body#lavora-con-noi {
 
 .lavora-con-noi-img img{
     display: none;
+}
+
+/*                  EVENTI                       */
+
+
+
+#eventi .cards-container{
+    margin:auto;
+}
+
+#eventi .cards-container li{
+    margin:1em auto 0 auto;
+    min-height: 10em;
+    height: auto;
+}
+
+#eventi .evento .descrizione-evento{
+    clear: both;
+    margin:0 auto;
+    padding:0 1em;
+}
+
+#eventi .evento .posizione-data-abbr {
+    margin:0 auto 0.3em auto;
+    display: block;
+    text-align: center;
+    padding: 1em;
+    min-height: 8em;
+    border-bottom: 1px solid var(--txtcolor);
+    border-top: 1px solid var(--txtcolor);
+    /* float: left; */
+}
+
+#eventi .filtri #searchData.capsula-filtro {
+    max-width: 100%;
+}
+
+#eventi .evento .posizione-evento {
+    display: none;
+}
+
+#eventi .evento .data-evento {
+    display: none;
+}
+
+#eventi .evento img.immagine-evento {
+    width: 10em;
+    height: 8em;
+    padding: 0.8em;
+    float:left;
+    /* padding-right: 2em; */
+    object-fit: cover;
+    min-width: 8em;
+    /* margin-right: 2em; */
+    /* display: flex; */
+}
+
+#eventi .evento {
+    height: fit-content;
+    margin-bottom: 2em;
+    margin:auto;
+    padding:0.3em;
 }

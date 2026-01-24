@@ -56,8 +56,8 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues): array {
         $sesso_txt = ($sesso_val === '0') ? 'Maschio' : (($sesso_val === '1') ? 'Femmina' : '');
 
         $regexData = '/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/'; 
-        $regexTxt = '/^[a-zA-Z\x{00C0}-\x{017F}]+(?:[\'\s][a-zA-Z\x{00C0}-\x{017F}]+)*$/u';
-
+        $regexTxt = '/^[a-zA-Z\x{00C0}-\x{017F}\s\',]+$/u';        
+        
         // Validazione
         if (empty($tipologia)) $errors['tipologia'] = "Seleziona una tipologia.";
         if (strlen($nome) < 2 || !preg_match($regexTxt, $nome)) $errors['nome'] = "Nome non valido.";
@@ -146,7 +146,7 @@ if ($connessione->openDBConnection()) {
     $messageInfoForm = createInfoAnimale($connessione, $NewAnimalInfo);
     $connessione->closeConnection();
 } else {
-    $messageInfoForm['generic'] = "<p class='error'>Connessione al database fallita.</p>";
+    $messageInfoForm['generic'] = "<p class='error'>Connessione al database fallita, riprovare più tardi.</p>";
 }
 
 
@@ -177,8 +177,8 @@ foreach ($campi_errori as $campo) {
 $fotoInfo = "";
 if (!empty($NewAnimalInfo['foto']) && $NewAnimalInfo['foto'] !== '../../assets/images/animals/default.png') {
     $nomeFile = basename($NewAnimalInfo['foto']);
-    $fotoInfo = "<p class='success-form'>Foto già caricata, correggi i dati, non serve caricarla nuovamente: <strong>$nomeFile</strong></p>";
-    $fotoInfo .= "<img src='{$NewAnimalInfo['foto']}' alt='Anteprima' style='width:100px; height:auto; display:block; margin-top:5px;'>";
+    $fotoInfo = "<p class='success-form'>Immagine caricata: <strong>$nomeFile</strong></p>";
+    $fotoInfo .= "<img src='{$NewAnimalInfo['foto']}' alt='Anteprima immagine caricata'>";
 }
 $paginaHTML = str_replace('[infoFotoCaricata]', $fotoInfo, $paginaHTML);
 

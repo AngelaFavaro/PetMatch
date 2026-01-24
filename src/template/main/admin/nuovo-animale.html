@@ -54,10 +54,11 @@
                     </div>
                     <p class="error-form">[erroriSesso]</p>
                     
+                    <span id="label-foto">Seleziona una foto</span>
                     <label for="foto" class="file-upload-label">
-                        <span class="file-upload-text"> Aggiungi o trascina foto</span>
+                        <span class="file-upload-text"> Importa un immagine o trascinala</span>
                         <span class="file-name-display"></span>
-                        <input type="file" id="foto" name="foto" accept="image/*">
+                        <input type="file" id="foto" name="foto" accept=".jpg, .jpeg, .png">
                         <div class="foto-caricata-info">
                             [infoFotoCaricata]
                         </div>
@@ -83,8 +84,8 @@
                     <select name="pelo" id="pelo">
                         <option value="" disabled [peloVuoto_selected]>Seleziona un'opzione</option>
                         <option value="Corto" [peloCorto_selected]>Corto</option>
-                        <option value="Lungo" [peloLungo_selected]>Lungo</option>
                         <option value="Medio" [peloMedio_selected]>Medio</option>
+                        <option value="Lungo" [peloLungo_selected]>Lungo</option>
                     </select>  
                     <p class="error-form">[erroriPelo]</p>
                     
@@ -100,7 +101,7 @@
                         <p class="error-form">[erroriCondMediche]</p>
                     </div>
 
-                    <div>
+                    <div id="div-carattere">
                         <label for="carattere">Descrizione caratteriale: </label>
                         <textarea id="carattere" name="carattere" placeholder="Inserire testo">[carattere]</textarea>
                         <p class="error-form">[erroriCarattere]</p>
