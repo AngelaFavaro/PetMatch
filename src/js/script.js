@@ -387,11 +387,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function updateFileName(name) {
             fileNameDisplay.textContent = `✓ ${name}`;
-            // Aggiorna anche .foto-caricata-info se esiste
             const infoDiv = document.querySelector('.foto-caricata-info');
             if (infoDiv) {
                 infoDiv.textContent = `File selezionato: ${name}`;
             }
         }
+    }
+});
+
+//mette il numeri di caratteri inseriti 
+function contaCaratteri(campo, idContatore) {
+    var lunghezzaAttuale = campo.value.length;
+    var contatore = document.getElementById(idContatore);
+        
+    contatore.innerText = lunghezzaAttuale+'/255';
+}
+
+//mette il limite quando si ricarica la pagina con i dati già inseriti
+document.addEventListener("DOMContentLoaded", function() {
+    var campo_desc = document.getElementById('desc-event');
+    var campo_cond = document.getElementById('condMediche');
+    var campo_car = document.getElementById('carattere');
+    if(campo_desc) {
+        contaCaratteri(campo_desc, "conta-corrente-evento");
+    }
+    if(campo_cond) {
+        contaCaratteri(campo_cond, "conta-corrente-condMediche");
+    }
+    if(campo_car) {
+        contaCaratteri(campo_car, "conta-corrente-carattere");
     }
 });

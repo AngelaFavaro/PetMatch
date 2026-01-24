@@ -129,7 +129,7 @@ if ($connessione->openDBConnection()) {
     $messageInfoForm = createInfoAnimale($connessione, $NewAnimalInfo);
     $connessione->closeConnection();
 } else {
-    $messageInfoForm['generic'] = "<p class='error'>Connessione al database fallita.</p>";
+    $messageInfoForm['generic'] = "<p class='error'>Connessione al database fallita, riprovare più tardi.</p>";
 }
 
 
@@ -160,8 +160,8 @@ foreach ($campi_errori as $campo) {
 $fotoInfo = "";
 if (!empty($NewAnimalInfo['foto']) && $NewAnimalInfo['foto'] !== '../../assets/images/animals/default.png') {
     $nomeFile = basename($NewAnimalInfo['foto']);
-    $fotoInfo = "<p class='success-form'>Foto già caricata, correggi i dati, non serve caricarla nuovamente: <strong>$nomeFile</strong></p>";
-    $fotoInfo .= "<img src='{$NewAnimalInfo['foto']}' alt='Anteprima' style='width:100px; height:auto; display:block; margin-top:5px;'>";
+    $fotoInfo = "<p class='success-form'>Immagine caricata: <strong>$nomeFile</strong></p>";
+    $fotoInfo .= "<img src='{$NewAnimalInfo['foto']}' alt='Anteprima immagine caricata'>";
 }
 $paginaHTML = str_replace('[infoFotoCaricata]', $fotoInfo, $paginaHTML);
 

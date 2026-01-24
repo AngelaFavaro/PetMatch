@@ -576,7 +576,7 @@ function logout(){
     exit;
 }
 
-function calcolareEta(?string $dataNascita): ?int {
+function calcolaEta(?string $dataNascita): ?int {
     if (!$dataNascita) {
         return null;
     }

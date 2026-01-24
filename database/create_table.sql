@@ -35,7 +35,7 @@ CREATE TABLE EVENTI (
     DataPubblicazione DATE NOT NULL,
     DataEvento DATE NOT NULL,
     DescrEvento TEXT NOT NULL,
-    ImgPath VARCHAR(512) NOT NULL, -- Già presente, rinominato per coerenza
+    ImgPath VARCHAR(512) NOT NULL,
     PRIMARY KEY (Titolo, DataEvento),
     Via VARCHAR(255) NOT NULL,
     Citta VARCHAR(100) NOT NULL

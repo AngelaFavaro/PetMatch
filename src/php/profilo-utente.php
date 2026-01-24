@@ -514,7 +514,7 @@ $htmlEdit = '
                 <legend>Informazioni personali</legend>
                 <div>
                     <label for="new-pic">Cambia Foto</label>
-                    <input type="file" id="new-pic" name="new-pic" accept="image/*" aria-label="carica la tua foto profilo.">
+                    <input type="file" id="new-pic" name="new-pic" accept=".jpg, .jpeg, .png" aria-label="carica la tua foto profilo.">
                     <label class="checkbox-container-pic" for="delete-pic">
                         <input type="checkbox" id="delete-pic" name="delete-pic">
                         Rimuovi foto profilo

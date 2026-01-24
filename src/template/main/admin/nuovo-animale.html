@@ -54,10 +54,11 @@
                     </div>
                     <p class="error-form">[erroriSesso]</p>
                     
+                    <span id="label-foto">Seleziona una foto</span>
                     <label for="foto" class="file-upload-label">
-                        <span class="file-upload-text"> Aggiungi o trascina foto</span>
+                        <span class="file-upload-text"> Importa un immagine o trascinala</span>
                         <span class="file-name-display"></span>
-                        <input type="file" id="foto" name="foto" accept="image/*">
+                        <input type="file" id="foto" name="foto" accept=".jpg, .jpeg, .png">
                         <div class="foto-caricata-info">
                             [infoFotoCaricata]
                         </div>
@@ -96,13 +97,27 @@
 
                     <div>
                         <label for="condMediche">Condizioni mediche: </label>
-                        <textarea id="condMediche" name="condMediche" placeholder="Inserire testo">[condMediche]</textarea>
+                        <textarea id="condMediche" name="condMediche" placeholder="Inserire testo"
+                        maxlength="255" 
+                        aria-describedby="help-counter-condMediche"
+                        oninput="contaCaratteri(this,'conta-corrente-condMediche')">[condMediche]</textarea>
+                        <p id="help-counter-condMediche">
+                            <span class="labelledby-element">limite caratteri</span>
+                            <span class="conteggio-testo" id="conta-corrente-condMediche"></span>
+                        </p>
                         <p class="error-form">[erroriCondMediche]</p>
                     </div>
 
-                    <div>
+                    <div id="div-carattere">
                         <label for="carattere">Descrizione caratteriale: </label>
-                        <textarea id="carattere" name="carattere" placeholder="Inserire testo">[carattere]</textarea>
+                        <textarea id="carattere" name="carattere" placeholder="Inserire testo"
+                        maxlength="255" 
+                        aria-describedby="help-counter-carattere"
+                        oninput="contaCaratteri(this,'conta-corrente-carattere')">[carattere]</textarea>
+                        <p id="help-counter-carattere">
+                            <span class="labelledby-element">limite caratteri</span>
+                            <span class="conteggio-testo" id="conta-corrente-carattere"></span>
+                        </p>
                         <p class="error-form">[erroriCarattere]</p>
                     </div>
                 </div>

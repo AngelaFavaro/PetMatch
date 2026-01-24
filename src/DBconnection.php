@@ -1397,7 +1397,7 @@ public function addAnimal(array $data, string $emailAdmin): int|bool {
             $result[] = [
                 'nome' => $row['Nome'],
                 'sesso' => $row['Sesso'],
-                'eta' => calcolareEta($row['DataNascita']),
+                'eta' => calcolaEta($row['DataNascita']),
                 'immagine' => $row['ImgPath'],
                 'tipo' => $row['Tipo']
             ];
@@ -1553,7 +1553,7 @@ public function addAnimal(array $data, string $emailAdmin): int|bool {
             $animali[] = [
                 'nome'     => $row['Nome'],
                 'sesso'    => $row['Sesso'],
-                'eta'      => calcolareEta($row['DataNascita']),
+                'eta'      => calcolaEta($row['DataNascita']),
                 'immagine' => $row['ImgPath'],
                 'tipo'     => $row['Tipo'],
                 'id'     => $row['Id']
@@ -1978,7 +1978,7 @@ public function getFavouritesPaged(
         $animali[] = [
             'nome'     => $row['Nome'],
             'sesso'    => $row['Sesso'],
-            'eta'      => calcolareEta($row['DataNascita']),
+            'eta'      => calcolaEta($row['DataNascita']),
             'immagine' => $row['ImgPath'],
             'tipo'     => $row['Tipo'],
             'id'       => $row['Id'],
@@ -2053,7 +2053,7 @@ public function getGuestFavPaged(string $type, int $perPagina, int $offset): arr
         $animali[] = [
             'nome'     => $row['Nome'],
             'sesso'    => $row['Sesso'], // lasciato grezzo, lo trasformi dopo
-            'eta'      => calcolareEta($row['DataNascita']),
+            'eta'      => calcolaEta($row['DataNascita']),
             'immagine' => $row['ImgPath'],
             'tipo'     => $row['Tipo'],
             'id'       => $row['Id'],
@@ -2065,12 +2065,32 @@ public function getGuestFavPaged(string $type, int $perPagina, int $offset): arr
     return $animali;
 }
 
+    public function insertNewEvent(array $EventValues): bool {
+        if (!$this->connection){
+            return false;
+        }
+
+        $query = "INSERT INTO EVENTI (Titolo, DataEvento, DescrEvento, ImgPath, Via, Citta, DataPubblicazione) VALUES (?, ?, ?, ?, ?, ?, CURRENT_DATE())";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 'ssssss', 
+            $EventValues['titolo'], 
+            $EventValues['data'],
+            $EventValues['descrizione'],
+            $EventValues['foto'],
+            $EventValues['via'],
+            $EventValues['citta']
+            );
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
+    
 
 }
-
-
-
-
-
 
 ?>
