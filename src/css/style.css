@@ -124,10 +124,6 @@ h4{
     /* line-height: 1.3; */
 }
 
-.error-form{
-    color:var(--errortxt);
-}
-
 .error-form + p{
     margin-top:0.5em;
 }
@@ -1181,6 +1177,7 @@ details:not([open]) .popup {
     transform-origin: top center;
     --base-rot: 0deg;
     margin:auto;
+    max-width: 200px;
     padding: 1em 0.5em 0 0.5em ;
     text-decoration: none;
     font-weight: normal;
@@ -1191,7 +1188,7 @@ details:not([open]) .popup {
 
 #events-list .polaroid h4, 
 #events-list .polaroid p {
-    display: block; /* Importante */
+    display: block;
     width: 100%;
     
     white-space: nowrap;      /* Impedisce di andare a capo */
@@ -2733,22 +2730,30 @@ a:hover .hover-icon {opacity: 1;}
 
 .checkbox-container-pic input[type="checkbox"],
 #home input[name="type-animal"],
+input#createMore,
 #form-add-animal .checkbox-label input[type="checkbox"]{
-    -webkit-appearance: none;
     appearance: none;
     width: 25px;
     height: 25px;
     position: relative;
     top:5px;
-    background-color: transparent;    
-    border: 1px solid var(--txtcolor);     
-    border-radius: 4px;         
+    background-color: transparent;
+    border: 1px solid var(--txtcolor);
     cursor: pointer;
-    margin: 0;                  
+    margin: 0;
+}
+
+.checkbox-container-pic input[type="checkbox"],
+#home input[name="type-animal"]{
+    border-radius: 2em;
+}
+
+#form-add-animal .checkbox-label input[type="checkbox"],
+input#createMore{
+    border-radius: 4px;
 }
 
 .sex-option input[type="radio"]{
-    -webkit-appearance: none;
     appearance: none;
     width: 20px;
     height: 20px;
@@ -2763,14 +2768,14 @@ a:hover .hover-icon {opacity: 1;}
 
 .checkbox-container-pic input[type="checkbox"]:checked,
 #home input[name="type-animal"]:checked,
+input#createMore:checked,
 .sex-option input[type="radio"]:checked,
 #form-add-animal .checkbox-label input[type="checkbox"]:checked {
     background-color: var(--buttoncolor);   
     border-color: var(--buttoncolor);  
 }
 
-.checkbox-container-pic input[type="checkbox"]::before,
-#home input[name="type-animal"]::before.active{
+.checkbox-container-pic input[type="checkbox"]::before{
     content: "";
     position: absolute;
     width: 15px;
@@ -2785,6 +2790,9 @@ a:hover .hover-icon {opacity: 1;}
     transition: 0.2s transform ease-in-out;
 }
 
+.checkbox-container-pic input[type="checkbox"]::before,
+input#createMore::before,
+#home input[name="type-animal"]::before,
 #form-add-animal .checkbox-label input[type="checkbox"]::before{
     content: "";
     position: absolute;
@@ -2818,6 +2826,7 @@ a:hover .hover-icon {opacity: 1;}
 
 .checkbox-container-pic input[type="checkbox"]:checked::before,
 #home input[name="type-animal"]:checked::before,
+input#createMore:checked:before,
 .sex-option input[type="radio"]:checked::before,
 #form-add-animal .checkbox-label input[type="checkbox"]:checked::before {
     transform: scale(1);        
@@ -4140,7 +4149,6 @@ tr:hover {
 #form-add-animal textarea,
 #new-event textarea {
     display: block;
-    height: 9.3em;
     width: 100%;
     padding: 0.5em;
     border: 1px solid var(--text-buttoncolor);
@@ -4151,6 +4159,13 @@ tr:hover {
     color: var(--txtcolor);
     resize: vertical;
     transition: all 0.3s ease;
+}
+#form-add-animal textarea{
+    height: 9.3em;
+}
+
+#new-event textarea{
+    height: 7em;
 }
 
 /* #form-add-animal textarea:focus {
@@ -4496,4 +4511,18 @@ nav#breadcrumb a:visited{
 #new-event #help-counter-evento + p.error-form{
     margin-top:-0.5em;
     margin-bottom:1.5em;
+}
+
+#foto-container{
+    padding-bottom: 1.5em;
+}
+
+#createMore-container{
+    text-align: right;
+    border-top:2px solid var(--darkbgcolor);
+}
+
+#createMore-container label{
+    font-weight: normal;
+    margin-top: 0;
 }

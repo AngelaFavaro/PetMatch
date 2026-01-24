@@ -8,7 +8,7 @@ $NewAnimalInfo = [
     'tipologia' => '', 'nome' => '', 'razza' => '', 'taglia' => '',
     'sesso' => '', 'foto' => '', 'dataNascita' => '', 'pelo' => '',
     'colore' => '', 'condMediche' => '', 'carattere' => '', 'famiglia' => '',
-    'trasporto' => '' // Corretto refuso 'trasposrto'
+    'trasporto' => '', 'createMore'=>'' // Corretto refuso 'trasposrto'
 ];
 
 function createInfoAnimale(DBAccess $conn, &$NewAnimalValues): array {
@@ -51,6 +51,7 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues): array {
         
         // Trasporto e Sesso (M/F per il DB)
         $trasporto = isset($_POST['trasporto']) ? 1 : 0;
+        $createMoreValue = isset($_POST['createMore']) ? 1 : 0;
         $sesso_val = $_POST['sesso'] ?? '';
         $sesso_db = ($sesso_val === '0') ? 'M' : (($sesso_val === '1') ? 'F' : '');
         $sesso_txt = ($sesso_val === '0') ? 'Maschio' : (($sesso_val === '1') ? 'Femmina' : '');
@@ -115,8 +116,13 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues): array {
             if ($email_admin) {
                 $result = $conn->addAnimal($dataDB, $email_admin);
                 if ($result) {
+
+                    if($createMoreValue){
+                        header("Location: ./nuovo-animale?createMore=1");
+                    }else{
+                        header("Location: ./area-riservata?success=1");
+                    }
                     unset($_SESSION['form_inputs'], $_SESSION['form_errors_info']);
-                    header("Location: ./area-riservata?success=1");
                     exit;
                 } else {
                     // Mostra l'errore specifico MySQL
@@ -202,6 +208,12 @@ $paginaHTML = str_replace('[peloMedio_selected]', ($NewAnimalInfo['pelo'] === 'M
 
 $trasporto_val = $NewAnimalInfo['trasporto'];
 $paginaHTML = str_replace('[trasporto_checked]', ($trasporto_val == 1 || $trasporto_val === 'on' ? 'checked="checked"' : ''), $paginaHTML);
+
+if(isset($_GET['createMore']) && $_GET['createMore'] == 1){
+    $paginaHTML = str_replace('[checkCreateMore]', 'checked', $paginaHTML);
+}else{
+    $paginaHTML = str_replace('[checkCreateMore]', ($NewAnimalInfo['createMore']? 'checked':''), $paginaHTML);
+}
 
 foreach ($NewAnimalInfo as $key => $value) {
     $paginaHTML = str_replace('[' . $key . ']', htmlspecialchars($value, ENT_QUOTES, 'UTF-8'), $paginaHTML);
