@@ -1708,9 +1708,6 @@ input:-webkit-autofill:active{
     max-width: 10em;
 }
 
-#animali .filtri #searchSex.capsula-filtro {
-    max-width: 10em;
-}
 
 #animali .filtri .capsula-filtro input::placeholder, #eventi .filtri .capsula-filtro input::placeholder {
     color: var(--placeholder-text);
@@ -3338,7 +3335,7 @@ body#admin-body #richieste .filtri .capsula-filtro{
     /* margin-left: auto; */
     margin-right: 0;
     /* gap:0; */
-    flex:0 0 fit-content;
+    /* flex:0 0 fit-content; */
 }
 
 div#admin-area article h2{
