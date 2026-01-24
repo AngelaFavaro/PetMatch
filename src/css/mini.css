@@ -787,12 +787,19 @@ body#lavora-con-noi {
     display: none;
 }
 
-/*                  EVENTI                       */
+/*==================EVENTI==================*/
 
-
+#new-event-button{
+    width: 100%;
+    margin-top: 0.5em;
+}
 
 #eventi .cards-container{
     margin:auto;
+}
+
+#nav-event-type{
+    margin-top: 1.5em;
 }
 
 #eventi .cards-container li{

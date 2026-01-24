@@ -78,6 +78,7 @@ main#content{
     /* min-height: 100vh; */
     flex: 1;
     padding-top: 2em;
+    padding-bottom: 2em;
     min-height: auto;
 }
 
@@ -1720,28 +1721,32 @@ input:-webkit-autofill:active{
 
 /* contenitore nav */
 /* NAV container */
-#animali #nav-animali-type {
+#animali #nav-animali-type,
+#nav-event-type {
     display: flex;
     align-items: flex-end;
     margin-bottom: 1.5em;
+}
+
+#animali #nav-animali-type{
     margin-top: 1.5em;
 }
 
 
-#animali #nav-animali-type ul {
+#animali #nav-animali-type ul,
+#nav-event-type ul{
     display: flex;
     list-style: none;
     padding: 0;
     margin: 0;
-
-         /* 🔑 SEMPRE 1/3 dello schermo */
-    flex-shrink: 0;      /* ❌ non si restringe */
+    flex-shrink: 0;
 }
 
 
-#animali #nav-animali-type li {
-    flex: 1;                     /* 1/3 ciascuno */
-    white-space: nowrap;         /* niente a capo */
+#animali #nav-animali-type li,
+#nav-event-type li {
+    flex: 1;                    
+    white-space: nowrap;
     text-align: center;
     padding: 0.6em 0;
     border-bottom: 1px solid var(--txtcolor);
@@ -1749,7 +1754,8 @@ input:-webkit-autofill:active{
 }
 
 
-#animali #nav-animali-type::after {
+#animali #nav-animali-type::after,
+#nav-event-type::after {
     content: "";
     flex: 1;
     border-bottom: 1px solid var(--txtcolor);
@@ -1758,7 +1764,8 @@ input:-webkit-autofill:active{
 
 
 /* link */
-#animali #nav-animali-type a {
+#animali #nav-animali-type a,
+#nav-event-type a {
     display: block;
     text-decoration: none;
     color: var(--headerlink);
@@ -1766,15 +1773,14 @@ input:-webkit-autofill:active{
 }
 
 /* elemento attivo */
-#animali #nav-animali-type .currentType {
-    /*flex: 0 0 auto;*/
+#animali #nav-animali-type .currentType,
+#nav-event-type .currentType {
     padding: 0.6em 1.2em;
     font-weight: bold;
     border: 1px solid var(--txtcolor);
     border-top-left-radius: 0.5em;
     border-top-right-radius: 0.5em;
     border-bottom: none;
-    /*margin-bottom: -2px;*/
     background: var(--bgcolor);
 }
 
@@ -1827,7 +1833,8 @@ input:-webkit-autofill:active{
     margin-top: 1em;
 }
 
-#animali .cards-container:has(.errore) {
+#animali .cards-container:has(.errore),
+#eventi .cards-container:has(.errore) {
     justify-content: center; 
 }
 
@@ -2159,6 +2166,11 @@ input:-webkit-autofill:active{
 
 
 /*=================PAGINA EVENTI======================*/
+
+#new-event-button{
+    margin-left: auto;
+    margin-right: 0;
+}
 
 #eventi #content-filter-button button {
     flex: 1 1 100%;
@@ -3441,6 +3453,7 @@ nav#menu-admin li a {
 body#admin-body main {
     background-color: var(--bgcolor);
     margin-left:20%;
+    min-height: 100vh;
 }
 
 nav#menu-admin img {
@@ -4483,7 +4496,8 @@ nav#breadcrumb a:visited{
     margin: auto;
 }
 
-#ModifiedMode{
+#ModifiedMode,
+#AdminMode{
     display: none;
 }
 
