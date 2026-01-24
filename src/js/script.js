@@ -418,3 +418,23 @@ document.addEventListener("DOMContentLoaded", function() {
         contaCaratteri(campo_car, "conta-corrente-carattere");
     }
 });
+
+
+// NON RICARICA LA PAGINA QUANTO PREMI LA CHECK
+document.addEventListener('DOMContentLoaded', function() {
+    const toggle = document.getElementById('theme-toggle');
+
+    toggle.addEventListener('change', function() {
+        const newTheme = this.checked ? 'dark' : 'light';
+        fetch(window.location.href, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ toggle_theme: newTheme })
+        })
+        .then(response => {
+            console.log('Tema salvato:', newTheme);
+        });
+    });
+});

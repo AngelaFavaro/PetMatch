@@ -285,7 +285,10 @@ input:checked + #slider {
     flex-shrink: 1;
 }
 
-
+#animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro
+, #richieste .filtri .capsula-filtro {
+    flex: 1 1 100%;
+}
 
 #animali .card .nome, #animali .dark-card .nome {
     padding-top: 0.5em;

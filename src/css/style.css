@@ -1630,7 +1630,7 @@ input:-webkit-autofill:active{
 #animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro
 , #richieste .filtri .capsula-filtro {
     display: flex;
-    flex: 1 1 fit-content;
+    flex: 1 1 30%;
     border: 1px solid var(--text-buttoncolor);
     border-radius: 1em;
     padding: 0.5em;
@@ -1648,7 +1648,7 @@ input:-webkit-autofill:active{
 
 #animali .filtri #searchEta.capsula-filtro {
     /* display:contents; */
-    max-width: 15em;
+    max-width: 12em;
     display:flex;
 }
 
@@ -1662,8 +1662,7 @@ input:-webkit-autofill:active{
 #animali .filtri #searchName.capsula-filtro input, #eventi .filtri #searchName.capsula-filtro input {
     text-align:left;
     display: flex;
-    flex-grow: 1;
-    min-width: 4em;
+    min-width: 3em;
     /* display:contents; */
     background-color: var(--darkbgcolor);
     width: 100%;
@@ -1700,11 +1699,11 @@ input:-webkit-autofill:active{
 }
 
 #animali .filtri #searchSize.capsula-filtro {
-    max-width: 10em;
+    max-width: fit-content;
 }
 
 #animali .filtri #searchSex.capsula-filtro {
-    max-width: 10em;
+    max-width: fit-content;
 }
 
 #animali .filtri .capsula-filtro input::placeholder, #eventi .filtri .capsula-filtro input::placeholder {
@@ -1734,9 +1733,7 @@ input:-webkit-autofill:active{
     list-style: none;
     padding: 0;
     margin: 0;
-
-         /* 🔑 SEMPRE 1/3 dello schermo */
-    flex-shrink: 0;      /* ❌ non si restringe */
+    flex-shrink: 0;
 }
 
 
@@ -1894,7 +1891,7 @@ input:-webkit-autofill:active{
     padding-left: 1em;
     float: left;
     clear: left;
-    /* width: 80%; */
+    width: 80%;
     /* padding-right: 65%; */
     font-weight: bold;
     /* height: 40px; */
