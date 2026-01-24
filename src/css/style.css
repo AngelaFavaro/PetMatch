@@ -497,6 +497,12 @@ select:focus{
     outline-offset: 0px;
 }
 
+li.capsula-filtro select:focus{
+    outline:1px solid var(--placeholder-text);
+    outline-offset: 4px;
+    border-radius: 0.5em;
+}
+
 
 /* ==================LAVORA CON NOI ================== */
 
@@ -905,6 +911,11 @@ footer .container + div a:visited{
     color:var(--bgcolor);
 }
 
+#insta-link img{
+    width: 2em;
+    height: 2em;
+}
+
 
 #grass {
     width: 100%;
@@ -930,7 +941,7 @@ footer .container + div a:visited{
     /* font-size: 0.9em; */
     /* margin-bottom: 1em; */
 }
-/* ================== =========== PAGINE UTENTE================== ============*/
+/* ================== =========== PAGINE Utente================== ============*/
 /* ================== HOME ==================*/
 
 /* introduzione */
@@ -1379,7 +1390,7 @@ fieldset {
 legend {
     padding-top:1em;
     font-weight: 500;
-    text-align: center;
+    /* text-align: center; */
     font-size: 1.1em;
     width: 100%;
 }
@@ -1408,9 +1419,12 @@ legend {
 #animali label + input::placeholder,
 #signup label + input::placeholder,
 #home label + input::placeholder,
+.password-container input::placeholder,
 #user-profile label + input::placeholder,
 #login label + input::placeholder{
-    color: var(--placeholderDarker-text);
+    color: var(--placeholder-text);
+    font-weight: lighter;
+    font-size: 0.9em;
 }
 
 label {
@@ -1600,18 +1614,19 @@ input:-webkit-autofill:active{
 /* contenitore principale */
 
 /* FILTRI */
-#animali .filtri ul, #eventi .filtri ul {
+#animali .filtri ul, #eventi .filtri ul, #richieste .filtri ul{
     display: contents;
     list-style: none;
 }
 
-#animali .filtri, #eventi .filtri {
+#animali .filtri, #eventi .filtri, #richieste .filtri{
     display: flex;
     gap: 0.5em;
     align-items: center;
 }
 
-#animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro {
+#animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro
+, #richieste .filtri .capsula-filtro {
     display: flex;
     flex: 1 1 fit-content;
     border: 1px solid var(--text-buttoncolor);
@@ -1656,10 +1671,12 @@ input:-webkit-autofill:active{
 #animali .filtri #searchName.capsula-filtro input::placeholder, #eventi .filtri #searchName.capsula-filtro input::placeholder {
     color: var(--placeholderDarker-text);
     text-align: start;
+    font-size: 0.9em;
 }
 
 #animali .filtri .capsula-filtro input, #animali .filtri .capsula-filtro select,
-#eventi .filtri .capsula-filtro input, #eventi .filtri .capsula-filtro select {
+#eventi .filtri .capsula-filtro input, #eventi .filtri .capsula-filtro select,
+#richieste .filtri .capsula-filtro select {
     min-width: 0;
     background-color: var(--bgcolor);
     border: none;
@@ -1672,7 +1689,8 @@ input:-webkit-autofill:active{
 }
 
 
-#animali .filtri .capsula-filtro select, #eventi .filtri .capsula-filtro select {
+#animali .filtri .capsula-filtro select, #eventi .filtri .capsula-filtro select,
+#richieste .filtri .capsula-filtro select {
     text-align: center;
     padding-right:2.5em;
     color: var(--placeholder-text);
@@ -1690,9 +1708,11 @@ input:-webkit-autofill:active{
 #animali .filtri .capsula-filtro input::placeholder, #eventi .filtri .capsula-filtro input::placeholder {
     color: var(--placeholder-text);
     text-align: center;
+    font-size: 0.9em;
 }
 
-#animali .filtri .capsula-filtro label, #eventi .filtri .capsula-filtro label{
+#animali .filtri .capsula-filtro label, #eventi .filtri .capsula-filtro label,
+#richieste .filtri .capsula-filtro label{
     margin-right: 0.5em;
     width: fit-content;
 }
@@ -1723,7 +1743,7 @@ input:-webkit-autofill:active{
     white-space: nowrap;         /* niente a capo */
     text-align: center;
     padding: 0.6em 0;
-    border-bottom: 2px solid var(--txtcolor);
+    border-bottom: 1px solid var(--txtcolor);
     min-width: 200px;
 }
 
@@ -1731,7 +1751,7 @@ input:-webkit-autofill:active{
 #animali #nav-animali-type::after {
     content: "";
     flex: 1;
-    border-bottom: 2px solid var(--txtcolor);
+    border-bottom: 1px solid var(--txtcolor);
 }
 
 
@@ -1749,7 +1769,7 @@ input:-webkit-autofill:active{
     /*flex: 0 0 auto;*/
     padding: 0.6em 1.2em;
     font-weight: bold;
-    border: 2px solid var(--txtcolor);
+    border: 1px solid var(--txtcolor);
     border-top-left-radius: 0.5em;
     border-top-right-radius: 0.5em;
     border-bottom: none;
@@ -1802,9 +1822,12 @@ input:-webkit-autofill:active{
 #animali .cards-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; 
+    justify-content: left; 
     margin-top: 1em;
+}
 
+#animali .cards-container:has(.errore) {
+    justify-content: center; 
 }
 
 #animali li article h3{
@@ -2086,6 +2109,11 @@ input:-webkit-autofill:active{
     justify-content: center;
     text-align: center;
     font-style: italic;
+    padding-bottom: 1em;
+}
+
+#invitoAdAccedere a{
+    font-style: normal;
 }
 
 
@@ -2220,7 +2248,7 @@ input:-webkit-autofill:active{
     min-width: 5.7em;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
+#eventi input[type="date"]::-webkit-calendar-picker-indicator {
     position: absolute;
     opacity: 0;
     top: 0;
@@ -2229,6 +2257,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     
     width: 100%;
     height: 100%;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+}
+
+input[type="date"]{
+    cursor:text;
 }
 
 #eventi .data-range input[type="date"] {
@@ -2351,7 +2387,7 @@ cursor: pointer;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: center;
+    justify-content: left;
     margin-top: 2em;
 }
 
@@ -2364,7 +2400,15 @@ cursor: pointer;
 
 
 
-/* ================== PROFILO UTENTE NORMALE ==================*/
+/* ================== PROFILO Utente NORMALE ==================*/
+
+
+#gestisci-profilo:focus,
+#modifica-profilo:focus{
+    outline: none;
+}
+
+
 #user-profile h2{
     font-size: 1.6em;
 }
@@ -2385,10 +2429,6 @@ cursor: pointer;
 
 #user-profile .column-container #user-info{
     flex: 1 1 35%;
-}
-
-#user-profile .tabs-container select:focus, #admin-area .tabs-container select:focus{
-    outline: 2px solid var(--headercolor);
 }
 
 /* tab */
@@ -2830,7 +2870,8 @@ input[type="file"]::file-selector-button:hover {
 
 .edit-mode form span,
 .edit-management form span,
-#form-add-animal .form-buttons-container{
+#form-add-animal .form-buttons-container,
+#new-event .form-buttons-container{
     display: flex;
     flex-wrap: wrap;
     margin: 1em auto 0 auto;
@@ -2841,7 +2882,9 @@ input[type="file"]::file-selector-button:hover {
 .edit-management form span a,
 .edit-management form span button,
 #form-add-animal button[name="submit-animal"],
-#form-add-animal a#cancel-add-animal{
+#form-add-animal a#cancel-add-animal,
+#new-event button[name="submit-event"],
+#new-event a#cancel-new-event{
     flex: 1 1 44%;
     text-align: center;
     border-radius: 1em;
@@ -2853,7 +2896,8 @@ input[type="file"]::file-selector-button:hover {
 
 .edit-mode form span button,
 .edit-management form span button,
-#form-add-animal button[name="submit-animal"]{
+#form-add-animal button[name="submit-animal"],
+#new-event button[name="submit-event"]{
     background-color: var(--buttoncolor);
     color:var(--text-buttoncolor);
     border:2px solid var(--buttoncolor);
@@ -2864,7 +2908,8 @@ input[type="file"]::file-selector-button:hover {
 
 .edit-mode form span a,
 .edit-management form span a,
-#form-add-animal a#cancel-add-animal{
+#form-add-animal a#cancel-add-animal,
+#new-event a#cancel-new-event{
     color:var(--text-buttoncolor);
     border:2px solid var(--buttoncolor);
     text-decoration: none;
@@ -2876,7 +2921,9 @@ input[type="file"]::file-selector-button:hover {
 .edit-management form span a:hover,
 .edit-management form span button:hover,
 #form-add-animal button[name="submit-animal"]:hover,
-#form-add-animal a#cancel-add-animal:hover
+#form-add-animal a#cancel-add-animal:hover,
+#new-event button[name="submit-event"]:hover,
+#new-event a#cancel-new-event:hover
 {
     border:2px solid transparent;
     background-color: transparent;
@@ -3080,6 +3127,171 @@ input[type="file"]::file-selector-button:hover {
     margin-top:3em;
 }
 
+/* ================== CHI SIAMO ==================*/
+
+#second-chapter-chi-siamo{
+    margin-top: 1em;
+}
+#first-chapter-chi-siamo .column-container{
+    align-items: center;
+}
+
+#chi-siamo-content {
+    flex: 1 1 50%;
+}
+#chi-siamo-img{
+    flex: 0 1 40%;
+}
+
+#chi-siamo-img img{
+    width: 100%;
+}
+
+/* Sezione 2 Chi Siamo */
+
+#second-chapter-chi-siamo{
+    background-color: var(--headercolor);
+    color:var(--bgcolor);
+    margin-top: 1em;
+}
+
+#chi-siamo2-img{
+    flex: 0 1 35%;
+}
+#chi-siamo2-img img{
+    width: 90%;
+}
+
+#content-chi-siamo2{
+    vertical-align: middle;
+    padding:2em 0;
+    flex: 1 1 50%;
+    margin:auto;
+    /* height: fit-content; */
+
+
+}
+
+
+/*Sezione "PetMatch timeline"*/
+
+#pm-timeline{   
+   display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    align-items: flex-start;
+    margin-top: 2em;
+    list-style: none;
+  }
+
+#pm-timeline::before {
+    content: '';
+    position: absolute;
+    top: 1.5em; 
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background-image: linear-gradient(to right, var(--buttoncolor) 50%, transparent 50%);
+    background-size: 20px 100%;
+    z-index: 0;
+  }
+
+  #pm-timeline li{
+    position: relative; 
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 0 0 18%;
+    font-weight: bold;
+}
+
+#pm-timeline li span:nth-of-type(2){
+    font-weight: normal;    
+}
+
+.pm-timeline-date{
+    font-size:1em;
+}
+
+/*Sezione 3 Chi Siamo */
+
+#third-chapter-chi-siamo{
+    margin: 2em 0em;
+}
+
+
+#third-chapter-chi-siamo .column-container{
+    gap: 3em;
+    align-items: center;
+} 
+
+#chi-siamo3-img{
+    flex: 0 0 25%;
+    max-width: 25%;
+    height: auto;
+
+
+}
+#chi-siamo3-img img{
+    width: 100%;
+    border-radius: 0.8em;
+}
+
+#chi-siamo3-content{
+    padding:2em 0;
+    flex: 1 1 60%;
+    margin:auto;
+}
+
+#chi-siamo3-content p{
+    margin-bottom: 0.5em;
+}
+  
+
+/*Sezione "Ci Presentiamo"*/
+#ci-presentiamo{
+    background-color: var(--secondsection); /* nel caso non caricasse l'immagine */
+    background-image: 
+        linear-gradient(to bottom, transparent 70%, var(--secondsection) 98%),
+        url('../../assets/images/cat-bg.svg');
+    background-size: 102% auto;
+    background-repeat: no-repeat;
+    background-position:top;
+    height: fit-content;
+    color: var(--bgcolor);
+    padding: 3em;
+    border-radius: 1em;
+}
+
+#ci-presentiamo h2{
+    margin: 2em 0 0.8em 0;
+}
+
+
+#ci-presentiamo p{
+    margin-bottom: 0.5em;
+}
+
+#team-img{
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    justify-content: center;
+    gap:1em;
+    row-gap: 0em;
+} 
+
+#team-img img{
+    width: 100%;
+    flex:0 1 30%;
+    height: auto;
+    max-height: 15em;
+    padding: 0;
+} 
+
 /* ================== =========== PAGINE ADMIN================== ============*/
 
 
@@ -3090,17 +3302,20 @@ body#admin-body{
     width: 100%;
 }
 
-body#admin-body #animali .filtri{
+body#admin-body #animali .filtri,
+body#admin-body #richieste .filtri{
     width: 100%;
     margin-bottom: 0.5em;
 }
 
-body#admin-body #animali .filtri button{
+body#admin-body #animali .filtri button,
+body#admin-body #richieste .filtri button{
     width: fit-content;
     margin: 0;
 }
 
-body#admin-body #animali .filtri .capsula-filtro{
+body#admin-body #animali .filtri .capsula-filtro,
+body#admin-body #richieste .filtri .capsula-filtro{
     margin-left: auto;
     margin-right: 0;
     gap:0;
@@ -3128,7 +3343,7 @@ div#admin-area div#row2 article{
 div#admin-area article {
   padding:1em 1em 1em 1em;
   border: 1px solid var(--txtcolor);
-  border-radius:1em;
+  border-radius:0.5em;
   margin: 2em 0em;
 }
 
@@ -3388,7 +3603,7 @@ a.pencil {
 }
 
 .text-details{
-    margin: auto 0;
+    margin: auto 0 auto 1em;
     max-width: 100%;
     min-width: 50%;
 }
@@ -3485,15 +3700,12 @@ div#admin-area #details-container article{
     gap: 1em;
     margin: 0em;
     padding:2em;
-    border-radius: 0em;
     border-top: none;
 }
 
 div#admin-area #details-container article#animale-richiesta{
     margin: 0em;
     border-radius: 0.5em;
-    border-bottom-left-radius: 0em;
-    border-bottom-right-radius: 0em;
     border-top: 1px solid var(--txtcolor);
     width: 100%;
 }
@@ -3698,12 +3910,13 @@ tr:hover {
     display: inline;
 }
 
-/*==================NUOVO ANIMALE==================*/
+/*==================NUOVO Animali==================*/
 
 /* ========================================
    CONTAINER PRINCIPALE
    ======================================== */
-#admin-area-aggiungi {
+#admin-area-aggiungi,
+#nuovo-evento {
     margin-top:-6em;
     display: flex;
     justify-content: center;
@@ -3719,7 +3932,8 @@ tr:hover {
 /* ========================================
    FORM BASE
    ======================================== */
-#form-add-animal {
+#form-add-animal,
+#new-event {
     background-color: var(--bgcolor);
     width: 95%;
     max-width: 950px;
@@ -3730,13 +3944,15 @@ tr:hover {
     box-sizing: border-box;
 }
 
-#form-add-animal fieldset {
+#form-add-animal fieldset,
+#new-event fieldset {
     margin-bottom: 1em;
     border: none;
     padding: 0;
 }
 
-#form-add-animal legend {
+#form-add-animal legend,
+#new-event legend {
     float: left;
     width: 100%;
     font-weight: 600;
@@ -3750,7 +3966,7 @@ tr:hover {
 }
 
 /* ========================================
-   RADIO BUTTONS - TIPOLOGIA ANIMALE
+   RADIO BUTTONS - TIPOLOGIA Animali
    ======================================== */
 .radio-group-cg {
     display: flex;
@@ -3796,8 +4012,9 @@ tr:hover {
    ======================================== */
 #form-add-animal p+p.sex-title {
     font-weight: 550;
-    display: inline-block;
+    /* display: inline-block; */
     margin-top: 1.5em;
+    width: 100%;
 }
 
 .sex-group {
@@ -3824,10 +4041,22 @@ tr:hover {
 /* ========================================
    LABELS
    ======================================== */
-#form-add-animal label {
+#form-add-animal label,
+#new-event label,
+#form-add-animal #label-foto,
+#new-event #label-foto{
     font-weight: 500;
     display: block;
     margin: 1.5em 0 0 0;
+}
+
+#form-add-animal #div-carattere label{
+    margin:0;
+}
+
+#form-add-animal label.file-upload-label,
+#new-event label.file-upload-label{
+    margin: 0;
 }
 
 #form-add-animal .checkbox-label input[type="checkbox"]{
@@ -3838,7 +4067,9 @@ tr:hover {
    INPUT TEXT E DATE
    ======================================== */
 #form-add-animal input[type="text"],
-#form-add-animal input[type="date"] {
+#form-add-animal input[type="date"],
+#new-event input[type="text"],
+#new-event input[type="date"]{
     display: block;
     width: 100%;
     border: 1px solid var(--text-buttoncolor);
@@ -3850,11 +4081,15 @@ tr:hover {
     transition: all 0.3s ease;
 }
 
-#form-add-animal input[type="text"]{
+#form-add-animal input[type="text"],
+#new-event input[type="text"]{
     padding: 0.55em;
+    margin:0;
 }
 
-#form-add-animal input[type="date"] {
+#form-add-animal input[type="date"],
+#new-event input[type="date"] {
+    margin:0;
     padding: 0.5em;
 }
 
@@ -3865,10 +4100,14 @@ tr:hover {
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.1);
 } */
 
+#new-event input::placeholder,
+#new-event textarea::placeholder,
 #form-add-animal input::placeholder,
 #form-add-animal select::placeholder,
 #form-add-animal textarea::placeholder{
-    color:var(--placeholderDarker-text);
+    color:var(--placeholder-text);
+    font-weight: lighter;
+    font-size: 0.9em;
 }
 
 /* ========================================
@@ -3887,20 +4126,23 @@ tr:hover {
     /* appearance: none; */
     /* transition: all 0.3s ease;
     font-family: "Parkinsans", Roboto, sans serif; */ 
-    padding:0.5em;
+    padding:0.5em 2em 0.5em 0.5em;
     background-color: var(--bgcolor);
     border-radius: 2em;
     border-color: var(--text-buttoncolor);
     color:var(--text-buttoncolor);
-    margin:5px;
+     margin:0;
+    background-position: right 0em center; 
+
 }
 
 /* ========================================
    TEXTAREA
    ======================================== */
-#form-add-animal textarea {
+#form-add-animal textarea,
+#new-event textarea {
     display: block;
-    height: 8em;
+    height: 9em;
     width: 100%;
     padding: 0.5em;
     border: 1px solid var(--text-buttoncolor);
@@ -3908,10 +4150,9 @@ tr:hover {
     font-size: 1em;
     font-family: inherit;
     background-color: var(--bgcolor);
-    color: var(--text-color, #333);
+    color: var(--txtcolor);
     resize: vertical;
     transition: all 0.3s ease;
-    margin-bottom: 0.5em;
 }
 
 /* #form-add-animal textarea:focus {
@@ -3925,7 +4166,7 @@ tr:hover {
 .file-upload-label {
     display: block;
     width: 100%;
-    padding: 4em 0 2.5em 0;
+    padding: 4.5em 0 2.5em 0;
     margin:auto;
     text-align: center;
     cursor: pointer;
@@ -3948,7 +4189,7 @@ tr:hover {
 }
 
 .file-upload-text {
-    font-weight: 500;
+    font-weight: 300;
     color: var(--text-buttoncolor);
     display: block;
 }
@@ -3973,6 +4214,12 @@ tr:hover {
 .file-upload-label input[type="file"]:focus-visible{
     border:3px solid red;
     opacity: 1;
+}
+
+.success-form +img{
+    width: 50%;
+    max-height: 50%;
+    text-align: center;
 }
 
 /* Info foto caricata */
@@ -4209,167 +4456,45 @@ nav#breadcrumb a:visited{
     color: var(--visitedcolor);
 }
 
-/* ================== CHI SIAMO ==================*/
-
-#second-chapter-chi-siamo{
-    margin-top: 1em;
-}
-#first-chapter-chi-siamo .column-container{
-    align-items: center;
-}
-
-#chi-siamo-content {
-    flex: 1 1 50%;
-}
-#chi-siamo-img{
-    flex: 0 1 40%;
-}
-
-#chi-siamo-img img{
-    width: 100%;
-}
-
-/* Sezione 2 Chi Siamo */
-
-#second-chapter-chi-siamo{
-    background-color: var(--headercolor);
-    color:var(--bgcolor);
-    margin-top: 1em;
-}
-
-#chi-siamo2-img{
-    flex: 0 1 35%;
-}
-#chi-siamo2-img img{
-    width: 90%;
-}
-
-#content-chi-siamo2{
-    vertical-align: middle;
-    padding:2em 0;
-    flex: 1 1 50%;
-    margin:auto;
-    /* height: fit-content; */
-
-
-}
-
-
-/*Sezione "PetMatch timeline"*/
-
-#pm-timeline{   
-   display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    align-items: flex-start;
-    margin-top: 2em;
-    list-style: none;
-  }
-
-#pm-timeline::before {
-    content: '';
-    position: absolute;
-    top: 1.5em; 
-    left: 10%;
-    right: 10%;
-    height: 2px;
-    background-image: linear-gradient(to right, var(--buttoncolor) 50%, transparent 50%);
-    background-size: 20px 100%;
-    z-index: 0;
-  }
-
-  #pm-timeline li{
-    position: relative; 
-    text-align: center;
-
+/* ================== NUOVO EVENTO ==================*/
+#new-event .split-input{
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 0 0 18%;
-    font-weight: bold;
-}
-
-#pm-timeline li span:nth-of-type(2){
-    font-weight: normal;    
-}
-
-.pm-timeline-date{
-    font-size:1em;
-}
-
-/*Sezione 3 Chi Siamo */
-
-#third-chapter-chi-siamo{
-    margin: 2em 0em;
-}
-
-
-#third-chapter-chi-siamo .column-container{
-    gap: 3em;
-    align-items: center;
-} 
-
-#chi-siamo3-img{
-    flex: 0 0 25%;
-    max-width: 25%;
-    height: auto;
-
-
-}
-#chi-siamo3-img img{
+    flex-wrap:wrap;
     width: 100%;
-    border-radius: 0.8em;
-}
-
-#chi-siamo3-content{
-    padding:2em 0;
-    flex: 1 1 60%;
-    margin:auto;
-}
-
-#chi-siamo3-content p{
-    margin-bottom: 0.5em;
-}
-  
-
-/*Sezione "Ci Presentiamo"*/
-#ci-presentiamo{
-    background-color: var(--secondsection); /* nel caso non caricasse l'immagine */
-    background-image: 
-        linear-gradient(to bottom, transparent 70%, var(--secondsection) 98%),
-        url('../../assets/images/cat-bg.svg');
-    background-size: 102% auto;
-    background-repeat: no-repeat;
-    background-position:top;
-    height: fit-content;
-    color: var(--bgcolor);
-    padding: 3em;
-    border-radius: 1em;
-}
-
-#ci-presentiamo h2{
-    margin: 2em 0 0.8em 0;
-}
-
-
-#ci-presentiamo p{
-    margin-bottom: 0.5em;
-}
-
-#team-img{
-    display: flex;
-    flex-wrap: wrap;
+    gap: 1em;
     margin: auto;
-    justify-content: center;
-    gap:1em;
-    row-gap: 0em;
-} 
+}
 
-#team-img img{
-    width: 100%;
-    flex:0 1 30%;
-    height: auto;
-    max-height: 15em;
-    padding: 0;
-} 
+#new-event .split-input div{
+    flex: 1 1 48%;
+}
+
+#new-event .split-input div label{
+    margin:0;
+}
+
+.conteggio-testo {
+    text-align: right;
+    display: block;
+    font-size: 0.85rem; 
+    color: var(--placeholderDarker-text);       
+    margin-top: 5px;
+}
+
+#nuovo-evento {
+    padding-bottom: 5em;
+}
+
+.labelledby-element{
+    position: absolute;
+    left:-999em;
+}
+
+#new-event .split-input:nth-of-type(2) label{
+    margin: 0;
+}
+
+#new-event #help-counter-evento + p.error-form{
+    margin-top:-0.5em;
+    margin-bottom:1.5em;
+}

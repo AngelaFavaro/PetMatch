@@ -295,6 +295,10 @@ if (empty($adminInfo['ImgPath']) || !file_exists($adminInfo['ImgPath'])) {
     $adminInfo['ImgPath'] = 'assets/images/admins/default-pic.png';
 }
 
+$msgSuccesso = '';
+if (isset($_GET['success']) && $_GET['success'] == '1') {
+    $msgSuccesso = '<p class="success-message" role="alert">Animale aggiunto con successo!</p>';
+}
 
 $paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore: template layout.html non trovato o non leggibile.</p>');
 
@@ -307,6 +311,7 @@ $nav = buildAdminNav($adminMenu, './area-riservata');
 $breadcrumb = getBreadcrumb('area-riservata', $pagine);
 
 $main = loadTemplate('./src/template/main/admin/area-riservata.html', '<p>Errore: template area-riservata.html non trovato o non leggibile.</p>');
+$main = str_replace('[messaggioSuccesso]', $msgSuccesso, $main);
 $main = str_replace('[to-do-list]', $todolist, $main);
 $main = str_replace('[stats]', $stats, $main);
 $main = str_replace('[titolo]', $adminInfoSection['titolo'], $main);

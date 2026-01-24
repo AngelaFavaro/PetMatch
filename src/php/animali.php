@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
     $idAnimale = (int)$_POST['id-animale-preferito'];
 
     if (isset($_SESSION['email'])) {
-        // UTENTE LOGGATO → DB
+        // Utente LOGGATO → DB
         $email = $_SESSION['email'];
 
         $conn = new DBAccess();
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
         }
 
     } else {
-        // UTENTE NON LOGGATO = COOKIE
+        // Utente NON LOGGATO = COOKIE
         $preferiti = getGuestFavorites();
 
         if (in_array($idAnimale, $preferiti)) {
@@ -123,8 +123,8 @@ $replaceFilters = [
     '[ETA_MAX]' => htmlspecialchars($rawFilters['eta_max']),
 
     '[TAGLIA_SELECTED_EMPTY]'   => $rawFilters['taglia'] === '' ? 'selected' : '',
-    '[TAGLIA_SELECTED_PICCOLA]' => $rawFilters['taglia'] === 'Piccola' ? 'selected' : '',
-    '[TAGLIA_SELECTED_MEDIA]'   => $rawFilters['taglia'] === 'Media' ? 'selected' : '',
+    '[TAGLIA_SELECTED_PICCOLA]' => $rawFilters['taglia'] === 'Piccolo' ? 'selected' : '',
+    '[TAGLIA_SELECTED_MEDIA]'   => $rawFilters['taglia'] === 'Medio' ? 'selected' : '',
     '[TAGLIA_SELECTED_GRANDE]'  => $rawFilters['taglia'] === 'Grande' ? 'selected' : '',
 
     '[SESSO_SELECTED_EMPTY]'    => $rawFilters['sesso'] === '' ? 'selected' : '',
@@ -330,11 +330,10 @@ if($isPreferiti) {
 $banneraccedi='';
 if($isPreferiti&&!$userEmail&&$totale!==0) {
     $banneraccedi="<section id='invitoAdAccedere' aria-labelledby='invito-accedi-title'>
-    <img src='./assets/icons/invitoAccedi.svg' alt=''>
     <p id='invito-accedi-content'>
         Accedi per sincronizzare i tuoi preferiti in tutti i tuoi dispositivi!
     </p>
-    <a class='white-button' href='./accedi'>
+    <a class='orange-button' href='./accedi'>
         Accedi
     </a>
 </section>";

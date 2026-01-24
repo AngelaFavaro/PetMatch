@@ -64,6 +64,9 @@ $routes = [
     ],
     'adottati' => [
         'file' => __DIR__ . '/src/php/admin/adottati.php'
+    ],
+    'nuovo-evento' => [
+        'file' => __DIR__ . '/src/php/admin/nuovo-evento.php'
     ]
 ];
     /* decommentare quando si vogliono aggiungere le altre pagine
