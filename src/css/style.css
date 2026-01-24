@@ -1620,14 +1620,16 @@ input:-webkit-autofill:active{
 
 /* FILTRI */
 #animali .filtri ul, #eventi .filtri ul, #richieste .filtri ul{
-    display: contents;
+    display: flex;
     list-style: none;
+    gap: 1em;
+    flex-wrap: wrap;
 }
 
 #animali .filtri, #eventi .filtri, #richieste .filtri{
     display: flex;
     gap: 0.5em;
-    align-items: center;
+    /* align-items: center; */
 }
 
 #animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro
@@ -1801,7 +1803,7 @@ input:-webkit-autofill:active{
 
 #animali #content-filter-button, #eventi #content-filter-button{
     display: flex;
-    margin:auto;
+    /* margin:auto; */
     gap:1em;
     height: fit-content;
 }
@@ -3333,9 +3335,9 @@ body#admin-body #richieste .filtri button{
 
 body#admin-body #animali .filtri .capsula-filtro,
 body#admin-body #richieste .filtri .capsula-filtro{
-    margin-left: auto;
+    /* margin-left: auto; */
     margin-right: 0;
-    gap:0;
+    /* gap:0; */
     flex:0 0 fit-content;
 }
 
