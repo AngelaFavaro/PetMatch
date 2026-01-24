@@ -175,7 +175,7 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
     <nav id="menu-admin" aria-label="Menù">
         <a class="navigationHelp" href="#content"> Salta il menù di navigazione</a>
         <a href="./home">
-            <img src="./assets/icons/logo.svg" id="logo" alt="Home" lang="en">
+            <img src="./assets/icons/light-mode-logo.svg" id="logo" alt="Home" lang="en">
         </a>';
         $html .= $currentHref==='./nuovo-animale' ? '<p class="orange-button" id="currentLink" href="./nuovo-animale">+ Aggiungi animale</p>' : '<a class="orange-button" href="./nuovo-animale">+ Aggiungi animale</a>';
 
@@ -219,12 +219,12 @@ function buildNav(array $items, string $currentHref): string {
     $isLogoActive =  ($currentHref === $homeHref)?                    
     
     '<div' . $logoAttributes . '>
-        <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
+        <img src="./assets/icons/light-mode-logo.svg" id="logo-header" alt="PetMatch Home">
         <span id="name-site">Pet<span class="not-bold">Match</span></span>
     </div>' :
     
     '<a href="' . $homeHref . '"' . $logoAttributes . '>
-        <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
+        <img src="./assets/icons/light-mode-logo.svg" id="logo-header" alt="PetMatch Home">
         <span id="name-site">Pet<span class="not-bold">Match</span></span>
     </a>';
     
@@ -339,7 +339,7 @@ function buildNav(array $items, string $currentHref): string {
                 <nav id="header-logo" aria-label="link alla home">
                     <h1>
                         <a href="./home">
-                            <img src="./assets/icons/logo.svg" id="logo-header" alt="PetMatch Home">
+                            <img src="./assets/icons/light-mode-logo.svg" id="logo-header" alt="PetMatch Home">
                             <span id="name-site">Pet<span class="not-bold">Match</span></span>
                         </a>
                     </h1>
@@ -358,12 +358,12 @@ function buildFooter(array $menuGroups, string $currentHref): string {
     $logoAttributes = ($currentHref === $homeHref)? ' id="currentLinkFooter"' : '';
     $isLogoActive =  ($currentHref === $homeHref)?   
     '<div' . $logoAttributes . '>
-        <img src="./assets/icons/logo.svg" id="logo-footer" alt="PetMatch Home">
+        <img src="./assets/icons/light-mode-logo.svg" id="logo-footer" alt="PetMatch Home">
         <span id="name-site-footer">Pet<span class="not-bold">Match</span></span>
     </div>' :
     
     '<div><a href="' . $homeHref . '"' . $logoAttributes . '>
-        <img src="./assets/icons/logo.svg" id="logo-footer" alt="PetMatch Home">
+        <img src="./assets/icons/light-mode-logo.svg" id="logo-footer" alt="PetMatch Home">
         <span id="name-site-footer">Pet<span class="not-bold">Match</span></span>
     </a></div>';
 
