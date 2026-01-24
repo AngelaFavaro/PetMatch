@@ -511,7 +511,11 @@ nav#breadcrumb {
 }
 /* ================== DETTAGLI RICHIESTE ==================*/
 a.pencil img{
-    width: 44px;
+    width: 30px;
+}
+
+a.pencil{
+    padding:0  15px 5px 15px;
 }
 
 .text-details{
@@ -643,7 +647,11 @@ div#admin-area article#query h2{
 }
 
 #form-add-animal .radio-group-cg {
-    gap: 0.3em;
+    gap: 0;
+}
+
+#form-add-animal .radio-group-cg label{
+    margin:0;
 }
 
 #form-add-animal .radio-card {
@@ -839,4 +847,44 @@ body#lavora-con-noi {
     margin-bottom: 2em;
     margin:auto;
     padding:0.3em;
+}
+
+/* ================== CHECKBOX ==================*/
+
+
+.checkbox-container-pic input[type="checkbox"],
+#home input[name="type-animal"],
+input#createMore,
+#form-add-animal .checkbox-label input[type="checkbox"]{
+    width: 30px;
+    height: 30px;
+}
+
+#home input[name="type-animal"] + label{
+    padding:10px;
+}
+
+.sex-option input[type="radio"]{
+    width: 20px;
+    height: 20px; 
+}
+
+input#createMore::before,
+.checkbox-container-pic input[type="checkbox"]::before{
+    top:6px;
+    left:6px;
+}
+
+.checkbox-container-pic input[type="checkbox"]::before,
+input#createMore::before,
+#home input[name="type-animal"]::before,
+#form-add-animal .checkbox-label input[type="checkbox"]::before{
+    top:6px;
+    left:6px;
+}
+
+.sex-option input[type="radio"]::before{
+
+    top:3px;
+    left:3px;
 }

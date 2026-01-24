@@ -36,6 +36,7 @@ function createNewEvent(DBAccess $conn, &$newEventValues): array {
         $newEventValues['via']         = $savedInputs['address-event'] ?? '';
         $newEventValues['citta']       = $savedInputs['city-event'] ?? '';
         $newEventValues['foto']        = $savedInputs['foto'] ?? '';
+        $newEventValues['createMore']  = $savedInputs['createMore'] ?? '';
 		
         unset($_SESSION['form_status_info'], $_SESSION['form_errors_info'], $_SESSION['form_inputs']);
     }
@@ -49,6 +50,7 @@ function createNewEvent(DBAccess $conn, &$newEventValues): array {
         $descValue = trim($_POST['desc-event'] ?? '');
         $addressValue = trim($_POST['address-event'] ?? '');
         $cityValue = trim($_POST['city-event'] ?? '');
+        $createMoreValue = isset($_POST['createMore'])?1:0;
 
 		$titoloValue = htmlspecialchars($titoloValue, ENT_QUOTES, 'UTF-8');
 		$dayValue = htmlspecialchars($dayValue, ENT_QUOTES, 'UTF-8');
@@ -122,12 +124,16 @@ function createNewEvent(DBAccess $conn, &$newEventValues): array {
                 'descrizione' => $descValue,
 				'via' => $addressValue,
                 'citta' => $cityValue,
-                'foto' => $fotoPath,
+                'foto' => $fotoPath
             ];
 
 			if ($conn->insertNewEvent($infoDB)) {
 				unset($_SESSION['form_inputs'], $_SESSION['form_errors_info']);
-				header("Location: ./eventi");
+                if($createMoreValue){
+                    header("Location: ./nuovo-evento?createMore=1");
+                }else{
+                    header("Location: ./eventi");
+                }
 				exit;
 			} else {
 				$errors['generic'] = "L'inserimenti dell'evento non è andato a buon fine, riprovare più tardi.";
@@ -142,6 +148,7 @@ function createNewEvent(DBAccess $conn, &$newEventValues): array {
         $inputsToSave['address-event'] = $addressValue; 
         $inputsToSave['city-event'] = $cityValue; 
         $inputsToSave['foto'] = $fotoPath; 
+        $inputsToSave['createMore'] = $createMoreValue; 
         $_SESSION['form_inputs'] = $inputsToSave; 
 
         header("Location: ./nuovo-evento");
@@ -188,6 +195,12 @@ $paginaHTML = str_replace('[day-event-value]', ($NewEventInfo['data']?? ''), $pa
 $paginaHTML = str_replace('[desc-event-place]', ($NewEventInfo['descrizione']?? ''), $paginaHTML);
 $paginaHTML = str_replace('[address-event-value]', ($NewEventInfo['via']?? ''), $paginaHTML);
 $paginaHTML = str_replace('[city-event-value]', ($NewEventInfo['citta']?? ''), $paginaHTML);
+
+if(isset($_GET['createMore']) && $_GET['createMore'] == 1){
+    $paginaHTML = str_replace('[checkCreateMore]', 'checked', $paginaHTML);
+}else{
+    $paginaHTML = str_replace('[checkCreateMore]', ($NewEventInfo['createMore']? 'checked':''), $paginaHTML);
+}
 
 $campi_errori = [
     'title'   => 'titolo',
