@@ -56,21 +56,47 @@ function createNewEvent(DBAccess $conn, &$newEventValues): array {
         $regex_citta = '/^[a-zA-Z\s\.\']{2,}$/';
 
         // Validazione
-        if (strlen($titoloValue) < 2 ) $errors['titolo'] = "Il titolo è troppo corto.";
-        if (strlen($descValue) < 5 ) $errors['descrizione'] = "La descrizione è troppo corta.";
-        if (strlen($addressValue) < 3 ) $errors['via'] = "La via è troppo corta.";
-        if (strlen($cityValue) < 2 ) $errors['citta'] = "La città è troppo corto.";
+        if (empty($titoloValue)){
+            $errors['titolo'] = "Inserisci un titolo.";
+        }
+        else if (strlen($titoloValue) < 2 ){
+            $errors['titolo'] = "Il titolo è troppo corto.";
+        } 
 
-        if (empty($titoloValue)) $errors['titolo'] = "Inserisci un titolo.";
-        if (empty($descValue)) $errors['descrizione'] = "Inserisci una descrizione.";
-        if (empty($dayValue)) $errors['data'] = "Inserisci il giorno.";
-        if (empty($addressValue)) $errors['via'] = "Inserisci la via.";
-        if (empty($cityValue)) $errors['citta'] = "Inserisci la città.";
+        if (empty($descValue)){
+            $errors['descrizione'] = "Inserisci una descrizione.";
+        }else if (strlen($descValue) < 5 ){
+            $errors['descrizione'] = "La descrizione è troppo corta.";
+        }
 
-        if ($dayValue < date('Y-m-d')) $errors['data'] = "L'evento non può essere nel passato.";
+        if(empty($addressValue)){
+            $errors['via'] = "Inserisci la via.";
+        } 
+        else if (strlen($addressValue) < 3 ){
+            $errors['via'] = "La via è troppo corta.";
+        }else if(!preg_match($regex_indirizzo, $addressValue)){
+            $errors['via'] = "La via non è valida.";
+        } 
 
-		if(!preg_match($regex_indirizzo, $addressValue)) $errors['via'] = "La via non è valida.";
-		if(!preg_match($regex_citta, $cityValue)) $errors['citta'] = "La città non è valida.";
+
+        if (empty($cityValue)) {
+            $errors['citta'] = "Inserisci la città.";
+        }else if (strlen($cityValue) < 2 ){
+            $errors['citta'] = "La città è troppo corto.";
+        }else if(!preg_match($regex_citta, $cityValue)){
+            $errors['citta'] = "La città non è valida.";
+        } 
+
+        if (empty($dayValue)){
+            $errors['data'] = "Inserisci il giorno.";
+        } else if ($dayValue < date('Y-m-d')) {
+            $errors['data'] = "L'evento non può essere nel passato.";
+        }
+
+
+        if($conn -> checkEventExists($titoloValue, $dayValue)){
+            $errors['existEvent'] ='Un evento con il titolo '.$titoloValue.' e data '.date("d/m/Y",strtotime($dayValue)).' esiste già.';
+        }
         
         // Gestione Foto
         if(isset($_FILES['foto']) && $_FILES['foto']['name'] != "") {
@@ -166,6 +192,7 @@ $campi_errori = [
     'city'    => 'citta',
     'foto'    => 'foto',
     'generic'    => 'generic',
+    'existEvent'    => 'existEvent'
 ];
 
 foreach ($campi_errori as $placeholder => $error) {
