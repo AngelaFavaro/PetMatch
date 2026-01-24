@@ -4050,10 +4050,6 @@ tr:hover {
     margin: 1.5em 0 0 0;
 }
 
-#form-add-animal #div-carattere label{
-    margin:0;
-}
-
 #form-add-animal label.file-upload-label,
 #new-event label.file-upload-label{
     margin: 0;
@@ -4131,7 +4127,9 @@ tr:hover {
     border-radius: 2em;
     border-color: var(--text-buttoncolor);
     color:var(--text-buttoncolor);
-     margin:0;
+    margin:0;
+    width: 100%;
+    min-height: 44px;
     background-position: right 0em center; 
 
 }
@@ -4142,7 +4140,7 @@ tr:hover {
 #form-add-animal textarea,
 #new-event textarea {
     display: block;
-    height: 9em;
+    height: 9.3em;
     width: 100%;
     padding: 0.5em;
     border: 1px solid var(--text-buttoncolor);
@@ -4291,9 +4289,10 @@ tr:hover {
    MESSAGGI DI ERRORE
    ======================================== */
 .error-form {
-    color: var(--footercolor);
+    color: var(--errortxt);
     font-size: 0.9em;
     margin-top: 5px;
+    font-weight: 600;
     display: block;
 }
 /*================ PROFILO RICHIEDENTE ==================*/
