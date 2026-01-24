@@ -1952,12 +1952,12 @@ input:-webkit-autofill:active{
     /* float: right; */
 }
 
-#animali .card .cuore {
+#animali .card .cuore, #animali .dark-card .cuore {
     display: flex;
     justify-content: end;
 }
 
-#animali .card .cuore .preferiti-form{
+#animali .card .cuore .preferiti-form, #animali .dark-card .cuore .preferiti-form{
     justify-content:end;
 }
 
@@ -4373,3 +4373,206 @@ nav#breadcrumb a:visited{
     max-height: 15em;
     padding: 0;
 } 
+
+/* PAGINA COME FUNZIONA */
+#come-funziona .testo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex:1 1 75%;
+    gap: 0.4em;
+}
+
+#come-funziona .colonne {
+    display: flex;
+    align-items: stretch;
+    gap: 0.2em;
+    /* object-fit: cover; */
+}
+
+#come-funziona h2{
+    margin-bottom: 0.3em;
+}
+
+#come-funziona #comeFunziona img {
+    flex: 1 1 30%;
+    object-fit:fill;
+    height: 20em;
+    align-self: center;
+    margin-bottom: 0em;
+}
+
+#come-funziona .enlight {
+    font-weight: bold;
+}
+
+#come-funziona #comeSiAdotta {
+    position: relative;
+    background-color: var(--footercolor);
+    border-top-right-radius: 1.5em;
+    border-top-left-radius: 1.5em;
+    z-index: -1;
+    color: var(--bgcolor);
+    padding: 2em;
+    padding-right: 3em;
+}
+
+#come-funziona #comeSiAdotta .testo {
+    text-align: right;
+    /* margin: 2em; */
+    margin-left: 0;
+    flex: 1 1 70%;
+    justify-content: flex-start;
+}
+
+#come-funziona #comeSiAdotta .testo ul {
+    text-align: left;
+}
+
+#come-funziona #comeSiAdotta #immagini {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 30%;
+    object-fit: contain;
+}
+
+#come-funziona #comeSiAdotta #immagini img{
+    flex: 1 1 50%;
+    /* height: 10em; */
+    /* object-fit: cover; */
+    position: relative;
+    border-radius: 1em;
+
+    max-width: 70%;
+  max-height: 50%;
+  height: auto;
+  width: auto;
+  object-fit: contain;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+}
+
+#come-funziona #comeSiAdotta #immagini img#dog{
+    /* justify-self: center; */
+    align-self: end;
+    /* transform: rotate(5deg); */
+    bottom: 0.5em;
+    right: 2em;
+    /* max-width: 10em; */
+    z-index: 0;
+    margin-bottom: 10%;
+}
+#come-funziona #comeSiAdotta #immagini img#cat{
+    /* transform: rotate(-10deg); */
+    top: 0.5em;
+    /* left: 3em; */
+    z-index: 1;
+    margin-top: 10%;
+}
+
+#come-funziona #comeSiAdotta #paws-containter {
+    position: relative;
+}
+
+#come-funziona #comeSiAdotta #paws-containter img {
+    transform: rotate(-140deg);
+    position: absolute;
+    height: 4em;
+    width: 4em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw1 {
+    top: 2em;
+    right: 2em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw2 {
+    top: 3em;
+    right: 12em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw3 {
+    top: 9em;
+    right: 8em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw4 {
+    top: 9em;
+    right: 20em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw5 {
+    top: 15em;
+    right: 15em;
+}
+
+#come-funziona #provAnimali {
+    margin-top: 8em;
+}
+
+#come-funziona #provAnimali a {
+    color: var(--txtcolor);
+    text-decoration: underline;
+}
+
+#come-funziona #invitoLavoro {
+    margin-top: 3em;
+    background-color: var(--bgform);
+    display: flex;
+    color: var(--bgcolor);
+    padding-top: 3em;
+    padding-left: 5em;
+    padding-right: 5em;
+    padding-bottom: 2em;
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+}
+
+#come-funziona #invitoLavoro h2{
+    font-size: 2em;
+    line-height: 1.5em;
+}
+
+#come-funziona #invitoLavoro .testo{
+    margin-right: 6em;
+}
+
+
+#come-funziona #invitoLavoro a.brown-button{
+    color: var(--linkcolor);
+    margin-left: 0;
+    width: 100%;
+}
+
+#come-funziona #invitoLavoro #quote-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#come-funziona #invitoLavoro #quote-container blockquote img.quote {
+    height: 3em;
+    width: 3em;
+}
+
+#come-funziona #invitoLavoro #quote-container p {
+    margin-left: 3em;
+}
+
+#come-funziona #invitoLavoro #quote-container blockquote img.quote#finishing-quote {
+    justify-self: end;
+    align-self: flex-end;
+}
+
+#come-funziona #invitoLavoro #quote-container blockquote {
+    display: flex;
+    flex-direction: column;
+}
+
+#come-funziona #invitoLavoro blockquote cite{
+    align-self: flex-end;
+    flex: 1 1 20%;
+    min-width: 1em;
+    padding-top: 2em;
+    /* margin-top: 2em; */
+}
