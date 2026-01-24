@@ -84,27 +84,44 @@ if ($connection->openDBConnection()) {
         }
 
         // 2. GESTIONE POST PREFERITI
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id-animale-preferito'])) {
-             $idAnimalePost = (int)$_POST['id-animale-preferito'];
-             if ($utenteAccesso) {
-                 if ($connection->isAnimalInFavorites($emailUtente, $idAnimalePost)) {
-                     $connection->removeFromFavorites($emailUtente, $idAnimalePost);
-                 } else {
-                     $connection->addToFavorites($emailUtente, $idAnimalePost);
-                 }
-             } else {
-                 $preferiti = getGuestFavorites();
-                 if (in_array($idAnimalePost, $preferiti)) {
-                     $preferiti = array_diff($preferiti, [$idAnimalePost]);
-                 } else {
-                     $preferiti[] = $idAnimalePost;
-                 }
-                 saveGuestFavorites($preferiti);
-             }
-             // Refresh per aggiornare l'icona
-             header("Location: " . $_SERVER['REQUEST_URI']);
-             exit;
+       if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id-animale-preferito'])) {
+        $idAnimalePost = (int)$_POST['id-animale-preferito'];
+        $azione = '';
+
+        if ($utenteAccesso) {
+            // UTENTE LOGGATO -> Uso la connessione $connection già aperta
+            if ($connection->isAnimalInFavorites($emailUtente, $idAnimalePost)) {
+                $connection->removeFromFavorites($emailUtente, $idAnimalePost);
+                $azione = 'rimosso';
+            } else {
+                $connection->addToFavorites($emailUtente, $idAnimalePost);
+                $azione = 'aggiunto';
+            }
+        } else {
+            // UTENTE NON LOGGATO -> COOKIE
+            $preferiti = getGuestFavorites();
+            if (in_array($idAnimalePost, $preferiti)) {
+                $preferiti = array_diff($preferiti, [$idAnimalePost]);
+                $azione = 'rimosso';
+            } else {
+                $preferiti[] = $idAnimalePost;
+                $azione = 'aggiunto';
+            }
+            saveGuestFavorites($preferiti);
         }
+
+        // --- GESTIONE AJAX (fondamentale per il Javascript) ---
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            header('Content-Type: application/json');
+            echo json_encode(['status' => 'success', 'azione' => $azione]);
+            exit; 
+        }
+
+        // --- FALLBACK (se JS è disattivato) ---
+        // Ricarica la pagina corrente pulita
+        header("Location: " . $_SERVER['REQUEST_URI']);
+        exit;
+    }
 
         // 3. GESTIONE LOGICA UTENTE LOGGATO (Info e Form Adozione)
         if ($utenteAccesso) {
@@ -300,27 +317,118 @@ if (!$utenteAccesso) {
         case 'In valutazione':
             {
                 $infoAggiuntive='info-aggiuntive-unite';
-
-         
-            $contenutoPagina = file_get_contents('./src/template/partials/animale-pendente.html');
+                $contenutoPagina = "";
+                $statoRichiesta = "
+                <div class='dettagli-animale'>
+                <h2> Richiesta di adozione </h2>
+                    <div id='stato-richiesta'>
+                        <p> <span class='enfatizzato'> Stato: </span> in valutazione </p>
+                        <p> Ti contatteremo nella mail nel tuo profilo per iniziare la tua conoscenza e valutare se sei il giusto candidato per <strong>'$nome'</strong> </p>
+                        <p> Qualche problema o domanda? Valuta di contattarci </p>
+                    </div>
+                </div>";
+                break;
             }
-            break;
         case 'Da trasportare':{
-            $infoAggiuntive='info-aggiuntive-unite';
-            $contenutoPagina = file_get_contents('./src/template/partials/animale-in-trasporto.html');
-            break;
+                $infoAggiuntive='info-aggiuntive-unite';
+                $contenutoPagina = "";
+                $statoRichiesta = "
+                <div class='dettagli-animale'>
+                <h2> Richiesta di adozione </h2>
+                    <div id='stato-richiesta'>
+                        <p> <span class='enfatizzato'> Stato: </span> pronto per il trasporto </p>
+                        <p> Data di arrivo: ' ' </p> 
+                        <p> Qualche problema o domanda? Valuta di contattarci </p>
+                    </div>
+                </div>";
+                break;
         }
         case 'Accettata':{
             $infoAggiuntive='info-aggiuntive-unite';
-
-            break;
+                $contenutoPagina = "";
+                $statoRichiesta = "
+                <div class='dettagli-animale'>
+                <h2> Richiesta di adozione </h2>
+                    <div id='stato-richiesta'>
+                        <p> <span class='enfatizzato'> Stato: </span> accettata </p>
+                        <p> Congratulazioni, la tua richiesta è stata accettata! Ti contatteremo a breve per fornirti tutti i dettagli. </p> 
+                        <p> Qualche problema o domanda? Valuta di contattarci </p>
+                    </div>
+                </div>";
+                break;
         }
         case 'Respinta':{
-            $contenutoPagina = file_get_contents('./src/template/partials/animale-negata.html');
-            break;
+           $infoAggiuntive='info-aggiuntive-unite';
+                $contenutoPagina = "";
+                $statoRichiesta = "
+                <div class='dettagli-animale'>
+                <h2> Richiesta di adozione </h2>
+                    <div id='stato-richiesta'>
+                        <p> <span class='enfatizzato'> Stato: </span> rifiutata </p>
+                        <p> Ci dispiace informati che la tua richiesta di adozione di <strong> '$nome' </strong> è stata rifiutata. </p> 
+                        <p> Qualche problema o domanda? Valuta di contattarci </p>
+                    </div>
+                </div>";
+                break;
         }
         case 'Annullata':{
-                $infoAggiuntive='info-aggiuntive-separate';
+                $infoAggiuntive='info-aggiuntive-separate'; 
+                $contenutoPagina = "<div id='richiesta-adozione'>
+                <div class='column-container'>
+                    <div class='column-user'>
+                        <img id='richiesta-adozione-img' src='./assets/images/adozione.jpg' alt=''/>
+                    </div>
+                    <div class='column-user'>
+                        <form method='POST' action='' novalidate> 
+                            <fieldset>
+                                <legend id='legenda-richiesta-adozione'>Invia una richiesta di adozione!</legend>
+                                <label for='lettera-presentazione'>Scrivi una breve lettera di presentazione:</label>
+                                <textarea id='lettera-presentazione' name='lettera-presentazione' rows='7' cols='50' placeholder='Inserisci presentazione' required>[VALORE_LETTERA]</textarea>
+                                <p class='error-form'>[ERROR_LETTERA]</p>
+                            </fieldset>
+                            <fieldset class='fieldset-indirizzo'>
+                                <legend>Indirizzo</legend>
+                                <p>Il profilo utente verrà aggiornato con l'indirizzo inserito.</p>
+                                <div>
+                                    <label for='new-address'>Via e numero civico</label>
+                                    <input type='text' id='new-address' name='new-address' autocomplete='street-address' 
+                                    value='[via-utente]' placeholder='Via L. Da Vinci n.10' required>
+                                    <p class='error-form'>[erroriIndirizzo]</p>   
+                                </div>
+                                <div id='indirizzo-row'>
+                                    <div id='citta-container'>
+                                        <label for='new-city'>Città</label>
+                                        <input type='text' id='new-city' name='new-city' autocomplete='address-level2' 
+                                        value='[citta-utente]' placeholder='Roma' required>
+                                        <p class='error-form'>[erroriCitta]</p>
+                                    </div>
+                                    <div id='cap-container'>
+                                        <label for='new-cap'>CAP</label>
+                                        <input type='text' id='new-cap' name='new-cap' autocomplete='postal-code' 
+                                        value='[cap-utente]' placeholder='00000' required>
+                                        <p class='error-form'>[erroriCAP]</p>
+                                        <p class='error-form'>[erroriIndirizzoTotale]</p>   
+                                    </div>
+                                </div>
+                                <div id='trasporto-container'>
+                                    <label for='trasporto' class='column-container'>
+                                        <input type='checkbox' id='trasporto' name='trasporto'>
+                                        <div class='checkbox-text'>
+                                            <span class='checkbox-title'>Voglio il trasporto dell’animale a casa</span>
+                                            <span class='checkbox-description'>Spuntando la casella, verrà programmato il trasporto dell’animale. Ci si prende la responsibilità di essere presenti nel domicilio indicato alla data che verrà comunicata per email.</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <button class='orange-button' name='submit-adoption-request' type='submit'>Invia il Form</button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <a href = '#top-page' class='torna-su-button'>
+                <img src='./assets/icons/torna-su.svg' class='static' alt='torna su'/>
+                <img src='./assets/icons/torna-su.gif' class='active' alt=''/>
+            </a>";
 
         }
         
@@ -335,6 +443,13 @@ if (!$utenteAccesso) {
 $CARDANIMALE1 = "
     <img id='foto-animale' src='$img' alt='Foto di $nome'>  
     <div id= 'info-generiche-testo'>
+                <form method='post' action='' class='preferiti-form'>
+        <input type='hidden' name='id-animale-preferito' value='$idAnimale'>
+        <button type='submit' class='$classePreferito' aria-label='$statusPreferiti'>
+            <img class='heart-normal' src='./assets/icons/$heartNormal' alt=''>
+            <img class='heart-hover' src='./assets/icons/$heartHover' alt=''>
+        </button>
+    </form>
         <dl>
             <dt> Nome</dt> <dd> $nome </dd>
             <dt> Sesso</dt> <dd> $sesso </dd>
@@ -344,14 +459,9 @@ $CARDANIMALE1 = "
             <dt> Taglia</dt> <dd>$taglia </dd>
             <dt> Colore</dt> <dd>$colore </dd>
         </dl>
+
     </div>
-    <form method='post' action='' class='preferiti-form'>
-        <input type='hidden' name='id-animale-preferito' value='$idAnimale'>
-        <button type='submit' class='$classePreferito' aria-label='$statusPreferiti'>
-            <img id='heart-normal' src='./assets/icons/$heartNormal' alt=''>
-            <img id='heart-hover' src='./assets/icons/$heartHover' alt=''>
-        </button>
-    </form>
+
 ";
 
 $CARDANIMALE2 = $infoAggiuntive==='info-aggiuntive-separate' ? "

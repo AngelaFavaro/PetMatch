@@ -1915,7 +1915,8 @@ input:-webkit-autofill:active{
 
 
 #animali .is-favorite,
-#animali .not-favorite, #visualizzazione-animale .is-favorite, #visualizzazione-animale .not-favorite {
+#animali .not-favorite, #preferiti .is-favorite, #preferiti .not-favorite,
+#visualizzazione-animale .is-favorite, #visualizzazione-animale .not-favorite{
     /* float:right; */
     /* margin-left: 50%; */
     position: relative;
@@ -1931,10 +1932,9 @@ input:-webkit-autofill:active{
 }
 
 /* entrambe le immagini */
-#animali .is-favorite img,
-#animali .not-favorite img,
- #visualizzazione-animale .is-favorite img,
-#visualizzazione-animale .not-favorite img {
+#animali .is-favorite img, #animali .not-favorite img,
+#preferiti .is-favorite img, #preferiti .not-favorite img,
+#visualizzazione-animale .is-favorite img, #visualizzazione-animale .not-favorite img{
     position: absolute;
     top: 0;
     /* left: 0; */
@@ -1944,14 +1944,14 @@ input:-webkit-autofill:active{
     width: 32px;
     height: 32px;
     transition: opacity 0.3s ease;
+
 }
 
 /* stato iniziale */
-#animali .is-favorite #heart-hover,
-#animali .not-favorite #heart-hover,
-    #visualizzazione-animale .is-favorite #heart-hover,
-    #visualizzazione-animale .not-favorite #heart-hover 
- {
+#animali .is-favorite .heart-hover,
+#animali .not-favorite .heart-hover, #preferiti .is-favorite .heart-hover, #preferiti .not-favorite .heart-hover,
+#visualizzazione-animale .is-favorite .heart-hover,
+#visualizzazione-animale .not-favorite .heart-hover{
     opacity: 0;
     /* margin-left: auto; */
     /* float: right; */
@@ -1962,19 +1962,21 @@ input:-webkit-autofill:active{
     justify-content: end;
 }
 
-#animali .card .cuore .preferiti-form{
+#animali .card .cuore .preferiti-form, #visualizzazione-animale .preferiti-form{
     justify-content:end;
+    display: flex;
+    min-width: 3em;
 }
 
 /* hover */
 
 
-#animali .not-favorite:hover #heart-normal,
-    #visualizzazione-animale .not-favorite:hover #heart-normal, #visualizzazione-animale .not-favorite:hover #heart-hover, #animali .not-favorite:hover .heart-hover, #preferiti .not-favorite:hover .heart-hover {
+#animali .not-favorite:hover .heart-hover, #preferiti .not-favorite:hover .heart-hover, #visualizzazione-animale .not-favorite:hover .heart-hover {
     opacity: 1;
 }
 
-#animali .not-favorite:hover .heart-normal, #preferiti .not-favorite:hover .heart-normal {
+
+#animali .not-favorite:hover .heart-normal, #preferiti .not-favorite:hover .heart-normal, #visualizzazione-animale .not-favorite:hover .heart-normal {
     opacity: 0;
 }
 
@@ -4219,7 +4221,7 @@ nav#breadcrumb a:visited{
 
 
 /*================VISUALIZZAZIONE ANIMALI ==================*/
-.contattaci{
+/* .contattaci{
     background-color: var(--secondsection);
     border-radius: 2em;
     display: inline;
@@ -4228,12 +4230,15 @@ nav#breadcrumb a:visited{
     height: min-content;
     padding: 0.6em;
     margin-left: auto;
-    font-weight: 400;
 }
 
 .contattaci:hover {
     background-color: var(--buttoncolor-hover);
+    text-decoration:underline; 
 }
+.contattaci:visited{
+    background-color: var(--headerlink);
+}  */
 
 
 @media (max-width: 550px) {  /*da cambiare */
@@ -4245,6 +4250,9 @@ nav#breadcrumb a:visited{
   #titolo-dettagli-animale{
    align-self: center;
 }
+}
+#visualizzazione-animale .dettagli-animale{
+    margin-bottom: 2em;
 }
 
 #visualizzazione-animale #titolo-dettagli-animale{
@@ -4269,6 +4277,7 @@ nav#breadcrumb a:visited{
     border: 1px solid var(--txtcolor);
     border-radius: 0.5em;
     padding: 1em;
+    flex: 1 1 45%
 }
 
 #visualizzazione-animale #stato-richiesta {
@@ -4284,10 +4293,24 @@ nav#breadcrumb a:visited{
 .enfatizzato {
     font-weight: 600;
 }
+
+#visualizzazione-animale .preferiti-form{
+    float: right;          /* Spinge il cuore a destra, il testo gli girerà intorno */
+    position: relative;    /* Resetta position absolute */
+    top: auto;             /* Resetta top */
+    right: auto;           /* Resetta right */
+    
+    display: flex;        
+    justify-content: end;
+    min-width: 3em;
+    z-index: 10;
+}
+
 #visualizzazione-animale .info-animale{
-    gap: 1em;
+    gap: 0.5em;
     justify-content:left;
     display:flex;
+    position: relative;
 }
 
 #visualizzazione-animale #foto-animale{
@@ -4300,6 +4323,7 @@ nav#breadcrumb a:visited{
 #visualizzazione-animale #info-generiche-testo{
         flex: 1 1 45%;
         min-width: 10em;
+         padding-right: 0;
 }
 
 
@@ -4335,7 +4359,6 @@ nav#breadcrumb a:visited{
 #contatta-rifugio{
     background-color: var(--darkbgcolor);
     padding: 1.5em;
-    margin-top: 2em;
     margin-bottom: 2em;
     text-align: center;
     font-style: oblique;
@@ -4350,7 +4373,6 @@ nav#breadcrumb a:visited{
     justify-content: center;
     align-items: center;
     padding:3.5em;
-    margin-top: 2.5em;
     background-image: url('../../assets/images/bg-pow.svg');
     background-repeat: repeat;
     background-size: contain;
