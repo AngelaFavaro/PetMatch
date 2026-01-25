@@ -13,7 +13,7 @@ $NewAnimalInfo = [
     'tipologia' => '', 'nome' => '', 'razza' => '', 'taglia' => '',
     'sesso' => '', 'foto' => '', 'dataNascita' => '', 'pelo' => '',
     'colore' => '', 'condMediche' => '', 'carattere' => '', 'famiglia' => '',
-    'trasporto' => '', 'createMore'=>'' // Corretto refuso 'trasposrto'
+    'trasporto' => '', 'createMore'=>'', 'assegna_a_me' => ''
 ];
 
 function createInfoAnimale(DBAccess $conn, &$NewAnimalValues): array {
@@ -129,26 +129,22 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues): array {
                 'trasporto' => $trasporto
             ];
 
-            // RECUPERO EMAIL DALLA SESSIONE
-            $email_admin = $_SESSION['email'] ?? null; 
+            $email_loggato = $_SESSION['email'] ?? null; 
+            
+            $assegna_a_me = isset($_POST['assegna_a_me']);
 
-            if ($email_admin) {
-                $result = $conn->addAnimal($dataDB, $email_admin);
-                if ($result) {
-                    unset($_SESSION['form_status_info']);
-                    unset($_SESSION['form_errors_info']);
-                    unset($_SESSION['form_inputs']);
+            $email_da_inserire = $assegna_a_me ? $email_loggato : null;
 
-                    if($createMoreValue){
-                        header("Location: ./nuovo-animale?createMore=1");
-                    }else{
-                        header("Location: ./area-riservata?success=1");
-                    }
-                    exit;
-                } else {
-                    $errors['generic'] = "Errore database: " . htmlspecialchars($conn->getConnectionError());                }
+            $result = $conn->addAnimal($dataDB, $email_da_inserire);
+
+            if ($result) {
+                unset($_SESSION['form_status_info'], $_SESSION['form_errors_info'], $_SESSION['form_inputs']);
+                
+                $location = $createMoreValue ? "./nuovo-animale?createMore=1" : "./area-riservata?success=1";
+                header("Location: $location");
+                exit;
             } else {
-                $errors['generic'] = "Errore: Sessione amministratore non trovata. Effettua il login.";
+                $errors['generic'] = "Errore database: " . htmlspecialchars($conn->getConnectionError());
             }
         }
 
@@ -157,6 +153,7 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues): array {
 
         $inputsToSave = $_POST;
         $inputsToSave['foto'] = $fotoPath; 
+        $inputsToSave['assegna_a_me'] = isset($_POST['assegna_a_me']) ? 1 : 0;
         $_SESSION['form_inputs'] = $inputsToSave; 
 
         header("Location: ./nuovo-animale");
@@ -214,6 +211,10 @@ $paginaHTML = str_replace('[infoFotoCaricata]', $fotoInfo, $paginaHTML);
 $paginaHTML = str_replace('[input-hidden-foto]', $inputHiddenFoto, $paginaHTML);
 
 $paginaHTML = str_replace('[erroriGeneric]', $messageInfoForm['generic'] ?? '', $paginaHTML);
+
+$assegna_val = $NewAnimalInfo['assegna_a_me'] ?? '';
+$is_checked = ($assegna_val == 1 || $assegna_val === 'on' || $assegna_val === true) ? 'checked="checked"' : '';
+$paginaHTML = str_replace('[assegna_checked]', $is_checked, $paginaHTML);
 
 $paginaHTML = str_replace('[sessoM_checked]', ($NewAnimalInfo['sesso'] === '0' ? 'checked="checked"' : ''), $paginaHTML);
 $paginaHTML = str_replace('[sessoF_checked]', ($NewAnimalInfo['sesso'] === '1' ? 'checked="checked"' : ''), $paginaHTML);
