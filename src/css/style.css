@@ -6,33 +6,156 @@
 
 :root{
     --bgcolor: #FFF6D7;
+    --navButton: #FFF6D7;
+    --logolink: #FFF6D7;
     --txtcolor: #481515;
+    --light-txtcolor: #FFF6D7;
+    --cat-txtcolor: #FFF6D7;
     --buttoncolor: #EA654C;
     --secondsection: #6D7541;
     --placeholderDarker-text:#5e4232;
     --placeholder-text:#825E49;
+    --placeholderForm-text:#825E49;
+    --polaroid-color: #FFF6D7;
+    --polaroid-txt: #481515;
+    --timeline-line: #EA654C;
+    --row-time-line: #FFF6D7;
+    --form-bg: #FFF6D7;
+    --text-form: #481515;
+    --hovertext-form-button: #FFF6D7;
+    --text-form-button: #481515;
+    --hover-link: #481515;
     --darkbgcolor: #E4D4BA;
+    --cardHover: #481515;
+    --textDarkinput: #481515;
+    --modifiedAccount:#E4D4BA;
+    --bordermodifiedAccount:#E4D4BA;
+    --text-deletebutton: #481515;
+    --selectTypeAnimal: #E4D4BA;
+    
+    --darkMdode-selectTypeAnimal: #b79378;
+    --darkMode-text-deletebutton: #ba4d3b;
+    --darkMode-bordermodifiedAccount:#C7B097;
+    --darkMode-modifiedAccount:#5B2E25;
+    --darkMode-textDarkinput: #C7B097;
+    --darkMode-placeholder-text:#a48f78;
+    --darkMode-placeholderDarker-text:#7f6b56;
+    --darkMode-cardHover: #C7B097;
+    --darkMode-darkbgcolor: #481515;
+    --darkMode-hover-link: #C7B097;
+    --darkMode-form-bg: #C7B097;
+    --darkMode-text: #C7B097;
+    --darkMode-bgcolor: #5B2E25;
+    --darkMode-cat-txtcolor: #E0CFBE;
+    --darkMode-visitedLinkHeader: #ba4d3b;
+    --darkMode-colorLink: #C7B097;
+    --darkMode-visitedcolorLink: #ba4d3b;
+    --darkMode-timeline-line: #C7B097;
+    --darkMode-row-time-line: #481515;
+    --darkMode-bglink-hover: #b79378;
+    --darkMode-txtclose-request: #C7B097;
+
     --successtxt:#576F30;
     --errortxt: #BA3A24;
     --txtclose-request: #6b5050;
-    --headercolor: var(--txtcolor);
-    --darkSection:var(--txtcolor);
-    --buttoncolor-hover: var(--txtcolor);
-    --text-buttoncolor:  var(--txtcolor);
-    --footercolor:  var(--txtcolor);
-    --headerlink:  var(--txtcolor);
+    --headercolor: #481515;
+    --darkSection:#481515;
+    --buttoncolor-hover: #481515;
+    --text-buttoncolor:  #481515;
+    --footercolor:  #481515;
+    --headerlink:  #481515;
     --text-buttoncolor-hover: var(--bgcolor);
-    --linkcolor: var(--bgcolor);
+    --linkcolor: #FFF6D7;
+    --darklinkcolor: #481515;
     --bgconfermbutton:var(--bgcolor);
-    --visitedcolor: var(--buttoncolor);
-    --headervisitedlink: var(--secondsection);
+    --visitedcolor: #EA654C;
+    --headervisitedlink: #6D7541;
     --bgform: var(--secondsection);
     --bgconfirmbutton:var(--secondsection);
     --greencolor: var(--secondsection);
-    --bglink-hover: var(--darkbgcolor);
+    --bglink-hover: #E4D4BA;
     --txtcancelbutton:var(--bgconfirmbutton);
     --greencolor: #6D7541;
 }
+
+:root:has(input#theme-toggle:checked){
+    --selectTypeAnimal: var(--darkMdode-selectTypeAnimal);
+    --text-deletebutton: var(--darkMode-text-deletebutton);
+    --bordermodifiedAccount:var(--darkMode-bordermodifiedAccount);
+    --modifiedAccount:var(--darkMode-modifiedAccount);
+    --txtclose-request:var(--darkMode-txtclose-request);
+    --bglink-hover: var(--darkMode-bglink-hover);
+    --placeholderForm-text: var(--darkMode-placeholderDarker-text);
+    --textDarkinput:var(--darkMode-te);
+    --placeholderDarker-text: var(--darkMode-textDarkinput);
+    --placeholder-text: var(--darkMode-textDarkinput);
+    --cardHover: var(--darkMode-cardHover);
+    --bgcolor: var(--darkMode-bgcolor);
+    --headervisitedlink: var(--darkMode-visitedLinkHeader);
+    --navButton: var(--darkMode-text);
+    --linkcolor: var(--darkMode-colorLink);
+    --logolink: var(--darkMode-text);
+    --light-txtcolor: var(--darkMode-text);
+    --cat-txtcolor: var(--darkMode-cat-txtcolor);
+    --txtcolor: var(--darkMode-text);
+    --form-bg: var(--darkMode-form-bg);
+    --visitedcolor: var(--darkMode-visitedcolorLink);
+    --hover-link: var(--darkMode-hover-link);
+    --darkbgcolor: var(--darkMode-darkbgcolor);
+}
+
+:root:has(input#theme-toggle:checked){
+    --buttoncolor: var(--darkMode-visitedLinkHeader);
+    --timeline-line: var(--darkMode-timeline-line);
+    --row-time-line: var(--darkMode-row-time-line);
+}
+
+:root:has(input#theme-toggle:checked) #header-logo,
+:root:has(input#theme-toggle:checked) #logo-footer,
+:root:has(input#theme-toggle:checked) #heart-normal,
+:root:has(input#theme-toggle:checked) .circle,
+:root:has(input#theme-toggle:checked) #user-info a img,
+:root:has(input#theme-toggle:checked) #instagram,
+:root:has(input#theme-toggle:checked) #animali .heart-normal,
+:root:has(input#theme-toggle:checked) #animali .heart-hover,
+:root:has(input#theme-toggle:checked) #menu-admin #logo,
+:root:has(input#theme-toggle:checked) .edit-admin-info img,
+:root:has(input#theme-toggle:checked) #account-normal,
+:root:has(input#theme-toggle:checked) #introduction-home img{
+    filter: brightness(0) saturate(100%) invert(79%) sepia(17%) saturate(541%) hue-rotate(346deg) brightness(92%) contrast(88%);
+}
+
+:root:has(input#theme-toggle:checked) .polaroid::before{
+    filter: brightness(0) saturate(100%) invert(18%) sepia(34%) saturate(1637%) hue-rotate(329deg) brightness(93%) contrast(92%);
+}
+
+:root:has(input#theme-toggle:checked) #section-events,
+:root:has(input#theme-toggle:checked) #ci-presentiamo{
+    background-image: 
+        linear-gradient(to bottom, transparent 70%, var(--secondsection) 98%),
+        url('../../assets/images/cat-darkbg.svg');
+    transition: background-color 0.4s;
+}
+
+:root:has(input#theme-toggle:checked) #sponsor{
+    background-image: url('../../assets/images/sponsor-darkbg.svg');
+}
+
+:root:has(input#theme-toggle:checked) #container-form-affidamento{
+    background-image: url('../../assets/images/darkhouse-form.svg');
+}
+:root:has(input#theme-toggle:checked) .torna-su-button img{
+    filter: brightness(80%) saturate(85%) contrast(110%);
+}
+
+:root:has(input#theme-toggle:checked) select{
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%23C7B097" d="M7 10l5 5 5-5z"/></svg>');
+}
+
+:root:has(input#theme-toggle:checked) select#mobile-select{
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%481515" d="M7 10l5 5 5-5z"/></svg>');
+}
+
 
 a{
     color: var(--linkcolor);
@@ -44,7 +167,7 @@ a:visited{
 }
 
 a.orange-button:visited{
-    color: var(--txtcolor);
+    color: var(--text-form-button);
 }
 
 a.orange-button:hover{
@@ -59,6 +182,7 @@ a.orange-button:hover{
     padding-left:1em;
     padding-right:1em;
 }
+
 
 div#admin-area .container{
     padding: 0;
@@ -86,7 +210,7 @@ main#content{
 }
 
 #NavHeader + main #breadcrumb{
-    border: 1px solid var(--bgcolor);
+    border: 1px solid var(--light-txtcolor);
 }
 
 html{
@@ -131,7 +255,13 @@ h4{
 
 #form-signup + p a,
 #form-login + p a{
-    color:var(--txtcolor);
+    color:var(--darklinkcolor);
+    font-weight: 500;
+}
+
+#form-signup + p a:visited,
+#form-login + p a:visited{
+    color:var(--visitedcolor);
     font-weight: 500;
 }
 
@@ -159,7 +289,7 @@ button.orange-button{
 .orange-button:hover,
 button.orange-button:hover {
     background-color: var(--buttoncolor-hover); 
-    color: var(--linkcolor);
+    color: var(--hovertext-form-button);
 }
 
 #currentLink.orange-button,
@@ -167,7 +297,7 @@ a.orange-button,
 button.orange-button,
 .white-button:hover{
     background-color: var(--buttoncolor);
-    color: var(--txtcolor);
+    color: var(--text-form-button);
 }
 
 button.orange-button{
@@ -186,6 +316,7 @@ a.brown-button, button.brown-button{
     margin: 0.7em auto 0.7em auto;
     text-decoration: underline;
     margin-right: 0;
+    border:1px solid var(--txtcolor);
 }
 
 a.brown-button:visited{
@@ -195,8 +326,9 @@ a.brown-button:visited{
 .brown-button:hover, button.brown-button:hover,
 .brown-button:visited:hover{
     background-color:transparent; 
-    color: var(--text-buttoncolor);
+    color: var(--hover-link);
     cursor: pointer;
+    border:1px solid transparent;
 }
 
 button.brown-button{
@@ -215,7 +347,7 @@ button.brown-button{
     font-weight: 500;
     text-decoration: none;
     transition: background-color 0.6s ease;
-    background-color: var(--bgcolor);
+    background-color: var(--navButton);
     color:var(--text-buttoncolor)
 }
 
@@ -269,6 +401,11 @@ input{
     font-size: 1em;
 }
 
+button,
+select{
+    cursor: pointer;
+}
+
 select{
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -287,7 +424,7 @@ input:placeholder-shown{
 /*==================WIDGET UTILI==================*/
 .polaroid{
     width: 30%;
-    background-color: white;
+    background-color: var(--polaroid-color);
     padding: 0.5em 0.5em 3em 0.5em;
 }
 
@@ -310,7 +447,7 @@ input:placeholder-shown{
     left: 10%;
     right: 10%;
     height: 2px;
-    background-image: linear-gradient(to right, var(--buttoncolor) 50%, transparent 50%);
+    background-image: linear-gradient(to right, var(--timeline-line) 50%, transparent 50%);
     background-size: 20px 100%;
     z-index: 0;
   }
@@ -500,6 +637,11 @@ li.capsula-filtro select:focus{
     border-radius: 0.5em;
 }
 
+li.capsula-filtro input:focus{
+    outline: none;
+}
+
+
 
 /* ==================LAVORA CON NOI ================== */
 
@@ -511,8 +653,8 @@ li.capsula-filtro select:focus{
     display: flex;
     gap: 4em;
 }
-#introduction-lavora-con-noi .column-user {
-    flex: 1; 
+#introduction-lavora-con-noi .column-user:first-of-type {
+    flex: 1 1 30%; 
 }
 #introduction-lavora-con-noi h1 {
     margin-bottom: 0.5em;
@@ -520,14 +662,14 @@ li.capsula-filtro select:focus{
 }
 
 #introduction-lavora-con-noi a{
-    color:var(--headerlink);
+    color:var(--linkcolor);
     font-weight: 500;
 }
 
 
 #come-diventare-volontario {
     background-color: var(--greencolor); 
-    color: var(--bgcolor);                       
+    color: var(--cat-txtcolor);                       
     width: 100%;
     padding: 2.5em;
 }
@@ -567,7 +709,7 @@ li.capsula-filtro select:focus{
 #come-diventare-sostenitore {
     margin-top: 3em;
     background-color: var(--footercolor); 
-    color: var(--bgcolor);        
+    color: var(--light-txtcolor);        
     border-top-right-radius: 2.5em;
     border-top-left-radius: 2.5em;     
     padding: 2em 4em;
@@ -588,7 +730,6 @@ li.capsula-filtro select:focus{
 #contatto-sostenitore {
     margin-top: 3em;
     margin-bottom:-2em;
-    text-align: center;
 }
 
 #contatto-sostenitore a {
@@ -619,6 +760,7 @@ li.capsula-filtro select:focus{
 
 #layout-user #osso #currentLink{
     font-weight: 600;
+    color:var(--text-form);
 }
 
 #layout-user #currentLink.white-button:hover{
@@ -626,12 +768,9 @@ li.capsula-filtro select:focus{
     color:var(--txtcolor);
 }
 
-#layout-user #currentLink a:visited{
-    color:var(--headerlink);
-}
 
 
-#layout-user #currentLink a{
+#layout-user #currentLink{
     font-weight: 600;
 }
 
@@ -672,7 +811,7 @@ header a{
 #header-logo h1 {
     margin-left: 0;
     margin-right: auto;
-    color: var(--linkcolor);
+    color: var(--logolink);
     text-align: center;
 }
 
@@ -714,7 +853,7 @@ header a{
     text-align: center;
     
     /* Stile Osso */
-    background-color: var(--bgcolor);
+    background-color: var(--navButton);
     padding: 0 2em;
     position: relative;
     margin: 1em 2em; 
@@ -728,9 +867,9 @@ header a{
     width: 2.3em; 
     height: 2.3em;
     border-radius: 50%;
-    background-color: var(--bgcolor);
+    background-color: var(--navButton);
     transform: translateY(-50%); 
-    box-shadow: 0 2.2em 0 var(--bgcolor);
+    box-shadow: 0 2.2em 0 var(--navButton);
 }
 
 #osso::before {
@@ -802,6 +941,58 @@ header a{
     background-color: var(--bgcolor);
 }
 
+
+
+
+
+
+
+
+
+/* per admin */
+
+#admin-body #theme-toggle {
+    position: fixed;
+    top:0; left:0;
+    bottom: 20px;
+    right: 20px;
+}
+
+#admin-body #theme-switch {
+    position: fixed;
+    width: 45px;
+    height: 45px;
+    bottom: 20px;
+    right: 20px;
+}
+
+#admin-body #slider {
+    position: absolute;
+    top:0; left:0; right: 0; bottom: 0;
+    background-color: var(--bgcolor);
+    border-radius: 50%;
+    transition: 0.4s;
+    box-shadow: none;
+    border:2px solid var(--buttoncolor-hover);
+}
+
+#admin-body #slider img{
+    width: 90%;
+    left: 0.2em;
+    right: 0;
+}
+
+#admin-body #slider::before {
+    content: none;
+    display: none;
+}
+
+
+
+
+
+
+
 /* Icone sole/luna */
 #sun, #moon {
     position: absolute;
@@ -821,11 +1012,6 @@ input:checked + #theme-switch #slider::before {
 }
 input:checked + #theme-switch #slider #sun { opacity: 0; }
 input:checked + #theme-switch #slider #moon { opacity: 1; }
-
-:root:has(input#theme-toggle:checked){
-    /* aiuto non so usare i colori */
-    transition: background-color 0.3s;
-}
 
 /* Icona Preferiti */
 #preferiti {
@@ -856,9 +1042,9 @@ input:checked + #theme-switch #slider #moon { opacity: 1; }
 
 #header-actions #currentLink.white-button,
 #header-actions #currentLink.white-button:hover{
-    outline: 1px solid var(--bgcolor);
+    outline: 1px solid var(--light-txtcolor);
     background-color: var(--buttoncolor-hover);
-    color:var(--bgcolor);
+    color:var(--light-txtcolor);
 }
 
 /* ==================FOOTER================== */
@@ -881,8 +1067,13 @@ footer a:hover{
 
 footer {
     background-color: var(--footercolor);
-    color: var(--bgcolor);
+    color: var(--light-txtcolor);
 }
+
+#name-site-footer{
+    color: var(--logolink);
+}
+
 footer p{
     font-weight: bold;
     font-size: 1.2em;
@@ -943,7 +1134,7 @@ footer .container + div a:visited{
     display: block;
     /* sono 12px, il minimo per l'accessibilità */
     font-size: 0.85rem; 
-    color: var(--darkbgcolor);
+    color: var(--light-txtcolor);
     /* font-size: 0.9em; */
     /* margin-bottom: 1em; */
 }
@@ -959,7 +1150,7 @@ footer .container + div a:visited{
     background-color: var(--darkSection);
     margin-top: -130px;
     padding-top: 130px;
-    color: var(--bgcolor);
+    color: var(--light-txtcolor);
 }
 
 #introduction-home .column-user:first-child {
@@ -1055,8 +1246,8 @@ footer .container + div a:visited{
     
     width: 10px;  
     height: 10px;
-    border-right: 2px solid var(--bgcolor); 
-    border-bottom: 2px solid var(--bgcolor);
+    border-right: 2px solid var(--row-time-line); 
+    border-bottom: 2px solid var(--row-time-line);
     border-top: 0;
     border-left: 0;
     
@@ -1078,7 +1269,7 @@ details:not([open]) .popup {
 #adoption-timeline{
     padding:2em 0 2em 0;
     background-color: var(--headercolor);
-    color:var(--bgcolor);
+    color:var(--light-txtcolor);
 }
 
 .popup img{
@@ -1129,7 +1320,7 @@ details:not([open]) .popup {
     background-repeat: no-repeat;
     background-position:top;
     height: fit-content;
-    color: var(--bgcolor);
+    color: var(--cat-txtcolor);
     padding: 3em;
     border-radius: 1em;
 }
@@ -1183,7 +1374,7 @@ details:not([open]) .popup {
 #events-list .polaroid{
     display: block;
     flex: 1 1 20%;
-    color: var(--txtcolor);
+    color: var(--polaroid-txt);
     transform-origin: top center;
     --base-rot: 0deg;
     margin:auto;
@@ -1323,7 +1514,7 @@ details:not([open]) .popup {
 
 #affidamento-home{
     background-color: var(--headercolor);
-    color:var(--bgcolor);
+    color:var(--light-txtcolor);
     margin-top: 7%;
 }
 
@@ -1347,8 +1538,8 @@ details:not([open]) .popup {
 }
 
 #form-affidamento {
-    background-color: var(--bgcolor);
-    color: var(--txtcolor);
+    background-color: var(--form-bg);
+    color: var(--text-form);
     margin:3em auto 0.1em auto;
     padding: 0em 2em;
     display: block;
@@ -1372,6 +1563,7 @@ fieldset {
 #home input[name="type-animal"]+label{
     padding:6px;
     margin:auto 2em;
+    cursor: pointer;;
 }
 
 .radio-input{
@@ -1413,9 +1605,9 @@ legend {
     margin: 0.2em 0 0.3em 0;
     width: 100%; 
     border: 1px solid var(--headercolor);
-    color: var(--txtcolor);
+    color: var(--text-form);
     font-size: 100%;
-    background-color: var(--bgcolor);
+    background-color: var(--form-bg);
     box-sizing: border-box; 
 }
 
@@ -1426,10 +1618,12 @@ legend {
 #animali label + input::placeholder,
 #signup label + input::placeholder,
 #home label + input::placeholder,
+div#admin-area label + input::placeholder,
+.edit-number div input::placeholder, 
 .password-container input::placeholder,
 #user-profile label + input::placeholder,
 #login label + input::placeholder{
-    color: var(--placeholder-text);
+    color: var(--placeholderForm-text);
     font-weight: lighter;
     font-size: 0.9em;
 }
@@ -1455,7 +1649,8 @@ label {
     max-width: 800px;
     padding: 2em 3em;
     border-radius: 1em;
-    background-color: var(--bgcolor);
+    color:var(--text-form);
+    background-color: var(--form-bg);
 }
 
 body:has(#signup), body:has(#login) {
@@ -1607,11 +1802,12 @@ input:-webkit-autofill:active{
     right: 10px;
     top: 50%;
     transform: translateY(-50%); 
-    color: var(--placeholder-text);
+    color: var(--placeholderForm-text);
 }
 
 .password-container i:hover {
-    color: var(--txtcolor);
+    color: var(--text-form);
+    cursor: pointer;
 }
 
 
@@ -1622,25 +1818,21 @@ input:-webkit-autofill:active{
 
 /* FILTRI */
 #animali .filtri ul, #eventi .filtri ul, #richieste .filtri ul{
-    display: flex;
+    display: contents;
     list-style: none;
-    gap: 1em;
-    flex-wrap: wrap;
-    width: 100%;
-    /* justify-content: flex-end; */
 }
 
 #animali .filtri, #eventi .filtri, #richieste .filtri{
     display: flex;
     gap: 0.5em;
-    justify-content: flex-end;
+    align-items: center;
 }
 
 #animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro
 , #richieste .filtri .capsula-filtro {
     display: flex;
     flex: 1 1 30%;
-    border: 1px solid var(--text-buttoncolor);
+    border: 1px solid var(--txtcolor);
     border-radius: 1em;
     padding: 0.5em;
     height: 2.5em;
@@ -1671,6 +1863,7 @@ input:-webkit-autofill:active{
 #animali .filtri #searchName.capsula-filtro input, #eventi .filtri #searchName.capsula-filtro input {
     text-align:left;
     display: flex;
+    color:var(--textDarkinput);
     min-width: 3em;
     /* display:contents; */
     background-color: var(--darkbgcolor);
@@ -1707,16 +1900,18 @@ input:-webkit-autofill:active{
     background-position: right 0em center;
 }
 
+#animali .filtri #searchSize.capsula-filtro {
+    max-width: fit-content;
+}
+
+#animali .filtri #searchSex.capsula-filtro {
+    max-width: fit-content;
+}
 
 #animali .filtri .capsula-filtro input::placeholder, #eventi .filtri .capsula-filtro input::placeholder {
     color: var(--placeholder-text);
     text-align: center;
     font-size: 0.9em;
-}
-
-#animali .filtri .capsula-filtro#searchSex,
-#animali .filtri .capsula-filtro#searchSize{
-    max-width: fit-content;
 }
 
 #animali .filtri .capsula-filtro label, #eventi .filtri .capsula-filtro label,
@@ -1766,7 +1961,7 @@ input:-webkit-autofill:active{
 #animali #nav-animali-type a {
     display: block;
     text-decoration: none;
-    color: var(--headerlink);
+    color: var(--txtcolor);
     font-weight: normal;
 }
 
@@ -1802,7 +1997,7 @@ input:-webkit-autofill:active{
 
 #animali #content-filter-button, #eventi #content-filter-button{
     display: flex;
-    /* margin:auto; */
+    margin:auto;
     gap:1em;
     height: fit-content;
 }
@@ -1830,7 +2025,6 @@ input:-webkit-autofill:active{
     flex-wrap: wrap;
     justify-content: left; 
     margin-top: 1em;
-    margin-bottom: 2em;
 }
 
 #animali .cards-container:has(.errore) {
@@ -1862,10 +2056,8 @@ input:-webkit-autofill:active{
 
 
 #animali li.card:hover{
-    /* background-color: var(--bgcolor); */
-    border-color: var(--buttoncolor-hover); /* colore evidenziato */
     box-shadow: 0 6px 14px rgba(0,0,0,0.3);
-    border: 3px solid var(--buttoncolor-hover);
+    border: 3px solid var(--cardHover);
 }
 
 #animali li.card article, #animali li.dark-card article {
@@ -1986,7 +2178,7 @@ input:-webkit-autofill:active{
     /* float: right; */
 }
 
-#animali .card .cuore, #animali .dark-card .cuore {
+#animali .card .cuore {
     display: flex;
     justify-content: end;
 }
@@ -1998,8 +2190,6 @@ input:-webkit-autofill:active{
 }
 
 /* hover */
-
-
 #animali .not-favorite:hover .heart-hover, #preferiti .not-favorite:hover .heart-hover, #visualizzazione-animale .not-favorite:hover .heart-hover {
     opacity: 1;
 }
@@ -2466,7 +2656,7 @@ cursor: pointer;
     flex: 1 0 46%;
     padding: 1.8% 2%;
     height: 50px;
-    border-bottom: 1px solid var(--headercolor);
+    border-bottom: 1px solid var(--txtcolor);
     text-align: center;
     
     margin:0;
@@ -2476,9 +2666,9 @@ cursor: pointer;
 #user-profile .tabs-container .tab-content, #admin-area .tabs-container .tab-content{
     flex: 1 0 50%;
     height: fit-content;
-    border-bottom: 1px solid var(--headercolor);
-    border-left: 1px solid var(--headercolor);
-    border-right: 1px solid var(--headercolor);
+    border-bottom: 1px solid var(--txtcolor);
+    border-left: 1px solid var(--txtcolor);
+    border-right: 1px solid var(--txtcolor);
     display: none; 
     padding: 1em;
     border-radius: 0 0 0.5em 0.5em;
@@ -2489,9 +2679,9 @@ cursor: pointer;
 flex: 1 0 100%;
 }
 #user-profile input:checked + label, #admin-area input:checked + label{
-    border-top: 1px solid var(--headercolor); 
-    border-left: 1px solid var(--headercolor); 
-    border-right: 1px solid var(--headercolor); 
+    border-top: 1px solid var(--txtcolor); 
+    border-left: 1px solid var(--txtcolor); 
+    border-right: 1px solid var(--txtcolor); 
     border-bottom:0;
     /* border-bottom: 1px solid var(--bgcolor); */
     border-radius: 0.5em 0.5em 0 0;
@@ -2534,7 +2724,7 @@ flex: 1 0 100%;
 .dialog-buttons label{
     border-radius: 2em;
     background-color: var(--buttoncolor);
-    color:var(--txtcolor);
+    color:var(--text-buttoncolor);
     padding: 0.5em 2em;
     transition: 0.3s;
     border:2px solid var(--buttoncolor);
@@ -2555,20 +2745,24 @@ flex: 1 0 100%;
 
 #user-profile .tab-content form button:hover,
 .logout-btn:hover,
-#revisione-richiesta #button-cancel:hover,
-#revisione-richiesta button:hover{
+#revisione-richiesta #button-cancel:hover{
     background-color:var(--bgcolor);
+    color:var(--hover-link);
+}
+
+#revisione-richiesta button:hover{
+    background-color:var(--form-bg);
 }
 
 
 
 #user-profile .tabs-container select,
 #profilo-richiedente .tabs-container select{
-    padding:0.5em;
+    padding: 0.5em 3em 0.5em 0.5em;
     background-color: var(--bgcolor);
     border-radius: 2em;
-    border-color: var(--text-buttoncolor);
-    color:var(--text-buttoncolor);
+    border-color: var(--txtcolor);
+    color:var(--txtcolor);
     margin:5px;
     font-size: 1em;
 }
@@ -2579,7 +2773,7 @@ flex: 1 0 100%;
 
 #user-info{
     padding: 2em 1em;
-    border:1px solid var(--headercolor);
+    border:1px solid var(--txtcolor);
     border-radius: 0.5em;
 }
 
@@ -2628,10 +2822,11 @@ flex: 1 0 100%;
     margin:0.5em auto 0 auto;
     border-radius: 2em;
     background-color: var(--buttoncolor-hover);
-    color:var(--bgcolor);
+    color:var(--light-txtcolor);
     padding: 3px 2em;
     transition: 0.3s;
     font-weight: 500;
+    border: 1px solid var(--txtcolor);
 }
 
 #user-profile #lista-movimenti li p+p,
@@ -2645,7 +2840,7 @@ flex: 1 0 100%;
     color:var(--txtcolor);
     padding: 1px 0.9em;
     transition: 0.3s;
-    border:2px solid var(--buttoncolor-hover);
+    border:2px solid var(--txtcolor);
 }
 
 #user-profile #lista-movimenti li a:hover,
@@ -2684,7 +2879,7 @@ flex: 1 0 100%;
 
 .view-mode .edit-profile-link{
     margin:0.5em auto;
-    background-color: var(--bglink-hover);
+    background-color: var(--modifiedAccount);
     padding: 0.5em 1em;
     color:var(--txtcolor);
     border-radius: 2em;
@@ -2692,13 +2887,13 @@ flex: 1 0 100%;
     width: fit-content;
     flex-wrap: nowrap ;
     text-decoration: none;
-    border:2px solid var(--bglink-hover);
+    border:2px solid var(--bordermodifiedAccount);
     transition: 0.4s;
     letter-spacing: 0.5px;
 }
 
 .view-mode .edit-profile-link:hover{
-    border:2px solid var(--bglink-hover);
+    border:2px solid var(--modifiedAccount);
     background-color: transparent;
 }
 
@@ -2746,7 +2941,6 @@ a:hover .hover-icon {opacity: 1;}
     cursor: pointer;           
     gap: 10px;                 
 }
-
 .checkbox-container-pic input[type="checkbox"],
 #home input[name="type-animal"],
 input#createMore,
@@ -2757,16 +2951,22 @@ input#createMore,
     position: relative;
     top:5px;
     background-color: transparent;
-    border: 1px solid var(--txtcolor);
     cursor: pointer;
     margin: 0;
 }
 
-.checkbox-container-pic input[type="checkbox"],
+#home input[name="type-animal"],
+input#createMore,
+#form-add-animal .checkbox-label input[type="checkbox"],
+.checkbox-container-pic input[type="checkbox"]{
+    border: 1px solid var(--text-form);
+}
+
 #home input[name="type-animal"]{
     border-radius: 2em;
 }
 
+.checkbox-container-pic input[type="checkbox"],
 #form-add-animal .checkbox-label input[type="checkbox"],
 input#createMore{
     border-radius: 4px;
@@ -2873,10 +3073,11 @@ input#createMore:checked:before,
     margin-top:1em;
 }
 
-.edit-mode input[type="file"]{
-    background-color: var(--darkbgcolor);
+.edit-mode input[type="file"],
+div#admin-area input[type="file"]{
+    background-color: transparent;
     color: var(--text-buttoncolor);
-    border:none;
+    border:1px solid var(--text-form);
     border-radius: 2em;
     cursor: pointer;
 }
@@ -2892,14 +3093,19 @@ input[type="file"]::file-selector-button {
     cursor: pointer;
 }
 
+#user-info:has(.edit-mode){
+    background-color: var(--form-bg);
+    color:var(--text-form);
+}
+
 input[type="file"]::file-selector-button:hover {
-    background-color: var(--darkbgcolor);
+    background-color: var(--modifiedAccount);
+    color:var(--txtcolor);
 }
 
 .edit-mode form span,
 .edit-management form span,
 #form-add-animal .form-buttons-container,
-#form-edit-animal .form-buttons-container,
 #new-event .form-buttons-container{
     display: flex;
     flex-wrap: wrap;
@@ -2910,8 +3116,6 @@ input[type="file"]::file-selector-button:hover {
 .edit-mode form span button,
 .edit-management form span a,
 .edit-management form span button,
-#form-edit-animal button[name="submit-edit-animal"],
-#form-edit-animal a#cancel-edit-animal,
 #form-add-animal button[name="submit-animal"],
 #form-add-animal a#cancel-add-animal,
 #new-event button[name="submit-event"],
@@ -2928,7 +3132,6 @@ input[type="file"]::file-selector-button:hover {
 .edit-mode form span button,
 .edit-management form span button,
 #form-add-animal button[name="submit-animal"],
-#form-edit-animal button[name="submit-edit-animal"],
 #new-event button[name="submit-event"]{
     background-color: var(--buttoncolor);
     color:var(--text-buttoncolor);
@@ -2941,7 +3144,6 @@ input[type="file"]::file-selector-button:hover {
 .edit-mode form span a,
 .edit-management form span a,
 #form-add-animal a#cancel-add-animal,
-#form-edit-animal a#cancel-edit-animal,
 #new-event a#cancel-new-event{
     color:var(--text-buttoncolor);
     border:2px solid var(--buttoncolor);
@@ -2955,8 +3157,6 @@ input[type="file"]::file-selector-button:hover {
 .edit-management form span button:hover,
 #form-add-animal button[name="submit-animal"]:hover,
 #form-add-animal a#cancel-add-animal:hover,
-#form-edit-animal button[name="submit-edit-animal"]:hover,
-#form-edit-animal a#cancel-edit-animal:hover,
 #new-event button[name="submit-event"]:hover,
 #new-event a#cancel-new-event:hover
 {
@@ -2965,6 +3165,11 @@ input[type="file"]::file-selector-button:hover {
 }
 
 /* ================== REVISIONE RICHIESTA ==================*/
+
+
+.details-card-animale img{
+    max-height: 180px;
+}
 
 #revisione-richiesta h1{
     border-bottom:2px solid var(--footercolor);
@@ -2991,8 +3196,8 @@ input[type="file"]::file-selector-button:hover {
 #revisione-richiesta .details-card-animale{
     border:1px solid var(--txtcolor);
     border-radius:0.5em;
-    padding:1em;
-    margin-top:1em;
+    padding:1em 1em 1.5em 1em;
+    margin:1em 0;
 }
 
 #revisione-richiesta #info-request dl,
@@ -3076,8 +3281,9 @@ input[type="file"]::file-selector-button:hover {
 }
 
 .dialog-box {
-    background: var(--bgcolor);
+    background: var(--form-bg);
     padding: 2em;
+    color:var(--text-form);
     border-radius: 8px;
     max-width: 400px;
     text-align: center;
@@ -3110,6 +3316,17 @@ input[type="file"]::file-selector-button:hover {
     border-color:var(--bgcolor);
 }
 
+.dialog-buttons label[for="delete-request-check"]{
+    background-color: var(--form-bg);
+    border-color:var(--buttoncolor);
+    color:var(--text-form);
+}
+
+.dialog-buttons label[for="delete-request-check"]:hover{
+    border-color:transparent;
+    color:var(--text-form);
+}
+
 #delete-request-check:disabled + #button-cancel:hover,
 #delete-request-check:disabled + #button-cancel{
     background-color: var(--darkbgcolor);
@@ -3117,6 +3334,7 @@ input[type="file"]::file-selector-button:hover {
     color:var(--txtclose-request);
     cursor:default;
     font-weight: 500;
+    font-style: italic;
 }
 
 
@@ -3146,7 +3364,8 @@ input[type="file"]::file-selector-button:hover {
 }
 
 #login .container .column-container{
-    background-color: var(--bgcolor);
+    background-color: var(--form-bg);
+    color:var(--text-form);
     border-radius: 1.5em;
     padding:0;
     gap:0;
@@ -3160,6 +3379,14 @@ input[type="file"]::file-selector-button:hover {
 #form-login button{
     width: 80%;
     margin-top:3em;
+}
+
+#log-theme{
+    margin:auto 0 auto auto;
+}
+
+#log-theme-desktop{
+    margin:auto;
 }
 
 /* ================== CHI SIAMO ==================*/
@@ -3186,7 +3413,7 @@ input[type="file"]::file-selector-button:hover {
 
 #second-chapter-chi-siamo{
     background-color: var(--headercolor);
-    color:var(--bgcolor);
+    color:var(--light-txtcolor);
     margin-top: 1em;
 }
 
@@ -3202,9 +3429,6 @@ input[type="file"]::file-selector-button:hover {
     padding:2em 0;
     flex: 1 1 50%;
     margin:auto;
-    /* height: fit-content; */
-
-
 }
 
 
@@ -3227,7 +3451,7 @@ input[type="file"]::file-selector-button:hover {
     left: 10%;
     right: 10%;
     height: 2px;
-    background-image: linear-gradient(to right, var(--buttoncolor) 50%, transparent 50%);
+    background-image: linear-gradient(to right, var(--timeline-line) 50%, transparent 50%);
     background-size: 20px 100%;
     z-index: 0;
   }
@@ -3296,7 +3520,7 @@ input[type="file"]::file-selector-button:hover {
     background-repeat: no-repeat;
     background-position:top;
     height: fit-content;
-    color: var(--bgcolor);
+    color: var(--cat-txtcolor);
     padding: 3em;
     border-radius: 1em;
 }
@@ -3351,9 +3575,9 @@ body#admin-body #richieste .filtri button{
 
 body#admin-body #animali .filtri .capsula-filtro,
 body#admin-body #richieste .filtri .capsula-filtro{
-    /* margin-left: auto; */
+    margin-left: auto;
     margin-right: 0;
-    /* gap:0; */
+    gap:0;
     flex:0 0 fit-content;
 }
 
@@ -3375,13 +3599,13 @@ body#admin-body #breadcrumb{
 div#admin-area div#row2 article{
     margin-top:0em;
 }
+
 div#admin-area article:not(.card) { /*aggiunto il not(.card) perchè così visualizzo bene le card degli animali in "assegnati a te" di admin*/
   padding:1em 1em 1em 1em;
   border: 1px solid var(--txtcolor);
   border-radius:0.5em;
   margin: 2em 0em;
 }
-
 
 div#admin-area article#query, div#admin-area article#row2-container{
     padding: 2em 2em 0em 2em;
@@ -3420,7 +3644,7 @@ ul#statistics-list li{
 }
 #to-do-list a, #statistics-list a{
     width:100%; /*riempie tutto il li*/
-    color: var(--txtcolor);
+    color: var(--text-form);
     text-decoration: none;
     font-weight: normal;
 }
@@ -3454,16 +3678,7 @@ nav#menu-admin {
      font-size: 100%;
     /* height: 100vh; */
 }
-nav#menu-admin #logo{
-    display: block;
-    height: 7em;
-    margin: 1em auto;
-    max-width: 100%;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-image: url("../../assets/icons/light-mode-logo.svg");
-}
+
 nav#menu-admin li a {
     width: 100%;
     display: block;
@@ -3473,6 +3688,15 @@ body#admin-body main {
     background-color: var(--bgcolor);
     margin-left:20%;
 }
+
+nav#menu-admin #logo {
+    display: block;
+    margin: 1em auto;
+    width: 12em;
+    max-width: 100%;
+    height: auto;
+}
+
 
 nav#menu-admin li {
   padding: 1.1em 1.3em;
@@ -3488,13 +3712,12 @@ nav#menu-admin li a{
 
 nav#menu-admin button.logout-btn:hover{
     background-color: var(--buttoncolor-hover);
-    color:var(--text-buttoncolor-hover);
-    border-color: var(--buttoncolor-hover);
+    color:var(--light-txtcolor);
 }
 
 .description-menu{
     font-size: 1.3em;
-    border-bottom:1px solid var(--darkbgcolor);
+    border-bottom:1px solid var(--navButton);
     margin-right: 1em;
     margin-top: 2em;
 }
@@ -3514,7 +3737,7 @@ nav#menu-admin li a:visited{
 
 nav#menu-admin li:hover{
     /* background-color: var(--darkbgcolor); */
-    outline: 2px solid var(--bgcolor);
+    outline: 2px solid var(--navButton);
     border-radius: 2em 0em 0em 2em;
 }
 
@@ -3528,10 +3751,10 @@ nav#menu-admin li#currentLink:hover{
 
 nav#menu-admin li#currentLink a{
     font-weight: 700;
-    color: var(--txtcolor);
+    color: var(--navButton);
 }
 nav#menu-admin span{
-    color: var(--bgcolor);
+    color: var(--navButton);
     margin-left: 0.5em;
     font-weight: 700;
 }
@@ -3539,6 +3762,7 @@ nav#menu-admin span{
 nav#menu-admin ul{
     margin-top:1em;
     margin-bottom: 1em;
+    list-style: none;
 }
 
 nav#menu-admin a#logout{
@@ -3559,6 +3783,11 @@ div#row2 article{
     flex-direction: column; /* Mette la testata SOPRA e le info SOTTO */
 }
 
+#admin-info:has(button){
+    color:var(--text-form);
+    background-color: var(--form-bg);
+}
+
 .header-info h2{
     float: left;
 }
@@ -3575,8 +3804,17 @@ a.pencil {
     flex-wrap: wrap;
 }
 
+.generic-info-container img {
+    margin:0 auto 1em auto;
+}
+
+#informazioni-admin{
+    width: 100%;
+}
+
 .generic-info-container form{
-    max-width: 100%;
+    max-width: 90%;
+    margin:auto;
 }
 
 
@@ -3920,6 +4158,21 @@ caption {
 
 td.col-dettagli a,td.col-dettagli button{
     margin: 0.5em;
+    width: fit-content;
+    min-width: 10.5em;
+}
+
+#admin-area #animali tbody .orange-button[name="elimina_segnalazione"]{
+    background-color: transparent;
+    border: 2px solid var(--buttoncolor);
+    color:var(--txtcolor);
+    padding:0.6em 1.5em;
+    transition: 0.3s;
+}
+
+#admin-area #animali tbody .orange-button[name="elimina_segnalazione"]:hover{
+    background-color: transparent;
+    border: 2px solid transparent;
 }
 
 .nessun-risultato-message{
@@ -3929,23 +4182,10 @@ td.col-dettagli a,td.col-dettagli button{
     display: block;
 }
 
-tr:hover {
+/* l'ho tolto perché la riga non era cliccabile */
+/* tr:hover {
     background-color: var(--darkbgcolor);          
-}
-
-
-/*================== ANIMALI ASSEGNATI A TE ADMIN  ==================*/
-
-div#admin-area .container{
-    max-width: none;
-}
-div#admin-area .container#animali .filtri ul{
-    justify-content: normal;
-}
-/*================== SEGNALAZIONE NUOVE ACCOGLIENZE ADMIN  ==================*/
-div#admin-area #animali .filtri ul{
-    justify-content: flex-end;
-}
+} */
 /*================== FILTRI  ==================*/
 .tab-content .filtri ul{
     /* margin: 1em; */
@@ -3959,13 +4199,12 @@ div#admin-area #animali .filtri ul{
     display: inline;
 }
 
-/*==================NUOVO Animale==================*/
+/*==================NUOVO Animali==================*/
 
 /* ========================================
    CONTAINER PRINCIPALE
    ======================================== */
 #admin-area-aggiungi,
-#admin-area-modifica,
 #nuovo-evento {
     margin-top:-6em;
     display: flex;
@@ -3983,9 +4222,9 @@ div#admin-area #animali .filtri ul{
    FORM BASE
    ======================================== */
 #form-add-animal,
-#form-edit-animal,
 #new-event {
-    background-color: var(--bgcolor);
+    background-color: var(--form-bg);
+    color:var(--text-form);
     width: 95%;
     max-width: 950px;
     padding: 3em 4em;
@@ -3996,7 +4235,6 @@ div#admin-area #animali .filtri ul{
 }
 
 #form-add-animal fieldset,
-#form-edit-animal fieldset,
 #new-event fieldset {
     margin-bottom: 1em;
     border: none;
@@ -4004,7 +4242,6 @@ div#admin-area #animali .filtri ul{
 }
 
 #form-add-animal legend,
-#form-edit-animal legend,
 #new-event legend {
     float: left;
     width: 100%;
@@ -4014,8 +4251,7 @@ div#admin-area #animali .filtri ul{
     border-top:2px solid var(--darkbgcolor);
 }
 
-#form-add-animal fieldset:first-of-type legend,
-#form-edit-animal fieldset:first-of-type legend{
+#form-add-animal fieldset:first-of-type legend{
     margin-top:1.5em;
 }
 
@@ -4041,7 +4277,7 @@ div#admin-area #animali .filtri ul{
     padding: 0.5em 5em;
     min-width: 150px;
     border: 2px solid var(--text-buttoncolor);
-    background-color: var(--darkbgcolor);
+    background-color: var(--selectTypeAnimal);
     border-radius: 0.5em;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -4050,7 +4286,7 @@ div#admin-area #animali .filtri ul{
 }
 
 .radio-card:hover {
-    color: var(--bgcolor);
+    color: var(--form-bg);
     background-color: var(--buttoncolor-hover);
 }
 
@@ -4098,10 +4334,8 @@ div#admin-area #animali .filtri ul{
    LABELS
    ======================================== */
 #form-add-animal label,
-#form-edit-animal label,
 #new-event label,
 #form-add-animal #label-foto,
-#form-edit-animal #label-foto,
 #new-event #label-foto{
     font-weight: 500;
     display: block;
@@ -4109,13 +4343,11 @@ div#admin-area #animali .filtri ul{
 }
 
 #form-add-animal label.file-upload-label,
-#form-edit-animal label.file-upload-label,
 #new-event label.file-upload-label{
     margin: 0;
 }
 
-#form-add-animal .checkbox-label input[type="checkbox"],
-#form-edit-animal .checkbox-label input[type="checkbox"]{
+#form-add-animal .checkbox-label input[type="checkbox"]{
     margin-left: 0.5em;
 }
 
@@ -4124,8 +4356,6 @@ div#admin-area #animali .filtri ul{
    ======================================== */
 #form-add-animal input[type="text"],
 #form-add-animal input[type="date"],
-#form-edit-animal input[type="text"],
-#form-edit-animal input[type="date"],
 #new-event input[type="text"],
 #new-event input[type="date"]{
     display: block;
@@ -4134,20 +4364,18 @@ div#admin-area #animali .filtri ul{
     border-radius: 0.2em;
     font-size: 1em;
     font-family: inherit;
-    background-color: var(--bgcolor);
-    color: var(--buttoncolor-hover);
+    background-color: var(--form-bg);
+    color: var(--text-form);
     transition: all 0.3s ease;
 }
 
 #form-add-animal input[type="text"],
-#form-edit-animal input[type="text"],
 #new-event input[type="text"]{
     padding: 0.55em;
     margin:0;
 }
 
 #form-add-animal input[type="date"],
-#form-edit-animal input[type="date"],
 #new-event input[type="date"] {
     margin:0;
     padding: 0.5em;
@@ -4164,11 +4392,8 @@ div#admin-area #animali .filtri ul{
 #new-event textarea::placeholder,
 #form-add-animal input::placeholder,
 #form-add-animal select::placeholder,
-#form-add-animal textarea::placeholder,
-#form-edit-animal input::placeholder,
-#form-edit-animal select::placeholder,
-#form-edit-animal textarea::placeholder{
-    color:var(--placeholder-text);
+#form-add-animal textarea::placeholder{
+    color:var(--placeholderForm-tex);
     font-weight: lighter;
     font-size: 0.9em;
 }
@@ -4176,8 +4401,7 @@ div#admin-area #animali .filtri ul{
 /* ========================================
    SELECT (TAGLIA E PELO)
    ======================================== */
-#form-add-animal select,
-#form-edit-animal select {
+#form-add-animal select {
     /* display: block;
     width: 100%;
     padding: 0.5em;
@@ -4191,10 +4415,10 @@ div#admin-area #animali .filtri ul{
     /* transition: all 0.3s ease;
     font-family: "Parkinsans", Roboto, sans serif; */ 
     padding:0.5em 2em 0.5em 0.5em;
-    background-color: var(--bgcolor);
+    background-color: var(--form-bg);
     border-radius: 2em;
     border-color: var(--text-buttoncolor);
-    color:var(--text-buttoncolor);
+    color:var(--text-form);
     margin:0;
     width: 100%;
     min-height: 44px;
@@ -4206,7 +4430,6 @@ div#admin-area #animali .filtri ul{
    TEXTAREA
    ======================================== */
 #form-add-animal textarea,
-#form-edit-animal textarea,
 #new-event textarea {
     display: block;
     width: 100%;
@@ -4215,8 +4438,8 @@ div#admin-area #animali .filtri ul{
     border-radius: 0.2em;
     font-size: 1em;
     font-family: inherit;
-    background-color: var(--bgcolor);
-    color: var(--txtcolor);
+    background-color: var(--form-bg);
+    color: var(--text-form);
     resize: vertical;
     transition: all 0.3s ease;
 }
@@ -4251,7 +4474,7 @@ div#admin-area #animali .filtri ul{
 
 .file-upload-label:hover {
     border-color: var(--buttoncolor-hover);
-    background-color: var(--darkbgcolor);
+    background-color: var(--selectTypeAnimal);
     text-decoration: underline;
 }
 
@@ -4323,52 +4546,6 @@ div#admin-area #animali .filtri ul{
     border-radius: 0.5em;
     text-align: center;
 }
-
-.disabled-group {
-    opacity: 0.6;
-    pointer-events: none; /* Impedisce click accidentali */
-    cursor: not-allowed;
-}
-
-.disabled-group .radio-card {
-    border-style: dashed; /* Rende visivamente diverso il bordo */
-}
-
-/* .checkbox-label input[type="checkbox"] {
-    width: 1.1em;
-    height: 1.1em;
-    accent-color: var(--buttoncolor-hover);
-} */
-
-/* .form-buttons-container {
-    display: flex;
-    gap: 1.5em;
-    width: 100%;
-    margin-top: 2.5em;
-    justify-content: center;
-}
-
-.form-buttons-container button {
-    flex: 1;
-    padding: 1em;
-    font-size: 1.1em;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border-radius: 0.8em;
-    text-align: center;
-} */
-
-/* .form-buttons-container .white-button {
-    background-color: var(--bgcolor);
-    color: var(--headervisitedlink);
-    border: 3px solid var(--headervisitedlink);
-}
-
-.form-buttons-container .white-button:hover {
-    background-color: var(--headervisitedlink);
-    color: var(--bgcolor);
-} */
 
 /* ========================================
    MESSAGGI DI ERRORE
@@ -4521,7 +4698,7 @@ nav#breadcrumb{
     text-align: center;
     width: fit-content;
     background-color: var(--footercolor);
-    color: var(--bgcolor);
+    color: var(--light-txtcolor);
     padding: 0.7em 1.5em;
     border-radius: 1em;
     font-weight: 400;
@@ -4542,35 +4719,7 @@ nav#breadcrumb a:visited{
 
 
 /*================VISUALIZZAZIONE ANIMALI ==================*/
-/* .contattaci{
-    background-color: var(--secondsection);
-    border-radius: 2em;
-    display: inline;
-    text-decoration: none;
-    text-align: center;
-    height: min-content;
-    padding: 0.6em;
-    margin-left: auto;
-}
 
-.contattaci:hover {
-    background-color: var(--buttoncolor-hover);
-    text-decoration:underline; 
-}
-.contattaci:visited{
-    background-color: var(--headerlink);
-}  
-
-
-@media (max-width: 550px) { 
-    .contattaci {
-        margin-right: auto;
-        order: -1;       
-  }
-  #titolo-dettagli-animale{
-   align-self: center;
-} 
-}*/
 #visualizzazione-animale .column-container{
     gap:2em;
 }
@@ -4879,80 +5028,6 @@ nav#breadcrumb a:visited{
    font-size: 1rem;
    padding-top: 0.1em;
 }
-/* ================== CHI SIAMO ==================*/
-
-#second-chapter-chi-siamo{
-    margin-top: 1em;
-}
-#first-chapter-chi-siamo .column-container{
-    align-items: center;
-}
-
-#chi-siamo-content {
-    flex: 1 1 50%;
-}
-#chi-siamo-img{
-    flex: 0 1 40%;
-}
-
-#chi-siamo-img img{
-    width: 100%;
-}
-
-/* Sezione 2 Chi Siamo */
-
-#second-chapter-chi-siamo{
-    background-color: var(--headercolor);
-    color:var(--bgcolor);
-    margin-top: 1em;
-}
-
-#chi-siamo2-img{
-    flex: 0 1 35%;
-}
-#chi-siamo2-img img{
-    width: 90%;
-}
-
-#content-chi-siamo2{
-    vertical-align: middle;
-    padding:2em 0;
-    flex: 1 1 50%;
-    margin:auto;
-    /* height: fit-content; */
-
-
-}
-
-
-/*Sezione "PetMatch timeline"*/
-
-#pm-timeline{   
-   display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    align-items: flex-start;
-    margin-top: 2em;
-    list-style: none;
-  }
-
-#pm-timeline::before {
-    content: '';
-    position: absolute;
-    top: 1.5em; 
-    left: 10%;
-    right: 10%;
-    height: 2px;
-    background-image: linear-gradient(to right, var(--buttoncolor) 50%, transparent 50%);
-    background-size: 20px 100%;
-    z-index: 0;
-  }
-
-  #pm-timeline li{
-    position: relative; 
-    text-align: center;
-  }
 
 /* ================== NUOVO EVENTO ==================*/
 #new-event .split-input{
@@ -4962,14 +5037,6 @@ nav#breadcrumb a:visited{
     gap: 1em;
     margin: auto;
 }
-
-#team-img img{      /*qui potrebbe non esserci me lo dava come mio cambiamento ma mai toccato*/
-    width: 100%;
-    flex:0 1 30%;
-    height: auto;
-    max-height: 15em;
-    padding: 0;
-} 
 
 #ModifiedMode{
     display: none;
@@ -5023,6 +5090,10 @@ nav#breadcrumb a:visited{
     margin-top: 0;
 }
 
+
+
+
+
 /* PAGINA COME FUNZIONA */
 #come-funziona .testo {
     display: flex;
@@ -5073,7 +5144,7 @@ nav#breadcrumb a:visited{
     border-top-right-radius: 1.5em;
     border-top-left-radius: 1.5em;
     z-index: 0;
-    color: var(--bgcolor);
+    color: var(--light-txtcolor);
     padding: 2em;
     padding-right: 3em;
     margin-top: 1.5em;
@@ -5182,13 +5253,21 @@ nav#breadcrumb a:visited{
     margin-top: 3em;
     background-color: var(--bgform);
     display: flex;
-    color: var(--bgcolor);
+    color: var(--cat-txtcolor);
     padding-top: 3em;
     padding-left: 5em;
     padding-right: 5em;
     padding-bottom: 2em;
     border-bottom-left-radius: 1em;
     border-bottom-right-radius: 1em;
+}
+
+#come-funziona #invitoLavoro a{
+    border:none;
+}
+
+#come-funziona #invitoLavoro a.brown-button:hover{
+    color:var(--cat-txtcolor);
 }
 
 #come-funziona #invitoLavoro h2{

@@ -198,15 +198,30 @@ function loadTemplate(string $path, string $default = ''): string {
 
 
 function buildAdminNav(array $menuGroups, string $currentHref): string {
+
+    $isDark = (isset($_COOKIE['theme']) && $_COOKIE['theme'] === 'dark');
+    // Parte iniziale: Checkbox e Label (Hamburger)
     $html = '
     <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
+
+    <div id="log-theme">
+    <input type="checkbox" id="theme-toggle" class="sr-only"';
+    $html .= $isDark? ' checked >':'>';
+    $html .= '
+        <label for="theme-toggle" id="theme-switch" aria-label="Cambia tema" >
+            <span id="slider">
+                <img src="./assets/icons/sun.svg" id="sun" alt=""/>
+                <img src="./assets/icons/moon.svg" id="moon" alt=""/>
+            </span>
+        </label>
+    </div>
     <label for="menu-toggle-checkbox" class="menu-toggle" aria-label="Apri o chiudi menu di navigazione">
     <span></span> </label>
     
     <nav id="menu-admin" aria-label="Menù">
         <a class="navigationHelp" href="#content"> Salta il menù di navigazione</a>
-        <a href="./home" id="logo-link">
-            <span id="logo" aria-label="Home"></span>
+        <a href="./home">
+            <img src="./assets/icons/light-mode-logo.svg" id="logo" alt="Home" lang="en">
         </a>';
         $html .= $currentHref==='./nuovo-animale' ? '<p class="orange-button" id="currentLink" href="./nuovo-animale">+ Aggiungi animale</p>' : '<a class="orange-button" href="./nuovo-animale">+ Aggiungi animale</a>';
 
@@ -223,6 +238,9 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
         foreach ($items as $item) {
             $active = ($item['href'] === $currentHref) ? ' id="currentLink"' : '';
             $linkHref = ($item['href'] === $currentHref) ? '<li'.$active.' aria-label="pagina attuale:'.$item['text'].'">'.$item['text'].'</li>' : '<li'.$active.'><a href="'.$item['href'].'">'.$item['text'].'</a></li>';
+            
+            // In questa versione, anche il link corrente rimane cliccabile 
+            //ho sistemato - angelac
             $html .= $linkHref;
         }
         $html .= '</ul>';
@@ -378,6 +396,17 @@ function buildNav(array $items, string $currentHref): string {
                         </a>
                     </h1>
                 </nav>
+                <div id="log-theme">
+                    <input type="checkbox" id="theme-toggle" class="sr-only"';
+                    $html .= $isDark? ' checked >':'>';
+                    $html .= '
+                        <label for="theme-toggle" id="theme-switch" aria-label="Cambia tema" >
+                            <span id="slider">
+                                <img src="./assets/icons/sun.svg" id="sun" alt=""/>
+                                <img src="./assets/icons/moon.svg" id="moon" alt=""/>
+                            </span>
+                        </label>
+                </div>
             </div>
         </header>';
     }
@@ -458,7 +487,7 @@ function buildFooter(array $menuGroups, string $currentHref): string {
                         <ul class="footer-submenu">
                             <li class="social-media-links">
                                 <address>
-                                    <a rel="me" id="insta-link" href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram">
+                        <a id="insta-link" href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram">
                                         <img src="./assets/icons/Instagram.svg" id="instagram" alt="">
                                         @petmatch_shelter
                                     </a>
@@ -664,10 +693,8 @@ function buildPagination(int $currentPage, int $totalPages, array|string $params
 
 // rimuove valori vuoti
     // $params = array_filter($params, fn($v) => $v !== '');
-
-
-    if ($totalPages <= 1) return '';
-    unset($params['page']);
+	    if ($totalPages <= 1) return '';
+unset($params['page']);
 
     $html = '';
 
@@ -777,5 +804,3 @@ function formattaDataItaliana(string $data): string {
 
     return "$giorno $mese $anno";
 }
-
-
