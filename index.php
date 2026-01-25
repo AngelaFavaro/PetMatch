@@ -83,6 +83,9 @@ $routes = [
     ],
     'modifica-evento' => [
         'file' => __DIR__ . '/src/php/admin/modifica-evento.php'
+    ],
+    'visualizzazione-eventi' => [
+        'file' => __DIR__ . '/src/php/admin/visualizzazione-eventi.php'
     ]
 ];
 

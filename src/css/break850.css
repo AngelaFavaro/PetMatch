@@ -347,7 +347,7 @@ details[open] .number::after {
     margin-bottom:0em;
 }
 
-/*                      PAGINA EVENTI                 */
+/*===================PAGINA EVENTI==================*/
 #eventi .filtri {
     display:flex;
     align-items: center;

@@ -1854,6 +1854,15 @@ class DBAccess {
         $types .= 's';
     }
 
+    /* ---------- FILTRO PERIODO ---------- */
+    if (!empty($filters['tipo'])) {
+        if($filters['tipo'] === 'prossimi'){
+            $where[] = 'DataEvento >= CURRENT_DATE()';
+        }else if($filters['tipo'] === 'terminati'){
+            $where[] = 'DataEvento < CURRENT_DATE()';
+        }
+    }
+
     /* ---------- QUERY BASE ---------- */
     $query = "
         SELECT 
@@ -1951,6 +1960,15 @@ public function countEventsFiltered(array $filters): int {
         $where[] = 'Citta = ?';
         $params[] = $filters['citta'];
         $types .= 's';
+    }
+    
+    /* ---------- FILTRO PERIODO ---------- */
+    if (!empty($filters['tipo'])) {
+        if($filters['tipo'] === 'prossimi'){
+            $where[] = 'DataEvento >= CURRENT_DATE()';
+        }else if($filters['tipo'] === 'terminati'){
+            $where[] = 'DataEvento < CURRENT_DATE()';
+        }
     }
 
     /* ---------- QUERY COUNT ---------- */

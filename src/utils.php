@@ -133,7 +133,7 @@ $pagine = [
     'nuovo-evento' => [
         'label' => 'Nuovo evento',
         'url' => './nuovo-evento',
-        'parent' => 'eventi'
+        'parent' => 'visualizzazione-eventi'
     ],
     'assegnati-a-te' => [
         'label' => 'Assegnati a te',
@@ -143,7 +143,12 @@ $pagine = [
     'modifica-evento' => [
         'label' => 'Modifica evento',
         'url' => './modifica-evento',
-        'parent' => 'eventi'
+        'parent' => 'visualizzazione-eventi'
+    ],
+    'visualizzazione-eventi' => [
+        'label' => 'Visualizzazione-eventi',
+        'url' => './visualizzazione-eventi',
+        'parent' => 'home'
     ],
 ];
 
@@ -151,7 +156,7 @@ $adminMenu = [
     'principale' => [
         ['href' => './area-riservata', 'text' => 'Area personale'],
         ['href' => './richieste-adozione', 'text' => 'Richieste di adozione'],
-        ['href' => './eventi', 'text' => 'Eventi'],
+        ['href' => './visualizzazione-eventi', 'text' => 'Eventi'],
     ],
     'animali' => [
         ['href' => './assegnati-a-te', 'text' => 'Assegnati a te'],
