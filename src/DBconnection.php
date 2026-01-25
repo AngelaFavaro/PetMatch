@@ -1265,6 +1265,7 @@ class DBAccess {
                     T.DataPartenza,         
                     T.DataArrivo,
                     R.Trasporto,
+                    A.Tipo,
                     A.Nome AS NomeAnimale,
                     A.Sesso,
                     A.DataNascita,

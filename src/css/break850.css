@@ -89,7 +89,7 @@
     width: 2px;
     height: auto;
     max-height: 550px;
-    background-image: linear-gradient(to top, var(--buttoncolor) 50%, transparent 50%);
+    background-image: linear-gradient(to top, var(--timeline-line) 50%, transparent 50%);
     background-size: 100% 20px;
 }
 
@@ -169,8 +169,6 @@ details[open] .number::after {
 }
 
 #form-affidamento {
-    background-color: var(--bgcolor);
-    color: var(--txtcolor);
     margin:2em auto 0.1em auto;
     padding: 0em 2em;
     flex: 1 0 40%;
@@ -181,6 +179,10 @@ details[open] .number::after {
     padding: 0;
     background-image: none;
     overflow:hidden;
+}
+
+:root:has(input#theme-toggle:checked) #container-form-affidamento{
+    background-image: none;
 }
 /* ==================CHI SIAMO==================*/
 

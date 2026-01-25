@@ -361,6 +361,17 @@ function buildNav(array $items, string $currentHref): string {
                         </a>
                     </h1>
                 </nav>
+                <div id="log-theme">
+                    <input type="checkbox" id="theme-toggle" class="sr-only"';
+                    $html .= $isDark? ' checked >':'>';
+                    $html .= '
+                        <label for="theme-toggle" id="theme-switch" aria-label="Cambia tema" >
+                            <span id="slider">
+                                <img src="./assets/icons/sun.svg" id="sun" alt=""/>
+                                <img src="./assets/icons/moon.svg" id="moon" alt=""/>
+                            </span>
+                        </label>
+                </div>
             </div>
         </header>';
     }

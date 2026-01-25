@@ -6,32 +6,142 @@
 
 :root{
     --bgcolor: #FFF6D7;
+    --navButton: #FFF6D7;
+    --logolink: #FFF6D7;
     --txtcolor: #481515;
+    --light-txtcolor: #FFF6D7;
+    --cat-txtcolor: #FFF6D7;
     --buttoncolor: #EA654C;
     --secondsection: #6D7541;
     --placeholderDarker-text:#5e4232;
     --placeholder-text:#825E49;
+    --placeholderForm-text:#825E49;
+    --polaroid-color: #FFF6D7;
+    --polaroid-txt: #481515;
+    --timeline-line: #EA654C;
+    --row-time-line: #FFF6D7;
+    --form-bg: #FFF6D7;
+    --text-form: #481515;
+    --hovertext-form-button: #FFF6D7;
+    --text-form-button: #481515;
+    --hover-link: #481515;
     --darkbgcolor: #E4D4BA;
+    --cardHover: #481515;
+    --textDarkinput: #481515;
+    --modifiedAccount:#E4D4BA;
+    --bordermodifiedAccount:#E4D4BA;
+    
+    --darkMode-bordermodifiedAccount:#C7B097;
+    --darkMode-modifiedAccount:#5B2E25;
+    --darkMode-textDarkinput: #C7B097;
+    --darkMode-placeholder-text:#a48f78;
+    --darkMode-placeholderDarker-text:#7f6b56;
+    --darkMode-cardHover: #C7B097;
+    --darkMode-darkbgcolor: #481515;
+    --darkMode-hover-link: #C7B097;
+    --darkMode-form-bg: #C7B097;
+    --darkMode-text: #C7B097;
+    --darkMode-bgcolor: #5B2E25;
+    --darkMode-cat-txtcolor: #E0CFBE;
+    --darkMode-visitedLinkHeader: #ba4d3b;
+    --darkMode-colorLink: #C7B097;
+    --darkMode-visitedcolorLink: #ba4d3b;
+    --darkMode-timeline-line: #C7B097;
+    --darkMode-row-time-line: #481515;
+    --darkMode-bglink-hover: #b79378;
+    --darkMode-txtclose-request: #C7B097;
+
     --successtxt:#576F30;
     --errortxt: #BA3A24;
     --txtclose-request: #6b5050;
-    --headercolor: var(--txtcolor);
-    --darkSection:var(--txtcolor);
-    --buttoncolor-hover: var(--txtcolor);
-    --text-buttoncolor:  var(--txtcolor);
-    --footercolor:  var(--txtcolor);
-    --headerlink:  var(--txtcolor);
+    --headercolor: #481515;
+    --darkSection:#481515;
+    --buttoncolor-hover: #481515;
+    --text-buttoncolor:  #481515;
+    --footercolor:  #481515;
+    --headerlink:  #481515;
     --text-buttoncolor-hover: var(--bgcolor);
-    --linkcolor: var(--bgcolor);
+    --linkcolor: #FFF6D7;
+    --darklinkcolor: #481515;
     --bgconfermbutton:var(--bgcolor);
-    --visitedcolor: var(--buttoncolor);
-    --headervisitedlink: var(--secondsection);
+    --visitedcolor: #EA654C;
+    --headervisitedlink: #6D7541;
     --bgform: var(--secondsection);
     --bgconfirmbutton:var(--secondsection);
     --greencolor: var(--secondsection);
-    --bglink-hover: var(--darkbgcolor);
+    --bglink-hover: #E4D4BA;
     --txtcancelbutton:var(--bgconfirmbutton);
     --greencolor: #6D7541;
+}
+
+:root:has(input#theme-toggle:checked){
+    --bordermodifiedAccount:var(--darkMode-bordermodifiedAccount);
+    --modifiedAccount:var(--darkMode-modifiedAccount);
+    --txtclose-request:var(--darkMode-txtclose-request);
+    --bglink-hover: var(--darkMode-bglink-hover);
+    --placeholderForm-text: var(--darkMode-placeholderDarker-text);
+    --textDarkinput:var(--darkMode-te);
+    --placeholderDarker-text: var(--darkMode-textDarkinput);
+    --placeholder-text: var(--darkMode-textDarkinput);
+    --cardHover: var(--darkMode-cardHover);
+    --bgcolor: var(--darkMode-bgcolor);
+    --headervisitedlink: var(--darkMode-visitedLinkHeader);
+    --navButton: var(--darkMode-text);
+    --linkcolor: var(--darkMode-colorLink);
+    --logolink: var(--darkMode-text);
+    --light-txtcolor: var(--darkMode-text);
+    --cat-txtcolor: var(--darkMode-cat-txtcolor);
+    --txtcolor: var(--darkMode-text);
+    --form-bg: var(--darkMode-form-bg);
+    --visitedcolor: var(--darkMode-visitedcolorLink);
+    --hover-link: var(--darkMode-hover-link);
+    --darkbgcolor: var(--darkMode-darkbgcolor);
+}
+
+:root:has(input#theme-toggle:checked){
+    --buttoncolor: var(--darkMode-visitedLinkHeader);
+    --timeline-line: var(--darkMode-timeline-line);
+    --row-time-line: var(--darkMode-row-time-line);
+}
+
+:root:has(input#theme-toggle:checked) #header-logo,
+:root:has(input#theme-toggle:checked) #logo-footer,
+:root:has(input#theme-toggle:checked) #heart-normal,
+:root:has(input#theme-toggle:checked) .circle,
+:root:has(input#theme-toggle:checked) #user-info a img,
+:root:has(input#theme-toggle:checked) #instagram,
+:root:has(input#theme-toggle:checked) #animali .heart-normal,
+:root:has(input#theme-toggle:checked) #animali .heart-hover,
+:root:has(input#theme-toggle:checked) #account-normal,
+:root:has(input#theme-toggle:checked) #introduction-home img{
+    filter: brightness(0) saturate(100%) invert(79%) sepia(17%) saturate(541%) hue-rotate(346deg) brightness(92%) contrast(88%);
+}
+
+:root:has(input#theme-toggle:checked) .polaroid::before{
+    filter: brightness(0) saturate(100%) invert(18%) sepia(34%) saturate(1637%) hue-rotate(329deg) brightness(93%) contrast(92%);
+}
+
+:root:has(input#theme-toggle:checked) #section-events,
+:root:has(input#theme-toggle:checked) #ci-presentiamo{
+    background-image: 
+        linear-gradient(to bottom, transparent 70%, var(--secondsection) 98%),
+        url('../../assets/images/cat-darkbg.svg');
+    transition: background-color 0.4s;
+}
+
+:root:has(input#theme-toggle:checked) #sponsor{
+    background-image: url('../../assets/images/sponsor-darkbg.svg');
+}
+
+:root:has(input#theme-toggle:checked) #container-form-affidamento{
+    background-image: url('../../assets/images/darkhouse-form.svg');
+}
+:root:has(input#theme-toggle:checked) .torna-su-button img{
+    filter: brightness(80%) saturate(85%) contrast(110%);
+}
+
+:root:has(input#theme-toggle:checked) select{
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%23C7B097" d="M7 10l5 5 5-5z"/></svg>');
 }
 
 a{
@@ -44,7 +154,7 @@ a:visited{
 }
 
 a.orange-button:visited{
-    color: var(--txtcolor);
+    color: var(--text-form-button);
 }
 
 a.orange-button:hover{
@@ -82,7 +192,7 @@ main#content{
 }
 
 #NavHeader + main #breadcrumb{
-    border: 1px solid var(--bgcolor);
+    border: 1px solid var(--light-txtcolor);
 }
 
 html{
@@ -126,7 +236,13 @@ h4{
 
 #form-signup + p a,
 #form-login + p a{
-    color:var(--txtcolor);
+    color:var(--darklinkcolor);
+    font-weight: 500;
+}
+
+#form-signup + p a:visited,
+#form-login + p a:visited{
+    color:var(--visitedcolor);
     font-weight: 500;
 }
 
@@ -154,7 +270,7 @@ button.orange-button{
 .orange-button:hover,
 button.orange-button:hover {
     background-color: var(--buttoncolor-hover); 
-    color: var(--linkcolor);
+    color: var(--hovertext-form-button);
 }
 
 #currentLink.orange-button,
@@ -162,7 +278,7 @@ a.orange-button,
 button.orange-button,
 .white-button:hover{
     background-color: var(--buttoncolor);
-    color: var(--txtcolor);
+    color: var(--text-form-button);
 }
 
 button.orange-button{
@@ -190,7 +306,7 @@ a.brown-button:visited{
 .brown-button:hover, button.brown-button:hover,
 .brown-button:visited:hover{
     background-color:transparent; 
-    color: var(--text-buttoncolor);
+    color: var(--hover-link);
     cursor: pointer;
 }
 
@@ -210,7 +326,7 @@ button.brown-button{
     font-weight: 500;
     text-decoration: none;
     transition: background-color 0.6s ease;
-    background-color: var(--bgcolor);
+    background-color: var(--navButton);
     color:var(--text-buttoncolor)
 }
 
@@ -282,7 +398,7 @@ input:placeholder-shown{
 /*==================WIDGET UTILI==================*/
 .polaroid{
     width: 30%;
-    background-color: white;
+    background-color: var(--polaroid-color);
     padding: 0.5em 0.5em 3em 0.5em;
 }
 
@@ -305,7 +421,7 @@ input:placeholder-shown{
     left: 10%;
     right: 10%;
     height: 2px;
-    background-image: linear-gradient(to right, var(--buttoncolor) 50%, transparent 50%);
+    background-image: linear-gradient(to right, var(--timeline-line) 50%, transparent 50%);
     background-size: 20px 100%;
     z-index: 0;
   }
@@ -495,6 +611,10 @@ li.capsula-filtro select:focus{
     border-radius: 0.5em;
 }
 
+li.capsula-filtro input:focus{
+    outline: none;
+}
+
 
 /* ==================LAVORA CON NOI ================== */
 
@@ -506,8 +626,8 @@ li.capsula-filtro select:focus{
     display: flex;
     gap: 4em;
 }
-#introduction-lavora-con-noi .column-user {
-    flex: 1; 
+#introduction-lavora-con-noi .column-user:first-of-type {
+    flex: 1 1 30%; 
 }
 #introduction-lavora-con-noi h1 {
     margin-bottom: 0.5em;
@@ -515,14 +635,14 @@ li.capsula-filtro select:focus{
 }
 
 #introduction-lavora-con-noi a{
-    color:var(--headerlink);
+    color:var(--linkcolor);
     font-weight: 500;
 }
 
 
 #come-diventare-volontario {
     background-color: var(--greencolor); 
-    color: var(--bgcolor);                       
+    color: var(--cat-txtcolor);                       
     width: 100%;
     padding: 2.5em;
 }
@@ -562,7 +682,7 @@ li.capsula-filtro select:focus{
 #come-diventare-sostenitore {
     margin-top: 3em;
     background-color: var(--footercolor); 
-    color: var(--bgcolor);        
+    color: var(--light-txtcolor);        
     border-top-right-radius: 2.5em;
     border-top-left-radius: 2.5em;     
     padding: 2em 4em;
@@ -583,7 +703,6 @@ li.capsula-filtro select:focus{
 #contatto-sostenitore {
     margin-top: 3em;
     margin-bottom:-2em;
-    text-align: center;
 }
 
 #contatto-sostenitore a {
@@ -614,6 +733,7 @@ li.capsula-filtro select:focus{
 
 #layout-user #osso #currentLink{
     font-weight: 600;
+    color:var(--text-form);
 }
 
 #layout-user #currentLink.white-button:hover{
@@ -621,12 +741,7 @@ li.capsula-filtro select:focus{
     color:var(--txtcolor);
 }
 
-#layout-user #currentLink a:visited{
-    color:var(--headerlink);
-}
-
-
-#layout-user #currentLink a{
+#layout-user #currentLink{
     font-weight: 600;
 }
 
@@ -667,7 +782,7 @@ header a{
 #header-logo h1 {
     margin-left: 0;
     margin-right: auto;
-    color: var(--linkcolor);
+    color: var(--logolink);
     text-align: center;
 }
 
@@ -709,7 +824,7 @@ header a{
     text-align: center;
     
     /* Stile Osso */
-    background-color: var(--bgcolor);
+    background-color: var(--navButton);
     padding: 0 2em;
     position: relative;
     margin: 1em 2em; 
@@ -723,9 +838,9 @@ header a{
     width: 2.3em; 
     height: 2.3em;
     border-radius: 50%;
-    background-color: var(--bgcolor);
+    background-color: var(--navButton);
     transform: translateY(-50%); 
-    box-shadow: 0 2.2em 0 var(--bgcolor);
+    box-shadow: 0 2.2em 0 var(--navButton);
 }
 
 #osso::before {
@@ -817,11 +932,6 @@ input:checked + #theme-switch #slider::before {
 input:checked + #theme-switch #slider #sun { opacity: 0; }
 input:checked + #theme-switch #slider #moon { opacity: 1; }
 
-:root:has(input#theme-toggle:checked){
-    /* aiuto non so usare i colori */
-    transition: background-color 0.3s;
-}
-
 /* Icona Preferiti */
 #preferiti {
     position: relative;
@@ -851,9 +961,9 @@ input:checked + #theme-switch #slider #moon { opacity: 1; }
 
 #header-actions #currentLink.white-button,
 #header-actions #currentLink.white-button:hover{
-    outline: 1px solid var(--bgcolor);
+    outline: 1px solid var(--light-txtcolor);
     background-color: var(--buttoncolor-hover);
-    color:var(--bgcolor);
+    color:var(--light-txtcolor);
 }
 
 /* ==================FOOTER================== */
@@ -876,8 +986,13 @@ footer a:hover{
 
 footer {
     background-color: var(--footercolor);
-    color: var(--bgcolor);
+    color: var(--light-txtcolor);
 }
+
+#name-site-footer{
+    color: var(--logolink);
+}
+
 footer p{
     font-weight: bold;
     font-size: 1.2em;
@@ -938,7 +1053,7 @@ footer .container + div a:visited{
     display: block;
     /* sono 12px, il minimo per l'accessibilità */
     font-size: 0.85rem; 
-    color: var(--darkbgcolor);
+    color: var(--light-txtcolor);
     /* font-size: 0.9em; */
     /* margin-bottom: 1em; */
 }
@@ -954,7 +1069,7 @@ footer .container + div a:visited{
     background-color: var(--darkSection);
     margin-top: -130px;
     padding-top: 130px;
-    color: var(--bgcolor);
+    color: var(--light-txtcolor);
 }
 
 #introduction-home .column-user:first-child {
@@ -1050,8 +1165,8 @@ footer .container + div a:visited{
     
     width: 10px;  
     height: 10px;
-    border-right: 2px solid var(--bgcolor); 
-    border-bottom: 2px solid var(--bgcolor);
+    border-right: 2px solid var(--row-time-line); 
+    border-bottom: 2px solid var(--row-time-line);
     border-top: 0;
     border-left: 0;
     
@@ -1073,7 +1188,7 @@ details:not([open]) .popup {
 #adoption-timeline{
     padding:2em 0 2em 0;
     background-color: var(--headercolor);
-    color:var(--bgcolor);
+    color:var(--light-txtcolor);
 }
 
 .popup img{
@@ -1124,7 +1239,7 @@ details:not([open]) .popup {
     background-repeat: no-repeat;
     background-position:top;
     height: fit-content;
-    color: var(--bgcolor);
+    color: var(--cat-txtcolor);
     padding: 3em;
     border-radius: 1em;
 }
@@ -1178,7 +1293,7 @@ details:not([open]) .popup {
 #events-list .polaroid{
     display: block;
     flex: 1 1 20%;
-    color: var(--txtcolor);
+    color: var(--polaroid-txt);
     transform-origin: top center;
     --base-rot: 0deg;
     margin:auto;
@@ -1318,7 +1433,7 @@ details:not([open]) .popup {
 
 #affidamento-home{
     background-color: var(--headercolor);
-    color:var(--bgcolor);
+    color:var(--light-txtcolor);
     margin-top: 7%;
 }
 
@@ -1342,8 +1457,8 @@ details:not([open]) .popup {
 }
 
 #form-affidamento {
-    background-color: var(--bgcolor);
-    color: var(--txtcolor);
+    background-color: var(--form-bg);
+    color: var(--text-form);
     margin:3em auto 0.1em auto;
     padding: 0em 2em;
     display: block;
@@ -1367,6 +1482,7 @@ fieldset {
 #home input[name="type-animal"]+label{
     padding:6px;
     margin:auto 2em;
+    cursor: pointer;;
 }
 
 .radio-input{
@@ -1408,9 +1524,9 @@ legend {
     margin: 0.2em 0 0.3em 0;
     width: 100%; 
     border: 1px solid var(--headercolor);
-    color: var(--txtcolor);
+    color: var(--text-form);
     font-size: 100%;
-    background-color: var(--bgcolor);
+    background-color: var(--form-bg);
     box-sizing: border-box; 
 }
 
@@ -1424,7 +1540,7 @@ legend {
 .password-container input::placeholder,
 #user-profile label + input::placeholder,
 #login label + input::placeholder{
-    color: var(--placeholder-text);
+    color: var(--placeholderForm-text);
     font-weight: lighter;
     font-size: 0.9em;
 }
@@ -1450,7 +1566,8 @@ label {
     max-width: 800px;
     padding: 2em 3em;
     border-radius: 1em;
-    background-color: var(--bgcolor);
+    color:var(--text-form);
+    background-color: var(--form-bg);
 }
 
 body:has(#signup), body:has(#login) {
@@ -1602,11 +1719,12 @@ input:-webkit-autofill:active{
     right: 10px;
     top: 50%;
     transform: translateY(-50%); 
-    color: var(--placeholder-text);
+    color: var(--placeholderForm-text);
 }
 
 .password-container i:hover {
-    color: var(--txtcolor);
+    color: var(--text-form);
+    cursor: pointer;
 }
 
 
@@ -1662,6 +1780,7 @@ input:-webkit-autofill:active{
 #animali .filtri #searchName.capsula-filtro input, #eventi .filtri #searchName.capsula-filtro input {
     text-align:left;
     display: flex;
+    color:var(--textDarkinput);
     min-width: 3em;
     /* display:contents; */
     background-color: var(--darkbgcolor);
@@ -1759,7 +1878,7 @@ input:-webkit-autofill:active{
 #animali #nav-animali-type a {
     display: block;
     text-decoration: none;
-    color: var(--headerlink);
+    color: var(--txtcolor);
     font-weight: normal;
 }
 
@@ -1854,10 +1973,8 @@ input:-webkit-autofill:active{
 
 
 #animali li.card:hover{
-    /* background-color: var(--bgcolor); */
-    border-color: var(--buttoncolor-hover); /* colore evidenziato */
     box-shadow: 0 6px 14px rgba(0,0,0,0.3);
-    border: 3px solid var(--buttoncolor-hover);
+    border: 3px solid var(--cardHover);
 }
 
 #animali li.card article, #animali li.dark-card article {
@@ -2449,7 +2566,7 @@ cursor: pointer;
     flex: 1 0 46%;
     padding: 1.8% 2%;
     height: 50px;
-    border-bottom: 1px solid var(--headercolor);
+    border-bottom: 1px solid var(--txtcolor);
     text-align: center;
     
     margin:0;
@@ -2459,9 +2576,9 @@ cursor: pointer;
 #user-profile .tabs-container .tab-content, #admin-area .tabs-container .tab-content{
     flex: 1 0 50%;
     height: fit-content;
-    border-bottom: 1px solid var(--headercolor);
-    border-left: 1px solid var(--headercolor);
-    border-right: 1px solid var(--headercolor);
+    border-bottom: 1px solid var(--txtcolor);
+    border-left: 1px solid var(--txtcolor);
+    border-right: 1px solid var(--txtcolor);
     display: none; 
     padding: 1em;
     border-radius: 0 0 0.5em 0.5em;
@@ -2472,9 +2589,9 @@ cursor: pointer;
 flex: 1 0 100%;
 }
 #user-profile input:checked + label, #admin-area input:checked + label{
-    border-top: 1px solid var(--headercolor); 
-    border-left: 1px solid var(--headercolor); 
-    border-right: 1px solid var(--headercolor); 
+    border-top: 1px solid var(--txtcolor); 
+    border-left: 1px solid var(--txtcolor); 
+    border-right: 1px solid var(--txtcolor); 
     border-bottom:0;
     /* border-bottom: 1px solid var(--bgcolor); */
     border-radius: 0.5em 0.5em 0 0;
@@ -2517,7 +2634,7 @@ flex: 1 0 100%;
 .dialog-buttons label{
     border-radius: 2em;
     background-color: var(--buttoncolor);
-    color:var(--txtcolor);
+    color:var(--text-buttoncolor);
     padding: 0.5em 2em;
     transition: 0.3s;
     border:2px solid var(--buttoncolor);
@@ -2538,20 +2655,24 @@ flex: 1 0 100%;
 
 #user-profile .tab-content form button:hover,
 .logout-btn:hover,
-#revisione-richiesta #button-cancel:hover,
-#revisione-richiesta button:hover{
+#revisione-richiesta #button-cancel:hover{
     background-color:var(--bgcolor);
+    color:var(--hover-link);
+}
+
+#revisione-richiesta button:hover{
+    background-color:var(--form-bg);
 }
 
 
 
 #user-profile .tabs-container select,
 #profilo-richiedente .tabs-container select{
-    padding:0.5em;
+    padding: 0.5em 3em 0.5em 0.5em;
     background-color: var(--bgcolor);
     border-radius: 2em;
-    border-color: var(--text-buttoncolor);
-    color:var(--text-buttoncolor);
+    border-color: var(--txtcolor);
+    color:var(--txtcolor);
     margin:5px;
     font-size: 1em;
 }
@@ -2562,7 +2683,7 @@ flex: 1 0 100%;
 
 #user-info{
     padding: 2em 1em;
-    border:1px solid var(--headercolor);
+    border:1px solid var(--txtcolor);
     border-radius: 0.5em;
 }
 
@@ -2611,10 +2732,11 @@ flex: 1 0 100%;
     margin:0.5em auto 0 auto;
     border-radius: 2em;
     background-color: var(--buttoncolor-hover);
-    color:var(--bgcolor);
+    color:var(--light-txtcolor);
     padding: 3px 2em;
     transition: 0.3s;
     font-weight: 500;
+    border: 1px solid var(--txtcolor);
 }
 
 #user-profile #lista-movimenti li p+p,
@@ -2628,7 +2750,7 @@ flex: 1 0 100%;
     color:var(--txtcolor);
     padding: 1px 0.9em;
     transition: 0.3s;
-    border:2px solid var(--buttoncolor-hover);
+    border:2px solid var(--txtcolor);
 }
 
 #user-profile #lista-movimenti li a:hover,
@@ -2667,7 +2789,7 @@ flex: 1 0 100%;
 
 .view-mode .edit-profile-link{
     margin:0.5em auto;
-    background-color: var(--bglink-hover);
+    background-color: var(--modifiedAccount);
     padding: 0.5em 1em;
     color:var(--txtcolor);
     border-radius: 2em;
@@ -2675,13 +2797,13 @@ flex: 1 0 100%;
     width: fit-content;
     flex-wrap: nowrap ;
     text-decoration: none;
-    border:2px solid var(--bglink-hover);
+    border:2px solid var(--bordermodifiedAccount);
     transition: 0.4s;
     letter-spacing: 0.5px;
 }
 
 .view-mode .edit-profile-link:hover{
-    border:2px solid var(--bglink-hover);
+    border:2px solid var(--modifiedAccount);
     background-color: transparent;
 }
 
@@ -2875,8 +2997,14 @@ input[type="file"]::file-selector-button {
     cursor: pointer;
 }
 
+#user-info:has(.edit-mode){
+    background-color: var(--form-bg);
+    color:var(--text-form);
+}
+
 input[type="file"]::file-selector-button:hover {
-    background-color: var(--darkbgcolor);
+    background-color: var(--modifiedAccount);
+    color:var(--txtcolor);
 }
 
 .edit-mode form span,
@@ -2942,6 +3070,11 @@ input[type="file"]::file-selector-button:hover {
 
 /* ================== REVISIONE RICHIESTA ==================*/
 
+
+.details-card-animale img{
+    max-height: 180px;
+}
+
 #revisione-richiesta h1{
     border-bottom:2px solid var(--footercolor);
 }
@@ -2967,8 +3100,8 @@ input[type="file"]::file-selector-button:hover {
 #revisione-richiesta .details-card-animale{
     border:1px solid var(--txtcolor);
     border-radius:0.5em;
-    padding:1em;
-    margin-top:1em;
+    padding:1em 1em 1.5em 1em;
+    margin:1em 0;
 }
 
 #revisione-richiesta #info-request dl,
@@ -3052,8 +3185,9 @@ input[type="file"]::file-selector-button:hover {
 }
 
 .dialog-box {
-    background: var(--bgcolor);
+    background: var(--form-bg);
     padding: 2em;
+    color:var(--text-form);
     border-radius: 8px;
     max-width: 400px;
     text-align: center;
@@ -3086,6 +3220,17 @@ input[type="file"]::file-selector-button:hover {
     border-color:var(--bgcolor);
 }
 
+.dialog-buttons label[for="delete-request-check"]{
+    background-color: var(--form-bg);
+    border-color:var(--buttoncolor);
+    color:var(--text-form);
+}
+
+.dialog-buttons label[for="delete-request-check"]:hover{
+    border-color:transparent;
+    color:var(--text-form);
+}
+
 #delete-request-check:disabled + #button-cancel:hover,
 #delete-request-check:disabled + #button-cancel{
     background-color: var(--darkbgcolor);
@@ -3093,6 +3238,7 @@ input[type="file"]::file-selector-button:hover {
     color:var(--txtclose-request);
     cursor:default;
     font-weight: 500;
+    font-style: italic;
 }
 
 
@@ -3122,7 +3268,8 @@ input[type="file"]::file-selector-button:hover {
 }
 
 #login .container .column-container{
-    background-color: var(--bgcolor);
+    background-color: var(--form-bg);
+    color:var(--text-form);
     border-radius: 1.5em;
     padding:0;
     gap:0;
@@ -3136,6 +3283,10 @@ input[type="file"]::file-selector-button:hover {
 #form-login button{
     width: 80%;
     margin-top:3em;
+}
+
+#log-theme{
+    margin:auto 0 auto auto;
 }
 
 /* ================== CHI SIAMO ==================*/
@@ -3162,7 +3313,7 @@ input[type="file"]::file-selector-button:hover {
 
 #second-chapter-chi-siamo{
     background-color: var(--headercolor);
-    color:var(--bgcolor);
+    color:var(--light-txtcolor);
     margin-top: 1em;
 }
 
@@ -3178,9 +3329,6 @@ input[type="file"]::file-selector-button:hover {
     padding:2em 0;
     flex: 1 1 50%;
     margin:auto;
-    /* height: fit-content; */
-
-
 }
 
 
@@ -3203,7 +3351,7 @@ input[type="file"]::file-selector-button:hover {
     left: 10%;
     right: 10%;
     height: 2px;
-    background-image: linear-gradient(to right, var(--buttoncolor) 50%, transparent 50%);
+    background-image: linear-gradient(to right, var(--timeline-line) 50%, transparent 50%);
     background-size: 20px 100%;
     z-index: 0;
   }
@@ -3272,7 +3420,7 @@ input[type="file"]::file-selector-button:hover {
     background-repeat: no-repeat;
     background-position:top;
     height: fit-content;
-    color: var(--bgcolor);
+    color: var(--cat-txtcolor);
     padding: 3em;
     border-radius: 1em;
 }
@@ -4453,7 +4601,7 @@ nav#breadcrumb{
     text-align: center;
     width: fit-content;
     background-color: var(--footercolor);
-    color: var(--bgcolor);
+    color: var(--light-txtcolor);
     padding: 0.7em 1.5em;
     border-radius: 1em;
     font-weight: 400;
