@@ -388,3 +388,18 @@ details[open] .number::after {
 #profilo-richiedente #visualizza-richiedente{
     margin-bottom: 4em;
 }
+
+/* ======================PAGINA COME FUNZIONA====================== */
+
+#come-funziona #invitoLavoro {
+    flex-direction: column;
+    color: var(--bgcolor);
+    padding: 2em;
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+}
+
+#come-funziona #invitoLavoro .testo{
+    margin-right: 0;
+    margin-bottom: 3em;
+}

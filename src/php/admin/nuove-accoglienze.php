@@ -156,17 +156,19 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     $pagineCani = (int)ceil($NSegnalazioniCani / $perPagina);
     $pagineGatti = (int)ceil($NSegnalazioniGatti / $perPagina);
     
-    $linkCani = buildPagination(
-        ($tipoAttivo === 'Cani' ? $paginaCorrente : 1), 
-        $pagineCani, 
-        'Cani'
-    );
+    $linkCani = $pagineCani>1 ? "<nav class='next-page-links' aria-label='Pagine cani'>
+                <ul>".buildPagination(
+    ($tipoAttivo === 'Cani' ? $paginaCorrente : 1), 
+    $pagineCani, 
+    'Cani'
+)."</ul></nav>" : '';
 
-    $linkGatti = buildPagination(
-        ($tipoAttivo === 'Gatti' ? $paginaCorrente : 1), 
-        $pagineGatti, 
-        'Gatti'
-    );
+    $linkGatti = $pagineGatti>1 ? "<nav class='next-page-links' aria-label='Pagine gatti'>
+                <ul>".buildPagination(
+    ($tipoAttivo === 'Gatti' ? $paginaCorrente : 1), 
+    $pagineGatti, 
+    'Gatti'
+)."</ul></nav>" : '';
     $linkAttivi = ($tipoAttivo === 'Gatti') ? $linkGatti : $linkCani;
 
     $cani_content = renderAnimalContent('Cane',$animaliSegnalati['Cane'], $NSegnalazioniCani, $nome_admin);

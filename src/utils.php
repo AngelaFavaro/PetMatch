@@ -44,6 +44,11 @@ $pagine = [
         'url' => './animali',
         'parent' => 'home'
     ],
+    'come-funziona' => [
+        'label' => 'Come Funziona',
+        'url' => './come-funziona',
+        'parent' => 'home'
+    ],
     'registrati' => [
         'label' => 'Registrati',
         'url' => './registrati',
@@ -637,7 +642,7 @@ function buildPagination(int $currentPage, int $totalPages, array|string $params
     // $params = array_filter($params, fn($v) => $v !== '');
 
 
-    if ($totalPages <= 1) return '<li class="currentLinkPagination">1</li>';
+    if ($totalPages <= 1) return '';
     unset($params['page']);
 
     $html = '';

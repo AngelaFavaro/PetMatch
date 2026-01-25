@@ -112,17 +112,19 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo cont
     $pagineCani = (int)ceil($NAdoptedAnimals['Cane'] / $perPagina);
     $pagineGatti = (int)ceil($NAdoptedAnimals['Gatto'] / $perPagina);
 
-    $linkCani = buildPagination(
-        ($tipoAttivo === 'Cani' ? $paginaCorrente : 1), 
-        $pagineCani, 
-        'Cani'
-    );
+    $linkCani = $pagineCani>1 ? "<nav class='next-page-links' aria-label='Pagine cani'>
+                <ul>".buildPagination(
+    ($tipoAttivo === 'Cani' ? $paginaCorrente : 1), 
+    $pagineCani, 
+    'Cani'
+)."</ul></nav>" : '';
 
-    $linkGatti = buildPagination(
-        ($tipoAttivo === 'Gatti' ? $paginaCorrente : 1), 
-        $pagineGatti, 
-        'Gatti'
-    );
+    $linkGatti = $pagineGatti>1 ? "<nav class='next-page-links' aria-label='Pagine gatti'>
+                <ul>".buildPagination(
+    ($tipoAttivo === 'Gatti' ? $paginaCorrente : 1), 
+    $pagineGatti, 
+    'Gatti'
+)."</ul></nav>" : '';
     $linkAttivi = ($tipoAttivo === 'Gatti') ? $linkGatti : $linkCani;
 
     $cani_content = renderAnimalContent('Cane',$animaliAdottati['Cane'], $NAdoptedAnimals['Cane']);
