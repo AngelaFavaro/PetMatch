@@ -326,8 +326,7 @@ class DBAccess {
     return $this->connection->error; 
     }
 
-    public function addAnimal(array $data, string $email) {
-        // La data di registrazione la impostiamo al momento dell'inserimento (CURDATE())
+    public function addAnimal(array $data, ?string $email) {
         $query = "INSERT INTO ANIMALI (
                     Nome, DataNascita, DataRegistrazione, Sesso, Tipo, 
                     Colore, Pelo, Taglia, Razza, DescrFamiglia, 
@@ -340,8 +339,6 @@ class DBAccess {
             return false;
         }
 
-        // "sssssssssssiss" indica i tipi: s = string, i = integer
-        // Nota: Trasporto è un TINYINT(1), lo passiamo come integer 'i'
         $stmt->bind_param(
             "ssssssssssisss",
             $data['nome'],
@@ -367,7 +364,6 @@ class DBAccess {
             $stmt->close();
             return $insertedId;
         } else {
-            // Log dell'errore per debugging
             error_log("Errore inserimento animale: " . $stmt->error);
             $stmt->close();
             return false;
