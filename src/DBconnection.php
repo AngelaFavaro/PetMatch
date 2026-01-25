@@ -374,6 +374,60 @@ class DBAccess {
         }
     }
 
+    public function getAnimalById($id) {
+        // Usiamo degli ALIAS (AS ...) per far coincidere i nomi del DB con quelli del tuo PHP
+        $query = "SELECT 
+                    IDanimale AS idAnimale, 
+                    Nome AS nome, 
+                    DataNascita AS dataNascita, 
+                    Sesso AS sesso, 
+                    Tipo AS tipologia, 
+                    Colore AS colore, 
+                    Pelo AS pelo, 
+                    Taglia AS taglia, 
+                    Razza AS razza, 
+                    DescrFamiglia AS famiglia, 
+                    DescrComportamentale AS carattere, 
+                    CondizioniMediche AS condMediche, 
+                    Trasporto AS trasporto, 
+                    ImgPath AS foto 
+                FROM ANIMALI WHERE IDanimale = ?";
+
+        $stmt = $this->connection->prepare($query);
+        if ($stmt === false) return null;
+
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+
+        return $data; // Ritorna un array associativo o null
+    }
+
+    public function updateAnimal(array $data): bool {
+        $query = "UPDATE ANIMALI SET 
+                    Nome = ?, Razza = ?, Taglia = ?, DataNascita = ?, 
+                    Pelo = ?, Colore = ?, DescrComportamentale = ?, 
+                    CondizioniMediche = ?, DescrFamiglia = ?, 
+                    ImgPath = ?, Trasporto = ? 
+                WHERE IDanimale = ?";
+
+        $stmt = $this->connection->prepare($query);
+        if ($stmt === false) return false;
+
+        $stmt->bind_param("ssssssssssii", 
+            $data['nome'], $data['razza'], $data['taglia'], $data['dataNascita'],
+            $data['pelo'], $data['colore'], $data['carattere'], 
+            $data['condMediche'], $data['famiglia'], $data['foto'], 
+            $data['trasporto'], $data['id']
+        );
+
+        $res = $stmt->execute();
+        $stmt->close();
+        return $res;
+    }
+
     function createAdminTasks($email): array {
         // che bella questa funzione
         $tasks = [0, 0, 0, 0, 0];
