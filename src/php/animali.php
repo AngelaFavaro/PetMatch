@@ -1,17 +1,15 @@
 <?php
-include './src/utils.php';
-include './src/DBconnection.php';
+use DB\DBAccess;
+require_once './src/utils.php';
+require_once './src/DBconnection.php';
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-use DB\DBAccess;
 
 // QUI SI GESTISCE IL METTERE TOGLIERE NEI PREFERITI
-if ($_SERVER['REQUEST_METHOD'] === 'POST'
-    && isset($_POST['id-animale-preferito'])
-) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id-animale-preferito'])) {
     $idAnimale = (int)$_POST['id-animale-preferito'];
 
     if (isset($_SESSION['email'])) {
@@ -75,11 +73,20 @@ if (defined('PAGINA_PREFERITI')) {
     $isPreferiti=1;
 }
 
+$isAdmin=0;
+$adminEmail='';
+if (defined('ADMIN_ANIMALI')) {
+    $isAdmin=1;
+    $adminEmail=$_SESSION['email']??'';
+}
+
 $titolo = 'Animali';
 if($isPreferiti) {
     $titolo.=' preferiti';
+}else if($isAdmin) {
+    $titolo='Animali assegnati a te';
 }
-$messaggioNoAnimali=$isPreferiti ? 'Non hai ancora salvato nessun animale.' : 'Non abbiamo ancora animali disponibili.';
+$messaggioNoAnimali = $isPreferiti? 'Non hai ancora salvato nessun animale.': ($isAdmin ? 'Non ci sono animali assegnati a te.' : 'Non abbiamo ancora animali disponibili.');
 
 
 
@@ -225,7 +232,7 @@ function buildAnimalCards(array $animali, ?string $email): string {
             /* -------- HTML -------- */
             $html .= "
             <li class='$cardClass' aria-labelledby='nome-animale-$id'>
-                <article aria-label='descrizione:'>
+                <article class='card' aria-label='descrizione:'>
                     <div class='immagine'>
                         <img src='$img' alt=''>
                     </div>
@@ -236,19 +243,21 @@ function buildAnimalCards(array $animali, ?string $email): string {
                     <p class='sesso-etaDesk'>$sesso - $eta anni</p>
                     <p class='sesso-etaMob'>$sessoAbbr - $eta anni</p>";
             }
+            if(isset($_SESSION['admin']) && $_SESSION['admin'] === 1) { //qui in generale tolto il cuore se admin (anche nel sito non è corretto che l'admin veda i preferiti)
+                $html.="
+                        <div class='cuore'>
+                            <form method='post' action='animali' class='preferiti-form'>
+                                <input type='hidden' name='id-animale-preferito' value='$id'>
+                                <button type='submit'
+                                        class='$classePreferito'
+                                        aria-label='$statusPreferiti'>
+                                    <img class='heart-normal' src='./assets/icons/$heartNormal' alt=''>
+                                    <img class='heart-hover' src='./assets/icons/$heartHover' alt=''>
+                                </button>
+                            </form>
+                        </div>";
+            }
             $html.="
-                    <div class='cuore'>
-                        <form method='post' action='animali' class='preferiti-form'>
-                            <input type='hidden' name='id-animale-preferito' value='$id'>
-                            <button type='submit'
-                                    class='$classePreferito'
-                                    aria-label='$statusPreferiti'>
-                                <img class='heart-normal' src='./assets/icons/$heartNormal' alt=''>
-                                <img class='heart-hover' src='./assets/icons/$heartHover' alt=''>
-                            </button>
-                        </form>
-                    </div>
-
                     <p class='$classeInteressato'>$giàInteressato</p>
 
                     <div class='dettagli-animale-bottone'>
@@ -266,7 +275,11 @@ function buildAnimalCards(array $animali, ?string $email): string {
 
 
 // RESET DEI FILTRI
-$resetUrl = './animali';
+if(!$isAdmin) {
+    $resetUrl = './animali';
+} else {
+    $resetUrl = './assegnati-a-te';
+}
 if ($type !== 'tutti') {
     $resetUrl .= '?tipo=' . urlencode($type);
 }
@@ -292,14 +305,25 @@ if($isPreferiti) {
         } else {
             $animali = $connessione->getGuestFavPaged($type, $perPagina, $offset);
         }
-        $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail) : "<p class='errore'>$messaggioNoAnimali</p>";
-        $linkPagine = buildPagination($pagina, $pagineTotali, $type);
+        $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail,$isAdmin) : "<p class='errore'>$messaggioNoAnimali</p>";
+        // $linkPagine = "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine'>
+        // <ul aria-label='Pagine di navigazione'>"
+        $linkPagine = ($pagineTotali > 1)
+    ? (
+        "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine'>
+            <ul aria-label='Pagine di navigazione'>"
+        . buildPagination($pagina, $pagineTotali, $type)
+        . "</ul>
+        </nav>"
+      )
+    : '';
+
         $connessione->closeConnection();
     }
 } else {
     if ($connessione->openDBConnection()) {
 
-        $totale = $connessione->countAnimalsFiltered($type, $filters);
+        $totale = $isAdmin ? $connessione->countAssignedAnimalsFiltered($type, $filters, $adminEmail) : $connessione->countAnimalsFiltered($type, $filters);
         $pagineTotali = max(1, ceil($totale / $perPagina));
 
         if ($pagina > $pagineTotali) {
@@ -307,15 +331,24 @@ if($isPreferiti) {
             $offset = ($pagina - 1) * $perPagina;
         }
         
-        $animali = $connessione->getAnimalsFilteredPaged($type, $filters, $perPagina, $offset);
+        $animali = $isAdmin ? $connessione->getAssignedAnimalsFilteredPaged($type, $filters, $perPagina, $offset,$adminEmail) : $connessione->getAnimalsFilteredPaged($type, $filters, $perPagina, $offset);
         $userEmail = $_SESSION['email'] ?? null;
-    $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail) : "<p class='errore'>$messaggioNoAnimali</p>";
+        $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail,$isAdmin) : "<p class='errore'>$messaggioNoAnimali</p>";
         if($filters) {
         $params= array_merge(['tipo' => $type], $filters);
         } else {
             $params=$type;
         }
-        $linkPagine = buildPagination($pagina, $pagineTotali, $params);
+        $linkPagine = ($pagineTotali > 1)
+    ? (
+        "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine'>
+            <ul aria-label='Pagine di navigazione'>"
+        . buildPagination($pagina, $pagineTotali, $type)
+        . "</ul>
+        </nav>"
+      )
+    : '';
+
         $connessione->closeConnection();
     }
 }
@@ -335,12 +368,23 @@ if($isPreferiti&&!$userEmail&&$totale!==0) {
 /* ------------------ TEMPLATE ------------------ */
 
 
-$linkNavAnimali = $isPreferiti ? buildNavAnimali($type, $isPreferiti) : buildNavAnimali($type, $isPreferiti, $filters);
+$linkNavAnimali = $isPreferiti ? buildNavAnimali($type, $isPreferiti) : buildNavAnimali($type, $isPreferiti,$filters);
 
-$paginaHTML = file_get_contents('./src/template/layout.html');
-$main = file_get_contents('./src/template/main/animali.html');
-$footer = buildFooter($footerMenu,  './animali');
+$main = '';
+if(!$isAdmin) {
+    $paginaHTML = file_get_contents('./src/template/layout.html');
+}else{
+    $paginaHTML = file_get_contents('./src/template/layout-admin.html');
+    $main .= '<div id="admin-area">'; //apro admin area (tipico di tutti i file html admin, ma sto usando animali.html dello user)
+}
 
+$main .= file_get_contents('./src/template/main/animali.html');
+
+if(!$isAdmin) {
+    $footer = buildFooter($footerMenu,  './animali');
+}else{
+    $main .= '</div>'; //chiudo admin-area !!!!!
+}
 $main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);
 $main = str_replace('[TITOLO]', $titolo, $main);
 $main = str_replace('[ANIMALI]', $cardAnimali, $main);
@@ -349,7 +393,7 @@ $main = str_replace('[LINKPAGINE]', $linkPagine, $main);
 $main = str_replace('[BANNERACCEDI]', $banneraccedi, $main);
 $stringaFiltri='';
 if (!$isPreferiti) {
-    $stringaFiltri="<form class='filtri' method='get' action='animali'>
+    $stringaFiltri="<form class='filtri' method='get' action=".($isAdmin ? './assegnati-a-te' : './animali').">
         <!-- rotta gestita dal router -->
         
         <input type='hidden' name='tipo' value='[TYPE]'>
@@ -395,7 +439,7 @@ if (!$isPreferiti) {
 
         <div id='content-filter-button'>
             <a href='[URL-RESETFILTRI]' id='[VISIBILITA-FILTRO]' aria-label='elimina i filtri'>X</a>
-            <button type='submit' class='orange-button'>Cerca</button>
+            <button type='submit' class='orange-button'>Applica</button>
         </div>
     </form>";
     $stringaFiltri = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $stringaFiltri);
@@ -403,24 +447,39 @@ if (!$isPreferiti) {
     $main = str_replace('[URL-RESETFILTRI]', $resetUrl, $main);
     $main = str_replace('[VISIBILITA-FILTRO]', $cancelFiltriId, $main);
 
-$title = '<title>Animali - PetMatch</title>';
-$description = '<meta name="description" content="Animali in adozione su PetMatch">';
-} else {
-$main = str_replace('[FILTRI]', $stringaFiltri, $main);
-$title = '<title>Animali preferiti - PetMatch</title>';
-$description = '<meta name="description" content="i tuoi animali preferiti in adozione su PetMatch">';
+    if($isAdmin) {
+        $title = '<title>Animali assegnati a te - PetMatch</title>';
+        $description = '<meta name="description" content="Animali assegnati a te in adozione su PetMatch">';
+
+    }else{
+        $title = '<title>Animali - PetMatch</title>';
+        $description = '<meta name="description" content="Animali in adozione su PetMatch">';
+    }
+}else{
+    $main = str_replace('[FILTRI]', $stringaFiltri, $main);
+    $title = '<title>Animali preferiti - PetMatch</title>';
+    $description = '<meta name="description" content="i tuoi animali preferiti in adozione su PetMatch">';
 
 }
 $keywords = '';
 
-$nav = $isPreferiti ? buildNav($userMenu, './preferiti') : buildNav($userMenu, './animali');
-$breadcrumb = $isPreferiti ? getBreadcrumb('preferiti', $pagine) : getBreadcrumb('animali', $pagine);
 
-$paginaHTML = str_replace(
-    ['[title]', '[description]', '[keywords]', '[breadcrumb]', '[nav]', '[main]', '[footer]'],
-    [$title, $description, $keywords, $breadcrumb, $nav, $main, $footer],
-    $paginaHTML
-);
+$nav = $isPreferiti ? buildNav($userMenu, './preferiti') : ($isAdmin ? buildAdminNav($adminMenu, './assegnati-a-te') : buildNav($userMenu, './animali'));
+$breadcrumb = $isPreferiti ? getBreadcrumb('preferiti', $pagine) : ($isAdmin ? getBreadcrumb('assegnati-a-te', $pagine) : getBreadcrumb('animali', $pagine));
+
+if(!$isAdmin) {
+    $paginaHTML = str_replace(
+        ['[title]', '[description]', '[keywords]', '[breadcrumb]', '[nav]', '[main]', '[footer]'],
+        [$title, $description, $keywords, $breadcrumb, $nav, $main, $footer],
+        $paginaHTML
+    );
+} else {
+    $paginaHTML = str_replace(
+        ['[title]', '[description]', '[keywords]', '[breadcrumb]', '[nav]', '[main]'],
+        [$title, $description, $keywords, $breadcrumb, $nav, $main],
+        $paginaHTML
+    );
+}
 
 echo $paginaHTML;
 ?>

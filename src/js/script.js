@@ -438,3 +438,28 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+
+// FERMA IL TOGGLE DEL TEMA PRIMA DELLO SMALL (altrimenti si legge male)
+document.addEventListener('scroll', function() {
+    const themeSwitch = document.querySelector('#theme-switch');
+    const footer = document.querySelector('small');
+    if (!themeSwitch || !footer) return;
+
+    if (window.innerWidth > 800) {
+        themeSwitch.style.bottom = ''; 
+        return; 
+    }
+
+    const footerRect = footer.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    
+    const defaultBottom = 20; 
+
+    if (footerRect.top < windowHeight) {
+        const overlap = windowHeight - footerRect.top;
+        themeSwitch.style.bottom = (defaultBottom + overlap) + 'px';
+    } else {
+        themeSwitch.style.bottom = defaultBottom + 'px';
+    }
+});

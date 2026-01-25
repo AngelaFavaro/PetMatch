@@ -4790,4 +4790,237 @@ nav#breadcrumb a:visited{
 #createMore-container label{
     font-weight: normal;
     margin-top: 0;
+ar(--headervisitedlink);
+    color: var(--bgcolor);
+} */
+
+/* ========================================
+   MESSAGGI DI ERRORE
+   ======================================== */
+.error-form {
+    color: var(--errortxt);
+    font-size: 0.9em;
+    margin-top: 5px;
+    font-weight: 600;
+    display: block;
+}
+/*================ PROFILO RICHIEDENTE ==================*/
+#profilo-richiedente{
+    height: 100vh;
+    margin-top:2em;
+}
+
+#profilo-richiedente h1{
+    font-size: 2em;
+    margin-bottom:1em;
+}
+
+#profilo-richiedente h2{
+    font-size: 1.5em;
+}
+
+#profilo-richiedente{
+    padding:0 5em;
+}
+
+#profilo-richiedente .column-container{
+    padding:0;
+    max-width: none;
+}
+
+#profilo-richiedente .column-container article{
+    border:1px solid var(--txtcolor);
+    border-radius: 0.5em;
+    padding:1em;
+}
+
+#profilo-richiedente .column-container article:first-of-type{
+    flex: 1 1 60%;
+}
+
+#profilo-richiedente .column-container article:last-of-type{
+    flex: 1 1 35%;
+}
+
+#profilo-richiedente #visualizza-richiedente dt{
+    float: left;
+    margin-right: 0.5em;
+    font-weight: 600;
+}
+
+#profilo-richiedente #visualizza-richiedente dd{
+    margin-bottom: 0.5em;
+}
+
+#profilo-richiedente #visualizza-richiedente img.circle-foto{
+    margin:2em auto;
+}
+
+#profilo-richiedente .tabs-container .tab-content{
+    display: none;
+}
+
+#profilo-richiedente:has(option[value="tab1"]:checked) .tab-content:nth-of-type(1),
+#profilo-richiedente:has(option[value="tab2"]:checked) .tab-content:nth-of-type(2),
+#profilo-richiedente:has(option[value="tab3"]:checked) .tab-content:nth-of-type(3),
+#profilo-richiedente:has(option[value="tab4"]:checked) .tab-content:nth-of-type(4),
+#profilo-richiedente:has(option[value="tab5"]:checked) .tab-content:nth-of-type(5),
+#profilo-richiedente:has(option[value="tab6"]:checked) .tab-content:nth-of-type(6) {
+    display: block;
+}
+
+#profilo-richiedente .tabs-container select{
+    margin:1em 0;
+    float: right;
+    border: 2px solid var(--buttoncolor);
+    background-color: var(--buttoncolor);
+    font-weight: 550;
+}
+
+#profilo-richiedente .tabs-container option{
+    background-color: var(--bgcolor);
+}
+
+
+#profilo-richiedente .tabs-container legend{
+    font-size: 1.5em;
+    font-weight: bold;
+    padding:0;
+    font-family: "Parkinsans", Roboto, sans-serif;
+    text-align: left;
+}
+
+#profilo-richiedente .tabs-container li{
+    list-style: none;
+}
+
+.no-visible{
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+#profilo-richiedente .tabs-container li article p+a{
+    padding: 3px 1.3em;
+}
+
+#profilo-richiedente .tabs-container li article{
+    border: none;
+    padding:0;
+}
+
+#profilo-richiedente .column-container .tabs-container li article p:first-of-type{
+    flex:1 1 50%;
+}
+
+
+/*================NAVIGATION HELP ==================*/
+
+.navigationHelp {
+	position: absolute;
+	text-indent: -999em;
+}
+
+.navigationHelp:focus{
+	position: static;
+	text-indent: 0em;
+}
+
+#menu a:link, .navigationHelp:link {
+	color: var(--linkcolor);
+}
+
+#menu a:visited, .navigationHelp:visited{
+	color: var(--visitedcolor);
+}
+
+
+
+
+/* ================== BREADCRUMB==================*/
+nav#breadcrumb{
+    margin: 0.5em auto 2em auto ;
+    display: block;
+    text-align: center;
+    width: fit-content;
+    background-color: var(--footercolor);
+    color: var(--light-txtcolor);
+    padding: 0.7em 1.5em;
+    border-radius: 1em;
+    font-weight: 400;
+    position: relative;
+    z-index: 10;
+    /* transition: background-color 0.4s ease; */
+}
+
+nav#breadcrumb a{
+    color: var(--linkcolor);
+    font-weight: 600;
+}
+
+
+nav#breadcrumb a:visited{
+    color: var(--visitedcolor);
+}
+
+/* ================== NUOVO EVENTO ==================*/
+#new-event .split-input{
+    display: flex;
+    flex-wrap:wrap;
+    width: 100%;
+    gap: 1em;
+    margin: auto;
+}
+
+#ModifiedMode{
+    display: none;
+}
+
+#new-event .split-input div{
+    flex: 1 1 48%;
+}
+
+#new-event .split-input div label{
+    margin:0;
+}
+
+.conteggio-testo {
+    text-align: right;
+    display: block;
+    font-size: 0.85rem; 
+    color: var(--placeholderDarker-text);       
+    margin-top: 5px;
+}
+
+#nuovo-evento {
+    padding-bottom: 5em;
+}
+
+.labelledby-element{
+    position: absolute;
+    left:-999em;
+}
+
+#new-event .split-input:nth-of-type(2) label{
+    margin: 0;
+}
+
+#new-event #help-counter-evento + p.error-form{
+    margin-top:-0.5em;
+    margin-bottom:1.5em;
+}
+
+#foto-container{
+    padding-bottom: 1.5em;
+}
+
+#createMore-container{
+    text-align: right;
+    border-top:2px solid var(--darkbgcolor);
+}
+
+#createMore-container label{
+    font-weight: normal;
+    margin-top: 0;
 }

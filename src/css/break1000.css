@@ -16,6 +16,14 @@
     max-width: 60em;
 }
 
+/* ===========PAGINA COME FUNZIONA ============= */
+#come-funziona #comeSiAdotta #paws-containter #paw3 {
+    display: none;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw4 {
+    display: none;
+}
 /* ==================HOME==================*/
 
 

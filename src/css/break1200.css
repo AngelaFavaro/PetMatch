@@ -149,15 +149,11 @@ td.col-dettagli a,td.col-dettagli button{
     letter-spacing: 1px;
     text-decoration: none;
     border:1px solid var(--buttoncolor);
-    color:var(--text-form);
+    color:var(--txtcolor);
 }
 
 #mobile-select option{
-    background-color: var(--form-bg);
-}
-
-#animali .filtri, #eventi .filtri, #richieste .filtri{
-    flex-wrap: wrap;
+    background-color: var(--bgcolor);
 }
 
 
@@ -187,7 +183,6 @@ td.col-dettagli a,td.col-dettagli button{
 #animali:has(#mobile-select option[value="tab1"]:checked)  .tab-content.tab1,
 #animali:has(#mobile-select option[value="tab2"]:checked) .tab-content.tab2{
     display: block;
-    margin:0 auto;
 }
 
 
@@ -201,4 +196,16 @@ td.col-dettagli a,td.col-dettagli button{
 #login .container .column-container{
     width: 70%;
 
+}
+
+
+/* ==========PAGINA COME FUNZIONA ============== */
+
+/* PAGINA COME FUNZIONA */
+
+#come-funziona #comeSiAdotta {
+    margin-top: 2.5em;
+}
+#come-funziona #comeSiAdotta #paws-containter img {
+    display: none;
 }
