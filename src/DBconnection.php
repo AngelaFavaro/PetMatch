@@ -183,6 +183,7 @@ class DBAccess {
         mysqli_stmt_close($stmt);
         return $result;
     }
+    
     public function startEvaluation($emailRichiedente, $idAnimale): bool {
         if (!$this->connection){ //se la connessione non è aperta
             return false;

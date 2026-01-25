@@ -1,0 +1,63 @@
+<div id="admin-area">
+    <h1>Informazioni animale</h1>
+    <div id="animal-container">
+        <article id="info-animale-admin">
+            <div class="generic-info-container">
+                [pulsanti-modifica-animale]
+                <img src="[animalImgPath]" alt="Foto di [nomeAnimale]" class="square-foto">
+                    
+                <div class="text-details">
+                    <dl>
+                        <dt>Nome</dt><dd>[nomeAnimale]</dd>
+                        <dt>Sesso</dt><dd>[sessoAnimale]</dd>
+                        <dt>Età</dt><dd>[etaAnimale]</dd>
+                        <dt>Razza</dt><dd>[razzaAnimale]</dd>
+                        <dt>Pelo</dt><dd>[peloAnimale]</dd> 
+                        <dt>Taglia</dt><dd>[tagliaAnimale]</dd>
+                        <dt>Colore</dt><dd>[coloreAnimale]</dd>
+                    </dl>
+                </div>
+
+            </div>
+            <div id="other-info-container">
+                <dl>
+                    <dt>Idoneo al trasporto</dt><dd>[trasportoAnimale]</dd>
+                    <dt>Condizioni mediche</dt><dd>[condizioniMediche]</dd>
+                    <dt>Descrizione caratteriale</dt><dd>[descrizioneCaratteriale]</dd>
+                    <dt>Famiglia ideale</dt><dd>[famigliaIdeale]</dd>
+                </dl>
+            </div>
+        </article>
+
+        <article id="visualizza-richieste-richiedente">
+            <section class="tabs-container">
+                <fieldset>
+                    <label class="no-visible" for="tab1">Nuove</label>
+                    <label class="no-visible" for="tab2">In valutazione</label>
+                    <label class="no-visible" for="tab3">Accettate</label>
+                    <label class="no-visible" for="tab4">Respinte</label>
+                    <label class="no-visible" for="tab5">Annullate</label>
+                    <label class="no-visible" for="tab6">Da trasportare</label>
+                    <legend id="title-richieste">Richieste</legend>
+                    <select id="filtri-richieste" name="tab-group" aria-label="Selezionare la tipologia di richieste che si vuole visualizzare:">
+                        <option value="tab1">Nuove ([n-nuove])</option>
+                        <option value="tab2">In valutazione ([n-valutazione])</option>
+                        <option value="tab3">Accettate ([n-accettate])</option>
+                        <option value="tab4">Respinte ([n-respinte])</option>
+                        <option value="tab5">Annullate ([n-annullate])</option>
+                        <option value="tab6">Da trasportare ([n-trasporto])</option>
+                    </select>
+
+                    <input class="no-visible" aria-hidden="true" type="radio" id="tab1" name="tab-group">
+                    <input class="no-visible" aria-hidden="true" type="radio" id="tab2" name="tab-group">
+                    <input class="no-visible" aria-hidden="true" type="radio" id="tab3" name="tab-group">
+                    <input class="no-visible" aria-hidden="true" type="radio" id="tab4" name="tab-group">
+                    <input class="no-visible" aria-hidden="true" type="radio" id="tab5" name="tab-group">
+                    <input class="no-visible" aria-hidden="true" type="radio" id="tab6" name="tab-group">
+                </fieldset>
+                [elencoRichieste]
+                <a href="#filtri-richieste" class="sr-only">Torna al filtro richieste</a>
+            </section>
+        </article>
+    </div>
+</div>

@@ -12,6 +12,7 @@ if (isset($_GET['email']) && isset($_POST['view-profile'])){
     $richiesteAdozioneHref = './richieste-adozione';
 }
 
+
 $inputJSON = file_get_contents('php://input');
 $inputData = json_decode($inputJSON, true);
 if (isset($inputData['toggle_theme'])) {
@@ -44,16 +45,20 @@ $pagine = [
         'url' => $richiesteAdozioneHref,
         'parent' => 'richieste-adozione'
     ],
+    'dettagli-animale' => [
+        'label' => 'Dettagli animale',
+        'url' => './dettagli-animale', 
+        'parent' => 'dettagli-richiesta' 
+    ],
     'nuovo-animale' => [
         'label' => 'Aggiungi animale',
         'url' => './nuovo-animale',
         'parent' => 'home'
     ],
     'modifica-animale' => [
-        // QUI VA CAMBIATO IL PARENT QUANDO SARA' PRONTA LA PAGINA DI DETTAGLIO
         'label' => 'Modifica animale',
         'url' => './modifica-animale', 
-        'parent' => 'area-riservata'  
+        'parent' => 'dettagli-animale'  
     ],
     'animali' => [
         'label' => 'Animali',
@@ -803,4 +808,26 @@ function formattaDataItaliana(string $data): string {
     $anno   = date('Y', $timestamp);
 
     return "$giorno $mese $anno";
+}
+
+/**
+ * Escape stringa per output HTML serve a prevenire XSS ossia Cross Site Scripting ossia l'inserimento di codice malevolo in pagine web visualizzate da altri utenti
+ */
+function e(string $s): string {
+    return htmlspecialchars($s ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+/**
+ * Ritorna "Sì" o "No" in base a valore booleano/intero
+ */
+function siNo($val): string {
+    return ($val === 1 || $val === '1' || $val === true) ? 'Sì' : 'No';
+}
+
+function displayDateItalianFormat(string $dateStr): string {
+    $timestamp = strtotime($dateStr);
+    if ($timestamp === false) {
+        return '';
+    }
+    return date('d/m/Y', $timestamp);
 }

@@ -10,28 +10,6 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo cont
 }
 
 
-
-function displayDateItalianFormat(string $dateStr): string {
-    $timestamp = strtotime($dateStr);
-    if ($timestamp === false) {
-        return '';
-    }
-    return date('d/m/Y', $timestamp);
-}
-/**
- * Escape stringa per output HTML serve a prevenire XSS ossia Cross Site Scripting ossia l'inserimento di codice malevolo in pagine web visualizzate da altri utenti
- */
-function e(string $s): string {
-    return htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-}
-
-/**
- * Ritorna "Sì" o "No" in base a valore booleano/intero
- */
-function siNo($val): string {
-    return ($val === 1 || $val === '1' || $val === true) ? 'Sì' : 'No';
-}
-
 /** DA TOGLIERE, NON NECESSARIO TODO
  * Genera gli input nascosti usati nei form (id_animale + email_richiedente)
  */
@@ -230,7 +208,10 @@ $dataRichiesta='<time datetime="' . ($richiesta['data-richiesta'] ?? '') . '">' 
 
 $main = str_replace('[data]', $dataRichiesta, $main);
 $main = str_replace('[contenutoLettera]', e($richiesta['lettera-di-presentazione'] ?? ''), $main);
-$main = str_replace('[paginaAnimale]', './animale?id=' . e($richiesta['id-animale'] ?? ''), $main);
+
+$urlDettaglioAnimale = './dettagli-animale?id-animale=' . e($richiesta['id-animale'] ?? '') . '&from_email=' . urlencode($email);
+$main = str_replace('[paginaAnimale]', $urlDettaglioAnimale, $main);
+
 $main = str_replace('[paginaRichiedente]', './profilo-richiedente?email=' . urlencode($_GET['email']) ?? '', $main);
 $main = str_replace('[animalID]', $richiesta['id-animale'] ?? '', $main);
 $main = str_replace('[trasporto]', siNo($richiesta['trasporto-richiesta'] ?? 0), $main);

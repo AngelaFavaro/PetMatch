@@ -66,6 +66,9 @@ $routes = [
     'nuovo-animale' => [
         'file' => __DIR__ . '/src/php/admin/nuovo-animale.php'
     ],
+    'dettagli-animale' => [
+        'file' => __DIR__ . '/src/php/admin/dettagli-animale.php'
+    ],
     'modifica-animale' => [
         'file' => __DIR__ . '/src/php/admin/modifica-animale.php'
     ],
