@@ -4160,7 +4160,7 @@ footer a{
 
 
 thead th, tfoot th, tfoot td {
-    padding: 0.5em 2em;
+    padding: 0.5em 0.5em;
     text-align: left;
 }
 
@@ -4173,11 +4173,20 @@ thead tr:first-child th:last-child {
 }
 
 tbody td, tbody th {
-    padding: 0em 2em;
+    padding: 0em 0.5em;
     text-align: left;
     border-bottom: 1px solid var(--txtcolor);
 }
+tbody tr th,thead tr th:first-child{
+    padding-left:2em;
+}
 
+td.col-dettagli{
+    padding: 0;
+}
+.col-dettagli img{
+    vertical-align: middle;
+}
 tbody tr:last-child td, 
 tbody tr:last-child th {
     border-bottom: none;
@@ -4199,8 +4208,12 @@ caption {
 td.col-dettagli a,td.col-dettagli button{
     margin: 0.5em;
     width: fit-content;
-    min-width: 10.5em;
+    /* min-width: 10.5em; */
 }
+
+/* td.col-dettagli a.brown-button{
+    width: 45px;
+} */
 
 #admin-area #animali tbody .orange-button[name="elimina_segnalazione"]{
     background-color: transparent;
