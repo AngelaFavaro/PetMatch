@@ -183,7 +183,9 @@ $pagineTotali = max(1, ceil($totale / $perPagina));
 
 
 $eventiCards= $eventi ? buildEventsCards($eventi, $filtro) : "<p class='errore'>Per ora non ci sono eventi in programma. Torna a controllare tra qualche giorno!</p>";
-$linkPagine=buildPagination($pagina, $pagineTotali, $filtersPerTitle);
+$linkPagine=$pagineTotali>1? "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine'>
+        <ul aria-label='Pagine di navigazione'>".buildPagination($pagina, $pagineTotali, $filtersPerTitle)."</ul>
+    </nav>" : '';
 
 
 
