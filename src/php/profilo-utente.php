@@ -78,7 +78,8 @@ function createMovementList(DBAccess $conn, $filtro = 'all'): string {
             $listaMovimenti .= '<li>
                 <article>
                     <p>'.$statoRichiesta.'</p>';
-                    $listaMovimenti .= $conn->isAnimalAdopted($richiesta['IDanimale'])?'<p class="nonDisponibile"><em>Animale adottato</em></p>':'<a href="">Vedi animale</a>';
+                    $listaMovimenti .= $conn->isAnimalAdopted($richiesta['IDanimale'])?'<p class="nonDisponibile"><em>Animale adottato</em></p>':
+                    '<a href="./visualizzazione-animale?id='.urlencode($richiesta['IDanimale']).'">Vedi animale</a>';
             $listaMovimenti.='        
                 </article>
             </li>';

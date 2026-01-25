@@ -290,6 +290,7 @@ details[open] .number::after {
     flex: 1 1 100%;
 }
 
+#visualizzazione-animale .preferiti-form img,
 #animali .is-favorite img,
 #animali .not-favorite img {
     position: absolute;
