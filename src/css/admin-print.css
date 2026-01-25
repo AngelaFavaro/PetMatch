@@ -42,6 +42,82 @@ dt{
     float: left;
     margin-right: 0.2cm;
 }
+/* ========== TABS ========== */
+select#mobile-select, label[for*="tab"], input[id*="tab"]{
+    display: none;
+}
+div.tabs-container .tab-content{
+    display: block;
+}
+/* ========== TABELLE ========== */
+caption{
+    margin-bottom: 0.5cm;
+    font-weight: bold;
+    font-size: larger;
+}
+
+/* metto i bordi alle tabelle */
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 0.2cm;
+}
+
+/* ========== FILTRI========== */
+/* voglio non rendere visibili tutti i form.filtri ma aggiungere cosa è stato selezionato nel testo */
+/* es di form:
+    <input type="hidden" name="stato" value="In valutazione">
+                <ul aria-label="Filtri di ricerca">
+                    <li class="capsula-filtro" role="presentation">
+                        <label for="filtro-appunti">Appunti</label>
+                        <select name="appunti" id="filtro-appunti">
+                            <option value="" selected>Tutti</option>
+                            <option value="1" >Sì</option>
+                            <option value="0" >No</option>
+                        </select>
+                    </li>
+                </ul>
+                <button type="submit" class="orange-button">Applica</button>
+            </form>
+ */
+/* form.filtri{
+    display: 
+} */
+
+form.filtri select {
+        appearance: none; /* Toglie la freccetta standard */
+        -webkit-appearance: none;
+        border: none;
+        background: transparent;
+        font-weight: bold;
+        font-size: 12pt;
+        color: black;
+        padding: 0;
+        width: auto;
+    }
+
+    /* 4. Aggiungi un testo prima del valore selezionato */
+    form.filtri li.capsula-filtro::before {
+        content: "Filtro Appunti: ";
+        font-weight: normal;
+    }
+
+    /* 5. Togli i pallini della lista e metti tutto in riga */
+    form.filtri ul {
+        list-style: none;
+        padding: 0;
+        display: inline;
+    }
+
+    form.filtri li {
+        display: inline;
+        margin-right: 15px;
+    }
+
+    form.filtri button {
+        display: none; /* Nascondi il pulsante di invio */
+    }
+
 /* ========== SCREEN READER ========== */
 .navigationHelp{
     display: none;
