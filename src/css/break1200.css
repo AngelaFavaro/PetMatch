@@ -105,7 +105,11 @@ tbody td {
     padding: 0.3em 0.2em 0.2em 0.2em;
     border-bottom: 1px solid var(--borderTable);
 }
-
+tbody td, tbody th {
+    padding: 0em 2em;
+    text-align: left;
+    border-bottom: 1px solid var(--txtcolor);
+}
 #richieste .capsula-filtro select#filtro-appunti{
     padding-right: 2em;
 }
