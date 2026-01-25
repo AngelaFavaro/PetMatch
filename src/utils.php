@@ -133,7 +133,7 @@ $pagine = [
     'nuovo-evento' => [
         'label' => 'Nuovo evento',
         'url' => './nuovo-evento',
-        'parent' => 'eventi'
+        'parent' => 'visualizzazione-eventi'
     ],
     'assegnati-a-te' => [
         'label' => 'Assegnati a te',
@@ -143,12 +143,12 @@ $pagine = [
     'modifica-evento' => [
         'label' => 'Modifica evento',
         'url' => './modifica-evento',
-        'parent' => 'eventi'
+        'parent' => 'visualizzazione-eventi'
     ],
     'visualizzazione-eventi' => [
         'label' => 'Visualizzazione-eventi',
         'url' => './visualizzazione-eventi',
-        'parent' => 'area-personale'
+        'parent' => 'home'
     ],
 ];
 
