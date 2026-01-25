@@ -3,7 +3,7 @@
         <h1>Aggiungi un Animale</h1>
         <div class="message-container">[erroriGeneric]</div>
         <fieldset>
-            <legend>Tipologia di animale</legend>
+            <legend>Tipologia di animale *</legend>
             <div class="radio-group-cg">
                 <input type="radio" name="tipologia" id="cane" value="0" [tipoCane_checked]>
                 <label for="cane" class="radio-card">Cane</label>
@@ -20,18 +20,18 @@
             <div class="column-container">
                 <div class="column-user">
                     <div>
-                        <label for="nome">Nome</label>
+                        <label for="nome">Nome *</label>
                         <input type="text" name="nome" id="nome" placeholder="Nome" autocomplete="nome" value="[nome]">
                         <p class="error-form">[erroriNome]</p>
                     </div>
 
                     <div>
-                        <label for="razza">Razza</label>
+                        <label for="razza">Razza *</label>
                         <input type="text" name="razza" id="razza" placeholder="Razza" autocomplete="razza" value="[razza]">
                         <p class="error-form">[erroriRazza]</p>
                     </div>
 
-                    <label for="taglia">Taglia</label>
+                    <label for="taglia">Taglia *</label>
                     <select name="taglia" id="taglia">
                         <option value="" disabled [tagliaVuota_selected]>Seleziona un'opzione</option>
                         <option value="Piccolo" [tagliaPiccola_selected]>Piccola</option>
@@ -40,7 +40,7 @@
                     </select>
                     <p class="error-form">[erroriTaglia]</p>
 
-                    <p class="sex-title">Sesso</p>
+                    <p class="sex-title">Sesso *</p>
                     <div class="sex-group">
                         <label class="sex-option">
                             <input type="radio" name="sesso" id="Maschio" value="0" required [sessoM_checked]>
@@ -53,8 +53,8 @@
                         </label>
                     </div>
                     <p class="error-form">[erroriSesso]</p>
-                    
-                    <span id="label-foto">Seleziona una foto</span>
+                 
+                    <span id="label-foto">Seleziona una foto *</span>
                     <label for="foto" class="file-upload-label">
                         <span class="file-upload-text"> Importa un immagine o trascinala</span>
                         <span class="file-name-display"></span>
@@ -63,6 +63,7 @@
                             [infoFotoCaricata]
                         </div>
                     </label>
+                    [input-hidden-foto]
 
                     <div class="transport-wrapper">
                         <label class="checkbox-label">
@@ -75,12 +76,12 @@
 
                 <div class="column-user">
                     <div>
-                        <label for="dataNascita">Data di Nascita: </label>
+                        <label for="dataNascita">Data di Nascita *</label>
                         <input type="date" name="dataNascita" id="dataNascita" autocomplete="Data di nascita" value="[dataNascita]">
                         <p class="error-form">[erroriDataNascita]</p>
                     </div>
 
-                    <label for="pelo">Pelo</label>
+                    <label for="pelo">Pelo *</label>
                     <select name="pelo" id="pelo">
                         <option value="" disabled [peloVuoto_selected]>Seleziona un'opzione</option>
                         <option value="Corto" [peloCorto_selected]>Corto</option>
@@ -90,19 +91,19 @@
                     <p class="error-form">[erroriPelo]</p>
                     
                     <div>
-                        <label for="colore">Colore</label>
+                        <label for="colore">Colore *</label>
                         <input type="text" name="colore" id="colore" placeholder="Colore" autocomplete="colore" value="[colore]">
                         <p class="error-form">[erroriColore]</p>
                     </div>
 
                     <div>
-                        <label for="condMediche">Condizioni mediche: </label>
+                        <label for="condMediche">Condizioni mediche </label>
                         <textarea id="condMediche" name="condMediche" placeholder="Inserire testo">[condMediche]</textarea>
                         <p class="error-form">[erroriCondMediche]</p>
                     </div>
 
                     <div id="div-carattere">
-                        <label for="carattere">Descrizione caratteriale: </label>
+                        <label for="carattere">Descrizione caratteriale *</label>
                         <textarea id="carattere" name="carattere" placeholder="Inserire testo">[carattere]</textarea>
                         <p class="error-form">[erroriCarattere]</p>
                     </div>
@@ -113,17 +114,11 @@
         <fieldset>
             <legend>Informazioni famiglia</legend>
             <div>
-                <label for="famiglia">Famiglia ideale: </label>
+                <label for="famiglia">Famiglia ideale *</label>
                 <textarea id="famiglia" name="famiglia" placeholder="Inserire testo">[famiglia]</textarea>
                 <p class="error-form">[erroriFamiglia]</p>
             </div>
         </fieldset>   
-
-        <div id="createMore-container">
-            <label for="createMore">Aggiungine altri
-                <input type="checkbox" name="createMore" id="createMore" [checkCreateMore]>
-            </label> 
-        </div>
 
         <div class="form-buttons-container">
             <a href="./area-riservata" id="cancel-add-animal">Annulla</a>

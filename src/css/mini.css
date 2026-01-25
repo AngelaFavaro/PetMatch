@@ -35,7 +35,6 @@ select,
     
     display: flex; 
     flex-direction: column;
-    background-color: var(--bgcolor); 
     margin: 0;
     padding: 1em 0;
     box-shadow: 0 10px 15px rgba(0,0,0,0.1);
@@ -94,7 +93,7 @@ select,
     height: 100%;
     background: none;
     cursor: pointer;
-    color: var(--bgcolor,); 
+    color: var(--navButton); 
     padding:0;
     margin: 0;
     transition: transform 0.3s ease;
@@ -328,16 +327,12 @@ input:checked + #slider {
     /* padding:0.5em; */
 }
 
-/* #animali #content-filter-button button {
-    width: 100%;
-    flex: 0 0 100%;
-} */
-
 #animali .filtri #searchSex.capsula-filtro,
 #animali .filtri #searchEta.capsula-filtro {
     max-width: 100%;
 }
 
+#richieste .filtri .capsula-filtro,
 #animali .filtri .capsula-filtro {
     height: 3em;
 }
@@ -360,52 +355,6 @@ input:checked + #slider {
 }
 
 
-
-/* ================== NAV ADMIN ==================*/
-    
-/* nav#menu-admin {
-    padding-top:0em;
-    float: none;
-    width: 100%;
-    position: relative;
-    left: 0;
-    max-height: 0;
-    overflow: hidden;
-    background-color: transparent; 
-    z-index: 1000;
-    visibility: hidden;
-}
-
-#menu-admin.active {
-    max-height: 100vh;
-    background-color: var(--footercolor)
-    visibility: visible;
-}
-
-body#admin-body main {
-    margin-left: 0;
-}
-
-div#admin-area {
-    padding: 1em;
-}
-
-#admin-body .menu-toggle {
-    display: block;
-    font-size: 2em;
-    background: none;
-    border: none;
-    cursor: pointer;
-        color: var(--bgcolor);
-    padding: 0.5em 1em 0em 1em;
-}
-
-nav#menu-admin img {
-    width: 10em;
-    max-width: 100%;
-    height: auto;
-} */
-
 /* ================== NAV ADMIN (Versione No-JS) ==================*/
 
 
@@ -414,7 +363,7 @@ nav#menu-admin img {
     margin: 0em 0em 0em auto ;
     width: fit-content;
     cursor: pointer;
-    color: var(--bgcolor);
+    color: var(--navButton);
     padding: 0.5em 0.5em;
 }
 
@@ -429,12 +378,12 @@ nav#menu-admin li{
     width: 45px;
     text-align: center;
 }
-#menu-toggle-checkbox:checked + .menu-toggle::before {
+#menu-toggle-checkbox:checked + div + .menu-toggle::before {
     content: "\2715"; 
     width: 45px;
 }
 
-#menu-toggle-checkbox:checked + .menu-toggle {
+#menu-toggle-checkbox:checked + div + .menu-toggle {
     transform: rotate(180deg);
 }
 
@@ -602,9 +551,7 @@ div#admin-area article#query h2{
 }
 
 #form-add-animal .column-container, 
-#form-add-animal .column-user,
-#form-edit-animal .column-container, 
-#form-edit-animal .column-user {
+#form-add-animal .column-user {
     display: flex;
     flex-direction: column; 
     gap: 0; 
@@ -621,6 +568,7 @@ div#admin-area article#query h2{
     width: 100%;
 }
 
+
 #form-add-animal .form-group, 
 #form-add-animal .column-user > div,
 #form-edit-animal .form-group,      
@@ -629,11 +577,6 @@ div#admin-area article#query h2{
     flex-direction: column;
     margin-bottom: 1em; 
     width: 100%;
-}
-
-#form-add-animal label,
-#form-edit-animal label{
-    margin-top:0.8em;
 }
 
 #form-add-animal input[type="text"],
@@ -668,6 +611,10 @@ div#admin-area article#query h2{
 #form-add-animal .radio-group-cg,
 #form-edit-animal .radio-group-cg {
     gap: 0.3em;
+}
+
+#form-add-animal .radio-group-cg label{
+    margin:0;
 }
 
 #form-add-animal .radio-card,
@@ -877,22 +824,71 @@ body#lavora-con-noi {
     gap: 0.5em;
 }
 
-#visualizzazione-animale #titolo-dettagli-animale{
-    margin-bottom: 0em;
-}
+/* ================== CHECKBOX ==================*/
 
 
-/* Form adozione */
+.checkbox-container-pic input[type="checkbox"],
+#home input[name="type-animal"],
+input#createMore,
+#form-add-animal .checkbox-label input[type="checkbox"]{
+    width: 30px;
+    height: 30px;
+}
 
-#richiesta-adozione {
-    padding:1.1em
+#home input[name="type-animal"] + label{
+    padding:10px;
 }
-#richiesta-adozione .column-container{
-    gap:0em;
-    padding: 1.3em 0.7em;
+
+.sex-option input[type="radio"]{
+    width: 20px;
+    height: 20px; 
 }
-#richiesta-adozione .column-container .column-container{
-    gap:0.7em;
+
+input#createMore::before,
+.checkbox-container-pic input[type="checkbox"]::before{
+    top:6px;
+    left:6px;
+}
+
+.checkbox-container-pic input[type="checkbox"]::before,
+input#createMore::before,
+#home input[name="type-animal"]::before,
+#form-add-animal .checkbox-label input[type="checkbox"]::before{
+    top:6px;
+    left:6px;
+}
+
+.sex-option input[type="radio"]::before{
+
+    top:3px;
+    left:3px;
+}
+
+/* ================== IMMAGINE AGGIUNGI EVENTO E ANIMALI ==================*/
+
+.success-form +img{
+    max-width: 50%;
+    max-height: 200px;
+    text-align: center;
+}
+/* ================== FILTRI RICHIESTE ADOZIONE ==================*/
+body#admin-body #richieste .filtri button{
+    width: 100%;
+}
+
+body#admin-body #richieste .filtri .capsula-filtro{
+    width: 50%;
+    flex: 1 1 55%;
+    margin:auto;
+}
+
+body#admin-body #richieste .filtri .capsula-filtro label{
+    margin-right: 10px;
+}
+
+body#admin-body #richieste .filtri .capsula-filtro select{
+    margin: 0 0 0 auto;
+    padding-left: 1em;
 }
 
 
@@ -946,50 +942,28 @@ body#lavora-con-noi {
 #come-funziona #comeSiAdotta #immagini{
     display: none;
 }
-/* ================== CHECKBOX ==================*/
 
 
-.checkbox-container-pic input[type="checkbox"],
-#home input[name="type-animal"],
-input#createMore,
-#form-add-animal .checkbox-label input[type="checkbox"]{
-    width: 30px;
-    height: 30px;
+
+
+
+
+/* ================== FILTRI RICHIESTE ADOZIONE ==================*/
+body#admin-body #richieste .filtri button{
+    width: 100%;
 }
 
-#home input[name="type-animal"] + label{
-    padding:10px;
+body#admin-body #richieste .filtri .capsula-filtro{
+    width: 50%;
+    flex: 1 1 55%;
+    margin:auto;
 }
 
-.sex-option input[type="radio"]{
-    width: 20px;
-    height: 20px; 
+body#admin-body #richieste .filtri .capsula-filtro label{
+    margin-right: 10px;
 }
 
-input#createMore::before,
-.checkbox-container-pic input[type="checkbox"]::before{
-    top:6px;
-    left:6px;
-}
-
-.checkbox-container-pic input[type="checkbox"]::before,
-input#createMore::before,
-#home input[name="type-animal"]::before,
-#form-add-animal .checkbox-label input[type="checkbox"]::before{
-    top:6px;
-    left:6px;
-}
-
-.sex-option input[type="radio"]::before{
-
-    top:3px;
-    left:3px;
-}
-
-/* ================== IMMAGINE AGGIUNGI EVENTO E ANIMALI ==================*/
-
-.success-form +img{
-    max-width: 50%;
-    max-height: 200px;
-    text-align: center;
+body#admin-body #richieste .filtri .capsula-filtro select{
+    margin: 0 0 0 auto;
+    padding-left: 1em;
 }

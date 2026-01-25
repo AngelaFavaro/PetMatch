@@ -4,6 +4,11 @@ include './src/DBconnection.php';
 
 use DB\DBAccess;
 
+if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo controlla se esiste la variabile admin in session, la seconda controlla che sia affettivamente admin
+    header("Location: ./accedi");
+    exit;
+}
+
 $idAnimale = filter_var($_GET['id'], FILTER_VALIDATE_INT);
 if (!$idAnimale) {
     header("Location: ./area-riservata");
@@ -79,12 +84,18 @@ function handleEditAnimal(DBAccess $conn, &$AnimalValues, $idAnimale): array {
         if (!in_array($pelo, ['Lungo', 'Corto', 'Medio'])) $errors['pelo'] = "Seleziona tipo pelo.";
         
         $fotoPath = $currentData['foto']; 
-        if(isset($_FILES['foto']) && $_FILES['foto']['name'] != "") {
-            $path = uploadImage($_FILES['foto'], 'animals');
-            if ($path !== null) {
-                $fotoPath = $path;
+        if (isset($_FILES['foto']) && $_FILES['foto']['name'] != "") {
+            
+            if ($_FILES['foto']['error'] === UPLOAD_ERR_OK) {
+                $path = uploadImage($_FILES['foto'], 'animals');
+                
+                if ($path !== null) {
+                    $fotoPath = $path;
+                } else {
+                    $errors['generic'] = "Errore durante il caricamento della nuova immagine. L'operazione è stata annullata.";
+                }
             } else {
-                $errors['generic'] = "Errore nel caricamento della nuova immagine.";
+                $errors['generic'] = "Si è verificato un problema tecnico con il file selezionato (Errore: " . $_FILES['foto']['error'] . ").";
             }
         }
 
@@ -127,8 +138,6 @@ if ($connessione->openDBConnection()) {
     $messageInfoForm = handleEditAnimal($connessione, $AnimalInfo, $idAnimale);
     $connessione->closeConnection();
 }
-
-// ... (codice precedente dopo la chiusura di handleEditAnimal)
 
 // COSTRUZIONE PAGINA HTML
 $paginaHTML = file_get_contents('./src/template/layout-admin.html');
