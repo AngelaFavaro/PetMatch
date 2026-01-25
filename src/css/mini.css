@@ -414,6 +414,7 @@ nav#menu-admin {
 
 body#admin-body main {
     margin-left: 0;
+    overflow: visible;
     min-height: 95vh;
 }
 
