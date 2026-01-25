@@ -873,6 +873,39 @@ body#lavora-con-noi {
 
 /* PAGINA COME FUNZIONA */
 
+#come-funziona #invitoLavoro h2{
+    line-height: 1.2em;
+}
+
+#come-funziona #invitoLavoro .testo{
+    margin-right: 0;
+    margin-bottom: 3em;
+}
+
+#come-funziona #invitoLavoro blockquote cite{
+    padding: 0;
+}
+
+#come-funziona #provAnimali{
+    margin-top:1.5em;
+}
+
+#come-funziona #comeSiAdotta .testo{
+    text-align: left;
+}
+
+#come-funziona #comeSiAdotta .testo ul{
+    margin:1.5em 0 1.5em 1.5em;
+}
+
+#come-funziona #invitoLavoro .testo{
+    margin-bottom: 1em;
+}
+
+#come-funziona h2{
+    font-size: 1.8em;
+}
+
 #come-funziona #comeFunziona img {
     display: none;
 }

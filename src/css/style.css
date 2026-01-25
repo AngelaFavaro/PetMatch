@@ -4721,8 +4721,8 @@ nav#breadcrumb a:visited{
 #come-funziona #comeSiAdotta #paws-containter img {
     transform: rotate(-140deg);
     position: absolute;
-    height: 4em;
-    width: 4em;
+    height: 3.5em;
+    width: 3.5em;
 }
 
 #come-funziona #comeSiAdotta #paws-containter #paw1 {
@@ -4745,13 +4745,8 @@ nav#breadcrumb a:visited{
     right: 20em;
 }
 
-#come-funziona #comeSiAdotta #paws-containter #paw5 {
-    top: 15em;
-    right: 15em;
-}
-
 #come-funziona #provAnimali {
-    margin-top: 8em;
+    margin-top: 4em;
 }
 
 #come-funziona #provAnimali a {
@@ -4773,8 +4768,11 @@ nav#breadcrumb a:visited{
 }
 
 #come-funziona #invitoLavoro h2{
-    font-size: 2em;
     line-height: 1.5em;
+}
+
+#provAnimali p{
+    margin-bottom: 1em;
 }
 
 #come-funziona #invitoLavoro .testo{
