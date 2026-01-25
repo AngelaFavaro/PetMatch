@@ -3599,13 +3599,13 @@ body#admin-body #breadcrumb{
 div#admin-area div#row2 article{
     margin-top:0em;
 }
-div#admin-area article {
+
+div#admin-area article:not(.card) { /*aggiunto il not(.card) perchè così visualizzo bene le card degli animali in "assegnati a te" di admin*/
   padding:1em 1em 1em 1em;
   border: 1px solid var(--txtcolor);
   border-radius:0.5em;
   margin: 2em 0em;
 }
-
 
 div#admin-area article#query, div#admin-area article#row2-container{
     padding: 2em 2em 0em 2em;
@@ -5142,7 +5142,7 @@ nav#breadcrumb a:visited{
     border-top-right-radius: 1.5em;
     border-top-left-radius: 1.5em;
     z-index: 0;
-    color: var(--bgcolor);
+    color: var(--light-txtcolor);
     padding: 2em;
     padding-right: 3em;
     margin-top: 1.5em;
@@ -5251,13 +5251,21 @@ nav#breadcrumb a:visited{
     margin-top: 3em;
     background-color: var(--bgform);
     display: flex;
-    color: var(--bgcolor);
+    color: var(--cat-txtcolor);
     padding-top: 3em;
     padding-left: 5em;
     padding-right: 5em;
     padding-bottom: 2em;
     border-bottom-left-radius: 1em;
     border-bottom-right-radius: 1em;
+}
+
+#come-funziona #invitoLavoro a{
+    border:none;
+}
+
+#come-funziona #invitoLavoro a.brown-button:hover{
+    color:var(--cat-txtcolor);
 }
 
 #come-funziona #invitoLavoro h2{
