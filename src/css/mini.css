@@ -282,6 +282,7 @@ input:checked + #slider {
 
 #animali li.card, #animali li.dark-card {
     flex-shrink: 1;
+    width: 9em;
 }
 
 #animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro
@@ -323,7 +324,7 @@ input:checked + #slider {
 #animali .card .interessamento, #animali .dark-card .interessamento {
     float: left;   
     clear: left;
-    padding:0.5em;
+    /* padding:0.5em; */
 }
 
 #animali .filtri #searchSex.capsula-filtro,
@@ -337,7 +338,7 @@ input:checked + #slider {
 }
 
 #animali .immagine {
-    height: 50%;
+    height: 60%;
     width: 100%;
 }
 
