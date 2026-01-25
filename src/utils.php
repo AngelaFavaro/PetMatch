@@ -12,6 +12,16 @@ if (isset($_GET['email']) && isset($_POST['view-profile'])){
     $richiesteAdozioneHref = './richieste-adozione';
 }
 
+$inputJSON = file_get_contents('php://input');
+$inputData = json_decode($inputJSON, true);
+if (isset($inputData['toggle_theme'])) {
+    
+    $theme = $inputData['toggle_theme']; 
+    setcookie('theme', $theme, time() + (86400 * 30), "/");
+    echo json_encode(['status' => 'ok', 'theme' => $theme]);
+    exit; 
+}
+
 /* Definizione delle pagine esistenti PER LA BREADCRUMB, aggiungerne altre quando possibile*/
 $pagine = [
     'home' => [
@@ -39,9 +49,20 @@ $pagine = [
         'url' => './nuovo-animale',
         'parent' => 'home'
     ],
+    'modifica-animale' => [
+        // QUI VA CAMBIATO IL PARENT QUANDO SARA' PRONTA LA PAGINA DI DETTAGLIO
+        'label' => 'Modifica animale',
+        'url' => './modifica-animale', 
+        'parent' => 'area-riservata'  
+    ],
     'animali' => [
         'label' => 'Animali',
         'url' => './animali',
+        'parent' => 'home'
+    ],
+    'come-funziona' => [
+        'label' => 'Come Funziona',
+        'url' => './come-funziona',
         'parent' => 'home'
     ],
     'registrati' => [
@@ -72,13 +93,18 @@ $pagine = [
     'preferiti' => [
         'label' => 'Preferiti',
         'url' => './preferiti',
-        'parent' => 'home'
+        'parent' => 'animali'
     ],
     'lavora-con-noi' => [
         'label' => 'Lavora con noi',
         'url' => './lavora-con-noi',
         'parent' => 'home'
     ],
+    'visualizzazione-animale' => [
+        'label' => 'Visualizzazione animale',
+        'url' => './visualizzazione-animale', 
+        'parent' => 'animali'
+    ], 
     'senza-amministratore' => [
         'label' => 'Animali senza amministratore',
         'url' => './senza-amministratore',
@@ -107,18 +133,23 @@ $pagine = [
     'nuovo-evento' => [
         'label' => 'Nuovo evento',
         'url' => './nuovo-evento',
-        'parent' => 'visualizzazione-eventi'
+        'parent' => 'eventi'
+    ],
+    'assegnati-a-te' => [
+        'label' => 'Assegnati a te',
+        'url' => './assegnati-a-te',
+        'parent' => 'animali'
     ],
     'modifica-evento' => [
         'label' => 'Modifica evento',
         'url' => './modifica-evento',
-        'parent' => 'visualizzazione-eventi'
+        'parent' => 'eventi'
     ],
     'visualizzazione-eventi' => [
-        'label' => 'Eventi',
-        'url' => './eventi',
-        'parent' => 'area-riservata'
-    ]
+        'label' => 'Visualizzazione-eventi',
+        'url' => './visualizzazione-eventi',
+        'parent' => 'area-personale'
+    ],
 ];
 
 $adminMenu = [
@@ -128,7 +159,7 @@ $adminMenu = [
         ['href' => './visualizzazione-eventi', 'text' => 'Eventi'],
     ],
     'animali' => [
-        ['href' => './tuoi-animali', 'text' => 'Assegnati a te'],
+        ['href' => './assegnati-a-te', 'text' => 'Assegnati a te'],
         ['href' => './senza-amministratore', 'text' => 'Senza amministratore'],
         ['href' => './adottati', 'text' => 'Adottati'],
         ['href' => './nuove-accoglienze', 'text' => 'Nuove accoglienze'],
@@ -172,15 +203,29 @@ function loadTemplate(string $path, string $default = ''): string {
 
 
 function buildAdminNav(array $menuGroups, string $currentHref): string {
+
+    $isDark = (isset($_COOKIE['theme']) && $_COOKIE['theme'] === 'dark');
     // Parte iniziale: Checkbox e Label (Hamburger)
     $html = '
     <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
+
+    <div id="log-theme">
+    <input type="checkbox" id="theme-toggle" class="sr-only"';
+    $html .= $isDark? ' checked >':'>';
+    $html .= '
+        <label for="theme-toggle" id="theme-switch" aria-label="Cambia tema" >
+            <span id="slider">
+                <img src="./assets/icons/sun.svg" id="sun" alt=""/>
+                <img src="./assets/icons/moon.svg" id="moon" alt=""/>
+            </span>
+        </label>
+    </div>
     <label for="menu-toggle-checkbox" class="menu-toggle" aria-label="Apri o chiudi menu di navigazione">
     <span></span> </label>
     
     <nav id="menu-admin" aria-label="Menù">
         <a class="navigationHelp" href="#content"> Salta il menù di navigazione</a>
-        <a href="./home">
+        <a id="logo-link" href="./home">
             <img src="./assets/icons/light-mode-logo.svg" id="logo" alt="Home" lang="en">
         </a>';
         $html .= $currentHref==='./nuovo-animale' ? '<p class="orange-button" id="currentLink" href="./nuovo-animale">+ Aggiungi animale</p>' : '<a class="orange-button" href="./nuovo-animale">+ Aggiungi animale</a>';
@@ -222,6 +267,7 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
 function buildNav(array $items, string $currentHref): string {
 
     global $noNav;
+    $isDark = (isset($_COOKIE['theme']) && $_COOKIE['theme'] === 'dark');
 
     $homeHref = './home';
     $logoAttributes = ($currentHref === $homeHref)? ' id="currentLink"' : '';
@@ -285,8 +331,10 @@ function buildNav(array $items, string $currentHref): string {
                 </nav>
                 
                 <div id="header-actions">
-                    <input type="checkbox" id="theme-toggle" class="sr-only">
-                    <label for="theme-toggle" id="theme-switch" aria-label="Cambia tema">
+                <input type="checkbox" id="theme-toggle" class="sr-only"';
+                $html .= $isDark? ' checked >':'>';
+                $html .= '
+                    <label for="theme-toggle" id="theme-switch" aria-label="Cambia tema" >
                         <span id="slider">
                             <img src="./assets/icons/sun.svg" id="sun" alt=""/>
                             <img src="./assets/icons/moon.svg" id="moon" alt=""/>
@@ -353,6 +401,17 @@ function buildNav(array $items, string $currentHref): string {
                         </a>
                     </h1>
                 </nav>
+                <div id="log-theme">
+                    <input type="checkbox" id="theme-toggle" class="sr-only"';
+                    $html .= $isDark? ' checked >':'>';
+                    $html .= '
+                        <label for="theme-toggle" id="theme-switch" aria-label="Cambia tema" >
+                            <span id="slider">
+                                <img src="./assets/icons/sun.svg" id="sun" alt=""/>
+                                <img src="./assets/icons/moon.svg" id="moon" alt=""/>
+                            </span>
+                        </label>
+                </div>
             </div>
         </header>';
     }
@@ -433,7 +492,7 @@ function buildFooter(array $menuGroups, string $currentHref): string {
                         <ul class="footer-submenu">
                             <li class="social-media-links">
                                 <address>
-                                    <a id="insta-link" href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram">
+                        <a id="insta-link" href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram">
                                         <img src="./assets/icons/Instagram.svg" id="instagram" alt="">
                                         @petmatch_shelter
                                     </a>
@@ -544,7 +603,7 @@ function getCardAnimal(int $idanimale, bool $isAdmin, bool $isAdopted):string{
                     <div>
                         <img src="[imgAnimale]" alt="" />';
                         // <!-- TODO: aggiungere link alla pagina dell\'animale -->'
-                    $html .= ($isAdopted&&!$isAdmin)?'<p class="nonDisponibile"><em>Animale adottato</em></p>':'<a href="" class="brown-button">Vedi animale</a>';
+                    $html .= ($isAdopted&&!$isAdmin)?'<p class="nonDisponibile"><em>Animale adottato</em></p>':'<a href="./visualizzazione-animale?id='.urlencode($idanimale).'" class="brown-button">Vedi animale</a>';
                     $html.='
                     </div>
                     <dl aria-label="Descizione superficiale dell\'animale">
@@ -639,10 +698,8 @@ function buildPagination(int $currentPage, int $totalPages, array|string $params
 
 // rimuove valori vuoti
     // $params = array_filter($params, fn($v) => $v !== '');
-
-
-    if ($totalPages <= 1) return '<li class="currentLinkPagination">1</li>';
-    unset($params['page']);
+	    if ($totalPages <= 1) return '';
+unset($params['page']);
 
     $html = '';
 
@@ -752,5 +809,3 @@ function formattaDataItaliana(string $data): string {
 
     return "$giorno $mese $anno";
 }
-
-

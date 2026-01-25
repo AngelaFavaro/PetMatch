@@ -418,3 +418,85 @@ document.addEventListener("DOMContentLoaded", function() {
         contaCaratteri(campo_car, "conta-corrente-carattere");
     }
 });
+
+
+// NON RICARICA LA PAGINA QUANTO PREMI LA CHECK
+document.addEventListener('DOMContentLoaded', function() {
+    const toggle = document.getElementById('theme-toggle');
+
+    toggle.addEventListener('change', function() {
+        const newTheme = this.checked ? 'dark' : 'light';
+        fetch(window.location.href, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ toggle_theme: newTheme })
+        })
+        .then(response => {
+            console.log('Tema salvato:', newTheme);
+        });
+    });
+});
+
+
+// FERMA IL TOGGLE DEL TEMA PRIMA DELLO SMALL (altrimenti si legge male)
+document.addEventListener('scroll', function() {
+    const themeSwitch = document.querySelector('#theme-switch');
+    const footer = document.querySelector('small');
+    if (!themeSwitch || !footer) return;
+
+    if (window.innerWidth > 800) {
+        themeSwitch.style.bottom = ''; 
+        return; 
+    }
+
+    const footerRect = footer.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    
+    const defaultBottom = 20; 
+
+    if (footerRect.top < windowHeight) {
+        const overlap = windowHeight - footerRect.top;
+        themeSwitch.style.bottom = (defaultBottom + overlap) + 'px';
+    } else {
+        themeSwitch.style.bottom = defaultBottom + 'px';
+    }
+});
+
+// animazione apertura e chiusura del form richiesta di adozione
+
+document.addEventListener('DOMContentLoaded', () => {
+    const details = document.getElementById('compila-form-adozione');
+    const content = document.getElementById('richiesta-adozione');
+    const summary = details.querySelector('summary');
+
+    const animOptions = { duration: 400, easing: 'ease-out' };
+
+    summary.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        if (details.hasAttribute('open')) {
+            content.classList.remove('bg-active');
+            const animation = content.animate([
+                { height: content.offsetHeight + 'px', opacity: 1, padding: '1.5em 2em' },
+                { height: '0px', opacity: 0, padding: '0 2em' }
+            ], animOptions);
+
+            animation.onfinish = () => {
+                details.removeAttribute('open');
+            };
+
+        } else {
+            details.setAttribute('open', '');
+            const targetHeight = content.scrollHeight; 
+            const animation = content.animate([
+                { height: '0px', opacity: 0, padding: '0 2em' },
+                { height: targetHeight + 'px', opacity: 1, padding: '1.5em 2em' }
+            ], animOptions);
+            animation.onfinish = () => {
+                content.classList.add('bg-active');
+            };
+        }
+    });
+});

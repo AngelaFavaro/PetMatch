@@ -5,6 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+
 $url = $_GET['url'] ?? 'home';
 
 /**
@@ -29,8 +30,14 @@ $routes = [
     'lavora-con-noi' => [
         'file' => __DIR__ . '/src/php/lavora-con-noi.php'
     ],
+    'come-funziona' => [
+        'file' => __DIR__ . '/src/php/come-funziona.php'
+    ],
     'registrati' => [
         'file' => __DIR__ . '/src/php/registrati.php'
+    ],
+   'visualizzazione-animale' => [
+        'file' => __DIR__ . '/src/php/visualizzazione-animale.php'
     ],
     'preferiti' => [
         'file' => __DIR__ . '/src/php/preferiti.php'
@@ -59,6 +66,9 @@ $routes = [
     'nuovo-animale' => [
         'file' => __DIR__ . '/src/php/admin/nuovo-animale.php'
     ],
+    'modifica-animale' => [
+        'file' => __DIR__ . '/src/php/admin/modifica-animale.php'
+    ],
     'profilo-richiedente' => [
         'file' => __DIR__ . '/src/php/admin/profilo-richiedente.php'
     ],
@@ -68,6 +78,9 @@ $routes = [
     'nuovo-evento' => [
         'file' => __DIR__ . '/src/php/admin/nuovo-evento.php'
     ],
+    'assegnati-a-te' => [
+        'file' => __DIR__ . '/src/php/admin/assegnati-a-te.php'
+    ],
     'modifica-evento' => [
         'file' => __DIR__ . '/src/php/admin/modifica-evento.php'
     ],
@@ -75,66 +88,6 @@ $routes = [
         'file' => __DIR__ . '/src/php/admin/visualizzazione-eventi.php'
     ]
 ];
-    /* decommentare quando si vogliono aggiungere le altre pagine
-    'accedi' => [
-        'file' => __DIR__ . '/src/php/accedi.php'
-    ],
-    'richieste-adozione' => [
-        'file' => __DIR__ . '/src/php/admin/richieste-adozione.php'
-    ],
-    
-    'profilo' => [
-        'file' => __DIR__ . '/src/php/profilo.php'
-    ],
-    'preferiti' => [
-        'file' => __DIR__ . '/src/php/preferiti.php'
-    ],
-    'come-funziona' => [
-        'file' => __DIR__ . '/src/php/come-funziona.php'
-    ],
-    'lavora-con-noi' => [
-        'file' => __DIR__ . '/src/php/lavora-con-noi.php'
-    ],
-    'animali/cani' => [
-        'file' => __DIR__ . '/src/php/animali.php',
-        'params' => [ //in questo modo è come se l'utente avesse scritto animali.php?tipo=cani
-            'tipo' => 'cani'
-        ]
-    ],
-    'animali/gatti' => [
-        'file' => __DIR__ . '/src/php/animali.php',
-        'params' => [//in questo modo è come se l'utente avesse scritto animali.php?tipo=gatti
-            'tipo' => 'gatti'
-        ]
-    ],
-    'animali-preferiti' => [
-        'file' => __DIR__ . '/src/php/animali.php',
-        //  non so come fare qui, forse fa pagina animali.php posso controllare l'url completo per vedere
-        // se l'utente ha chiesto la pagina di preferiti, altrimenti si può aggiungere un parametro pagina=preferiti ma non so se è il massimo
-    ],
-    'animali-preferiti/cani' => [
-        'file' => __DIR__ . '/src/php/animali.php',
-        'params' => [ //in questo modo è come se l'utente avesse scritto animali.php?pagina=preferiti&tipo=cani
-            'tipo' => 'cani'
-        ]
-    ],
-    'animali-preferiti/gatti' => [
-        'file' => __DIR__ . '/src/php/animali.php',
-        'params' => [//in questo modo è come se l'utente avesse scritto animali.php?pagina=preferiti&tipo=gatti
-            'tipo' => 'gatti'
-        ]
-    ]*/
-    // 'animali' => [
-    //     'file' => __DIR__ . '/src/php/animali.php',
-    // ],
-    // 'animali/cani' => [
-    //     'file' => __DIR__ . '/src/php/animali.php',
-    //     'params' => [
-    // ],
-    // 'animali/gatti' => [
-    //     'file' => __DIR__ . '/src/php/animali.php',
-    // ]
-
 
 // inizio della logica del routing
 if (isset($routes[$url])) {
@@ -148,7 +101,6 @@ handle404();
 
 function handle404() {
     http_response_code(404);
-    // Assicurati che questo file esista!
    
     require __DIR__ . '/404.php';
     exit;

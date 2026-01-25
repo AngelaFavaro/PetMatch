@@ -104,7 +104,10 @@ function buildInfoAdmin(): array{
 			</div>';
 
 	} else {
-		$titolo = '<h2>Le tue informazioni</h2>';
+		$titolo = '<h2>Le tue informazioni</h2>
+                    <a href="?mode=edit#admin-info" class="edit-admin-info pencil">
+                        <img src="./assets/icons/edit-pencil.svg" alt="Modifica informazioni">
+                    </a>';
 		$html =
 			'<div id="informazioni-admin" class="text-details"><dl aria-label="informazioni dell\'utente">
 				<dt>Nome</dt> <dd>[nomeAdmin]</dd>

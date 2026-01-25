@@ -114,7 +114,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                             <th scope="col">Animale</th>
                             <th scope="col">Utente</th>
                             <th scope="col">Data richiesta</th>
-                            <th scope="col" class="col-dettagli">Dettagli</th>
+                            <th scope="col" class="col-dettagli" > <span class="sr-only">Dettagli</span></th>
                         </tr>
                     </thead>
                     <tbody>';
@@ -156,7 +156,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                         <th scope="col">Utente</th>
                         <th scope="col">Data inizio valutazione</th>
                         <th scope="col">Appunti</th>
-                        <th scope="col" class="col-dettagli">Dettagli</th>
+                        <th scope="col" class="col-dettagli"><span class="sr-only">Dettagli</span></th>
                     </tr>
                 </thead>
                 <tbody>';
@@ -211,7 +211,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                         <th scope="col">Utente</th>
                         <th scope="col">Data accettazione</th>
                         <th scope="col">Data arrivo</th>
-                        <th scope="col" class="col-dettagli">Dettagli</th>
+                        <th scope="col" class="col-dettagli"><span class="sr-only">Dettagli</span></th>
                     </tr>
                 </thead>
             <tbody>';
@@ -261,7 +261,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                             <th scope="col">Animali</th>
                             <th scope="col">Utente</th>
                             <th scope="col">DATA ANNULLAMENTO</th>
-                            <th scope="col" class="col-dettagli">Dettagli</th>
+                            <th scope="col" class="col-dettagli"><span class="sr-only">Dettagli</span></th>
                         </tr>
                     </thead>
                     <tbody>';
@@ -304,7 +304,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                     <tr>
                         <th scope="col">Animali</th>
                         <th scope="col">Utente</th>
-                        <th scope="col" class="col-dettagli">Dettagli</th>
+                        <th scope="col" class="col-dettagli"><span class="sr-only">Dettagli</span></th>
                     </tr>
                 </thead>
             <tbody>';

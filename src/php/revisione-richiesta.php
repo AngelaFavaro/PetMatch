@@ -48,11 +48,15 @@ if ($connessioneOK) {
 
 $fineRichiesta = $infoRequest['DataFineValutazione']?'<dt>Data fine valutazione:</dt><dd>'.date("d/m/Y", strtotime($infoRequest['DataFineValutazione'])).'</dd>':'';
 
+if (empty($infoRequest['ImgPath']) || !file_exists($infoRequest['ImgPath'])) {
+    $infoRequest['ImgPath'] = $infoRequest['tipo']=='Cane'? 'assets/images/animals/defaultCane.jpg':'assets/images/animals/defaultGatto.jpg';
+}
+
 if($infoRequest['DataNascita']){
     $etaAnimale = calcolaEta($infoRequest['DataNascita']);
 }
 
-if($infoRequest['DataPartenza'] && $infoRequest['DataPartenza']){
+if($infoRequest['DataPartenza'] && $infoRequest['DataArrivo']){
     $dataPartenza = '<dt>Data di partenza:</dt><dd><em>'. date("d/m/Y",strtotime($infoRequest['DataPartenza'])).'</em></dd>';
     $dataArrivo = '<dt>Data di partenza:</dt><dd><em>'. date("d/m/Y",strtotime($infoRequest['DataArrivo'])).'</em></dd>';
 }else{

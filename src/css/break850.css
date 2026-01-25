@@ -89,7 +89,7 @@
     width: 2px;
     height: auto;
     max-height: 550px;
-    background-image: linear-gradient(to top, var(--buttoncolor) 50%, transparent 50%);
+    background-image: linear-gradient(to top, var(--timeline-line) 50%, transparent 50%);
     background-size: 100% 20px;
 }
 
@@ -169,8 +169,6 @@ details[open] .number::after {
 }
 
 #form-affidamento {
-    background-color: var(--bgcolor);
-    color: var(--txtcolor);
     margin:2em auto 0.1em auto;
     padding: 0em 2em;
     flex: 1 0 40%;
@@ -181,6 +179,10 @@ details[open] .number::after {
     padding: 0;
     background-image: none;
     overflow:hidden;
+}
+
+:root:has(input#theme-toggle:checked) #container-form-affidamento{
+    background-image: none;
 }
 /* ==================CHI SIAMO==================*/
 
@@ -288,6 +290,7 @@ details[open] .number::after {
     flex: 1 1 100%;
 }
 
+#visualizzazione-animale .preferiti-form img,
 #animali .is-favorite img,
 #animali .not-favorite img {
     position: absolute;
@@ -301,11 +304,8 @@ details[open] .number::after {
 #animali .card .nome, #animali .dark-card .nome{
     padding:0.8em 1.5em 0 0.5em;
     margin:0 0 0.5em 0;
-    font-size: 1em;
-    max-width: 6em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 1.1em;
+    width: 90%;
 }
 
 #animali .card .sesso-etaMob, #animali .dark-card .sesso-etaMob{
@@ -325,8 +325,10 @@ details[open] .number::after {
 
 #animali li.card, #animali li.dark-card {
     cursor: pointer;
-    width: 9em;
-    /* height: 15em; */
+    /* width: 45.5%; */
+    /* max-width: 15em; */
+    flex-grow: 1;
+    height: 15em;
     margin: 0.5em;
     overflow: hidden;
     
@@ -387,4 +389,14 @@ details[open] .number::after {
 /* ==================PROFILO RICHIEDENTE==================*/
 #profilo-richiedente #visualizza-richiedente{
     margin-bottom: 4em;
+}
+
+/* ======================PAGINA COME FUNZIONA====================== */
+
+#come-funziona #invitoLavoro {
+    flex-direction: column;
+    color: var(--bgcolor);
+    padding: 2em;
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
 }

@@ -161,17 +161,19 @@ if ($connessioneOK) {
 $pagineCani = (int)ceil($NNonAdminByType['Cane'] / $perPagina);
 $pagineGatti = (int)ceil($NNonAdminByType['Gatto'] / $perPagina);
 
-$linkCani = buildPagination(
+$linkCani = $pagineCani>1 ? "<nav class='next-page-links' aria-label='Pagine cani'>
+                <ul>".buildPagination(
     ($tipoAttivo === 'Cani' ? $paginaCorrente : 1), 
     $pagineCani, 
     'Cani'
-);
+)."</ul></nav>" : '';
 
-$linkGatti = buildPagination(
+$linkGatti = $pagineGatti>1 ? "<nav class='next-page-links' aria-label='Pagine gatti'>
+                <ul>".buildPagination(
     ($tipoAttivo === 'Gatti' ? $paginaCorrente : 1), 
     $pagineGatti, 
     'Gatti'
-);
+)."</ul></nav>" : '';
 $linkAttivi = ($tipoAttivo === 'Gatti') ? $linkGatti : $linkCani;
 
 $cani_content = renderCaniContent($animali['Cane'], $NNonAdminByType);

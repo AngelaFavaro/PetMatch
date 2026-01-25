@@ -67,7 +67,7 @@ function createMovementList(DBAccess $conn, $filtro = 'all'): string {
                     $statoRichiesta = 'Siamo spiacenti di informarti che la tua richiesta di adozione per <em>'.$nomeAnimale.'</em> è stata <strong>respinta.</strong>';
                     break;
                 case 'Annullata':   
-                    $statoRichiesta = 'Hai <strong>annullato</strong> la tua richiesta di adozione per <em>'.$nomeAnimale.'</em>.';
+                    $statoRichiesta = 'La richiesta di adozione per <em>'.$nomeAnimale.'</em> è stata <strong>annullata</strong>.';
                     break;
                 case 'Nuova':
                     $statoRichiesta = 'La tua richiesta di adozione per <em>'.$nomeAnimale.'</em> è stata <strong>inviata</strong> con successo e sarà valutata a breve.';
@@ -78,7 +78,8 @@ function createMovementList(DBAccess $conn, $filtro = 'all'): string {
             $listaMovimenti .= '<li>
                 <article>
                     <p>'.$statoRichiesta.'</p>';
-                    $listaMovimenti .= $conn->isAnimalAdopted($richiesta['IDanimale'])?'<p class="nonDisponibile"><em>Animale adottato</em></p>':'<a href="">Vedi animale</a>';
+                    $listaMovimenti .= $conn->isAnimalAdopted($richiesta['IDanimale'])?'<p class="nonDisponibile"><em>Animale adottato</em></p>':
+                    '<a href="./visualizzazione-animale?id='.urlencode($richiesta['IDanimale']).'">Vedi animale</a>';
             $listaMovimenti.='        
                 </article>
             </li>';

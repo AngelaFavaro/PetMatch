@@ -4,11 +4,16 @@ include './src/DBconnection.php';
 
 use DB\DBAccess;
 
+if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo controlla se esiste la variabile admin in session, la seconda controlla che sia affettivamente admin
+    header("Location: ./accedi");
+    exit;
+}
+
 $NewAnimalInfo = [
     'tipologia' => '', 'nome' => '', 'razza' => '', 'taglia' => '',
     'sesso' => '', 'foto' => '', 'dataNascita' => '', 'pelo' => '',
     'colore' => '', 'condMediche' => '', 'carattere' => '', 'famiglia' => '',
-    'trasporto' => '', 'createMore'=>'' // Corretto refuso 'trasposrto'
+    'trasporto' => '', 'createMore'=>'', 'assegna_a_me' => ''
 ];
 
 function createInfoAnimale(DBAccess $conn, &$NewAnimalValues): array {
@@ -24,11 +29,12 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues): array {
         foreach ($savedErrors as $key => $val) {
             $message[$key] = ($key === 'generic') ? $val : "<p class='error-form'>$val</p>";
         }
+        
         $savedInputs = $_SESSION['form_inputs'] ?? [];
-        foreach ($NewAnimalValues as $key => $val) {
-            $NewAnimalValues[$key] = $savedInputs[$key] ?? '';
+        // Aggiorniamo NewAnimalValues con quello che l'utente aveva scritto
+        foreach ($savedInputs as $key => $val) {
+            $NewAnimalValues[$key] = $val;
         }
-        unset($_SESSION['form_status_info'], $_SESSION['form_errors_info'], $_SESSION['form_inputs']);
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit-animal'])) { 
@@ -79,18 +85,31 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues): array {
             }
         }
         if (!in_array($pelo, ['Lungo', 'Corto', 'Medio'])) $errors['pelo'] = "Seleziona tipo pelo.";
+
+        if (empty($carattere)) {
+            $errors['carattere'] = "Inserire una descrizione del carattere.";
+        } elseif (strlen($carattere) < 10) {
+            $errors['carattere'] = "La descrizione del carattere è troppo breve (minimo 10 caratteri).";
+        }
+
+        if (empty($famiglia)) {
+            $errors['famiglia'] = "Inserire una descrizione della famiglia ideale.";
+        } elseif (strlen($famiglia) < 10) {
+            $errors['famiglia'] = "La descrizione della famiglia è troppo breve (minimo 10 caratteri).";
+        }
         
         // Gestione Foto
-        $fotoPath = (!empty($NewAnimalValues['foto'])) ? $NewAnimalValues['foto'] : 'assets/images/animals/default.png';
-        if(isset($_FILES['foto']) && $_FILES['foto']['name'] != "") {
-            echo "Tentativo upload foto...<br>";
+        $fotoPath = $NewAnimalValues['foto'] ?? ''; 
+        if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK && $_FILES['foto']['name'] != "") {
             $path = uploadImage($_FILES['foto'], 'animals');
-            echo "Path ritornato: " . ($path ?? 'NULL') . "<br>";
             if ($path !== null) {
-                $fotoPath = $path;
+                $fotoPath = $path; 
             } else {
-                echo "ERRORE: upload fallito<br>";
+                $errors['generic'] = "Errore nel caricamento dell'immagine. Riprova con un altro file.";
             }
+        } 
+        elseif (empty($fotoPath)) {
+            $errors['generic'] = "La foto dell'animale è obbligatoria per completare l'inserimento.";
         }
 
         if (empty($errors)) {
@@ -110,33 +129,31 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues): array {
                 'trasporto' => $trasporto
             ];
 
-            // RECUPERO EMAIL DALLA SESSIONE
-            $email_admin = $_SESSION['email'] ?? null; 
+            $email_loggato = $_SESSION['email'] ?? null; 
+            
+            $assegna_a_me = isset($_POST['assegna_a_me']);
 
-            if ($email_admin) {
-                $result = $conn->addAnimal($dataDB, $email_admin);
-                if ($result) {
+            $email_da_inserire = $assegna_a_me ? $email_loggato : null;
 
-                    if($createMoreValue){
-                        header("Location: ./nuovo-animale?createMore=1");
-                    }else{
-                        header("Location: ./area-riservata?success=1");
-                    }
-                    unset($_SESSION['form_inputs'], $_SESSION['form_errors_info']);
-                    exit;
-                } else {
-                    // Mostra l'errore specifico MySQL
-                    $errors['generic'] = "Errore database: " . htmlspecialchars($conn->getConnectionError());                }
+            $result = $conn->addAnimal($dataDB, $email_da_inserire);
+
+            if ($result) {
+                unset($_SESSION['form_status_info'], $_SESSION['form_errors_info'], $_SESSION['form_inputs']);
+                
+                $location = $createMoreValue ? "./nuovo-animale?createMore=1" : "./area-riservata?success=1";
+                header("Location: $location");
+                exit;
             } else {
-                $errors['generic'] = "Errore: Sessione amministratore non trovata. Effettua il login.";
+                $errors['generic'] = "Errore database: " . htmlspecialchars($conn->getConnectionError());
             }
         }
 
         $_SESSION['form_status_info'] = 'error';
         $_SESSION['form_errors_info'] = $errors;
-        $_SESSION['form_inputs'] = $_POST; 
+
         $inputsToSave = $_POST;
         $inputsToSave['foto'] = $fotoPath; 
+        $inputsToSave['assegna_a_me'] = isset($_POST['assegna_a_me']) ? 1 : 0;
         $_SESSION['form_inputs'] = $inputsToSave; 
 
         header("Location: ./nuovo-animale");
@@ -181,14 +198,23 @@ foreach ($campi_errori as $campo) {
 }
 
 $fotoInfo = "";
-if (!empty($NewAnimalInfo['foto']) && $NewAnimalInfo['foto'] !== '../../assets/images/animals/default.png') {
+$inputHiddenFoto = ""; 
+
+if (!empty($NewAnimalInfo['foto'])) {
     $nomeFile = basename($NewAnimalInfo['foto']);
-    $fotoInfo = "<p class='success-form'>Immagine caricata: <strong>$nomeFile</strong></p>";
-    $fotoInfo .= "<img src='{$NewAnimalInfo['foto']}' alt='Anteprima immagine caricata'>";
+    $fotoInfo = "<p class='success-form'>Immagine già caricata: <strong>$nomeFile</strong></p>";
+    $fotoInfo .= "<img src='{$NewAnimalInfo['foto']}' alt='Anteprima immagine caricata' style='max-width:200px;'>";
+    $inputHiddenFoto = "<input type='hidden' name='foto' value='{$NewAnimalInfo['foto']}'>";
 }
+
 $paginaHTML = str_replace('[infoFotoCaricata]', $fotoInfo, $paginaHTML);
+$paginaHTML = str_replace('[input-hidden-foto]', $inputHiddenFoto, $paginaHTML);
 
 $paginaHTML = str_replace('[erroriGeneric]', $messageInfoForm['generic'] ?? '', $paginaHTML);
+
+$assegna_val = $NewAnimalInfo['assegna_a_me'] ?? '';
+$is_checked = ($assegna_val == 1 || $assegna_val === 'on' || $assegna_val === true) ? 'checked="checked"' : '';
+$paginaHTML = str_replace('[assegna_checked]', $is_checked, $paginaHTML);
 
 $paginaHTML = str_replace('[sessoM_checked]', ($NewAnimalInfo['sesso'] === '0' ? 'checked="checked"' : ''), $paginaHTML);
 $paginaHTML = str_replace('[sessoF_checked]', ($NewAnimalInfo['sesso'] === '1' ? 'checked="checked"' : ''), $paginaHTML);
