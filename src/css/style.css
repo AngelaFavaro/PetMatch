@@ -30,7 +30,11 @@
     --textDarkinput: #481515;
     --modifiedAccount:#E4D4BA;
     --bordermodifiedAccount:#E4D4BA;
+    --text-deletebutton: #481515;
+    --selectTypeAnimal: #E4D4BA;
     
+    --darkMdode-selectTypeAnimal: #b79378;
+    --darkMode-text-deletebutton: #ba4d3b;
     --darkMode-bordermodifiedAccount:#C7B097;
     --darkMode-modifiedAccount:#5B2E25;
     --darkMode-textDarkinput: #C7B097;
@@ -75,6 +79,8 @@
 }
 
 :root:has(input#theme-toggle:checked){
+    --selectTypeAnimal: var(--darkMdode-selectTypeAnimal);
+    --text-deletebutton: var(--darkMode-text-deletebutton);
     --bordermodifiedAccount:var(--darkMode-bordermodifiedAccount);
     --modifiedAccount:var(--darkMode-modifiedAccount);
     --txtclose-request:var(--darkMode-txtclose-request);
@@ -112,6 +118,8 @@
 :root:has(input#theme-toggle:checked) #instagram,
 :root:has(input#theme-toggle:checked) #animali .heart-normal,
 :root:has(input#theme-toggle:checked) #animali .heart-hover,
+:root:has(input#theme-toggle:checked) #menu-admin #logo,
+:root:has(input#theme-toggle:checked) .edit-admin-info img,
 :root:has(input#theme-toggle:checked) #account-normal,
 :root:has(input#theme-toggle:checked) #introduction-home img{
     filter: brightness(0) saturate(100%) invert(79%) sepia(17%) saturate(541%) hue-rotate(346deg) brightness(92%) contrast(88%);
@@ -142,6 +150,10 @@
 
 :root:has(input#theme-toggle:checked) select{
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%23C7B097" d="M7 10l5 5 5-5z"/></svg>');
+}
+
+:root:has(input#theme-toggle:checked) select#mobile-select{
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%481515" d="M7 10l5 5 5-5z"/></svg>');
 }
 
 a{
@@ -297,6 +309,7 @@ a.brown-button, button.brown-button{
     margin: 0.7em auto 0.7em auto;
     text-decoration: underline;
     margin-right: 0;
+    border:1px solid var(--txtcolor);
 }
 
 a.brown-button:visited{
@@ -308,6 +321,7 @@ a.brown-button:visited{
     background-color:transparent; 
     color: var(--hover-link);
     cursor: pointer;
+    border:1px solid transparent;
 }
 
 button.brown-button{
@@ -378,6 +392,11 @@ select,
 input{
     font-family: "Parkinsans", Roboto, sans-serif;
     font-size: 1em;
+}
+
+button,
+select{
+    cursor: pointer;
 }
 
 select{
@@ -920,6 +939,12 @@ header a{
 
 /* per admin */
 
+#admin-body #theme-toggle {
+    position: fixed;
+    top:0; left:0;
+    bottom: 20px;
+    right: 20px;
+}
 
 #admin-body #theme-switch {
     position: fixed;
@@ -931,7 +956,7 @@ header a{
 
 #admin-body #slider {
     position: absolute;
-    right: 0; bottom: 0;
+    top:0; left:0; right: 0; bottom: 0;
     background-color: var(--bgcolor);
     border-radius: 50%;
     transition: 0.4s;
@@ -1581,6 +1606,8 @@ legend {
 #animali label + input::placeholder,
 #signup label + input::placeholder,
 #home label + input::placeholder,
+div#admin-area label + input::placeholder,
+.edit-number div input::placeholder, 
 .password-container input::placeholder,
 #user-profile label + input::placeholder,
 #login label + input::placeholder{
@@ -1793,7 +1820,7 @@ input:-webkit-autofill:active{
 , #richieste .filtri .capsula-filtro {
     display: flex;
     flex: 1 1 30%;
-    border: 1px solid var(--text-buttoncolor);
+    border: 1px solid var(--txtcolor);
     border-radius: 1em;
     padding: 0.5em;
     height: 2.5em;
@@ -2895,7 +2922,6 @@ a:hover .hover-icon {opacity: 1;}
     cursor: pointer;           
     gap: 10px;                 
 }
-
 .checkbox-container-pic input[type="checkbox"],
 #home input[name="type-animal"],
 input#createMore,
@@ -2906,16 +2932,22 @@ input#createMore,
     position: relative;
     top:5px;
     background-color: transparent;
-    border: 1px solid var(--txtcolor);
     cursor: pointer;
     margin: 0;
 }
 
-.checkbox-container-pic input[type="checkbox"],
+#home input[name="type-animal"],
+input#createMore,
+#form-add-animal .checkbox-label input[type="checkbox"],
+.checkbox-container-pic input[type="checkbox"]{
+    border: 1px solid var(--text-form);
+}
+
 #home input[name="type-animal"]{
     border-radius: 2em;
 }
 
+.checkbox-container-pic input[type="checkbox"],
 #form-add-animal .checkbox-label input[type="checkbox"],
 input#createMore{
     border-radius: 4px;
@@ -3022,10 +3054,11 @@ input#createMore:checked:before,
     margin-top:1em;
 }
 
-.edit-mode input[type="file"]{
-    background-color: var(--darkbgcolor);
+.edit-mode input[type="file"],
+div#admin-area input[type="file"]{
+    background-color: transparent;
     color: var(--text-buttoncolor);
-    border:none;
+    border:1px solid var(--text-form);
     border-radius: 2em;
     cursor: pointer;
 }
@@ -3592,7 +3625,7 @@ ul#statistics-list li{
 }
 #to-do-list a, #statistics-list a{
     width:100%; /*riempie tutto il li*/
-    color: var(--txtcolor);
+    color: var(--text-form);
     text-decoration: none;
     font-weight: normal;
 }
@@ -3660,13 +3693,12 @@ nav#menu-admin li a{
 
 nav#menu-admin button.logout-btn:hover{
     background-color: var(--buttoncolor-hover);
-    color:var(--text-buttoncolor-hover);
-    border-color: var(--buttoncolor-hover);
+    color:var(--light-txtcolor);
 }
 
 .description-menu{
     font-size: 1.3em;
-    border-bottom:1px solid var(--darkbgcolor);
+    border-bottom:1px solid var(--navButton);
     margin-right: 1em;
     margin-top: 2em;
 }
@@ -3686,7 +3718,7 @@ nav#menu-admin li a:visited{
 
 nav#menu-admin li:hover{
     /* background-color: var(--darkbgcolor); */
-    outline: 2px solid var(--bgcolor);
+    outline: 2px solid var(--navButton);
     border-radius: 2em 0em 0em 2em;
 }
 
@@ -3700,10 +3732,10 @@ nav#menu-admin li#currentLink:hover{
 
 nav#menu-admin li#currentLink a{
     font-weight: 700;
-    color: var(--txtcolor);
+    color: var(--navButton);
 }
 nav#menu-admin span{
-    color: var(--bgcolor);
+    color: var(--navButton);
     margin-left: 0.5em;
     font-weight: 700;
 }
@@ -3711,6 +3743,7 @@ nav#menu-admin span{
 nav#menu-admin ul{
     margin-top:1em;
     margin-bottom: 1em;
+    list-style: none;
 }
 
 nav#menu-admin a#logout{
@@ -3731,6 +3764,11 @@ div#row2 article{
     flex-direction: column; /* Mette la testata SOPRA e le info SOTTO */
 }
 
+#admin-info:has(button){
+    color:var(--text-form);
+    background-color: var(--form-bg);
+}
+
 .header-info h2{
     float: left;
 }
@@ -3747,8 +3785,17 @@ a.pencil {
     flex-wrap: wrap;
 }
 
+.generic-info-container img {
+    margin:0 auto 1em auto;
+}
+
+#informazioni-admin{
+    width: 100%;
+}
+
 .generic-info-container form{
-    max-width: 100%;
+    max-width: 90%;
+    margin:auto;
 }
 
 
@@ -4092,6 +4139,20 @@ caption {
 
 td.col-dettagli a,td.col-dettagli button{
     margin: 0.5em;
+    width: 11em;
+}
+
+#admin-area #animali tbody .orange-button[name="elimina_segnalazione"]{
+    background-color: transparent;
+    border: 2px solid var(--buttoncolor);
+    color:var(--txtcolor);
+    padding:0.6em 1.5em;
+    transition: 0.3s;
+}
+
+#admin-area #animali tbody .orange-button[name="elimina_segnalazione"]:hover{
+    background-color: transparent;
+    border: 2px solid transparent;
 }
 
 .nessun-risultato-message{
@@ -4101,9 +4162,10 @@ td.col-dettagli a,td.col-dettagli button{
     display: block;
 }
 
-tr:hover {
+/* l'ho tolto perché la riga non era cliccabile */
+/* tr:hover {
     background-color: var(--darkbgcolor);          
-}
+} */
 /*================== FILTRI  ==================*/
 .tab-content .filtri ul{
     /* margin: 1em; */
@@ -4141,7 +4203,8 @@ tr:hover {
    ======================================== */
 #form-add-animal,
 #new-event {
-    background-color: var(--bgcolor);
+    background-color: var(--form-bg);
+    color:var(--text-form);
     width: 95%;
     max-width: 950px;
     padding: 3em 4em;
@@ -4194,7 +4257,7 @@ tr:hover {
     padding: 0.5em 5em;
     min-width: 150px;
     border: 2px solid var(--text-buttoncolor);
-    background-color: var(--darkbgcolor);
+    background-color: var(--selectTypeAnimal);
     border-radius: 0.5em;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -4203,7 +4266,7 @@ tr:hover {
 }
 
 .radio-card:hover {
-    color: var(--bgcolor);
+    color: var(--form-bg);
     background-color: var(--buttoncolor-hover);
 }
 
@@ -4279,8 +4342,8 @@ tr:hover {
     border-radius: 0.2em;
     font-size: 1em;
     font-family: inherit;
-    background-color: var(--bgcolor);
-    color: var(--buttoncolor-hover);
+    background-color: var(--form-bg);
+    color: var(--text-form);
     transition: all 0.3s ease;
 }
 
@@ -4308,7 +4371,7 @@ tr:hover {
 #form-add-animal input::placeholder,
 #form-add-animal select::placeholder,
 #form-add-animal textarea::placeholder{
-    color:var(--placeholder-text);
+    color:var(--placeholderForm-tex);
     font-weight: lighter;
     font-size: 0.9em;
 }
@@ -4330,10 +4393,10 @@ tr:hover {
     /* transition: all 0.3s ease;
     font-family: "Parkinsans", Roboto, sans serif; */ 
     padding:0.5em 2em 0.5em 0.5em;
-    background-color: var(--bgcolor);
+    background-color: var(--form-bg);
     border-radius: 2em;
     border-color: var(--text-buttoncolor);
-    color:var(--text-buttoncolor);
+    color:var(--text-form);
     margin:0;
     width: 100%;
     min-height: 44px;
@@ -4353,8 +4416,8 @@ tr:hover {
     border-radius: 0.2em;
     font-size: 1em;
     font-family: inherit;
-    background-color: var(--bgcolor);
-    color: var(--txtcolor);
+    background-color: var(--form-bg);
+    color: var(--text-form);
     resize: vertical;
     transition: all 0.3s ease;
 }
@@ -4389,7 +4452,7 @@ tr:hover {
 
 .file-upload-label:hover {
     border-color: var(--buttoncolor-hover);
-    background-color: var(--darkbgcolor);
+    background-color: var(--selectTypeAnimal);
     text-decoration: underline;
 }
 

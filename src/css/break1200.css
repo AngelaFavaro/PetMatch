@@ -149,11 +149,15 @@ td.col-dettagli a,td.col-dettagli button{
     letter-spacing: 1px;
     text-decoration: none;
     border:1px solid var(--buttoncolor);
-    color:var(--txtcolor);
+    color:var(--text-form);
 }
 
 #mobile-select option{
-    background-color: var(--bgcolor);
+    background-color: var(--form-bg);
+}
+
+#animali .filtri, #eventi .filtri, #richieste .filtri{
+    flex-wrap: wrap;
 }
 
 
@@ -183,6 +187,7 @@ td.col-dettagli a,td.col-dettagli button{
 #animali:has(#mobile-select option[value="tab1"]:checked)  .tab-content.tab1,
 #animali:has(#mobile-select option[value="tab2"]:checked) .tab-content.tab2{
     display: block;
+    margin:0 auto;
 }
 
 

@@ -226,9 +226,9 @@ if (!empty($NewEventInfo['ImgPath']) && $NewEventInfo['ImgPath'] !== '../../asse
     $fotoInfo = "<p class='success-form'>Immagine caricata: <strong>$nomeFile</strong></p>";
     $fotoInfo .= "<img src='{$NewEventInfo['ImgPath']}' alt='Anteprima immagine caricata'>";
     $inputHiddenFoto = "<input type='hidden' name='old-foto' value='{$NewEventInfo['ImgPath']}'>";
-    $paginaHTML = str_replace('[input-hidden-foto]', $inputHiddenFoto, $paginaHTML);
 }
 $paginaHTML = str_replace('[foto-event-upload]', $fotoInfo, $paginaHTML);
+$paginaHTML = str_replace('[input-hidden-foto]', $inputHiddenFoto??'', $paginaHTML);
 
 $paginaHTML = str_replace('[title-event-value]', ($NewEventInfo['Titolo']?? ''), $paginaHTML);
 $paginaHTML = str_replace('[day-event-value]', ($NewEventInfo['DataEvento']?? ''), $paginaHTML);

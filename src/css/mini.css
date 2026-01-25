@@ -326,16 +326,12 @@ input:checked + #slider {
     padding:0.5em;
 }
 
-/* #animali #content-filter-button button {
-    width: 100%;
-    flex: 0 0 100%;
-} */
-
 #animali .filtri #searchSex.capsula-filtro,
 #animali .filtri #searchEta.capsula-filtro {
     max-width: 100%;
 }
 
+#richieste .filtri .capsula-filtro,
 #animali .filtri .capsula-filtro {
     height: 3em;
 }
@@ -358,52 +354,6 @@ input:checked + #slider {
 }
 
 
-
-/* ================== NAV ADMIN ==================*/
-    
-/* nav#menu-admin {
-    padding-top:0em;
-    float: none;
-    width: 100%;
-    position: relative;
-    left: 0;
-    max-height: 0;
-    overflow: hidden;
-    background-color: transparent; 
-    z-index: 1000;
-    visibility: hidden;
-}
-
-#menu-admin.active {
-    max-height: 100vh;
-    background-color: var(--footercolor)
-    visibility: visible;
-}
-
-body#admin-body main {
-    margin-left: 0;
-}
-
-div#admin-area {
-    padding: 1em;
-}
-
-#admin-body .menu-toggle {
-    display: block;
-    font-size: 2em;
-    background: none;
-    border: none;
-    cursor: pointer;
-        color: var(--bgcolor);
-    padding: 0.5em 1em 0em 1em;
-}
-
-nav#menu-admin img {
-    width: 10em;
-    max-width: 100%;
-    height: auto;
-} */
-
 /* ================== NAV ADMIN (Versione No-JS) ==================*/
 
 
@@ -412,7 +362,7 @@ nav#menu-admin img {
     margin: 0em 0em 0em auto ;
     width: fit-content;
     cursor: pointer;
-    color: var(--bgcolor);
+    color: var(--navButton);
     padding: 0.5em 0.5em;
 }
 
@@ -427,12 +377,12 @@ nav#menu-admin li{
     width: 45px;
     text-align: center;
 }
-#menu-toggle-checkbox:checked + .menu-toggle::before {
+#menu-toggle-checkbox:checked + div + .menu-toggle::before {
     content: "\2715"; 
     width: 45px;
 }
 
-#menu-toggle-checkbox:checked + .menu-toggle {
+#menu-toggle-checkbox:checked + div + .menu-toggle {
     transform: rotate(180deg);
 }
 
@@ -897,4 +847,23 @@ input#createMore::before,
     max-width: 50%;
     max-height: 200px;
     text-align: center;
+}
+/* ================== FILTRI RICHIESTE ADOZIONE ==================*/
+body#admin-body #richieste .filtri button{
+    width: 100%;
+}
+
+body#admin-body #richieste .filtri .capsula-filtro{
+    width: 50%;
+    flex: 1 1 55%;
+    margin:auto;
+}
+
+body#admin-body #richieste .filtri .capsula-filtro label{
+    margin-right: 10px;
+}
+
+body#admin-body #richieste .filtri .capsula-filtro select{
+    margin: 0 0 0 auto;
+    padding-left: 1em;
 }
