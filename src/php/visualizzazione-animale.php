@@ -229,69 +229,72 @@ if (!$utenteAccesso) {
     $contattaci="<a href='mailto:matchpet48@gmail.com' target='_blank' class='brown-button'>Contatta il rifugio</a>";
     $contenutoPagina = "
     <aside id='contatta-rifugio'>
-        <p> Vuoi adottare questo animale? <a href='registrati'>Registrati o accedi</a> se hai già un profilo e manda una richiesta!</p>
+        <p> Vuoi adottare questo animale? <a href='./registrati'>Registrati</a> o <a href='./accedi'>accedi</a> se hai già un profilo e manda una richiesta!</p>
     </aside>";
     $infoAggiuntive='info-aggiuntive-separate';
 } else if ($richiesta === false || $richiesta === null) {
     $contattaci="<a href='mailto:matchpet48@gmail.com' target='_blank' class='brown-button'>Contatta il rifugio</a>";
     // FORM ADOZIONE
     $infoAggiuntive='info-aggiuntive-separate';
-    $contenutoPagina = "<div id='richiesta-adozione'>
-        <div class='column-container'>
-            <div class='column-user'>
-                <img id='richiesta-adozione-img' src='./assets/images/adozione.jpg' alt=''/>
-            </div>
-            <div class='column-user'>
-                <form method='POST' action='' novalidate> 
-                    <fieldset>
-                        <legend id='legenda-richiesta-adozione'>Invia una richiesta di adozione!</legend>
-                        <label for='lettera-presentazione'>Scrivi una breve lettera di presentazione:</label>
-                        <textarea id='lettera-presentazione' name='lettera-presentazione' rows='7' cols='50' placeholder='Inserisci presentazione' required>[VALORE_LETTERA]</textarea>
-                        <p class='error-form'>[ERROR_LETTERA]</p>
-                    </fieldset>
-                    <fieldset class='fieldset-indirizzo'>
-                        <legend>Indirizzo</legend>
-                        <p>Il profilo utente verrà aggiornato con l'indirizzo inserito.</p>
-                        <div>
-                            <label for='new-address'>Via e numero civico</label>
-                            <input type='text' id='new-address' name='new-address' autocomplete='street-address' 
-                            value='[via-utente]' placeholder='Via L. Da Vinci n.10' required>
-                            <p class='error-form'>[erroriIndirizzo]</p>   
-                        </div>
-                        <div id='indirizzo-row'>
-                            <div id='citta-container'>
-                                <label for='new-city'>Città</label>
-                                <input type='text' id='new-city' name='new-city' autocomplete='address-level2' 
-                                value='[citta-utente]' placeholder='Roma' required>
-                                <p class='error-form'>[erroriCitta]</p>
+    $contenutoPagina = "
+    <div class='container'>
+        <details id='compila-form-adozione'>
+            <summary>Compila il form di adozione</summary>
+        </details>
+    </div>
+        <div id='richiesta-adozione'>
+        <div id='content-form' class='container'>
+            <h2>Invia una richiesta di adozione!</h2>
+            <div class='column-container'>
+                <div class='column-user'>
+                    <img id='richiesta-adozione-img' src='./assets/images/adozione.jpg' alt=''/>
+                </div>
+                <div class='column-user'>
+                    <form method='POST' action='' novalidate> 
+                        <fieldset>
+                            <legend>Prepara la richiesta di adozione</legend>
+                            <label for='lettera-presentazione'>Scrivi una breve lettera di presentazione:</label>
+                            <textarea id='lettera-presentazione' name='lettera-presentazione' rows='7' cols='50' placeholder='Parlaci di te' required>[VALORE_LETTERA]</textarea>
+                            <p class='error-form'>[ERROR_LETTERA]</p>
+                        </fieldset>
+                        <fieldset class='fieldset-indirizzo'>
+                            <legend>Indirizzo</legend>
+                            <p>Il profilo utente verrà aggiornato con l'indirizzo inserito.</p>
+                            <div>
+                                <label for='new-address'>Via e numero civico</label>
+                                <input type='text' id='new-address' name='new-address' autocomplete='street-address' 
+                                value='[via-utente]' placeholder='Via L. Da Vinci n.10' required>
+                                <p class='error-form'>[erroriIndirizzo]</p>   
                             </div>
-                            <div id='cap-container'>
-                                <label for='new-cap'>CAP</label>
-                                <input type='text' id='new-cap' name='new-cap' autocomplete='postal-code' 
-                                value='[cap-utente]' placeholder='00000' required>
-                                <p class='error-form'>[erroriCAP]</p>
-                                <p class='error-form'>[erroriIndirizzoTotale]</p>   
-                            </div>
-                        </div>
-                        <div id='trasporto-container'>
-                            <label for='trasporto' class='column-container'>
-                                <input type='checkbox' id='trasporto' name='trasporto'>
-                                <div class='checkbox-text'>
-                                    <span class='checkbox-title'>Voglio il trasporto dell’animale a casa</span>
-                                    <span class='checkbox-description'>Spuntando la casella, verrà programmato il trasporto dell’animale. Ci si prende la responsibilità di essere presenti nel domicilio indicato alla data che verrà comunicata per email.</span>
+                            <div id='indirizzo-row'>
+                                <div id='citta-container'>
+                                    <label for='new-city'>Città</label>
+                                    <input type='text' id='new-city' name='new-city' autocomplete='address-level2' 
+                                    value='[citta-utente]' placeholder='Roma' required>
+                                    <p class='error-form'>[erroriCitta]</p>
                                 </div>
-                            </label>
-                        </div>
-                        <button class='orange-button' name='submit-adoption-request' type='submit'>Invia il Form</button>
-                    </fieldset>
-                </form>
+                                <div id='cap-container'>
+                                    <label for='new-cap'>CAP</label>
+                                    <input type='text' id='new-cap' name='new-cap' autocomplete='postal-code' 
+                                    value='[cap-utente]' placeholder='00000' required>
+                                    <p class='error-form'>[erroriCAP]</p>
+                                    <p class='error-form'>[erroriIndirizzoTotale]</p>   
+                                </div>
+                            </div>
+                            <div id='checkbox-trasporto-container'>
+                                <input type='checkbox' id='trasporto' name='trasporto'>
+                                <label for='trasporto'>
+                                    <p class='checkbox-title'>Voglio il trasporto dell’animale a casa</p>
+                                    <p class='checkbox-description'>Spuntando la casella, verrà programmato il trasporto dell’animale. Ci si prende la responsibilità di essere presenti nel domicilio indicato alla data che verrà comunicata per email.</p>
+                                </label>
+                            </div>
+                            <button class='orange-button' name='submit-adoption-request' type='submit'>Invia il Form</button>
+                        </fieldset>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-    <a href = '#top-page' class='torna-su-button'>
-        <img src='./assets/icons/torna-su.svg' class='static' alt='torna su'/>
-        <img src='./assets/icons/torna-su.gif' class='active' alt=''/>
-    </a>";
+    </div>";
 
     // Replacement Placeholders nel Form
     $contenutoPagina = str_replace('[VALORE_LETTERA]', $valLettera, $contenutoPagina);
@@ -436,7 +439,7 @@ $keywords = "<meta name='keywords' content='$nome, adozione, PetMatch, $razza'>"
 $breadcrumb = getBreadcrumb('visualizzazione-animale', $pagine);
 $nav = buildNav($userMenu, './visualizzazione-animale', $_SESSION['email'] ?? false);
 $main = file_get_contents('./src/template/main/visualizzazione-animale.html');
-$footer = file_get_contents('./src/template/partials/footer.html');
+$footer = buildFooter($footerMenu,  './revisione-richiesta');
 
 $infoAggUnite='';
 $main = str_replace('[ADOZIONE_STATUS]', $contenutoPagina, $main);

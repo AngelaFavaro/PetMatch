@@ -463,3 +463,40 @@ document.addEventListener('scroll', function() {
         themeSwitch.style.bottom = defaultBottom + 'px';
     }
 });
+
+// animazione apertura e chiusura del form richiesta di adozione
+
+document.addEventListener('DOMContentLoaded', () => {
+    const details = document.getElementById('compila-form-adozione');
+    const content = document.getElementById('richiesta-adozione');
+    const summary = details.querySelector('summary');
+
+    const animOptions = { duration: 400, easing: 'ease-out' };
+
+    summary.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        if (details.hasAttribute('open')) {
+            content.classList.remove('bg-active');
+            const animation = content.animate([
+                { height: content.offsetHeight + 'px', opacity: 1, padding: '1.5em 2em' },
+                { height: '0px', opacity: 0, padding: '0 2em' }
+            ], animOptions);
+
+            animation.onfinish = () => {
+                details.removeAttribute('open');
+            };
+
+        } else {
+            details.setAttribute('open', '');
+            const targetHeight = content.scrollHeight; 
+            const animation = content.animate([
+                { height: '0px', opacity: 0, padding: '0 2em' },
+                { height: targetHeight + 'px', opacity: 1, padding: '1.5em 2em' }
+            ], animOptions);
+            animation.onfinish = () => {
+                content.classList.add('bg-active');
+            };
+        }
+    });
+});
