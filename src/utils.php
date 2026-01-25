@@ -12,6 +12,16 @@ if (isset($_GET['email']) && isset($_POST['view-profile'])){
     $richiesteAdozioneHref = './richieste-adozione';
 }
 
+$inputJSON = file_get_contents('php://input');
+$inputData = json_decode($inputJSON, true);
+if (isset($inputData['toggle_theme'])) {
+    
+    $theme = $inputData['toggle_theme']; 
+    setcookie('theme', $theme, time() + (86400 * 30), "/");
+    echo json_encode(['status' => 'ok', 'theme' => $theme]);
+    exit; 
+}
+
 /* Definizione delle pagine esistenti PER LA BREADCRUMB, aggiungerne altre quando possibile*/
 $pagine = [
     'home' => [
@@ -195,10 +205,10 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
     
     <nav id="menu-admin" aria-label="Menù">
         <a class="navigationHelp" href="#content"> Salta il menù di navigazione</a>
-        <a href="./home">
-            <img src="./assets/icons/light-mode-logo.svg" id="logo" alt="Home" lang="en">
+        <a href="./home" id="logo-link">
+            <span id="logo" aria-label="Home"></span>
         </a>';
-        $html .= $currentHref==='./nuovo-animale' ? '<p class="orange-button" id="currentLink" href="./nuovo-animale">+ Aggiungi animale</p>' : '<a class="orange-button" href="./nuovo-animale">+ Aggiungi animale</a>';
+        $html .= $currentHref==='./nuovo-animale' ? '<p class="orange-button" id="currentLink" href="./nuovo-animale">+ Aggiungi animale</p>' : '<button class="orange-button" href="./nuovo-animale">+ Aggiungi animale</button>';
 
     foreach ($menuGroups as $key => $items) {
 
@@ -234,6 +244,7 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
 function buildNav(array $items, string $currentHref): string {
 
     global $noNav;
+    $isDark = (isset($_COOKIE['theme']) && $_COOKIE['theme'] === 'dark');
 
     $homeHref = './home';
     $logoAttributes = ($currentHref === $homeHref)? ' id="currentLink"' : '';
@@ -297,8 +308,10 @@ function buildNav(array $items, string $currentHref): string {
                 </nav>
                 
                 <div id="header-actions">
-                    <input type="checkbox" id="theme-toggle" class="sr-only">
-                    <label for="theme-toggle" id="theme-switch" aria-label="Cambia tema">
+                <input type="checkbox" id="theme-toggle" class="sr-only"';
+                $html .= $isDark? ' checked >':'>';
+                $html .= '
+                    <label for="theme-toggle" id="theme-switch" aria-label="Cambia tema" >
                         <span id="slider">
                             <img src="./assets/icons/sun.svg" id="sun" alt=""/>
                             <img src="./assets/icons/moon.svg" id="moon" alt=""/>

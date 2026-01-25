@@ -8,34 +8,30 @@
     --bgcolor: #FFF6D7;
     --txtcolor: #481515;
     --buttoncolor: #EA654C;
-    --buttoncolor-hover: #481515;
-    --text-buttoncolor: #481515;
-    --text-buttoncolor-hover: #FFF6D7;
-    --linkcolor:#FFF6D7;
-    --footercolor: #481515;
-    --visitedcolor: #EA654C;
-    --headercolor: var(--footercolor);
-    --headervisitedlink: #6D7541;
-    --headerlink: #481515;
     --secondsection: #6D7541;
     --placeholderDarker-text:#5e4232;
     --placeholder-text:#825E49;
     --darkbgcolor: #E4D4BA;
-    --borderTable: #cfbfa5;
-    --bglink-hover: var(--darkbgcolor);
-    --bgform: #6D7541;
-    --errortxt: #BA3A24;
     --successtxt:#576F30;
-    --bgconfirmbutton:#6D7541;
-    --bgconfermbutton:#FFF6D7;
-    --txtcancelbutton:var(--bgconfirmbutton);
+    --errortxt: #BA3A24;
     --txtclose-request: #6b5050;
+    --headercolor: var(--txtcolor);
+    --darkSection:var(--txtcolor);
+    --buttoncolor-hover: var(--txtcolor);
+    --text-buttoncolor:  var(--txtcolor);
+    --footercolor:  var(--txtcolor);
+    --headerlink:  var(--txtcolor);
+    --text-buttoncolor-hover: var(--bgcolor);
+    --linkcolor: var(--bgcolor);
+    --bgconfermbutton:var(--bgcolor);
+    --visitedcolor: var(--buttoncolor);
+    --headervisitedlink: var(--secondsection);
+    --bgform: var(--secondsection);
+    --bgconfirmbutton:var(--secondsection);
+    --greencolor: var(--secondsection);
+    --bglink-hover: var(--darkbgcolor);
+    --txtcancelbutton:var(--bgconfirmbutton);
     --greencolor: #6D7541;
-    --elidedCard: rgba(228, 212, 186, 0.6);
-
-;
-
-;
 }
 
 a{
@@ -826,6 +822,11 @@ input:checked + #theme-switch #slider::before {
 input:checked + #theme-switch #slider #sun { opacity: 0; }
 input:checked + #theme-switch #slider #moon { opacity: 1; }
 
+:root:has(input#theme-toggle:checked){
+    /* aiuto non so usare i colori */
+    transition: background-color 0.3s;
+}
+
 /* Icona Preferiti */
 #preferiti {
     position: relative;
@@ -955,7 +956,7 @@ footer .container + div a:visited{
 }
 
 #introduction-home {
-    background-color: var(--headercolor);
+    background-color: var(--darkSection);
     margin-top: -130px;
     padding-top: 130px;
     color: var(--bgcolor);
@@ -1638,7 +1639,7 @@ input:-webkit-autofill:active{
 #animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro
 , #richieste .filtri .capsula-filtro {
     display: flex;
-    flex: 1 1 fit-content;
+    flex: 1 1 30%;
     border: 1px solid var(--text-buttoncolor);
     border-radius: 1em;
     padding: 0.5em;
@@ -1656,7 +1657,7 @@ input:-webkit-autofill:active{
 
 #animali .filtri #searchEta.capsula-filtro {
     /* display:contents; */
-    max-width: 15em;
+    max-width: 12em;
     display:flex;
 }
 
@@ -1670,8 +1671,7 @@ input:-webkit-autofill:active{
 #animali .filtri #searchName.capsula-filtro input, #eventi .filtri #searchName.capsula-filtro input {
     text-align:left;
     display: flex;
-    flex-grow: 1;
-    min-width: 4em;
+    min-width: 3em;
     /* display:contents; */
     background-color: var(--darkbgcolor);
     width: 100%;
@@ -1708,11 +1708,15 @@ input:-webkit-autofill:active{
 }
 
 
-
 #animali .filtri .capsula-filtro input::placeholder, #eventi .filtri .capsula-filtro input::placeholder {
     color: var(--placeholder-text);
     text-align: center;
     font-size: 0.9em;
+}
+
+#animali .filtri .capsula-filtro#searchSex,
+#animali .filtri .capsula-filtro#searchSize{
+    max-width: fit-content;
 }
 
 #animali .filtri .capsula-filtro label, #eventi .filtri .capsula-filtro label,
@@ -1736,9 +1740,7 @@ input:-webkit-autofill:active{
     list-style: none;
     padding: 0;
     margin: 0;
-
-         /* 🔑 SEMPRE 1/3 dello schermo */
-    flex-shrink: 0;      /* ❌ non si restringe */
+    flex-shrink: 0;
 }
 
 
@@ -1897,7 +1899,7 @@ input:-webkit-autofill:active{
     padding-left: 1em;
     float: left;
     clear: left;
-    /* width: 80%; */
+    width: 80%;
     /* padding-right: 65%; */
     font-weight: bold;
     /* height: 40px; */
@@ -3452,7 +3454,16 @@ nav#menu-admin {
      font-size: 100%;
     /* height: 100vh; */
 }
-
+nav#menu-admin #logo{
+    display: block;
+    height: 7em;
+    margin: 1em auto;
+    max-width: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url("../../assets/icons/light-mode-logo.svg");
+}
 nav#menu-admin li a {
     width: 100%;
     display: block;
@@ -3462,15 +3473,6 @@ body#admin-body main {
     background-color: var(--bgcolor);
     margin-left:20%;
 }
-
-nav#menu-admin img {
-    display: block;
-    margin: 1em auto;
-    width: 12em;
-    max-width: 100%;
-    height: auto;
-}
-
 
 nav#menu-admin li {
   padding: 1.1em 1.3em;
@@ -5143,8 +5145,8 @@ nav#breadcrumb a:visited{
 #come-funziona #comeSiAdotta #paws-containter img {
     transform: rotate(-140deg);
     position: absolute;
-    height: 4em;
-    width: 4em;
+    height: 3.5em;
+    width: 3.5em;
 }
 
 #come-funziona #comeSiAdotta #paws-containter #paw1 {
@@ -5167,13 +5169,8 @@ nav#breadcrumb a:visited{
     right: 20em;
 }
 
-#come-funziona #comeSiAdotta #paws-containter #paw5 {
-    top: 15em;
-    right: 15em;
-}
-
 #come-funziona #provAnimali {
-    margin-top: 8em;
+    margin-top: 4em;
 }
 
 #come-funziona #provAnimali a {
@@ -5195,8 +5192,11 @@ nav#breadcrumb a:visited{
 }
 
 #come-funziona #invitoLavoro h2{
-    font-size: 2em;
     line-height: 1.5em;
+}
+
+#provAnimali p{
+    margin-bottom: 1em;
 }
 
 #come-funziona #invitoLavoro .testo{
