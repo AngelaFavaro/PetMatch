@@ -358,6 +358,10 @@ input:checked + #slider {
 /* ================== NAV ADMIN (Versione No-JS) ==================*/
 
 
+body#admin-body{
+    display: block;
+}
+
 #admin-body .menu-toggle {
     display: flex;
     margin: 0em 0em 0em auto ;
@@ -410,6 +414,7 @@ nav#menu-admin {
 
 body#admin-body main {
     margin-left: 0;
+    min-height: 95vh;
 }
 
 div#admin-area {

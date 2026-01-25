@@ -972,6 +972,7 @@ header a{
     height: 45px;
     bottom: 20px;
     right: 20px;
+    z-index: 999;
 }
 
 #admin-body #slider {
@@ -2029,7 +2030,7 @@ input:-webkit-autofill:active{
 #animali #content-filter-button, #eventi #content-filter-button{
     display: flex;
     margin:auto;
-    gap:1em;
+    gap:0.5em;
     height: fit-content;
 }
 
@@ -3608,7 +3609,10 @@ input[type="file"]::file-selector-button:hover {
 body#admin-body{
     background-color: var(--footercolor);
     display: inline-block;
+    min-height: 100vh;
     width: 100%;
+    display: flex;
+    flex-direction: row;
 }
 
 body#admin-body #animali .filtri,
@@ -3638,7 +3642,6 @@ div#admin-area article h2{
 
 div#admin-area{
     padding: 0em 5em;
-    min-height: 100vh;
     margin-top: 2em;
 }
 
@@ -3717,7 +3720,8 @@ p.n-query{
 { display: none; } /* Nascondi tasto su desktop */
 
 nav#menu-admin {
-    display: flex;
+    /* display: flex; */
+    flex:0 0 20%;
     flex-direction: column;
     transition: 0.3s;
     float: left;
@@ -3725,7 +3729,8 @@ nav#menu-admin {
     padding: 1em 0em 1em 1em;
     height: 100%;
     overflow: hidden;
-     font-size: 100%;
+     font-size: 100%;   
+
     /* height: 100vh; */
 }
 
@@ -3736,8 +3741,10 @@ nav#menu-admin li a {
 
 body#admin-body main {
     background-color: var(--bgcolor);
-    margin-left:20%;
-    min-height: 100vh;
+    overflow: hidden;
+    /* margin-left:20%; */
+    flex:1 1 80%;
+    /* min-height: 100vh; */
 }
 
 nav#menu-admin #logo {
@@ -3808,6 +3815,10 @@ nav#menu-admin span{
     color: var(--navButton);
     margin-left: 0.5em;
     font-weight: 700;
+}
+
+nav#menu-admin .orange-button{
+    margin: 0 auto 1em auto;
 }
 
 nav#menu-admin ul{
@@ -5025,7 +5036,7 @@ nav#breadcrumb a:visited{
 
 #richiesta-adozione{
     background-color: var(--secondsection);
-    margin-bottom:-1.5em;
+    margin-bottom:-3em;
     padding-bottom:10em;
     background-repeat: repeat;
     background-size: contain;

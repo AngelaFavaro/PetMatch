@@ -222,7 +222,7 @@ function buildAnimalCards(array $animali, ?string $email): string {
                 $inPreferiti = in_array($id, $guestFavs);
             }
 
-            // se adottato → niente interazione
+            // se adottato -> niente interazione
             $classePreferito = $inPreferiti ? 'is-favorite' : 'not-favorite';
             $statusPreferiti = $inPreferiti ? 'Rimuovi dai preferiti' : 'Aggiungi ai preferiti';
             $heartNormal = $inPreferiti ? 'active-like.svg' : 'inactive-like.svg';
@@ -402,7 +402,7 @@ $main = str_replace('[LINKPAGINE]', $linkPagine, $main);
 $main = str_replace('[BANNERACCEDI]', $banneraccedi, $main);
 $stringaFiltri='';
 if (!$isPreferiti) {
-    $stringaFiltri="<form class='filtri' method='get' action=".($isFromAdmin ? './assegnati-a-te' : './animali').">
+    $stringaFiltri="<form class='filtri' id='form-ricerca' method='get' action=".($isAdmin ? './assegnati-a-te' : './animali').">
         <!-- rotta gestita dal router -->
         
         <input type='hidden' name='tipo' value='[TYPE]'>
