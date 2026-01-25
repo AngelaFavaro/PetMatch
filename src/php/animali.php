@@ -144,7 +144,6 @@ $linkPagine  = '';
 function buildNavAnimali(
     string $type,
     bool $isPreferiti,
-    bool $isAdminView = false,
     array $filters = []
 ): string {
 
@@ -179,7 +178,7 @@ function buildNavAnimali(
 
 
 /* ------------------ CARD ANIMALI ------------------ */
-function buildAnimalCards(array $animali, ?string $email, bool $isAdminView): string { //aggiunto parametro isAdminView per nascondere il cuore nei animali assegnati a te
+function buildAnimalCards(array $animali, ?string $email): string {
     $html = '';
     $conn = new DBAccess();
 
@@ -244,7 +243,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isAdminView): st
                     <p class='sesso-etaDesk'>$sesso - $eta anni</p>
                     <p class='sesso-etaMob'>$sessoAbbr - $eta anni</p>";
             }
-            if(!$isAdminView) {
+            if(isset($_SESSION['admin']) && $_SESSION['admin'] === 1) { //qui in generale tolto il cuore se admin (anche nel sito non è corretto che l'admin veda i preferiti)
                 $html.="
                         <div class='cuore'>
                             <form method='post' action='animali' class='preferiti-form'>
