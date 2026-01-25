@@ -1824,9 +1824,18 @@ input:-webkit-autofill:active{
 
 /*=================PAGINA ANIMALI======================*/
 
-/* contenitore principale */
+#animali a.brown-button{
+    margin:0;
+    float: right;
+}
+
+#animali h1{
+    display: inline-block;
+    margin-top: 0.2em;
+}
 
 /* FILTRI */
+
 #animali .filtri ul, #eventi .filtri ul, #richieste .filtri ul{
     display: flex;
     list-style: none;
@@ -1944,6 +1953,8 @@ input:-webkit-autofill:active{
 
 #animali #nav-animali-type{
     margin-top: 1.5em;
+    clear:right;
+    /* clear: both; */
 }
 
 
