@@ -4651,7 +4651,8 @@ nav#breadcrumb a:visited{
 }
 
 #visualizzazione-animale #info-aggiuntive-unite{
-    margin-top: 1em;
+        display: flow-root;
+        margin-top: 1em;
 }
 #visualizzazione-animale #foto-animale{
     max-width:19em;
