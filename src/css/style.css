@@ -1830,8 +1830,9 @@ input:-webkit-autofill:active{
 }
 /* aggiunto questo altrimenti mi si sminchiano le cose da admin */
 div#admin-area #animali a.brown-button{
-    float: none;
-    margin:0.5em;
+float: none;
+    display: inline-block; /* Assicura che il margine funzioni correttamente */
+    margin: 0.5em;
 }
 #animali h1{
     display: inline-block;
