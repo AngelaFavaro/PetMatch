@@ -815,6 +815,13 @@ body#lavora-con-noi {
     margin:auto;
     padding:0.3em;
 }
+/* Visualizzazione animale */
+#visualizzazione-animale #foto-animale{
+    max-width:16em;
+}
+#visualizzazione-animale .column-container { 
+    gap: 0.5em;
+}
 
 /* ================== CHECKBOX ==================*/
 

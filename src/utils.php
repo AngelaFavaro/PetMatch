@@ -49,9 +49,20 @@ $pagine = [
         'url' => './nuovo-animale',
         'parent' => 'home'
     ],
+    'modifica-animale' => [
+        // QUI VA CAMBIATO IL PARENT QUANDO SARA' PRONTA LA PAGINA DI DETTAGLIO
+        'label' => 'Modifica animale',
+        'url' => './modifica-animale', 
+        'parent' => 'area-riservata'  
+    ],
     'animali' => [
         'label' => 'Animali',
         'url' => './animali',
+        'parent' => 'home'
+    ],
+    'come-funziona' => [
+        'label' => 'Come Funziona',
+        'url' => './come-funziona',
         'parent' => 'home'
     ],
     'registrati' => [
@@ -82,13 +93,18 @@ $pagine = [
     'preferiti' => [
         'label' => 'Preferiti',
         'url' => './preferiti',
-        'parent' => 'home'
+        'parent' => 'animali'
     ],
     'lavora-con-noi' => [
         'label' => 'Lavora con noi',
         'url' => './lavora-con-noi',
         'parent' => 'home'
     ],
+    'visualizzazione-animale' => [
+        'label' => 'Visualizzazione animale',
+        'url' => './visualizzazione-animale', 
+        'parent' => 'animali'
+    ], 
     'senza-amministratore' => [
         'label' => 'Animali senza amministratore',
         'url' => './senza-amministratore',
@@ -119,6 +135,11 @@ $pagine = [
         'url' => './nuovo-evento',
         'parent' => 'eventi'
     ],
+    'assegnati-a-te' => [
+        'label' => 'Assegnati a te',
+        'url' => './assegnati-a-te',
+        'parent' => 'animali'
+    ],
     'modifica-evento' => [
         'label' => 'Modifica evento',
         'url' => './modifica-evento',
@@ -133,7 +154,7 @@ $adminMenu = [
         ['href' => './eventi', 'text' => 'Eventi'],
     ],
     'animali' => [
-        ['href' => './tuoi-animali', 'text' => 'Assegnati a te'],
+        ['href' => './assegnati-a-te', 'text' => 'Assegnati a te'],
         ['href' => './senza-amministratore', 'text' => 'Senza amministratore'],
         ['href' => './adottati', 'text' => 'Adottati'],
         ['href' => './nuove-accoglienze', 'text' => 'Nuove accoglienze'],
@@ -466,7 +487,7 @@ function buildFooter(array $menuGroups, string $currentHref): string {
                         <ul class="footer-submenu">
                             <li class="social-media-links">
                                 <address>
-                                    <a id="insta-link" href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram">
+                        <a id="insta-link" href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram">
                                         <img src="./assets/icons/Instagram.svg" id="instagram" alt="">
                                         @petmatch_shelter
                                     </a>
@@ -672,10 +693,8 @@ function buildPagination(int $currentPage, int $totalPages, array|string $params
 
 // rimuove valori vuoti
     // $params = array_filter($params, fn($v) => $v !== '');
-
-
-    if ($totalPages <= 1) return '<li class="currentLinkPagination">1</li>';
-    unset($params['page']);
+	    if ($totalPages <= 1) return '';
+unset($params['page']);
 
     $html = '';
 
@@ -785,5 +804,3 @@ function formattaDataItaliana(string $data): string {
 
     return "$giorno $mese $anno";
 }
-
-
