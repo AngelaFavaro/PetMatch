@@ -1828,7 +1828,11 @@ input:-webkit-autofill:active{
     margin:0;
     float: right;
 }
-
+/* aggiunto questo altrimenti mi si sminchiano le cose da admin */
+div#admin-area #animali a.brown-button{
+    float: none;
+    margin:inherit;
+}
 #animali h1{
     display: inline-block;
     margin-top: 0.2em;
@@ -4222,10 +4226,9 @@ td.col-dettagli a,td.col-dettagli button{
     /* min-width: 10.5em; */
 }
 
-/* td.col-dettagli a.brown-button{
-    width: 45px;
-} */
-
+td.col-dettagli a:hover img{
+    filter: brightness(0) saturate(100%) invert(8%) sepia(45%) saturate(5833%) hue-rotate(348deg) brightness(95%) contrast(96%);
+}
 #admin-area #animali tbody .orange-button[name="elimina_segnalazione"]{
     background-color: transparent;
     border: 2px solid var(--buttoncolor);
