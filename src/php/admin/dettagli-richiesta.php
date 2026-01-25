@@ -193,6 +193,7 @@ $richiesta = [];
 $dataRichiestaRespinta = '';
 $dataInizioValutazione = '';
 $dataFineValutazione = '';
+$nRichiesteRichiedente = '';
 $connessione = new DBAccess();
 $connessioneOK = $connessione->openDBConnection();
 
@@ -201,7 +202,7 @@ if ($connessioneOK) {
 
     // Gestione POST centralizzata (esegue redirect dove necessario)
     $richiesta = handlePostActions($connessione, $richiesta, $email, $idAnimale);
-
+    $nRichiesteRichiedente =  $connessione->countActiveRequestsForUser($richiesta['email-richiedente'] ?? '');
     $connessione->closeConnection();
 }
 
@@ -237,7 +238,11 @@ $main = str_replace('[trasporto]', siNo($richiesta['trasporto-richiesta'] ?? 0),
 $main = str_replace('[scarta-richiesta]', $scarta_richiesta, $main);
 $main = str_replace('[stato]', e($richiesta['stato'] ?? ''), $main);
 $main = str_replace('[nome]', e($richiesta['nome-richiedente'] ?? ''), $main);
-$main = str_replace('[imgPath]', e($richiesta['imgPath'] ?? ''), $main);
+if(!$richiesta['imgPath'] || !file_exists($richiesta['imgPath'])){
+    $main = str_replace('[imgPath]', './assets/images/users/default-pic.png', $main);
+}else{
+    $main = str_replace('[imgPath]', e($richiesta['imgPath']), $main);
+}
 $main = str_replace('[cognome]', e($richiesta['cognome-richiedente'] ?? ''), $main);
 //telefono e indirizzo sono opzionali
 if($richiesta['telefono-richiedente'] !== null){
@@ -414,6 +419,7 @@ if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($ri
     }
 }
 
+$main = str_replace('[n]', $nRichiesteRichiedente, $main);
 $main = str_replace('[annotazioni]', $annotazioni, $main);
 
 $main = str_replace('[descrizioneCaratteriale]', e($richiesta['descrizione-caratteriale'] ?? ''), $main);
