@@ -819,6 +819,7 @@ body#lavora-con-noi {
     margin-bottom: 2em;
     margin:auto;
     padding:0.3em;
+    min-width: 20em;
 }
 /* Visualizzazione animale */
 #visualizzazione-animale #foto-animale{
