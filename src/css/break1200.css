@@ -106,9 +106,9 @@ tbody td {
     border-bottom: 1px solid var(--borderTable);
 }
 tbody td, tbody th {
-    padding: 0em 2em;
+    padding: 0.2em 1em;
     text-align: left;
-    border-bottom: 1px solid var(--txtcolor);
+    border-bottom: 1px solid var(--darkbgcolor);
 }
 #richieste .capsula-filtro select#filtro-appunti{
     padding-right: 2em;
@@ -130,10 +130,16 @@ th[data-title]:before, td[data-title]:not(.presAss):before {
     font-weight: bold;
 }
 
+thead + tbody tr td.col-dettagli{
+    padding: 0;
+}
+
 tbody tr:last-child th, tbody tr:last-child td {
     /* border-bottom: 1px solid var(--txtcolor); */
-    padding: 0.3em 0.2em 0.2em 0.2em;
-    border-bottom: 1px solid var(--borderTable);
+    /* padding: 0.3em 0.2em 0.2em 0.2em;
+    border-bottom: 1px solid var(--borderTable); */
+    padding: 0.2em 1em;
+    border-bottom: 1px solid var(--darkbgcolor);
 }
 
 td.col-dettagli a,td.col-dettagli button{
