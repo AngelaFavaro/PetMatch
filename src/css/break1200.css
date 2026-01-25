@@ -197,3 +197,17 @@ td.col-dettagli a,td.col-dettagli button{
     width: 70%;
 
 }
+
+
+/* ==========PAGINA COME FUNZIONA ============== */
+
+#come-funziona #comeSiAdotta #paws-containter #paw5 {
+    display: none;
+}
+
+
+/* PAGINA COME FUNZIONA */
+
+#come-funziona #comeSiAdotta {
+    margin-top: 2.5em;
+}

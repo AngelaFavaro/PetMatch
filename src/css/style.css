@@ -64,6 +64,10 @@ a.orange-button:hover{
     padding-right:1em;
 }
 
+div#admin-area .container{
+    padding: 0;
+}
+
 html, body {
     max-width: 100%;
     /* overflow-x: hidden; */
@@ -123,10 +127,6 @@ h3{
 h4{
     font-size: 1.1em;
     /* line-height: 1.3; */
-}
-
-.error-form{
-    color:var(--errortxt);
 }
 
 .error-form + p{
@@ -496,6 +496,12 @@ textarea:focus,
 select:focus{
     outline:2px solid var(--headercolor);
     outline-offset: 0px;
+}
+
+li.capsula-filtro select:focus{
+    outline:1px solid var(--placeholder-text);
+    outline-offset: 4px;
+    border-radius: 0.5em;
 }
 
 
@@ -906,6 +912,15 @@ footer .container + div a:visited{
     color:var(--bgcolor);
 }
 
+#insta-link img{
+    width: 2em;
+    height: 2em;
+}
+
+#logo-footer{
+    max-width: 130px;
+}
+
 
 #grass {
     width: 100%;
@@ -931,7 +946,7 @@ footer .container + div a:visited{
     /* font-size: 0.9em; */
     /* margin-bottom: 1em; */
 }
-/* ================== =========== PAGINE UTENTE================== ============*/
+/* ================== =========== PAGINE Utente================== ============*/
 /* ================== HOME ==================*/
 
 /* introduzione */
@@ -1171,6 +1186,7 @@ details:not([open]) .popup {
     transform-origin: top center;
     --base-rot: 0deg;
     margin:auto;
+    max-width: 200px;
     padding: 1em 0.5em 0 0.5em ;
     text-decoration: none;
     font-weight: normal;
@@ -1181,7 +1197,7 @@ details:not([open]) .popup {
 
 #events-list .polaroid h4, 
 #events-list .polaroid p {
-    display: block; /* Importante */
+    display: block;
     width: 100%;
     
     white-space: nowrap;      /* Impedisce di andare a capo */
@@ -1380,7 +1396,7 @@ fieldset {
 legend {
     padding-top:1em;
     font-weight: 500;
-    text-align: center;
+    /* text-align: center; */
     font-size: 1.1em;
     width: 100%;
 }
@@ -1409,9 +1425,12 @@ legend {
 #animali label + input::placeholder,
 #signup label + input::placeholder,
 #home label + input::placeholder,
+.password-container input::placeholder,
 #user-profile label + input::placeholder,
 #login label + input::placeholder{
-    color: var(--placeholderDarker-text);
+    color: var(--placeholder-text);
+    font-weight: lighter;
+    font-size: 0.9em;
 }
 
 label {
@@ -1601,18 +1620,23 @@ input:-webkit-autofill:active{
 /* contenitore principale */
 
 /* FILTRI */
-#animali .filtri ul, #eventi .filtri ul {
-    display: contents;
+#animali .filtri ul, #eventi .filtri ul, #richieste .filtri ul{
+    display: flex;
     list-style: none;
+    gap: 1em;
+    flex-wrap: wrap;
+    width: 100%;
+    /* justify-content: flex-end; */
 }
 
-#animali .filtri, #eventi .filtri {
+#animali .filtri, #eventi .filtri, #richieste .filtri{
     display: flex;
     gap: 0.5em;
-    align-items: center;
+    justify-content: flex-end;
 }
 
-#animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro {
+#animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro
+, #richieste .filtri .capsula-filtro {
     display: flex;
     flex: 1 1 fit-content;
     border: 1px solid var(--text-buttoncolor);
@@ -1657,10 +1681,12 @@ input:-webkit-autofill:active{
 #animali .filtri #searchName.capsula-filtro input::placeholder, #eventi .filtri #searchName.capsula-filtro input::placeholder {
     color: var(--placeholderDarker-text);
     text-align: start;
+    font-size: 0.9em;
 }
 
 #animali .filtri .capsula-filtro input, #animali .filtri .capsula-filtro select,
-#eventi .filtri .capsula-filtro input, #eventi .filtri .capsula-filtro select {
+#eventi .filtri .capsula-filtro input, #eventi .filtri .capsula-filtro select,
+#richieste .filtri .capsula-filtro select {
     min-width: 0;
     background-color: var(--bgcolor);
     border: none;
@@ -1673,27 +1699,24 @@ input:-webkit-autofill:active{
 }
 
 
-#animali .filtri .capsula-filtro select, #eventi .filtri .capsula-filtro select {
+#animali .filtri .capsula-filtro select, #eventi .filtri .capsula-filtro select,
+#richieste .filtri .capsula-filtro select {
     text-align: center;
     padding-right:2.5em;
     color: var(--placeholder-text);
     background-position: right 0em center;
 }
 
-#animali .filtri #searchSize.capsula-filtro {
-    max-width: 10em;
-}
 
-#animali .filtri #searchSex.capsula-filtro {
-    max-width: 10em;
-}
 
 #animali .filtri .capsula-filtro input::placeholder, #eventi .filtri .capsula-filtro input::placeholder {
     color: var(--placeholder-text);
     text-align: center;
+    font-size: 0.9em;
 }
 
-#animali .filtri .capsula-filtro label, #eventi .filtri .capsula-filtro label{
+#animali .filtri .capsula-filtro label, #eventi .filtri .capsula-filtro label,
+#richieste .filtri .capsula-filtro label{
     margin-right: 0.5em;
     width: fit-content;
 }
@@ -1724,7 +1747,7 @@ input:-webkit-autofill:active{
     white-space: nowrap;         /* niente a capo */
     text-align: center;
     padding: 0.6em 0;
-    border-bottom: 2px solid var(--txtcolor);
+    border-bottom: 1px solid var(--txtcolor);
     min-width: 200px;
 }
 
@@ -1732,7 +1755,7 @@ input:-webkit-autofill:active{
 #animali #nav-animali-type::after {
     content: "";
     flex: 1;
-    border-bottom: 2px solid var(--txtcolor);
+    border-bottom: 1px solid var(--txtcolor);
 }
 
 
@@ -1750,7 +1773,7 @@ input:-webkit-autofill:active{
     /*flex: 0 0 auto;*/
     padding: 0.6em 1.2em;
     font-weight: bold;
-    border: 2px solid var(--txtcolor);
+    border: 1px solid var(--txtcolor);
     border-top-left-radius: 0.5em;
     border-top-right-radius: 0.5em;
     border-bottom: none;
@@ -1777,7 +1800,7 @@ input:-webkit-autofill:active{
 
 #animali #content-filter-button, #eventi #content-filter-button{
     display: flex;
-    margin:auto;
+    /* margin:auto; */
     gap:1em;
     height: fit-content;
 }
@@ -1803,9 +1826,13 @@ input:-webkit-autofill:active{
 #animali .cards-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; 
+    justify-content: left; 
     margin-top: 1em;
+    margin-bottom: 2em;
+}
 
+#animali .cards-container:has(.errore) {
+    justify-content: center; 
 }
 
 #animali li article h3{
@@ -1957,12 +1984,12 @@ input:-webkit-autofill:active{
     /* float: right; */
 }
 
-#animali .card .cuore {
+#animali .card .cuore, #animali .dark-card .cuore {
     display: flex;
     justify-content: end;
 }
 
-#animali .card .cuore .preferiti-form, #visualizzazione-animale .preferiti-form{
+#animali .card .cuore .preferiti-form, #visualizzazione-animale .preferiti-form, #animali .dark-card .cuore .preferiti-form{
     justify-content:end;
     display: flex;
     min-width: 3em;
@@ -2096,6 +2123,11 @@ input:-webkit-autofill:active{
     justify-content: center;
     text-align: center;
     font-style: italic;
+    padding-bottom: 1em;
+}
+
+#invitoAdAccedere a{
+    font-style: normal;
 }
 
 
@@ -2230,7 +2262,7 @@ input:-webkit-autofill:active{
     min-width: 5.7em;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
+#eventi input[type="date"]::-webkit-calendar-picker-indicator {
     position: absolute;
     opacity: 0;
     top: 0;
@@ -2239,6 +2271,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     
     width: 100%;
     height: 100%;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+}
+
+input[type="date"]{
+    cursor:text;
 }
 
 #eventi .data-range input[type="date"] {
@@ -2361,7 +2401,7 @@ cursor: pointer;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: center;
+    justify-content: left;
     margin-top: 2em;
 }
 
@@ -2374,7 +2414,15 @@ cursor: pointer;
 
 
 
-/* ================== PROFILO UTENTE NORMALE ==================*/
+/* ================== PROFILO Utente NORMALE ==================*/
+
+
+#gestisci-profilo:focus,
+#modifica-profilo:focus{
+    outline: none;
+}
+
+
 #user-profile h2{
     font-size: 1.6em;
 }
@@ -2395,10 +2443,6 @@ cursor: pointer;
 
 #user-profile .column-container #user-info{
     flex: 1 1 35%;
-}
-
-#user-profile .tabs-container select:focus, #admin-area .tabs-container select:focus{
-    outline: 2px solid var(--headercolor);
 }
 
 /* tab */
@@ -2703,22 +2747,30 @@ a:hover .hover-icon {opacity: 1;}
 
 .checkbox-container-pic input[type="checkbox"],
 #home input[name="type-animal"],
+input#createMore,
 #form-add-animal .checkbox-label input[type="checkbox"]{
-    -webkit-appearance: none;
     appearance: none;
     width: 25px;
     height: 25px;
     position: relative;
     top:5px;
-    background-color: transparent;    
-    border: 1px solid var(--txtcolor);     
-    border-radius: 4px;         
+    background-color: transparent;
+    border: 1px solid var(--txtcolor);
     cursor: pointer;
-    margin: 0;                  
+    margin: 0;
+}
+
+.checkbox-container-pic input[type="checkbox"],
+#home input[name="type-animal"]{
+    border-radius: 2em;
+}
+
+#form-add-animal .checkbox-label input[type="checkbox"],
+input#createMore{
+    border-radius: 4px;
 }
 
 .sex-option input[type="radio"]{
-    -webkit-appearance: none;
     appearance: none;
     width: 20px;
     height: 20px;
@@ -2733,14 +2785,14 @@ a:hover .hover-icon {opacity: 1;}
 
 .checkbox-container-pic input[type="checkbox"]:checked,
 #home input[name="type-animal"]:checked,
+input#createMore:checked,
 .sex-option input[type="radio"]:checked,
 #form-add-animal .checkbox-label input[type="checkbox"]:checked {
     background-color: var(--buttoncolor);   
     border-color: var(--buttoncolor);  
 }
 
-.checkbox-container-pic input[type="checkbox"]::before,
-#home input[name="type-animal"]::before.active{
+.checkbox-container-pic input[type="checkbox"]::before{
     content: "";
     position: absolute;
     width: 15px;
@@ -2755,6 +2807,9 @@ a:hover .hover-icon {opacity: 1;}
     transition: 0.2s transform ease-in-out;
 }
 
+.checkbox-container-pic input[type="checkbox"]::before,
+input#createMore::before,
+#home input[name="type-animal"]::before,
 #form-add-animal .checkbox-label input[type="checkbox"]::before{
     content: "";
     position: absolute;
@@ -2788,6 +2843,7 @@ a:hover .hover-icon {opacity: 1;}
 
 .checkbox-container-pic input[type="checkbox"]:checked::before,
 #home input[name="type-animal"]:checked::before,
+input#createMore:checked:before,
 .sex-option input[type="radio"]:checked::before,
 #form-add-animal .checkbox-label input[type="checkbox"]:checked::before {
     transform: scale(1);        
@@ -2840,7 +2896,9 @@ input[type="file"]::file-selector-button:hover {
 
 .edit-mode form span,
 .edit-management form span,
-#form-add-animal .form-buttons-container{
+#form-add-animal .form-buttons-container,
+#form-edit-animal .form-buttons-container,
+#new-event .form-buttons-container{
     display: flex;
     flex-wrap: wrap;
     margin: 1em auto 0 auto;
@@ -2850,8 +2908,12 @@ input[type="file"]::file-selector-button:hover {
 .edit-mode form span button,
 .edit-management form span a,
 .edit-management form span button,
+#form-edit-animal button[name="submit-edit-animal"],
+#form-edit-animal a#cancel-edit-animal,
 #form-add-animal button[name="submit-animal"],
-#form-add-animal a#cancel-add-animal{
+#form-add-animal a#cancel-add-animal,
+#new-event button[name="submit-event"],
+#new-event a#cancel-new-event{
     flex: 1 1 44%;
     text-align: center;
     border-radius: 1em;
@@ -2863,7 +2925,9 @@ input[type="file"]::file-selector-button:hover {
 
 .edit-mode form span button,
 .edit-management form span button,
-#form-add-animal button[name="submit-animal"]{
+#form-add-animal button[name="submit-animal"],
+#form-edit-animal button[name="submit-edit-animal"],
+#new-event button[name="submit-event"]{
     background-color: var(--buttoncolor);
     color:var(--text-buttoncolor);
     border:2px solid var(--buttoncolor);
@@ -2874,7 +2938,9 @@ input[type="file"]::file-selector-button:hover {
 
 .edit-mode form span a,
 .edit-management form span a,
-#form-add-animal a#cancel-add-animal{
+#form-add-animal a#cancel-add-animal,
+#form-edit-animal a#cancel-edit-animal,
+#new-event a#cancel-new-event{
     color:var(--text-buttoncolor);
     border:2px solid var(--buttoncolor);
     text-decoration: none;
@@ -2886,7 +2952,11 @@ input[type="file"]::file-selector-button:hover {
 .edit-management form span a:hover,
 .edit-management form span button:hover,
 #form-add-animal button[name="submit-animal"]:hover,
-#form-add-animal a#cancel-add-animal:hover
+#form-add-animal a#cancel-add-animal:hover,
+#form-edit-animal button[name="submit-edit-animal"]:hover,
+#form-edit-animal a#cancel-edit-animal:hover,
+#new-event button[name="submit-event"]:hover,
+#new-event a#cancel-new-event:hover
 {
     border:2px solid transparent;
     background-color: transparent;
@@ -3090,6 +3160,171 @@ input[type="file"]::file-selector-button:hover {
     margin-top:3em;
 }
 
+/* ================== CHI SIAMO ==================*/
+
+#second-chapter-chi-siamo{
+    margin-top: 1em;
+}
+#first-chapter-chi-siamo .column-container{
+    align-items: center;
+}
+
+#chi-siamo-content {
+    flex: 1 1 50%;
+}
+#chi-siamo-img{
+    flex: 0 1 40%;
+}
+
+#chi-siamo-img img{
+    width: 100%;
+}
+
+/* Sezione 2 Chi Siamo */
+
+#second-chapter-chi-siamo{
+    background-color: var(--headercolor);
+    color:var(--bgcolor);
+    margin-top: 1em;
+}
+
+#chi-siamo2-img{
+    flex: 0 1 35%;
+}
+#chi-siamo2-img img{
+    width: 90%;
+}
+
+#content-chi-siamo2{
+    vertical-align: middle;
+    padding:2em 0;
+    flex: 1 1 50%;
+    margin:auto;
+    /* height: fit-content; */
+
+
+}
+
+
+/*Sezione "PetMatch timeline"*/
+
+#pm-timeline{   
+   display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    align-items: flex-start;
+    margin-top: 2em;
+    list-style: none;
+  }
+
+#pm-timeline::before {
+    content: '';
+    position: absolute;
+    top: 1.5em; 
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background-image: linear-gradient(to right, var(--buttoncolor) 50%, transparent 50%);
+    background-size: 20px 100%;
+    z-index: 0;
+  }
+
+  #pm-timeline li{
+    position: relative; 
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 0 0 18%;
+    font-weight: bold;
+}
+
+#pm-timeline li span:nth-of-type(2){
+    font-weight: normal;    
+}
+
+.pm-timeline-date{
+    font-size:1em;
+}
+
+/*Sezione 3 Chi Siamo */
+
+#third-chapter-chi-siamo{
+    margin: 2em 0em;
+}
+
+
+#third-chapter-chi-siamo .column-container{
+    gap: 3em;
+    align-items: center;
+} 
+
+#chi-siamo3-img{
+    flex: 0 0 25%;
+    max-width: 25%;
+    height: auto;
+
+
+}
+#chi-siamo3-img img{
+    width: 100%;
+    border-radius: 0.8em;
+}
+
+#chi-siamo3-content{
+    padding:2em 0;
+    flex: 1 1 60%;
+    margin:auto;
+}
+
+#chi-siamo3-content p{
+    margin-bottom: 0.5em;
+}
+  
+
+/*Sezione "Ci Presentiamo"*/
+#ci-presentiamo{
+    background-color: var(--secondsection); /* nel caso non caricasse l'immagine */
+    background-image: 
+        linear-gradient(to bottom, transparent 70%, var(--secondsection) 98%),
+        url('../../assets/images/cat-bg.svg');
+    background-size: 102% auto;
+    background-repeat: no-repeat;
+    background-position:top;
+    height: fit-content;
+    color: var(--bgcolor);
+    padding: 3em;
+    border-radius: 1em;
+}
+
+#ci-presentiamo h2{
+    margin: 2em 0 0.8em 0;
+}
+
+
+#ci-presentiamo p{
+    margin-bottom: 0.5em;
+}
+
+#team-img{
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    justify-content: center;
+    gap:1em;
+    row-gap: 0em;
+} 
+
+#team-img img{
+    width: 100%;
+    flex:0 1 30%;
+    height: auto;
+    max-height: 15em;
+    padding: 0;
+} 
+
 /* ================== =========== PAGINE ADMIN================== ============*/
 
 
@@ -3100,20 +3335,23 @@ body#admin-body{
     width: 100%;
 }
 
-body#admin-body #animali .filtri{
+body#admin-body #animali .filtri,
+body#admin-body #richieste .filtri{
     width: 100%;
     margin-bottom: 0.5em;
 }
 
-body#admin-body #animali .filtri button{
+body#admin-body #animali .filtri button,
+body#admin-body #richieste .filtri button{
     width: fit-content;
     margin: 0;
 }
 
-body#admin-body #animali .filtri .capsula-filtro{
-    margin-left: auto;
+body#admin-body #animali .filtri .capsula-filtro,
+body#admin-body #richieste .filtri .capsula-filtro{
+    /* margin-left: auto; */
     margin-right: 0;
-    gap:0;
+    /* gap:0; */
     flex:0 0 fit-content;
 }
 
@@ -3135,10 +3373,10 @@ body#admin-body #breadcrumb{
 div#admin-area div#row2 article{
     margin-top:0em;
 }
-div#admin-area article {
+div#admin-area article:not(.card) { /*aggiunto il not(.card) perchè così visualizzo bene le card degli animali in "assegnati a te" di admin*/
   padding:1em 1em 1em 1em;
   border: 1px solid var(--txtcolor);
-  border-radius:1em;
+  border-radius:0.5em;
   margin: 2em 0em;
 }
 
@@ -3398,7 +3636,7 @@ a.pencil {
 }
 
 .text-details{
-    margin: auto 0;
+    margin: auto 0 auto 1em;
     max-width: 100%;
     min-width: 50%;
 }
@@ -3495,15 +3733,12 @@ div#admin-area #details-container article{
     gap: 1em;
     margin: 0em;
     padding:2em;
-    border-radius: 0em;
     border-top: none;
 }
 
 div#admin-area #details-container article#animale-richiesta{
     margin: 0em;
     border-radius: 0.5em;
-    border-bottom-left-radius: 0em;
-    border-bottom-right-radius: 0em;
     border-top: 1px solid var(--txtcolor);
     width: 100%;
 }
@@ -3695,6 +3930,20 @@ td.col-dettagli a,td.col-dettagli button{
 tr:hover {
     background-color: var(--darkbgcolor);          
 }
+
+
+/*================== ANIMALI ASSEGNATI A TE ADMIN  ==================*/
+
+div#admin-area .container{
+    max-width: none;
+}
+div#admin-area .container#animali .filtri ul{
+    justify-content: normal;
+}
+/*================== SEGNALAZIONE NUOVE ACCOGLIENZE ADMIN  ==================*/
+div#admin-area #animali .filtri ul{
+    justify-content: flex-end;
+}
 /*================== FILTRI  ==================*/
 .tab-content .filtri ul{
     /* margin: 1em; */
@@ -3708,12 +3957,14 @@ tr:hover {
     display: inline;
 }
 
-/*==================NUOVO ANIMALE==================*/
+/*==================NUOVO Animale==================*/
 
 /* ========================================
    CONTAINER PRINCIPALE
    ======================================== */
-#admin-area-aggiungi {
+#admin-area-aggiungi,
+#admin-area-modifica,
+#nuovo-evento {
     margin-top:-6em;
     display: flex;
     justify-content: center;
@@ -3729,7 +3980,9 @@ tr:hover {
 /* ========================================
    FORM BASE
    ======================================== */
-#form-add-animal {
+#form-add-animal,
+#form-edit-animal,
+#new-event {
     background-color: var(--bgcolor);
     width: 95%;
     max-width: 950px;
@@ -3740,13 +3993,17 @@ tr:hover {
     box-sizing: border-box;
 }
 
-#form-add-animal fieldset {
+#form-add-animal fieldset,
+#form-edit-animal fieldset,
+#new-event fieldset {
     margin-bottom: 1em;
     border: none;
     padding: 0;
 }
 
-#form-add-animal legend {
+#form-add-animal legend,
+#form-edit-animal legend,
+#new-event legend {
     float: left;
     width: 100%;
     font-weight: 600;
@@ -3755,12 +4012,13 @@ tr:hover {
     border-top:2px solid var(--darkbgcolor);
 }
 
-#form-add-animal fieldset:first-of-type legend{
+#form-add-animal fieldset:first-of-type legend,
+#form-edit-animal fieldset:first-of-type legend{
     margin-top:1.5em;
 }
 
 /* ========================================
-   RADIO BUTTONS - TIPOLOGIA ANIMALE
+   RADIO BUTTONS - TIPOLOGIA Animali
    ======================================== */
 .radio-group-cg {
     display: flex;
@@ -3804,10 +4062,12 @@ tr:hover {
 /* ========================================
    RADIO BUTTONS - SESSO
    ======================================== */
-#form-add-animal p+p.sex-title {
+#form-add-animal,
+#form-edit-animal p+p.sex-title {
     font-weight: 550;
-    display: inline-block;
+    /* display: inline-block; */
     margin-top: 1.5em;
+    width: 100%;
 }
 
 .sex-group {
@@ -3827,20 +4087,33 @@ tr:hover {
     transition: all 0.3s ease;
 }
 
-#form-add-animal label.sex-option{
+#form-add-animal,
+#form-edit-animal label.sex-option{
     margin:0;
 }
 
 /* ========================================
    LABELS
    ======================================== */
-#form-add-animal label {
+#form-add-animal label,
+#form-edit-animal label,
+#new-event label,
+#form-add-animal #label-foto,
+#form-edit-animal #label-foto,
+#new-event #label-foto{
     font-weight: 500;
     display: block;
     margin: 1.5em 0 0 0;
 }
 
-#form-add-animal .checkbox-label input[type="checkbox"]{
+#form-add-animal label.file-upload-label,
+#form-edit-animal label.file-upload-label,
+#new-event label.file-upload-label{
+    margin: 0;
+}
+
+#form-add-animal .checkbox-label input[type="checkbox"],
+#form-edit-animal .checkbox-label input[type="checkbox"]{
     margin-left: 0.5em;
 }
 
@@ -3848,7 +4121,11 @@ tr:hover {
    INPUT TEXT E DATE
    ======================================== */
 #form-add-animal input[type="text"],
-#form-add-animal input[type="date"] {
+#form-add-animal input[type="date"],
+#form-edit-animal input[type="text"],
+#form-edit-animal input[type="date"],
+#new-event input[type="text"],
+#new-event input[type="date"]{
     display: block;
     width: 100%;
     border: 1px solid var(--text-buttoncolor);
@@ -3860,11 +4137,17 @@ tr:hover {
     transition: all 0.3s ease;
 }
 
-#form-add-animal input[type="text"]{
+#form-add-animal input[type="text"],
+#form-edit-animal input[type="text"],
+#new-event input[type="text"]{
     padding: 0.55em;
+    margin:0;
 }
 
-#form-add-animal input[type="date"] {
+#form-add-animal input[type="date"],
+#form-edit-animal input[type="date"],
+#new-event input[type="date"] {
+    margin:0;
     padding: 0.5em;
 }
 
@@ -3875,16 +4158,24 @@ tr:hover {
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.1);
 } */
 
+#new-event input::placeholder,
+#new-event textarea::placeholder,
 #form-add-animal input::placeholder,
 #form-add-animal select::placeholder,
-#form-add-animal textarea::placeholder{
-    color:var(--placeholderDarker-text);
+#form-add-animal textarea::placeholder,
+#form-edit-animal input::placeholder,
+#form-edit-animal select::placeholder,
+#form-edit-animal textarea::placeholder{
+    color:var(--placeholder-text);
+    font-weight: lighter;
+    font-size: 0.9em;
 }
 
 /* ========================================
    SELECT (TAGLIA E PELO)
    ======================================== */
-#form-add-animal select {
+#form-add-animal select,
+#form-edit-animal select {
     /* display: block;
     width: 100%;
     padding: 0.5em;
@@ -3897,20 +4188,25 @@ tr:hover {
     /* appearance: none; */
     /* transition: all 0.3s ease;
     font-family: "Parkinsans", Roboto, sans serif; */ 
-    padding:0.5em;
+    padding:0.5em 2em 0.5em 0.5em;
     background-color: var(--bgcolor);
     border-radius: 2em;
     border-color: var(--text-buttoncolor);
     color:var(--text-buttoncolor);
-    margin:5px;
+    margin:0;
+    width: 100%;
+    min-height: 44px;
+    background-position: right 0em center; 
+
 }
 
 /* ========================================
    TEXTAREA
    ======================================== */
-#form-add-animal textarea {
+#form-add-animal textarea,
+#form-edit-animal textarea,
+#new-event textarea {
     display: block;
-    height: 8em;
     width: 100%;
     padding: 0.5em;
     border: 1px solid var(--text-buttoncolor);
@@ -3918,10 +4214,16 @@ tr:hover {
     font-size: 1em;
     font-family: inherit;
     background-color: var(--bgcolor);
-    color: var(--text-color, #333);
+    color: var(--txtcolor);
     resize: vertical;
     transition: all 0.3s ease;
-    margin-bottom: 0.5em;
+}
+#form-add-animal textarea{
+    height: 9.3em;
+}
+
+#new-event textarea{
+    height: 7em;
 }
 
 /* #form-add-animal textarea:focus {
@@ -3935,7 +4237,7 @@ tr:hover {
 .file-upload-label {
     display: block;
     width: 100%;
-    padding: 4em 0 2.5em 0;
+    padding: 4.5em 0 2.5em 0;
     margin:auto;
     text-align: center;
     cursor: pointer;
@@ -3958,7 +4260,7 @@ tr:hover {
 }
 
 .file-upload-text {
-    font-weight: 500;
+    font-weight: 300;
     color: var(--text-buttoncolor);
     display: block;
 }
@@ -3983,6 +4285,12 @@ tr:hover {
 .file-upload-label input[type="file"]:focus-visible{
     border:3px solid red;
     opacity: 1;
+}
+
+.success-form +img{
+    max-width: 50%;
+    max-height: 250px;
+    text-align: center;
 }
 
 /* Info foto caricata */
@@ -4012,6 +4320,16 @@ tr:hover {
     padding: 0.4em 1em 0.5em 1em;
     border-radius: 0.5em;
     text-align: center;
+}
+
+.disabled-group {
+    opacity: 0.6;
+    pointer-events: none; /* Impedisce click accidentali */
+    cursor: not-allowed;
+}
+
+.disabled-group .radio-card {
+    border-style: dashed; /* Rende visivamente diverso il bordo */
 }
 
 /* .checkbox-label input[type="checkbox"] {
@@ -4054,9 +4372,10 @@ tr:hover {
    MESSAGGI DI ERRORE
    ======================================== */
 .error-form {
-    color: var(--footercolor);
+    color: var(--errortxt);
     font-size: 0.9em;
     margin-top: 5px;
+    font-weight: 600;
     display: block;
 }
 /*================ PROFILO RICHIEDENTE ==================*/
@@ -4630,94 +4949,294 @@ nav#breadcrumb a:visited{
   #pm-timeline li{
     position: relative; 
     text-align: center;
+  }
 
+/* ================== NUOVO EVENTO ==================*/
+#new-event .split-input{
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 0 0 18%;
-    font-weight: bold;
-}
-
-#pm-timeline li span:nth-of-type(2){
-    font-weight: normal;    
-}
-
-.pm-timeline-date{
-    font-size:1em;
-}
-
-/*Sezione 3 Chi Siamo */
-
-#third-chapter-chi-siamo{
-    margin: 2em 0em;
-}
-
-
-#third-chapter-chi-siamo .column-container{
-    gap: 3em;
-    align-items: center;
-} 
-
-#chi-siamo3-img{
-    flex: 0 0 25%;
-    max-width: 25%;
-    height: auto;
-
-
-}
-#chi-siamo3-img img{
+    flex-wrap:wrap;
     width: 100%;
-    border-radius: 0.8em;
-}
-
-#chi-siamo3-content{
-    padding:2em 0;
-    flex: 1 1 60%;
-    margin:auto;
-}
-
-#chi-siamo3-content p{
-    margin-bottom: 0.5em;
-}
-  
-
-/*Sezione "Ci Presentiamo"*/
-#ci-presentiamo{
-    background-color: var(--secondsection); /* nel caso non caricasse l'immagine */
-    background-image: 
-        linear-gradient(to bottom, transparent 70%, var(--secondsection) 98%),
-        url('../../assets/images/cat-bg.svg');
-    background-size: 102% auto;
-    background-repeat: no-repeat;
-    background-position:top;
-    height: fit-content;
-    color: var(--bgcolor);
-    padding: 3em;
-    border-radius: 1em;
-}
-
-#ci-presentiamo h2{
-    margin: 2em 0 0.8em 0;
-}
-
-
-#ci-presentiamo p{
-    margin-bottom: 0.5em;
-}
-
-#team-img{
-    display: flex;
-    flex-wrap: wrap;
+    gap: 1em;
     margin: auto;
-    justify-content: center;
-    gap:1em;
-    row-gap: 0em;
-} 
+}
 
-#team-img img{
+#team-img img{      /*qui potrebbe non esserci me lo dava come mio cambiamento ma mai toccato*/
     width: 100%;
     flex:0 1 30%;
     height: auto;
     max-height: 15em;
     padding: 0;
 } 
+
+#ModifiedMode{
+    display: none;
+}
+
+#new-event .split-input div{
+    flex: 1 1 48%;
+}
+
+#new-event .split-input div label{
+    margin:0;
+}
+
+.conteggio-testo {
+    text-align: right;
+    display: block;
+    font-size: 0.85rem; 
+    color: var(--placeholderDarker-text);       
+    margin-top: 5px;
+}
+
+#nuovo-evento {
+    padding-bottom: 5em;
+}
+
+.labelledby-element{
+    position: absolute;
+    left:-999em;
+}
+
+#new-event .split-input:nth-of-type(2) label{
+    margin: 0;
+}
+
+#new-event #help-counter-evento + p.error-form{
+    margin-top:-0.5em;
+    margin-bottom:1.5em;
+}
+
+#foto-container{
+    padding-bottom: 1.5em;
+}
+
+#createMore-container{
+    text-align: right;
+    border-top:2px solid var(--darkbgcolor);
+}
+
+#createMore-container label{
+    font-weight: normal;
+    margin-top: 0;
+}
+
+/* PAGINA COME FUNZIONA */
+#come-funziona .testo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex:1 1 75%;
+    gap: 0.4em;
+}
+
+#come-funziona .testo a {
+    color: var(--txtcolor);
+}
+
+#come-funziona .testo address{
+    display: contents;
+}
+
+#come-funziona .testo address a{
+    display: contents;
+}
+
+#come-funziona .colonne {
+    display: flex;
+    align-items: stretch;
+    gap: 0.2em;
+    /* object-fit: cover; */
+}
+
+#come-funziona h2{
+    margin-bottom: 0.3em;
+}
+
+#come-funziona #comeFunziona img {
+    flex: 1 1 30%;
+    object-fit:fill;
+    height: 20em;
+    align-self: center;
+    margin-bottom: 0em;
+}
+
+#come-funziona .enlight {
+    font-weight: bold;
+}
+
+#come-funziona #comeSiAdotta {
+    position: relative;
+    background-color: var(--footercolor);
+    border-top-right-radius: 1.5em;
+    border-top-left-radius: 1.5em;
+    z-index: 0;
+    color: var(--bgcolor);
+    padding: 2em;
+    padding-right: 3em;
+    margin-top: 1.5em;
+}
+
+#come-funziona #comeSiAdotta .testo {
+    text-align: right;
+    /* margin: 2em; */
+    margin-left: 0;
+    flex: 1 1 70%;
+    justify-content: flex-start;
+}
+
+#come-funziona #comeSiAdotta .testo a{
+    color: var(--linkcolor);
+    /* z-index: ; */
+}
+
+#come-funziona #comeSiAdotta .testo ul {
+    text-align: left;
+}
+
+#come-funziona #comeSiAdotta #immagini {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 30%;
+    object-fit: contain;
+}
+
+#come-funziona #comeSiAdotta #immagini img{
+    flex: 1 1 50%;
+    /* height: 10em; */
+    /* object-fit: cover; */
+    position: relative;
+    border-radius: 1em;
+
+    max-width: 70%;
+  max-height: 50%;
+  height: auto;
+  width: auto;
+  object-fit: contain;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+}
+
+#come-funziona #comeSiAdotta #immagini img#dog{
+    /* justify-self: center; */
+    align-self: end;
+    /* transform: rotate(5deg); */
+    bottom: 0.5em;
+    right: 2em;
+    /* max-width: 10em; */
+    z-index: 0;
+    margin-bottom: 10%;
+}
+#come-funziona #comeSiAdotta #immagini img#cat{
+    /* transform: rotate(-10deg); */
+    top: 0.5em;
+    /* left: 3em; */
+    z-index: 1;
+    margin-top: 10%;
+}
+
+#come-funziona #comeSiAdotta #paws-containter {
+    position: relative;
+}
+
+#come-funziona #comeSiAdotta #paws-containter img {
+    transform: rotate(-140deg);
+    position: absolute;
+    height: 4em;
+    width: 4em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw1 {
+    top: 2em;
+    right: 2em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw2 {
+    top: 3em;
+    right: 12em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw3 {
+    top: 9em;
+    right: 8em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw4 {
+    top: 9em;
+    right: 20em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw5 {
+    top: 15em;
+    right: 15em;
+}
+
+#come-funziona #provAnimali {
+    margin-top: 8em;
+}
+
+#come-funziona #provAnimali a {
+    color: var(--txtcolor);
+    text-decoration: underline;
+}
+
+#come-funziona #invitoLavoro {
+    margin-top: 3em;
+    background-color: var(--bgform);
+    display: flex;
+    color: var(--bgcolor);
+    padding-top: 3em;
+    padding-left: 5em;
+    padding-right: 5em;
+    padding-bottom: 2em;
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+}
+
+#come-funziona #invitoLavoro h2{
+    font-size: 2em;
+    line-height: 1.5em;
+}
+
+#come-funziona #invitoLavoro .testo{
+    margin-right: 6em;
+}
+
+
+#come-funziona #invitoLavoro a.brown-button{
+    color: var(--linkcolor);
+    margin-left: 0;
+    width: 100%;
+}
+
+#come-funziona #invitoLavoro #quote-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#come-funziona #invitoLavoro #quote-container blockquote img.quote {
+    height: 3em;
+    width: 3em;
+}
+
+#come-funziona #invitoLavoro #quote-container p {
+    margin-left: 3em;
+    font-style: italic;
+}
+
+#come-funziona #invitoLavoro #quote-container blockquote img.quote#finishing-quote {
+    justify-self: end;
+    align-self: flex-end;
+}
+
+#come-funziona #invitoLavoro #quote-container blockquote {
+    display: flex;
+    flex-direction: column;
+}
+
+#come-funziona #invitoLavoro blockquote cite{
+    align-self: flex-end;
+    flex: 1 1 20%;
+    min-width: 1em;
+    padding-top: 2em;
+}
