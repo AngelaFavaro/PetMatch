@@ -418,3 +418,48 @@ document.addEventListener("DOMContentLoaded", function() {
         contaCaratteri(campo_car, "conta-corrente-carattere");
     }
 });
+
+
+// NON RICARICA LA PAGINA QUANTO PREMI LA CHECK
+document.addEventListener('DOMContentLoaded', function() {
+    const toggle = document.getElementById('theme-toggle');
+
+    toggle.addEventListener('change', function() {
+        const newTheme = this.checked ? 'dark' : 'light';
+        fetch(window.location.href, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ toggle_theme: newTheme })
+        })
+        .then(response => {
+            console.log('Tema salvato:', newTheme);
+        });
+    });
+});
+
+
+// FERMA IL TOGGLE DEL TEMA PRIMA DELLO SMALL (altrimenti si legge male)
+document.addEventListener('scroll', function() {
+    const themeSwitch = document.querySelector('#theme-switch');
+    const footer = document.querySelector('small');
+    if (!themeSwitch || !footer) return;
+
+    if (window.innerWidth > 800) {
+        themeSwitch.style.bottom = ''; 
+        return; 
+    }
+
+    const footerRect = footer.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    
+    const defaultBottom = 20; 
+
+    if (footerRect.top < windowHeight) {
+        const overlap = windowHeight - footerRect.top;
+        themeSwitch.style.bottom = (defaultBottom + overlap) + 'px';
+    } else {
+        themeSwitch.style.bottom = defaultBottom + 'px';
+    }
+});

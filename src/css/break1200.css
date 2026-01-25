@@ -201,13 +201,11 @@ td.col-dettagli a,td.col-dettagli button{
 
 /* ==========PAGINA COME FUNZIONA ============== */
 
-#come-funziona #comeSiAdotta #paws-containter #paw5 {
-    display: none;
-}
-
-
 /* PAGINA COME FUNZIONA */
 
 #come-funziona #comeSiAdotta {
     margin-top: 2.5em;
+}
+#come-funziona #comeSiAdotta #paws-containter img {
+    display: none;
 }
