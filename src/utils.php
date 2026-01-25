@@ -180,6 +180,18 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
     // Parte iniziale: Checkbox e Label (Hamburger)
     $html = '
     <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
+
+    <div id="log-theme">
+    <input type="checkbox" id="theme-toggle" class="sr-only"';
+    $html .= $isDark? ' checked >':'>';
+    $html .= '
+        <label for="theme-toggle" id="theme-switch" aria-label="Cambia tema" >
+            <span id="slider">
+                <img src="./assets/icons/sun.svg" id="sun" alt=""/>
+                <img src="./assets/icons/moon.svg" id="moon" alt=""/>
+            </span>
+        </label>
+    </div>
     <label for="menu-toggle-checkbox" class="menu-toggle" aria-label="Apri o chiudi menu di navigazione">
     <span></span> </label>
     

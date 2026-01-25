@@ -912,6 +912,50 @@ header a{
     background-color: var(--bgcolor);
 }
 
+
+
+
+
+
+
+/* per admin */
+
+
+#admin-body #theme-switch {
+    position: fixed;
+    width: 45px;
+    height: 45px;
+    bottom: 20px;
+    right: 20px;
+}
+
+#admin-body #slider {
+    position: absolute;
+    right: 0; bottom: 0;
+    background-color: var(--bgcolor);
+    border-radius: 50%;
+    transition: 0.4s;
+    box-shadow: none;
+    border:2px solid var(--buttoncolor-hover);
+}
+
+#admin-body #slider img{
+    width: 90%;
+    left: 0.2em;
+    right: 0;
+}
+
+#admin-body #slider::before {
+    content: none;
+    display: none;
+}
+
+
+
+
+
+
+
 /* Icone sole/luna */
 #sun, #moon {
     position: absolute;
@@ -3289,6 +3333,10 @@ input[type="file"]::file-selector-button:hover {
     margin:auto 0 auto auto;
 }
 
+#log-theme-desktop{
+    margin:auto;
+}
+
 /* ================== CHI SIAMO ==================*/
 
 #second-chapter-chi-siamo{
@@ -3589,7 +3637,7 @@ body#admin-body main {
     margin-left:20%;
 }
 
-nav#menu-admin img {
+nav#menu-admin #logo {
     display: block;
     margin: 1em auto;
     width: 12em;

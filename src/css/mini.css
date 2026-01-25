@@ -93,7 +93,7 @@ select,
     height: 100%;
     background: none;
     cursor: pointer;
-    color: var(--txtcolor); 
+    color: var(--navButton); 
     padding:0;
     margin: 0;
     transition: transform 0.3s ease;
