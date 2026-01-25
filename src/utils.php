@@ -115,8 +115,8 @@ $pagine = [
         'parent' => 'visualizzazione-eventi'
     ],
     'visualizzazione-eventi' => [
-        'label' => 'Visualizzazione Eventi',
-        'url' => './visualizzazione-eventi',
+        'label' => 'Eventi',
+        'url' => './eventi',
         'parent' => 'area-riservata'
     ]
 ];
@@ -125,7 +125,7 @@ $adminMenu = [
     'principale' => [
         ['href' => './area-riservata', 'text' => 'Area personale'],
         ['href' => './richieste-adozione', 'text' => 'Richieste di adozione'],
-        ['href' => './visualizzazione-eventi', 'text' => 'Visualizzazione-eventi'],
+        ['href' => './visualizzazione-eventi', 'text' => 'Eventi'],
     ],
     'animali' => [
         ['href' => './tuoi-animali', 'text' => 'Assegnati a te'],

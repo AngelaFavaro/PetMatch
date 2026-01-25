@@ -11,7 +11,6 @@ if (defined('ADMIN_EVENTI')) {
     $isAdmin=1;
 }
 if($isAdmin) {
-    session_start();
     $action='visualizzazione-eventi';
 }
 
