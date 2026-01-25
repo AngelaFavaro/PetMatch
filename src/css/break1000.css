@@ -24,3 +24,30 @@
 #come-funziona #comeSiAdotta #paws-containter #paw4 {
     display: none;
 }
+/* ==================HOME==================*/
+
+
+#section-events img.polaroid,
+#events-list .polaroid:last-child{
+    display: none;
+}
+
+#section-events p{
+    display: block;
+    margin:1em 0 1em 0;
+    width: 100%;
+}
+
+#events-list .polaroid:first-child,
+#events-list .polaroid:nth-child(3)
+{
+    margin-top: -2%;
+}
+
+#events-list .polaroid:nth-child(2){
+    transform: rotate(0deg);
+}
+
+#events-list .polaroid:nth-child(3){
+    transform: rotate(-10deg);
+}
