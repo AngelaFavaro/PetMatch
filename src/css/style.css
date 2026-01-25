@@ -4238,18 +4238,20 @@ nav#breadcrumb a:visited{
 }
 .contattaci:visited{
     background-color: var(--headerlink);
-}  */
+}  
 
 
-@media (max-width: 550px) {  /*da cambiare */
-
+@media (max-width: 550px) { 
     .contattaci {
         margin-right: auto;
         order: -1;       
   }
   #titolo-dettagli-animale{
    align-self: center;
-}
+} 
+}*/
+#visualizzazione-animale .column-container{
+    gap:2em;
 }
 #visualizzazione-animale .dettagli-animale{
     margin-bottom: 2em;
@@ -4277,7 +4279,7 @@ nav#breadcrumb a:visited{
     border: 1px solid var(--txtcolor);
     border-radius: 0.5em;
     padding: 1em;
-    flex: 1 1 45%
+    flex: 1 1 45%;
 }
 
 #visualizzazione-animale #stato-richiesta {
@@ -4310,18 +4312,13 @@ nav#breadcrumb a:visited{
     gap: 0.5em;
     justify-content:left;
     display:flex;
+    flex-wrap: wrap;
     position: relative;
 }
 
-#visualizzazione-animale #foto-animale{
-    max-height: 15em;  
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    
-}
+
 #visualizzazione-animale #info-generiche-testo{
-        flex: 1 1 45%;
+        flex: 1 1 35%;
         min-width: 10em;
          padding-right: 0;
 }
@@ -4331,18 +4328,23 @@ nav#breadcrumb a:visited{
     border: 1px solid var(--txtcolor);
     border-radius: 0.5em;
     padding: 1em;
+    display: flow-root;
 }
 
 #visualizzazione-animale #info-aggiuntive-unite{
     margin-top: 1em;
 }
-#visualizzazione-animale #info-aggiuntive-unite h2{
-    display: none;
+#visualizzazione-animale #foto-animale{
+    max-width:19em;
+    width: auto;
+    height: auto;
+    object-fit: contain;
 }
 
 
 #visualizzazione-animale .dettagli-animale dt {
     float: left;
+    clear: left;
     font-weight: 600;
 }
 

@@ -36,7 +36,8 @@ if ($connection->openDBConnection()) {
 
     // 1. Recupero Dettagli Animale
     if ($idAnimale) {
-        $dettagliAnimale = $connection->getAnimalDetails($idAnimale);
+        $dettagliAnimale = $connection->getAnimalDetails($idAnimale); 
+    }
         
         // ... (Tuoi assegnamenti variabili animale) ...
         $nome = htmlspecialchars($dettagliAnimale['nome']);
@@ -131,6 +132,9 @@ if ($connection->openDBConnection()) {
             
             // Stato richiesta attuale
             $richiesta = $connection->getRequestStatus($emailUtente, $idAnimale);
+
+            $richiestaData = $connection->getAnimalArrivalDate($idAnimale);
+            $dataArrivo = ''; 
             
 
             // GESTIONE POST RICHIESTA ADOZIONE
@@ -204,7 +208,9 @@ $success = $connection->insertAdoptionRequest($emailUtente, $idAnimale, $lettera
                 $valCap   = htmlspecialchars($infoUtente['CAP'] ?? '');
             }
         }
-    }
+        if(isset($richiestaData) && !empty($richiestaData)){
+    $dataArrivo =  date("d/m/Y", strtotime($richiestaData));
+    } else $dataArrivo="non ancora stabilita";
     $connection->closeConnection();
 } else {
     // Gestione errore connessione DB
@@ -217,14 +223,17 @@ $success = $connection->insertAdoptionRequest($emailUtente, $idAnimale, $lettera
 // DEFINIZIONE CONTENUTO PAGINA (Form o Stato)
 $contenutoPagina = "";
 $statoRichiesta = "";
+$contattaci="";
 
 if (!$utenteAccesso) {
+    $contattaci="<a href='mailto:matchpet48@gmail.com' target='_blank' class='brown-button'>Contatta il rifugio</a>";
     $contenutoPagina = "
     <aside id='contatta-rifugio'>
         <p> Vuoi adottare questo animale? <a href='registrati'>Registrati o accedi</a> se hai già un profilo e manda una richiesta!</p>
     </aside>";
     $infoAggiuntive='info-aggiuntive-separate';
 } else if ($richiesta === false || $richiesta === null) {
+    $contattaci="<a href='mailto:matchpet48@gmail.com' target='_blank' class='brown-button'>Contatta il rifugio</a>";
     // FORM ADOZIONE
     $infoAggiuntive='info-aggiuntive-separate';
     $contenutoPagina = "<div id='richiesta-adozione'>
@@ -303,14 +312,14 @@ if (!$utenteAccesso) {
                 $infoAggiuntive='info-aggiuntive-unite';
                 $contenutoPagina = "";
                 $statoRichiesta = "
-                <div class='dettagli-animale'>
                 <h2> Richiesta di adozione </h2>
                     <div id='stato-richiesta'>
-                        <p> <span class='enfatizzato'> Stato: </span> richiesta pendente </p>
+                        <p> Stato: <span class='enfatizzato'> richiesta pendente </span> </p>
                         <p> Hai una richiesta di adozione pendente per questo animale, attendi che ti venga comunicato l’esito! </p>
                         <p> Qualche problema o domanda? Valuta di contattarci </p>
                     </div>
-                </div>";
+                <a href='mailto:matchpet48@gmail.com' class='brown-button'>Contatta il rifugio</a> "
+;   
                 break;
 
         }
@@ -319,123 +328,64 @@ if (!$utenteAccesso) {
                 $infoAggiuntive='info-aggiuntive-unite';
                 $contenutoPagina = "";
                 $statoRichiesta = "
-                <div class='dettagli-animale'>
                 <h2> Richiesta di adozione </h2>
                     <div id='stato-richiesta'>
-                        <p> <span class='enfatizzato'> Stato: </span> in valutazione </p>
-                        <p> Ti contatteremo nella mail nel tuo profilo per iniziare la tua conoscenza e valutare se sei il giusto candidato per <strong>'$nome'</strong> </p>
+                        <p> Stato: <span class='enfatizzato'> in valutazione </span> </p>
+                        <p> Ti contatteremo nella mail nel tuo profilo per iniziare la tua conoscenza e valutare se sei il giusto candidato per <strong>$nome</strong> </p>
                         <p> Qualche problema o domanda? Valuta di contattarci </p>
                     </div>
-                </div>";
+                    <a href='mailto:matchpet48@gmail.com' class='brown-button'>Contatta il rifugio</a>
+                ";
                 break;
             }
         case 'Da trasportare':{
                 $infoAggiuntive='info-aggiuntive-unite';
                 $contenutoPagina = "";
                 $statoRichiesta = "
-                <div class='dettagli-animale'>
                 <h2> Richiesta di adozione </h2>
                     <div id='stato-richiesta'>
-                        <p> <span class='enfatizzato'> Stato: </span> pronto per il trasporto </p>
-                        <p> Data di arrivo: ' ' </p> 
+                        <p>  Stato: <span class='enfatizzato'> pronto per il trasporto </span> </p>
+                        <p> Data di arrivo: <span class='enfatizzato'>$dataArrivo</span> </p> 
                         <p> Qualche problema o domanda? Valuta di contattarci </p>
                     </div>
-                </div>";
-                break;
-        }
-        case 'Accettata':{
-            $infoAggiuntive='info-aggiuntive-unite';
-                $contenutoPagina = "";
-                $statoRichiesta = "
-                <div class='dettagli-animale'>
-                <h2> Richiesta di adozione </h2>
-                    <div id='stato-richiesta'>
-                        <p> <span class='enfatizzato'> Stato: </span> accettata </p>
-                        <p> Congratulazioni, la tua richiesta è stata accettata! Ti contatteremo a breve per fornirti tutti i dettagli. </p> 
-                        <p> Qualche problema o domanda? Valuta di contattarci </p>
-                    </div>
-                </div>";
+                    <a href='mailto:matchpet48@gmail.com' class='brown-button'>Contatta il rifugio</a> 
+                ";
                 break;
         }
         case 'Respinta':{
            $infoAggiuntive='info-aggiuntive-unite';
                 $contenutoPagina = "";
                 $statoRichiesta = "
-                <div class='dettagli-animale'>
                 <h2> Richiesta di adozione </h2>
                     <div id='stato-richiesta'>
-                        <p> <span class='enfatizzato'> Stato: </span> rifiutata </p>
-                        <p> Ci dispiace informati che la tua richiesta di adozione di <strong> '$nome' </strong> è stata rifiutata. </p> 
+                        <p>  Stato:  <span class='enfatizzato'>rifiutata </span> </p>
+                        <p> Ci dispiace informati che la tua richiesta di adozione di <strong> $nome </strong> è stata rifiutata. </p> 
                         <p> Qualche problema o domanda? Valuta di contattarci </p>
                     </div>
-                </div>";
+                    <a href='mailto:matchpet48@gmail.com' class='brown-button'>Contatta il rifugio</a> 
+               ";
                 break;
         }
         case 'Annullata':{
-                $infoAggiuntive='info-aggiuntive-separate'; 
-                $contenutoPagina = "<div id='richiesta-adozione'>
-                <div class='column-container'>
-                    <div class='column-user'>
-                        <img id='richiesta-adozione-img' src='./assets/images/adozione.jpg' alt=''/>
+             $infoAggiuntive='info-aggiuntive-unite';
+                $contenutoPagina = "";
+                $statoRichiesta = "
+                <h2> Richiesta di adozione </h2>
+                    <div id='stato-richiesta'>
+                        <p>  Stato: <span class='enfatizzato'> annullata </span> </p>
+                        <p> La richiesta di adozione per <strong> $nome </strong> è stata annullata. </p> 
+                        <p> Qualche problema o domanda? Valuta di contattarci  </p>
                     </div>
-                    <div class='column-user'>
-                        <form method='POST' action='' novalidate> 
-                            <fieldset>
-                                <legend id='legenda-richiesta-adozione'>Invia una richiesta di adozione!</legend>
-                                <label for='lettera-presentazione'>Scrivi una breve lettera di presentazione:</label>
-                                <textarea id='lettera-presentazione' name='lettera-presentazione' rows='7' cols='50' placeholder='Inserisci presentazione' required>[VALORE_LETTERA]</textarea>
-                                <p class='error-form'>[ERROR_LETTERA]</p>
-                            </fieldset>
-                            <fieldset class='fieldset-indirizzo'>
-                                <legend>Indirizzo</legend>
-                                <p>Il profilo utente verrà aggiornato con l'indirizzo inserito.</p>
-                                <div>
-                                    <label for='new-address'>Via e numero civico</label>
-                                    <input type='text' id='new-address' name='new-address' autocomplete='street-address' 
-                                    value='[via-utente]' placeholder='Via L. Da Vinci n.10' required>
-                                    <p class='error-form'>[erroriIndirizzo]</p>   
-                                </div>
-                                <div id='indirizzo-row'>
-                                    <div id='citta-container'>
-                                        <label for='new-city'>Città</label>
-                                        <input type='text' id='new-city' name='new-city' autocomplete='address-level2' 
-                                        value='[citta-utente]' placeholder='Roma' required>
-                                        <p class='error-form'>[erroriCitta]</p>
-                                    </div>
-                                    <div id='cap-container'>
-                                        <label for='new-cap'>CAP</label>
-                                        <input type='text' id='new-cap' name='new-cap' autocomplete='postal-code' 
-                                        value='[cap-utente]' placeholder='00000' required>
-                                        <p class='error-form'>[erroriCAP]</p>
-                                        <p class='error-form'>[erroriIndirizzoTotale]</p>   
-                                    </div>
-                                </div>
-                                <div id='trasporto-container'>
-                                    <label for='trasporto' class='column-container'>
-                                        <input type='checkbox' id='trasporto' name='trasporto'>
-                                        <div class='checkbox-text'>
-                                            <span class='checkbox-title'>Voglio il trasporto dell’animale a casa</span>
-                                            <span class='checkbox-description'>Spuntando la casella, verrà programmato il trasporto dell’animale. Ci si prende la responsibilità di essere presenti nel domicilio indicato alla data che verrà comunicata per email.</span>
-                                        </div>
-                                    </label>
-                                </div>
-                                <button class='orange-button' name='submit-adoption-request' type='submit'>Invia il Form</button>
-                            </fieldset>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <a href = '#top-page' class='torna-su-button'>
-                <img src='./assets/icons/torna-su.svg' class='static' alt='torna su'/>
-                <img src='./assets/icons/torna-su.gif' class='active' alt=''/>
-            </a>";
+                    <a href='mailto:matchpet48@gmail.com' class='brown-button'>Contatta il rifugio</a> 
+                ";
+                break;
 
         }
         
         default:
         {    
             $infoAggiuntive='info-aggiuntive-separate';
-            $contenutoPagina = file_get_contents('./src/template/partials/animale-form.html'); }
+            $contenutoPagina = ''; }
     }
 }
 // COSTRUZIONE BLOCCHI HTML
@@ -500,6 +450,8 @@ if($infoAggiuntive==='info-aggiuntive-separate'){
     $main = str_replace('[CARDANIMALE2]', $statoRichiesta, $main);
 }
 $main = str_replace('[INFO-AGGIUNTIVE]', $infoAggUnite, $main);
+$main = str_replace('[CONTATTACI]', $contattaci, $main);
+
 
 
 $paginaHTML = str_replace('[title]', $title, $paginaHTML);

@@ -15,3 +15,10 @@
 #eventi .evento .descrizione-evento {
     max-width: 60em;
 }
+/* VISUALIZZAZIONE ANIMALE */
+#richiesta-adozione-img {
+    display: none;
+}
+#richiesta-adozione .column-user {
+
+flex: 1 1 100%; }

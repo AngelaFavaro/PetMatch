@@ -822,3 +822,28 @@ body#lavora-con-noi {
     margin:auto;
     padding:0.3em;
 }
+/* Visualizzazione animale */
+#visualizzazione-animale #foto-animale{
+    max-width:16em;
+}
+#visualizzazione-animale .column-container { 
+    gap: 0.5em;
+}
+
+#visualizzazione-animale #titolo-dettagli-animale{
+    margin-bottom: 0em;
+}
+
+
+/* Form adozione */
+
+#richiesta-adozione {
+    padding:1.1em
+}
+#richiesta-adozione .column-container{
+    gap:0em;
+    padding: 1.3em 0.7em;
+}
+#richiesta-adozione .column-container .column-container{
+    gap:0.7em;
+}

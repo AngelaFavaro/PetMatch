@@ -2089,6 +2089,31 @@ public function getRequestStatus(string $email, int $idAnimale): ?string {
     return $stato;
 }
 
+public function getAnimalArrivalDate($idAnimale): ?string {
+    
+    $dataArrivo = null;
+    
+    $query = "SELECT DataArrivo 
+              FROM TRASPORTI 
+              WHERE IDanimale = ?";
+
+    $stmt = mysqli_prepare($this->connection, $query);
+
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, 'i', $idAnimale);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        if ($row = mysqli_fetch_assoc($result)) {
+            $dataArrivo = $row['DataArrivo'];
+        }
+        
+        mysqli_stmt_close($stmt);
+    }
+    
+    return $dataArrivo;
+}
+
     public function getAnimalDetails(int $idAnimale): ?array {
         $sql = "
             SELECT Nome, Sesso, DataNascita, ImgPath, Tipo, Colore, Pelo, Taglia, Razza,
