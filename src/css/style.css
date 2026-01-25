@@ -4273,6 +4273,62 @@ td.col-dettagli a,td.col-dettagli button{
     margin-top:1.5em;
 }
 
+/* Reset del fieldset */
+#fieldset-assegnazione {
+    border: none;
+    padding: 0;
+    margin: 1em 0; 
+}
+
+/* Allineamento della legend */
+.legend-content {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75em; 
+    cursor: pointer;
+    line-height: 1.5;
+}
+
+/* Stile del quadratino personalizzato */
+#check-assegna {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 1.4em;  /* Circa 22px */
+    height: 1.4em; /* Circa 22px */
+    cursor: pointer;
+    position: relative;
+    border-radius: 0.25em; /* Circa 4px */
+    transition: all 0.3s ease;
+    
+    /* COLORE QUANDO NON CLICCATO */
+    background-color: var(--bgcolor); 
+    border: 0.1em solid var(--text-form); /* Circa 2px */
+}
+
+/* Effetto al passaggio del mouse */
+#check-assegna:hover {
+    border-color: var(--buttoncolor-hover);
+}
+
+/* COLORE QUANDO CLICCATO */
+#check-assegna:checked {
+    background-color: var(--buttoncolor); 
+    border-color: var(--buttoncolor);
+}
+
+/* Il segno di spunta bianco */
+#check-assegna:checked::after {
+    content: '';
+    position: absolute;
+    left: 0.375em;    /* Circa 6px */
+    top: 0.125em;     /* Circa 2px */
+    width: 0.375em;   /* Circa 6px */
+    height: 0.6875em; /* Circa 11px */
+    border: solid #ffffff;
+    border-width: 0 0.1875em 0.1875em 0; /* Spessore spunta circa 3px */
+    transform: rotate(45deg);
+}
+
 /* ========================================
    RADIO BUTTONS - TIPOLOGIA Animali
    ======================================== */
@@ -4553,7 +4609,7 @@ td.col-dettagli a,td.col-dettagli button{
     color: var(--buttoncolor-hover);
 }
 
-.transport-wrapper {
+.transport-wrapper{
     display: flex;
     justify-content: center;
 }

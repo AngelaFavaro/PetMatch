@@ -2,6 +2,16 @@
     <form method="post" id="form-add-animal" enctype="multipart/form-data" novalidate>
         <h1>Aggiungi un Animale</h1>
         <div class="message-container">[erroriGeneric]</div>
+
+        <fieldset id="fieldset-assegnazione">
+            <legend>
+                <label for="check-assegna" class="legend-content">
+                    Assegna a me 
+                    <input type="checkbox" id="check-assegna" name="assegna_a_me" value="1" [assegna_checked]>
+                </label>
+            </legend>
+        </fieldset>
+
         <fieldset>
             <legend>Tipologia di animale *</legend>
             <div class="radio-group-cg">
