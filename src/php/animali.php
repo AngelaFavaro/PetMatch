@@ -368,7 +368,7 @@ if($isPreferiti&&!$userEmail&&$totale!==0) {
 /* ------------------ TEMPLATE ------------------ */
 
 
-$linkNavAnimali = $isPreferiti ? buildNavAnimali($type, $isPreferiti) : buildNavAnimali($type, $isPreferiti, $isAdmin,$filters);
+$linkNavAnimali = $isPreferiti ? buildNavAnimali($type, $isPreferiti) : buildNavAnimali($type, $isPreferiti,$filters);
 
 $main = '';
 if(!$isAdmin) {
