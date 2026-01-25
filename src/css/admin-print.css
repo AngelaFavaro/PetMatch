@@ -27,7 +27,7 @@ img{
     height: 3cm;
 }
 
-a.pencil img{
+a.pencil img, div#log-theme{
     display: none;
 }
 

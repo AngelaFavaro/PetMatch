@@ -220,10 +220,10 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
     
     <nav id="menu-admin" aria-label="Menù">
         <a class="navigationHelp" href="#content"> Salta il menù di navigazione</a>
-        <a href="./home">
+        <a id="logo-link" href="./home">
             <img src="./assets/icons/light-mode-logo.svg" id="logo" alt="Home" lang="en">
         </a>';
-        $html .= $currentHref==='./nuovo-animale' ? '<p class="orange-button" id="currentLink" href="./nuovo-animale">+ Aggiungi animale</p>' : '<a class="orange-button" href="./nuovo-animale">+ Aggiungi animale</a>';
+        $html .= $currentHref==='./nuovo-animale' ? '<p class="orange-button" id="currentLink" href="./nuovo-animale">+ Aggiungi animale</p>' : '<button class="orange-button" href="./nuovo-animale">+ Aggiungi animale</button>';
 
     foreach ($menuGroups as $key => $items) {
 
