@@ -18,10 +18,8 @@ article{
     margin-bottom: 1cm;
 }
 
-a:not(#logo-link):not(.pencil)::after {
-    content: "   ["attr(href)"]";
-    height: 3cm;
-    /* color: #555; */
+a:not(#logo-link):not(.pencil):not([href^="mailto:"])::after {
+    content: " [" attr(href) "]";
     margin-left: 0.4em;
 }
 
