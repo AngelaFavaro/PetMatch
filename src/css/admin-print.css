@@ -104,7 +104,9 @@ nav#breadcrumb{
     margin-bottom: 1cm;
 }
 /* ========== NAV ADMIN ========== */
-
+#menu-toggle-checkbox{
+    display: none;
+}
 nav#menu-admin #logo {
     display: block;
     content: url("../../assets/icons/print-logo.svg"); /*perche la stampa toglie tutti i background quindi lo mettiamo come contnuto*/
