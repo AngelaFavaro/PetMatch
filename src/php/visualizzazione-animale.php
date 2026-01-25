@@ -12,6 +12,7 @@ $idAnimale = $_GET['id'] ?? null;
 
 $utenteAccesso = isset($_SESSION['email']);
 $emailUtente = $utenteAccesso ? $_SESSION['email'] : null;
+$isAdmin = (isset($_SESSION['admin'])&&$_SESSION['admin']===true);
 
 $richiesta = null;
 $infoUtente = null; // Variabile per dati utente
@@ -232,7 +233,7 @@ if (!$utenteAccesso) {
         <p> Vuoi adottare questo animale? <a href='./registrati'>Registrati</a> o <a href='./accedi'>accedi</a> se hai già un profilo e manda una richiesta!</p>
     </aside>";
     $infoAggiuntive='info-aggiuntive-separate';
-} else if ($richiesta === false || $richiesta === null) {
+} else if (($richiesta === false || $richiesta === null) && $isAdmin === false) {
     $contattaci="<a href='mailto:matchpet48@gmail.com' target='_blank' class='brown-button'>Contatta il rifugio</a>";
     // FORM ADOZIONE
     $infoAggiuntive='info-aggiuntive-separate';
