@@ -1713,6 +1713,11 @@ input:-webkit-autofill:active{
     font-size: 0.9em;
 }
 
+#animali .filtri .capsula-filtro#searchSex,
+#animali .filtri .capsula-filtro#searchSize{
+    max-width: fit-content;
+}
+
 #animali .filtri .capsula-filtro label, #eventi .filtri .capsula-filtro label,
 #richieste .filtri .capsula-filtro label{
     margin-right: 0.5em;
