@@ -30,7 +30,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
         $html = '
             <span id="' . $idTabella . '" class="sr-only" aria-hidden="true">In questa tabella vengono elencate le segnalazioni per nuove accoglienze per ' . $tipoMinuscoloPlurale . ' e i loro dettagli: identificativo segnalazione, data segnalazione, nominativo del segnalante (nome e cognome), email segnalante. Infine per ogni segnalazione un link alla gestione della segnalazione e eventualmente un pulsante per contattare il segnalante.</span>
             <table aria-describedby="' . $idTabella . '">
-                <caption>Segnalazioni di accoglienze per (' . $tipo . ')</caption>
+                <caption>Segnalazioni di accoglienze per ' . $tipo . '</caption>
                 <thead>
                     <tr>
                         <th scope="col"><abbr title="Identificativo segnalazione"><span lang="en">Id</span></abbr></th>
@@ -83,7 +83,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                                     <button type="submit" name="elimina_segnalazione" class="orange-button">Elimina</button>
                                 </form>
                             </td>
-                            <td class="col-dettagli"><a href="mailto:' . htmlspecialchars($animale['email_segnalante']) . '?subject=' . $subject . '&body=' . $object . '" class="brown-button">Chiedi informazioni'.'<span class="sr-only">a'.htmlspecialchars($animale['nominativo_segnalante']).' per la segnalazione</span></a></td>';
+                            <td class="col-dettagli"><a href="mailto:' . htmlspecialchars($animale['email_segnalante']) . '?subject=' . $subject . '&body=' . $object . '" class="brown-button">Chiedi informazioni'.'<span class="sr-only"> a '.htmlspecialchars($animale['nominativo_segnalante']).' per la segnalazione</span></a></td>';
                     }
                     $html .='</tr>';
                 }

@@ -1,0 +1,138 @@
+/* ---------GENERALE PER LA STAMPA ADMIN-------- */
+
+*{
+    padding:0em;
+    margin:0em;
+}
+
+html, body{
+    font-size: 12pt;
+    font-family: 'Times New Roman', Times, serif;
+    margin: auto;
+}
+h1{
+    margin-bottom: 0.5cm;
+}
+
+article{
+    margin-bottom: 1cm;
+}
+
+a:not(#logo-link):not(.pencil):not([href^="mailto:"])::after {
+    content: " [" attr(href) "]";
+    margin-left: 0.4em;
+}
+
+img{
+    height: 3cm;
+}
+
+a.pencil img{
+    display: none;
+}
+
+dt::after {
+    content: ":";
+}
+
+dt{
+    font-weight: bold;
+    float: left;
+    margin-right: 0.2cm;
+}
+/* ========== TABS ========== */
+select#mobile-select, label[for*="tab"], input[id*="tab"]{
+    display: none;
+}
+div.tabs-container .tab-content{
+    display: block;
+}
+/* ========== TABELLE ========== */
+caption{
+    margin-bottom: 0.5cm;
+    font-weight: bold;
+    font-size: larger;
+}
+
+/* metto i bordi alle tabelle */
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 0.2cm;
+}
+
+/* ========== FILTRI========== */
+
+form.filtri select {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    background: transparent;
+    font-weight: bold;
+    font-size: 12pt;
+    color: black;
+    padding: 0;
+    width: auto;
+}
+
+form.filtri li.capsula-filtro::before {
+    content: "Filtro Appunti: ";
+    font-weight: normal;
+}
+
+form.filtri ul {
+    list-style: none;
+    padding: 0;
+    display: inline;
+}
+
+form.filtri li {
+    display: inline;
+    margin-right: 15px;
+}
+
+form.filtri button {
+    display: none;
+}
+
+/* ========== SCREEN READER ========== */
+.navigationHelp{
+    display: none;
+}
+/* ========== BREADCRUMB ========== */
+nav#breadcrumb{
+    margin-bottom: 1cm;
+}
+/* ========== NAV ADMIN ========== */
+#menu-toggle-checkbox{
+    display: none;
+}
+nav#menu-admin #logo {
+    display: block;
+    content: url("../../assets/icons/print-logo.svg"); /*perche la stampa toglie tutti i background quindi lo mettiamo come contnuto*/
+    height: 7em;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 1em auto;
+}
+
+nav#menu-admin ul, nav#menu-admin button, nav#menu-admin span{
+    display: none;
+
+}
+
+
+
+/** ======= AREA PERSONALE ====== */
+
+div.generic-info-container {
+    display: flex;
+    gap: 1em;
+}
+
+ul#to-do-list p, ul#statistics-list p {
+    float: left;
+    margin-left: 0.5cm;
+}
+
+

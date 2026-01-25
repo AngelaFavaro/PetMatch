@@ -243,7 +243,7 @@ function buildAnimalCards(array $animali, ?string $email): string {
                     <p class='sesso-etaDesk'>$sesso - $eta anni</p>
                     <p class='sesso-etaMob'>$sessoAbbr - $eta anni</p>";
             }
-            if(isset($_SESSION['admin']) && $_SESSION['admin'] === 1) { //qui in generale tolto il cuore se admin (anche nel sito non è corretto che l'admin veda i preferiti)
+            if(!(isset($_SESSION['admin']) && $_SESSION['admin'] === true)) { //qui in generale tolto il cuore se admin (anche nel sito non è corretto che l'admin veda i preferiti)
                 $html.="
                         <div class='cuore'>
                             <form method='post' action='animali' class='preferiti-form'>
