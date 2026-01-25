@@ -49,9 +49,20 @@ $pagine = [
         'url' => './nuovo-animale',
         'parent' => 'home'
     ],
+    'modifica-animale' => [
+        // QUI VA CAMBIATO IL PARENT QUANDO SARA' PRONTA LA PAGINA DI DETTAGLIO
+        'label' => 'Modifica animale',
+        'url' => './modifica-animale', 
+        'parent' => 'area-riservata'  
+    ],
     'animali' => [
         'label' => 'Animali',
         'url' => './animali',
+        'parent' => 'home'
+    ],
+    'come-funziona' => [
+        'label' => 'Come Funziona',
+        'url' => './come-funziona',
         'parent' => 'home'
     ],
     'registrati' => [
@@ -82,7 +93,7 @@ $pagine = [
     'preferiti' => [
         'label' => 'Preferiti',
         'url' => './preferiti',
-        'parent' => 'home'
+        'parent' => 'animali'
     ],
     'lavora-con-noi' => [
         'label' => 'Lavora con noi',
@@ -119,6 +130,11 @@ $pagine = [
         'url' => './nuovo-evento',
         'parent' => 'eventi'
     ],
+    'assegnati-a-te' => [
+        'label' => 'Assegnati a te',
+        'url' => './assegnati-a-te',
+        'parent' => 'animali'
+    ],
     'modifica-evento' => [
         'label' => 'Modifica evento',
         'url' => './modifica-evento',
@@ -133,7 +149,7 @@ $adminMenu = [
         ['href' => './eventi', 'text' => 'Eventi'],
     ],
     'animali' => [
-        ['href' => './tuoi-animali', 'text' => 'Assegnati a te'],
+        ['href' => './assegnati-a-te', 'text' => 'Assegnati a te'],
         ['href' => './senza-amministratore', 'text' => 'Senza amministratore'],
         ['href' => './adottati', 'text' => 'Adottati'],
         ['href' => './nuove-accoglienze', 'text' => 'Nuove accoglienze'],
@@ -177,7 +193,6 @@ function loadTemplate(string $path, string $default = ''): string {
 
 
 function buildAdminNav(array $menuGroups, string $currentHref): string {
-    // Parte iniziale: Checkbox e Label (Hamburger)
     $html = '
     <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
     <label for="menu-toggle-checkbox" class="menu-toggle" aria-label="Apri o chiudi menu di navigazione">
@@ -185,10 +200,10 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
     
     <nav id="menu-admin" aria-label="Menù">
         <a class="navigationHelp" href="#content"> Salta il menù di navigazione</a>
-        <a href="./home">
-            <img src="./assets/icons/light-mode-logo.svg" id="logo" alt="Home" lang="en">
+        <a href="./home" id="logo-link">
+            <span id="logo" aria-label="Home"></span>
         </a>';
-        $html .= $currentHref==='./nuovo-animale' ? '<p class="orange-button" id="currentLink" href="./nuovo-animale">+ Aggiungi animale</p>' : '<a class="orange-button" href="./nuovo-animale">+ Aggiungi animale</a>';
+        $html .= $currentHref==='./nuovo-animale' ? '<p class="orange-button" id="currentLink" href="./nuovo-animale">+ Aggiungi animale</p>' : '<button class="orange-button" href="./nuovo-animale">+ Aggiungi animale</button>';
 
     foreach ($menuGroups as $key => $items) {
 
@@ -203,9 +218,6 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
         foreach ($items as $item) {
             $active = ($item['href'] === $currentHref) ? ' id="currentLink"' : '';
             $linkHref = ($item['href'] === $currentHref) ? '<li'.$active.' aria-label="pagina attuale:'.$item['text'].'">'.$item['text'].'</li>' : '<li'.$active.'><a href="'.$item['href'].'">'.$item['text'].'</a></li>';
-            
-            // In questa versione, anche il link corrente rimane cliccabile 
-            //ho sistemato - angelac
             $html .= $linkHref;
         }
         $html .= '</ul>';
@@ -441,7 +453,7 @@ function buildFooter(array $menuGroups, string $currentHref): string {
                         <ul class="footer-submenu">
                             <li class="social-media-links">
                                 <address>
-                                    <a id="insta-link" href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram">
+                                    <a rel="me" id="insta-link" href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram">
                                         <img src="./assets/icons/Instagram.svg" id="instagram" alt="">
                                         @petmatch_shelter
                                     </a>
@@ -649,7 +661,7 @@ function buildPagination(int $currentPage, int $totalPages, array|string $params
     // $params = array_filter($params, fn($v) => $v !== '');
 
 
-    if ($totalPages <= 1) return '<li class="currentLinkPagination">1</li>';
+    if ($totalPages <= 1) return '';
     unset($params['page']);
 
     $html = '';

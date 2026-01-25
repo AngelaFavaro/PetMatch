@@ -60,6 +60,10 @@ a.orange-button:hover{
     padding-right:1em;
 }
 
+div#admin-area .container{
+    padding: 0;
+}
+
 html, body {
     max-width: 100%;
     /* overflow-x: hidden; */
@@ -1617,14 +1621,18 @@ input:-webkit-autofill:active{
 
 /* FILTRI */
 #animali .filtri ul, #eventi .filtri ul, #richieste .filtri ul{
-    display: contents;
+    display: flex;
     list-style: none;
+    gap: 1em;
+    flex-wrap: wrap;
+    width: 100%;
+    /* justify-content: flex-end; */
 }
 
 #animali .filtri, #eventi .filtri, #richieste .filtri{
     display: flex;
     gap: 0.5em;
-    align-items: center;
+    justify-content: flex-end;
 }
 
 #animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro
@@ -1698,13 +1706,6 @@ input:-webkit-autofill:active{
     background-position: right 0em center;
 }
 
-#animali .filtri #searchSize.capsula-filtro {
-    max-width: fit-content;
-}
-
-#animali .filtri #searchSex.capsula-filtro {
-    max-width: fit-content;
-}
 
 #animali .filtri .capsula-filtro input::placeholder, #eventi .filtri .capsula-filtro input::placeholder {
     color: var(--placeholder-text);
@@ -1795,7 +1796,7 @@ input:-webkit-autofill:active{
 
 #animali #content-filter-button, #eventi #content-filter-button{
     display: flex;
-    margin:auto;
+    /* margin:auto; */
     gap:1em;
     height: fit-content;
 }
@@ -1823,6 +1824,7 @@ input:-webkit-autofill:active{
     flex-wrap: wrap;
     justify-content: left; 
     margin-top: 1em;
+    margin-bottom: 2em;
 }
 
 #animali .cards-container:has(.errore) {
@@ -1974,12 +1976,12 @@ input:-webkit-autofill:active{
     /* float: right; */
 }
 
-#animali .card .cuore {
+#animali .card .cuore, #animali .dark-card .cuore {
     display: flex;
     justify-content: end;
 }
 
-#animali .card .cuore .preferiti-form{
+#animali .card .cuore .preferiti-form, #animali .dark-card .cuore .preferiti-form{
     justify-content:end;
 }
 
@@ -2882,6 +2884,7 @@ input[type="file"]::file-selector-button:hover {
 .edit-mode form span,
 .edit-management form span,
 #form-add-animal .form-buttons-container,
+#form-edit-animal .form-buttons-container,
 #new-event .form-buttons-container{
     display: flex;
     flex-wrap: wrap;
@@ -2892,6 +2895,8 @@ input[type="file"]::file-selector-button:hover {
 .edit-mode form span button,
 .edit-management form span a,
 .edit-management form span button,
+#form-edit-animal button[name="submit-edit-animal"],
+#form-edit-animal a#cancel-edit-animal,
 #form-add-animal button[name="submit-animal"],
 #form-add-animal a#cancel-add-animal,
 #new-event button[name="submit-event"],
@@ -2908,6 +2913,7 @@ input[type="file"]::file-selector-button:hover {
 .edit-mode form span button,
 .edit-management form span button,
 #form-add-animal button[name="submit-animal"],
+#form-edit-animal button[name="submit-edit-animal"],
 #new-event button[name="submit-event"]{
     background-color: var(--buttoncolor);
     color:var(--text-buttoncolor);
@@ -2920,6 +2926,7 @@ input[type="file"]::file-selector-button:hover {
 .edit-mode form span a,
 .edit-management form span a,
 #form-add-animal a#cancel-add-animal,
+#form-edit-animal a#cancel-edit-animal,
 #new-event a#cancel-new-event{
     color:var(--text-buttoncolor);
     border:2px solid var(--buttoncolor);
@@ -2933,6 +2940,8 @@ input[type="file"]::file-selector-button:hover {
 .edit-management form span button:hover,
 #form-add-animal button[name="submit-animal"]:hover,
 #form-add-animal a#cancel-add-animal:hover,
+#form-edit-animal button[name="submit-edit-animal"]:hover,
+#form-edit-animal a#cancel-edit-animal:hover,
 #new-event button[name="submit-event"]:hover,
 #new-event a#cancel-new-event:hover
 {
@@ -3327,9 +3336,9 @@ body#admin-body #richieste .filtri button{
 
 body#admin-body #animali .filtri .capsula-filtro,
 body#admin-body #richieste .filtri .capsula-filtro{
-    margin-left: auto;
+    /* margin-left: auto; */
     margin-right: 0;
-    gap:0;
+    /* gap:0; */
     flex:0 0 fit-content;
 }
 
@@ -3351,7 +3360,7 @@ body#admin-body #breadcrumb{
 div#admin-area div#row2 article{
     margin-top:0em;
 }
-div#admin-area article {
+div#admin-area article:not(.card) { /*aggiunto il not(.card) perchè così visualizzo bene le card degli animali in "assegnati a te" di admin*/
   padding:1em 1em 1em 1em;
   border: 1px solid var(--txtcolor);
   border-radius:0.5em;
@@ -3430,7 +3439,16 @@ nav#menu-admin {
      font-size: 100%;
     /* height: 100vh; */
 }
-
+nav#menu-admin #logo{
+    display: block;
+    height: 7em;
+    margin: 1em auto;
+    max-width: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url("../../assets/icons/light-mode-logo.svg");
+}
 nav#menu-admin li a {
     width: 100%;
     display: block;
@@ -3440,15 +3458,6 @@ body#admin-body main {
     background-color: var(--bgcolor);
     margin-left:20%;
 }
-
-nav#menu-admin img {
-    display: block;
-    margin: 1em auto;
-    width: 12em;
-    max-width: 100%;
-    height: auto;
-}
-
 
 nav#menu-admin li {
   padding: 1.1em 1.3em;
@@ -3908,6 +3917,20 @@ td.col-dettagli a,td.col-dettagli button{
 tr:hover {
     background-color: var(--darkbgcolor);          
 }
+
+
+/*================== ANIMALI ASSEGNATI A TE ADMIN  ==================*/
+
+div#admin-area .container{
+    max-width: none;
+}
+div#admin-area .container#animali .filtri ul{
+    justify-content: normal;
+}
+/*================== SEGNALAZIONE NUOVE ACCOGLIENZE ADMIN  ==================*/
+div#admin-area #animali .filtri ul{
+    justify-content: flex-end;
+}
 /*================== FILTRI  ==================*/
 .tab-content .filtri ul{
     /* margin: 1em; */
@@ -3921,12 +3944,13 @@ tr:hover {
     display: inline;
 }
 
-/*==================NUOVO Animali==================*/
+/*==================NUOVO Animale==================*/
 
 /* ========================================
    CONTAINER PRINCIPALE
    ======================================== */
 #admin-area-aggiungi,
+#admin-area-modifica,
 #nuovo-evento {
     margin-top:-6em;
     display: flex;
@@ -3944,6 +3968,7 @@ tr:hover {
    FORM BASE
    ======================================== */
 #form-add-animal,
+#form-edit-animal,
 #new-event {
     background-color: var(--bgcolor);
     width: 95%;
@@ -3956,6 +3981,7 @@ tr:hover {
 }
 
 #form-add-animal fieldset,
+#form-edit-animal fieldset,
 #new-event fieldset {
     margin-bottom: 1em;
     border: none;
@@ -3963,6 +3989,7 @@ tr:hover {
 }
 
 #form-add-animal legend,
+#form-edit-animal legend,
 #new-event legend {
     float: left;
     width: 100%;
@@ -3972,7 +3999,8 @@ tr:hover {
     border-top:2px solid var(--darkbgcolor);
 }
 
-#form-add-animal fieldset:first-of-type legend{
+#form-add-animal fieldset:first-of-type legend,
+#form-edit-animal fieldset:first-of-type legend{
     margin-top:1.5em;
 }
 
@@ -4021,7 +4049,8 @@ tr:hover {
 /* ========================================
    RADIO BUTTONS - SESSO
    ======================================== */
-#form-add-animal p+p.sex-title {
+#form-add-animal,
+#form-edit-animal p+p.sex-title {
     font-weight: 550;
     /* display: inline-block; */
     margin-top: 1.5em;
@@ -4045,7 +4074,8 @@ tr:hover {
     transition: all 0.3s ease;
 }
 
-#form-add-animal label.sex-option{
+#form-add-animal,
+#form-edit-animal label.sex-option{
     margin:0;
 }
 
@@ -4053,8 +4083,10 @@ tr:hover {
    LABELS
    ======================================== */
 #form-add-animal label,
+#form-edit-animal label,
 #new-event label,
 #form-add-animal #label-foto,
+#form-edit-animal #label-foto,
 #new-event #label-foto{
     font-weight: 500;
     display: block;
@@ -4062,11 +4094,13 @@ tr:hover {
 }
 
 #form-add-animal label.file-upload-label,
+#form-edit-animal label.file-upload-label,
 #new-event label.file-upload-label{
     margin: 0;
 }
 
-#form-add-animal .checkbox-label input[type="checkbox"]{
+#form-add-animal .checkbox-label input[type="checkbox"],
+#form-edit-animal .checkbox-label input[type="checkbox"]{
     margin-left: 0.5em;
 }
 
@@ -4075,6 +4109,8 @@ tr:hover {
    ======================================== */
 #form-add-animal input[type="text"],
 #form-add-animal input[type="date"],
+#form-edit-animal input[type="text"],
+#form-edit-animal input[type="date"],
 #new-event input[type="text"],
 #new-event input[type="date"]{
     display: block;
@@ -4089,12 +4125,14 @@ tr:hover {
 }
 
 #form-add-animal input[type="text"],
+#form-edit-animal input[type="text"],
 #new-event input[type="text"]{
     padding: 0.55em;
     margin:0;
 }
 
 #form-add-animal input[type="date"],
+#form-edit-animal input[type="date"],
 #new-event input[type="date"] {
     margin:0;
     padding: 0.5em;
@@ -4111,7 +4149,10 @@ tr:hover {
 #new-event textarea::placeholder,
 #form-add-animal input::placeholder,
 #form-add-animal select::placeholder,
-#form-add-animal textarea::placeholder{
+#form-add-animal textarea::placeholder,
+#form-edit-animal input::placeholder,
+#form-edit-animal select::placeholder,
+#form-edit-animal textarea::placeholder{
     color:var(--placeholder-text);
     font-weight: lighter;
     font-size: 0.9em;
@@ -4120,7 +4161,8 @@ tr:hover {
 /* ========================================
    SELECT (TAGLIA E PELO)
    ======================================== */
-#form-add-animal select {
+#form-add-animal select,
+#form-edit-animal select {
     /* display: block;
     width: 100%;
     padding: 0.5em;
@@ -4149,6 +4191,7 @@ tr:hover {
    TEXTAREA
    ======================================== */
 #form-add-animal textarea,
+#form-edit-animal textarea,
 #new-event textarea {
     display: block;
     width: 100%;
@@ -4264,6 +4307,16 @@ tr:hover {
     padding: 0.4em 1em 0.5em 1em;
     border-radius: 0.5em;
     text-align: center;
+}
+
+.disabled-group {
+    opacity: 0.6;
+    pointer-events: none; /* Impedisce click accidentali */
+    cursor: not-allowed;
+}
+
+.disabled-group .radio-card {
+    border-style: dashed; /* Rende visivamente diverso il bordo */
 }
 
 /* .checkbox-label input[type="checkbox"] {
@@ -4481,6 +4534,14 @@ nav#breadcrumb a:visited{
     margin: auto;
 }
 
+#team-img img{      /*qui potrebbe non esserci me lo dava come mio cambiamento ma mai toccato*/
+    width: 100%;
+    flex:0 1 30%;
+    height: auto;
+    max-height: 15em;
+    padding: 0;
+} 
+
 #ModifiedMode{
     display: none;
 }
@@ -4531,4 +4592,225 @@ nav#breadcrumb a:visited{
 #createMore-container label{
     font-weight: normal;
     margin-top: 0;
+}
+
+/* PAGINA COME FUNZIONA */
+#come-funziona .testo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex:1 1 75%;
+    gap: 0.4em;
+}
+
+#come-funziona .testo a {
+    color: var(--txtcolor);
+}
+
+#come-funziona .testo address{
+    display: contents;
+}
+
+#come-funziona .testo address a{
+    display: contents;
+}
+
+#come-funziona .colonne {
+    display: flex;
+    align-items: stretch;
+    gap: 0.2em;
+    /* object-fit: cover; */
+}
+
+#come-funziona h2{
+    margin-bottom: 0.3em;
+}
+
+#come-funziona #comeFunziona img {
+    flex: 1 1 30%;
+    object-fit:fill;
+    height: 20em;
+    align-self: center;
+    margin-bottom: 0em;
+}
+
+#come-funziona .enlight {
+    font-weight: bold;
+}
+
+#come-funziona #comeSiAdotta {
+    position: relative;
+    background-color: var(--footercolor);
+    border-top-right-radius: 1.5em;
+    border-top-left-radius: 1.5em;
+    z-index: 0;
+    color: var(--bgcolor);
+    padding: 2em;
+    padding-right: 3em;
+    margin-top: 1.5em;
+}
+
+#come-funziona #comeSiAdotta .testo {
+    text-align: right;
+    /* margin: 2em; */
+    margin-left: 0;
+    flex: 1 1 70%;
+    justify-content: flex-start;
+}
+
+#come-funziona #comeSiAdotta .testo a{
+    color: var(--linkcolor);
+    /* z-index: ; */
+}
+
+#come-funziona #comeSiAdotta .testo ul {
+    text-align: left;
+}
+
+#come-funziona #comeSiAdotta #immagini {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 30%;
+    object-fit: contain;
+}
+
+#come-funziona #comeSiAdotta #immagini img{
+    flex: 1 1 50%;
+    /* height: 10em; */
+    /* object-fit: cover; */
+    position: relative;
+    border-radius: 1em;
+
+    max-width: 70%;
+  max-height: 50%;
+  height: auto;
+  width: auto;
+  object-fit: contain;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+}
+
+#come-funziona #comeSiAdotta #immagini img#dog{
+    /* justify-self: center; */
+    align-self: end;
+    /* transform: rotate(5deg); */
+    bottom: 0.5em;
+    right: 2em;
+    /* max-width: 10em; */
+    z-index: 0;
+    margin-bottom: 10%;
+}
+#come-funziona #comeSiAdotta #immagini img#cat{
+    /* transform: rotate(-10deg); */
+    top: 0.5em;
+    /* left: 3em; */
+    z-index: 1;
+    margin-top: 10%;
+}
+
+#come-funziona #comeSiAdotta #paws-containter {
+    position: relative;
+}
+
+#come-funziona #comeSiAdotta #paws-containter img {
+    transform: rotate(-140deg);
+    position: absolute;
+    height: 4em;
+    width: 4em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw1 {
+    top: 2em;
+    right: 2em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw2 {
+    top: 3em;
+    right: 12em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw3 {
+    top: 9em;
+    right: 8em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw4 {
+    top: 9em;
+    right: 20em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw5 {
+    top: 15em;
+    right: 15em;
+}
+
+#come-funziona #provAnimali {
+    margin-top: 8em;
+}
+
+#come-funziona #provAnimali a {
+    color: var(--txtcolor);
+    text-decoration: underline;
+}
+
+#come-funziona #invitoLavoro {
+    margin-top: 3em;
+    background-color: var(--bgform);
+    display: flex;
+    color: var(--bgcolor);
+    padding-top: 3em;
+    padding-left: 5em;
+    padding-right: 5em;
+    padding-bottom: 2em;
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+}
+
+#come-funziona #invitoLavoro h2{
+    font-size: 2em;
+    line-height: 1.5em;
+}
+
+#come-funziona #invitoLavoro .testo{
+    margin-right: 6em;
+}
+
+
+#come-funziona #invitoLavoro a.brown-button{
+    color: var(--linkcolor);
+    margin-left: 0;
+    width: 100%;
+}
+
+#come-funziona #invitoLavoro #quote-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#come-funziona #invitoLavoro #quote-container blockquote img.quote {
+    height: 3em;
+    width: 3em;
+}
+
+#come-funziona #invitoLavoro #quote-container p {
+    margin-left: 3em;
+    font-style: italic;
+}
+
+#come-funziona #invitoLavoro #quote-container blockquote img.quote#finishing-quote {
+    justify-self: end;
+    align-self: flex-end;
+}
+
+#come-funziona #invitoLavoro #quote-container blockquote {
+    display: flex;
+    flex-direction: column;
+}
+
+#come-funziona #invitoLavoro blockquote cite{
+    align-self: flex-end;
+    flex: 1 1 20%;
+    min-width: 1em;
+    padding-top: 2em;
 }

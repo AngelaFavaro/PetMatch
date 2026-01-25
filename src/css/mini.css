@@ -534,7 +534,7 @@ div#row2{
     gap:0em;
 }
 
-div#admin-area article {
+div#admin-area article:not(.card) {
   padding:1em;
   width: 100%;
 }
@@ -589,6 +589,7 @@ div#admin-area article#query h2{
 }
 
 #form-add-animal,
+#form-edit-animal,
 #new-event {
     background-color: var(--bgcolor);
     width: 100%;
@@ -600,7 +601,9 @@ div#admin-area article#query h2{
 }
 
 #form-add-animal .column-container, 
-#form-add-animal .column-user {
+#form-add-animal .column-user,
+#form-edit-animal .column-container, 
+#form-edit-animal .column-user {
     display: flex;
     flex-direction: column; 
     gap: 0; 
@@ -609,6 +612,7 @@ div#admin-area article#query h2{
 }
 
 #form-add-animal fieldset,
+#form-edit-animal fieldset,
 #new-event fieldset {
     margin-bottom: 1.5em;
     border: none;
@@ -617,21 +621,28 @@ div#admin-area article#query h2{
 }
 
 #form-add-animal .form-group, 
-#form-add-animal .column-user > div {
+#form-add-animal .column-user > div,
+#form-edit-animal .form-group,      
+#form-edit-animal .column-user > div {
     display: flex;
     flex-direction: column;
     margin-bottom: 1em; 
     width: 100%;
 }
 
-#form-add-animal label{
+#form-add-animal label,
+#form-edit-animal label{
     margin-top:0.8em;
 }
 
 #form-add-animal input[type="text"],
 #form-add-animal input[type="date"],
 #form-add-animal select,
-#form-add-animal textarea {
+#form-add-animal textarea,
+#form-edit-animal input[type="text"], 
+#form-edit-animal input[type="date"], 
+#form-edit-animal select,             
+#form-edit-animal textarea {
     width: 100%;
     padding: 0.6em 0.5em;
     font-size: 1em; 
@@ -641,23 +652,25 @@ div#admin-area article#query h2{
 
 #form-add-animal input[type="text"],
 #form-add-animal input[type="date"],
-#form-add-animal textarea{
+#form-add-animal textarea,
+#form-edit-animal input[type="text"], 
+#form-edit-animal input[type="date"], 
+#form-edit-animal textarea{
     border-radius: 0.2em;
 }
 
-#form-add-animal select{
+#form-add-animal select,
+#form-edit-animal select{
     border-radius: 2em;
 }
 
-#form-add-animal .radio-group-cg {
-    gap: 0;
+#form-add-animal .radio-group-cg,
+#form-edit-animal .radio-group-cg {
+    gap: 0.3em;
 }
 
-#form-add-animal .radio-group-cg label{
-    margin:0;
-}
-
-#form-add-animal .radio-card {
+#form-add-animal .radio-card,
+#form-edit-animal .radio-card {
     width: 100%;
     padding: 0.7em;
     box-sizing: border-box;
@@ -665,6 +678,8 @@ div#admin-area article#query h2{
 
 #form-add-animal button[name="submit-animal"],
 #form-add-animal a#cancel-add-animal,
+#form-edit-animal button[name="submit-edit-animal"], /* AGGIUNTO */
+#form-edit-animal a#cancel-edit-animal,
 #new-event button[name="submit-event"],
 #new-event a#cancel-new-event{
     width: 100%;
@@ -674,11 +689,13 @@ div#admin-area article#query h2{
 }
 
 #form-add-animal a#cancel-add-animal,
+#form-edit-animal a#cancel-edit-animal,
 #new-event a#cancel-new-event{
     margin-bottom:1em;
 }
 
 #form-add-animal .form-buttons-container,
+#form-edit-animal .form-buttons-container,
 #new-event .form-buttons-container{
     display: block;
 }
@@ -852,6 +869,25 @@ body#lavora-con-noi {
     padding:0.3em;
 }
 
+
+
+/* PAGINA COME FUNZIONA */
+
+#come-funziona #comeFunziona img {
+    display: none;
+}
+
+#come-funziona #comeSiAdotta #immagini img#cat{
+    display: none;
+}
+
+#come-funziona #comeSiAdotta #immagini img#dog{
+    display: none;
+}
+
+#come-funziona #comeSiAdotta #immagini{
+    display: none;
+}
 /* ================== CHECKBOX ==================*/
 
 
