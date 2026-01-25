@@ -39,6 +39,12 @@ $pagine = [
         'url' => './nuovo-animale',
         'parent' => 'home'
     ],
+    'modifica-animale' => [
+        // QUI VA CAMBIATO IL PARENT QUANDO SARA' PRONTA LA PAGINA DI DETTAGLIO
+        'label' => 'Modifica animale',
+        'url' => './modifica-animale', 
+        'parent' => 'area-riservata'  
+    ],
     'animali' => [
         'label' => 'Animali',
         'url' => './animali',

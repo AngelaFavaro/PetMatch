@@ -2871,6 +2871,7 @@ input[type="file"]::file-selector-button:hover {
 .edit-mode form span,
 .edit-management form span,
 #form-add-animal .form-buttons-container,
+#form-edit-animal .form-buttons-container,
 #new-event .form-buttons-container{
     display: flex;
     flex-wrap: wrap;
@@ -2881,6 +2882,8 @@ input[type="file"]::file-selector-button:hover {
 .edit-mode form span button,
 .edit-management form span a,
 .edit-management form span button,
+#form-edit-animal button[name="submit-edit-animal"],
+#form-edit-animal a#cancel-edit-animal,
 #form-add-animal button[name="submit-animal"],
 #form-add-animal a#cancel-add-animal,
 #new-event button[name="submit-event"],
@@ -2897,6 +2900,7 @@ input[type="file"]::file-selector-button:hover {
 .edit-mode form span button,
 .edit-management form span button,
 #form-add-animal button[name="submit-animal"],
+#form-edit-animal button[name="submit-edit-animal"],
 #new-event button[name="submit-event"]{
     background-color: var(--buttoncolor);
     color:var(--text-buttoncolor);
@@ -2909,6 +2913,7 @@ input[type="file"]::file-selector-button:hover {
 .edit-mode form span a,
 .edit-management form span a,
 #form-add-animal a#cancel-add-animal,
+#form-edit-animal a#cancel-edit-animal,
 #new-event a#cancel-new-event{
     color:var(--text-buttoncolor);
     border:2px solid var(--buttoncolor);
@@ -2922,6 +2927,8 @@ input[type="file"]::file-selector-button:hover {
 .edit-management form span button:hover,
 #form-add-animal button[name="submit-animal"]:hover,
 #form-add-animal a#cancel-add-animal:hover,
+#form-edit-animal button[name="submit-edit-animal"]:hover,
+#form-edit-animal a#cancel-edit-animal:hover,
 #new-event button[name="submit-event"]:hover,
 #new-event a#cancel-new-event:hover
 {
@@ -3910,12 +3917,13 @@ tr:hover {
     display: inline;
 }
 
-/*==================NUOVO Animali==================*/
+/*==================NUOVO Animale==================*/
 
 /* ========================================
    CONTAINER PRINCIPALE
    ======================================== */
 #admin-area-aggiungi,
+#admin-area-modifica,
 #nuovo-evento {
     margin-top:-6em;
     display: flex;
@@ -3933,6 +3941,7 @@ tr:hover {
    FORM BASE
    ======================================== */
 #form-add-animal,
+#form-edit-animal,
 #new-event {
     background-color: var(--bgcolor);
     width: 95%;
@@ -3945,6 +3954,7 @@ tr:hover {
 }
 
 #form-add-animal fieldset,
+#form-edit-animal fieldset,
 #new-event fieldset {
     margin-bottom: 1em;
     border: none;
@@ -3952,6 +3962,7 @@ tr:hover {
 }
 
 #form-add-animal legend,
+#form-edit-animal legend,
 #new-event legend {
     float: left;
     width: 100%;
@@ -3961,7 +3972,8 @@ tr:hover {
     border-top:2px solid var(--darkbgcolor);
 }
 
-#form-add-animal fieldset:first-of-type legend{
+#form-add-animal fieldset:first-of-type legend,
+#form-edit-animal fieldset:first-of-type legend{
     margin-top:1.5em;
 }
 
@@ -4010,7 +4022,8 @@ tr:hover {
 /* ========================================
    RADIO BUTTONS - SESSO
    ======================================== */
-#form-add-animal p+p.sex-title {
+#form-add-animal,
+#form-edit-animal p+p.sex-title {
     font-weight: 550;
     /* display: inline-block; */
     margin-top: 1.5em;
@@ -4034,7 +4047,8 @@ tr:hover {
     transition: all 0.3s ease;
 }
 
-#form-add-animal label.sex-option{
+#form-add-animal,
+#form-edit-animal label.sex-option{
     margin:0;
 }
 
@@ -4042,24 +4056,29 @@ tr:hover {
    LABELS
    ======================================== */
 #form-add-animal label,
+#form-edit-animal label,
 #new-event label,
 #form-add-animal #label-foto,
+#form-edit-animal #label-foto,
 #new-event #label-foto{
     font-weight: 500;
     display: block;
     margin: 1.5em 0 0 0;
 }
 
-#form-add-animal #div-carattere label{
+#form-add-animal,
+#form-edit-animal #div-carattere label{
     margin:0;
 }
 
 #form-add-animal label.file-upload-label,
+#form-edit-animal label.file-upload-label,
 #new-event label.file-upload-label{
     margin: 0;
 }
 
-#form-add-animal .checkbox-label input[type="checkbox"]{
+#form-add-animal .checkbox-label input[type="checkbox"],
+#form-edit-animal .checkbox-label input[type="checkbox"]{
     margin-left: 0.5em;
 }
 
@@ -4068,6 +4087,8 @@ tr:hover {
    ======================================== */
 #form-add-animal input[type="text"],
 #form-add-animal input[type="date"],
+#form-edit-animal input[type="text"],
+#form-edit-animal input[type="date"],
 #new-event input[type="text"],
 #new-event input[type="date"]{
     display: block;
@@ -4082,12 +4103,14 @@ tr:hover {
 }
 
 #form-add-animal input[type="text"],
+#form-edit-animal input[type="text"],
 #new-event input[type="text"]{
     padding: 0.55em;
     margin:0;
 }
 
 #form-add-animal input[type="date"],
+#form-edit-animal input[type="date"],
 #new-event input[type="date"] {
     margin:0;
     padding: 0.5em;
@@ -4104,7 +4127,10 @@ tr:hover {
 #new-event textarea::placeholder,
 #form-add-animal input::placeholder,
 #form-add-animal select::placeholder,
-#form-add-animal textarea::placeholder{
+#form-add-animal textarea::placeholder,
+#form-edit-animal input::placeholder,
+#form-edit-animal select::placeholder,
+#form-edit-animal textarea::placeholder{
     color:var(--placeholder-text);
     font-weight: lighter;
     font-size: 0.9em;
@@ -4113,7 +4139,8 @@ tr:hover {
 /* ========================================
    SELECT (TAGLIA E PELO)
    ======================================== */
-#form-add-animal select {
+#form-add-animal select,
+#form-edit-animal select {
     /* display: block;
     width: 100%;
     padding: 0.5em;
@@ -4140,6 +4167,7 @@ tr:hover {
    TEXTAREA
    ======================================== */
 #form-add-animal textarea,
+#form-edit-animal textarea,
 #new-event textarea {
     display: block;
     height: 9em;
@@ -4249,6 +4277,16 @@ tr:hover {
     padding: 0.4em 1em 0.5em 1em;
     border-radius: 0.5em;
     text-align: center;
+}
+
+.disabled-group {
+    opacity: 0.6;
+    pointer-events: none; /* Impedisce click accidentali */
+    cursor: not-allowed;
+}
+
+.disabled-group .radio-card {
+    border-style: dashed; /* Rende visivamente diverso il bordo */
 }
 
 /* .checkbox-label input[type="checkbox"] {
