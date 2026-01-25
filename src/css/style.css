@@ -156,6 +156,7 @@
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%481515" d="M7 10l5 5 5-5z"/></svg>');
 }
 
+
 a{
     color: var(--linkcolor);
     font-weight: 600;
@@ -180,6 +181,11 @@ a.orange-button:hover{
     margin: auto;
     padding-left:1em;
     padding-right:1em;
+}
+
+
+div#admin-area .container{
+    padding: 0;
 }
 
 html, body {
@@ -635,6 +641,7 @@ li.capsula-filtro input:focus{
 }
 
 
+
 /* ==================LAVORA CON NOI ================== */
 
 
@@ -759,6 +766,8 @@ li.capsula-filtro input:focus{
     background-color: var(--bgcolor);
     color:var(--txtcolor);
 }
+
+
 
 #layout-user #currentLink{
     font-weight: 600;
@@ -930,6 +939,8 @@ header a{
     transition: 0.4s;
     background-color: var(--bgcolor);
 }
+
+
 
 
 
@@ -4139,7 +4150,8 @@ caption {
 
 td.col-dettagli a,td.col-dettagli button{
     margin: 0.5em;
-    width: 11em;
+    width: fit-content;
+    min-width: 10.5em;
 }
 
 #admin-area #animali tbody .orange-button[name="elimina_segnalazione"]{
@@ -4790,7 +4802,462 @@ nav#breadcrumb a:visited{
 #createMore-container label{
     font-weight: normal;
     margin-top: 0;
-ar(--headervisitedlink);
+}
+
+
+
+
+
+/* PAGINA COME FUNZIONA */
+#come-funziona .testo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex:1 1 75%;
+    gap: 0.4em;
+}
+
+#come-funziona .testo a {
+    color: var(--txtcolor);
+}
+
+#come-funziona .testo address{
+    display: contents;
+}
+
+#come-funziona .testo address a{
+    display: contents;
+}
+
+#come-funziona .colonne {
+    display: flex;
+    align-items: stretch;
+    gap: 0.2em;
+    /* object-fit: cover; */
+}
+
+#come-funziona h2{
+    margin-bottom: 0.3em;
+}
+
+#come-funziona #comeFunziona img {
+    flex: 1 1 30%;
+    object-fit:fill;
+    height: 20em;
+    align-self: center;
+    margin-bottom: 0em;
+}
+
+#come-funziona .enlight {
+    font-weight: bold;
+}
+
+#come-funziona #comeSiAdotta {
+    position: relative;
+    background-color: var(--footercolor);
+    border-top-right-radius: 1.5em;
+    border-top-left-radius: 1.5em;
+    z-index: 0;
+    color: var(--bgcolor);
+    padding: 2em;
+    padding-right: 3em;
+    margin-top: 1.5em;
+}
+
+#come-funziona #comeSiAdotta .testo {
+    text-align: right;
+    /* margin: 2em; */
+    margin-left: 0;
+    flex: 1 1 70%;
+    justify-content: flex-start;
+}
+
+#come-funziona #comeSiAdotta .testo a{
+    color: var(--linkcolor);
+    /* z-index: ; */
+}
+
+#come-funziona #comeSiAdotta .testo ul {
+    text-align: left;
+}
+
+#come-funziona #comeSiAdotta #immagini {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 30%;
+    object-fit: contain;
+}
+
+#come-funziona #comeSiAdotta #immagini img{
+    flex: 1 1 50%;
+    /* height: 10em; */
+    /* object-fit: cover; */
+    position: relative;
+    border-radius: 1em;
+
+    max-width: 70%;
+  max-height: 50%;
+  height: auto;
+  width: auto;
+  object-fit: contain;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+}
+
+#come-funziona #comeSiAdotta #immagini img#dog{
+    /* justify-self: center; */
+    align-self: end;
+    /* transform: rotate(5deg); */
+    bottom: 0.5em;
+    right: 2em;
+    /* max-width: 10em; */
+    z-index: 0;
+    margin-bottom: 10%;
+}
+#come-funziona #comeSiAdotta #immagini img#cat{
+    /* transform: rotate(-10deg); */
+    top: 0.5em;
+    /* left: 3em; */
+    z-index: 1;
+    margin-top: 10%;
+}
+
+#come-funziona #comeSiAdotta #paws-containter {
+    position: relative;
+}
+
+#come-funziona #comeSiAdotta #paws-containter img {
+    transform: rotate(-140deg);
+    position: absolute;
+    height: 3.5em;
+    width: 3.5em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw1 {
+    top: 2em;
+    right: 2em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw2 {
+    top: 3em;
+    right: 12em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw3 {
+    top: 9em;
+    right: 8em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw4 {
+    top: 9em;
+    right: 20em;
+}
+
+#come-funziona #provAnimali {
+    margin-top: 4em;
+}
+
+#come-funziona #provAnimali a {
+    color: var(--txtcolor);
+    text-decoration: underline;
+}
+
+#come-funziona #invitoLavoro {
+    margin-top: 3em;
+    background-color: var(--bgform);
+    display: flex;
+    color: var(--bgcolor);
+    padding-top: 3em;
+    padding-left: 5em;
+    padding-right: 5em;
+    padding-bottom: 2em;
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+}
+
+#come-funziona #invitoLavoro h2{
+    line-height: 1.5em;
+}
+
+#provAnimali p{
+    margin-bottom: 1em;
+}
+
+#come-funziona #invitoLavoro .testo{
+    margin-right: 6em;
+}
+
+
+#come-funziona #invitoLavoro a.brown-button{
+    color: var(--linkcolor);
+    margin-left: 0;
+    width: 100%;
+}
+
+#come-funziona #invitoLavoro #quote-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#come-funziona #invitoLavoro #quote-container blockquote img.quote {
+    height: 3em;
+    width: 3em;
+}
+
+#come-funziona #invitoLavoro #quote-container p {
+    margin-left: 3em;
+    font-style: italic;
+}
+
+#come-funziona #invitoLavoro #quote-container blockquote img.quote#finishing-quote {
+    justify-self: end;
+    align-self: flex-end;
+}
+
+#come-funziona #invitoLavoro #quote-container blockquote {
+    display: flex;
+    flex-direction: column;
+}
+
+#come-funziona #invitoLavoro blockquote cite{
+    align-self: flex-end;
+    flex: 1 1 20%;
+    min-width: 1em;
+    padding-top: 2em;
+}
+
+
+/* ========================================
+   MESSAGGI DI ERRORE
+   ======================================== */
+.error-form {
+    color: var(--errortxt);
+    font-size: 0.9em;
+    margin-top: 5px;
+    font-weight: 600;
+    display: block;
+}
+/*================ PROFILO RICHIEDENTE ==================*/
+#profilo-richiedente{
+    height: 100vh;
+    margin-top:2em;
+}
+
+#profilo-richiedente h1{
+    font-size: 2em;
+    margin-bottom:1em;
+}
+
+#profilo-richiedente h2{
+    font-size: 1.5em;
+}
+
+#profilo-richiedente{
+    padding:0 5em;
+}
+
+#profilo-richiedente .column-container{
+    padding:0;
+    max-width: none;
+}
+
+#profilo-richiedente .column-container article{
+    border:1px solid var(--txtcolor);
+    border-radius: 0.5em;
+    padding:1em;
+}
+
+#profilo-richiedente .column-container article:first-of-type{
+    flex: 1 1 60%;
+}
+
+#profilo-richiedente .column-container article:last-of-type{
+    flex: 1 1 35%;
+}
+
+#profilo-richiedente #visualizza-richiedente dt{
+    float: left;
+    margin-right: 0.5em;
+    font-weight: 600;
+}
+
+#profilo-richiedente #visualizza-richiedente dd{
+    margin-bottom: 0.5em;
+}
+
+#profilo-richiedente #visualizza-richiedente img.circle-foto{
+    margin:2em auto;
+}
+
+#profilo-richiedente .tabs-container .tab-content{
+    display: none;
+}
+
+#profilo-richiedente:has(option[value="tab1"]:checked) .tab-content:nth-of-type(1),
+#profilo-richiedente:has(option[value="tab2"]:checked) .tab-content:nth-of-type(2),
+#profilo-richiedente:has(option[value="tab3"]:checked) .tab-content:nth-of-type(3),
+#profilo-richiedente:has(option[value="tab4"]:checked) .tab-content:nth-of-type(4),
+#profilo-richiedente:has(option[value="tab5"]:checked) .tab-content:nth-of-type(5),
+#profilo-richiedente:has(option[value="tab6"]:checked) .tab-content:nth-of-type(6) {
+    display: block;
+}
+
+#profilo-richiedente .tabs-container select{
+    margin:1em 0;
+    float: right;
+    border: 2px solid var(--buttoncolor);
+    background-color: var(--buttoncolor);
+    font-weight: 550;
+}
+
+#profilo-richiedente .tabs-container option{
+    background-color: var(--bgcolor);
+}
+
+
+#profilo-richiedente .tabs-container legend{
+    font-size: 1.5em;
+    font-weight: bold;
+    padding:0;
+    font-family: "Parkinsans", Roboto, sans-serif;
+    text-align: left;
+}
+
+#profilo-richiedente .tabs-container li{
+    list-style: none;
+}
+
+.no-visible{
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+#profilo-richiedente .tabs-container li article p+a{
+    padding: 3px 1.3em;
+}
+
+#profilo-richiedente .tabs-container li article{
+    border: none;
+    padding:0;
+}
+
+#profilo-richiedente .column-container .tabs-container li article p:first-of-type{
+    flex:1 1 50%;
+}
+
+
+/*================NAVIGATION HELP ==================*/
+
+.navigationHelp {
+	position: absolute;
+	text-indent: -999em;
+}
+
+.navigationHelp:focus{
+	position: static;
+	text-indent: 0em;
+}
+
+#menu a:link, .navigationHelp:link {
+	color: var(--linkcolor);
+}
+
+#menu a:visited, .navigationHelp:visited{
+	color: var(--visitedcolor);
+}
+
+
+
+
+/* ================== BREADCRUMB==================*/
+nav#breadcrumb{
+    margin: 0.5em auto 2em auto ;
+    display: block;
+    text-align: center;
+    width: fit-content;
+    background-color: var(--footercolor);
+    color: var(--light-txtcolor);
+    padding: 0.7em 1.5em;
+    border-radius: 1em;
+    font-weight: 400;
+    position: relative;
+    z-index: 10;
+    /* transition: background-color 0.4s ease; */
+}
+
+nav#breadcrumb a{
+    color: var(--linkcolor);
+    font-weight: 600;
+}
+
+
+nav#breadcrumb a:visited{
+    color: var(--visitedcolor);
+}
+
+/* ================== NUOVO EVENTO ==================*/
+#new-event .split-input{
+    display: flex;
+    flex-wrap:wrap;
+    width: 100%;
+    gap: 1em;
+    margin: auto;
+}
+
+#ModifiedMode{
+    display: none;
+}
+
+#new-event .split-input div{
+    flex: 1 1 48%;
+}
+
+#new-event .split-input div label{
+    margin:0;
+}
+
+.conteggio-testo {
+    text-align: right;
+    display: block;
+    font-size: 0.85rem; 
+    color: var(--placeholderDarker-text);       
+    margin-top: 5px;
+}
+
+#nuovo-evento {
+    padding-bottom: 5em;
+}
+
+.labelledby-element{
+    position: absolute;
+    left:-999em;
+}
+
+#new-event .split-input:nth-of-type(2) label{
+    margin: 0;
+}
+
+#new-event #help-counter-evento + p.error-form{
+    margin-top:-0.5em;
+    margin-bottom:1.5em;
+}
+
+#foto-container{
+    padding-bottom: 1.5em;
+}
+
+#createMore-container{
+    text-align: right;
+    border-top:2px solid var(--darkbgcolor);
+}
+
+/* #createMore-container label{
+    font-weight: normal;
+    margin-top: 0;
+    border:1px solid var(--headervisitedlink);
     color: var(--bgcolor);
 } */
 
