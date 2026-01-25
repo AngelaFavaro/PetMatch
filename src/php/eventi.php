@@ -4,28 +4,51 @@ include './src/DBconnection.php';
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
 use DB\DBAccess;
+$isAdmin=0;
+$action='eventi';
+if (defined('ADMIN_EVENTI')) {
+    $isAdmin=1;
+}
+if($isAdmin) {
+    session_start();
+    $action='visualizzazione-eventi';
+}
 
-$isAdmin = (isset($_SESSION['admin']) && $_SESSION['admin'] === true);
+$url=$isAdmin?'visualizzazione-eventi':'eventi'; 
 
-function buildFilterNav(string $filtro): string {
+function buildFilterNav(array $filters): string {
+    $types = [
+        'prossimi' => 'Prossimi eventi',
+        'terminati' => 'Eventi terminati'
+    ];
 
-    $html = '
-        <nav id="nav-event-type">
-            <ul aria-label=\'Filtri sulla tipologia\'>';
-                $html .= $filtro==='prossimi'?'<li class="currentType">':'<li>';
-                $html .= $filtro==='terminati'?'<a href="./eventi?tipo='.urlencode('prossimi').'">':'';
-                $html .='Prossimi eventi'; 
-                $html .= $filtro==='terminati'?'</a></li><li class="currentType">':'</li><li>';
-                $html .= $filtro==='prossimi'?'<a href="./eventi?tipo='.urlencode('terminati').'">':'';
-                $html .='Eventi terminati'; 
-                $html .= $filtro==='prossimi'?'</a>':'';
-                $html .= '</li>
-            </ul>
-        </nav>';
+    $html = '<nav id="nav-event-type">
+                <ul aria-label="Filtri sulla tipologia">';
+
+    foreach ($types as $tipo => $label) {
+        // Creiamo una copia dei filtri e aggiorniamo solo 'tipo'
+        $queryFilters = $filters;
+        $queryFilters['tipo'] = $tipo;
+
+        // Creiamo la query string
+        $queryString = http_build_query($queryFilters);
+
+        // Se il tipo corrente è selezionato, aggiungiamo solo la classe senza link
+        if (($filters['tipo'] ?? 'prossimi') === $tipo) {
+            $html .= "<li class='currentType'>{$label}</li>";
+        } else {
+            $html .= "<li><a href='./visualizzazione-eventi?{$queryString}'>{$label}</a></li>";
+        }
+    }
+
+    $html .= '    </ul>
+            </nav>';
+
     return $html;
 }
+
+
 
 
 function buildEventsCards($events, $filtro): string {
@@ -89,13 +112,22 @@ $pagina = max(1, (int)($_GET['page'] ?? 1));
 $offset = ($pagina - 1) * $perPagina;
 
 $eventi='';
+$typefilter=$isAdmin? "<input type='hidden' name='tipo' value='[TYPE]'>" : '';
+
+
+$rawfilters= [
+    'search'   => $_GET['search']    ?? '',
+    'data_inizio'       => $_GET['data_inizio'] ?? '',
+    'data_fine'       => $_GET['data_fine'] ?? '',
+    'tipo'       => $_GET['tipo']?? 'prossimi'
+    ];
 
 $filtersPerTitle = [
     'search'   => $_GET['search']    ?? '',
     'data_inizio'       => $_GET['data_inizio'] ?? '',
     'data_fine'       => $_GET['data_fine'] ?? '',
     'citta'       => '',
-    'tipo'       => $_GET['tipo']?? 'tutti'
+    'tipo'       => $_GET['tipo']?? 'prossimi'
     ];
     
 $filtersPercity = [
@@ -103,7 +135,7 @@ $filtersPercity = [
     'data_inizio'       => $_GET['data_inizio'] ?? '',
     'data_fine'       => $_GET['data_fine'] ?? '',
     'citta'       => $_GET['search'] ?? '',
-    'tipo'       => $_GET['tipo']?? 'tutti'
+    'tipo'       => $_GET['tipo']?? 'prossimi'
 ];
 
 $replaceFilters = [ //DA CAMBIARE
@@ -111,7 +143,7 @@ $replaceFilters = [ //DA CAMBIARE
     '[DATA_INIZIO]' => htmlspecialchars($filtersPerTitle['data_inizio']),
     '[DATA_FINE]' => htmlspecialchars($filtersPerTitle['data_fine']),
 
-    '[TYPE]' => htmlspecialchars($_GET['tipo']?? 'tutti')
+    '[TYPE]' => htmlspecialchars($_GET['tipo']?? 'terminati')
 ];
 
 $userEmail = $_SESSION['email'] ?? null;
@@ -123,6 +155,15 @@ if($filtersPerTitle['search']||$filtersPerTitle['data_inizio']||$filtersPerTitle
     $cancelFiltriId="cancel-filter-visible";
 } else {
     $cancelFiltriId="cancel-filter-invisible";
+}
+
+
+$filtro = 'terminati';
+if($isAdmin){
+    $filtro = isset($_GET['tipo'])?$_GET['tipo'] : 'prossimi';
+    $navEvent = buildFilterNav($rawfilters);
+    $filtersPercity=array_merge($filtersPercity, ['tipo' => $filtro]);
+    $filtersPerTitle=array_merge($filtersPerTitle, ['tipo' => $filtro]);
 }
 
 // DB CONNECTION
@@ -140,11 +181,7 @@ if ($connessione->openDBConnection()) {
 
 $pagineTotali = max(1, ceil($totale / $perPagina));
 
-$filtro = 'tutti';
-if($isAdmin){
-    $filtro = isset($_GET['tipo'])?$_GET['tipo'] : 'prossimi';
-    $navEvent = buildFilterNav($filtro);
-}
+
 
 $eventiCards= $eventi ? buildEventsCards($eventi, $filtro) : "<p class='errore'>Per ora non ci sono eventi in programma. Torna a controllare tra qualche giorno!</p>";
 $linkPagine=buildPagination($pagina, $pagineTotali, $filtersPerTitle);
@@ -174,8 +211,8 @@ $title = '<title>Eventi - PetMatch</title>';
 $description = $isAdmin? '<meta name="description" content="Organizza tutti gli eventi di PetMatch">': '<meta name="description" content="Eventi prossimi qui da PetMatch!">';
 $keywords = '';
 
-$nav = $isAdmin? buildAdminNav($adminMenu, './eventi') : buildNav($userMenu, './eventi');
-$breadcrumb = getBreadcrumb('eventi', $pagine);
+$nav = $isAdmin? buildAdminNav($adminMenu, './visualizzazione-eventi') : buildNav($userMenu, './eventi');
+$breadcrumb = $isAdmin? getBreadcrumb('visualizzazione-eventi', $pagine) : getBreadcrumb('eventi', $pagine);
 
 $paginaHTML = str_replace(
     ['[title]', '[description]', '[keywords]', '[breadcrumb]', '[nav]', '[main]', '[footer]'],
@@ -184,6 +221,11 @@ $paginaHTML = str_replace(
 );
 
 $paginaHTML = str_replace('id="new-event-button"', $isAdmin?'id="new-event-button"':'id="AdminMode"', $paginaHTML);
+$paginaHTML = str_replace('[TYPEFILTER]', $typefilter, $paginaHTML);
+$paginaHTML = str_replace('[ACTION]', $action, $paginaHTML);
+if($isAdmin){
+$paginaHTML = str_replace('[TYPE]', $filtro, $paginaHTML);
+}
 $paginaHTML = str_replace('[TitoloEventi]', $isAdmin?'Eventi':'Prossimi eventi', $paginaHTML);
 $paginaHTML = str_replace('[nav-admin-events]', $isAdmin? $navEvent:'', $paginaHTML);
 

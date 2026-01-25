@@ -9,7 +9,8 @@
     <a href=".next-page-links" class="navigationHelp">salta alla navigazione delle prossime pagine</a>
     
 
-    <form class="filtri" method="get" action="eventi">
+    <form class="filtri" method="get" action="[ACTION]">
+        [TYPEFILTER]
         <ul aria-label="Filtri di ricerca">
             <li class="capsula-filtro" id="searchName">
                 <label for="search">Cerca</label>
@@ -29,7 +30,7 @@
         </ul>
     
         <div id="content-filter-button">
-            <a href="eventi" id="[VISIBILITA-FILTRO]" aria-label="elimina i filtri">X</a>
+            <a href="[ACTION]" id="[VISIBILITA-FILTRO]" aria-label="elimina i filtri">X</a>
             <button type="submit" class="orange-button">Cerca</button>
         </div>
     </form>
