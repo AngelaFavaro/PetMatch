@@ -64,6 +64,10 @@ a.orange-button:hover{
     padding-right:1em;
 }
 
+div#admin-area .container{
+    padding: 0;
+}
+
 html, body {
     max-width: 100%;
     /* overflow-x: hidden; */
@@ -122,10 +126,6 @@ h3{
 h4{
     font-size: 1.1em;
     /* line-height: 1.3; */
-}
-
-.error-form{
-    color:var(--errortxt);
 }
 
 .error-form + p{
@@ -916,6 +916,10 @@ footer .container + div a:visited{
     height: 2em;
 }
 
+#logo-footer{
+    max-width: 130px;
+}
+
 
 #grass {
     width: 100%;
@@ -1181,6 +1185,7 @@ details:not([open]) .popup {
     transform-origin: top center;
     --base-rot: 0deg;
     margin:auto;
+    max-width: 200px;
     padding: 1em 0.5em 0 0.5em ;
     text-decoration: none;
     font-weight: normal;
@@ -1191,7 +1196,7 @@ details:not([open]) .popup {
 
 #events-list .polaroid h4, 
 #events-list .polaroid p {
-    display: block; /* Importante */
+    display: block;
     width: 100%;
     
     white-space: nowrap;      /* Impedisce di andare a capo */
@@ -1615,14 +1620,18 @@ input:-webkit-autofill:active{
 
 /* FILTRI */
 #animali .filtri ul, #eventi .filtri ul, #richieste .filtri ul{
-    display: contents;
+    display: flex;
     list-style: none;
+    gap: 1em;
+    flex-wrap: wrap;
+    width: 100%;
+    /* justify-content: flex-end; */
 }
 
 #animali .filtri, #eventi .filtri, #richieste .filtri{
     display: flex;
     gap: 0.5em;
-    align-items: center;
+    justify-content: flex-end;
 }
 
 #animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro
@@ -1697,13 +1706,7 @@ input:-webkit-autofill:active{
     background-position: right 0em center;
 }
 
-#animali .filtri #searchSize.capsula-filtro {
-    max-width: 10em;
-}
 
-#animali .filtri #searchSex.capsula-filtro {
-    max-width: 10em;
-}
 
 #animali .filtri .capsula-filtro input::placeholder, #eventi .filtri .capsula-filtro input::placeholder {
     color: var(--placeholder-text);
@@ -1796,7 +1799,7 @@ input:-webkit-autofill:active{
 
 #animali #content-filter-button, #eventi #content-filter-button{
     display: flex;
-    margin:auto;
+    /* margin:auto; */
     gap:1em;
     height: fit-content;
 }
@@ -1824,6 +1827,7 @@ input:-webkit-autofill:active{
     flex-wrap: wrap;
     justify-content: left; 
     margin-top: 1em;
+    margin-bottom: 2em;
 }
 
 #animali .cards-container:has(.errore) {
@@ -1975,12 +1979,12 @@ input:-webkit-autofill:active{
     /* float: right; */
 }
 
-#animali .card .cuore {
+#animali .card .cuore, #animali .dark-card .cuore {
     display: flex;
     justify-content: end;
 }
 
-#animali .card .cuore .preferiti-form{
+#animali .card .cuore .preferiti-form, #animali .dark-card .cuore .preferiti-form{
     justify-content:end;
 }
 
@@ -2733,22 +2737,30 @@ a:hover .hover-icon {opacity: 1;}
 
 .checkbox-container-pic input[type="checkbox"],
 #home input[name="type-animal"],
+input#createMore,
 #form-add-animal .checkbox-label input[type="checkbox"]{
-    -webkit-appearance: none;
     appearance: none;
     width: 25px;
     height: 25px;
     position: relative;
     top:5px;
-    background-color: transparent;    
-    border: 1px solid var(--txtcolor);     
-    border-radius: 4px;         
+    background-color: transparent;
+    border: 1px solid var(--txtcolor);
     cursor: pointer;
-    margin: 0;                  
+    margin: 0;
+}
+
+.checkbox-container-pic input[type="checkbox"],
+#home input[name="type-animal"]{
+    border-radius: 2em;
+}
+
+#form-add-animal .checkbox-label input[type="checkbox"],
+input#createMore{
+    border-radius: 4px;
 }
 
 .sex-option input[type="radio"]{
-    -webkit-appearance: none;
     appearance: none;
     width: 20px;
     height: 20px;
@@ -2763,14 +2775,14 @@ a:hover .hover-icon {opacity: 1;}
 
 .checkbox-container-pic input[type="checkbox"]:checked,
 #home input[name="type-animal"]:checked,
+input#createMore:checked,
 .sex-option input[type="radio"]:checked,
 #form-add-animal .checkbox-label input[type="checkbox"]:checked {
     background-color: var(--buttoncolor);   
     border-color: var(--buttoncolor);  
 }
 
-.checkbox-container-pic input[type="checkbox"]::before,
-#home input[name="type-animal"]::before.active{
+.checkbox-container-pic input[type="checkbox"]::before{
     content: "";
     position: absolute;
     width: 15px;
@@ -2785,6 +2797,9 @@ a:hover .hover-icon {opacity: 1;}
     transition: 0.2s transform ease-in-out;
 }
 
+.checkbox-container-pic input[type="checkbox"]::before,
+input#createMore::before,
+#home input[name="type-animal"]::before,
 #form-add-animal .checkbox-label input[type="checkbox"]::before{
     content: "";
     position: absolute;
@@ -2818,6 +2833,7 @@ a:hover .hover-icon {opacity: 1;}
 
 .checkbox-container-pic input[type="checkbox"]:checked::before,
 #home input[name="type-animal"]:checked::before,
+input#createMore:checked:before,
 .sex-option input[type="radio"]:checked::before,
 #form-add-animal .checkbox-label input[type="checkbox"]:checked::before {
     transform: scale(1);        
@@ -3323,9 +3339,9 @@ body#admin-body #richieste .filtri button{
 
 body#admin-body #animali .filtri .capsula-filtro,
 body#admin-body #richieste .filtri .capsula-filtro{
-    margin-left: auto;
+    /* margin-left: auto; */
     margin-right: 0;
-    gap:0;
+    /* gap:0; */
     flex:0 0 fit-content;
 }
 
@@ -3347,7 +3363,7 @@ body#admin-body #breadcrumb{
 div#admin-area div#row2 article{
     margin-top:0em;
 }
-div#admin-area article {
+div#admin-area article:not(.card) { /*aggiunto il not(.card) perchè così visualizzo bene le card degli animali in "assegnati a te" di admin*/
   padding:1em 1em 1em 1em;
   border: 1px solid var(--txtcolor);
   border-radius:0.5em;
@@ -3904,6 +3920,20 @@ td.col-dettagli a,td.col-dettagli button{
 tr:hover {
     background-color: var(--darkbgcolor);          
 }
+
+
+/*================== ANIMALI ASSEGNATI A TE ADMIN  ==================*/
+
+div#admin-area .container{
+    max-width: none;
+}
+div#admin-area .container#animali .filtri ul{
+    justify-content: normal;
+}
+/*================== SEGNALAZIONE NUOVE ACCOGLIENZE ADMIN  ==================*/
+div#admin-area #animali .filtri ul{
+    justify-content: flex-end;
+}
 /*================== FILTRI  ==================*/
 .tab-content .filtri ul{
     /* margin: 1em; */
@@ -4066,11 +4096,6 @@ tr:hover {
     margin: 1.5em 0 0 0;
 }
 
-#form-add-animal,
-#form-edit-animal #div-carattere label{
-    margin:0;
-}
-
 #form-add-animal label.file-upload-label,
 #form-edit-animal label.file-upload-label,
 #new-event label.file-upload-label{
@@ -4158,7 +4183,9 @@ tr:hover {
     border-radius: 2em;
     border-color: var(--text-buttoncolor);
     color:var(--text-buttoncolor);
-     margin:0;
+    margin:0;
+    width: 100%;
+    min-height: 44px;
     background-position: right 0em center; 
 
 }
@@ -4170,7 +4197,6 @@ tr:hover {
 #form-edit-animal textarea,
 #new-event textarea {
     display: block;
-    height: 9em;
     width: 100%;
     padding: 0.5em;
     border: 1px solid var(--text-buttoncolor);
@@ -4181,6 +4207,13 @@ tr:hover {
     color: var(--txtcolor);
     resize: vertical;
     transition: all 0.3s ease;
+}
+#form-add-animal textarea{
+    height: 9.3em;
+}
+
+#new-event textarea{
+    height: 7em;
 }
 
 /* #form-add-animal textarea:focus {
@@ -4245,8 +4278,8 @@ tr:hover {
 }
 
 .success-form +img{
-    width: 50%;
-    max-height: 50%;
+    max-width: 50%;
+    max-height: 250px;
     text-align: center;
 }
 
@@ -4329,9 +4362,10 @@ tr:hover {
    MESSAGGI DI ERRORE
    ======================================== */
 .error-form {
-    color: var(--footercolor);
+    color: var(--errortxt);
     font-size: 0.9em;
     margin-top: 5px;
+    font-weight: 600;
     display: block;
 }
 /*================ PROFILO RICHIEDENTE ==================*/
@@ -4503,6 +4537,18 @@ nav#breadcrumb a:visited{
     margin: auto;
 }
 
+#team-img img{      /*qui potrebbe non esserci me lo dava come mio cambiamento ma mai toccato*/
+    width: 100%;
+    flex:0 1 30%;
+    height: auto;
+    max-height: 15em;
+    padding: 0;
+} 
+
+#ModifiedMode{
+    display: none;
+}
+
 #new-event .split-input div{
     flex: 1 1 48%;
 }
@@ -4535,4 +4581,239 @@ nav#breadcrumb a:visited{
 #new-event #help-counter-evento + p.error-form{
     margin-top:-0.5em;
     margin-bottom:1.5em;
+}
+
+#foto-container{
+    padding-bottom: 1.5em;
+}
+
+#createMore-container{
+    text-align: right;
+    border-top:2px solid var(--darkbgcolor);
+}
+
+#createMore-container label{
+    font-weight: normal;
+    margin-top: 0;
+}
+
+/* PAGINA COME FUNZIONA */
+#come-funziona .testo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex:1 1 75%;
+    gap: 0.4em;
+}
+
+#come-funziona .testo a {
+    color: var(--txtcolor);
+}
+
+#come-funziona .testo address{
+    display: contents;
+}
+
+#come-funziona .testo address a{
+    display: contents;
+}
+
+#come-funziona .colonne {
+    display: flex;
+    align-items: stretch;
+    gap: 0.2em;
+    /* object-fit: cover; */
+}
+
+#come-funziona h2{
+    margin-bottom: 0.3em;
+}
+
+#come-funziona #comeFunziona img {
+    flex: 1 1 30%;
+    object-fit:fill;
+    height: 20em;
+    align-self: center;
+    margin-bottom: 0em;
+}
+
+#come-funziona .enlight {
+    font-weight: bold;
+}
+
+#come-funziona #comeSiAdotta {
+    position: relative;
+    background-color: var(--footercolor);
+    border-top-right-radius: 1.5em;
+    border-top-left-radius: 1.5em;
+    z-index: 0;
+    color: var(--bgcolor);
+    padding: 2em;
+    padding-right: 3em;
+    margin-top: 1.5em;
+}
+
+#come-funziona #comeSiAdotta .testo {
+    text-align: right;
+    /* margin: 2em; */
+    margin-left: 0;
+    flex: 1 1 70%;
+    justify-content: flex-start;
+}
+
+#come-funziona #comeSiAdotta .testo a{
+    color: var(--linkcolor);
+    /* z-index: ; */
+}
+
+#come-funziona #comeSiAdotta .testo ul {
+    text-align: left;
+}
+
+#come-funziona #comeSiAdotta #immagini {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 30%;
+    object-fit: contain;
+}
+
+#come-funziona #comeSiAdotta #immagini img{
+    flex: 1 1 50%;
+    /* height: 10em; */
+    /* object-fit: cover; */
+    position: relative;
+    border-radius: 1em;
+
+    max-width: 70%;
+  max-height: 50%;
+  height: auto;
+  width: auto;
+  object-fit: contain;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+}
+
+#come-funziona #comeSiAdotta #immagini img#dog{
+    /* justify-self: center; */
+    align-self: end;
+    /* transform: rotate(5deg); */
+    bottom: 0.5em;
+    right: 2em;
+    /* max-width: 10em; */
+    z-index: 0;
+    margin-bottom: 10%;
+}
+#come-funziona #comeSiAdotta #immagini img#cat{
+    /* transform: rotate(-10deg); */
+    top: 0.5em;
+    /* left: 3em; */
+    z-index: 1;
+    margin-top: 10%;
+}
+
+#come-funziona #comeSiAdotta #paws-containter {
+    position: relative;
+}
+
+#come-funziona #comeSiAdotta #paws-containter img {
+    transform: rotate(-140deg);
+    position: absolute;
+    height: 4em;
+    width: 4em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw1 {
+    top: 2em;
+    right: 2em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw2 {
+    top: 3em;
+    right: 12em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw3 {
+    top: 9em;
+    right: 8em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw4 {
+    top: 9em;
+    right: 20em;
+}
+
+#come-funziona #comeSiAdotta #paws-containter #paw5 {
+    top: 15em;
+    right: 15em;
+}
+
+#come-funziona #provAnimali {
+    margin-top: 8em;
+}
+
+#come-funziona #provAnimali a {
+    color: var(--txtcolor);
+    text-decoration: underline;
+}
+
+#come-funziona #invitoLavoro {
+    margin-top: 3em;
+    background-color: var(--bgform);
+    display: flex;
+    color: var(--bgcolor);
+    padding-top: 3em;
+    padding-left: 5em;
+    padding-right: 5em;
+    padding-bottom: 2em;
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+}
+
+#come-funziona #invitoLavoro h2{
+    font-size: 2em;
+    line-height: 1.5em;
+}
+
+#come-funziona #invitoLavoro .testo{
+    margin-right: 6em;
+}
+
+
+#come-funziona #invitoLavoro a.brown-button{
+    color: var(--linkcolor);
+    margin-left: 0;
+    width: 100%;
+}
+
+#come-funziona #invitoLavoro #quote-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#come-funziona #invitoLavoro #quote-container blockquote img.quote {
+    height: 3em;
+    width: 3em;
+}
+
+#come-funziona #invitoLavoro #quote-container p {
+    margin-left: 3em;
+    font-style: italic;
+}
+
+#come-funziona #invitoLavoro #quote-container blockquote img.quote#finishing-quote {
+    justify-self: end;
+    align-self: flex-end;
+}
+
+#come-funziona #invitoLavoro #quote-container blockquote {
+    display: flex;
+    flex-direction: column;
+}
+
+#come-funziona #invitoLavoro blockquote cite{
+    align-self: flex-end;
+    flex: 1 1 20%;
+    min-width: 1em;
+    padding-top: 2em;
 }

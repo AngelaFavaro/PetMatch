@@ -1,12 +1,12 @@
 <div id="nuovo-evento">
     <form method="post" id="new-event" enctype="multipart/form-data" novalidate>
-        <h1>Aggiungi un evento</h1>
+        <h1>[Action-modified] un evento</h1>
         <fieldset>
-            <legend>Organizza il nuovo evento</legend>
+            <legend>[Action-modified-legend]</legend>
             <div class="split-input">
                 <div>
                     <label for="title-event">Titolo*</label>
-                    <input type="text" name="title-event" id="title-event" placeholder="Titolo" value="[title-event-value]">
+                    <input type="text" name="title-event" id="title-event"  maxlength="40" placeholder="Titolo" value="[title-event-value]">
                     [error-title]
                 </div>
                 <div>
@@ -14,6 +14,7 @@
                     <input type="date" name="day-event" id="day-event" placeholder="dd-mm-YYYY" value="[day-event-value]">
                     [error-day]
                 </div>
+                [error-existEvent]
             </div> 
             <label for="desc-event">Breve descrizione dell'evento*</label>
 
@@ -32,34 +33,42 @@
             <div class="split-input">
                 <div>
                     <label for="address-event">Via e numero civico*</label>
-                    <input type="text" name="address-event" id="address-event" placeholder="Via Paolotti n.21" value="[address-event-value]">
+                    <input type="text" name="address-event" id="address-event" maxlength="255" placeholder="Via Paolotti n.21" value="[address-event-value]">
                     [error-address]
                 </div>
                 <div>
                     <label for="city-event">Città*</label>
-                    <input type="text" name="city-event" id="city-event" placeholder="Padova" value="[city-event-value]">
+                    <input type="text" name="city-event" id="city-event"  maxlength="100" placeholder="Padova" value="[city-event-value]">
                     [error-city]
                 </div>
             </div> 
 
-            <span id="label-foto">Seleziona una foto*</span>
-            <label for="foto" class="file-upload-label">
-                <span class="file-upload-text"> Importa un immagine o trascinala</span>
-                <span class="file-name-display"></span>
-                <input type="file" id="foto" name="foto" accept=".jpg, .jpeg, .png">
-                <div class="foto-caricata-info">
-                    [foto-event-upload]
-                </div>
-            </label>
-            [error-foto]
+            <div id="foto-container">
+                <span id="label-foto">Seleziona una foto*</span>
+                <label for="foto" class="file-upload-label">
+                    <span class="file-upload-text"> Importa un immagine o trascinala</span>
+                    <span class="file-name-display"></span>
+                    <input type="file" id="foto" name="foto" accept=".jpg, .jpeg, .png">
+                    <div class="foto-caricata-info">
+                        [foto-event-upload]
+                    </div>
+                </label>
+                [error-foto]
+            </div>
 
             [input-hidden-foto]
             
         </fieldset>
-        [error-generic]
+        
+        <p class="error-form">[error-generic]</p>
+        <div id="createMore-container">
+            <label for="createMore">Aggiungine altri
+                <input type="checkbox" name="createMore" id="createMore" [checkCreateMore]>
+            </label> 
+        </div>
         
         <div class="form-buttons-container">
-            <a href="./eventi" id="cancel-new-event">Annulla</a>
+            <a href="[urlCancel]" id="cancel-new-event">Annulla</a>
             <button type="submit" name="submit-event">Salva</button>
         </div>
 

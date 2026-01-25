@@ -116,12 +116,8 @@ if ($connessione->openDBConnection()) {
 $pagineTotali = max(1, ceil($totale / $perPagina));
 
 $eventiCards= $eventi ? buildEventsCards($eventi) : "<p class='errore'>Per ora non ci sono eventi in programma. Ritorna tra qualche giorno a controllare</p>";
-$linkPagine=buildPagination($pagina, $pagineTotali, $filtersPerTitle);
-
-
-
-
-
+$linkPagine=$pagineTotali>1 ? "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine'>
+        <ul aria-label='Pagine di navigazione'>".buildPagination($pagina, $pagineTotali, $filtersPerTitle)."</ul></nav>" : '';
 
 
 $paginaHTML = file_get_contents('./src/template/layout.html');

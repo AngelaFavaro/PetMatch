@@ -1532,6 +1532,108 @@ class DBAccess {
     }
 
 
+    public function countAssignedAnimalsFiltered(string $type, array $filters, string $adminEmail): int {
+        $where = "WHERE A.Email = ? AND R.IDanimale IS NULL";
+        $params = [$adminEmail];
+        $types = "s";
+
+        $this->applyFilters($type, $filters, $where, $params, $types);
+
+        $query = "SELECT COUNT(*) AS totale 
+                FROM ANIMALI A 
+                LEFT JOIN RICHIESTE_ADOZIONI R ON A.IDanimale = R.IDanimale AND R.Stato = 'Accettata' 
+                $where";
+                    
+        $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, $types, ...$params);
+            mysqli_stmt_execute($stmt);
+            $res = mysqli_stmt_get_result($stmt);
+            $row = mysqli_fetch_assoc($res);
+            mysqli_stmt_close($stmt);
+            return (int)$row['totale'];
+        }
+        return 0;
+    }
+    public function getAssignedAnimalsFilteredPaged(string $type, array $filters, int $limit, int $offset, string $adminEmail): array {
+        $results = [];
+        $where = "WHERE A.Email = ? AND R.IDanimale IS NULL";
+        $params = [$adminEmail];
+        $types = "s";
+
+        $this->applyFilters($type, $filters, $where, $params, $types);
+
+        $query = "SELECT 
+                    A.IDanimale AS id, 
+                    A.Nome AS nome, 
+                    A.Sesso AS sesso, 
+                    A.Tipo AS tipo,
+                    A.ImgPath AS immagine,
+                    TIMESTAMPDIFF(YEAR, A.DataNascita, CURDATE()) AS eta 
+                FROM ANIMALI A 
+                LEFT JOIN RICHIESTE_ADOZIONI R ON A.IDanimale = R.IDanimale AND R.Stato = 'Accettata'
+                $where 
+                ORDER BY A.DataRegistrazione DESC 
+                LIMIT ? OFFSET ?";
+
+        $params[] = $limit;
+        $params[] = $offset;
+        $types .= "ii";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, $types, ...$params);
+            mysqli_stmt_execute($stmt);
+            $res = mysqli_stmt_get_result($stmt);
+            while ($row = mysqli_fetch_assoc($res)) {
+                $results[] = $row;
+            }
+            mysqli_stmt_close($stmt);
+        }
+        return $results;
+    }
+
+
+    private function applyFilters(string $type, array $filters, string &$where, array &$params, string &$types): void {
+        if ($type !== 'tutti') {
+            $where .= " AND A.Tipo = ? ";
+            $params[] = $type;
+            $types .= "s";
+        }
+
+        if (!empty($filters['name-animal'])) {
+            $where .= " AND A.Nome LIKE ? ";
+            $params[] = "%" . $filters['name-animal'] . "%";
+            $types .= "s";
+        }
+
+        if (!empty($filters['taglia'])) {
+            $where .= " AND A.Taglia = ? ";
+            $tagliaDB = (substr($filters['taglia'], -1) === 'a') 
+                        ? substr($filters['taglia'], 0, -1) . 'o' 
+                        : $filters['taglia'];
+            $params[] = $tagliaDB;
+            $types .= "s";
+        }
+
+        if (!empty($filters['sesso'])) {
+            $where .= " AND A.Sesso = ? ";
+            $params[] = strtoupper(substr($filters['sesso'], 0, 1)); 
+            $types .= "s";
+        }
+
+        if (!empty($filters['eta_min'])) {
+            $where .= " AND TIMESTAMPDIFF(YEAR, A.DataNascita, CURDATE()) >= ? ";
+            $params[] = (int)$filters['eta_min'];
+            $types .= "i";
+        }
+        if (!empty($filters['eta_max'])) {
+            $where .= " AND TIMESTAMPDIFF(YEAR, A.DataNascita, CURDATE()) <= ? ";
+            $params[] = (int)$filters['eta_max'];
+            $types .= "i";
+        }
+    }
+    
     public function getAnimalsFilteredPaged(string $type, array $filters, int $limit, int $offset): array {
 
         if (!$this->connection) return [];
@@ -2144,6 +2246,80 @@ public function getGuestFavPaged(string $type, int $perPagina, int $offset): arr
         return $result;
     }
     
+    public function updateNewEvent(array $EventValues, string $oldTitolo ,string $oldData): bool {
+        if (!$this->connection){
+            return false;
+        }
+
+        $query = "UPDATE EVENTI SET Titolo = ?, DataEvento = ?, DescrEvento = ?, ImgPath = ?, Via = ?, Citta = ?
+                    WHERE Titolo = ? AND DataEvento = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 'ssssssss', 
+            $EventValues['titolo'], 
+            $EventValues['data'],
+            $EventValues['descrizione'],
+            $EventValues['foto'],
+            $EventValues['via'],
+            $EventValues['citta'],
+            $oldTitolo,
+            $oldData);
+        $result = mysqli_stmt_execute($stmt);
+
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
+
+
+    function checkEventExists(string $title, string $date): bool {
+        $requests = [];
+        
+        $query = "  SELECT COUNT(*)
+                    FROM EVENTI
+                    WHERE Titolo = ? AND DataEvento = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'ss', $title, $date);
+            mysqli_stmt_execute($stmt);
+
+            mysqli_stmt_bind_result($stmt, $totale);
+            mysqli_stmt_fetch($stmt);
+
+            mysqli_stmt_close($stmt);
+
+            return $totale > 0;
+        }
+        return false;
+    }
+
+    public function getInfoEvent(string $titolo, string $data): ?array { 
+        if (!$this->connection) {
+            return null;
+        }
+
+        $query = "SELECT * FROM EVENTI WHERE Titolo = ? AND DataEvento = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        
+        $evento = null;
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'ss', $titolo, $data);
+
+            mysqli_stmt_execute($stmt);
+            $res = mysqli_stmt_get_result($stmt);
+            $evento = mysqli_fetch_assoc($res); 
+
+            mysqli_stmt_close($stmt);
+        }
+
+        return $evento;
+    }
 
 }
 
