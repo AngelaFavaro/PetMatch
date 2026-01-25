@@ -446,6 +446,11 @@ document.addEventListener('scroll', function() {
     const footer = document.querySelector('small');
     if (!themeSwitch || !footer) return;
 
+    if (window.innerWidth > 800) {
+        themeSwitch.style.bottom = ''; 
+        return; 
+    }
+
     const footerRect = footer.getBoundingClientRect();
     const windowHeight = window.innerHeight;
     
