@@ -4064,7 +4064,7 @@ div#admin-area #animali .filtri ul{
 /* ========================================
    RADIO BUTTONS - SESSO
    ======================================== */
-#form-add-animal,
+#form-add-animal p+p.sex-title,
 #form-edit-animal p+p.sex-title {
     font-weight: 550;
     /* display: inline-block; */
@@ -4089,7 +4089,7 @@ div#admin-area #animali .filtri ul{
     transition: all 0.3s ease;
 }
 
-#form-add-animal,
+#form-add-animal label.sex-option,
 #form-edit-animal label.sex-option{
     margin:0;
 }
