@@ -177,6 +177,8 @@ function loadTemplate(string $path, string $default = ''): string {
 
 
 function buildAdminNav(array $menuGroups, string $currentHref): string {
+
+    $isDark = (isset($_COOKIE['theme']) && $_COOKIE['theme'] === 'dark');
     // Parte iniziale: Checkbox e Label (Hamburger)
     $html = '
     <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
