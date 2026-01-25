@@ -1831,7 +1831,7 @@ input:-webkit-autofill:active{
 /* aggiunto questo altrimenti mi si sminchiano le cose da admin */
 div#admin-area #animali a.brown-button{
     float: none;
-    margin:inherit;
+    margin:0.5em;
 }
 #animali h1{
     display: inline-block;
