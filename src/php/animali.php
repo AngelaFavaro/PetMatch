@@ -420,7 +420,7 @@ if (!$isPreferiti) {
 
         <div id='content-filter-button'>
             <a href='[URL-RESETFILTRI]' id='[VISIBILITA-FILTRO]' aria-label='elimina i filtri'>X</a>
-            <button type='submit' class='orange-button'>Cerca</button>
+            <button type='submit' class='orange-button'>Applica</button>
         </div>
     </form>";
     $stringaFiltri = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $stringaFiltri);
