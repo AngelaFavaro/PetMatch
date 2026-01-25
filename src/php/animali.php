@@ -307,7 +307,18 @@ if($isPreferiti) {
             $animali = $connessione->getGuestFavPaged($type, $perPagina, $offset);
         }
         $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail,$isAdmin) : "<p class='errore'>$messaggioNoAnimali</p>";
-        $linkPagine = buildPagination($pagina, $pagineTotali, $type);
+        // $linkPagine = "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine'>
+        // <ul aria-label='Pagine di navigazione'>"
+        $linkPagine = ($pagineTotali > 1)
+    ? (
+        "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine'>
+            <ul aria-label='Pagine di navigazione'>"
+        . buildPagination($pagina, $pagineTotali, $type)
+        . "</ul>
+        </nav>"
+      )
+    : '';
+
         $connessione->closeConnection();
     }
 } else {
@@ -329,7 +340,16 @@ if($isPreferiti) {
         } else {
             $params=$type;
         }
-        $linkPagine = buildPagination($pagina, $pagineTotali, $params);
+        $linkPagine = ($pagineTotali > 1)
+    ? (
+        "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine'>
+            <ul aria-label='Pagine di navigazione'>"
+        . buildPagination($pagina, $pagineTotali, $type)
+        . "</ul>
+        </nav>"
+      )
+    : '';
+
         $connessione->closeConnection();
     }
 }

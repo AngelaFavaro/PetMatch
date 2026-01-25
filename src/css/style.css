@@ -1828,6 +1828,7 @@ input:-webkit-autofill:active{
     flex-wrap: wrap;
     justify-content: left; 
     margin-top: 1em;
+    margin-bottom: 2em;
 }
 
 #animali .cards-container:has(.errore) {
