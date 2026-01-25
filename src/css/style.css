@@ -4383,6 +4383,18 @@ nav#breadcrumb a:visited{
     gap: 0.4em;
 }
 
+#come-funziona .testo a {
+    color: var(--txtcolor);
+}
+
+#come-funziona .testo address{
+    display: contents;
+}
+
+#come-funziona .testo address a{
+    display: contents;
+}
+
 #come-funziona .colonne {
     display: flex;
     align-items: stretch;
@@ -4411,10 +4423,11 @@ nav#breadcrumb a:visited{
     background-color: var(--footercolor);
     border-top-right-radius: 1.5em;
     border-top-left-radius: 1.5em;
-    z-index: -1;
+    z-index: 0;
     color: var(--bgcolor);
     padding: 2em;
     padding-right: 3em;
+    margin-top: 1.5em;
 }
 
 #come-funziona #comeSiAdotta .testo {
@@ -4423,6 +4436,11 @@ nav#breadcrumb a:visited{
     margin-left: 0;
     flex: 1 1 70%;
     justify-content: flex-start;
+}
+
+#come-funziona #comeSiAdotta .testo a{
+    color: var(--linkcolor);
+    /* z-index: ; */
 }
 
 #come-funziona #comeSiAdotta .testo ul {
@@ -4557,6 +4575,7 @@ nav#breadcrumb a:visited{
 
 #come-funziona #invitoLavoro #quote-container p {
     margin-left: 3em;
+    font-style: italic;
 }
 
 #come-funziona #invitoLavoro #quote-container blockquote img.quote#finishing-quote {
@@ -4574,5 +4593,4 @@ nav#breadcrumb a:visited{
     flex: 1 1 20%;
     min-width: 1em;
     padding-top: 2em;
-    /* margin-top: 2em; */
 }

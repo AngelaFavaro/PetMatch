@@ -822,3 +822,23 @@ body#lavora-con-noi {
     margin:auto;
     padding:0.3em;
 }
+
+
+
+/* PAGINA COME FUNZIONA */
+
+#come-funziona #comeFunziona img {
+    display: none;
+}
+
+#come-funziona #comeSiAdotta #immagini img#cat{
+    display: none;
+}
+
+#come-funziona #comeSiAdotta #immagini img#dog{
+    display: none;
+}
+
+#come-funziona #comeSiAdotta #immagini{
+    display: none;
+}
