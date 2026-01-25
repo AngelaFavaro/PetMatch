@@ -1826,14 +1826,17 @@ input:-webkit-autofill:active{
 
 /* FILTRI */
 #animali .filtri ul, #eventi .filtri ul, #richieste .filtri ul{
-    display: contents;
+    display: flex;
     list-style: none;
+    gap: 1em;
+    flex-wrap: wrap;
+    width: 100%;
 }
 
 #animali .filtri, #eventi .filtri, #richieste .filtri{
     display: flex;
     gap: 0.5em;
-    align-items: center;
+    justify-content: flex-end;
 }
 
 #animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro
@@ -3609,9 +3612,9 @@ body#admin-body #richieste .filtri button{
 
 body#admin-body #animali .filtri .capsula-filtro,
 body#admin-body #richieste .filtri .capsula-filtro{
-    margin-left: auto;
+    /* margin-left: auto; */
     margin-right: 0;
-    gap:0;
+    /* gap:0; */
     flex:0 0 fit-content;
 }
 
@@ -4221,6 +4224,20 @@ td.col-dettagli a,td.col-dettagli button{
 /* tr:hover {
     background-color: var(--darkbgcolor);          
 } */
+
+/*================== ANIMALI ASSEGNATI A TE ADMIN  ==================*/
+
+div#admin-area .container{
+    max-width: none;
+}
+div#admin-area .container#animali .filtri ul{
+    justify-content: normal;
+}
+/*================== SEGNALAZIONE NUOVE ACCOGLIENZE ADMIN  ==================*/
+div#admin-area #animali .filtri ul{
+    justify-content: flex-end;
+}
+
 /*================== FILTRI  ==================*/
 .tab-content .filtri ul{
     /* margin: 1em; */
