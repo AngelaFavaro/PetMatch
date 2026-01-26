@@ -531,3 +531,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// PUNTINI PER GLI EVENTI
+document.addEventListener("DOMContentLoaded", function() {
+    const descrizioni = document.querySelectorAll('.descrizione-evento p');
+
+    descrizioni.forEach(container => {
+        // Controlla se il testo trabocca (overflow)
+        if (container.scrollHeight > container.offsetHeight) {
+            container.classList.add('is-truncated');
+        }
+    });
+});

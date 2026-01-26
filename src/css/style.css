@@ -414,8 +414,6 @@ select{
 }
 
 select{
-    -webkit-appearance: none;
-    -moz-appearance: none;
     appearance: none;
     background-repeat: no-repeat;
     background-position: right 1em center; /* Destra, un po' staccata dal bordo, centrata verticale */
@@ -1683,11 +1681,8 @@ body:has(#signup), body:has(#login) {
 }
 
 /* cambio il colore dell'autofill */
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px var(--bglink-hover) inset;
+input:autofill{
+    box-shadow: 0 0 0 30px var(--bglink-hover) inset;
 }
 
 .column-container div{
@@ -2498,19 +2493,9 @@ float: none;
     min-width: 5.7em;
 }
 
-#eventi input[type="date"]::-webkit-calendar-picker-indicator {
-    position: absolute;
-    opacity: 0;
-    top: 0;
-    left: 0;
-    cursor: pointer;
-    
-    width: 100%;
-    height: 100%;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-    cursor: pointer;
+#eventi input[type="date"] {
+    appearance: none;
+    position: relative;
 }
 
 input[type="date"]{
@@ -2616,9 +2601,6 @@ cursor: pointer;
 }
 
 #eventi .evento .descrizione-evento {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    /* -webkit-line-clamp: 4; */
     overflow: hidden;
     clear: right;
     max-width: 35em;
@@ -2629,10 +2611,28 @@ cursor: pointer;
 #eventi .evento h2 {
     font-size: 1em;
     margin: 0 0 0.2em 0;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #eventi .evento .descrizione-evento p {
     margin: 0;
+    max-height: 4.2em;
+    overflow: hidden;
+    position: relative;
+}
+
+.descrizione-evento p.is-truncated::after {
+    content: "(continua...)";
+    position: absolute;
+    font-style: italic;
+    font-weight: 450;
+    bottom: -5px;
+    right: 0;
+    padding: 0 10px;
+    background: var(--darkbgcolor); 
 }
 
 #eventi .cards-container {
@@ -4459,7 +4459,6 @@ div#admin-area #animali .filtri ul{
 /* Stile del quadratino personalizzato */
 #check-assegna {
     appearance: none;
-    -webkit-appearance: none;
     width: 1.4em;  /* Circa 22px */
     height: 1.4em; /* Circa 22px */
     cursor: pointer;

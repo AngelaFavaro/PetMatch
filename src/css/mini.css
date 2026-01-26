@@ -1,8 +1,3 @@
-*{
-    -webkit-tap-highlight-color: transparent;
-}
-
-
 /*==================PULSANTI==================*/
 /* PER MOBILE DEVE ESSERE MINIMO 44 xx 44 */
 .orange-button,
@@ -228,10 +223,6 @@ input:checked + #slider {
 
 #sponsor{
     padding:1.5em;
-}
-
-#timeline summary::-webkit-details-marker {
-    display: none;
 }
 
 #section-events + a{
@@ -767,6 +758,7 @@ body#lavora-con-noi {
     width: 100%;
     margin-top: 0.5em;
 }
+
 
 #eventi .cards-container{
     margin:auto;
