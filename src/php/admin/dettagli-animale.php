@@ -11,7 +11,7 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
 }
 
 $idAnimale = $_GET['id-animale'] ?? null;
-$fromEmail = $_GET['from_email'] ?? null; 
+$fromEmail = $_GET['from_email'] ?? null;
 
 if (!$idAnimale) {
     header("Location: ./area-riservata");
@@ -21,7 +21,8 @@ if (!$idAnimale) {
 // Gestione gerarchia breadcrumb
 if ($fromEmail) {
     $pagine['dettagli-animale']['parent'] = 'dettagli-richiesta';
-    $pagine['dettagli-richiesta']['url'] .= "?email=" . urlencode($fromEmail) . "&id-animale=" . urlencode($idAnimale);
+    
+    $pagine['dettagli-richiesta']['url'] = "./richieste-adozione?email=" . urlencode($fromEmail) . "&id-animale=" . urlencode($idAnimale);
 } else {
     $pagine['dettagli-animale']['parent'] = 'area-riservata';
 }
@@ -39,11 +40,13 @@ function createAnimalRequestList(array $richieste): string {
         $nomeAnimale = htmlspecialchars($r['NomeAnimale']);
         $statoAttuale = $r['Stato'];
         
-        // Testo dinamico in base allo stato
         $testi = [
-            'Nuova' => "Ha fatto richiesta per <em>" . htmlspecialchars($nomeAnimale) . "</em>",
+            'Nuova' => "<strong>$nomeCandidato</strong> ha fatto richiesta per <em>" . htmlspecialchars($nomeAnimale) . "</em>",
             'In valutazione' => "Candidatura di <strong>$nomeCandidato</strong> in valutazione.",
-            // ... gli altri testi ...
+            'Accettata' => "Richiesta di <strong>$nomeCandidato</strong> accettata!",
+            'Respinta' => "Richiesta di <strong>$nomeCandidato</strong> respinta.",
+            'Annullata' => "Richiesta di <strong>$nomeCandidato</strong> annullata.",
+            'Da trasportare' => "<strong>$nomeCandidato</strong> è in attesa del trasporto."
         ];
 
         $li = '<li class="richiesta-card">
@@ -93,12 +96,6 @@ if ($connessioneOK) {
     
     $listRequestHTML = createAnimalRequestList($elencoRichiesteDati);
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inizia_modifica'])) {
-        $connessione->closeConnection();
-        header("Location: modifica-animale?id-animale=$idAnimale");
-        exit;
-    }
-
     $connessione->closeConnection();
 }
 
@@ -112,8 +109,9 @@ $main = loadTemplate('./src/template/main/admin/dettagli-animale.html');
 $title = '<title>Dettagli ' . e($richiesta['nome'] ?? 'Animale') . ' - Admin PetMatch</title>';
 $main = str_replace('[nomeAnimale]', e($richiesta['nome'] ?? ''), $main);
 $description = '<meta name="description" content="Visualizzazione dettagliata dell\'animale nel sistema gestionale">';
-$nav = buildAdminNav($adminMenu, './area-riservata'); // Evidenzia area admin nel menu
 
+$activeNav = $fromEmail ? './richieste-adozione' : './area-riservata';
+$nav = buildAdminNav($adminMenu, $activeNav);
 $paginaHTML = str_replace(['[breadcrumb]', '[title]', '[nav]', '[description]', '[keywords]'], 
                          [$breadcrumb, $title, $nav, $description, ""], 
                          $paginaHTML);
@@ -130,7 +128,11 @@ $sesso = $richiesta['sesso'] ?? '';
 $sessoHTML = ($sesso === 'F') ? '<abbr title="Femmina">F</abbr>' : (($sesso === 'M') ? '<abbr title="Maschio">M</abbr>' : e($sesso));
 $main = str_replace('[sessoAnimale]', $sessoHTML, $main);
 
-$main = str_replace('[etaAnimale]', e($richiesta['dataNascita'] ?? ''), $main);
+$etaCalcolata = calcolaEta($richiesta['dataNascita'] ?? null);
+$testoEta = ($etaCalcolata !== null) ? $etaCalcolata . " anni" : "Data non disponibile";
+
+$main = str_replace('[etaAnimale]', e($testoEta), $main);
+
 $main = str_replace('[razzaAnimale]', e($richiesta['razza'] ?? ''), $main);
 $main = str_replace('[peloAnimale]', e($richiesta['pelo'] ?? ''), $main);
 $main = str_replace('[tagliaAnimale]', e($richiesta['taglia'] ?? ''), $main);
@@ -142,13 +144,16 @@ $main = str_replace('[descrizioneCaratteriale]', e($richiesta['carattere'] ?? ''
 $condizioni = empty($richiesta['condMediche']) ? 'Nessuna' : e($richiesta['condMediche']);
 $main = str_replace('[condizioniMediche]', $condizioni, $main);
 
+$urlModifica = $pagine['modifica-animale']['url'] . "?id-animale=" . urlencode($idAnimale);
+if (isset($_GET['from_email'])) {
+    $urlModifica .= "&from_email=" . urlencode($_GET['from_email']);
+}
+
 $btnModifica = '
 <div class="edit-btn-container">
-    <form method="post">
-        <button type="submit" name="inizia_modifica" class="btn-edit">
-            <i class="fas fa-edit" aria-hidden="true"></i> Modifica Scheda
-        </button>
-    </form>
+    <a href="' . e($urlModifica) . '" class="btn-edit">
+        <i class="fas fa-edit" aria-hidden="true"></i> Modifica Scheda
+    </a>
 </div>';
 $main = str_replace('[pulsanti-modifica-animale]', $btnModifica, $main);
 

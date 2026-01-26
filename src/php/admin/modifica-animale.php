@@ -9,10 +9,24 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo cont
     exit;
 }
 
-$idAnimale = filter_var($_GET['id'], FILTER_VALIDATE_INT);
+$idAnimale = filter_var($_GET['id-animale'], FILTER_VALIDATE_INT);
+$fromEmail = $_GET['from_email'] ?? null;
 if (!$idAnimale) {
     header("Location: ./area-riservata");
     exit;
+}
+
+if ($fromEmail) {
+    $pagine['modifica-animale']['parent'] = 'dettagli-animale';
+    $pagine['dettagli-animale']['parent'] = 'dettagli-richiesta';
+    
+    $pagine['dettagli-richiesta']['url'] .= "?email=" . urlencode($fromEmail) . "&id-animale=" . urlencode($idAnimale);
+    $pagine['dettagli-animale']['url'] .= "?id-animale=" . urlencode($idAnimale) . "&from_email=" . urlencode($fromEmail);
+} else {
+    $pagine['modifica-animale']['parent'] = 'dettagli-animale';
+    $pagine['dettagli-animale']['parent'] = 'area-riservata';
+    
+    $pagine['dettagli-animale']['url'] .= "?id-animale=" . urlencode($idAnimale);
 }
 
 $AnimalInfo = [
@@ -126,8 +140,7 @@ function handleEditAnimal(DBAccess $conn, &$AnimalValues, $idAnimale): array {
         $_SESSION['form_status_info'] = 'error';
         $_SESSION['form_errors_info'] = $errors;
         $_SESSION['form_inputs'] = $_POST; 
-        header("Location: ./modifica-animale.php?id=$idAnimale");
-        exit;
+        header("Location: ./modifica-animale.php?id-animale=$idAnimale"); 
     }
     return $message;
 }
@@ -142,8 +155,12 @@ if ($connessione->openDBConnection()) {
 // COSTRUZIONE PAGINA HTML
 $paginaHTML = file_get_contents('./src/template/layout-admin.html');
 $main = file_get_contents('./src/template/main/admin/modifica-animale.html'); // Il nuovo template
-$breadcrumb = getBreadcrumb('modifica-animale', $pagine); // Assicurati che 'modifica-animale' esista in $pagine
-$nav = buildAdminNav($adminMenu, './area-riservata'); // Evidenziamo l'area riservata
+$pagine['dettagli-animale']['url'] .= "?id-animale=" . urlencode($idAnimale);
+$breadcrumb = getBreadcrumb('modifica-animale', $pagine);
+
+$activeNav = $fromEmail ? './richieste-adozione' : './area-riservata';
+$nav = buildAdminNav($adminMenu, $activeNav);
+
 $keywords = "<meta name='keywords' content='modifica, animale, adozione, gestione'>";
 $title = "<title>Modifica Animale - PetMatch</title>";
 $description = "<meta name='description' content='Pagina di modifica per le informazioni dell'animale selezionato.'>";
@@ -151,8 +168,8 @@ $description = "<meta name='description' content='Pagina di modifica per le info
 $paginaHTML = str_replace('[title]', $title, $paginaHTML);
 $paginaHTML = str_replace('[description]', $description, $paginaHTML);
 $paginaHTML = str_replace('[keywords]', $keywords, $paginaHTML);
-$paginaHTML = str_replace('[nav]', $nav, $paginaHTML);
 $paginaHTML = str_replace('[breadcrumb]', $breadcrumb, $paginaHTML);
+$paginaHTML = str_replace('[nav]', $nav, $paginaHTML);
 $paginaHTML = str_replace('[main]', $main, $paginaHTML);
 
 // Sostituzione ERRORI
