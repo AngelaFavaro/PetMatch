@@ -201,8 +201,8 @@ if ($connessioneOK) {
 
 
 
-$title = '<title>Registrati - <span lang="en">PetMatch</span> </title>';
-$description = '<meta name="description" content="Registrati su <span lang="en">PetMatch</span>">';
+$title = '<title>Registrati - PetMatch </title>';
+$description = '<meta name="description" content="Registrati su PetMatch">';
 $keywords = "<meta name='keywords' content='Registrati'>";
 
 $nav = buildNav($userMenu, './registrati');
