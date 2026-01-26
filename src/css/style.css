@@ -123,7 +123,7 @@
 :root:has(input#theme-toggle:checked) #visualizzazione-animale .heart-normal,
 :root:has(input#theme-toggle:checked) #visualizzazione-animale .heart-hover,
 :root:has(input#theme-toggle:checked) #menu-admin #logo,
-:root:has(input#theme-toggle:checked) .edit-admin-info img,
+:root:has(input#theme-toggle:checked) .pencil img,
 :root:has(input#theme-toggle:checked) #account-normal,
 :root:has(input#theme-toggle:checked) #introduction-home img{
     filter: brightness(0) saturate(100%) invert(79%) sepia(17%) saturate(541%) hue-rotate(346deg) brightness(92%) contrast(88%);
