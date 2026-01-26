@@ -13,7 +13,22 @@ nav#header-logo {
     height: 200px;
     width: 200px;
     display: block;
-    filter: grayscale(100%);
+    margin: auto;
+}
+
+nav#header-logo img {
+    height: 200px;
+    width: 200px;
+    display: none;
+}
+
+nav#header-logo a {
+    display: block;
+    content: url("../../assets/icons/print-logo.svg"); /*perche la stampa toglie tutti i background quindi lo mettiamo come contnuto*/
+    height: 5em;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 1em auto;
 }
 
 #nav-osso {
