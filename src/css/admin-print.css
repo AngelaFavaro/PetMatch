@@ -1,7 +1,7 @@
 /* ---------GENERALE PER LA STAMPA ADMIN-------- */
 
 :root{
-    --darkbgcolor: #E4D4BA;
+    --lightborder: #887962;
     --bgcolor: #FFF6D7;
     --bordercolor: #481515;
 }
@@ -28,6 +28,11 @@ article{
 a:not(#logo-link):not(.pencil):not([href^="mailto:"])::after {
     content: " [" attr(href) "]";
     margin-left: 0.4em;
+    overflow-wrap: break-word; 
+}
+
+body#admin-body nav#breadcrumb a::after{
+    content: '';
 }
 
 img{
@@ -70,6 +75,7 @@ table, th, td {
 }
 /* ========== FILTRI DATE========== */
 
+/* toglie il template delle date */
 input[type="date"][value=""], 
 input[type="date"]:not([value]) {
     display: none;
@@ -78,17 +84,6 @@ input[type="date"]:not([value]) {
 div:has(input[type="date"][value=""]):has(input[type="date"][value=""] + span) span,
 div:has(input[type="date"]:not([value])):has(span) span { 
     display: none;
-}
-
-.capsula-filtro div:has(input[type="date"][value=""])::before,
-.capsula-filtro div:has(input[type="date"]:not([value]))::before{
-    content: '- ';
-}
-
-.capsula-filtro div:has(input[type="date"][value=""])::after,
-.capsula-filtro div:has(input[type="date"]:not([value]))::after {
-    content: "Tutti";
-    font-weight: bold;
 }
 
 
@@ -130,13 +125,6 @@ form input, form select {
 
 form.filtri ul {
     list-style: none;
-    padding: 0;
-    display: inline;
-}
-
-form.filtri li {
-    display: inline;
-    margin-right: 15px;
 }
 
 form.filtri button {
@@ -153,17 +141,9 @@ nav#breadcrumb{
     margin-bottom: 0.5cm;
     border:1px solid var(--bordercolor);
     border-radius: 0.5cm;
-    padding:0.3cm;
+    padding:0.1cm;
 }
 /* ========== NAV ADMIN ========== */
-
-#menu-admin .orange-button::before{
-    display: inline-block;
-    text-decoration: none;
-    content: 'Inserisci un nuovo animale: ';
-    margin: 0.5cm 0;
-    color:black;
-}
 
 #menu-toggle-checkbox{
     display: none;
@@ -184,7 +164,7 @@ nav#menu-admin #logo {
     font-weight: bold;
 }
 
-nav#menu-admin ul, nav#menu-admin button, nav#menu-admin span{
+nav#menu-admin ul, nav#menu-admin button, nav#menu-admin span, nav a.orange-button{
     display: none;
 }
 
@@ -203,7 +183,6 @@ ul#to-do-list p, ul#statistics-list p {
 }
 
 /** ======= EVENTI ====== */
-
 .evento img:not(.immagine-evento){
     display: none;
 }
@@ -211,64 +190,64 @@ ul#to-do-list p, ul#statistics-list p {
 .next-page-links{
     display: none;
 }
+#eventi nav#nav-event-type{
+    float: left;
+}
 
-#eventi ul[aria-label="Filtri di ricerca"]::before{
+#eventi nav#nav-event-type::before{
     content:'Filtri applicati: ';
     display: block;
-    margin-bottom: 5px;
-}
-
-#eventi .filtri ul{
-    display: block;
-    padding: 0.3cm 0 0 0.5em;
-    print-color-adjust: exact;
-    -webkit-print-color-adjust: exact;
-    background-color: var(--bgcolor);
-    margin-bottom: 0.5cm;
-}
-
-.capsula-filtro:has(input:placeholder-shown),
-.capsula-filtro:has(select:invalid) { 
-    position: relative;
+    float:left;
+    margin-right: 0.2cm;
 }
 
 .capsula-filtro:has(input:placeholder-shown) input {
     display: none;
 }
 
-.capsula-filtro:has(input:placeholder-shown)::before{
-    content: '- ';
+#eventi .capsula-filtro::before{
+    content:', ';
+    float: left;
+    display: inline;
+    margin-right: 0.2cm;
 }
 
+ul[aria-label="Filtri sulla tipologia"],
+#eventi .capsula-filtro{
+    float: left;
+}
+
+#eventi .capsula-filtro > div {
+    display: inline;
+    margin:0;
+}
+
+.capsula-filtro:has(input[type="date"][value=""])::after,
+.capsula-filtro:has(input[type="date"]:not([value]))::after,
 .capsula-filtro:has(input:placeholder-shown)::after {
     content: "Tutti";
     font-weight: bold; 
-    display: inline-block;
+    display: inline;
 }
 
+/* toglie il template della data */
 .data-range:has(input:placeholder-shown) input {
     display: none;
 }
 
-#new-event-button::before{
-    content: 'Organizza un nuovo evento: ';
-    color:black;
-    display: inline-block;
-    text-decoration: none;
+#new-event-button{
+    display: none;
 }
 
 #nav-event-type ul li.currentType{
-    font-size: 18pt;
     font-weight: bold;
-    margin-top:0.5cm;
+    display: block;
+    float:left;
 }
 
-#nav-event-type ul li a::before{
-    margin-bottom:0.5cm;
-    content: 'Cerca anche per: ';
-    text-decoration: none;
-    display: inline-block;
-    color:black;
+/* toglie il filtro non corrente */
+#nav-event-type ul li{
+    display: none;
 }
 
 #cancel-filter-invisible{
@@ -276,16 +255,46 @@ ul#to-do-list p, ul#statistics-list p {
 }
 
 .evento{
-    border-bottom:1px solid var(--darkbgcolor);
-    padding:0.5cm;
+    padding:0.3cm 0.5cm;
+    border:1px solid var(--lightborder);
+    height:100%;
+    border-radius: 0.1cm;
+    text-align: left;
+}
+
+.cards-container:has(.evento){
+    display: flex;
+    flex-wrap: wrap;
+    gap:1%;
+    margin-top: 0.2cm;
+    clear: both;
+    padding-top:0.5cm;
+    border-top:1px solid var(--lightborder);
+}
+
+.evento .descrizione-evento p{
+    border-top: 1px solid var(--lightborder);
+    clear: both;
+    margin-top:0.3cm;
+}
+
+.cards-container:has(.evento) li{
+    flex-grow: 1;
+    justify-content: space-between;
+    flex: 0 0 49%;
+    display: flex;
+    list-style: none;
+    box-sizing: border-box;
+    flex-direction: column;
+    margin-bottom: -0.8cm;
 }
 
 .evento img{
     float: left;
-    max-height: 3cm;
-    max-width: 4cm;
-    margin: auto;
-    padding-right: 1cm;
+    max-height: 2cm;
+    max-width: 3cm;
+    margin: 0 auto 0.5cm auto;
+    padding-right: 0.5cm;
     object-fit: cover;
 }
 
@@ -323,5 +332,4 @@ article.evento {
     break-inside: avoid; 
     page-break-inside: avoid; 
     display: block; 
-    margin-bottom: 0.5cm; 
 }
