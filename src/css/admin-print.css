@@ -4,6 +4,7 @@
     --lightborder: #887962;
     --bgcolor: #FFF6D7;
     --bordercolor: #481515;
+    --visitedcolor: #6D7541;
 }
 
 *{
@@ -17,8 +18,26 @@ html, body{
     margin: auto;
     text-align: justify;
 }
+
+a{
+    color:var(--bordercolor);
+}
+
+a:visited{
+    color:var(--visitedcolor);
+}
+
 h1{
     margin-bottom: 0.5cm;
+    font-size: 20pt;
+}
+
+h2{
+    font-size: 16pt;
+    padding-top: 0.2cm;
+    margin-top: 0.3cm;
+    margin-bottom: 0.1cm;
+    border-top: 1px solid var(--lightborder);
 }
 
 article{
