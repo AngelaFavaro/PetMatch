@@ -12,7 +12,6 @@ if (isset($_GET['email']) && isset($_POST['view-profile'])){
     $richiesteAdozioneHref = './richieste-adozione';
 }
 
-
 $inputJSON = file_get_contents('php://input');
 $inputData = json_decode($inputJSON, true);
 if (isset($inputData['toggle_theme'])) {
