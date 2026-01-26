@@ -404,7 +404,7 @@ if(isset($_GET['id'])) {
     $main = str_replace('[BANNERACCEDI]', $banneraccedi, $main);
     $stringaFiltri='';
     if (!$isPreferiti) {
-        $stringaFiltri="<form class='filtri' id='form-ricerca' method='get' action=".($isAdmin ? './assegnati-a-te' : './animali').">
+        $stringaFiltri="<form class='filtri' id='form-ricerca' method='get' action=".($isFromAdmin ? './assegnati-a-te' : './animali').">
             <!-- rotta gestita dal router -->
             
             <input type='hidden' name='tipo' value='[TYPE]'>
