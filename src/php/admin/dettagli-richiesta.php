@@ -43,7 +43,7 @@ function hiddenInputsFrom(array $r): string {
 }
 
 /**
- * Rende il blocco "scarta/apri richiesta"
+ * Renderizza il blocco "scarta/apri richiesta"
  */
 function renderRejectRequest(array $r): string {
     if (($r['stato'] ?? '') !== 'Respinta' && ($r['stato'] ?? '') !== 'Annullata') {
@@ -59,7 +59,7 @@ function renderRejectRequest(array $r): string {
 }
 
 /**
- * Rende i pulsanti di azione in base allo stato della richiesta
+ * Renderizza i pulsanti di azione in base allo stato della richiesta
  */
 function renderPulsantiAzioni(array $r): string {
     $stato = $r['stato'] ?? '';
@@ -95,9 +95,19 @@ function buildDateInfo(array $r): array {
 	if(($r['stato'] ?? '') === 'In valutazione') {
 		$dataInizio = '<dt>Data inizio valutazione</dt><dd><time datetime="' . ($r['data_inizio_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_inizio_valutazione'] ?? '') . '</time></dd>';
 	}
-	if(($r['stato'] ?? '') === 'Annullata') {
-		$dataInizio = '<dt>Data inizio valutazione</dt><dd><time datetime="' . ($r['data_inizio_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_inizio_valutazione'] ?? '') . '</time></dd>';
-		$dataRifiuto = '<dt>Data annullamento</dt><dd><time datetime="' . ($r['data_fine_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_fine_valutazione'] ?? '') . '</time></dd>';
+	if(($r['stato'] ?? '') === 'Annullata' || ($r['stato'] ?? '') === 'Respinta' || ($r['stato'] ?? '') === 'Accettata') {
+        $dataInizio = '';
+        $dataRifiuto = '';
+        if (($r['data_inizio_valutazione'] ?? '') !== '') {
+            $dataInizio = '<dt>Data inizio valutazione</dt><dd><time datetime="' . $r['data_inizio_valutazione'] . '">' . displayDateItalianFormat($r['data_inizio_valutazione']) . '</time></dd>';
+        } else {
+            $dataInizio = '<dt>Data inizio valutazione</dt><dd>Non presente</dd>';
+        }
+        if (($r['data_fine_valutazione'] ?? '') !== '') {
+            $dataRifiuto = '<dt>Data fine valutazione</dt><dd><time datetime="' . $r['data_fine_valutazione'] . '">' . displayDateItalianFormat($r['data_fine_valutazione']) . '</time></dd>';
+        } else {
+            $dataRifiuto = '<dt>Data fine valutazione</dt><dd>Non presente</dd>';
+        }
 	}
     return [$dataInizio, $dataFine, $dataRifiuto];
 }
