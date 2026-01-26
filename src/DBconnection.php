@@ -1381,8 +1381,7 @@ class DBAccess {
         // controllo se dataInizioValutazione esiste, se non esiste metto quella di oggi
         $query = "UPDATE RICHIESTE_ADOZIONI 
                 SET Stato = ?, 
-                    DataFineValutazione = ?, 
-                    DataInizioValutazione = COALESCE(DataInizioValutazione, ?) 
+                    DataFineValutazione = ?
                 WHERE Email = ? AND IDanimale = ?";
 
         $stmt = mysqli_prepare($this->connection, $query);
@@ -1392,7 +1391,7 @@ class DBAccess {
         }
 
         mysqli_stmt_bind_param(
-            $stmt, 'ssssi', $stato, $dataOggi, $dataOggi, $email, $idAnimale);
+            $stmt, 'sssi', $stato, $dataOggi, $email, $idAnimale);
 
         $result = mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
