@@ -141,6 +141,35 @@ class DBAccess {
 		
 	}
 
+    /** trova per un determinato user il numero richieste attive-1 dove attive significa non concluse, non annullate, non respinte
+     */
+    public function countActiveRequestsForUser($email): int {
+        if (!$this->connection){
+            return -1;
+        }
+
+        $query = "SELECT COUNT(*) AS totale FROM RICHIESTE_ADOZIONI R WHERE R.Stato NOT IN ('Conclusa', 'Annullata', 'Respinta') AND R.Email = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return -1;
+        }
+
+        mysqli_stmt_bind_param($stmt, 's', $email);
+        if(!mysqli_stmt_execute($stmt)){
+            mysqli_stmt_close($stmt);
+            return -1;
+        }
+        $queryResult = mysqli_stmt_get_result($stmt);
+        if($queryResult === false || mysqli_num_rows($queryResult) == 0){
+            mysqli_stmt_close($stmt);
+            return -1;
+        }
+        $row = mysqli_fetch_assoc($queryResult);
+        mysqli_stmt_close($stmt);
+        return (int)$row['totale'];
+    }
+
 
     public function addTransport($emailRichiedente, $idAnimale, $dataArrivo): bool {
         if (!$this->connection){ //se la connessione non è aperta
@@ -1855,6 +1884,15 @@ class DBAccess {
         $types .= 's';
     }
 
+    /* ---------- FILTRO PERIODO ---------- */
+    if (!empty($filters['tipo'])) {
+        if($filters['tipo'] === 'prossimi'){
+            $where[] = 'DataEvento >= CURRENT_DATE()';
+        }else if($filters['tipo'] === 'terminati'){
+            $where[] = 'DataEvento < CURRENT_DATE()';
+        }
+    }
+
     /* ---------- QUERY BASE ---------- */
     $query = "
         SELECT 
@@ -1952,6 +1990,15 @@ public function countEventsFiltered(array $filters): int {
         $where[] = 'Citta = ?';
         $params[] = $filters['citta'];
         $types .= 's';
+    }
+    
+    /* ---------- FILTRO PERIODO ---------- */
+    if (!empty($filters['tipo'])) {
+        if($filters['tipo'] === 'prossimi'){
+            $where[] = 'DataEvento >= CURRENT_DATE()';
+        }else if($filters['tipo'] === 'terminati'){
+            $where[] = 'DataEvento < CURRENT_DATE()';
+        }
     }
 
     /* ---------- QUERY COUNT ---------- */

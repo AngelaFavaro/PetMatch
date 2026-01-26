@@ -137,7 +137,7 @@ $pagine = [
     'nuovo-evento' => [
         'label' => 'Nuovo evento',
         'url' => './nuovo-evento',
-        'parent' => 'eventi'
+        'parent' => 'visualizzazione-eventi'
     ],
     'assegnati-a-te' => [
         'label' => 'Assegnati a te',
@@ -147,7 +147,12 @@ $pagine = [
     'modifica-evento' => [
         'label' => 'Modifica evento',
         'url' => './modifica-evento',
-        'parent' => 'eventi'
+        'parent' => 'visualizzazione-eventi'
+    ],
+    'visualizzazione-eventi' => [
+        'label' => 'Visualizzazione-eventi',
+        'url' => './visualizzazione-eventi',
+        'parent' => 'home'
     ],
 ];
 
@@ -155,7 +160,7 @@ $adminMenu = [
     'principale' => [
         ['href' => './area-riservata', 'text' => 'Area personale'],
         ['href' => './richieste-adozione', 'text' => 'Richieste di adozione'],
-        ['href' => './eventi', 'text' => 'Eventi'],
+        ['href' => './visualizzazione-eventi', 'text' => 'Eventi'],
     ],
     'animali' => [
         ['href' => './assegnati-a-te', 'text' => 'Assegnati a te'],
@@ -226,7 +231,9 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
         <a class="navigationHelp" href="#content"> Salta il menù di navigazione</a>
         <a id="logo-link" href="./home">
             <img src="./assets/icons/light-mode-logo.svg" id="logo" alt="Home" lang="en">
-        </a>';
+        </a>
+        <div id="solo-stampa">PetMatch</div>
+        ';
         $html .= $currentHref==='./nuovo-animale' ? '<p class="orange-button" id="currentLink" href="./nuovo-animale">+ Aggiungi animale</p>' : '<a class="orange-button" href="./nuovo-animale">+ Aggiungi animale</a>';
 
     foreach ($menuGroups as $key => $items) {

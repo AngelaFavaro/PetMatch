@@ -245,8 +245,13 @@ details[open] .number::after {
     justify-content: center;
 }
 
-#animali .filtri #searchName.capsula-filtro {
+body#admin-body #animali .filtri .capsula-filtro {
     width: 100%;
+    flex: 1 1 100%;
+}
+
+body#admin-body #animali .filtri .capsula-filtro label[for="filtro-assegnata"] + select{
+    padding: 0.5em 4.5em;
 }
 
 #animali .filtri {
@@ -347,7 +352,7 @@ details[open] .number::after {
     margin-bottom:0em;
 }
 
-/*                      PAGINA EVENTI                 */
+/*===================PAGINA EVENTI==================*/
 #eventi .filtri {
     display:flex;
     align-items: center;

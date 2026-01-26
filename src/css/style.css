@@ -54,6 +54,7 @@
     --darkMode-row-time-line: #481515;
     --darkMode-bglink-hover: #b79378;
     --darkMode-txtclose-request: #C7B097;
+    --darkMode--darklinkcolor:#C7B097;
 
     --successtxt:#576F30;
     --errortxt: #BA3A24;
@@ -79,6 +80,7 @@
 }
 
 :root:has(input#theme-toggle:checked){
+    --darklinkcolor: var(--darkMode--darklinkcolor);
     --selectTypeAnimal: var(--darkMdode-selectTypeAnimal);
     --text-deletebutton: var(--darkMode-text-deletebutton);
     --bordermodifiedAccount:var(--darkMode-bordermodifiedAccount);
@@ -204,6 +206,7 @@ main#content{
     /* min-height: 100vh; */
     flex: 1;
     padding-top: 2em;
+    padding-bottom: 2em;
     min-height: auto;
 }
 
@@ -263,7 +266,7 @@ h4{
 
 #form-signup + p a:visited,
 #form-login + p a:visited{
-    color:var(--visitedcolor);
+    color:var(--headervisitedlink);
     font-weight: 500;
 }
 
@@ -667,7 +670,7 @@ li.capsula-filtro input:focus{
 }
 
 #introduction-lavora-con-noi a{
-    color:var(--linkcolor);
+    color:var(--darklinkcolor);
     font-weight: 500;
 }
 
@@ -955,6 +958,9 @@ header a{
 
 
 /* per admin */
+#solo-stampa{
+    display: none;
+}
 
 #admin-body #theme-toggle {
     position: fixed;
@@ -969,6 +975,7 @@ header a{
     height: 45px;
     bottom: 20px;
     right: 20px;
+    z-index: 999;
 }
 
 #admin-body #slider {
@@ -1821,18 +1828,35 @@ input:-webkit-autofill:active{
 
 /*=================PAGINA ANIMALI======================*/
 
-/* contenitore principale */
+#animali a.brown-button{
+    margin:0;
+    float: right;
+}
+/* aggiunto questo altrimenti mi si sminchiano le cose da admin */
+div#admin-area #animali a.brown-button{
+float: none;
+    display: inline-block; /* Assicura che il margine funzioni correttamente */
+    margin: 0.5em;
+}
+#animali h1{
+    display: inline-block;
+    margin-top: 0.2em;
+}
 
 /* FILTRI */
+
 #animali .filtri ul, #eventi .filtri ul, #richieste .filtri ul{
-    display: contents;
+    display: flex;
     list-style: none;
+    gap: 1em;
+    flex-wrap: wrap;
+    width: 100%;
 }
 
 #animali .filtri, #eventi .filtri, #richieste .filtri{
     display: flex;
     gap: 0.5em;
-    align-items: center;
+    justify-content: flex-end;
 }
 
 #animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro
@@ -1929,15 +1953,22 @@ input:-webkit-autofill:active{
 
 /* contenitore nav */
 /* NAV container */
-#animali #nav-animali-type {
+#animali #nav-animali-type,
+#nav-event-type {
     display: flex;
     align-items: flex-end;
     margin-bottom: 1.5em;
+}
+
+#animali #nav-animali-type{
     margin-top: 1.5em;
+    clear:right;
+    /* clear: both; */
 }
 
 
-#animali #nav-animali-type ul {
+#animali #nav-animali-type ul,
+#nav-event-type ul{
     display: flex;
     list-style: none;
     padding: 0;
@@ -1946,9 +1977,10 @@ input:-webkit-autofill:active{
 }
 
 
-#animali #nav-animali-type li {
-    flex: 1;                     /* 1/3 ciascuno */
-    white-space: nowrap;         /* niente a capo */
+#animali #nav-animali-type li,
+#nav-event-type li {
+    flex: 1;                    
+    white-space: nowrap;
     text-align: center;
     padding: 0.6em 0;
     border-bottom: 1px solid var(--txtcolor);
@@ -1956,7 +1988,8 @@ input:-webkit-autofill:active{
 }
 
 
-#animali #nav-animali-type::after {
+#animali #nav-animali-type::after,
+#nav-event-type::after {
     content: "";
     flex: 1;
     border-bottom: 1px solid var(--txtcolor);
@@ -1965,7 +1998,8 @@ input:-webkit-autofill:active{
 
 
 /* link */
-#animali #nav-animali-type a {
+#animali #nav-animali-type a,
+#nav-event-type a {
     display: block;
     text-decoration: none;
     color: var(--txtcolor);
@@ -1973,15 +2007,14 @@ input:-webkit-autofill:active{
 }
 
 /* elemento attivo */
-#animali #nav-animali-type .currentType {
-    /*flex: 0 0 auto;*/
+#animali #nav-animali-type .currentType,
+#nav-event-type .currentType {
     padding: 0.6em 1.2em;
     font-weight: bold;
     border: 1px solid var(--txtcolor);
     border-top-left-radius: 0.5em;
     border-top-right-radius: 0.5em;
     border-bottom: none;
-    /*margin-bottom: -2px;*/
     background: var(--bgcolor);
 }
 
@@ -2005,7 +2038,7 @@ input:-webkit-autofill:active{
 #animali #content-filter-button, #eventi #content-filter-button{
     display: flex;
     margin:auto;
-    gap:1em;
+    gap:0.5em;
     height: fit-content;
 }
 
@@ -2034,7 +2067,8 @@ input:-webkit-autofill:active{
     margin-top: 1em;
 }
 
-#animali .cards-container:has(.errore) {
+#animali .cards-container:has(.errore),
+#eventi .cards-container:has(.errore) {
     justify-content: center; 
 }
 
@@ -2046,7 +2080,7 @@ input:-webkit-autofill:active{
 
 #animali li.card, #animali li.dark-card {
     width: 11em;
-    height: 14em;
+    height: 16em;
     margin: 0.5em;
     border-radius: 0.2em;
     position: relative;
@@ -2069,13 +2103,13 @@ input:-webkit-autofill:active{
 
 #animali li.card article, #animali li.dark-card article {
     /* width: 11em; */
-    height: 14em;
+    height: 16em;
     overflow: hidden;
     align-items: center;
 }
 
 #animali .immagine {
-    height: 60%;
+    height: 65%;
     width: 100%;
     align-content: center;
     /* overflow: hidden; */
@@ -2372,6 +2406,11 @@ input:-webkit-autofill:active{
 
 /*=================PAGINA EVENTI======================*/
 
+#new-event-button{
+    margin-left: auto;
+    margin-right: 0;
+}
+
 #eventi #content-filter-button button {
     flex: 1 1 100%;
     min-width: 5em;
@@ -2511,7 +2550,8 @@ cursor: pointer;
     list-style: none;
     width: 100%;
     height: 10em;
-    display: block;
+    /* display: block; */
+    min-width: 30em;
     padding-right: 1em;
     background-color: var(--darkbgcolor);
     /* border: 0.1em solid var(--darkbgcolor); */
@@ -2528,9 +2568,10 @@ cursor: pointer;
 #eventi .cards-container li {
     border-radius: 0.5em;
     list-style: none;
-    width: 47%;
+    flex: 1 1 45%;
+    /* width: 47%; */
     height: 10em;
-    display: block;
+    /* display: block; */
     background-color: var(--darkbgcolor);
     margin: 0.5em;
 }
@@ -3427,6 +3468,72 @@ input[type="file"]::file-selector-button:hover {
     width: 100%;
 }
 
+/* TABELLA ORARI CHI SIAMO */
+
+#orari table {
+    background-color: var(--secondsection);
+    color: var(--bgcolor);
+    max-width: 40em;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#orari{
+    text-align: center;
+}
+
+#orari h1 {
+    margin-bottom: 0.2em;
+}
+
+#orari p {
+    margin-bottom: 0.5em;
+}
+
+#orari table tr {
+    height: 2em;
+}
+
+#orari table thead {
+    background-color: var(--headercolor);
+    color: var(--bgcolor);
+}
+
+#orari table tbody td {
+    background-color: var(--darkbgcolor);
+    color: var(--buttoncolor-hover);
+    border-bottom: 1px solid var(--headervisitedlink);
+}
+
+#orari table tbody td, #orari table thead th, #orari table tbody th{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 33.333%;
+}
+
+#orari table tbody td[colspan="2"]{
+    text-align: center;
+    border-right: none;
+}
+
+#orari table {
+    border: 1px solid var(--headervisitedlink);
+}
+
+/* Celle pari */
+tbody td:nth-child(even),
+tbody th:nth-child(even) {
+    border-left: 1px solid var(--headervisitedlink);
+    border-right: 1px solid var(--headervisitedlink);
+}
+
+#orari table tbody th {
+    background-color: var(--headervisitedlink);
+    color: var(--bgcolor);
+    /* text-align: left; */
+}
+
 /* Sezione 2 Chi Siamo */
 
 #second-chapter-chi-siamo{
@@ -3576,7 +3683,10 @@ input[type="file"]::file-selector-button:hover {
 body#admin-body{
     background-color: var(--footercolor);
     display: inline-block;
+    min-height: 100vh;
     width: 100%;
+    display: flex;
+    flex-direction: row;
 }
 
 body#admin-body #animali .filtri,
@@ -3593,9 +3703,9 @@ body#admin-body #richieste .filtri button{
 
 body#admin-body #animali .filtri .capsula-filtro,
 body#admin-body #richieste .filtri .capsula-filtro{
-    margin-left: auto;
+    /* margin-left: auto; */
     margin-right: 0;
-    gap:0;
+    /* gap:0; */
     flex:0 0 fit-content;
 }
 
@@ -3606,7 +3716,6 @@ div#admin-area article h2{
 
 div#admin-area{
     padding: 0em 5em;
-    min-height: 100vh;
     margin-top: 2em;
 }
 
@@ -3685,7 +3794,8 @@ p.n-query{
 { display: none; } /* Nascondi tasto su desktop */
 
 nav#menu-admin {
-    display: flex;
+    /* display: flex; */
+    flex:0 0 20%;
     flex-direction: column;
     transition: 0.3s;
     float: left;
@@ -3693,7 +3803,8 @@ nav#menu-admin {
     padding: 1em 0em 1em 1em;
     height: 100%;
     overflow: hidden;
-     font-size: 100%;
+     font-size: 100%;   
+
     /* height: 100vh; */
 }
 
@@ -3704,7 +3815,10 @@ nav#menu-admin li a {
 
 body#admin-body main {
     background-color: var(--bgcolor);
-    margin-left:20%;
+    overflow: hidden;
+    /* margin-left:20%; */
+    flex:1 1 80%;
+    /* min-height: 100vh; */
 }
 
 nav#menu-admin #logo {
@@ -3775,6 +3889,10 @@ nav#menu-admin span{
     color: var(--navButton);
     margin-left: 0.5em;
     font-weight: 700;
+}
+
+nav#menu-admin .orange-button{
+    margin: 0 auto 1em auto;
 }
 
 nav#menu-admin ul{
@@ -4138,7 +4256,7 @@ footer a{
 
 
 thead th, tfoot th, tfoot td {
-    padding: 0.5em 2em;
+    padding: 0.5em 0.5em;
     text-align: left;
 }
 
@@ -4151,11 +4269,20 @@ thead tr:first-child th:last-child {
 }
 
 tbody td, tbody th {
-    padding: 0em 2em;
+    padding: 0em 0.5em;
     text-align: left;
     border-bottom: 1px solid var(--txtcolor);
 }
+tbody tr th,thead tr th:first-child{
+    padding-left:2em;
+}
 
+td.col-dettagli{
+    padding: 0;
+}
+.col-dettagli img{
+    vertical-align: middle;
+}
 tbody tr:last-child td, 
 tbody tr:last-child th {
     border-bottom: none;
@@ -4174,12 +4301,19 @@ caption {
     overflow: hidden;
 }
 
+td.col-dettagli a:hover img{
+    filter: brightness(0) saturate(100%) invert(8%) sepia(45%) saturate(5833%) hue-rotate(348deg) brightness(95%) contrast(96%);
+}
+
 td.col-dettagli a,td.col-dettagli button{
     margin: 0.5em;
     width: fit-content;
-    min-width: 10.5em;
+    /* min-width: 10.5em; */
 }
 
+td.col-dettagli a:hover img{
+    filter: brightness(0) saturate(100%) invert(8%) sepia(45%) saturate(5833%) hue-rotate(348deg) brightness(95%) contrast(96%);
+}
 #admin-area #animali tbody .orange-button[name="elimina_segnalazione"]{
     background-color: transparent;
     border: 2px solid var(--buttoncolor);
@@ -4204,6 +4338,20 @@ td.col-dettagli a,td.col-dettagli button{
 /* tr:hover {
     background-color: var(--darkbgcolor);          
 } */
+
+/*================== ANIMALI ASSEGNATI A TE ADMIN  ==================*/
+
+div#admin-area .container{
+    max-width: none;
+}
+div#admin-area .container#animali .filtri ul{
+    justify-content: normal;
+}
+/*================== SEGNALAZIONE NUOVE ACCOGLIENZE ADMIN  ==================*/
+div#admin-area #animali .filtri ul{
+    justify-content: flex-end;
+}
+
 /*================== FILTRI  ==================*/
 .tab-content .filtri ul{
     /* margin: 1em; */
@@ -4943,7 +5091,8 @@ nav#breadcrumb a:visited{
 
 /* SEZIONE FINALE IN CASO DI NO ACCESSO */
 #contatta-rifugio{
-    background-color: var(--darkbgcolor);
+    border-top:2px solid var(--darkbgcolor);
+    border-bottom:2px solid var(--darkbgcolor);
     padding: 1.5em;
     margin-bottom: 2em;
     text-align: center;
@@ -4951,12 +5100,20 @@ nav#breadcrumb a:visited{
     font-weight: 400;
 }
 
+#contatta-rifugio a{
+    color:var(--darklinkcolor);
+}
+
+#contatta-rifugio a:visited{
+    color:var(--headervisitedlink);
+}
+
 
 /* SEZIONE FORM RICHIESTA ADOZIONE */
 
 #richiesta-adozione{
     background-color: var(--secondsection);
-    margin-bottom:-1.5em;
+    margin-bottom:-3em;
     padding-bottom:10em;
     background-repeat: repeat;
     background-size: contain;
@@ -5069,7 +5226,8 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     margin: auto;
 }
 
-#ModifiedMode{
+#ModifiedMode,
+#AdminMode{
     display: none;
 }
 

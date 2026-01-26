@@ -500,3 +500,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+
+
+// aggiorna subuto l'immagine profilo
+document.addEventListener('DOMContentLoaded', function() {
+    
+    const fileInput = document.getElementById('new-pic');
+    const imgPreview = document.getElementById('foto-profilo');
+    const deleteCheckbox = document.getElementById('delete-pic');
+
+    if(fileInput && imgPreview) {
+        
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    imgPreview.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+
+                //se metto un nuovo file la spunta era checkata allora la toglie
+                if(deleteCheckbox) {
+                    deleteCheckbox.checked = false;
+                }
+            }
+        });
+    }
+});

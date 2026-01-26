@@ -69,25 +69,33 @@ $perPagina = 12;
 $pagina = max(1, (int)($_GET['page'] ?? 1));
 $offset = ($pagina - 1) * $perPagina;
 $isPreferiti=0;
+$isAdmin=0;
+if(isset($_SESSION['admin']) && $_SESSION['admin'] === true) {
+    $isAdmin=1;
+}
+
 if (defined('PAGINA_PREFERITI')) {
     $isPreferiti=1;
 }
 
-$isAdmin=0;
+$isFromAdmin=0;
 $adminEmail='';
 if (defined('ADMIN_ANIMALI')) {
-    $isAdmin=1;
+    $isFromAdmin=1;
     $adminEmail=$_SESSION['email']??'';
 }
 
 $titolo = 'Animali';
 if($isPreferiti) {
     $titolo.=' preferiti';
-}else if($isAdmin) {
+}else if($isFromAdmin) {
     $titolo='Animali assegnati a te';
 }
-$messaggioNoAnimali = $isPreferiti? 'Non hai ancora salvato nessun animale.': ($isAdmin ? 'Non ci sono animali assegnati a te.' : 'Non abbiamo ancora animali disponibili.');
-
+$messaggioNoAnimali = $isPreferiti? 'Non hai ancora salvato nessun animale.': ($isFromAdmin ? 'Non ci sono animali assegnati a te.' : 'Non abbiamo ancora animali disponibili.');
+$assignedButton='';
+if($isAdmin&&!$isFromAdmin) {
+    $assignedButton="<a href='assegnati-a-te' class='brown-button'>Assegnati a te</a>";
+}
 
 
 /* ------------------ FILTRI GET ------------------ */
@@ -214,7 +222,7 @@ function buildAnimalCards(array $animali, ?string $email): string {
                 $inPreferiti = in_array($id, $guestFavs);
             }
 
-            // se adottato → niente interazione
+            // se adottato -> niente interazione
             $classePreferito = $inPreferiti ? 'is-favorite' : 'not-favorite';
             $statusPreferiti = $inPreferiti ? 'Rimuovi dai preferiti' : 'Aggiungi ai preferiti';
             $heartNormal = $inPreferiti ? 'active-like.svg' : 'inactive-like.svg';
@@ -275,7 +283,7 @@ function buildAnimalCards(array $animali, ?string $email): string {
 
 
 // RESET DEI FILTRI
-if(!$isAdmin) {
+if(!$isFromAdmin) {
     $resetUrl = './animali';
 } else {
     $resetUrl = './assegnati-a-te';
@@ -305,7 +313,7 @@ if($isPreferiti) {
         } else {
             $animali = $connessione->getGuestFavPaged($type, $perPagina, $offset);
         }
-        $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail,$isAdmin) : "<p class='errore'>$messaggioNoAnimali</p>";
+        $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail,$isFromAdmin) : "<p class='errore'>$messaggioNoAnimali</p>";
         // $linkPagine = "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine'>
         // <ul aria-label='Pagine di navigazione'>"
         $linkPagine = ($pagineTotali > 1)
@@ -323,7 +331,7 @@ if($isPreferiti) {
 } else {
     if ($connessione->openDBConnection()) {
 
-        $totale = $isAdmin ? $connessione->countAssignedAnimalsFiltered($type, $filters, $adminEmail) : $connessione->countAnimalsFiltered($type, $filters);
+        $totale = $isFromAdmin ? $connessione->countAssignedAnimalsFiltered($type, $filters, $adminEmail) : $connessione->countAnimalsFiltered($type, $filters);
         $pagineTotali = max(1, ceil($totale / $perPagina));
 
         if ($pagina > $pagineTotali) {
@@ -331,9 +339,9 @@ if($isPreferiti) {
             $offset = ($pagina - 1) * $perPagina;
         }
         
-        $animali = $isAdmin ? $connessione->getAssignedAnimalsFilteredPaged($type, $filters, $perPagina, $offset,$adminEmail) : $connessione->getAnimalsFilteredPaged($type, $filters, $perPagina, $offset);
+        $animali = $isFromAdmin ? $connessione->getAssignedAnimalsFilteredPaged($type, $filters, $perPagina, $offset,$adminEmail) : $connessione->getAnimalsFilteredPaged($type, $filters, $perPagina, $offset);
         $userEmail = $_SESSION['email'] ?? null;
-        $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail,$isAdmin) : "<p class='errore'>$messaggioNoAnimali</p>";
+        $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail,$isFromAdmin) : "<p class='errore'>$messaggioNoAnimali</p>";
         if($filters) {
         $params= array_merge(['tipo' => $type], $filters);
         } else {
@@ -371,7 +379,7 @@ if($isPreferiti&&!$userEmail&&$totale!==0) {
 $linkNavAnimali = $isPreferiti ? buildNavAnimali($type, $isPreferiti) : buildNavAnimali($type, $isPreferiti,$filters);
 
 $main = '';
-if(!$isAdmin) {
+if(!$isFromAdmin) {
     $paginaHTML = file_get_contents('./src/template/layout.html');
 }else{
     $paginaHTML = file_get_contents('./src/template/layout-admin.html');
@@ -380,20 +388,21 @@ if(!$isAdmin) {
 
 $main .= file_get_contents('./src/template/main/animali.html');
 
-if(!$isAdmin) {
+if(!$isFromAdmin) {
     $footer = buildFooter($footerMenu,  './animali');
 }else{
     $main .= '</div>'; //chiudo admin-area !!!!!
 }
 $main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);
 $main = str_replace('[TITOLO]', $titolo, $main);
+$main = str_replace('[ASSIGNED-BUTTON]', $assignedButton, $main);
 $main = str_replace('[ANIMALI]', $cardAnimali, $main);
 $main = str_replace('[NAVTYPE]', $linkNavAnimali, $main);
 $main = str_replace('[LINKPAGINE]', $linkPagine, $main);
 $main = str_replace('[BANNERACCEDI]', $banneraccedi, $main);
 $stringaFiltri='';
 if (!$isPreferiti) {
-    $stringaFiltri="<form class='filtri' method='get' action=".($isAdmin ? './assegnati-a-te' : './animali').">
+    $stringaFiltri="<form class='filtri' id='form-ricerca' method='get' action=".($isAdmin ? './assegnati-a-te' : './animali').">
         <!-- rotta gestita dal router -->
         
         <input type='hidden' name='tipo' value='[TYPE]'>
@@ -447,7 +456,7 @@ if (!$isPreferiti) {
     $main = str_replace('[URL-RESETFILTRI]', $resetUrl, $main);
     $main = str_replace('[VISIBILITA-FILTRO]', $cancelFiltriId, $main);
 
-    if($isAdmin) {
+    if($isFromAdmin) {
         $title = '<title>Animali assegnati a te - PetMatch</title>';
         $description = '<meta name="description" content="Animali assegnati a te in adozione su PetMatch">';
 
@@ -464,10 +473,10 @@ if (!$isPreferiti) {
 $keywords = '';
 
 
-$nav = $isPreferiti ? buildNav($userMenu, './preferiti') : ($isAdmin ? buildAdminNav($adminMenu, './assegnati-a-te') : buildNav($userMenu, './animali'));
-$breadcrumb = $isPreferiti ? getBreadcrumb('preferiti', $pagine) : ($isAdmin ? getBreadcrumb('assegnati-a-te', $pagine) : getBreadcrumb('animali', $pagine));
+$nav = $isPreferiti ? buildNav($userMenu, './preferiti') : ($isFromAdmin ? buildAdminNav($adminMenu, './assegnati-a-te') : buildNav($userMenu, './animali'));
+$breadcrumb = $isPreferiti ? getBreadcrumb('preferiti', $pagine) : ($isFromAdmin ? getBreadcrumb('assegnati-a-te', $pagine) : getBreadcrumb('animali', $pagine));
 
-if(!$isAdmin) {
+if(!$isFromAdmin) {
     $paginaHTML = str_replace(
         ['[title]', '[description]', '[keywords]', '[breadcrumb]', '[nav]', '[main]', '[footer]'],
         [$title, $description, $keywords, $breadcrumb, $nav, $main, $footer],
