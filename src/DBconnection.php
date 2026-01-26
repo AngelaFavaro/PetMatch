@@ -145,29 +145,30 @@ class DBAccess {
      */
     public function countActiveRequestsForUser($email): int {
         if (!$this->connection){
-            return -1;
+            return 0;
         }
 
         $query = "SELECT COUNT(*)-1 AS totale FROM RICHIESTE_ADOZIONI R WHERE R.Stato NOT IN ('Accettata', 'Annullata', 'Respinta') AND R.Email = ?";
 
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
-            return -1;
+            return 0;
         }
 
         mysqli_stmt_bind_param($stmt, 's', $email);
         if(!mysqli_stmt_execute($stmt)){
             mysqli_stmt_close($stmt);
-            return -1;
+            return 0;
         }
         $queryResult = mysqli_stmt_get_result($stmt);
         if($queryResult === false || mysqli_num_rows($queryResult) == 0){
             mysqli_stmt_close($stmt);
-            return -1;
+            return 0;
         }
         $row = mysqli_fetch_assoc($queryResult);
         mysqli_stmt_close($stmt);
-        return (int)$row['totale'];
+        $totale = (int)$row['totale'];
+        return $totale < 0 ? 0 : $totale;
     }
 
 

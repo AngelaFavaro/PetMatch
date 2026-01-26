@@ -204,6 +204,7 @@ $dataRichiestaRespinta = '';
 $dataInizioValutazione = '';
 $dataFineValutazione = '';
 $nRichiesteRichiedente = '';
+$noteTrasportoRichiesta = '';
 $connessione = new DBAccess();
 $connessioneOK = $connessione->openDBConnection();
 
@@ -429,7 +430,12 @@ if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($ri
             </article>';
     }
 }
+if($richiesta['trasporto-richiesta']!==$richiesta['trasporto-animale'] && $richiesta['trasporto-richiesta']===1){
+    $noteTrasportoRichiesta = '
+                    <em id="note-richiesta">Il richiedente ha richiesto il trasporto dell\'animale, ma l\'animale non è idoneo al trasporto.</em>';
 
+}
+$main = str_replace('[note-trasporto-richiesta]', $noteTrasportoRichiesta, $main);
 $main = str_replace('[n]', $nRichiesteRichiedente, $main);
 $main = str_replace('[annotazioni]', $annotazioni, $main);
 
