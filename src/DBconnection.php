@@ -145,29 +145,30 @@ class DBAccess {
      */
     public function countActiveRequestsForUser($email): int {
         if (!$this->connection){
-            return -1;
+            return 0;
         }
 
         $query = "SELECT COUNT(*)-1 AS totale FROM RICHIESTE_ADOZIONI R WHERE R.Stato NOT IN ('Accettata', 'Annullata', 'Respinta') AND R.Email = ?";
 
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
-            return -1;
+            return 0;
         }
 
         mysqli_stmt_bind_param($stmt, 's', $email);
         if(!mysqli_stmt_execute($stmt)){
             mysqli_stmt_close($stmt);
-            return -1;
+            return 0;
         }
         $queryResult = mysqli_stmt_get_result($stmt);
         if($queryResult === false || mysqli_num_rows($queryResult) == 0){
             mysqli_stmt_close($stmt);
-            return -1;
+            return 0;
         }
         $row = mysqli_fetch_assoc($queryResult);
         mysqli_stmt_close($stmt);
-        return (int)$row['totale'];
+        $totale = (int)$row['totale'];
+        return $totale < 0 ? 0 : $totale;
     }
 
 
@@ -247,7 +248,7 @@ class DBAccess {
             mysqli_stmt_bind_param($stmt, 'si', $emailRichiedente, $idAnimale);
             
         } else {
-            $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Annullata', DataFineValutazione=? WHERE Email = ? AND IDanimale = ?";
+            $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Respinta', DataFineValutazione=? WHERE Email = ? AND IDanimale = ?";
             $stmt = mysqli_prepare($this->connection, $query);
             if($stmt === false){
                 return false;
@@ -278,7 +279,7 @@ class DBAccess {
             return false;
         }
 
-        $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Nuova', DataFineValutazione = NULL WHERE Email = ? AND IDanimale = ?";
+        $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Nuova', DataFineValutazione = NULL, DataInizioValutazione = NULL WHERE Email = ? AND IDanimale = ?";
 
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
@@ -1381,8 +1382,7 @@ class DBAccess {
         // controllo se dataInizioValutazione esiste, se non esiste metto quella di oggi
         $query = "UPDATE RICHIESTE_ADOZIONI 
                 SET Stato = ?, 
-                    DataFineValutazione = ?, 
-                    DataInizioValutazione = COALESCE(DataInizioValutazione, ?) 
+                    DataFineValutazione = ?
                 WHERE Email = ? AND IDanimale = ?";
 
         $stmt = mysqli_prepare($this->connection, $query);
@@ -1392,7 +1392,7 @@ class DBAccess {
         }
 
         mysqli_stmt_bind_param(
-            $stmt, 'ssssi', $stato, $dataOggi, $dataOggi, $email, $idAnimale);
+            $stmt, 'sssi', $stato, $dataOggi, $email, $idAnimale);
 
         $result = mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);

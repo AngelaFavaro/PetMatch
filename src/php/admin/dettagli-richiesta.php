@@ -43,7 +43,7 @@ function hiddenInputsFrom(array $r): string {
 }
 
 /**
- * Rende il blocco "scarta/apri richiesta"
+ * Renderizza il blocco "scarta/apri richiesta"
  */
 function renderRejectRequest(array $r): string {
     if (($r['stato'] ?? '') !== 'Respinta' && ($r['stato'] ?? '') !== 'Annullata') {
@@ -59,7 +59,7 @@ function renderRejectRequest(array $r): string {
 }
 
 /**
- * Rende i pulsanti di azione in base allo stato della richiesta
+ * Renderizza i pulsanti di azione in base allo stato della richiesta
  */
 function renderPulsantiAzioni(array $r): string {
     $stato = $r['stato'] ?? '';
@@ -95,9 +95,19 @@ function buildDateInfo(array $r): array {
 	if(($r['stato'] ?? '') === 'In valutazione') {
 		$dataInizio = '<dt>Data inizio valutazione</dt><dd><time datetime="' . ($r['data_inizio_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_inizio_valutazione'] ?? '') . '</time></dd>';
 	}
-	if(($r['stato'] ?? '') === 'Annullata') {
-		$dataInizio = '<dt>Data inizio valutazione</dt><dd><time datetime="' . ($r['data_inizio_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_inizio_valutazione'] ?? '') . '</time></dd>';
-		$dataRifiuto = '<dt>Data annullamento</dt><dd><time datetime="' . ($r['data_fine_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_fine_valutazione'] ?? '') . '</time></dd>';
+	if(($r['stato'] ?? '') === 'Annullata' || ($r['stato'] ?? '') === 'Respinta' || ($r['stato'] ?? '') === 'Accettata') {
+        $dataInizio = '';
+        $dataRifiuto = '';
+        if (($r['data_inizio_valutazione'] ?? '') !== '') {
+            $dataInizio = '<dt>Data inizio valutazione</dt><dd><time datetime="' . $r['data_inizio_valutazione'] . '">' . displayDateItalianFormat($r['data_inizio_valutazione']) . '</time></dd>';
+        } else {
+            $dataInizio = '<dt>Data inizio valutazione</dt><dd>Non presente</dd>';
+        }
+        if (($r['data_fine_valutazione'] ?? '') !== '') {
+            $dataRifiuto = '<dt>Data fine valutazione</dt><dd><time datetime="' . $r['data_fine_valutazione'] . '">' . displayDateItalianFormat($r['data_fine_valutazione']) . '</time></dd>';
+        } else {
+            $dataRifiuto = '<dt>Data fine valutazione</dt><dd>Non presente</dd>';
+        }
 	}
     return [$dataInizio, $dataFine, $dataRifiuto];
 }
@@ -194,6 +204,7 @@ $dataRichiestaRespinta = '';
 $dataInizioValutazione = '';
 $dataFineValutazione = '';
 $nRichiesteRichiedente = '';
+$noteTrasportoRichiesta = '';
 $connessione = new DBAccess();
 $connessioneOK = $connessione->openDBConnection();
 
@@ -267,6 +278,7 @@ if($richiesta['trasporto-richiesta']===1 && $richiesta['indirizzo-richiedente'])
     $indirizzo_richiedente='<dt class="data-error">Indirizzo</dt><dd>MANCANTE</dd>'; //
 }
 $main = str_replace('[indirizzo-richiedente]', $indirizzo_richiedente, $main);
+$main = str_replace('[idAnimale]', e($richiesta['id-animale'] ?? ''), $main);
 $main = str_replace('[nomeAnimale]', e($richiesta['nome-animale'] ?? ''), $main);
 
 if(!$richiesta['animalImgPath'] || !file_exists($richiesta['animalImgPath'])){
@@ -418,7 +430,12 @@ if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($ri
             </article>';
     }
 }
+if($richiesta['trasporto-richiesta']!==$richiesta['trasporto-animale'] && $richiesta['trasporto-richiesta']===1){
+    $noteTrasportoRichiesta = '
+                    <em id="note-richiesta">Il richiedente ha richiesto il trasporto dell\'animale, ma l\'animale non è idoneo al trasporto.</em>';
 
+}
+$main = str_replace('[note-trasporto-richiesta]', $noteTrasportoRichiesta, $main);
 $main = str_replace('[n]', $nRichiesteRichiedente, $main);
 $main = str_replace('[annotazioni]', $annotazioni, $main);
 
