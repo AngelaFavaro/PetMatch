@@ -1,0 +1,46 @@
+/*==============HEADER================ */
+
+a:not(#logo-link):not(.pencil):not([href^="mailto:"])::after {
+    content: " [" attr(href) "]";
+    margin-left: 0.4em;
+}
+
+.navigationHelp {
+    display: none;
+}
+
+nav#header-logo {
+    height: 200px;
+    width: 200px;
+    display: block;
+    filter: grayscale(100%);
+}
+
+#nav-osso {
+    display: none;
+}
+
+#header-actions {
+    display: none;
+}
+
+
+/* ============PAGINA ANIMALI=========== */
+nav {
+    display: none;
+}
+
+.filtri {
+    display: none;
+}
+
+#animali .immagine {
+    max-width: 200px;
+    max-height: 200px;
+    object-fit: contain;
+}
+
+#animali .immagine img {
+    width: 100%;
+    height: 100%;
+}
