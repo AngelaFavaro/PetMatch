@@ -139,6 +139,15 @@ form.filtri select {
     margin: 0;
 }
 
+#animali .card p {
+   clear: left;
+   float: left;
+}
+
+#animali .card h3 {
+    float: left;
+}
+
 #animali ul.cards-container {
     list-style: none;
 }
@@ -147,15 +156,29 @@ form.filtri select {
     display: none;
 }
 
-#animali .is-favourite, #animali .not-favourite {
-    display: none;
+#animali .is-favorite, #animali .not-favorite {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    background: transparent;
+    float: right;
 }
 
 #animali .heart-normal {
     display: block;
     float: right;
+    width: 44px;
+    height: 44px;
 }
 
 #animali .heart-hover {
     display: none;
+    width: 44px;
+    height: 44px;
 }
+
+#animali .card .dettagli-animale-bottone {
+    float: left;
+    clear: left;
+}
+
