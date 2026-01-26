@@ -2497,25 +2497,6 @@ public function getAnimalArrivalDate($idAnimale): ?string {
         return $evento;
     }
 
-    public function countActiveRequestsForUser($email): int {
-        if (!$this->connection) return 0;
-
-        $query = "SELECT COUNT(*) as totale 
-                FROM RICHIESTE_ADOZIONI 
-                WHERE Email = ? AND Stato NOT IN ('Respinta', 'Annullata')";
-        
-        $stmt = mysqli_prepare($this->connection, $query);
-        if ($stmt) {
-            mysqli_stmt_bind_param($stmt, 's', $email);
-            mysqli_stmt_execute($stmt);
-            $result = mysqli_stmt_get_result($stmt);
-            $row = mysqli_fetch_assoc($result);
-            mysqli_stmt_close($stmt);
-            return (int)($row['totale'] ?? 0);
-        }
-        return 0;
-    }
-
     // Recupera il conteggio delle richieste per ogni stato per un SINGOLO ANIMALE
     public function getNRequestByStatusAnimal($idAnimale): array {
         $stati = ['Nuova', 'In valutazione', 'Accettata', 'Respinta', 'Annullata', 'Da trasportare'];
