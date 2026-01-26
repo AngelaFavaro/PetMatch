@@ -3467,7 +3467,7 @@ input[type="file"]::file-selector-button:hover {
 
 /* TABELLA ORARI CHI SIAMO */
 
-#orari table {
+#orari-chi-siamo table#tabella-chi-siamo {
     background-color: var(--secondsection);
     color: var(--bgcolor);
     max-width: 40em;
@@ -3475,57 +3475,57 @@ input[type="file"]::file-selector-button:hover {
     margin-left: auto;
 }
 
-#orari{
+#orari-chi-siamo{
     text-align: center;
 }
 
-#orari h1 {
+#orari-chi-siamo h1 {
     margin-bottom: 0.2em;
 }
 
-#orari p {
+#orari-chi-siamo p {
     margin-bottom: 0.5em;
 }
 
-#orari table tr {
+#orari-chi-siamo table#tabella-chi-siamo tr {
     height: 2em;
 }
 
-#orari table thead {
+#orari-chi-siamo table#tabella-chi-siamo thead {
     background-color: var(--headercolor);
     color: var(--bgcolor);
 }
 
-#orari table tbody td {
+#orari-chi-siamo table#tabella-chi-siamo tbody td {
     background-color: var(--darkbgcolor);
     color: var(--buttoncolor-hover);
     border-bottom: 1px solid var(--headervisitedlink);
 }
 
-#orari table tbody td, #orari table thead th, #orari table tbody th{
+#orari-chi-siamo table#tabella-chi-siamo tbody td, #orari-chi-siamo table#tabella-chi-siamo thead th, #orari-chi-siamo table#tabella-chi-siamo tbody th{
     text-align: center;
     margin-left: auto;
     margin-right: auto;
     width: 33.333%;
 }
 
-#orari table tbody td[colspan="2"]{
+#orari-chi-siamo table#tabella-chi-siamo tbody td[colspan="2"]{
     text-align: center;
     border-right: none;
 }
 
-#orari table {
+#orari-chi-siamo table#tabella-chi-siamo {
     border: 1px solid var(--headervisitedlink);
 }
 
 /* Celle pari */
-tbody td:nth-child(even),
-tbody th:nth-child(even) {
+#orari-chi-siamo table#tabella-chi-siamo tbody td:nth-child(even),
+#orari-chi-siamo table#tabella-chi-siamo tbody th:nth-child(even) {
     border-left: 1px solid var(--headervisitedlink);
     border-right: 1px solid var(--headervisitedlink);
 }
 
-#orari table tbody th {
+#orari-chi-siamo table#tabella-chi-siamo tbody th {
     background-color: var(--headervisitedlink);
     color: var(--bgcolor);
     /* text-align: left; */
