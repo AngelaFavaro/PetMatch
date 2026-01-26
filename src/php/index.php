@@ -30,6 +30,10 @@ function createCardEvents(DBAccess $conn){
     
         $dataEstesa = $giorno . ' ' . $mesi[$mese] . ' ' . $anno;
         $dataMobile = date('d/m/Y', $timestamp);
+
+        if (empty($event['ImgPath']) || !file_exists($event['ImgPath'])) {
+            $event['ImgPath'] = 'assets/images/events/eventi-default.jpg';
+        }
         
         $titolo = $event["Titolo"];
         $img = $event["ImgPath"];
@@ -53,7 +57,7 @@ function createCardEvents(DBAccess $conn){
         <a href="' . $link . '" class="polaroid" aria-label="' . $ariaLabel . '">
             
             <article aria-hidden="true">
-                <img src="' . $img . '" alt=""/>
+                <img src="' . $img . '" alt="copertina dell\'evento'.$titolo.'"/>
                 
                 <h4>' . $titolo . '</h4>
                 <p class="vDesk">' . $dataEstesa . '</p>
@@ -169,6 +173,8 @@ function sendReportForm(DBAccess $conn, &$nameValue, &$emailValue, &$animalValue
 
     return $message;
 }
+
+
 
 $InfoEvents = "";
 
