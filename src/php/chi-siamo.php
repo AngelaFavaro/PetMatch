@@ -6,10 +6,9 @@ if ($paginaHTML === false) {
 	$paginaHTML = "<p>Errore: template layout.html non trovato o non leggibile.</p>";
 }
 
-$title = '<title>Chi Siamo - PetMatch </title>';
-$description = '<meta name="description" content="Pagina dedicata a spiegare da chi è composto e come funziona il rifugio PetMatch">';
-$keywords =     '<meta name="keywords" content= "PetMatch, rifugio, animali, adottare, cani, gatti">';
-;
+$title = '<title>Chi Siamo - <span lang="en">PetMatch</span> </title>';
+$description = '<meta name="description" content="Pagina dedicata a spiegare da chi è composto e come funziona il rifugio <span lang="en">PetMatch</span>">';
+$keywords = '<meta name="keywords" content= "<span lang="en">PetMatch</span>, rifugio, animali, adottare, cani, gatti">';
 
 $breadcrumb = getBreadcrumb('chi-siamo', $pagine);
 $nav = buildNav($userMenu, './chi-siamo');
