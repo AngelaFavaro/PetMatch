@@ -3,6 +3,10 @@ include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 //se non sono loggato rimando alla pagina di login
 if (!isset($_SESSION['email'])) {
     header("Location: ./accedi");
@@ -23,6 +27,19 @@ else if (isset($_GET['state-richieste'])) {
     $filtroCorrenteRichieste = htmlspecialchars($_GET['state-richieste']);
     $tabAvvisi= '';
     $tabRichieste= 'checked';
+}
+
+function deleteAccount(DBAccess $conn){
+    if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-account'])) { 
+        $risultato = $conn->deleteAccount($_SESSION['email']);
+        if($risultato){
+            logout();
+            header('Location: ./accedi');
+            exit;
+        }else{
+            die("La query di eliminazione è fallita.");
+        }
+    } 
 }
 
 function checkRole(DBAccess $conn) {
@@ -500,7 +517,7 @@ $htmlView =
         <dt>Email: </dt> <dd>[email-utente]</dd>
         <dt>Telefono: </dt> <dd>[telefono-utente-view]</dd>
     </dl>
-    <form action="./profilo-utente" method="POST">
+    <form action="./profilo-utente" method="post">
         <button type="submit" name="logout" class="logout-btn">Disconnettiti</button>
     </form>
 </aside>';
@@ -510,7 +527,7 @@ $htmlView =
 $htmlEdit = '
     <div class="edit-mode" id="modifica-profilo" tabindex="-1">
         <h2>Modifica il profilo</h2>
-        <form class="edit-mode" method="POST" action="profilo-utente" enctype="multipart/form-data">
+        <form class="edit-mode" method="post" action="profilo-utente" enctype="multipart/form-data">
             <fieldset>
                 <legend>Informazioni personali</legend>
                 <div>
@@ -576,7 +593,7 @@ $htmlEdit = '
 $htmlManagement = '
     <div class="edit-management" id="gestisci-profilo" tabindex="-1">
         <h2>Gestisci il profilo</h2>
-        <form class="edit-mode" method="POST" action="profilo-utente" novalidate>
+        <form class="edit-mode" method="post" action="profilo-utente" novalidate>
             <fieldset class="fieldset-edit-email">
                 <legend>Modifica email</legend>
                 <div>
@@ -628,6 +645,25 @@ $htmlManagement = '
                 <button type="submit" name="edit-profile-management">Salva</button>
             </span>
         </form>
+
+
+        <input type="checkbox" id="delete-request-check" class="popup-checkbox" [isDisabled]>
+        <label for="delete-request-check" id="button-cancel">Elimina profilo</label>
+        <div class="overlay-content">
+            <div class="dialog-box">
+                <h3>Eliminazione profilo</h3>
+                <p>L\'eliminazione è <strong>irreversibile</strong>, vuoi continuare?</p>
+                
+                <div class="dialog-buttons">
+                    <label for="delete-request-check">No, annulla</label>
+                    
+                    <form method="post">
+                        <button type="submit" name="delete-account">Si, elimina</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </div>';
 
 if (isset($_GET['mode']) && $_GET['mode'] === 'edit') {
@@ -663,6 +699,7 @@ if ($connessioneOK) {
         $listaRichieste = createRequestList($connessione, $filtroCorrenteRichieste);
         $messageInfoForm = editInfoAccount($connessione, $NewUserInfo, $infoUtente, $editAddressPermission, $removeAddressPermission);
         $messageManagementForm = editManagementAccount($connessione, $NewUserManagement, $infoUtente);
+        deleteAccount($connessione);
     }else{
         header("Location: ./login"); 
         exit;
@@ -748,10 +785,10 @@ $paginaHTML = str_replace('[nome-utente]', $NewUserInfo['name'] ? $NewUserInfo['
 $paginaHTML = str_replace('[cognome-utente]', $NewUserInfo['surname'] ? $NewUserInfo['surname'] : $infoUtente['Cognome'], $paginaHTML);
 $paginaHTML = str_replace('[indirizzo-utente]', $indirizzoCompleto, $paginaHTML);
 $paginaHTML = str_replace('[email-utente]', $NewUserManagement['email'] ? $NewUserManagement['email'] : $_SESSION['email'], $paginaHTML);
-$paginaHTML = str_replace('[via-utente]', $NewUserInfo['address'] ? $NewUserInfo['address'] : $infoUtente['Via'], $paginaHTML);
-$paginaHTML = str_replace('[citta-utente]', $NewUserInfo['city'] ? $NewUserInfo['city'] : $infoUtente['Citta'], $paginaHTML);
-$paginaHTML = str_replace('[cap-utente]', $NewUserInfo['CAP'] ? $NewUserInfo['CAP'] : $infoUtente['CAP'], $paginaHTML);
-$paginaHTML = str_replace('[telefono-utente]', $NewUserInfo['phoneNumber'] ? $NewUserInfo['phoneNumber'] : $infoUtente['Telefono'], $paginaHTML);
+$paginaHTML = str_replace('[via-utente]', $NewUserInfo['address'] ? $NewUserInfo['address'] : $infoUtente['Via']??'', $paginaHTML);
+$paginaHTML = str_replace('[citta-utente]', $NewUserInfo['city'] ? $NewUserInfo['city'] : $infoUtente['Citta']??'', $paginaHTML);
+$paginaHTML = str_replace('[cap-utente]', $NewUserInfo['CAP'] ? $NewUserInfo['CAP'] : $infoUtente['CAP']??'', $paginaHTML);
+$paginaHTML = str_replace('[telefono-utente]', $NewUserInfo['phoneNumber'] ? $NewUserInfo['phoneNumber'] : $infoUtente['Telefono']??'', $paginaHTML);
 $paginaHTML = str_replace('[telefono-utente-view]', $infoUtente['Telefono'] ? $printTelefono : "<em>Sconosciuto</em>", $paginaHTML);
 $paginaHTML = str_replace('[footer]', $footer, $paginaHTML);
 

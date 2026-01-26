@@ -2485,6 +2485,25 @@ public function getAnimalArrivalDate($idAnimale): ?string {
         return $evento;
     }
 
+
+    public function deleteAccount(string $email): bool {
+        if (!$this->connection){
+            return false;
+        }
+
+        $query = "DELETE FROM UTENTI WHERE Email = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 's', $email);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
+
 }
 
 ?>
