@@ -958,6 +958,9 @@ header a{
 
 
 /* per admin */
+#solo-stampa{
+    display: none;
+}
 
 #admin-body #theme-toggle {
     position: fixed;
