@@ -123,7 +123,7 @@
 :root:has(input#theme-toggle:checked) #visualizzazione-animale .heart-normal,
 :root:has(input#theme-toggle:checked) #visualizzazione-animale .heart-hover,
 :root:has(input#theme-toggle:checked) #menu-admin #logo,
-:root:has(input#theme-toggle:checked) .edit-admin-info img,
+:root:has(input#theme-toggle:checked) .pencil img,
 :root:has(input#theme-toggle:checked) #account-normal,
 :root:has(input#theme-toggle:checked) #introduction-home img{
     filter: brightness(0) saturate(100%) invert(79%) sepia(17%) saturate(541%) hue-rotate(346deg) brightness(92%) contrast(88%);
@@ -159,7 +159,6 @@
 :root:has(input#theme-toggle:checked) select#mobile-select{
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%481515" d="M7 10l5 5 5-5z"/></svg>');
 }
-
 
 a{
     color: var(--linkcolor);
@@ -289,12 +288,12 @@ button.orange-button{
     font-weight: 500;
     letter-spacing: 0px;
     text-decoration: none;
-    transition: background-color 0.6s ease;
+    transition: background-color 0.6s ease, border-color 0.6s ease;
 }
 
 #compila-form-adozione>summary,
 .orange-button:hover,
-button.orange-button:hover {
+button.orange-button:hover{
     background-color: var(--buttoncolor-hover); 
     color: var(--hovertext-form-button);
 }
@@ -1859,6 +1858,10 @@ float: none;
     justify-content: flex-end;
 }
 
+#eventi .filtri{
+    align-items: center;
+}
+
 #animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro
 , #richieste .filtri .capsula-filtro {
     display: flex;
@@ -2426,11 +2429,6 @@ float: none;
     text-align:center;
 }
 
-#eventi .filtri {
-    flex-wrap: wrap;
-}
-
-
 #eventi .filtri .capsula-filtro .data-range {
     /* display:contents; */
     display: flex;
@@ -2706,7 +2704,7 @@ cursor: pointer;
     height: 50px;
     border-bottom: 1px solid var(--txtcolor);
     text-align: center;
-    
+    height: auto;
     margin:0;
     cursor: pointer; 
 }
@@ -2735,6 +2733,7 @@ flex: 1 0 100%;
     border-radius: 0.5em 0.5em 0 0;
     font-weight: bold;
     z-index: 1;
+    height: auto;
 }
 
 #admin-area input:checked + label h2{
@@ -3470,7 +3469,7 @@ input[type="file"]::file-selector-button:hover {
 
 /* TABELLA ORARI CHI SIAMO */
 
-#orari table {
+#orari-chi-siamo table#tabella-chi-siamo {
     background-color: var(--secondsection);
     color: var(--bgcolor);
     max-width: 40em;
@@ -3478,57 +3477,57 @@ input[type="file"]::file-selector-button:hover {
     margin-left: auto;
 }
 
-#orari{
+#orari-chi-siamo{
     text-align: center;
 }
 
-#orari h1 {
+#orari-chi-siamo h1 {
     margin-bottom: 0.2em;
 }
 
-#orari p {
+#orari-chi-siamo p {
     margin-bottom: 0.5em;
 }
 
-#orari table tr {
+#orari-chi-siamo table#tabella-chi-siamo tr {
     height: 2em;
 }
 
-#orari table thead {
+#orari-chi-siamo table#tabella-chi-siamo thead {
     background-color: var(--headercolor);
     color: var(--bgcolor);
 }
 
-#orari table tbody td {
+#orari-chi-siamo table#tabella-chi-siamo tbody td {
     background-color: var(--darkbgcolor);
-    color: var(--buttoncolor-hover);
+    color: var(--txtcolor);
     border-bottom: 1px solid var(--headervisitedlink);
 }
 
-#orari table tbody td, #orari table thead th, #orari table tbody th{
+#orari-chi-siamo table#tabella-chi-siamo tbody td, #orari-chi-siamo table#tabella-chi-siamo thead th, #orari-chi-siamo table#tabella-chi-siamo tbody th{
     text-align: center;
     margin-left: auto;
     margin-right: auto;
     width: 33.333%;
 }
 
-#orari table tbody td[colspan="2"]{
+#orari-chi-siamo table#tabella-chi-siamo tbody td[colspan="2"]{
     text-align: center;
     border-right: none;
 }
 
-#orari table {
+#orari-chi-siamo table#tabella-chi-siamo {
     border: 1px solid var(--headervisitedlink);
 }
 
 /* Celle pari */
-tbody td:nth-child(even),
-tbody th:nth-child(even) {
+#orari-chi-siamo table#tabella-chi-siamo tbody td:nth-child(even),
+#orari-chi-siamo table#tabella-chi-siamo tbody th:nth-child(even) {
     border-left: 1px solid var(--headervisitedlink);
     border-right: 1px solid var(--headervisitedlink);
 }
 
-#orari table tbody th {
+#orari-chi-siamo table#tabella-chi-siamo tbody th {
     background-color: var(--headervisitedlink);
     color: var(--bgcolor);
     /* text-align: left; */
@@ -4064,9 +4063,7 @@ a.pencil {
     margin: 0em auto 1em 0em;
 }
 #admin-area .tabs-container h2{
-    font-size: 1.1em;
-    color: var(--txtcolor);
-    font-weight: normal;
+    margin-bottom: 1em;
 }
 
 div#admin-area dt{
@@ -4097,8 +4094,10 @@ dt.data-error, .data-error+ dd{
     align-items: flex-start;
 }
 
-p#altre-richieste{
+em#note-richiesta{
+    margin-top: 1em;
     text-align: center;
+    display: block; /* per centrare*/
 }
 
 
@@ -4153,7 +4152,24 @@ div#admin-area div#animal-container{
 div#admin-area article#stato-trasporto{
     margin: 2em auto 1em 0em;
 } 
+div.button-group{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    margin-top: 1em;
+}
 
+div.button-group button{
+    flex: 1 1 20px;
+}
+
+div.button-group button[type="reset"]{
+    background-color: var(--darkbgcolor);
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--buttoncolor);
+    color: var(--txtcolor);
+}
 #top-container{
     display: flex;
     justify-content: flex-end;
@@ -4208,6 +4224,8 @@ div#admin-area article.note{
 
 .note pre {
     font-family: inherit;
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 
@@ -4338,9 +4356,10 @@ td.col-dettagli a:hover img{
     transition: 0.3s;
 }
 
-#admin-area #animali tbody .orange-button[name="elimina_segnalazione"]:hover{
+#admin-area #animali tbody .orange-button[name="elimina_segnalazione"]:hover, div.button-group button[type="reset"]:hover{
     background-color: transparent;
     border: 2px solid transparent;
+        border-color: var(--bgcolor);
 }
 
 .nessun-risultato-message{

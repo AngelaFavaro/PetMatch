@@ -57,15 +57,15 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                 </option>
             </select>
             <input class="sr-only" type="radio" id="tab1" name="tab-group" '.$checked['Nuove'].'>
-            <label for="tab1"><h2>Nuove ([n-nuove])</h2></label>
+            <label for="tab1">Nuove ([n-nuove])</label>
             <input class="sr-only" type="radio" id="tab2" name="tab-group" '.$checked['In valutazione'].'>
-            <label for="tab2"><h2>In valutazione ([n-in-valutazione])</h2></label>
+            <label for="tab2">In valutazione ([n-in-valutazione])</label>
             <input class="sr-only" type="radio" id="tab3" name="tab-group" '.$checked['Da trasportare'].'>
-            <label for="tab3"><h2>Da trasportare ([n-da-trasportare])</h2></label>
+            <label for="tab3">Da trasportare ([n-da-trasportare])</label>
             <input class="sr-only" type="radio" id="tab4" name="tab-group" '.$checked['Annullata'].'>
-            <label for="tab4"><h2>Annullate ([n-annullate])</h2></label>
+            <label for="tab4">Annullate ([n-annullate])</label>
             <input class="sr-only" type="radio" id="tab5" name="tab-group" '.$checked['Respinta'].'>
-            <label for="tab5"><h2>Respinte ([n-respinte])</h2></label> '; 
+            <label for="tab5">Respinte ([n-respinte])</label> '; 
         }else{
             $html = '
             <select id="mobile-select" name="tab-group">
@@ -87,15 +87,15 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
             </select>
 
             <input class="sr-only" type="radio" id="tab1" name="tab-group" checked>
-            <label for="tab1"><h2>Nuove ([n-nuove])</h2></label>
+            <label for="tab1">Nuove ([n-nuove])</label>
             <input class="sr-only" type="radio" id="tab2" name="tab-group">
-            <label for="tab2"><h2>In valutazione ([n-in-valutazione])</h2></label>
+            <label for="tab2">In valutazione ([n-in-valutazione])</label>
             <input class="sr-only" type="radio" id="tab3" name="tab-group">
-            <label for="tab3"><h2>Da trasportare ([n-da-trasportare])</h2></label>
+            <label for="tab3">Da trasportare ([n-da-trasportare])</label>
             <input class="sr-only" type="radio" id="tab4" name="tab-group">
-            <label for="tab4"><h2>Annullate ([n-annullate])</h2></label>
+            <label for="tab4">Annullate ([n-annullate])</label>
             <input class="sr-only" type="radio" id="tab5" name="tab-group">
-            <label for="tab5"><h2>Respinte ([n-respinte])</h2></label> ';
+            <label for="tab5">Respinte ([n-respinte])</label> ';
         }
 
         return $html;

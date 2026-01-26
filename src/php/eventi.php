@@ -208,9 +208,9 @@ $main = str_replace('[LINKPAGINE]', $linkPagine, $main);
 $main = str_replace('[VISIBILITA-FILTRO]', $cancelFiltriId, $main);
 $main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);
 
-$title = '<title>Eventi - PetMatch</title>';
-$description = $isAdmin? '<meta name="description" content="Organizza tutti gli eventi di PetMatch">': '<meta name="description" content="Eventi prossimi qui da PetMatch!">';
-$keywords = '';
+$title = '<title>Eventi - <span lang="en">PetMatch</span></title>';
+$description = $isAdmin? '<meta name="description" content="Organizza tutti gli eventi di <span lang="en">PetMatch</span>">': '<meta name="description" content="Eventi prossimi qui da PetMatch!">';
+$keywords = "<meta name='keywords' content='Prossimi eventi'>";
 
 $nav = $isAdmin? buildAdminNav($adminMenu, './visualizzazione-eventi') : buildNav($userMenu, './eventi');
 $breadcrumb = $isAdmin? getBreadcrumb('visualizzazione-eventi', $pagine) : getBreadcrumb('eventi', $pagine);

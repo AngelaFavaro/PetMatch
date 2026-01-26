@@ -73,9 +73,9 @@ if ($paginaHTML === false) {
 	$paginaHTML = "<p>Errore: template layout.html non trovato o non leggibile.</p>";
 }
 
-$title = '<title>Revisione richiesta - PetMatch </title>';
+$title = '<title>Revisione richiesta - <span lang="en">PetMatch</span> </title>';
 $description = '<meta name="description" content="Rivedi richiesta di addozione">';
-$keywords = "";
+$keywords = "<meta name='keywords' content='Adozione, La tua domanda, Stato della richiesta, Animale interessato'>";
 
 $nav = buildNav($userMenu, './revisione-richiesta');
 $footer = buildFooter($footerMenu,  './revisione-richiesta');

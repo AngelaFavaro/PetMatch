@@ -67,7 +67,7 @@ function createMovementList(DBAccess $conn, $filtro = 'all'): string {
                     $statoRichiesta = 'Siamo spiacenti di informarti che la tua richiesta di adozione per <em>'.$nomeAnimale.'</em> è stata <strong>respinta.</strong>';
                     break;
                 case 'Annullata':   
-                    $statoRichiesta = 'La richiesta di adozione per <em>'.$nomeAnimale.'</em> è stata <strong>annullata</strong>.';
+                    $statoRichiesta = 'Hai <strong>annullato</strong> la richiesta di adozione per <em>'.$nomeAnimale.'</em>.';
                     break;
                 case 'Nuova':
                     $statoRichiesta = 'La tua richiesta di adozione per <em>'.$nomeAnimale.'</em> è stata <strong>inviata</strong> con successo e sarà valutata a breve.';
@@ -79,7 +79,7 @@ function createMovementList(DBAccess $conn, $filtro = 'all'): string {
                 <article>
                     <p>'.$statoRichiesta.'</p>';
                     $listaMovimenti .= $conn->isAnimalAdopted($richiesta['IDanimale'])?'<p class="nonDisponibile"><em>Animale adottato</em></p>':
-                    '<a href="./visualizzazione-animale?id='.urlencode($richiesta['IDanimale']).'">Vedi animale</a>';
+                    '<a href="./animali?id='.urlencode($richiesta['IDanimale']).'">Vedi animale</a>';
             $listaMovimenti.='        
                 </article>
             </li>';
@@ -704,10 +704,9 @@ if ($paginaHTML === false) {
 }
 
 
-$title = '<title>Profilo - PetMatch </title>';
-$description = '<meta name="description" content="Profilo di PetMatch">';
-$keywords = "";
-
+$title = '<title>Profilo - <span lang="en">PetMatch</span> </title>';
+$description = '<meta name="description" content="Profilo di <span lang="en">PetMatch</span>">';
+$keywords = "<meta name='keywords' content='Profilo, PetMatch, Modifica profilo, Le tue informazioni, Ultimi movimenti, Le tue richieste'>";
 $nav = buildNav($userMenu, './profilo-utente');
 
 $footer = buildFooter($footerMenu,  './profilo-utente');

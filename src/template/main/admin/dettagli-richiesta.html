@@ -9,10 +9,11 @@
         
         <div class="tabs-container">
             <input id="tab1" class="sr-only" type="radio" name="tab-group" checked>
-            <label for="tab1"><h2>Informazioni richiesta</h2></label>
+            <label for="tab1">Richiesta</label>
             <input id="tab2" class="sr-only" type="radio" name="tab-group">
-            <label for="tab2"><h2>Informazioni richiedente</h2></label>
+            <label for="tab2">Richiedente</label>
             <article id="Richiesta" class="tab-content">
+                <h2>Informazioni richiesta</h2>
                 <dl>
                     <dt>Stato richiesta</dt><dd>[stato]</dd>
                     <dt>Data richiesta</dt><dd>[data]</dd>
@@ -22,9 +23,11 @@
                     <dt class="full-width">Lettera di presentazione</dt><dd>[contenutoLettera]</dd>
                     <dt>Trasporto</dt><dd>[trasporto]</dd>
                 </dl>
+                [note-trasporto-richiesta]
             </article>
 
             <article id="Richiedente" class="tab-content">
+                <h2>Informazioni richiedente</h2>
                 <div class="generic-info-container">
                     <img src="[imgPath]" alt="Foto di [nome]" class="circle-foto">
                     
@@ -39,7 +42,7 @@
                     </div>
                 </div>
 
-                <p id="altre-richieste">Ha altre <strong>[n]</strong> richieste attive</p>
+                <em id="note-richiesta">Ha altre <strong>[n]</strong> richieste attive</em>
                 <form method="POST" action="[paginaRichiedente]">
                     <input type="hidden" name="id-animale" value="[animalID]">
                     <button type="submit" name="view-profile" class="brown-button">Vedi profilo</button>
@@ -56,6 +59,7 @@
                     
                     <div class="text-details">
                         <dl>
+                            <dt><abbr title="Identificativo">Id</abbr></dt><dd>[idAnimale]</dd>
                             <dt>Nome</dt><dd>[nomeAnimale]</dd>
                             <dt>Sesso</dt><dd>[sessoAnimale]</dd>
                             <dt>Età</dt><dd>[etaAnimale]</dd>

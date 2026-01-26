@@ -44,7 +44,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                 <tbody>';
         if(!empty($animaliSegnalati)){
             foreach ($animaliSegnalati as $animale) {
-                $subject= rawurlencode('Segnalazione n. ' . $animale['id_segnalazione'] . ' - PetMatch - Hai bisogno di trovare casa al tuo amico a quattro zampe?');
+                $subject= rawurlencode('Segnalazione n. ' . $animale['id_segnalazione'] . ' - PetMatch - Hai bisogno di trovare casa al tuo animale?');
 
                 $messaggio = "Ciao! Ho visto la tua segnalazione su PetMatch per un " . strtolower($tipo) . " e siamo interessati a raccogliere maggiori informazioni riguardo al tuo animale.\n\n" .
                 "Potresti raccontarci un po' di più? Non ti preoccupare, ecco alcune domande che ci aiuterebbero molto (se non conosci la risposta ad alcune, scrivi pure 'non so'):\n\n" .
