@@ -193,9 +193,9 @@ if ($paginaHTML === false) {
 	$paginaHTML = "<p class='error-form'>Errore: template layout.html non trovato o non leggibile.</p>";
 }
 
-$title = '<title>Home - PetMatch </title>';
-$description = '<meta name="description" content="Home di PetMatch">';
-$keywords = "";
+$title = '<title lang="en">Home - PetMatch </title>';
+$description = '<meta name="description" lang="en" content="Home di PetMatch">';
+$keywords = "<meta name='keywords' content='Adotta, eventi, sostenitori, trovare casa a un animale, come si adotta, adotta anche a distanza'>";
 
 $nav = buildNav($userMenu, './home');
 
@@ -219,9 +219,8 @@ $paginaHTML = str_replace('[UltimiEventi]', $InfoEvents, $paginaHTML);
 // htmlspecialchars() con ENT_QUOTES converte gli apici singoli e doppi.
 // Se uno scrive: <script>alert('ciao')</script>
 // Diventa: &lt;script&gt;alert(&#039;ciao&#039;)&lt;/script&gt; -> testo innocuo
-$paginaHTML = str_replace('[nameValue]', $nameValue, $paginaHTML);
-$paginaHTML = str_replace('[emailValue]', $emailValue, $paginaHTML);
-$paginaHTML = str_replace('[emailValue]', $emailValue, $paginaHTML);
+$paginaHTML = str_replace('value="[nameValue]"', $nameValue!==''?'value="'.$nameValue.'"': '', $paginaHTML);
+$paginaHTML = str_replace('value="[emailValue]"', $emailValue!==''?'value="'.$emailValue.'"': '', $paginaHTML);
 $paginaHTML = str_replace( 'value="' . $animalValue . '"', 'value="' . $animalValue . '" checked', $paginaHTML);
 
 

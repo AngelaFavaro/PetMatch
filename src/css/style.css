@@ -160,7 +160,6 @@
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%481515" d="M7 10l5 5 5-5z"/></svg>');
 }
 
-
 a{
     color: var(--linkcolor);
     font-weight: 600;
@@ -1859,6 +1858,10 @@ float: none;
     justify-content: flex-end;
 }
 
+#eventi .filtri{
+    align-items: center;
+}
+
 #animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro
 , #richieste .filtri .capsula-filtro {
     display: flex;
@@ -2425,11 +2428,6 @@ float: none;
     width: 30%;
     text-align:center;
 }
-
-#eventi .filtri {
-    flex-wrap: wrap;
-}
-
 
 #eventi .filtri .capsula-filtro .data-range {
     /* display:contents; */
