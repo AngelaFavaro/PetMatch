@@ -81,6 +81,8 @@ input[type="date"]:not([value]) {
     display: none;
 }
 
+div:has(input[type="number"][value=""]):has(input[type="number"][value=""] + span) span,
+div:has(input[type="number"]:not([value])):has(span) span, 
 div:has(input[type="date"][value=""]):has(input[type="date"][value=""] + span) span,
 div:has(input[type="date"]:not([value])):has(span) span { 
     display: none;
@@ -102,7 +104,7 @@ form.filtri select {
     font-size: 12pt;
     color: black;
     padding: 0;
-    width: auto;
+    font-family: 'Times New Roman', Times, serif;
 }
 
 #richieste form.filtri li.capsula-filtro::before {
@@ -182,7 +184,7 @@ ul#to-do-list p, ul#statistics-list p {
     margin-left: 0.5cm;
 }
 
-/** ======= EVENTI ====== */
+/** ======= ASSEGNATI A TE ======  e ======= EVENTI ====== */
 .evento img:not(.immagine-evento){
     display: none;
 }
@@ -190,10 +192,13 @@ ul#to-do-list p, ul#statistics-list p {
 .next-page-links{
     display: none;
 }
+
+#eventi nav#nav-animali-type,
 #eventi nav#nav-event-type{
     float: left;
 }
 
+#animali nav#nav-animali-type::before,
 #eventi nav#nav-event-type::before{
     content:'Filtri applicati: ';
     display: block;
@@ -205,6 +210,7 @@ ul#to-do-list p, ul#statistics-list p {
     display: none;
 }
 
+#animali .capsula-filtro::before,
 #eventi .capsula-filtro::before{
     content:', ';
     float: left;
@@ -213,10 +219,12 @@ ul#to-do-list p, ul#statistics-list p {
 }
 
 ul[aria-label="Filtri sulla tipologia"],
+#admin-area #animali  .capsula-filtro,
 #eventi .capsula-filtro{
     float: left;
 }
 
+#animali .capsula-filtro > div,
 #eventi .capsula-filtro > div {
     display: inline;
     margin:0;
@@ -239,6 +247,7 @@ ul[aria-label="Filtri sulla tipologia"],
     display: none;
 }
 
+#nav-animali-type ul li.currentType,
 #nav-event-type ul li.currentType{
     font-weight: bold;
     display: block;
@@ -246,6 +255,7 @@ ul[aria-label="Filtri sulla tipologia"],
 }
 
 /* toglie il filtro non corrente */
+#nav-animali-type ul li,
 #nav-event-type ul li{
     display: none;
 }
@@ -254,6 +264,7 @@ ul[aria-label="Filtri sulla tipologia"],
     display: none;
 }
 
+article.card,
 .evento{
     padding:0.3cm 0.5cm;
     border:1px solid var(--lightborder);
@@ -262,6 +273,7 @@ ul[aria-label="Filtri sulla tipologia"],
     text-align: left;
 }
 
+.cards-container:has(article.card),
 .cards-container:has(.evento){
     display: flex;
     flex-wrap: wrap;
@@ -278,6 +290,7 @@ ul[aria-label="Filtri sulla tipologia"],
     margin-top:0.3cm;
 }
 
+.cards-container:has(article.card) li,
 .cards-container:has(.evento) li{
     flex-grow: 1;
     justify-content: space-between;
@@ -328,6 +341,7 @@ ul[aria-label="Filtri sulla tipologia"],
 
 /* il primo evita il break tra più pagine nei browser moderni, il secondo per retrocompatibilità
 con i browser vecchi e display block tiene tutto insieme */
+article.card,
 article.evento {
     break-inside: avoid; 
     page-break-inside: avoid; 
