@@ -227,7 +227,9 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
         <a class="navigationHelp" href="#content"> Salta il menù di navigazione</a>
         <a id="logo-link" href="./home">
             <img src="./assets/icons/light-mode-logo.svg" id="logo" alt="Home" lang="en">
-        </a>';
+        </a>
+        <div id="solo-stampa">PetMatch</div>
+        ';
         $html .= $currentHref==='./nuovo-animale' ? '<p class="orange-button" id="currentLink" href="./nuovo-animale">+ Aggiungi animale</p>' : '<a class="orange-button" href="./nuovo-animale">+ Aggiungi animale</a>';
 
     foreach ($menuGroups as $key => $items) {
