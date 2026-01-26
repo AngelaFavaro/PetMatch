@@ -4064,9 +4064,7 @@ a.pencil {
     margin: 0em auto 1em 0em;
 }
 #admin-area .tabs-container h2{
-    font-size: 1.1em;
-    color: var(--txtcolor);
-    font-weight: normal;
+    margin-bottom: 1em;
 }
 
 div#admin-area dt{
@@ -4227,6 +4225,8 @@ div#admin-area article.note{
 
 .note pre {
     font-family: inherit;
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 
