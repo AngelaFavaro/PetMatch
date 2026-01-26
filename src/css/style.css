@@ -3468,6 +3468,72 @@ input[type="file"]::file-selector-button:hover {
     width: 100%;
 }
 
+/* TABELLA ORARI CHI SIAMO */
+
+#orari table {
+    background-color: var(--secondsection);
+    color: var(--bgcolor);
+    max-width: 40em;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#orari{
+    text-align: center;
+}
+
+#orari h1 {
+    margin-bottom: 0.2em;
+}
+
+#orari p {
+    margin-bottom: 0.5em;
+}
+
+#orari table tr {
+    height: 2em;
+}
+
+#orari table thead {
+    background-color: var(--headercolor);
+    color: var(--bgcolor);
+}
+
+#orari table tbody td {
+    background-color: var(--darkbgcolor);
+    color: var(--buttoncolor-hover);
+    border-bottom: 1px solid var(--headervisitedlink);
+}
+
+#orari table tbody td, #orari table thead th, #orari table tbody th{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 33.333%;
+}
+
+#orari table tbody td[colspan="2"]{
+    text-align: center;
+    border-right: none;
+}
+
+#orari table {
+    border: 1px solid var(--headervisitedlink);
+}
+
+/* Celle pari */
+tbody td:nth-child(even),
+tbody th:nth-child(even) {
+    border-left: 1px solid var(--headervisitedlink);
+    border-right: 1px solid var(--headervisitedlink);
+}
+
+#orari table tbody th {
+    background-color: var(--headervisitedlink);
+    color: var(--bgcolor);
+    /* text-align: left; */
+}
+
 /* Sezione 2 Chi Siamo */
 
 #second-chapter-chi-siamo{
