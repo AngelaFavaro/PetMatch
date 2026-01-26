@@ -67,9 +67,9 @@ class DBAccess {
                 a.Email as email_admin,
                 m.Nome as nome_admin,
                 m.Cognome as cognome_admin,
-                t.Via AS via_trasporto,
-                t.Citta AS citta_trasporto,
-                t.CAP AS cap_trasporto,
+                u.Via AS via_trasporto,
+                u.Citta AS citta_trasporto,
+                u.CAP AS cap_trasporto,
                 t.DataArrivo AS data_arrivo,
                 t.DataPartenza AS data_partenza,
                 u.imgPath AS imgPath,
@@ -172,47 +172,46 @@ class DBAccess {
     }
 
 
-    public function addTransport($emailRichiedente, $idAnimale, $dataArrivo): bool {
-        if (!$this->connection){ //se la connessione non è aperta
-            return false;
-        }
-        $query = "INSERT INTO `TRASPORTI` 
-          (`Email`, `IDanimale`, `Via`, `Citta`, `CAP`, `DataArrivo`, `DataPartenza`) 
-          VALUES ( ?, ?, 'caca', 'pupu', '35036', ?, '2026-01-01')";
-        $stmt = mysqli_prepare($this->connection, $query);
-        if($stmt === false){
-            return false;
-        }
-
-        mysqli_stmt_bind_param($stmt, 'sis', $emailRichiedente, $idAnimale, $dataArrivo);
-        $result = mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
-        return $result;
-    }
-
-
-    public function setArrivalDate($emailRichiedente, $idAnimale, $dataArrivo): bool {
+    public function setTransportDates($email, $idAnimale, $newDatePartenza,$newDateArrivo): bool {
         if (!$this->connection){ //se la connessione non è aperta
             return false;
         }
 
-        $query = "UPDATE TRASPORTI SET DataArrivo = ? WHERE Email = ? AND IDanimale = ?";
+        $query = "UPDATE TRASPORTI SET DataArrivo = ?, DataPartenza = ? WHERE Email = ? AND IDanimale = ?";
 
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
             return false;
         }
 
-        mysqli_stmt_bind_param($stmt, 'ssi', $dataArrivo, $emailRichiedente, $idAnimale);
+        mysqli_stmt_bind_param($stmt, 'sssi', $newDateArrivo, $newDatePartenza, $email, $idAnimale);
         $result = mysqli_stmt_execute($stmt);
-        //se le righe modificate sono 0, significa che non esisteva il trasporto, lo aggiungo
-        if(mysqli_stmt_affected_rows($stmt) === 0){
-            mysqli_stmt_close($stmt);
-            return $result && $this->addTransport($emailRichiedente, $idAnimale, $dataArrivo);
-        }
         mysqli_stmt_close($stmt);
         return $result;
     }
+
+    // public function setArrivalDate($emailRichiedente, $idAnimale, $dataArrivo): bool {
+    //     if (!$this->connection){ //se la connessione non è aperta
+    //         return false;
+    //     }
+
+    //     $query = "UPDATE TRASPORTI SET DataArrivo = ? WHERE Email = ? AND IDanimale = ?";
+
+    //     $stmt = mysqli_prepare($this->connection, $query);
+    //     if($stmt === false){
+    //         return false;
+    //     }
+
+    //     mysqli_stmt_bind_param($stmt, 'ssi', $dataArrivo, $emailRichiedente, $idAnimale);
+    //     $result = mysqli_stmt_execute($stmt);
+    //     //se le righe modificate sono 0, significa che non esisteva il trasporto, lo aggiungo
+    //     if(mysqli_stmt_affected_rows($stmt) === 0){
+    //         mysqli_stmt_close($stmt);
+    //         return $result && $this->addTransport($emailRichiedente, $idAnimale, $dataArrivo);
+    //     }
+    //     mysqli_stmt_close($stmt);
+    //     return $result;
+    // }
     public function startEvaluation($emailRichiedente, $idAnimale): bool {
         if (!$this->connection){ //se la connessione non è aperta
             return false;
@@ -291,7 +290,6 @@ class DBAccess {
         mysqli_stmt_close($stmt);
         return $result;
     }
-
     public function setToTransport($emailRichiedente, $idAnimale): bool {
         if (!$this->connection){ //se la connessione non è aperta
             return false;
@@ -308,8 +306,22 @@ class DBAccess {
         $result = mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
 
+        if(!$result){
+            return false;
+        }
 
-        return $result; //non dovrebbe fare addTransport se fallisce l'update dello stato
+        // Insert into TRASPORTI
+        $queryTransport = "INSERT INTO TRASPORTI (Email, IDanimale) VALUES (?, ?)";
+        $stmtTransport = mysqli_prepare($this->connection, $queryTransport);
+        if($stmtTransport === false){
+            return false;
+        }
+        
+        mysqli_stmt_bind_param($stmtTransport, 'si', $emailRichiedente, $idAnimale);
+        $resultTransport = mysqli_stmt_execute($stmtTransport);
+        mysqli_stmt_close($stmtTransport);
+
+        return $resultTransport;
     }
 
     public function acceptRequest($emailRichiedente, $idAnimale): bool {

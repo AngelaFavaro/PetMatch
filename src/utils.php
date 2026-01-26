@@ -25,7 +25,7 @@ if (isset($inputData['toggle_theme'])) {
 /* Definizione delle pagine esistenti PER LA BREADCRUMB, aggiungerne altre quando possibile*/
 $pagine = [
     'home' => [
-        'label' => 'Home', //la label e' quella che viene mostrata nella breadcrumb
+        'label' => '<span lang="en">Home</span>', //la label e' quella che viene mostrata nella breadcrumb
         'url' => './home',
         'parent' => null 
     ],
@@ -213,7 +213,8 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
     <input type="checkbox" id="theme-toggle" class="sr-only"';
     $html .= $isDark? ' checked >':'>';
     $html .= '
-        <label for="theme-toggle" id="theme-switch" aria-label="Cambia tema" >
+        <label for="theme-toggle" id="theme-switch">
+            <span class="sr-only">Cambia tema</span>
             <span id="slider">
                 <img src="./assets/icons/sun.svg" id="sun" alt=""/>
                 <img src="./assets/icons/moon.svg" id="moon" alt=""/>
@@ -228,7 +229,7 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
         <a id="logo-link" href="./home">
             <img src="./assets/icons/light-mode-logo.svg" id="logo" alt="Home" lang="en">
         </a>
-        <div id="solo-stampa">PetMatch</div>
+        <div id="solo-stampa" lang="en">PetMatch</div>
         ';
         $html .= $currentHref==='./nuovo-animale' ? '<p class="orange-button" id="currentLink" href="./nuovo-animale">+ Aggiungi animale</p>' : '<a class="orange-button" href="./nuovo-animale">+ Aggiungi animale</a>';
 
@@ -429,12 +430,12 @@ function buildFooter(array $menuGroups, string $currentHref): string {
     $isLogoActive =  ($currentHref === $homeHref)?   
     '<div' . $logoAttributes . '>
         <img src="./assets/icons/light-mode-logo.svg" id="logo-footer" alt="PetMatch Home">
-        <span id="name-site-footer">Pet<span class="not-bold">Match</span></span>
+        <span id="name-site-footer" lang="en">Pet<span class="not-bold">Match</span></span>
     </div>' :
     
     '<div><a href="' . $homeHref . '"' . $logoAttributes . '>
-        <img src="./assets/icons/light-mode-logo.svg" id="logo-footer" alt="PetMatch Home">
-        <span id="name-site-footer">Pet<span class="not-bold">Match</span></span>
+        <img src="./assets/icons/light-mode-logo.svg" id="logo-footer" alt="PetMatch Home" />
+        <span id="name-site-footer" lang="en">Pet<span class="not-bold">Match</span></span>
     </a></div>';
 
     $html = '
@@ -494,7 +495,7 @@ function buildFooter(array $menuGroups, string $currentHref): string {
                         <ul class="footer-submenu">
                             <li class="social-media-links">
                                 <address>
-                        <a id="insta-link" href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram">
+                        <a id="insta-link" href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram: @petmatch_shelter">
                                         <img src="./assets/icons/Instagram.svg" id="instagram" alt="">
                                         @petmatch_shelter
                                     </a>

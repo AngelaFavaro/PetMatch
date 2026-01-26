@@ -21,13 +21,13 @@ function buildToDoList(DBAccess $conn): string {
 		['href' => './richieste-adozione?stato=In+valutazione&appunti=0', 'type' => 'Appunti da prendere'],
 		['href' => './nuove-accoglienze', 'type' => 'Accoglienze'],
 		['href' => './richieste-adozione?stato=Nuove', 'type' => 'Adozioni da valutare'],
-		['href' => 'richieste-adozione?stato=Da+trasportare&trasporto=0', 'type' => 'Trasporti da organizzare'],
+		['href' => './richieste-adozione?stato=Da+trasportare&trasporto=0', 'type' => 'Trasporti da organizzare'],
 	];
 	foreach ($links as $index => $link) {
 		$nQuery = $tasks[$index] ?? 0;
 		$html .= '
 		<li>
-			<a href="' . $link['href'] . '" aria-label="' . $nQuery . $link['type'].'">
+			<a href="' . $link['href'] . '" aria-label="' . $nQuery . ' ' . $link['type'].'">
 				<p class="n-query" aria-hidden="true">' . $nQuery . '</p>
 				<p class="query-type" aria-hidden="true">' . $link['type'] . '</p>
 			</a>

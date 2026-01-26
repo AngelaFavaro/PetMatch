@@ -459,20 +459,20 @@ if(isset($_GET['id'])) {
         $main = str_replace('[VISIBILITA-FILTRO]', $cancelFiltriId, $main);
     
         if($isFromAdmin) {
-            $title = '<title>Animali assegnati a te - PetMatch</title>';
-            $description = '<meta name="description" content="Animali assegnati a te in adozione su PetMatch">';
+            $title = '<title>Animali assegnati a te - <span lang="en">PetMatch</span></title>';
+            $description = '<meta name="description" content="Animali assegnati a te in adozione su <span lang="en">PetMatch</span>">';
     
         }else{
-            $title = '<title>Animali - PetMatch</title>';
-            $description = '<meta name="description" content="Animali in adozione su PetMatch">';
+            $title = '<title>Animali - <span lang="en">PetMatch</span></title>';
+            $description = '<meta name="description" content="Animali in adozione su <span lang="en">PetMatch</span>">';
         }
     }else{
         $main = str_replace('[FILTRI]', $stringaFiltri, $main);
-        $title = '<title>Animali preferiti - PetMatch</title>';
-        $description = '<meta name="description" content="i tuoi animali preferiti in adozione su PetMatch">';
+        $title = '<title>Animali preferiti - <span lang="en">PetMatch</span></title>';
+        $description = '<meta name="description" content="i tuoi animali preferiti in adozione su <span lang="en">PetMatch</span>">';
     
     }
-    $keywords = '';
+    $keywords = "<meta name='keywords' content='animali, nome, taglia, sesso, età'>";
     
     
     $nav = $isPreferiti ? buildNav($userMenu, './preferiti') : ($isFromAdmin ? buildAdminNav($adminMenu, './assegnati-a-te') : buildNav($userMenu, './animali'));
