@@ -121,8 +121,8 @@ if ($paginaHTML === false) {
 	$paginaHTML = "<p>Errore: template layout.html non trovato o non leggibile.</p>";
 }
 
-$title = '<title>Accedi - <span lang="en">PetMatch</span> </title>';
-$description = '<meta name="description" content="Accedi a <span lang="en">PetMatch</span>">';
+$title = '<title>Accedi - PetMatch </title>';
+$description = '<meta name="description" content="Accedi a PetMatch">';
 $keywords = "<meta name='keywords' content='Accedi'>";
 
 $nav = buildNav($userMenu, './accedi');
