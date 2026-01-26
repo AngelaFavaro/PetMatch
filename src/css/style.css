@@ -3459,6 +3459,68 @@ input[type="file"]::file-selector-button:hover {
     width: 100%;
 }
 
+/* TABELLA ORARI CHI SIAMO */
+
+#orari table {
+    background-color: var(--secondsection);
+    color: var(--bgcolor);
+    max-width: 40em;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#orari{
+    text-align: center;
+}
+
+#orari h1 {
+    margin-bottom: 0.2em;
+}
+
+#orari p {
+    margin-bottom: 0.5em;
+}
+
+#orari table tr {
+    height: 2em;
+}
+
+#orari table thead {
+    background-color: var(--headercolor);
+}
+
+#orari table tbody td, #orari table thead th, #orari table tbody th{
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    width: 33.333%;
+}
+
+#orari table tbody td[colspan="2"]{
+    text-align: center;
+}
+
+/* Celle pari */
+tbody td:nth-child(even),
+tbody th:nth-child(even) {
+    border-left: 1px solid var(--buttoncolor-hover);
+    border-right: 1px solid var(--buttoncolor-hover);
+}
+
+tbody tr:nth-child(odd) td:nth-child(odd),
+tbody tr:nth-child(even) td:nth-child(even),
+tbody tr:nth-child(odd) th:nth-child(odd),
+tbody tr:nth-child(even) th:nth-child(even) {
+    background-color:var(--successtxt);
+}
+
+tbody tr:nth-child(odd) td:nth-child(even),
+tbody tr:nth-child(even) td:nth-child(odd),
+tbody tr:nth-child(odd) th:nth-child(even),
+tbody tr:nth-child(even) th:nth-child(odd) {
+    background-color: var(--secondsection);
+}
+
 /* Sezione 2 Chi Siamo */
 
 #second-chapter-chi-siamo{
