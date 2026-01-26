@@ -267,6 +267,7 @@ if($richiesta['trasporto-richiesta']===1 && $richiesta['indirizzo-richiedente'])
     $indirizzo_richiedente='<dt class="data-error">Indirizzo</dt><dd>MANCANTE</dd>'; //
 }
 $main = str_replace('[indirizzo-richiedente]', $indirizzo_richiedente, $main);
+$main = str_replace('[idAnimale]', e($richiesta['id-animale'] ?? ''), $main);
 $main = str_replace('[nomeAnimale]', e($richiesta['nome-animale'] ?? ''), $main);
 
 if(!$richiesta['animalImgPath'] || !file_exists($richiesta['animalImgPath'])){
