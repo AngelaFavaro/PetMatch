@@ -1507,66 +1507,39 @@ class DBAccess {
 
     public function countAnimalsFiltered(string $type, array $filters): int {
 
-        if (!$this->connection) return 0;
+    if (!$this->connection) {
+        return 0;
+    }
 
-        $where = [];
-        $params = [];
-        $types = '';
+    $where = 'WHERE 1=1';
+    $params = [];
+    $types = '';
 
-        if ($type !== 'tutti') {
-            $where[] = 'Tipo = ?';
-            $params[] = $type;
-            $types .= 's';
-        }
+    // Applichiamo i filtri comuni
+    $this->applyFilters($type, $filters, $where, $params, $types);
 
-        if (!empty($filters['name-animal'])) {
-            $where[] = 'Nome LIKE ?';
-            $params[] = '%' . $filters['name-animal'] . '%';
-            $types .= 's';
-        }
+    $query = "SELECT COUNT(*) AS totale FROM ANIMALI A";
 
-        if (!empty($filters['taglia'])) {
-            $where[] = 'Taglia = ?';
-            $params[] = $filters['taglia'];
-            $types .= 's';
-        }
+    if (!empty($where)) {
+        $query .= " $where";
+    }
 
-        if (!empty($filters['sesso'])) {
-            $where[] = 'Sesso = ?';
-            $params[] = strtoupper(substr($filters['sesso'], 0, 1));
-            $types .= 's';
-        }
-
-        if (!empty($filters['eta_min'])) {
-            $where[] = 'TIMESTAMPDIFF(YEAR, DataNascita, CURDATE()) >= ?';
-            $params[] = (int)$filters['eta_min'];
-            $types .= 'i';
-        }
-
-        if (!empty($filters['eta_max'])) {
-            $where[] = 'TIMESTAMPDIFF(YEAR, DataNascita, CURDATE()) <= ?';
-            $params[] = (int)$filters['eta_max'];
-            $types .= 'i';
-        }
-
-        $query = "SELECT COUNT(*) AS totale FROM ANIMALI";
-
-        if ($where) {
-            $query .= ' WHERE ' . implode(' AND ', $where);
-        }
-
-        $stmt = mysqli_prepare($this->connection, $query);
-        if ($params) {
+    $stmt = mysqli_prepare($this->connection, $query);
+    if ($stmt) {
+        if (!empty($params)) {
             mysqli_stmt_bind_param($stmt, $types, ...$params);
         }
 
         mysqli_stmt_execute($stmt);
         $res = mysqli_stmt_get_result($stmt);
         $row = mysqli_fetch_assoc($res);
-
         mysqli_stmt_close($stmt);
+
         return (int)$row['totale'];
     }
+
+    return 0;
+}
 
 
     public function countAssignedAnimalsFiltered(string $type, array $filters, string $adminEmail): int {
@@ -1646,10 +1619,7 @@ class DBAccess {
 
         if (!empty($filters['taglia'])) {
             $where .= " AND A.Taglia = ? ";
-            $tagliaDB = (substr($filters['taglia'], -1) === 'a') 
-                        ? substr($filters['taglia'], 0, -1) . 'o' 
-                        : $filters['taglia'];
-            $params[] = $tagliaDB;
+            $params[] = $filters['taglia'];
             $types .= "s";
         }
 
