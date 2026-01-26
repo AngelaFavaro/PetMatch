@@ -1008,3 +1008,7 @@ body#admin-body #richieste .filtri .capsula-filtro select{
     margin: 0 0 0 auto;
     padding-left: 1em;
 }
+
+body#admin-body #animali .filtri .capsula-filtro{
+    margin: auto;
+}
