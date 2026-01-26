@@ -2635,7 +2635,7 @@ cursor: pointer;
     font-weight: 450;
     bottom: -5px;
     right: 0;
-    padding: 0 10px;
+    padding-left: 10px;
     background: var(--darkbgcolor); 
 }
 

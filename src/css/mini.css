@@ -780,6 +780,16 @@ body#lavora-con-noi {
     padding:0 1em;
 }
 
+#eventi .evento .descrizione-evento p{
+    margin: 0;
+    max-height: 2.9em;
+    min-height: 2.9em;
+}
+
+.descrizione-evento p.is-truncated::after {
+    bottom: 0px;
+}
+
 #eventi .evento .posizione-data-abbr {
     margin:0 auto 0.3em auto;
     display: block;
