@@ -423,7 +423,7 @@ $CARDANIMALE2 = $infoAggiuntive==='info-aggiuntive-separate' ? "
     $CARDANIMALE2 .= "
     <div id ='$infoAggiuntive'>
     <dl>
-        <dt> Può essere trasportato</dt> <dd> $trasporto </dd>
+        <dt> Idoneo al trasporto</dt> <dd> $trasporto </dd>
         <dt> Condizioni mediche</dt> <dd> $condizioniMediche</dd>
         <dt> Descrizione carattere</dt> <dd>$comportamento </dd>
         <dt> Famiglia ideale</dt> <dd>$famiglia</dd>

@@ -2706,7 +2706,7 @@ cursor: pointer;
     height: 50px;
     border-bottom: 1px solid var(--txtcolor);
     text-align: center;
-    
+    height: auto;
     margin:0;
     cursor: pointer; 
 }
@@ -2735,6 +2735,7 @@ flex: 1 0 100%;
     border-radius: 0.5em 0.5em 0 0;
     font-weight: bold;
     z-index: 1;
+    height: auto;
 }
 
 #admin-area input:checked + label h2{
