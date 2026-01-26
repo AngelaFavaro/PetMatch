@@ -16,7 +16,7 @@ function renderCaniContent(array $CaniNonAdmin, array $NNonAdminByType): string 
         return '<p class="nessun-risultato-message">Nessun cane senza amministratore</p>';
     }else{
         $html = '
-        <span id="sumTabellaCaniNoAdmin" class="sr-only"aria-hidden="true">In questa tabella vengono elencate Identificativo cane, Nome cane, Data di registrazione, se è idoneo al trasporto, Razza cane, Età cane e per ogni cane un link alla scheda dettagli dell\'animale.</span>
+        <span id="sumTabellaCaniNoAdmin" class="sr-only" aria-hidden="true">In questa tabella vengono elencate Identificativo cane, Nome cane, Data di registrazione, se è idoneo al trasporto, Razza cane, Età cane e per ogni cane un link alla scheda dettagli dell\'animale.</span>
         <table aria-describedby="sumTabellaCaniNoAdmin">
             <caption>Cani senza amministratore</caption>
                 <thead>
@@ -46,7 +46,7 @@ function renderCaniContent(array $CaniNonAdmin, array $NNonAdminByType): string 
                     <td class="col-dettagli">
                         <form method="post" action="senza-amministratore" >
                             <input type="hidden" name="id_animale" value="' . htmlspecialchars($caneNonAdmin['id_animale']) . '">
-                            <button type="submit" name="assegnami_animale" class="orange-button">Assegna a me</button>
+                            <button type="submit" name="assegnami_animale" class="orange-button">Assegna a me<span class="sr-only"> numero' . htmlspecialchars($caneNonAdmin['id_animale']) . '</span></button>
                         </form>
                     </td>
                     <td class="col-dettagli"><a href="animali?id='.htmlspecialchars($caneNonAdmin['id_animale']).'" class="brown-button">Vai all\'animale<span class="sr-only">'.htmlspecialchars($caneNonAdmin['nome_animale']).' </span></a></td>
@@ -102,7 +102,7 @@ function renderGattiContent(array $GattiNonAdmin,array $NNonAdminByType){
                     <td class="col-dettagli">
                         <form method="post" action="senza-amministratore" >
                             <input type="hidden" name="id_animale" value="' . htmlspecialchars($GattoNonAdmin['id_animale']) . '">
-                            <button type="submit" name="assegnami_animale" class="orange-button">Assegna a me</button>
+                            <button type="submit" name="assegnami_animale" class="orange-button">Assegna a me<span class="sr-only"> numero' . htmlspecialchars($GattoNonAdmin['id_animale']) . '</span></button>
                         </form>
                     </td>
                     <td class="col-dettagli"><a href="animali?id='.htmlspecialchars($GattoNonAdmin['id_animale']).'" class="brown-button">Vai all\'animale<span class="sr-only">'.htmlspecialchars($GattoNonAdmin['nome_animale']).'</span></a></td>

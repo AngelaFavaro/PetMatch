@@ -755,6 +755,7 @@ function renderCaniGattiTabs(): string{
             $selected[$stato] = 'selected';
         }
         $html = '
+        <label for="mobile-select" class="sr-only">Scegli una categoria:</label>
         <select id="mobile-select" name="tab-group">
             <option value="tab1" '.$selected['Cani'].'>
                 Cani ([n-cani])
@@ -769,6 +770,7 @@ function renderCaniGattiTabs(): string{
         <label for="tab2">Gatti ([n-gatti])</label>';
     }else{
         $html = '
+        <label for="mobile-select" class="sr-only">Scegli una categoria:</label>
         <select id="mobile-select" name="tab-group">
             <option value="tab1" selected>
                 Cani ([n-cani])
