@@ -377,7 +377,7 @@ if (!$utenteAccesso) {
                 <h2> Richiesta di adozione </h2>
                     <div id='stato-richiesta'>
                         <p>  Stato: <span class='enfatizzato'> annullata </span> </p>
-                        <p> La richiesta di adozione per <strong> $nome </strong> è stata annullata. </p> 
+                        <p> Hai annullato la richiesta di adozione per <strong> $nome </strong>.</p> 
                         <p> Qualche problema o domanda? Valuta di contattarci  </p>
                     </div>
                     <a href='mailto:matchpet48@gmail.com' class='brown-button'>Contatta il rifugio</a> 

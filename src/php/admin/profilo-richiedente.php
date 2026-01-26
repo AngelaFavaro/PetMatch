@@ -43,7 +43,7 @@ function createRequestList(DBAccess $conn): string {
                 $statoText = 'È stato <strong>respinto</strong> per <em>'.$nomeAnimale.'</em>.';
                 break;
             case 'Annullata':   
-                $statoText = 'La richiesta per <em>'.$nomeAnimale.'</em> è stata <strong>annullata</strong>.';
+                $statoText = 'Ha <strong>annullato</strong> la richiesta per <em>'.$nomeAnimale.'</em>.';
                 break;
             case 'Nuova':
                 $statoText = 'Ha <strong>fatto richiesta</strong> per <em>'.$nomeAnimale.'</em>.';
