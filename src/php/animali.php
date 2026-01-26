@@ -404,7 +404,7 @@ if(isset($_GET['id'])) {
     $main = str_replace('[BANNERACCEDI]', $banneraccedi, $main);
     $stringaFiltri='';
     if (!$isPreferiti) {
-        $stringaFiltri="<form class='filtri' id='form-ricerca' method='get' action=".($isAdmin ? './assegnati-a-te' : './animali').">
+        $stringaFiltri="<form class='filtri' id='form-ricerca' method='get' action=".($isFromAdmin ? './assegnati-a-te' : './animali').">
             <!-- rotta gestita dal router -->
             
             <input type='hidden' name='tipo' value='[TYPE]'>
@@ -459,17 +459,17 @@ if(isset($_GET['id'])) {
         $main = str_replace('[VISIBILITA-FILTRO]', $cancelFiltriId, $main);
     
         if($isFromAdmin) {
-            $title = '<title>Animali assegnati a te - <span lang="en">PetMatch</span></title>';
-            $description = '<meta name="description" content="Animali assegnati a te in adozione su <span lang="en">PetMatch</span>">';
+            $title = '<title>Animali assegnati a te - PetMatch</title>';
+            $description = '<meta name="description" content="Animali assegnati a te in adozione su PetMatch">';
     
         }else{
-            $title = '<title>Animali - <span lang="en">PetMatch</span></title>';
-            $description = '<meta name="description" content="Animali in adozione su <span lang="en">PetMatch</span>">';
+            $title = '<title>Animali - PetMatch</title>';
+            $description = '<meta name="description" content="Animali in adozione su PetMatch">';
         }
     }else{
         $main = str_replace('[FILTRI]', $stringaFiltri, $main);
-        $title = '<title>Animali preferiti - <span lang="en">PetMatch</span></title>';
-        $description = '<meta name="description" content="i tuoi animali preferiti in adozione su <span lang="en">PetMatch</span>">';
+        $title = '<title>Animali preferiti - PetMatch</title>';
+        $description = '<meta name="description" content="i tuoi animali preferiti in adozione su PetMatch">';
     
     }
     $keywords = "<meta name='keywords' content='animali, nome, taglia, sesso, età'>";

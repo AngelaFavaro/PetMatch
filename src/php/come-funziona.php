@@ -6,8 +6,8 @@ if ($paginaHTML === false) {
 	$paginaHTML = "<p>Errore: template layout.html non trovato o non leggibile.</p>";
 }
 
-$title = '<title>Come funziona? - <span lang="en">PetMatch</span> </title>';
-$description = '<meta name="description" content="Pagina per avere informazioni su come funziona il nostro sito di adozioni di <span lang="en">PetMatch</span>">';
+$title = '<title>Come funziona? - PetMatch </title>';
+$description = '<meta name="description" content="Pagina per avere informazioni su come funziona il nostro sito di adozioni di PetMatch">';
 $keywords = "<meta name='keywords' content='Come funziona, come si adotta, adozioni'>";
 
 $breadcrumb = getBreadcrumb('come-funziona', $pagine);
