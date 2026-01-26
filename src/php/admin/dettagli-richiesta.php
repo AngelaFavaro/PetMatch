@@ -2,7 +2,7 @@
 include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
-session_start();
+// session_start();
 
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo controlla se esiste la variabile admin in session, la seconda controlla che sia affettivamente admin
     header("Location: ./accedi");
@@ -265,7 +265,12 @@ if($richiesta['sesso-animale'] === 'F')
 elseif($richiesta['sesso-animale'] === 'M')
     $main = str_replace('[sessoAnimale]', '<abbr title="Maschio">M</abbr>', $main);
 
-$main = str_replace('[etaAnimale]', e($richiesta['eta-animale'] ?? ''), $main);
+// Invece di: $main = str_replace('[etaAnimale]', e($richiesta['eta-animale'] ?? ''), $main);
+
+$dataNascita = $richiesta['data-nascita'] ?? null;
+$testoEta = $dataNascita ? formattaEta($dataNascita) : 'Età sconosciuta';
+
+$main = str_replace('[etaAnimale]', e($testoEta), $main);
 $main = str_replace('[razzaAnimale]', e($richiesta['razza-animale'] ?? ''), $main);
 $main = str_replace('[trasportoAnimale]', siNo($richiesta['trasporto-animale'] ?? 0), $main);
 $main = str_replace('[famigliaIdeale]', e($richiesta['famiglia-ideale'] ?? ''), $main);

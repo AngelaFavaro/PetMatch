@@ -3762,8 +3762,8 @@ ul#to-do-list li, ul#statistics-list li{
 }
 
 ul#to-do-list li{
-     background-color: var(--buttoncolor);
-    }
+    background-color: var(--buttoncolor);
+}
     
 ul#statistics-list li{
     background-color: var(--darkbgcolor);
@@ -3793,7 +3793,7 @@ p.n-query{
 #mobile-account-hover
 { display: none; } /* Nascondi tasto su desktop */
 
-nav#menu-admin {
+#menu-admin {
     /* display: flex; */
     flex:0 0 20%;
     flex-direction: column;
@@ -3817,7 +3817,7 @@ body#admin-body main {
     background-color: var(--bgcolor);
     overflow: hidden;
     /* margin-left:20%; */
-    flex:1 1 80%;
+    flex: 0 0 80%;
     /* min-height: 100vh; */
 }
 
@@ -4232,6 +4232,22 @@ div#admin-area article.note{
     border: none;
     cursor: not-allowed;
     pointer-events: none;
+}
+
+/*================= DETTAGLI ANIMALI ADMIN ==================*/
+/* Nascondi tutti i tab-content di default */
+#visualizza-richieste-richiedente .tab-content {
+    display: none;
+}
+
+/* Mostra il contenuto specifico in base al radio button selezionato */
+#visualizza-richieste-richiedente:has(#anim-tab1:checked) .content-tab1,
+#visualizza-richieste-richiedente:has(#anim-tab2:checked) .content-tab2,
+#visualizza-richieste-richiedente:has(#anim-tab3:checked) .content-tab3,
+#visualizza-richieste-richiedente:has(#anim-tab4:checked) .content-tab4,
+#visualizza-richieste-richiedente:has(#anim-tab5:checked) .content-tab5,
+#visualizza-richieste-richiedente:has(#anim-tab6:checked) .content-tab6 {
+    display: block;
 }
 
 /*================= RICHIESTE DI ADOZIONE ==================*/
@@ -5508,4 +5524,57 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     flex: 1 1 20%;
     min-width: 1em;
     padding-top: 2em;
+}
+
+
+/* Selettore specifico per non intaccare altre liste del sito */
+#visualizza-richieste-animale .tab-content {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+/* Stile della card specifica per questa sezione */
+#visualizza-richieste-animale .richiesta-card {
+    background-color: #e6ddd0; 
+    border-radius: 12px;
+    margin-bottom: 12px;
+    padding: 15px 20px;
+}
+
+/* Layout flex solo per le card in questa sezione */
+#visualizza-richieste-animale .card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px; /* Spazio minimo tra testo e bottone */
+}
+
+#visualizza-richieste-animale .card-content p {
+    margin: 0;
+    color: #3d1411;
+    font-size: 1rem;
+}
+
+/* Il bottone specifico */
+#visualizza-richieste-animale .btn-vedi-richiesta {
+    background-color: #3d1411;
+    color: #f59a83;
+    padding: 8px 18px;
+    border-radius: 20px;
+    text-decoration: underline;
+    font-weight: bold;
+    white-space: nowrap; /* Impedisce al bottone di andare a capo */
+}
+
+/* Gestione visibilità Tab tramite i radio button */
+/*#visualizza-richieste-animale .tab-content { display: none; }*/
+
+#anim-tab1:checked ~ #start-requests .content-tab1,
+#anim-tab2:checked ~ #start-requests .content-tab2,
+#anim-tab3:checked ~ #start-requests .content-tab3,
+#anim-tab4:checked ~ #start-requests .content-tab4,
+#anim-tab5:checked ~ #start-requests .content-tab5,
+#anim-tab6:checked ~ #start-requests .content-tab6 {
+    display: block;
 }

@@ -17,8 +17,8 @@
                         <dt>Colore</dt><dd>[coloreAnimale]</dd>
                     </dl>
                 </div>
-
             </div>
+
             <div id="other-info-container">
                 <dl>
                     <dt>Idoneo al trasporto</dt><dd>[trasportoAnimale]</dd>
@@ -29,33 +29,39 @@
             </div>
         </article>
 
-        <article id="visualizza-richieste-richiedente">
+        <article id="visualizza-richieste-animale">
             <section class="tabs-container">
                 <fieldset>
-                    <label class="no-visible" for="tab1">Nuove</label>
-                    <label class="no-visible" for="tab2">In valutazione</label>
-                    <label class="no-visible" for="tab3">Accettate</label>
-                    <label class="no-visible" for="tab4">Respinte</label>
-                    <label class="no-visible" for="tab5">Annullate</label>
-                    <label class="no-visible" for="tab6">Da trasportare</label>
-                    <legend id="title-richieste">Richieste</legend>
-                    <select id="filtri-richieste" name="tab-group" aria-label="Selezionare la tipologia di richieste che si vuole visualizzare:">
-                        <option value="tab1">Nuove ([n-nuove])</option>
-                        <option value="tab2">In valutazione ([n-valutazione])</option>
-                        <option value="tab3">Accettate ([n-accettate])</option>
-                        <option value="tab4">Respinte ([n-respinte])</option>
-                        <option value="tab5">Annullate ([n-annullate])</option>
-                        <option value="tab6">Da trasportare ([n-trasporto])</option>
-                    </select>
+                    <legend id="title-richieste">Richieste per questo animale</legend>
 
-                    <input class="no-visible" aria-hidden="true" type="radio" id="tab1" name="tab-group">
-                    <input class="no-visible" aria-hidden="true" type="radio" id="tab2" name="tab-group">
-                    <input class="no-visible" aria-hidden="true" type="radio" id="tab3" name="tab-group">
-                    <input class="no-visible" aria-hidden="true" type="radio" id="tab4" name="tab-group">
-                    <input class="no-visible" aria-hidden="true" type="radio" id="tab5" name="tab-group">
-                    <input class="no-visible" aria-hidden="true" type="radio" id="tab6" name="tab-group">
+                    <label class="no-visible" for="anim-tab1">Nuove</label>
+                    <label class="no-visible" for="anim-tab2">In valutazione</label>
+                    <label class="no-visible" for="anim-tab3">Accettate</label>
+                    <label class="no-visible" for="anim-tab4">Respinte</label>
+                    <label class="no-visible" for="anim-tab5">Annullate</label>
+                    <label class="no-visible" for="anim-tab6">Da trasportare</label>
+
+                    <select id="filtri-richieste" name="tab-group-select" 
+                            aria-label="Selezionare la tipologia di richieste che si vuole visualizzare:"
+                            onchange="document.getElementById(this.value).checked = true;">
+                        <option value="anim-tab1">Nuove ([n-nuove])</option>
+                        <option value="anim-tab2">In valutazione ([n-valutazione])</option>
+                        <option value="anim-tab3">Accettate ([n-accettate])</option>
+                        <option value="anim-tab4">Respinte ([n-respinte])</option>
+                        <option value="anim-tab5">Annullate ([n-annullate])</option>
+                        <option value="anim-tab6">Da trasportare ([n-trasporto])</option>
+                    </select>
                 </fieldset>
+
+                <input class="no-visible" aria-hidden="true" type="radio" id="anim-tab1" name="anim-tab-group" checked>
+                <input class="no-visible" aria-hidden="true" type="radio" id="anim-tab2" name="anim-tab-group">
+                <input class="no-visible" aria-hidden="true" type="radio" id="anim-tab3" name="anim-tab-group">
+                <input class="no-visible" aria-hidden="true" type="radio" id="anim-tab4" name="anim-tab-group">
+                <input class="no-visible" aria-hidden="true" type="radio" id="anim-tab5" name="anim-tab-group">
+                <input class="no-visible" aria-hidden="true" type="radio" id="anim-tab6" name="anim-tab-group">
+
                 [elencoRichieste]
+                
                 <a href="#filtri-richieste" class="sr-only">Torna al filtro richieste</a>
             </section>
         </article>

@@ -837,3 +837,28 @@ function displayDateItalianFormat(string $dateStr): string {
     }
     return date('d/m/Y', $timestamp);
 }
+
+function formattaEta($dataNascita) {
+    if (!$dataNascita) return "Età sconosciuta";
+
+    try {
+        $nascita = new DateTime($dataNascita);
+        $oggi = new DateTime();
+        $diff = $nascita->diff($oggi);
+
+        $parti = [];
+
+        if ($diff->y > 0) {
+            $parti[] = $diff->y . ($diff->y == 1 ? " anno" : " anni");
+        }
+
+        // Gestione Mesi
+        if ($diff->m > 0) {
+            $parti[] = $diff->m . ($diff->m == 1 ? " mese" : " mesi");
+        }
+
+        return implode(" e ", $parti);
+    } catch (Exception $e) {
+        return "Data non valida";
+    }
+}

@@ -50,7 +50,7 @@ class DBAccess {
                 ra.IDanimale AS id_animale,
                 a.Nome AS nome_animale,
                 a.Sesso AS sesso_animale,
-                TIMESTAMPDIFF(YEAR, a.DataNascita, CURDATE()) AS eta_animale,
+                a.DataNascita AS data_nascita_animale,
                 a.Razza AS razza_animale,
                 a.Trasporto AS trasporto_animale,
                 a.DescrFamiglia AS famiglia_ideale,
@@ -113,7 +113,7 @@ class DBAccess {
             'id-animale' => $row['id_animale'],
             'nome-animale' => $row['nome_animale'],
             'sesso-animale' => $row['sesso_animale'],
-            'eta-animale' => $row['eta_animale'],
+            'data-nascita' => $row['data_nascita_animale'],
             'razza-animale' => $row['razza_animale'],
             'trasporto-animale' => $row['trasporto_animale'],
             'famiglia-ideale' => $row['famiglia_ideale'],
@@ -140,35 +140,6 @@ class DBAccess {
 
 		
 	}
-
-    /** trova per un determinato user il numero richieste attive-1 dove attive significa non concluse, non annullate, non respinte
-     */
-    public function countActiveRequestsForUser($email): int {
-        if (!$this->connection){
-            return -1;
-        }
-
-        $query = "SELECT COUNT(*) AS totale FROM RICHIESTE_ADOZIONI R WHERE R.Stato NOT IN ('Conclusa', 'Annullata', 'Respinta') AND R.Email = ?";
-
-        $stmt = mysqli_prepare($this->connection, $query);
-        if($stmt === false){
-            return -1;
-        }
-
-        mysqli_stmt_bind_param($stmt, 's', $email);
-        if(!mysqli_stmt_execute($stmt)){
-            mysqli_stmt_close($stmt);
-            return -1;
-        }
-        $queryResult = mysqli_stmt_get_result($stmt);
-        if($queryResult === false || mysqli_num_rows($queryResult) == 0){
-            mysqli_stmt_close($stmt);
-            return -1;
-        }
-        $row = mysqli_fetch_assoc($queryResult);
-        mysqli_stmt_close($stmt);
-        return (int)$row['totale'];
-    }
 
 
     public function addTransport($emailRichiedente, $idAnimale, $dataArrivo): bool {
@@ -1331,7 +1302,7 @@ class DBAccess {
         return $row;
     }
 
-    function getAnimalRequest($email, $idAnimale): ?array {
+    public function getAnimalRequest($email, $idAnimale): ?array {
         
         $request = null; 
         
@@ -1884,15 +1855,6 @@ class DBAccess {
         $types .= 's';
     }
 
-    /* ---------- FILTRO PERIODO ---------- */
-    if (!empty($filters['tipo'])) {
-        if($filters['tipo'] === 'prossimi'){
-            $where[] = 'DataEvento >= CURRENT_DATE()';
-        }else if($filters['tipo'] === 'terminati'){
-            $where[] = 'DataEvento < CURRENT_DATE()';
-        }
-    }
-
     /* ---------- QUERY BASE ---------- */
     $query = "
         SELECT 
@@ -1990,15 +1952,6 @@ public function countEventsFiltered(array $filters): int {
         $where[] = 'Citta = ?';
         $params[] = $filters['citta'];
         $types .= 's';
-    }
-    
-    /* ---------- FILTRO PERIODO ---------- */
-    if (!empty($filters['tipo'])) {
-        if($filters['tipo'] === 'prossimi'){
-            $where[] = 'DataEvento >= CURRENT_DATE()';
-        }else if($filters['tipo'] === 'terminati'){
-            $where[] = 'DataEvento < CURRENT_DATE()';
-        }
     }
 
     /* ---------- QUERY COUNT ---------- */
@@ -2502,6 +2455,68 @@ public function getAnimalArrivalDate($idAnimale): ?string {
         }
 
         return $evento;
+    }
+
+    public function countActiveRequestsForUser($email): int {
+        if (!$this->connection) return 0;
+
+        $query = "SELECT COUNT(*) as totale 
+                FROM RICHIESTE_ADOZIONI 
+                WHERE Email = ? AND Stato NOT IN ('Respinta', 'Annullata')";
+        
+        $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            $row = mysqli_fetch_assoc($result);
+            mysqli_stmt_close($stmt);
+            return (int)($row['totale'] ?? 0);
+        }
+        return 0;
+    }
+
+    // Recupera il conteggio delle richieste per ogni stato per un SINGOLO ANIMALE
+    public function getNRequestByStatusAnimal($idAnimale): array {
+        $stati = ['Nuova', 'In valutazione', 'Accettata', 'Respinta', 'Annullata', 'Da trasportare'];
+        $risultati = array_fill_keys($stati, 0);
+        
+        $query = "SELECT Stato, COUNT(*) as totale FROM RICHIESTE_ADOZIONI WHERE IDanimale = ? GROUP BY Stato";
+        $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'i', $idAnimale);
+            mysqli_stmt_execute($stmt);
+            $res = mysqli_stmt_get_result($stmt);
+            while ($row = mysqli_fetch_assoc($res)) {
+                $risultati[$row['Stato']] = $row['totale'];
+            }
+            mysqli_stmt_close($stmt);
+        }
+        return $risultati;
+    }
+
+    // Recupera l'elenco delle richieste per un SINGOLO ANIMALE
+    public function getAnimalRequestsId($idAnimale): array {
+        // Aggiungiamo il JOIN con la tabella ANIMALI per prendere il Nome dell'animale
+        $query = "SELECT ra.*, u.Nome, u.Cognome, a.Nome AS NomeAnimale 
+                FROM RICHIESTE_ADOZIONI ra 
+                JOIN UTENTI u ON ra.Email = u.Email 
+                JOIN ANIMALI a ON ra.IDanimale = a.IDanimale
+                WHERE ra.IDanimale = ?
+                ORDER BY ra.DataRichiesta DESC";
+                
+        $stmt = mysqli_prepare($this->connection, $query);
+        $data = [];
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'i', $idAnimale);
+            mysqli_stmt_execute($stmt);
+            $res = mysqli_stmt_get_result($stmt);
+            while ($row = mysqli_fetch_assoc($res)) {
+                $data[] = $row;
+            }
+            mysqli_stmt_close($stmt);
+        }
+        return $data;
     }
 
 }

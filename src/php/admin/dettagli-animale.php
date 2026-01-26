@@ -1,6 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
@@ -30,6 +28,50 @@ if ($fromEmail) {
 
 // Aggiorniamo l'URL della pagina corrente per includere l'ID
 $pagine['dettagli-animale']['url'] .= "?id-animale=" . urlencode($idAnimale);
+
+function createAnimalRequestList(array $richieste): string {
+
+    $stati = ['Nuova', 'In valutazione', 'Accettata', 'Respinta', 'Annullata', 'Da trasportare'];
+    $gruppi = array_fill_keys($stati, '');
+
+    foreach ($richieste as $r) {
+        $nomeCandidato = htmlspecialchars($r['Nome'] . ' ' . $r['Cognome']);
+        $nomeAnimale = htmlspecialchars($r['NomeAnimale']);
+        $statoAttuale = $r['Stato'];
+        
+        // Testo dinamico in base allo stato
+        $testi = [
+            'Nuova' => "Ha fatto richiesta per <em>" . htmlspecialchars($nomeAnimale) . "</em>",
+            'In valutazione' => "Candidatura di <strong>$nomeCandidato</strong> in valutazione.",
+            // ... gli altri testi ...
+        ];
+
+        $li = '<li class="richiesta-card">
+                <div class="card-content">
+                    <p>' . ($testi[$statoAttuale] ?? "Richiesta da $nomeCandidato") . '</p>
+                    <a href="./richieste-adozione?email=' . urlencode($r['Email']) . '&id-animale=' . urlencode($r['IDanimale']) . '" class="btn-vedi-richiesta">Vedi richiesta</a>
+                </div>
+               </li>';
+
+        if (isset($gruppi[$statoAttuale])) {
+            $gruppi[$statoAttuale] .= $li;
+        }
+    }
+
+    $htmlOutput = '';
+    $i = 1; 
+    foreach ($stati as $stato) {
+        $content = $gruppi[$stato];
+        if (empty($content)) {
+            $content = '<li class="empty-message">Nessuna richiesta in questo stato.</li>';
+        }
+        $htmlOutput .= '<ul class="tab-content content-tab' . $i . '" aria-label="Richieste di tipo: ' . $stato . '">' . $content . '</ul>';
+        $i++;
+    }
+    echo "";
+    return '<div id="start-requests" class="requests-container">' . $htmlOutput . '</div>';
+}
+
 $breadcrumb = getBreadcrumb('dettagli-animale', $pagine);
 
 $connessione = new DBAccess();
@@ -38,6 +80,18 @@ $richiesta = null;
 
 if ($connessioneOK) {
     $richiesta = $connessione->getAnimalById($idAnimale);
+
+    $elencoRichiesteDati = $connessione->getAnimalRequestsId($idAnimale);
+
+    if (empty($elencoRichiesteDati)) {
+            $listRequestHTML = "<p style='color:red; background:yellow;'>Debug: Il database non ha restituito richieste per l'ID $idAnimale</p>";
+    } else {
+        $listRequestHTML = createAnimalRequestList($elencoRichiesteDati);
+    }
+
+    $NRequestsByStatus = $connessione->getNRequestByStatusAnimal($idAnimale);
+    
+    $listRequestHTML = createAnimalRequestList($elencoRichiesteDati);
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inizia_modifica'])) {
         $connessione->closeConnection();
@@ -98,7 +152,16 @@ $btnModifica = '
 </div>';
 $main = str_replace('[pulsanti-modifica-animale]', $btnModifica, $main);
 
-// Output Finale
+$main = str_replace('[n-nuove]', $NRequestsByStatus['Nuova'] ?? 0, $main);
+$main = str_replace('[n-valutazione]', $NRequestsByStatus['In valutazione'] ?? 0, $main);
+$main = str_replace('[n-accettate]', $NRequestsByStatus['Accettata'] ?? 0, $main);
+$main = str_replace('[n-respinte]', $NRequestsByStatus['Respinta'] ?? 0, $main);
+$main = str_replace('[n-annullate]', $NRequestsByStatus['Annullata'] ?? 0, $main);
+$main = str_replace('[n-trasporto]', $NRequestsByStatus['Da trasportare'] ?? 0, $main);
+
+$main = str_replace('[elencoRichieste]', $listRequestHTML, $main);
+
+// Infine unisci tutto al layout
 $paginaHTML = str_replace('[main]', $main, $paginaHTML);
 echo $paginaHTML;
 ?>
