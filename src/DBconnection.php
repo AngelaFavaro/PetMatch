@@ -148,7 +148,7 @@ class DBAccess {
             return -1;
         }
 
-        $query = "SELECT COUNT(*) AS totale FROM RICHIESTE_ADOZIONI R WHERE R.Stato NOT IN ('Conclusa', 'Annullata', 'Respinta') AND R.Email = ?";
+        $query = "SELECT COUNT(*)-1 AS totale FROM RICHIESTE_ADOZIONI R WHERE R.Stato NOT IN ('Accettata', 'Annullata', 'Respinta') AND R.Email = ?";
 
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
@@ -1772,7 +1772,7 @@ class DBAccess {
 
     public function hasActiveAdoptionRequest(int $idAnimale): bool {
         $sql = "SELECT 1 FROM RICHIESTE_ADOZIONI 
-                WHERE IDanimale = ? AND Stato IN ('Nuova', 'In valutazione', 'Da trasportare')
+                WHERE IDanimale = ? AND Stato IN ('Nuova', 'In valutazione', 'Da trasportare') 
                 LIMIT 1";
 
         $stmt = $this->connection->prepare($sql);
