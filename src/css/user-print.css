@@ -1,49 +1,84 @@
-/*==============HEADER================ */
+/*==============GENERALI================ */
+
+:root{
+    --lightborder: #887962;
+    --bgcolor: #FFF6D7;
+    --bordercolor: #481515;
+}
+
+*{
+    padding:0em;
+    margin:0em;
+}
+
+html, body{
+    font-size: 12pt;
+    font-family: 'Times New Roman', Times, serif;
+    margin: auto;
+    text-align: justify;
+}
+h1{
+    margin-bottom: 0.5cm;
+}
 
 a:not(#logo-link):not(.pencil):not([href^="mailto:"])::after {
     content: " [" attr(href) "]";
     margin-left: 0.4em;
+    overflow-wrap: break-word; 
 }
+/*==============HEADER================ */
 
 .navigationHelp {
     display: none;
 }
 
 nav#header-logo {
-    height: 200px;
-    width: 200px;
+    height: 5em;
     display: block;
     margin: auto;
+    justify-content: center;
+    text-align: center;
 }
 
 nav#header-logo img {
-    height: 200px;
-    width: 200px;
+    height: 2cm;
+    text-align: center;
+    filter: brightness(0);
+    margin-top:1em;
+}
+
+#name-site{
+    text-align: center;
+    display: block;
+    font-size: 20pt;
+    margin-top: -10px;
+}
+
+/* temporaneo */
+img:not(#logo-header){
     display: none;
 }
 
-nav#header-logo a {
-    display: block;
-    content: url("../../assets/icons/print-logo.svg"); /*perche la stampa toglie tutti i background quindi lo mettiamo come contnuto*/
-    height: 5em;
-    background-repeat: no-repeat;
-    background-position: center;
-    margin: 1em auto;
-}
-
+#header-actions,
 #nav-osso {
     display: none;
 }
 
-#header-actions {
-    display: none;
+/* ============BREADCRUMB=========== */
+main#content nav#breadcrumb a::after{
+    content: '';
 }
 
+nav#breadcrumb{
+    text-align: center;
+    margin-bottom: 0.5cm;
+    border:1px solid var(--bordercolor);
+    border-radius: 0.5cm;
+    padding:0.1cm;
+    margin-top:1.5cm;
+}
 
 /* ============PAGINA ANIMALI=========== */
-nav {
-    display: none;
-}
 
 .filtri {
     display: none;
