@@ -508,7 +508,7 @@ function buildFooter(array $menuGroups, string $currentHref): string {
         </div>
         '.$isLogoActive.'
         <small id="copyright" tabindex="-1">
-            &copy; 2025 <span lang="en">PetMatch</span>. Diritti e illustrazioni riservate, giù le zampe!
+            &copy; 2025 PetMatch. Diritti, illustrazioni e foto riservate, giù le zampe!
         </small>
     </footer>';
 
