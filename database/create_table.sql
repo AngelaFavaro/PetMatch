@@ -120,16 +120,14 @@ CREATE TABLE RICHIESTE_ADOZIONI(
 );
 
 -- TRASPORTI
-CREATE TABLE TRASPORTI(
+-- aggiornamento: ho tolto la via etc e ho messo dataarrivo e datapartenza nullable
+CREATE TABLE TRASPORTI (
     ID INT AUTO_INCREMENT PRIMARY KEY,
-    Email VARCHAR(255) NULL,
-    IDanimale INT NULL,
-    Via VARCHAR(255) NOT NULL,
-    Citta VARCHAR(100) NOT NULL,
-    CAP VARCHAR(5) NOT NULL,
-    DataArrivo DATE NOT NULL,
-    DataPartenza DATE NOT NULL,
-    CHECK (DataArrivo >= DataPartenza),
+    Email VARCHAR(255),
+    IDanimale INT,
+    DataArrivo DATE,
+    DataPartenza DATE,
+    CHECK (DataArrivo IS NULL OR DataArrivo >= DataPartenza),
     FOREIGN KEY (Email, IDanimale) REFERENCES RICHIESTE_ADOZIONI (Email, IDanimale) ON DELETE SET NULL ON UPDATE CASCADE
 );
 

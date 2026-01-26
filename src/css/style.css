@@ -289,12 +289,12 @@ button.orange-button{
     font-weight: 500;
     letter-spacing: 0px;
     text-decoration: none;
-    transition: background-color 0.6s ease;
+    transition: background-color 0.6s ease, border-color 0.6s ease;
 }
 
 #compila-form-adozione>summary,
 .orange-button:hover,
-button.orange-button:hover {
+button.orange-button:hover{
     background-color: var(--buttoncolor-hover); 
     color: var(--hovertext-form-button);
 }
@@ -4155,7 +4155,24 @@ div#admin-area div#animal-container{
 div#admin-area article#stato-trasporto{
     margin: 2em auto 1em 0em;
 } 
+div.button-group{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    margin-top: 1em;
+}
 
+div.button-group button{
+    flex: 1 1 20px;
+}
+
+div.button-group button[type="reset"]{
+    background-color: var(--darkbgcolor);
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--buttoncolor);
+    color: var(--txtcolor);
+}
 #top-container{
     display: flex;
     justify-content: flex-end;
@@ -4324,9 +4341,10 @@ td.col-dettagli a:hover img{
     transition: 0.3s;
 }
 
-#admin-area #animali tbody .orange-button[name="elimina_segnalazione"]:hover{
+#admin-area #animali tbody .orange-button[name="elimina_segnalazione"]:hover, div.button-group button[type="reset"]:hover{
     background-color: transparent;
     border: 2px solid transparent;
+        border-color: var(--bgcolor);
 }
 
 .nessun-risultato-message{
