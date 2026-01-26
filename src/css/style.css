@@ -972,6 +972,7 @@ header a{
     height: 45px;
     bottom: 20px;
     right: 20px;
+    z-index: 999;
 }
 
 #admin-body #slider {
@@ -1828,7 +1829,12 @@ input:-webkit-autofill:active{
     margin:0;
     float: right;
 }
-
+/* aggiunto questo altrimenti mi si sminchiano le cose da admin */
+div#admin-area #animali a.brown-button{
+float: none;
+    display: inline-block; /* Assicura che il margine funzioni correttamente */
+    margin: 0.5em;
+}
 #animali h1{
     display: inline-block;
     margin-top: 0.2em;
@@ -2029,7 +2035,7 @@ input:-webkit-autofill:active{
 #animali #content-filter-button, #eventi #content-filter-button{
     display: flex;
     margin:auto;
-    gap:1em;
+    gap:0.5em;
     height: fit-content;
 }
 
@@ -3674,7 +3680,10 @@ tbody th:nth-child(even) {
 body#admin-body{
     background-color: var(--footercolor);
     display: inline-block;
+    min-height: 100vh;
     width: 100%;
+    display: flex;
+    flex-direction: row;
 }
 
 body#admin-body #animali .filtri,
@@ -3704,7 +3713,6 @@ div#admin-area article h2{
 
 div#admin-area{
     padding: 0em 5em;
-    min-height: 100vh;
     margin-top: 2em;
 }
 
@@ -3783,7 +3791,8 @@ p.n-query{
 { display: none; } /* Nascondi tasto su desktop */
 
 nav#menu-admin {
-    display: flex;
+    /* display: flex; */
+    flex:0 0 20%;
     flex-direction: column;
     transition: 0.3s;
     float: left;
@@ -3791,7 +3800,8 @@ nav#menu-admin {
     padding: 1em 0em 1em 1em;
     height: 100%;
     overflow: hidden;
-     font-size: 100%;
+     font-size: 100%;   
+
     /* height: 100vh; */
 }
 
@@ -3802,8 +3812,10 @@ nav#menu-admin li a {
 
 body#admin-body main {
     background-color: var(--bgcolor);
-    margin-left:20%;
-    min-height: 100vh;
+    overflow: hidden;
+    /* margin-left:20%; */
+    flex:1 1 80%;
+    /* min-height: 100vh; */
 }
 
 nav#menu-admin #logo {
@@ -3874,6 +3886,10 @@ nav#menu-admin span{
     color: var(--navButton);
     margin-left: 0.5em;
     font-weight: 700;
+}
+
+nav#menu-admin .orange-button{
+    margin: 0 auto 1em auto;
 }
 
 nav#menu-admin ul{
@@ -4237,7 +4253,7 @@ footer a{
 
 
 thead th, tfoot th, tfoot td {
-    padding: 0.5em 2em;
+    padding: 0.5em 0.5em;
     text-align: left;
 }
 
@@ -4250,11 +4266,20 @@ thead tr:first-child th:last-child {
 }
 
 tbody td, tbody th {
-    padding: 0em 2em;
+    padding: 0em 0.5em;
     text-align: left;
     border-bottom: 1px solid var(--txtcolor);
 }
+tbody tr th,thead tr th:first-child{
+    padding-left:2em;
+}
 
+td.col-dettagli{
+    padding: 0;
+}
+.col-dettagli img{
+    vertical-align: middle;
+}
 tbody tr:last-child td, 
 tbody tr:last-child th {
     border-bottom: none;
@@ -4273,12 +4298,19 @@ caption {
     overflow: hidden;
 }
 
+td.col-dettagli a:hover img{
+    filter: brightness(0) saturate(100%) invert(8%) sepia(45%) saturate(5833%) hue-rotate(348deg) brightness(95%) contrast(96%);
+}
+
 td.col-dettagli a,td.col-dettagli button{
     margin: 0.5em;
     width: fit-content;
-    min-width: 10.5em;
+    /* min-width: 10.5em; */
 }
 
+td.col-dettagli a:hover img{
+    filter: brightness(0) saturate(100%) invert(8%) sepia(45%) saturate(5833%) hue-rotate(348deg) brightness(95%) contrast(96%);
+}
 #admin-area #animali tbody .orange-button[name="elimina_segnalazione"]{
     background-color: transparent;
     border: 2px solid var(--buttoncolor);
@@ -5078,7 +5110,7 @@ nav#breadcrumb a:visited{
 
 #richiesta-adozione{
     background-color: var(--secondsection);
-    margin-bottom:-1.5em;
+    margin-bottom:-3em;
     padding-bottom:10em;
     background-repeat: repeat;
     background-size: contain;

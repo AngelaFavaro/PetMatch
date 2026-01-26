@@ -358,6 +358,10 @@ input:checked + #slider {
 /* ================== NAV ADMIN (Versione No-JS) ==================*/
 
 
+body#admin-body{
+    display: block;
+}
+
 #admin-body .menu-toggle {
     display: flex;
     margin: 0em 0em 0em auto ;
@@ -410,6 +414,8 @@ nav#menu-admin {
 
 body#admin-body main {
     margin-left: 0;
+    overflow: visible;
+    min-height: 95vh;
 }
 
 div#admin-area {
@@ -1001,4 +1007,8 @@ body#admin-body #richieste .filtri .capsula-filtro label{
 body#admin-body #richieste .filtri .capsula-filtro select{
     margin: 0 0 0 auto;
     padding-left: 1em;
+}
+
+body#admin-body #animali .filtri .capsula-filtro{
+    margin: auto;
 }
