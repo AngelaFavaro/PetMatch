@@ -116,7 +116,6 @@ div:has(input[type="date"]:not([value])):has(span) span {
 
 form.filtri select {
     appearance: none;
-    -webkit-appearance: none;
     border: none;
     background: transparent;
     font-weight: bold;
