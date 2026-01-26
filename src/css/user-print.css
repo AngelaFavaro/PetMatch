@@ -41,21 +41,121 @@ nav#header-logo a {
 
 
 /* ============PAGINA ANIMALI=========== */
-nav {
+#animali nav {
     display: none;
 }
 
-.filtri {
+#animali .filtri ul::before {
+    content: 'Filtri applicati:';
+}
+
+#animali .filtri ul {
+    list-style:none;
+    margin: 0;
+    padding: 0;
+}
+
+#animali .filtri ul li {
+    display: inline-block;
+}
+
+#animali .filtri ul li#searchEta{
+    display: inline-block;    
+}
+
+#animali .filtri ul li#searchEta input{
+    width: fit-content;
+    display: inline-block;
+}
+
+#animali #content-filter-button {
     display: none;
+}
+
+#animali .filtri ul li#searchEta label{
+    display: inline-block;
+}
+
+#animali .filtri ul li#searchEta .eta-range{
+    display: inline-block;
+}
+
+form.filtri input, form.filtri select {
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 0 ;
+    box-shadow: none;
+        
+    appearance: none;
+}
+
+form.filtri select {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    background: transparent;
+    font-weight: bold;
+    font-size: 12pt;
+    color: black;
+    padding: 0;
+    font-family: 'Times New Roman', Times, serif;
+}
+#animali .filtri ul li input::placeholder{
+    display: inline-block;
 }
 
 #animali .immagine {
-    max-width: 200px;
-    max-height: 200px;
-    object-fit: contain;
+    width: 300px;
+    height: 245px;
+    overflow: hidden; /* fondamentale */
 }
 
 #animali .immagine img {
     width: 100%;
     height: 100%;
+    object-fit: cover; /* NON contain */
+    display: block;
+}
+
+#animali .sesso-etaMob {
+    display: none;
+}
+
+#animali li.card {
+    float: left;
+    border: 1px solid black;
+    height: 325px;
+    width: 300px;
+    margin: 10px;
+}
+
+#animali article.card {
+    border:none;
+}
+
+#animali .card p, #animali .card h3 {
+    padding: 0;
+    margin: 0;
+}
+
+#animali ul.cards-container {
+    list-style: none;
+}
+
+#animali .brown-button {
+    display: none;
+}
+
+#animali .is-favourite, #animali .not-favourite {
+    display: none;
+}
+
+#animali .heart-normal {
+    display: block;
+    float: right;
+}
+
+#animali .heart-hover {
+    display: none;
 }
