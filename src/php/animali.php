@@ -303,7 +303,7 @@ if(isset($_GET['id'])) {
             if($userEmail) {
             $totale = $connessione->countFavourites($type, $userEmail);
             } else {
-                $totale=$connessione->countGuestFavourites($type, $filters);
+                $totale=$connessione->countGuestFavourites($type);
             }
             $pagineTotali = max(1, ceil($totale / $perPagina));
             if ($pagina > $pagineTotali) {
@@ -419,8 +419,8 @@ if(isset($_GET['id'])) {
                     <label for='taglia'>Taglia</label>
                     <select id='taglia' name='taglia'>
                         <option value='' [TAGLIA_SELECTED_EMPTY]>Tutti</option>
-                        <option value='Piccola' [TAGLIA_SELECTED_PICCOLA]>Piccola</option>
-                        <option value='Media'   [TAGLIA_SELECTED_MEDIA]>Media</option>
+                        <option value='Piccolo' [TAGLIA_SELECTED_PICCOLA]>Piccola</option>
+                        <option value='Medio'   [TAGLIA_SELECTED_MEDIA]>Media</option>
                         <option value='Grande'  [TAGLIA_SELECTED_GRANDE]>Grande</option>
                     </select>
                 </li>
