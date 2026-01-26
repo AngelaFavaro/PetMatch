@@ -3,7 +3,6 @@ DROP TABLE IF EXISTS SEGNALAZIONI_NUOVE_ACCOGLIENZE;
 DROP TABLE IF EXISTS TRASPORTI;
 DROP TABLE IF EXISTS RICHIESTE_ADOZIONI;
 DROP TABLE IF EXISTS PREFERITI;
-DROP TABLE IF EXISTS FOTO;
 DROP TABLE IF EXISTS ANIMALI;
 DROP TABLE IF EXISTS ORGANIZZAZIONE;
 DROP TABLE IF EXISTS EVENTI;
@@ -80,13 +79,6 @@ CREATE TABLE ANIMALI(
     CHECK (DataRegistrazione >= DataNascita)
 );
 
--- FOTO (Galleria multi immagine per ogni animale, per ora non la usiamo, se ne abbiamo bisogno è pronta)
-CREATE TABLE FOTO(
-    Path VARCHAR(512) PRIMARY KEY,
-    IDanimale INT NOT NULL,
-    FOREIGN KEY (IDanimale) REFERENCES ANIMALI (IDanimale) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
 -- PREFERITI
 CREATE TABLE PREFERITI(
     Email VARCHAR(255) NOT NULL,
@@ -114,7 +106,7 @@ CREATE TABLE RICHIESTE_ADOZIONI(
     CHECK (DataFineValutazione IS NULL OR DataFineValutazione >= DataRichiesta),
     CHECK (DataFineValutazione IS NULL OR DataInizioValutazione IS NULL OR DataFineValutazione >= DataInizioValutazione),
     CHECK (
-        (Stato <> 'Nuova') OR --se lo stato è diverso da nuova allora tutto ok, altrimenti SE è nuova allora controlla le date
+        (Stato <> 'Nuova') OR
         (Stato = 'Nuova' AND DataInizioValutazione IS NULL AND DataFineValutazione IS NULL)
     )
 );
