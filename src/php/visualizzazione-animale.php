@@ -1,6 +1,6 @@
 <?php
-include './src/utils.php';
-include './src/DBconnection.php';
+require_once './src/utils.php';
+require_once './src/DBconnection.php';
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -196,7 +196,7 @@ if ($connection->openDBConnection()) {
 $success = $connection->insertAdoptionRequest($emailUtente, $idAnimale, $lettera, $trasportoRichiesto);
 
                    if ($success) {
-                        header("Location: visualizzazione-animale?id=" . $idAnimale);
+                        header("Location: animali?id=" . $idAnimale);
                         exit;
                     } else {
                         $messaggiErrore['lettera'] = "Errore durante il salvataggio della richiesta.";
@@ -438,7 +438,7 @@ $title = "<title>$nome - PetMatch</title>";
 $description = "<meta name='description' content='Scheda di $nome disponibile per adozione'>";
 $keywords = "<meta name='keywords' content='$nome, adozione, PetMatch, $razza'>";
 $breadcrumb = getBreadcrumb('visualizzazione-animale', $pagine);
-$nav = buildNav($userMenu, './visualizzazione-animale', $_SESSION['email'] ?? false);
+$nav = buildNav($userMenu, './visualizzazione-animale');
 $main = file_get_contents('./src/template/main/visualizzazione-animale.html');
 $footer = buildFooter($footerMenu,  './revisione-richiesta');
 
