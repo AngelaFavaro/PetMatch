@@ -1014,3 +1014,22 @@ body#admin-body #richieste .filtri .capsula-filtro select{
 body#admin-body #animali .filtri .capsula-filtro{
     margin: auto;
 }
+
+
+/* =========PAGINA CHI SIAMO============ */
+
+#orari table#tabella-chi-siamo thead {
+    display: none;
+}
+
+#orari table#tabella-chi-siamo tbody th, #orari table#tabella-chi-siamo tbody tr, #orari table#tabella-chi-siamo tbody td{
+    display: block;
+    padding: 0;
+    white-space: normal;
+}
+
+#orari table#tabella-chi-siamo tbody th[data-title]:before, #orari table#tabella-chi-siamo tbody td[data-title]:before {
+    content: attr(data-title) ":\00A0";
+    font-weight: bold;
+}
+
