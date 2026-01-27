@@ -1,0 +1,85 @@
+\documentclass[a4paper, 12pt, colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=blue, hidelinks]{article}
+\usepackage[colorlinks=true, linkcolor=black, urlcolor=black]{hyperref}
+\usepackage{svg}
+
+
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{bookmark}
+
+\usepackage[a-1b]{pdfx}
+\usepackage[italian]{babel} % Language
+%Font
+\usepackage{fontspec}
+\usepackage{comment}
+\usepackage{booktabs}
+
+\usepackage{graphicx}
+\usepackage{geometry} %per i margini
+
+\usepackage{setspace}
+%\usepackage[hang,flushmargin]{footmisc} % Removes footnote indentation
+\usepackage{enumitem} % Removes bulletin indentation
+%\catcode`\_=12 % change catcode of "_" to "other" 
+
+\usepackage{float} % Required for the [H] option
+\usepackage{caption}
+%\captionsetup[figure]{font=small,labelfont=small}
+
+\setmainfont{Times New Roman}
+\geometry{a4paper,inner=3cm,outer=3cm,top=2.5cm,bottom=2.5cm}
+\setstretch{1.5} % Interlinea
+
+
+\usepackage{titlesec}
+
+
+\titlespacing*{\paragraph}{0pt}{0.5em}{0.0pt}\setlength{\parindent}{0pt}  % non so- spazio tra paragrafi - rientro
+
+
+
+\usepackage{fontspec}
+
+\newcommand{\paginaBianca}{
+  \clearpage             % chiude la pagina corrente
+  \thispagestyle{empty}  % rimuove intestazione/piede pagina
+  \mbox{}                 % forza contenuto minimo sulla pagina
+  \clearpage             % chiude la pagina bianca e riprende la numerazione
+  }
+  
+  
+  \usepackage{tocloft}
+  \renewcommand{\cfttoctitlefont}{\normalfont\fontsize{14pt}{16pt}\bfseries}
+  % Aggiunge i puntini (leader) a tutti i livelli fino alle subsection
+  \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+  \renewcommand{\cftsubsecleader}{\cftdotfill{\cftdotsep}}
+  \renewcommand{\cftdotsep}{1.5}
+  
+  \setlength{\cftbeforesecskip}{0pt}   % spazio verticale prima di ogni \section
+  
+  
+\usepackage{ragged2e} %per il giustificato
+% \usepackage{sectsty} %per la dimensione dei titoli
+\begin{document}
+% 
+\justifying
+\captionsetup{font={small,stretch=1.5}}
+%\pagenumbering{roman}
+\pagenumbering{arabic}
+
+
+\input{sections/frontespizio}
+
+
+\paginaBianca
+
+\tableofcontents
+
+
+
+\end{document}
+
