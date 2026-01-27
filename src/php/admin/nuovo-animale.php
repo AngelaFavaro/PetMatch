@@ -154,23 +154,26 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
             $email_loggato = $_SESSION['email'] ?? null; 
 
             if($isModified){
+                // Esegui l'update
                 $result = $conn->updateAnimal($dataDB, $_GET['id-animale']);
                 if($result){
                     unset($_SESSION['form_status_info'], $_SESSION['form_errors_info'], $_SESSION['form_inputs']);
-                    header("Location: ./animali?id=".urlencode($_GET['id-animale']));
+                    // REDIRECT alla pagina dettagli-animale usando l'ID esistente
+                    header("Location: ./dettagli-animale?id-animale=" . urlencode($_GET['id-animale']));
                     exit;
-                }else{
-                    $errors['generic']= " La modifica dell'animale non è andato a buon fine, riprovare più tardi.";
+                } else {
+                    $errors['generic'] = "La modifica dell'animale non è andata a buon fine, riprovare più tardi.";
                 }
-            }else{
-
+            } else {
+                // Esegui l'inserimento nuovo
                 $assegna_a_me = isset($_POST['assegna_a_me']);
                 $email_da_inserire = $assegna_a_me ? $email_loggato : null;
                 $result = $conn->addAnimal($dataDB, $email_da_inserire);
     
                 if ($result) {
                     unset($_SESSION['form_status_info'], $_SESSION['form_errors_info'], $_SESSION['form_inputs']);
-                    header("Location: ./animali?id=".urlencode($result));
+                    // REDIRECT alla pagina dettagli-animale usando l'ID appena creato ($result)
+                    header("Location: ./dettagli-animale?id-animale=" . urlencode($result));
                     exit;
                 } else {
                     $errors['generic'] = "Errore database: " . htmlspecialchars($conn->getConnectionError());
@@ -201,11 +204,15 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
         $_SESSION['form_inputs'] = $inputsToSave; 
 
         if($isModified){
-            header("Location: ./modifica-animale?id-animale=".urlencode($_GET['id-animale']));
-            exit;
-        }else{
-            header("Location: ./nuovo-animale");
-            exit;
+            $result = $conn->updateAnimal($dataDB, $_GET['id-animale']);
+            if($result){
+                unset($_SESSION['form_status_info'], $_SESSION['form_errors_info'], $_SESSION['form_inputs']);
+                // Cambia da ./animali a ./dettagli-animale
+                header("Location: ./dettagli-animale?id-animale=" . urlencode($_GET['id-animale']));
+                exit;
+            } else {
+                $errors['generic'] = "La modifica non è andata a buon fine.";
+            }
         }
 
     }
@@ -266,6 +273,13 @@ if (!empty($NewAnimalInfo['ImgPath'])) {
     $fotoInfo .= "<img src='{$NewAnimalInfo['ImgPath']}' alt='Anteprima immagine caricata' style='max-width:200px;'>";
     $inputHiddenFoto = "<input type='hidden' name='foto' value='{$NewAnimalInfo['ImgPath']}'>";
 }
+
+if ($isModified) {
+    $urlAnnulla = "./dettagli-animale?id-animale=" . urlencode($idAnimaleMod);
+} else {
+    $urlAnnulla = "./area-riservata";
+}
+$paginaHTML = str_replace('[urlAnnulla]', $urlAnnulla, $paginaHTML);
 
 $paginaHTML = str_replace('[infoFotoCaricata]', $fotoInfo, $paginaHTML);
 $paginaHTML = str_replace('[input-hidden-foto]', $inputHiddenFoto??'', $paginaHTML);
