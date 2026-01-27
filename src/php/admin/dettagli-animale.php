@@ -120,7 +120,7 @@ $main = loadTemplate('./src/template/main/admin/dettagli-animale.html');
 $title = '<title>Dettagli ' . e($richiesta['nome'] ?? 'Animale') . ' - Admin PetMatch</title>';
 $description = '<meta name="description" content="Visualizzazione dettagliata dell\'animale nel sistema gestionale">';
 
-$activeNav = $fromEmail ? './richieste-adozione' : './area-riservata';
+$activeNav = $fromEmail ? './richieste-adozione' : './assegnati-a-te';
 $nav = buildAdminNav($adminMenu, $activeNav);
 $paginaHTML = str_replace(['[breadcrumb]', '[title]', '[nav]', '[description]', '[keywords]'], 
                          [$breadcrumb, $title, $nav, $description, ""], 
