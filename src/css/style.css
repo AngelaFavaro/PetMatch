@@ -5015,6 +5015,71 @@ nav#breadcrumb a:visited{
     color: var(--visitedcolor);
 }
 
+/* ================== DETTAGLIO ANIMALE ADMIN ==================*/
+#dettaglio-animale {
+    gap: 2em;
+    align-items: flex-start;
+}
+
+#dettaglio-animale article {
+    border: 1px solid var(--txtcolor);
+    border-radius: 0.5em;
+    padding: 1.5em;
+    flex: 1 1 45%; /* Le affianca al 50/50 circa */
+    min-width: 320px; /* Sopra questa misura restano affiancate */
+}
+
+#dettaglio-animale #animale-detailed-container {
+    flex: 1 1 45%;
+}
+
+#dettaglio-animale #visualizza-richieste-animale {
+    flex: 1 1 30%;
+}
+
+#dettaglio-animale .generic-info-container {
+    display: flex;
+    flex-wrap: nowrap;       
+    align-items: flex-start;
+    position: relative;      
+    gap: 2.5em;
+    padding-top: 3.5em;      
+    margin-bottom: 2em;
+}
+
+#dettaglio-animale .generic-info-container img.square-foto {
+    flex: 0 0 280px;         
+    width: 280px;
+    height: 280px;
+    object-fit: cover;
+    margin: 0;               
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+#dettaglio-animale .text-details {
+    flex: 1;
+}
+
+#dettaglio-animale .edit-btn-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+}
+
+/* Formattazione lista dati (opzionale ma consigliata per ordine) */
+#dettaglio-animale .text-details dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.8em 1.5em;
+}
+
+#dettaglio-animale dt {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    color: var(--txtcolor); /* o un colore di accento se lo hai */
+}
 
 /*================VISUALIZZAZIONE ANIMALI ==================*/
 

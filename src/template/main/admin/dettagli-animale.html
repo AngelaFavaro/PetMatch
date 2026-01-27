@@ -1,11 +1,11 @@
 <div id="admin-area">
     <h1>Informazioni animale</h1>
-    <div id="animal-container">
-        <article id="info-animale-admin">
+    <div class="column-container" id="dettaglio-animale">
+        <article id="animale-detailed-container">
             <div class="generic-info-container">
                 [pulsanti-modifica-animale]
                 <img src="[animalImgPath]" alt="Foto di [nomeAnimale]" class="square-foto">
-                    
+
                 <div class="text-details">
                     <dl>
                         <dt>Nome</dt><dd>[nomeAnimale]</dd>
@@ -19,7 +19,7 @@
                 </div>
             </div>
 
-            <div id="other-info-container">
+            <div class="description-info-container">
                 <dl>
                     <dt>Idoneo al trasporto</dt><dd>[trasportoAnimale]</dd>
                     <dt>Condizioni mediche</dt><dd>[condizioniMediche]</dd>
@@ -27,12 +27,13 @@
                     <dt>Famiglia ideale</dt><dd>[famigliaIdeale]</dd>
                 </dl>
             </div>
+
         </article>
 
         <article id="visualizza-richieste-animale">
             <section class="tabs-container">
                 <fieldset>
-                    <legend id="title-richieste">Richieste per questo animale</legend>
+                    <legend id="title-richieste-animale">Richieste per questo animale</legend>
 
                     <label class="no-visible" for="anim-tab1">Nuove</label>
                     <label class="no-visible" for="anim-tab2">In valutazione</label>
@@ -41,7 +42,7 @@
                     <label class="no-visible" for="anim-tab5">Annullate</label>
                     <label class="no-visible" for="anim-tab6">Da trasportare</label>
 
-                    <select id="filtri-richieste" name="tab-group-select" 
+                    <select id="filtri-richieste-animale" name="tab-group-select" 
                             aria-label="Selezionare la tipologia di richieste che si vuole visualizzare:"
                             onchange="document.getElementById(this.value).checked = true;">
                         <option value="anim-tab1">Nuove ([n-nuove])</option>

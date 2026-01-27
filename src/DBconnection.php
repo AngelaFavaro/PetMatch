@@ -2519,7 +2519,6 @@ public function getAnimalArrivalDate($idAnimale): ?string {
 
     // Recupera l'elenco delle richieste per un SINGOLO ANIMALE
     public function getAnimalRequestsId($idAnimale): array {
-        // Aggiungiamo il JOIN con la tabella ANIMALI per prendere il Nome dell'animale
         $query = "SELECT ra.*, u.Nome, u.Cognome, a.Nome AS NomeAnimale 
                 FROM RICHIESTE_ADOZIONI ra 
                 JOIN UTENTI u ON ra.Email = u.Email 

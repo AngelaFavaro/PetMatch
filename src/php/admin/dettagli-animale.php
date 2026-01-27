@@ -27,7 +27,6 @@ if (!$idAnimale) {
 //     $pagine['dettagli-animale']['parent'] = 'assegnati-a-te';
 // }
 
-// Aggiorniamo l'URL della pagina corrente per includere l'ID
 $pagine['dettagli-animale']['url'] .= "?id-animale=" . urlencode($idAnimale);
 
 function createAnimalRequestList(array $richieste): string {
@@ -87,7 +86,7 @@ if ($connessioneOK) {
     $elencoRichiesteDati = $connessione->getAnimalRequestsId($idAnimale);
 
     if (empty($elencoRichiesteDati)) {
-            $listRequestHTML = "<p style='color:red; background:yellow;'>Debug: Il database non ha restituito richieste per l'ID $idAnimale</p>";
+            $listRequestHTML = "<p>Debug: Il database non ha restituito richieste per l'ID $idAnimale</p>";
     } else {
         $listRequestHTML = createAnimalRequestList($elencoRichiesteDati);
     }
@@ -107,7 +106,6 @@ $paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore carica
 $main = loadTemplate('./src/template/main/admin/dettagli-animale.html');
 
 $title = '<title>Dettagli ' . e($richiesta['nome'] ?? 'Animale') . ' - Admin PetMatch</title>';
-$main = str_replace('[nomeAnimale]', e($richiesta['nome'] ?? ''), $main);
 $description = '<meta name="description" content="Visualizzazione dettagliata dell\'animale nel sistema gestionale">';
 
 $activeNav = $fromEmail ? './richieste-adozione' : './area-riservata';
@@ -116,33 +114,31 @@ $paginaHTML = str_replace(['[breadcrumb]', '[title]', '[nav]', '[description]', 
                          [$breadcrumb, $title, $nav, $description, ""], 
                          $paginaHTML);
 
-$main = str_replace('[nomeAnimale]', e($richiesta['nome-animale'] ?? ''), $main);
+$main = str_replace('[nomeAnimale]', e($richiesta['Nome'] ?? 'Non specificato'), $main);
 
-$imgPath = $richiesta['foto'] ?? '';
+$imgPath = $richiesta['ImgPath'] ?? '';
 if (!$imgPath || !file_exists($imgPath)) {
-    $imgPath = ($richiesta['tipologia'] === 'Gatto') ? './assets/images/animals/defaultGatto.jpg' : './assets/images/animals/defaultCane.jpg';
+    $imgPath = (isset($richiesta['Tipo']) && $richiesta['Tipo'] === 'Gatto') 
+               ? './assets/images/animals/defaultGatto.jpg' 
+               : './assets/images/animals/defaultCane.jpg';
 }
 $main = str_replace('[animalImgPath]', e($imgPath), $main);
 
-$sesso = $richiesta['sesso'] ?? '';
+$sesso = $richiesta['Sesso'] ?? '';
 $sessoHTML = ($sesso === 'F') ? '<abbr title="Femmina">F</abbr>' : (($sesso === 'M') ? '<abbr title="Maschio">M</abbr>' : e($sesso));
 $main = str_replace('[sessoAnimale]', $sessoHTML, $main);
 
-$etaCalcolata = calcolaEta($richiesta['dataNascita'] ?? null);
-$testoEta = ($etaCalcolata !== null) ? $etaCalcolata . " anni" : "Data non disponibile";
+$etaCalcolata = calcolaEta($richiesta['DataNascita'] ?? null);
+$main = str_replace('[etaAnimale]', e($etaCalcolata !== null ? $etaCalcolata . " anni" : "N/D"), $main);
 
-$main = str_replace('[etaAnimale]', e($testoEta), $main);
-
-$main = str_replace('[razzaAnimale]', e($richiesta['razza'] ?? ''), $main);
-$main = str_replace('[peloAnimale]', e($richiesta['pelo'] ?? ''), $main);
-$main = str_replace('[tagliaAnimale]', e($richiesta['taglia'] ?? ''), $main);
-$main = str_replace('[coloreAnimale]', e($richiesta['colore'] ?? ''), $main);
-$main = str_replace('[trasportoAnimale]', siNo($richiesta['trasporto'] ?? 0), $main);
-$main = str_replace('[famigliaIdeale]', e($richiesta['famiglia'] ?? ''), $main);
-$main = str_replace('[descrizioneCaratteriale]', e($richiesta['carattere'] ?? ''), $main);
-
-$condizioni = empty($richiesta['condMediche']) ? 'Nessuna' : e($richiesta['condMediche']);
-$main = str_replace('[condizioniMediche]', $condizioni, $main);
+$main = str_replace('[razzaAnimale]', e($richiesta['Razza'] ?? 'N/D'), $main);
+$main = str_replace('[peloAnimale]', e($richiesta['Pelo'] ?? 'N/D'), $main);
+$main = str_replace('[tagliaAnimale]', e($richiesta['Taglia'] ?? 'N/D'), $main);
+$main = str_replace('[coloreAnimale]', e($richiesta['Colore'] ?? 'N/D'), $main);
+$main = str_replace('[trasportoAnimale]', siNo($richiesta['Trasporto'] ?? 0), $main);
+$main = str_replace('[famigliaIdeale]', e($richiesta['DescrFamiglia'] ?? 'N/D'), $main);
+$main = str_replace('[descrizioneCaratteriale]', e($richiesta['DescrComportamentale'] ?? 'N/D'), $main);
+$main = str_replace('[condizioniMediche]', e($richiesta['CondizioniMediche'] ?? 'Nessuna'), $main);
 
 $urlModifica = $pagine['modifica-animale']['url'] . "?id-animale=" . urlencode($idAnimale);
 if (isset($_GET['from_email'])) {
