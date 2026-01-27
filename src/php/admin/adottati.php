@@ -102,8 +102,8 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo cont
             $perPagina, 
             $offCani, 
             $offGatti, 
-            ($filtroCorrente === 'mie' || $filtroCorrente === 'non-mie') ? $_SESSION['email'] : null, 
-            $filtroCorrente
+            $filtroCorrente,
+            ($filtroCorrente === 'mie' || $filtroCorrente === 'non-mie') ? $_SESSION['email'] : null
         );
         
         $connessione->closeConnection();

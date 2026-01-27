@@ -271,7 +271,7 @@ if(isset($_GET['id'])) {
                         <p class='$classeInteressato'>$giàInteressato</p>
     
                         <div class='dettagli-animale-bottone'>
-                            <a href='animali?id=$id'>Vedi dettagli</a>
+                            <a href='dettagli-animale?id-animale=$id'>Vedi dettagli</a>
                         </div>
                     </article>
                 </li>";

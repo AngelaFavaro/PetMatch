@@ -37,7 +37,7 @@ $pagine = [
     'richieste-adozione' => [
         'label' => 'Richieste di adozione',
         'url' => './richieste-adozione',
-        'parent' => 'home'
+        'parent' => 'area-riservata'
     ],
     'dettagli-richiesta' => [
         'label' => 'Dettagli richiesta',
@@ -47,13 +47,12 @@ $pagine = [
     'nuovo-animale' => [
         'label' => 'Aggiungi animale',
         'url' => './nuovo-animale',
-        'parent' => 'home'
+        'parent' => 'area-riservata'
     ],
     'modifica-animale' => [
-        // QUI VA CAMBIATO IL PARENT QUANDO SARA' PRONTA LA PAGINA DI DETTAGLIO
         'label' => 'Modifica animale',
         'url' => './modifica-animale', 
-        'parent' => 'area-riservata'  
+        'parent' => 'dettagli-animale'  
     ],
     'animali' => [
         'label' => 'Animali',
@@ -93,7 +92,7 @@ $pagine = [
     'preferiti' => [
         'label' => 'Preferiti',
         'url' => './preferiti',
-        'parent' => 'animali'
+        'parent' => 'home'
     ],
     'lavora-con-noi' => [
         'label' => 'Lavora con noi',
@@ -108,7 +107,7 @@ $pagine = [
     'senza-amministratore' => [
         'label' => 'Animali senza amministratore',
         'url' => './senza-amministratore',
-        'parent' => 'animali'
+        'parent' => 'area-riservata'
     ],
     'eventi' => [
         'label' => 'Eventi',
@@ -118,7 +117,7 @@ $pagine = [
     'nuove-accoglienze' => [
         'label' => 'Nuove accoglienze',
         'url' => './nuove-accoglienze',
-        'parent' => 'animali'
+        'parent' => 'area-riservata'
     ],
     'profilo-richiedente' => [
         'label' => 'Profilo richiedente',
@@ -128,7 +127,7 @@ $pagine = [
     'adottati' => [
         'label' => 'Adottati',
         'url' => './adottati',
-        'parent' => 'animali'
+        'parent' => 'area-riservata'
     ],
     'nuovo-evento' => [
         'label' => 'Nuovo evento',
@@ -138,7 +137,12 @@ $pagine = [
     'assegnati-a-te' => [
         'label' => 'Assegnati a te',
         'url' => './assegnati-a-te',
-        'parent' => 'animali'
+        'parent' => 'area-riservata'
+    ],
+    'dettagli-animale' => [
+        'label' => 'Dettagli animale',
+        'url' => './dettagli-animale', 
+        'parent' => 'assegnati-a-te' 
     ],
     'modifica-evento' => [
         'label' => 'Modifica evento',
@@ -148,7 +152,7 @@ $pagine = [
     'visualizzazione-eventi' => [
         'label' => 'Visualizzazione eventi',
         'url' => './visualizzazione-eventi',
-        'parent' => 'home'
+        'parent' => 'area-riservata'
     ],
 ];
 
@@ -814,4 +818,51 @@ function formattaDataItaliana(string $data): string {
     $anno   = date('Y', $timestamp);
 
     return "$giorno $mese $anno";
+}
+
+/**
+ * Escape stringa per output HTML serve a prevenire XSS ossia Cross Site Scripting ossia l'inserimento di codice malevolo in pagine web visualizzate da altri utenti
+ */
+function e(string $s): string {
+    return htmlspecialchars($s ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+/**
+ * Ritorna "Sì" o "No" in base a valore booleano/intero
+ */
+function siNo($val): string {
+    return ($val === 1 || $val === '1' || $val === true) ? 'Sì' : 'No';
+}
+
+function displayDateItalianFormat(string $dateStr): string {
+    $timestamp = strtotime($dateStr);
+    if ($timestamp === false) {
+        return '';
+    }
+    return date('d/m/Y', $timestamp);
+}
+
+function formattaEta($dataNascita) {
+    if (!$dataNascita) return "Età sconosciuta";
+
+    try {
+        $nascita = new DateTime($dataNascita);
+        $oggi = new DateTime();
+        $diff = $nascita->diff($oggi);
+
+        $parti = [];
+
+        if ($diff->y > 0) {
+            $parti[] = $diff->y . ($diff->y == 1 ? " anno" : " anni");
+        }
+
+        // Gestione Mesi
+        if ($diff->m > 0) {
+            $parti[] = $diff->m . ($diff->m == 1 ? " mese" : " mesi");
+        }
+
+        return implode(" e ", $parti);
+    } catch (Exception $e) {
+        return "Data non valida";
+    }
 }
