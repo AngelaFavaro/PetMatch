@@ -44,7 +44,6 @@ $pagine = [
         'url' => $richiesteAdozioneHref,
         'parent' => 'richieste-adozione'
     ],
-
     'nuovo-animale' => [
         'label' => 'Aggiungi animale',
         'url' => './nuovo-animale',

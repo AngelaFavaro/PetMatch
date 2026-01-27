@@ -150,6 +150,10 @@ $main = str_replace('[coloreAnimale]', e($richiesta['Colore'] ?? 'N/D'), $main);
 $main = str_replace('[trasportoAnimale]', siNo($richiesta['Trasporto'] ?? 0), $main);
 $main = str_replace('[famigliaIdeale]', e($richiesta['DescrFamiglia'] ?? 'N/D'), $main);
 $main = str_replace('[descrizioneCaratteriale]', e($richiesta['DescrComportamentale'] ?? 'N/D'), $main);
+$condizioni = $richiesta['CondizioniMediche'] ?? '';
+if (trim($condizioni) === '' ||$condizioni === '0') {
+    $richiesta['CondizioniMediche'] = 'Nessuna';
+}
 $main = str_replace('[condizioniMediche]', e($richiesta['CondizioniMediche'] ?? 'Nessuna'), $main);
 
 $urlModifica = $pagine['modifica-animale']['url'] . "?id-animale=" . urlencode($idAnimale);
