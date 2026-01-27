@@ -255,7 +255,7 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
     }
 
     $html .= '
-        <form action="./area-riservata" method="POST">
+        <form action="./area-riservata" method="post">
             <button type="submit" name="logout" class="logout-btn">Disconnettiti</button>
         </form>
     </nav>';
@@ -649,7 +649,8 @@ function logout(){
     
     session_destroy();
     
-    header("Location: ./home");
+    // meglio mandarlo ad accedi che alla home, così sa che è andato tutto bene
+    header("Location: ./accedi");
     exit;
 }
 
@@ -755,6 +756,7 @@ function renderCaniGattiTabs(): string{
             $selected[$stato] = 'selected';
         }
         $html = '
+        <label for="mobile-select" class="sr-only">Scegli una categoria:</label>
         <select id="mobile-select" name="tab-group">
             <option value="tab1" '.$selected['Cani'].'>
                 Cani ([n-cani])
@@ -769,6 +771,7 @@ function renderCaniGattiTabs(): string{
         <label for="tab2">Gatti ([n-gatti])</label>';
     }else{
         $html = '
+        <label for="mobile-select" class="sr-only">Scegli una categoria:</label>
         <select id="mobile-select" name="tab-group">
             <option value="tab1" selected>
                 Cani ([n-cani])

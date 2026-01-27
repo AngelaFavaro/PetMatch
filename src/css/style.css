@@ -2768,6 +2768,8 @@ flex: 1 0 100%;
     display: none;
 }
 
+#user-info #button-cancel,
+#user-info button[name="delete-account"],
 #user-profile .tab-content form button,
 .logout-btn,
 #revisione-richiesta #button-cancel,
@@ -2780,7 +2782,7 @@ flex: 1 0 100%;
     transition: 0.3s;
     border:2px solid var(--buttoncolor);
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 600;
 }
 
 #user-profile .tab-content form button{
@@ -2796,6 +2798,7 @@ flex: 1 0 100%;
 
 #user-profile .tab-content form button:hover,
 .logout-btn:hover,
+#user-info #button-cancel:hover,
 #revisione-richiesta #button-cancel:hover{
     background-color:var(--bgcolor);
     color:var(--hover-link);
@@ -3355,6 +3358,8 @@ input[type="file"]::file-selector-button:hover {
     margin-top: 1.5em;
 }
 
+#user-info #button-cancel,
+#user-info button[name="delete-account"],
 #revisione-richiesta #button-cancel,
 #revisione-richiesta button{
     font-size: 1em;
@@ -3369,7 +3374,24 @@ input[type="file"]::file-selector-button:hover {
     padding:0.3em 2.7em;
 }
 
+#user-info .dialog-buttons label{
+    padding: 0.5em 2em;
+}
+
+#user-info .edit-management #button-cancel{
+    width: 100%;
+    text-align: center;
+    background-color: transparent;
+    border-radius: 1em;
+}
+
+#user-info .edit-management #button-cancel:hover{
+    border-color: transparent;
+    color:var(--text-form);
+}
+
 .dialog-buttons label:hover,
+#user-info button[name="delete-account"]:hover,
 #revisione-richiesta button:hover{
     border-color:var(--bgcolor);
 }
@@ -3395,6 +3417,7 @@ input[type="file"]::file-selector-button:hover {
     font-style: italic;
 }
 
+#user-info .dialog-buttons button[name="delete-request"]:hover,
 #revisione-richiesta .dialog-buttons button[name="delete-request"]:hover{
     border-color:transparent;
 }
@@ -5109,6 +5132,10 @@ nav#breadcrumb a:visited{
 #visualizzazione-animale .dettagli-animale h2{
     font-size:1.5em;
     margin-bottom: 0.5em;
+}
+
+#indirizzo-incompleto{
+    margin-bottom: 1em;
 }
 
 

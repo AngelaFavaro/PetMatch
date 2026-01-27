@@ -203,6 +203,7 @@ if(isset($_GET['id'])) {
     
                 $eta = $a['eta'];
                 $id  = $a['id'];
+                $colore = $a['colore'];
     
                 /* -------- ADOTTATO (opzionale) -------- */
                 $adottato = isset($a['adottato']) && (int)$a['adottato'] === 1;
@@ -244,9 +245,8 @@ if(isset($_GET['id'])) {
                 <li class='$cardClass' aria-labelledby='nome-animale-$id'>
                     <article class='card' aria-label='descrizione:'>
                         <div class='immagine'>
-                            <img src='$img' alt=''>
-                        </div>
-    
+                            <img src='$img' alt='foto di $nome: un {$a['tipo']} di colore {$colore}'>                        
+                            </div>
                         <h3 class='nome' id='nome-animale-$id'>$nome</h3>";
                 if(!$adottato) {
                     $html.="

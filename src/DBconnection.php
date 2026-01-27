@@ -1447,7 +1447,7 @@ class DBAccess {
         // 2. Query (con o senza filtro)
         if ($type === "tutti") {
             $query = "
-                SELECT Nome, Sesso, DataNascita, ImgPath, Tipo
+                SELECT Nome, Sesso, DataNascita, ImgPath, Tipo, Colore
                 FROM ANIMALI
                 ORDER BY IDanimale ASC
             ";
@@ -1493,6 +1493,7 @@ class DBAccess {
             $result[] = [
                 'nome' => $row['Nome'],
                 'sesso' => $row['Sesso'],
+                'colore' => $row['Colore'],
                 'eta' => calcolaEta($row['DataNascita']),
                 'immagine' => $row['ImgPath'],
                 'tipo' => $row['Tipo']
@@ -1576,6 +1577,7 @@ class DBAccess {
         $query = "SELECT 
                     A.IDanimale AS id, 
                     A.Nome AS nome, 
+                    A.Colore AS colore, 
                     A.Sesso AS sesso, 
                     A.Tipo AS tipo,
                     A.ImgPath AS immagine,
@@ -1692,7 +1694,7 @@ class DBAccess {
 
         /* ---------- QUERY ---------- */
         $query = "
-            SELECT a.Nome, a.Sesso, a.DataNascita, a.ImgPath, a.Tipo, a.IDanimale AS Id
+            SELECT a.Nome, a.Sesso, a.DataNascita, a.ImgPath, a.Tipo, a.Colore, a.IDanimale AS Id
             FROM ANIMALI a
             LEFT JOIN RICHIESTE_ADOZIONI r 
             ON a.IDanimale = r.IDanimale AND r.Stato = 'Accettata'
@@ -1721,6 +1723,7 @@ class DBAccess {
             $animali[] = [
                 'nome'     => $row['Nome'],
                 'sesso'    => $row['Sesso'],
+                'colore'    => $row['Colore'],
                 'eta'      => calcolaEta($row['DataNascita']),
                 'immagine' => $row['ImgPath'],
                 'tipo'     => $row['Tipo'],
@@ -2121,6 +2124,7 @@ public function getFavouritesPaged(
         SELECT
             a.Nome,
             a.Sesso,
+            a.Colore,
             a.DataNascita,
             a.ImgPath,
             a.Tipo,
@@ -2163,6 +2167,7 @@ public function getFavouritesPaged(
             'immagine' => $row['ImgPath'],
             'tipo'     => $row['Tipo'],
             'id'       => $row['Id'],
+            'colore'       => $row['Colore'],
             'adottato' => (int)$row['adottato']
         ];
     }
@@ -2202,6 +2207,7 @@ public function getGuestFavPaged(string $type, int $perPagina, int $offset): arr
             a.Sesso,
             a.DataNascita,
             a.ImgPath,
+            a.Colore,
             a.Tipo,
             a.IDanimale AS Id,
             EXISTS (
@@ -2238,6 +2244,7 @@ public function getGuestFavPaged(string $type, int $perPagina, int $offset): arr
             'immagine' => $row['ImgPath'],
             'tipo'     => $row['Tipo'],
             'id'       => $row['Id'],
+            'colore'       => $row['Colore'],
             'adottato' => (int)$row['adottato']
         ];
     }
@@ -2483,6 +2490,25 @@ public function getAnimalArrivalDate($idAnimale): ?string {
         }
 
         return $evento;
+    }
+
+
+    public function deleteAccount(string $email): bool {
+        if (!$this->connection){
+            return false;
+        }
+
+        $query = "DELETE FROM UTENTI WHERE Email = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 's', $email);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
     }
 
 }
