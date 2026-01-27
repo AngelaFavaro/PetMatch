@@ -146,7 +146,7 @@ $pagine = [
         'parent' => 'visualizzazione-eventi'
     ],
     'visualizzazione-eventi' => [
-        'label' => 'Visualizzazione-eventi',
+        'label' => 'Visualizzazione eventi',
         'url' => './visualizzazione-eventi',
         'parent' => 'home'
     ],

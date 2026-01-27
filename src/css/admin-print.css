@@ -37,7 +37,6 @@ h2{
     padding-top: 0.2cm;
     margin-top: 0.3cm;
     margin-bottom: 0.1cm;
-    border-top: 1px solid var(--lightborder);
 }
 
 article{
@@ -202,6 +201,64 @@ ul#to-do-list p, ul#statistics-list p {
     margin-left: 0.5cm;
 }
 
+div#row2{
+    display: flex;
+}
+
+div#row2 article h2{
+    border-top: none;
+}
+
+#to-do-list{
+    border: 1px solid var(--lightborder);
+    border-radius: 0.1cm;
+    padding: 0.3cm;
+    margin: 0.3cm;
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+div#row2 article{
+    flex: 1 1 50%;
+    border: 1px solid var(--lightborder);
+    border-radius: 0.1cm;
+    margin: 0.3cm;
+    padding: 0.3cm;
+}
+
+#query #to-do-list li{
+    flex: 1 1 5cm;
+    margin: 0.2cm;
+    text-align: left;
+}
+
+#to-do-list li,
+#statistics-list li{
+    border: 1px solid var(--lightborder);
+    padding: 0.2cm 0.3cm; 
+    margin: 0.2cm 0;
+    border-radius: 0.1cm;
+    list-style: none;
+    
+    display: flex;
+    align-items: center;
+}
+
+.circle-foto {
+    width: 3cm;
+    height: 3cm;
+    object-fit: cover;
+    clip-path: circle(50%);
+    pointer-events: none;
+    background-color: var(--bglink-hover);
+    margin: 0.2cm 0;
+}
+
+#informazioni-admin{
+    margin-top: 0.55cm;
+}
+
 /** ======= ASSEGNATI A TE ======  e ======= EVENTI ====== */
 .evento img:not(.immagine-evento){
     display: none;
@@ -284,7 +341,7 @@ ul[aria-label="Filtri sulla tipologia"],
 
 article.card,
 .evento{
-    padding:0.3cm 0.5cm;
+    padding:0.3cm;
     border:1px solid var(--lightborder);
     height:100%;
     border-radius: 0.1cm;
@@ -318,6 +375,22 @@ article.card,
     box-sizing: border-box;
     flex-direction: column;
     margin-bottom: -0.8cm;
+}
+
+.cards-container:has(article.card) li a,
+.cards-container:has(.evento) li a{
+    padding-top: 0.2cm;
+    display: block;
+}
+
+#animali  .cards-container:has(article.card) li{
+    flex: 0 0 4.6cm;
+}
+
+.cards-container:has(article.card) li img{
+    margin: 0 auto 0.2cm auto;
+    object-fit: cover;
+    display: block;
 }
 
 .evento img{
@@ -365,3 +438,5 @@ article.evento {
     page-break-inside: avoid; 
     display: block; 
 }
+
+/** ======= ASSEGNATI A TE ======  */
