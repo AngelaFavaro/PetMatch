@@ -35,6 +35,10 @@ function renderCaniContent(array $CaniNonAdmin, array $NNonAdminByType): string 
         foreach($CaniNonAdmin as $caneNonAdmin){
             //calcolo età da data di nascita
             $eta = date_diff(date_create($caneNonAdmin['data_nascita']), date_create('today'))->y;
+
+            $id = htmlspecialchars($caneNonAdmin['id_animale']);
+            $urlDettagli = "dettagli-animale?id-animale=" . $id . "&from=senza-admin";
+
             $html .= '
                 <tr>
                     <th scope="row">'.htmlspecialchars($caneNonAdmin['id_animale']).'</th>
@@ -49,8 +53,8 @@ function renderCaniContent(array $CaniNonAdmin, array $NNonAdminByType): string 
                             <button type="submit" name="assegnami_animale" class="orange-button">Assegna a me<span class="sr-only"> numero' . htmlspecialchars($caneNonAdmin['id_animale']) . '</span></button>
                         </form>
                     </td>
-                    <td class="col-dettagli">
-                        <a href="dettagli-animale?id-animale='.htmlspecialchars($caneNonAdmin['id_animale']).'" class="brown-button">
+                            <td class="col-dettagli">
+                        <a href="' . $urlDettagli . '" class="brown-button"> 
                             Vai all\'animale<span class="sr-only">'.htmlspecialchars($caneNonAdmin['nome_animale']).' </span>
                         </a>
                     </td>
@@ -95,6 +99,9 @@ function renderGattiContent(array $GattiNonAdmin,array $NNonAdminByType){
         foreach($GattiNonAdmin as $GattoNonAdmin){
             $eta = date_diff(date_create($GattoNonAdmin['data_nascita']), date_create('today'))->y;
 
+            $id = htmlspecialchars($GattoNonAdmin['id_animale']);
+            $urlDettagli = "dettagli-animale?id-animale=" . $id . "&from=senza-admin";
+
             $html .= '
                 <tr>
                     <th scope="row">'.htmlspecialchars($GattoNonAdmin['id_animale']).'</th>
@@ -110,7 +117,7 @@ function renderGattiContent(array $GattiNonAdmin,array $NNonAdminByType){
                         </form>
                     </td>
                     <td class="col-dettagli">
-                        <a href="dettagli-animale?id-animale='.htmlspecialchars($GattoNonAdmin['id_animale']).'" class="brown-button">
+                        <a href="' . $urlDettagli . '" class="brown-button"> 
                             Vai all\'animale<span class="sr-only">'.htmlspecialchars($GattoNonAdmin['nome_animale']).' </span>
                         </a>
                     </td>
