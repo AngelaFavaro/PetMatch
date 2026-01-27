@@ -4,6 +4,24 @@
         <article id="animale-detailed-container">
             <div class="generic-info-container">
                 [pulsanti-modifica-animale]
+                <input type="checkbox" id="delete-request-check" class="popup-checkbox" hidden>
+                <label for="delete-request-check" id="button-delete-trigger" title="Elimina profilo animale">
+                    <img src="./assets/icons/delete-trash.svg" alt="Elimina">
+                </label>
+
+                <div class="overlay-content">
+                    <div class="dialog-box">
+                        <h3>Eliminazione profilo</h3>
+                        <p>L'eliminazione di <strong>[nomeAnimale]</strong> è <strong>irreversibile</strong>. Vuoi continuare?</p>
+                        <div class="dialog-buttons">
+                            <label for="delete-request-check" class="btn-secondary">No, annulla</label>
+                            <form method="post" action="">
+                                <button type="submit" name="delete-account" class="btn-danger">Si, elimina</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
                 <img src="[animalImgPath]" alt="Foto di [nomeAnimale]" class="square-foto">
 
                 <div class="text-details">

@@ -11,12 +11,13 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
 }
 
 $idAnimale = $_GET['id-animale'] ?? null;
-$fromEmail = $_GET['from_email'] ?? null;
-
+$fromEmail = $_GET['from_email'] ?? null; 
 if (!$idAnimale) {
     header("Location: ./area-riservata");
     exit;
 }
+
+
 
 // Gestione gerarchia breadcrumb
 // if ($fromEmail) {
@@ -96,6 +97,18 @@ if ($connessioneOK) {
     $listRequestHTML = createAnimalRequestList($elencoRichiesteDati);
 
     $connessione->closeConnection();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-account'])) {
+    if ($connessioneOK) {
+        $successo = $connessione->deleteAnimal($idAnimale); // Assicurati che esista questo metodo in DBAccess
+        if ($successo) {
+            header("Location: ./area-riservata?msg=eliminato");
+            exit;
+        } else {
+            $erroreEliminazione = "Errore durante l'eliminazione dell'animale.";
+        }
+    }
 }
 
 if (!$richiesta) {
