@@ -1018,17 +1018,24 @@ body#admin-body #animali .filtri .capsula-filtro{
 
 /* =========PAGINA CHI SIAMO============ */
 
-#orari table#tabella-chi-siamo thead {
+#orari-chi-siamo table#tabella-chi-siamo thead {
     display: none;
 }
 
-#orari table#tabella-chi-siamo tbody th, #orari table#tabella-chi-siamo tbody tr, #orari table#tabella-chi-siamo tbody td{
+#orari-chi-siamo table#tabella-chi-siamo tbody th, #orari-chi-siamo table#tabella-chi-siamo tbody tr, #orari-chi-siamo table#tabella-chi-siamo tbody td{
     display: block;
+    width: 100%;
     padding: 0;
+    margin: 0;
     white-space: normal;
+    height: fit-content;
 }
 
-#orari table#tabella-chi-siamo tbody th[data-title]:before, #orari table#tabella-chi-siamo tbody td[data-title]:before {
+#orari-chi-siamo table#tabella-chi-siamo tbody th, #orari-chi-siamo table#tabella-chi-siamo tbody td{
+    height: 2em;
+}
+
+#orari-chi-siamo table#tabella-chi-siamo tbody th[data-title]:before, #orari-chi-siamo table#tabella-chi-siamo tbody td[data-title]:before {
     content: attr(data-title) ":\00A0";
     font-weight: bold;
 }

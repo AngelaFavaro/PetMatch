@@ -3515,13 +3515,9 @@ input[type="file"]::file-selector-button:hover {
     width: 33.333%;
 }
 
-#orari-chi-siamo table#tabella-chi-siamo tbody td[colspan="2"]{
-    text-align: center;
-    border-right: none;
-}
-
 #orari-chi-siamo table#tabella-chi-siamo {
     border: 1px solid var(--headervisitedlink);
+    border-bottom: none;
 }
 
 /* Celle pari */
@@ -3529,6 +3525,11 @@ input[type="file"]::file-selector-button:hover {
 #orari-chi-siamo table#tabella-chi-siamo tbody th:nth-child(even) {
     border-left: 1px solid var(--headervisitedlink);
     border-right: 1px solid var(--headervisitedlink);
+}
+
+#orari-chi-siamo table#tabella-chi-siamo tbody td[colspan="2"]{
+    text-align: center;
+    border-right: none;
 }
 
 #orari-chi-siamo table#tabella-chi-siamo tbody th {
