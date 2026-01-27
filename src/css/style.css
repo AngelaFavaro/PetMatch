@@ -414,8 +414,6 @@ select{
 }
 
 select{
-    -webkit-appearance: none;
-    -moz-appearance: none;
     appearance: none;
     background-repeat: no-repeat;
     background-position: right 1em center; /* Destra, un po' staccata dal bordo, centrata verticale */
@@ -1683,11 +1681,8 @@ body:has(#signup), body:has(#login) {
 }
 
 /* cambio il colore dell'autofill */
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px var(--bglink-hover) inset;
+input:autofill{
+    box-shadow: 0 0 0 30px var(--bglink-hover) inset;
 }
 
 .column-container div{
@@ -2498,19 +2493,9 @@ float: none;
     min-width: 5.7em;
 }
 
-#eventi input[type="date"]::-webkit-calendar-picker-indicator {
-    position: absolute;
-    opacity: 0;
-    top: 0;
-    left: 0;
-    cursor: pointer;
-    
-    width: 100%;
-    height: 100%;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-    cursor: pointer;
+#eventi input[type="date"] {
+    appearance: none;
+    position: relative;
 }
 
 input[type="date"]{
@@ -2595,14 +2580,19 @@ cursor: pointer;
     object-fit: contain;
 }
 
+#eventi .evento .posizione-evento img {
+    float: left;
+}
+
 #eventi .evento .posizione-evento {
-    float:left;
     gap: 0.2em;
-    margin-right: 0.6em;
     margin-top: 0.4em;
-    margin-bottom: 0.2em;
-    align-items: center;
-    display: flex;
+    max-width: calc(100% - 22em);
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: fit-content;
 }
 
 #eventi .evento .data-evento{
@@ -2616,23 +2606,37 @@ cursor: pointer;
 }
 
 #eventi .evento .descrizione-evento {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    /* -webkit-line-clamp: 4; */
     overflow: hidden;
     clear: right;
     max-width: 35em;
     text-align: left;
-    padding-top: 0.5em;
 }
 
 #eventi .evento h2 {
     font-size: 1em;
     margin: 0 0 0.2em 0;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #eventi .evento .descrizione-evento p {
     margin: 0;
+    max-height: 4.2em;
+    overflow: hidden;
+    position: relative;
+}
+
+.descrizione-evento p.is-truncated::after {
+    content: "(continua...)";
+    position: absolute;
+    font-style: italic;
+    font-weight: 450;
+    bottom: -5px;
+    right: 0;
+    padding-left: 10px;
+    background: var(--darkbgcolor); 
 }
 
 #eventi .cards-container {
@@ -2764,6 +2768,8 @@ flex: 1 0 100%;
     display: none;
 }
 
+#user-info #button-cancel,
+#user-info button[name="delete-account"],
 #user-profile .tab-content form button,
 .logout-btn,
 #revisione-richiesta #button-cancel,
@@ -2776,7 +2782,7 @@ flex: 1 0 100%;
     transition: 0.3s;
     border:2px solid var(--buttoncolor);
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 600;
 }
 
 #user-profile .tab-content form button{
@@ -2792,6 +2798,7 @@ flex: 1 0 100%;
 
 #user-profile .tab-content form button:hover,
 .logout-btn:hover,
+#user-info #button-cancel:hover,
 #revisione-richiesta #button-cancel:hover{
     background-color:var(--bgcolor);
     color:var(--hover-link);
@@ -3366,6 +3373,8 @@ input[type="file"]::file-selector-button:hover {
     margin-top: 1.5em;
 }
 
+#user-info #button-cancel,
+#user-info button[name="delete-account"],
 #revisione-richiesta #button-cancel,
 #revisione-richiesta button{
     font-size: 1em;
@@ -3380,7 +3389,24 @@ input[type="file"]::file-selector-button:hover {
     padding:0.3em 2.7em;
 }
 
+#user-info .dialog-buttons label{
+    padding: 0.5em 2em;
+}
+
+#user-info .edit-management #button-cancel{
+    width: 100%;
+    text-align: center;
+    background-color: transparent;
+    border-radius: 1em;
+}
+
+#user-info .edit-management #button-cancel:hover{
+    border-color: transparent;
+    color:var(--text-form);
+}
+
 .dialog-buttons label:hover,
+#user-info button[name="delete-account"]:hover,
 #revisione-richiesta button:hover{
     border-color:var(--bgcolor);
 }
@@ -3406,6 +3432,7 @@ input[type="file"]::file-selector-button:hover {
     font-style: italic;
 }
 
+#user-info .dialog-buttons button[name="delete-request"]:hover,
 #revisione-richiesta .dialog-buttons button[name="delete-request"]:hover{
     border-color:transparent;
 }
@@ -3526,13 +3553,9 @@ input[type="file"]::file-selector-button:hover {
     width: 33.333%;
 }
 
-#orari-chi-siamo table#tabella-chi-siamo tbody td[colspan="2"]{
-    text-align: center;
-    border-right: none;
-}
-
 #orari-chi-siamo table#tabella-chi-siamo {
     border: 1px solid var(--headervisitedlink);
+    border-bottom: none;
 }
 
 /* Celle pari */
@@ -3540,6 +3563,11 @@ input[type="file"]::file-selector-button:hover {
 #orari-chi-siamo table#tabella-chi-siamo tbody th:nth-child(even) {
     border-left: 1px solid var(--headervisitedlink);
     border-right: 1px solid var(--headervisitedlink);
+}
+
+#orari-chi-siamo table#tabella-chi-siamo tbody td[colspan="2"]{
+    text-align: center;
+    border-right: none;
 }
 
 #orari-chi-siamo table#tabella-chi-siamo tbody th {
@@ -4650,7 +4678,6 @@ div#admin-area #animali .filtri ul{
 /* Stile del quadratino personalizzato */
 #check-assegna {
     appearance: none;
-    -webkit-appearance: none;
     width: 1.4em;  /* Circa 22px */
     height: 1.4em; /* Circa 22px */
     cursor: pointer;
@@ -5297,6 +5324,10 @@ nav#breadcrumb a:visited{
 #visualizzazione-animale .dettagli-animale h2{
     font-size:1.5em;
     margin-bottom: 0.5em;
+}
+
+#indirizzo-incompleto{
+    margin-bottom: 1em;
 }
 
 

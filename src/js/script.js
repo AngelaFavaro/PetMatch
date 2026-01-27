@@ -531,3 +531,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// PUNTINI PER GLI EVENTI
+document.addEventListener("DOMContentLoaded", function() {
+    const descrizioni = document.querySelectorAll('.descrizione-evento p');
+
+    function checkTruncation() {
+        descrizioni.forEach(container => {
+            container.classList.remove('is-truncated');
+            
+            if (container.scrollHeight > container.offsetHeight) {
+                container.classList.add('is-truncated');
+            }
+        });
+    }
+
+    checkTruncation();
+    window.addEventListener('resize', checkTruncation);
+});

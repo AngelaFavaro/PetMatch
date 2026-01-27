@@ -25,12 +25,12 @@ function hiddenInputsFrom(array $r): string {
  */
 function renderRejectRequest(array $r): string {
     if (($r['stato'] ?? '') !== 'Respinta' && ($r['stato'] ?? '') !== 'Annullata') {
-        return '<form method="POST">' .
+        return '<form method="post">' .
             hiddenInputsFrom($r) .
             '<button type="submit" name="scarta_richiesta" class="orange-button">Scarta richiesta</button>
         </form>';
     }
-    return '<form method="POST">' .
+    return '<form method="post">' .
         hiddenInputsFrom($r) .
         '<button type="submit" name="apri_richiesta" class="orange-button">Apri richiesta</button>
     </form>';
@@ -46,12 +46,12 @@ function renderPulsantiAzioni(array $r): string {
         $subject = rawurlencode('Richiesta informazioni per adozione di ' . ($r['nome-animale'] ?? ''));
         $html = '<a href="mailto:' . ($r['email-richiedente'] ?? '') . '?subject=' . $subject . '" class="brown-button" target="_blank">Contatta candidato</a>';
     } elseif ($stato === 'Nuova') {
-        $html = '<form method="POST">' .
+        $html = '<form method="post">' .
             hiddenInputsFrom($r) .
             '<button type="submit" name="inizia_valutazione" class="orange-button">Inizia valutazione</button>
         </form>';
     } elseif ($stato === 'In valutazione') {
-        $html = '<form method="POST">' .
+        $html = '<form method="post">' .
             hiddenInputsFrom($r) .
             '<button type="submit" name="accetta_richiesta" class="orange-button">Accetta richiesta</button>
         </form>';
@@ -330,7 +330,7 @@ if(isset($_GET['mode']) && $_GET['mode'] === 'edit-data'){
                         <img src="./assets/icons/edit-pencil.svg" alt="Annulla modifica">
                     </a>
              </div>
-            <form method="POST" action="' . $url_base . '#stato-trasporto">
+            <form method="post" action="' . $url_base . '#stato-trasporto">
                 <label for="input-data-partenza" >Data di partenza:</label>
                 <input type="date" name="data_partenza" id="input-data-partenza" value="' . $data_per_input_partenza . '">
                 <label for="input-data-arrivo" >Data di arrivo:</label>
@@ -372,7 +372,7 @@ if(isset($_GET['mode']) && $_GET['mode'] === 'edit-data'){
             //se la data di arrivo è impostata ed è quella odierna o passata, mostra il bottone per segnare il trasporto come effettuato
         $data_odierna = date('Y-m-d');
         if($data_raw_arrivo !== '' && $data_raw_arrivo !== null && $data_raw_arrivo <= $data_odierna){
-                     $stato_trasporto .= '<form method="POST" action="' . $url_base . '#stato-trasporto">
+                     $stato_trasporto .= '<form method="post" action="' . $url_base . '#stato-trasporto">
                         <button type="submit" name="trasporto_effettuato" class="orange-button">Segna trasporto come effettuato</button>
                     </form> </article>';
         }else{
@@ -406,7 +406,7 @@ if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($ri
                         </a>
                     </div>
                     <div id="note-container">
-                        <form id="form-note" action="richieste-adozione?email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') .'" method="POST">
+                        <form id="form-note" action="richieste-adozione?email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') .'" method="post">
                             <label for="input-note" class="sr-only">Modifica annotazioni:</label>
                             <textarea id="input-note" name="note" rows="4">' . htmlspecialchars($richiesta['appunti'] ?? '', ENT_QUOTES, 'UTF-8') . '</textarea>
                             <button name="salva_annotazioni" type="submit" class="orange-button">Salva annotazioni</button>

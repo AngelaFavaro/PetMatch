@@ -32,6 +32,13 @@ $valCitta = '';
 $valCap = '';
 $valLettera = '';
 
+//messaggio per laura quando andrà a mettere tutte le funzioni fuori dalla connessione db:
+//dato che ho messo il form dentro un details per poterlo aprire con un pulsante, mi serve che se ci sono degli errori
+//allora me lo apre, potrei farlo con js ma se lo disattivi allora potrebbe non essere per NIENTE intuitivo (io non
+//stavo capendo perché non andava), quindi questo mi serve per modificare un placeholder, se è true allora metto open sul
+//details, altrimenti no
+$openDetails = false;
+
 $connection = new DBAccess();
 if ($connection->openDBConnection()) {
 
@@ -193,7 +200,7 @@ if ($connection->openDBConnection()) {
                         $connection->updateUserAddress($emailUtente, $datiUpdate); 
                     }
 
-$success = $connection->insertAdoptionRequest($emailUtente, $idAnimale, $lettera, $trasportoRichiesto);
+                    $success = $connection->insertAdoptionRequest($emailUtente, $idAnimale, $lettera, $trasportoRichiesto);
 
                    if ($success) {
                         header("Location: animali?id=" . $idAnimale);
@@ -201,12 +208,25 @@ $success = $connection->insertAdoptionRequest($emailUtente, $idAnimale, $lettera
                     } else {
                         $messaggiErrore['lettera'] = "Errore durante il salvataggio della richiesta.";
                     }
+                }else{
+                    //se ci sono errori e allora devi ricaricare la pagina
+                    //se non è andata a buon fine allora ricarica la pagina
+
+                    //bisognarebbe reindirizzare qua, ma per farlo senza perfere dati servirebbe salvarli in una sessione
+                    // header("Location: ./animali?id=" . $idAnimale."#content-form");
+                    
+                    $openDetails = true;
+                    //nota sempre per laura: qua andrebbe un exit e i valori bisogna salvarli in una session
+                    //per poi distruggerla se si compila correttamente, controlla su registrati.php
                 }
+
             } else {
                 // Se non è POST, precarichiamo i dati dal DB
                 $valVia   = htmlspecialchars($infoUtente['Via'] ?? '');
                 $valCitta = htmlspecialchars($infoUtente['Citta'] ?? '');
                 $valCap   = htmlspecialchars($infoUtente['CAP'] ?? '');
+
+
             }
         }
         if(isset($richiestaData) && !empty($richiestaData)){
@@ -239,7 +259,7 @@ if (!$utenteAccesso) {
     $infoAggiuntive='info-aggiuntive-separate';
     $contenutoPagina = "
     <div class='container'>
-        <details id='compila-form-adozione'>
+        <details id='compila-form-adozione' [openOrNot]>
             <summary>Compila il form di adozione</summary>
         </details>
     </div>
@@ -279,9 +299,9 @@ if (!$utenteAccesso) {
                                     <input type='text' id='new-cap' name='new-cap' autocomplete='postal-code' 
                                     value='[cap-utente]' placeholder='00000' required>
                                     <p class='error-form'>[erroriCAP]</p>
-                                    <p class='error-form'>[erroriIndirizzoTotale]</p>   
                                 </div>
                             </div>
+                            <p class='error-form' id='indirizzo-incompleto'>[erroriIndirizzoTotale]</p>   
                             <div id='checkbox-trasporto-container'>
                                 <input type='checkbox' id='trasporto' name='trasporto'>
                                 <label for='trasporto'>
@@ -456,6 +476,7 @@ if($infoAggiuntive==='info-aggiuntive-separate'){
 $main = str_replace('[INFO-AGGIUNTIVE]', $infoAggUnite, $main);
 $main = str_replace('[CONTATTACI]', $contattaci, $main);
 
+$main = str_replace('[openOrNot]', $openDetails?'open':'', $main);
 
 
 $paginaHTML = str_replace('[title]', $title, $paginaHTML);

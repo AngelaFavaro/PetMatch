@@ -1448,7 +1448,7 @@ class DBAccess {
         // 2. Query (con o senza filtro)
         if ($type === "tutti") {
             $query = "
-                SELECT Nome, Sesso, DataNascita, ImgPath, Tipo
+                SELECT Nome, Sesso, DataNascita, ImgPath, Tipo, Colore
                 FROM ANIMALI
                 ORDER BY IDanimale ASC
             ";
@@ -1494,6 +1494,7 @@ class DBAccess {
             $result[] = [
                 'nome' => $row['Nome'],
                 'sesso' => $row['Sesso'],
+                'colore' => $row['Colore'],
                 'eta' => calcolaEta($row['DataNascita']),
                 'immagine' => $row['ImgPath'],
                 'tipo' => $row['Tipo']
@@ -1508,66 +1509,39 @@ class DBAccess {
 
     public function countAnimalsFiltered(string $type, array $filters): int {
 
-        if (!$this->connection) return 0;
+    if (!$this->connection) {
+        return 0;
+    }
 
-        $where = [];
-        $params = [];
-        $types = '';
+    $where = 'WHERE 1=1';
+    $params = [];
+    $types = '';
 
-        if ($type !== 'tutti') {
-            $where[] = 'Tipo = ?';
-            $params[] = $type;
-            $types .= 's';
-        }
+    // Applichiamo i filtri comuni
+    $this->applyFilters($type, $filters, $where, $params, $types);
 
-        if (!empty($filters['name-animal'])) {
-            $where[] = 'Nome LIKE ?';
-            $params[] = '%' . $filters['name-animal'] . '%';
-            $types .= 's';
-        }
+    $query = "SELECT COUNT(*) AS totale FROM ANIMALI A";
 
-        if (!empty($filters['taglia'])) {
-            $where[] = 'Taglia = ?';
-            $params[] = $filters['taglia'];
-            $types .= 's';
-        }
+    if (!empty($where)) {
+        $query .= " $where";
+    }
 
-        if (!empty($filters['sesso'])) {
-            $where[] = 'Sesso = ?';
-            $params[] = strtoupper(substr($filters['sesso'], 0, 1));
-            $types .= 's';
-        }
-
-        if (!empty($filters['eta_min'])) {
-            $where[] = 'TIMESTAMPDIFF(YEAR, DataNascita, CURDATE()) >= ?';
-            $params[] = (int)$filters['eta_min'];
-            $types .= 'i';
-        }
-
-        if (!empty($filters['eta_max'])) {
-            $where[] = 'TIMESTAMPDIFF(YEAR, DataNascita, CURDATE()) <= ?';
-            $params[] = (int)$filters['eta_max'];
-            $types .= 'i';
-        }
-
-        $query = "SELECT COUNT(*) AS totale FROM ANIMALI";
-
-        if ($where) {
-            $query .= ' WHERE ' . implode(' AND ', $where);
-        }
-
-        $stmt = mysqli_prepare($this->connection, $query);
-        if ($params) {
+    $stmt = mysqli_prepare($this->connection, $query);
+    if ($stmt) {
+        if (!empty($params)) {
             mysqli_stmt_bind_param($stmt, $types, ...$params);
         }
 
         mysqli_stmt_execute($stmt);
         $res = mysqli_stmt_get_result($stmt);
         $row = mysqli_fetch_assoc($res);
-
         mysqli_stmt_close($stmt);
+
         return (int)$row['totale'];
     }
+
+    return 0;
+}
 
 
     public function countAssignedAnimalsFiltered(string $type, array $filters, string $adminEmail): int {
@@ -1604,6 +1578,7 @@ class DBAccess {
         $query = "SELECT 
                     A.IDanimale AS id, 
                     A.Nome AS nome, 
+                    A.Colore AS colore, 
                     A.Sesso AS sesso, 
                     A.Tipo AS tipo,
                     A.ImgPath AS immagine,
@@ -1647,10 +1622,7 @@ class DBAccess {
 
         if (!empty($filters['taglia'])) {
             $where .= " AND A.Taglia = ? ";
-            $tagliaDB = (substr($filters['taglia'], -1) === 'a') 
-                        ? substr($filters['taglia'], 0, -1) . 'o' 
-                        : $filters['taglia'];
-            $params[] = $tagliaDB;
+            $params[] = $filters['taglia'];
             $types .= "s";
         }
 
@@ -1723,7 +1695,7 @@ class DBAccess {
 
         /* ---------- QUERY ---------- */
         $query = "
-            SELECT a.Nome, a.Sesso, a.DataNascita, a.ImgPath, a.Tipo, a.IDanimale AS Id
+            SELECT a.Nome, a.Sesso, a.DataNascita, a.ImgPath, a.Tipo, a.Colore, a.IDanimale AS Id
             FROM ANIMALI a
             LEFT JOIN RICHIESTE_ADOZIONI r 
             ON a.IDanimale = r.IDanimale AND r.Stato = 'Accettata'
@@ -1752,6 +1724,7 @@ class DBAccess {
             $animali[] = [
                 'nome'     => $row['Nome'],
                 'sesso'    => $row['Sesso'],
+                'colore'    => $row['Colore'],
                 'eta'      => calcolaEta($row['DataNascita']),
                 'immagine' => $row['ImgPath'],
                 'tipo'     => $row['Tipo'],
@@ -2134,6 +2107,7 @@ public function getFavouritesPaged(
         SELECT
             a.Nome,
             a.Sesso,
+            a.Colore,
             a.DataNascita,
             a.ImgPath,
             a.Tipo,
@@ -2176,6 +2150,7 @@ public function getFavouritesPaged(
             'immagine' => $row['ImgPath'],
             'tipo'     => $row['Tipo'],
             'id'       => $row['Id'],
+            'colore'       => $row['Colore'],
             'adottato' => (int)$row['adottato']
         ];
     }
@@ -2215,6 +2190,7 @@ public function getGuestFavPaged(string $type, int $perPagina, int $offset): arr
             a.Sesso,
             a.DataNascita,
             a.ImgPath,
+            a.Colore,
             a.Tipo,
             a.IDanimale AS Id,
             EXISTS (
@@ -2251,6 +2227,7 @@ public function getGuestFavPaged(string $type, int $perPagina, int $offset): arr
             'immagine' => $row['ImgPath'],
             'tipo'     => $row['Tipo'],
             'id'       => $row['Id'],
+            'colore'       => $row['Colore'],
             'adottato' => (int)$row['adottato']
         ];
     }
@@ -2538,6 +2515,25 @@ public function getAnimalArrivalDate($idAnimale): ?string {
             mysqli_stmt_close($stmt);
         }
         return $data;
+    }
+
+
+    public function deleteAccount(string $email): bool {
+        if (!$this->connection){
+            return false;
+        }
+
+        $query = "DELETE FROM UTENTI WHERE Email = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 's', $email);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
     }
 
 }

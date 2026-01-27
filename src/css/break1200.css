@@ -61,51 +61,51 @@
     margin:auto;
 }
 
-table {
+div#admin-area table {
     table-layout: fixed;
     width: 100%;
     border-collapse: collapse;
 }
 
-table, tbody, tr {
+div#admin-area table, div#admin-area tbody,div#admin-area tr {
 	border:none;
     border-radius: 0;
 }
 
-td,th {
+div#admin-area td,div#admin-area th {
 	border-top:none;
 }
 
 
-th{
+div#admin-area th{
 	background-color: var(--darkbgcolor);
 }
 
-thead {
+div#admin-area thead {
 	display: none;
 }
 
-tfoot th{
+div#admin-area tfoot th{
 	display:none;
 }
 
-tfoot td{
+div#admin-area tfoot td{
     padding:0.5em 1em;
     float: left;
 }
 
-tr, th, td {
+div#admin-area tr, div#admin-area th, div#admin-area td {
     display: block;
 }
 
-tbody td {
+div#admin-area tbody td {
     white-space: normal;
     overflow-wrap: break-word;
     word-break: break-word; 
     padding: 0.3em 0.2em 0.2em 0.2em;
     border-bottom: 1px solid var(--borderTable);
 }
-tbody td, tbody th {
+div#admin-area tbody td, div#admin-area tbody th {
     padding: 0.2em 1em;
     text-align: left;
     border-bottom: 1px solid var(--darkbgcolor);
