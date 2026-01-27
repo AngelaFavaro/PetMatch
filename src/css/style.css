@@ -4454,27 +4454,6 @@ div#admin-area article.note{
     display: inline-block;
 }
 
-.action-buttons-group {
-    display: flex;
-    align-items: center;
-    gap: 1em;
-    margin-bottom: 0.5em; /* Crea spazio verticale prima della foto */
-}
-
-#button-delete-trigger {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    padding: 0.2em;
-}
-
-#button-delete-trigger img {
-    width: 2em;   /* Dimensione icona */
-    height: 2em;
-    display: block; /* Toglie spazi bianchi sotto l'immagine */
-    object-fit: contain;
-}
-
 /*================= RICHIESTE DI ADOZIONE ==================*/
 
 
