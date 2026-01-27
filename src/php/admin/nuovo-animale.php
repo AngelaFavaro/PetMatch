@@ -200,8 +200,14 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
 
         $_SESSION['form_inputs'] = $inputsToSave; 
 
-        header("Location: ./nuovo-animale");
-        exit;
+        if($isModified){
+            header("Location: ./modifica-animale?id-animale=".urlencode($_GET['id-animale']));
+            exit;
+        }else{
+            header("Location: ./nuovo-animale");
+            exit;
+        }
+
     }
     return $message;
 }
@@ -267,14 +273,14 @@ $paginaHTML = str_replace('[input-hidden-foto]', $inputHiddenFoto??'', $paginaHT
 $paginaHTML = str_replace('[erroriGeneric]', $messageInfoForm['generic'] ?? '', $paginaHTML);
 
 $assegna_val = $NewAnimalInfo['assegna_a_me'] ?? '';
-$is_checked = ($assegna_val == 1 || $assegna_val === 'on' || $assegna_val === true) ? 'checked="checked"' : '';
+$is_checked = ($assegna_val == 1 || $assegna_val === 'on' || $assegna_val === true) ? 'checked' : '';
 $paginaHTML = str_replace('[assegna_checked]', $is_checked, $paginaHTML);
 
-$paginaHTML = str_replace('[sessoM_checked]', ($NewAnimalInfo['Sesso'] === 'M' ? 'checked="checked"' : ''), $paginaHTML);
-$paginaHTML = str_replace('[sessoF_checked]', ($NewAnimalInfo['Sesso'] === 'F' ? 'checked="checked"' : ''), $paginaHTML);
+$paginaHTML = str_replace('[sessoM_checked]', ($NewAnimalInfo['Sesso'] === 'M' ? 'checked' : ''), $paginaHTML);
+$paginaHTML = str_replace('[sessoF_checked]', ($NewAnimalInfo['Sesso'] === 'F' ? 'checked' : ''), $paginaHTML);
 
-$paginaHTML = str_replace('[tipoCane_checked]', ($NewAnimalInfo['Tipo'] === 'Cane' ? 'checked="checked"' : ''), $paginaHTML);
-$paginaHTML = str_replace('[tipoGatto_checked]', ($NewAnimalInfo['Tipo'] === 'Gatto' ? 'checked="checked"' : ''), $paginaHTML);
+$paginaHTML = str_replace('[tipoCane_checked]', ($NewAnimalInfo['Tipo'] === 'Cane' ? 'checked' : ''), $paginaHTML);
+$paginaHTML = str_replace('[tipoGatto_checked]', ($NewAnimalInfo['Tipo'] === 'Gatto' ? 'checked' : ''), $paginaHTML);
 
 $paginaHTML = str_replace('[tagliaVuota_selected]', (empty($NewAnimalInfo['Taglia']) ? 'selected' : ''), $paginaHTML);
 $paginaHTML = str_replace('[tagliaPiccola_selected]', ($NewAnimalInfo['Taglia'] === 'Piccolo' ? 'selected' : ''), $paginaHTML);
@@ -293,11 +299,19 @@ if (($NewAnimalInfo['CondizioniMediche'] ?? '') === '0') {
 $paginaHTML = str_replace('[titoloAnimale]', $isModified?'Modifica la scheda di: '.$NewAnimalInfo['Nome']:'Aggiungi animale', $paginaHTML);
 $paginaHTML = str_replace('[disabledEdit]', $isModified?'disabled':'', $paginaHTML);
 
+$sessoPlaceholder = $NewAnimalInfo['Sesso']==='M'? '0' : '1';
+$tipologiaPlaceholder = $NewAnimalInfo['Tipo']==='Cane'?'0':'1';
+
+$paginaHTML = str_replace('[hiddenPerTipologia]', $isModified?'<input type="hidden" name="tipologia" value="'.$tipologiaPlaceholder.'">':'', $paginaHTML);
+$paginaHTML = str_replace('[hiddenPerSesso]', $isModified?'<input type="hidden" name="sesso" value="'.$sessoPlaceholder.'">':'', $paginaHTML);
+
+
+
 if($isModified){
     $paginaHTML = str_replace('id="check-assegna-container"', 'id="ModifiedMode"', $paginaHTML);
 }
 
-$paginaHTML = str_replace('[trasporto_checked]', ($NewAnimalInfo['Trasporto'] == 1 ? 'checked="checked"' : ''), $paginaHTML);
+$paginaHTML = str_replace('[trasporto_checked]', ($NewAnimalInfo['Trasporto'] == 1 ? 'checked' : ''), $paginaHTML);
 
 foreach ($NewAnimalInfo as $key => $value) {
     $val = $value ?? ''; 

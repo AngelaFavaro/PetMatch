@@ -11,6 +11,8 @@
 
                 <input type="radio" name="tipologia" id="gatto" value="1" [tipoGatto_checked] [disabledEdit]>
                 <label for="gatto" class="radio-card">Gatto</label>
+
+                [hiddenPerTipologia]
             </div>
             <p class="error-form">[erroriTipologia]</p>
             
@@ -52,6 +54,8 @@
                             <input type="radio" name="sesso" id="Femmina" value="1" [sessoF_checked] [disabledEdit]>
                             <span>Femmina</span>
                         </label>
+
+                        [hiddenPerSesso]
                     </div>
                     <p class="error-form">[erroriSesso]</p>
                  
