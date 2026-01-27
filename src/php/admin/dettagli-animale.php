@@ -82,6 +82,17 @@ $connessioneOK = $connessione->openDBConnection();
 $richiesta = null; 
 
 if ($connessioneOK) {
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-animale'])) {
+        if ($connessione->deleteAnimal($idAnimale)) {
+            $connessione->closeConnection();
+            header("Location: ./area-riservata?msg=eliminato");
+            exit;
+        } else {
+            $erroreEliminazione = "Errore durante l'eliminazione.";
+        }
+    }
+
     $richiesta = $connessione->getAnimalById($idAnimale);
 
     $elencoRichiesteDati = $connessione->getAnimalRequestsId($idAnimale);
@@ -97,18 +108,6 @@ if ($connessioneOK) {
     $listRequestHTML = createAnimalRequestList($elencoRichiesteDati);
 
     $connessione->closeConnection();
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-account'])) {
-    if ($connessioneOK) {
-        $successo = $connessione->deleteAnimal($idAnimale); // Assicurati che esista questo metodo in DBAccess
-        if ($successo) {
-            header("Location: ./area-riservata?msg=eliminato");
-            exit;
-        } else {
-            $erroreEliminazione = "Errore durante l'eliminazione dell'animale.";
-        }
-    }
 }
 
 if (!$richiesta) {

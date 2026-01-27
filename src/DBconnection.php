@@ -2536,6 +2536,31 @@ public function getAnimalArrivalDate($idAnimale): ?string {
         return $result;
     }
 
+    public function deleteAnimal(int $idAnimale): bool {
+        if (!$this->connection) return false;
+
+        // 1. Eliminiamo prima le richieste associate (se presenti)
+        $queryRichieste = "DELETE FROM RICHIESTE WHERE IDanimale = ?";
+        $stmtR = mysqli_prepare($this->connection, $queryRichieste);
+        if ($stmtR) {
+            mysqli_stmt_bind_param($stmtR, 'i', $idAnimale);
+            mysqli_stmt_execute($stmtR);
+            mysqli_stmt_close($stmtR);
+        }
+
+        // 2. Ora possiamo eliminare l'animale in sicurezza
+        $queryAnimale = "DELETE FROM ANIMALI WHERE IDanimale = ?";
+        $stmtA = mysqli_prepare($this->connection, $queryAnimale);
+        if ($stmtA) {
+            mysqli_stmt_bind_param($stmtA, 'i', $idAnimale);
+            $res = mysqli_stmt_execute($stmtA);
+            mysqli_stmt_close($stmtA);
+            return $res;
+        }
+
+        return false;
+    }
+
 }
 
 ?>

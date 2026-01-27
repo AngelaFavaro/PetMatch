@@ -146,8 +146,7 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
                 'pelo' => $pelo,
                 'colore' => mb_convert_case($colore, MB_CASE_TITLE, "UTF-8"),
                 'carattere' => trim($carattere),      
-                'condMediche' => trim($condMediche),  
-                'famiglia' => trim($famiglia),        
+                'condMediche' => (trim($condMediche) === "" || $condMediche === "0") ? "" : trim($condMediche),                'famiglia' => trim($famiglia),        
                 'foto' => $fotoPath,
                 'trasporto' => $trasporto
             ];
@@ -224,6 +223,7 @@ if ($connessione->openDBConnection()) {
 
 
 // COSTRUZIONE PAGINA HTML
+
 $paginaHTML = file_get_contents('./src/template/layout-admin.html');
 $main = file_get_contents('./src/template/main/admin/nuovo-animale.html');
 $breadcrumb = $isModified? getBreadcrumb('modifica-animale', $pagine) : getBreadcrumb('nuovo-animale', $pagine);
@@ -233,12 +233,15 @@ $title = $isModified? "<title>Modifica ".$NewAnimalInfo['Nome']." - PetMatch</ti
 $description = $isModified? "<meta name='description' content='Modifica un animale al database di PetMatch per aggiornarne la scheda.'>"
                             :"<meta name='description' content='Aggiungi un animale al database di PetMatch per poterlo visualizzare nel sito.'>";
 
+                            
 $paginaHTML = str_replace('[title]', $title, $paginaHTML);
 $paginaHTML = str_replace('[description]', $description, $paginaHTML);
 $paginaHTML = str_replace('[keywords]', $keywords, $paginaHTML);
 $paginaHTML = str_replace('[nav]', $nav, $paginaHTML);
 $paginaHTML = str_replace('[breadcrumb]', $breadcrumb, $paginaHTML);
 $paginaHTML = str_replace('[main]', $main, $paginaHTML);
+
+
 
 $campi_errori = ['tipologia', 'nome', 'razza', 'taglia', 'sesso', 'dataNascita', 'pelo', 'colore', 'condMediche', 'carattere', 'famiglia'];
 foreach ($campi_errori as $campo) {
@@ -284,8 +287,10 @@ $paginaHTML = str_replace('[peloLungo_selected]', ($NewAnimalInfo['Pelo'] === 'L
 $paginaHTML = str_replace('[peloMedio_selected]', ($NewAnimalInfo['Pelo'] === 'Medio' ? 'selected' : ''), $paginaHTML);
 
 //informaizoni diverse a seconda della pagina
+if (($NewAnimalInfo['CondizioniMediche'] ?? '') === '0') {
+    $NewAnimalInfo['CondizioniMediche'] = '';
+}
 $paginaHTML = str_replace('[titoloAnimale]', $isModified?'Modifica la scheda di: '.$NewAnimalInfo['Nome']:'Aggiungi animale', $paginaHTML);
-$paginaHTML = str_replace('[CondizioniMediche]', $NewAnimalInfo['CondizioniMediche']!=='0'??'', $paginaHTML);
 $paginaHTML = str_replace('[disabledEdit]', $isModified?'disabled':'', $paginaHTML);
 
 if($isModified){
@@ -295,7 +300,8 @@ if($isModified){
 $paginaHTML = str_replace('[trasporto_checked]', ($NewAnimalInfo['Trasporto'] == 1 ? 'checked="checked"' : ''), $paginaHTML);
 
 foreach ($NewAnimalInfo as $key => $value) {
-    $paginaHTML = str_replace('[' . $key . ']', htmlspecialchars($value, ENT_QUOTES, 'UTF-8'), $paginaHTML);
+    $val = $value ?? ''; 
+    $paginaHTML = str_replace('[' . $key . ']', htmlspecialchars($val, ENT_QUOTES, 'UTF-8'), $paginaHTML);
 }
 
 echo $paginaHTML;

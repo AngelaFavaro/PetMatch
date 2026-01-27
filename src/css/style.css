@@ -3436,8 +3436,6 @@ input[type="file"]::file-selector-button:hover {
 #revisione-richiesta .dialog-buttons button[name="delete-request"]:hover{
     border-color:transparent;
 }
-
-
 /* ================== LOGIN ==================*/
 #container-image-login{
     flex: 0 1 50%;
