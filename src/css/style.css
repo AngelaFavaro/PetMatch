@@ -4268,19 +4268,163 @@ div#admin-area article.note{
 }
 
 /*================= DETTAGLI ANIMALI ADMIN ==================*/
-/* Nascondi tutti i tab-content di default */
-#visualizza-richieste-richiedente .tab-content {
-    display: none;
+/* ============================================================
+   STRUTTURA PRINCIPALE (LAYOUT)
+   ============================================================ */
+#dettaglio-animale {
+    display: flex;
+    gap: 2em;
+    align-items: flex-start;
 }
 
-/* Mostra il contenuto specifico in base al radio button selezionato */
-#visualizza-richieste-richiedente:has(#anim-tab1:checked) .content-tab1,
-#visualizza-richieste-richiedente:has(#anim-tab2:checked) .content-tab2,
-#visualizza-richieste-richiedente:has(#anim-tab3:checked) .content-tab3,
-#visualizza-richieste-richiedente:has(#anim-tab4:checked) .content-tab4,
-#visualizza-richieste-richiedente:has(#anim-tab5:checked) .content-tab5,
-#visualizza-richieste-richiedente:has(#anim-tab6:checked) .content-tab6 {
+/* Box generico delle informazioni (Sinistra) */
+#dettaglio-animale article#animale-detailed-container {
+    border: 0.1em solid var(--txtcolor);
+    border-radius: 0.5em;
+    padding: 1.5em;
+    flex: 1 1 55%; /* Aumentato leggermente per dare spazio al contenuto affiancato */
+    min-width: 25em;
+}
+
+/* Box delle richieste (Destra) */
+#dettaglio-animale article#visualizza-richieste-animale {
+    border: 0.1em solid var(--txtcolor); 
+    border-radius: 0.5em;
+    padding: 1em; /* Padding ridotto per avvicinare il titolo ai bordi */
+    flex: 1 1 35%;
+    background: none;
+}
+
+/* ============================================================
+   SEZIONE INFO ANIMALE (FOTO E TESTO AFFIANCATI)
+   ============================================================ */
+#dettaglio-animale .generic-info-container {
+    display: flex;
+    flex-direction: row; /* Forza l'affiancamento */
+    align-items: flex-start;
+    gap: 2em;
+    position: relative;
+    padding-top: 2em; /* Spazio per il pulsante matita */
+}
+
+#dettaglio-animale .generic-info-container img.square-foto {
+    flex: 0 0 15em; /* Dimensione fissa per la foto */
+    width: 15em;
+    height: 15em;
+    object-fit: cover;
+    border-radius: 0.5em;
+    box-shadow: 0 0.25em 0.625em rgba(0,0,0,0.2);
+}
+
+#dettaglio-animale .text-details {
+    flex: 1; /* Il testo occupa lo spazio rimanente accanto alla foto */
+}
+
+/* Pulsante Matita (Modifica) */
+#dettaglio-animale .edit-btn-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#dettaglio-animale a.pencil img {
+    width: 1.875em;
+    height: auto;
+    transition: transform 0.2s ease;
+}
+
+#dettaglio-animale a.pencil:hover img {
+    transform: scale(1.1);
+}
+
+/* ============================================================
+   SEZIONE TABS E FILTRI (RICHIESTE)
+   ============================================================ */
+#dettaglio-animale .tabs-container legend {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 0.8em;
+    padding: 0; /* Titolo attaccato al margine sinistro */
     display: block;
+    width: 100%;
+}
+
+/* Fieldset - ALLINEAMENTO SOTTO AL TITOLO */
+#dettaglio-animale .tabs-container fieldset {
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start; 
+    border: none; 
+    padding: 0 ; 
+    margin: 0;
+    width: auto;
+}
+
+#dettaglio-animale .tabs-container select {
+    width: 60%; 
+    min-width: 12em;
+    max-width: 20em;
+    border: 0.1em solid var(--buttoncolor);
+    background-color: var(--buttoncolor);
+    color: var(--txtcolor);
+    padding: 0.5em 1em;
+    border-radius: 1.5em;
+    cursor: pointer;
+    box-sizing: border-box; 
+    margin-bottom: 1em;
+}
+
+/* RESET COLORI TENDINA APERTA */
+#dettaglio-animale .tabs-container option {
+    background-color: var(--bgcolor); /* Sfondo della lista aperta diverso dalla tendina chiusa */
+    color: var(--txtcolor);
+}
+
+/* ============================================================
+   LISTA CARD RICHIESTE E RESET
+   ============================================================ */
+#visualizza-richieste-animale .tabs-container,
+#visualizza-richieste-animale .tabs-container fieldset,
+#visualizza-richieste-animale .tabs-container ul {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+#dettaglio-animale .tabs-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.5em 0 0 0;
+    width: 100%;
+}
+
+#dettaglio-animale .tabs-container li.richiesta-card {
+    background-color: var(--darkbgcolor);
+    border-radius: 1.5em; 
+    padding: 1.2em 1.5em;
+    margin-bottom: 1em;
+    border: none !important;
+}
+
+#dettaglio-animale .tabs-container .card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
+}
+
+/* Bottone Vedi Richiesta */
+#dettaglio-animale .tabs-container a.btn-vedi-richiesta {
+    padding: 0.5em 1.5em;
+    text-decoration: none;
+    color: var(--buttoncolor); 
+    font-weight: 400; 
+    background-color: var(--darklinkcolor); 
+    border: 0.0625em solid var(--darklinkcolor); 
+    border-radius: 1.5em;
+    font-size: 0.9em;
+    white-space: nowrap;
+    display: inline-block;
 }
 
 /*================= RICHIESTE DI ADOZIONE ==================*/
@@ -5015,71 +5159,7 @@ nav#breadcrumb a:visited{
     color: var(--visitedcolor);
 }
 
-/* ================== DETTAGLIO ANIMALE ADMIN ==================*/
-#dettaglio-animale {
-    gap: 2em;
-    align-items: flex-start;
-}
 
-#dettaglio-animale article {
-    border: 1px solid var(--txtcolor);
-    border-radius: 0.5em;
-    padding: 1.5em;
-    flex: 1 1 45%; /* Le affianca al 50/50 circa */
-    min-width: 320px; /* Sopra questa misura restano affiancate */
-}
-
-#dettaglio-animale #animale-detailed-container {
-    flex: 1 1 45%;
-}
-
-#dettaglio-animale #visualizza-richieste-animale {
-    flex: 1 1 30%;
-}
-
-#dettaglio-animale .generic-info-container {
-    display: flex;
-    flex-wrap: nowrap;       
-    align-items: flex-start;
-    position: relative;      
-    gap: 2.5em;
-    padding-top: 3.5em;      
-    margin-bottom: 2em;
-}
-
-#dettaglio-animale .generic-info-container img.square-foto {
-    flex: 0 0 280px;         
-    width: 280px;
-    height: 280px;
-    object-fit: cover;
-    margin: 0;               
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-#dettaglio-animale .text-details {
-    flex: 1;
-}
-
-#dettaglio-animale .edit-btn-container {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 0;
-}
-
-/* Formattazione lista dati (opzionale ma consigliata per ordine) */
-#dettaglio-animale .text-details dl {
-    display: grid;
-    grid-template-columns: max-content 1fr;
-    gap: 0.8em 1.5em;
-}
-
-#dettaglio-animale dt {
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 0.9em;
-    color: var(--txtcolor); /* o un colore di accento se lo hai */
-}
 
 /*================VISUALIZZAZIONE ANIMALI ==================*/
 
