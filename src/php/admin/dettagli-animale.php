@@ -19,13 +19,13 @@ if (!$idAnimale) {
 }
 
 // Gestione gerarchia breadcrumb
-if ($fromEmail) {
-    $pagine['dettagli-animale']['parent'] = 'dettagli-richiesta';
+// if ($fromEmail) {
+//     $pagine['dettagli-animale']['parent'] = 'dettagli-richiesta';
     
-    $pagine['dettagli-richiesta']['url'] = "./richieste-adozione?email=" . urlencode($fromEmail) . "&id-animale=" . urlencode($idAnimale);
-} else {
-    $pagine['dettagli-animale']['parent'] = 'assegnati-a-te';
-}
+//     $pagine['dettagli-richiesta']['url'] = "./richieste-adozione?email=" . urlencode($fromEmail) . "&id-animale=" . urlencode($idAnimale);
+// } else {
+//     $pagine['dettagli-animale']['parent'] = 'assegnati-a-te';
+// }
 
 // Aggiorniamo l'URL della pagina corrente per includere l'ID
 $pagine['dettagli-animale']['url'] .= "?id-animale=" . urlencode($idAnimale);
