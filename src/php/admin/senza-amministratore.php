@@ -49,7 +49,11 @@ function renderCaniContent(array $CaniNonAdmin, array $NNonAdminByType): string 
                             <button type="submit" name="assegnami_animale" class="orange-button">Assegna a me<span class="sr-only"> numero' . htmlspecialchars($caneNonAdmin['id_animale']) . '</span></button>
                         </form>
                     </td>
-                    <td class="col-dettagli"><a href="animali?id='.htmlspecialchars($caneNonAdmin['id_animale']).'" class="brown-button">Vai all\'animale<span class="sr-only">'.htmlspecialchars($caneNonAdmin['nome_animale']).' </span></a></td>
+                    <td class="col-dettagli">
+                        <a href="dettagli-animale?id-animale='.htmlspecialchars($caneNonAdmin['id_animale']).'" class="brown-button">
+                            Vai all\'animale<span class="sr-only">'.htmlspecialchars($caneNonAdmin['nome_animale']).' </span>
+                        </a>
+                    </td>
                 </tr>
             ';
         }
@@ -105,7 +109,11 @@ function renderGattiContent(array $GattiNonAdmin,array $NNonAdminByType){
                             <button type="submit" name="assegnami_animale" class="orange-button">Assegna a me<span class="sr-only"> numero' . htmlspecialchars($GattoNonAdmin['id_animale']) . '</span></button>
                         </form>
                     </td>
-                    <td class="col-dettagli"><a href="animali?id='.htmlspecialchars($GattoNonAdmin['id_animale']).'" class="brown-button">Vai all\'animale<span class="sr-only">'.htmlspecialchars($GattoNonAdmin['nome_animale']).'</span></a></td>
+                    <td class="col-dettagli">
+                        <a href="dettagli-animale?id-animale='.htmlspecialchars($GattoNonAdmin['id_animale']).'" class="brown-button">
+                            Vai all\'animale<span class="sr-only">'.htmlspecialchars($GattoNonAdmin['nome_animale']).' </span>
+                        </a>
+                    </td>
                 </tr>
             ';
         }
