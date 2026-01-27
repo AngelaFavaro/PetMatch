@@ -237,7 +237,7 @@ $dataRichiesta='<time datetime="' . ($richiesta['data-richiesta'] ?? '') . '">' 
 $main = str_replace('[data]', $dataRichiesta, $main);
 $main = str_replace('[contenutoLettera]', e($richiesta['lettera-di-presentazione'] ?? ''), $main);
 
-$urlDettaglioAnimale = './dettagli-animale?id-animale=' . e($richiesta['id-animale'] ?? '') . '&from_email=' . urlencode($email);
+$urlDettaglioAnimale = './dettagli-animale?id-animale=' . e($richiesta['id-animale'] ?? '');
 $main = str_replace('[paginaAnimale]', $urlDettaglioAnimale, $main);
 
 $main = str_replace('[paginaRichiedente]', './profilo-richiedente?email=' . urlencode($_GET['email']) ?? '', $main);

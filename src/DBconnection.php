@@ -368,7 +368,7 @@ class DBAccess {
     return $this->connection->error; 
     }
 
-    public function addAnimal(array $data, ?string $email) {
+    public function addAnimal(array $data, ?string $email): ?int {
         $query = "INSERT INTO ANIMALI (
                     Nome, DataNascita, DataRegistrazione, Sesso, Tipo, 
                     Colore, Pelo, Taglia, Razza, DescrFamiglia, 
@@ -402,7 +402,8 @@ class DBAccess {
         $success = $stmt->execute();
         
         if ($success) {
-            $insertedId = $this->connection->insert_id;
+            // Recupera l'ID autogenerato dall'ultima query INSERT
+            $insertedId = (int)$this->connection->insert_id;
             $stmt->close();
             return $insertedId;
         } else {
@@ -415,20 +416,20 @@ class DBAccess {
     public function getAnimalById($id) {
         // Usiamo degli ALIAS (AS ...) per far coincidere i nomi del DB con quelli del tuo PHP
         $query = "SELECT 
-                    IDanimale AS idAnimale, 
-                    Nome AS nome, 
-                    DataNascita AS dataNascita, 
-                    Sesso AS sesso, 
-                    Tipo AS tipologia, 
-                    Colore AS colore, 
-                    Pelo AS pelo, 
-                    Taglia AS taglia, 
-                    Razza AS razza, 
-                    DescrFamiglia AS famiglia, 
-                    DescrComportamentale AS carattere, 
-                    CondizioniMediche AS condMediche, 
-                    Trasporto AS trasporto, 
-                    ImgPath AS foto 
+                    IDanimale, 
+                    Nome, 
+                    DataNascita, 
+                    Sesso, 
+                    Tipo, 
+                    Colore, 
+                    Pelo, 
+                    Taglia, 
+                    Razza, 
+                    DescrFamiglia, 
+                    DescrComportamentale , 
+                    CondizioniMediche, 
+                    Trasporto , 
+                    ImgPath  
                 FROM ANIMALI WHERE IDanimale = ?";
 
         $stmt = $this->connection->prepare($query);
@@ -443,7 +444,7 @@ class DBAccess {
         return $data; // Ritorna un array associativo o null
     }
 
-    public function updateAnimal(array $data): bool {
+    public function updateAnimal(array $data, $idanimale): bool {
         $query = "UPDATE ANIMALI SET 
                     Nome = ?, Razza = ?, Taglia = ?, DataNascita = ?, 
                     Pelo = ?, Colore = ?, DescrComportamentale = ?, 
@@ -458,7 +459,7 @@ class DBAccess {
             $data['nome'], $data['razza'], $data['taglia'], $data['dataNascita'],
             $data['pelo'], $data['colore'], $data['carattere'], 
             $data['condMediche'], $data['famiglia'], $data['foto'], 
-            $data['trasporto'], $data['id']
+            $data['trasporto'], $idanimale
         );
 
         $res = $stmt->execute();
@@ -902,7 +903,7 @@ class DBAccess {
     // per vedere solo le segnalazioni proprie, si passa mode = 'mie' e l'email dell'admin
     // per vedere solo le segnalazioni senza admin, si passa mode = 'nessuno' e si può lasciare emailAdmin a null
     // per vedere tutte le segnalazioni, si passa mode = 'tutte' e l'email dell'admin
-    function getDetailsSegnalazioniAnimalsPaged($perPagina, $offCani, $offGatti, string $emailAdmin = null, string $mode = 'tutte'): array {
+    function getDetailsSegnalazioniAnimalsPaged($perPagina, $offCani, $offGatti, ?string $emailAdmin = null, string $mode = 'tutte'): array {
         $results = ['Gatto' => [], 'Cane' => []];
         $config = ['Cane' => $offCani, 'Gatto' => $offGatti];
 
@@ -948,7 +949,7 @@ class DBAccess {
         return $results;
     }
 
-    public function getAdoptedAnimalsPaged(int $limit, int $offCani, int $offGatti, string $myEmail = null, string $filtro): array {
+    public function getAdoptedAnimalsPaged(int $limit, int $offCani, int $offGatti, string $filtro, ?string $myEmail = null): array {
         $results = ['Cane' => [], 'Gatto' => []];
         $tipi = ['Cane', 'Gatto'];
 
@@ -2394,7 +2395,7 @@ public function getAnimalArrivalDate($idAnimale): ?string {
         return false; }
 
     
-    public function updateNewEvent(array $EventValues, string $oldTitolo ,string $oldData): bool {
+    public function updateEvent(array $EventValues, string $oldTitolo ,string $oldData): bool {
         if (!$this->connection){
             return false;
         }

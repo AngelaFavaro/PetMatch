@@ -2993,6 +2993,7 @@ a:hover .hover-icon {opacity: 1;}
 .checkbox-container-pic input[type="checkbox"],
 #home input[name="type-animal"],
 input#createMore,
+input#check-assegna,
 #form-add-animal .checkbox-label input[type="checkbox"]{
     appearance: none;
     width: 25px;
@@ -3006,6 +3007,7 @@ input#createMore,
 
 #home input[name="type-animal"],
 input#createMore,
+input#check-assegna,
 #richiesta-adozione input[type="checkbox"],
 #form-add-animal .checkbox-label input[type="checkbox"],
 .checkbox-container-pic input[type="checkbox"]{
@@ -3019,8 +3021,13 @@ input#createMore,
 #richiesta-adozione input[type="checkbox"],
 .checkbox-container-pic input[type="checkbox"],
 #form-add-animal .checkbox-label input[type="checkbox"],
+input#check-assegna,
 input#createMore{
     border-radius: 4px;
+}
+
+.sex-option input[type="radio"]:disabled{
+    cursor: auto;
 }
 
 .sex-option input[type="radio"]{
@@ -3030,16 +3037,22 @@ input#createMore{
     position: relative;
     top:5px;
     background-color: transparent;    
-    border: 1px solid var(--txtcolor);     
+    border: 1px solid var(--text-form);     
     border-radius: 2em;         
     cursor: pointer;
     margin: 0;      
+}
+
+.sex-option input[type="radio"]:checked:disabled{
+    background-color: var(--buttoncolor-hover);
+    border-color: var(--buttoncolor-hover);
 }
 
 #richiesta-adozione input[type="checkbox"]:checked,
 .checkbox-container-pic input[type="checkbox"]:checked,
 #home input[name="type-animal"]:checked,
 input#createMore:checked,
+input#check-assegna:checked,
 .sex-option input[type="radio"]:checked,
 #form-add-animal .checkbox-label input[type="checkbox"]:checked {
     background-color: var(--buttoncolor);   
@@ -3064,6 +3077,7 @@ input#createMore:checked,
 #richiesta-adozione input[type="checkbox"]::before,
 .checkbox-container-pic input[type="checkbox"]::before,
 input#createMore::before,
+input#check-assegna::before,
 #home input[name="type-animal"]::before,
 #form-add-animal .checkbox-label input[type="checkbox"]::before{
     content: "";
@@ -3100,6 +3114,7 @@ input#createMore::before,
 .checkbox-container-pic input[type="checkbox"]:checked::before,
 #home input[name="type-animal"]:checked::before,
 input#createMore:checked:before,
+input#check-assegna:checked:before,
 .sex-option input[type="radio"]:checked::before,
 #form-add-animal .checkbox-label input[type="checkbox"]:checked::before {
     transform: scale(1);        
@@ -4402,6 +4417,22 @@ div#admin-area #animali .filtri ul{
 
 /*==================NUOVO Animali==================*/
 
+#form-add-animal input:disabled+.radio-card{
+    cursor:auto;
+}
+
+#form-add-animal input:checked+.radio-card{
+    background-color: var(--buttoncolor-hover);
+    color:var(--light-txtcolor);
+    border-color: var(--text-buttoncolor);
+}
+
+#form-add-animal input:disabled:not(input:checked)+.radio-card:hover{
+    background-color: var(--selectTypeAnimal);
+    border-color: var(--text-buttoncolor);
+    color:var(--text-form);
+}
+
 /* ========================================
    CONTAINER PRINCIPALE
    ======================================== */
@@ -5304,11 +5335,13 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     padding-bottom: 1.5em;
 }
 
+#check-assegna-container,
 #createMore-container{
     text-align: right;
     border-top:2px solid var(--darkbgcolor);
 }
 
+#check-assegna-container label,
 #createMore-container label{
     font-weight: normal;
     margin-top: 0;

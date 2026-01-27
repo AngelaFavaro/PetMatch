@@ -1,24 +1,15 @@
 <div id="admin-area-aggiungi">
     <form method="post" id="form-add-animal" enctype="multipart/form-data" novalidate>
-        <h1>Aggiungi un Animale</h1>
-        <div class="message-container">[erroriGeneric]</div>
-
-        <fieldset id="fieldset-assegnazione">
-            <legend>
-                <label for="check-assegna" class="legend-content">
-                    Assegna a me 
-                    <input type="checkbox" id="check-assegna" name="assegna_a_me" value="1" [assegna_checked]>
-                </label>
-            </legend>
-        </fieldset>
+        <h1>[titoloAnimale]</h1>
+        <div class="error-form">[erroriGeneric]</div>
 
         <fieldset>
             <legend>Tipologia di animale *</legend>
             <div class="radio-group-cg">
-                <input type="radio" name="tipologia" id="cane" value="0" [tipoCane_checked]>
+                <input type="radio" name="tipologia" id="cane" value="0" [tipoCane_checked] [disabledEdit]>
                 <label for="cane" class="radio-card">Cane</label>
 
-                <input type="radio" name="tipologia" id="gatto" value="1" [tipoGatto_checked]>
+                <input type="radio" name="tipologia" id="gatto" value="1" [tipoGatto_checked] [disabledEdit]>
                 <label for="gatto" class="radio-card">Gatto</label>
             </div>
             <p class="error-form">[erroriTipologia]</p>
@@ -31,13 +22,13 @@
                 <div class="column-user">
                     <div>
                         <label for="nome">Nome *</label>
-                        <input type="text" name="nome" id="nome" placeholder="Nome" autocomplete="nome" value="[nome]">
+                        <input type="text" name="nome" id="nome" placeholder="Nome" autocomplete="nome" value="[Nome]">
                         <p class="error-form">[erroriNome]</p>
                     </div>
 
                     <div>
                         <label for="razza">Razza *</label>
-                        <input type="text" name="razza" id="razza" placeholder="Razza" autocomplete="razza" value="[razza]">
+                        <input type="text" name="razza" id="razza" placeholder="Razza" autocomplete="razza" value="[Razza]">
                         <p class="error-form">[erroriRazza]</p>
                     </div>
 
@@ -53,12 +44,12 @@
                     <p class="sex-title">Sesso *</p>
                     <div class="sex-group">
                         <label class="sex-option">
-                            <input type="radio" name="sesso" id="Maschio" value="0" required [sessoM_checked]>
+                            <input type="radio" name="sesso" id="Maschio" value="0" required [sessoM_checked] [disabledEdit]>
                             <span>Maschio</span>
                         </label>
 
                         <label class="sex-option">
-                            <input type="radio" name="sesso" id="Femmina" value="1" [sessoF_checked]>
+                            <input type="radio" name="sesso" id="Femmina" value="1" [sessoF_checked] [disabledEdit]>
                             <span>Femmina</span>
                         </label>
                     </div>
@@ -87,7 +78,7 @@
                 <div class="column-user">
                     <div>
                         <label for="dataNascita">Data di Nascita *</label>
-                        <input type="date" name="dataNascita" id="dataNascita" autocomplete="Data di nascita" value="[dataNascita]">
+                        <input type="date" name="dataNascita" id="dataNascita" autocomplete="Data di nascita" value="[DataNascita]">
                         <p class="error-form">[erroriDataNascita]</p>
                     </div>
 
@@ -102,19 +93,19 @@
                     
                     <div>
                         <label for="colore">Colore *</label>
-                        <input type="text" name="colore" id="colore" placeholder="Colore" autocomplete="colore" value="[colore]">
+                        <input type="text" name="colore" id="colore" placeholder="Colore" autocomplete="colore" value="[Colore]">
                         <p class="error-form">[erroriColore]</p>
                     </div>
 
                     <div>
                         <label for="condMediche">Condizioni mediche </label>
-                        <textarea id="condMediche" name="condMediche" placeholder="Inserire testo">[condMediche]</textarea>
+                        <textarea id="condMediche" name="condMediche" placeholder="Inserire testo">[CondizioniMediche]</textarea>
                         <p class="error-form">[erroriCondMediche]</p>
                     </div>
 
                     <div id="div-carattere">
                         <label for="carattere">Descrizione caratteriale *</label>
-                        <textarea id="carattere" name="carattere" placeholder="Inserire testo">[carattere]</textarea>
+                        <textarea id="carattere" name="carattere" placeholder="Inserire testo">[DescrComportamentale]</textarea>
                         <p class="error-form">[erroriCarattere]</p>
                     </div>
                 </div>
@@ -125,10 +116,17 @@
             <legend>Informazioni famiglia</legend>
             <div>
                 <label for="famiglia">Famiglia ideale *</label>
-                <textarea id="famiglia" name="famiglia" placeholder="Inserire testo">[famiglia]</textarea>
+                <textarea id="famiglia" name="famiglia" placeholder="Inserire testo">[DescrFamiglia]</textarea>
                 <p class="error-form">[erroriFamiglia]</p>
             </div>
-        </fieldset>   
+        </fieldset>  
+
+        <div id="check-assegna-container">
+            <label for="check-assegna" class="legend-content">
+                Assegna a me 
+                <input type="checkbox" id="check-assegna" name="assegna_a_me" value="1" [assegna_checked]>
+            </label>
+        </div>
 
         <div class="form-buttons-container">
             <a href="./area-riservata" id="cancel-add-animal">Annulla</a>

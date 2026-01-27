@@ -37,22 +37,18 @@ $pagine = [
     'richieste-adozione' => [
         'label' => 'Richieste di adozione',
         'url' => './richieste-adozione',
-        'parent' => 'home'
+        'parent' => 'area-riservata'
     ],
     'dettagli-richiesta' => [
         'label' => 'Dettagli richiesta',
         'url' => $richiesteAdozioneHref,
         'parent' => 'richieste-adozione'
     ],
-    'dettagli-animale' => [
-        'label' => 'Dettagli animale',
-        'url' => './dettagli-animale', 
-        'parent' => 'dettagli-richiesta' 
-    ],
+
     'nuovo-animale' => [
         'label' => 'Aggiungi animale',
         'url' => './nuovo-animale',
-        'parent' => 'home'
+        'parent' => 'area-riservata'
     ],
     'modifica-animale' => [
         'label' => 'Modifica animale',
@@ -97,7 +93,7 @@ $pagine = [
     'preferiti' => [
         'label' => 'Preferiti',
         'url' => './preferiti',
-        'parent' => 'animali'
+        'parent' => 'home'
     ],
     'lavora-con-noi' => [
         'label' => 'Lavora con noi',
@@ -112,7 +108,7 @@ $pagine = [
     'senza-amministratore' => [
         'label' => 'Animali senza amministratore',
         'url' => './senza-amministratore',
-        'parent' => 'animali'
+        'parent' => 'area-riservata'
     ],
     'eventi' => [
         'label' => 'Eventi',
@@ -122,7 +118,7 @@ $pagine = [
     'nuove-accoglienze' => [
         'label' => 'Nuove accoglienze',
         'url' => './nuove-accoglienze',
-        'parent' => 'animali'
+        'parent' => 'area-riservata'
     ],
     'profilo-richiedente' => [
         'label' => 'Profilo richiedente',
@@ -132,7 +128,7 @@ $pagine = [
     'adottati' => [
         'label' => 'Adottati',
         'url' => './adottati',
-        'parent' => 'animali'
+        'parent' => 'area-riservata'
     ],
     'nuovo-evento' => [
         'label' => 'Nuovo evento',
@@ -142,7 +138,12 @@ $pagine = [
     'assegnati-a-te' => [
         'label' => 'Assegnati a te',
         'url' => './assegnati-a-te',
-        'parent' => 'animali'
+        'parent' => 'area-riservata'
+    ],
+    'dettagli-animale' => [
+        'label' => 'Dettagli animale',
+        'url' => './dettagli-animale', 
+        'parent' => 'assegnati-a-te' 
     ],
     'modifica-evento' => [
         'label' => 'Modifica evento',
@@ -152,7 +153,7 @@ $pagine = [
     'visualizzazione-eventi' => [
         'label' => 'Visualizzazione-eventi',
         'url' => './visualizzazione-eventi',
-        'parent' => 'home'
+        'parent' => 'area-riservata'
     ],
 ];
 
