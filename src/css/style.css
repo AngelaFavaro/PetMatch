@@ -2140,6 +2140,10 @@ float: none;
     text-overflow: ellipsis;  /* aggiunge "..." alla fine */
 }
 
+#nav-animali-type ~ #animali .card .nome,#nav-animali-type ~ #animali .dark-card .nome{
+    width: 100%;
+}
+
 #animali .card .sesso-etaDesk,
 #animali .card .sesso-etaMob, #animali .dark-card .sesso-etaDesk, #animali .dark-card .sesso-etaMob {
     padding-left: 1em;
@@ -2723,6 +2727,10 @@ cursor: pointer;
     display: none; 
     padding: 1em;
     border-radius: 0 0 0.5em 0.5em;
+}
+
+#admin-area .tabs-container .tab-content{
+    padding: 0;
 }
 
 /* con questo se dezoommi richieste di adozione e animali senza amministratore il contenuto delle tab rimane giù */
@@ -3871,7 +3879,7 @@ p.n-query{
 #mobile-account-hover
 { display: none; } /* Nascondi tasto su desktop */
 
-#menu-admin {
+header:has(#menu-admin) {
     /* display: flex; */
     flex:0 0 20%;
     flex-direction: column;
@@ -3881,7 +3889,8 @@ p.n-query{
     padding: 1em 0em 1em 1em;
     height: 100%;
     overflow: hidden;
-     font-size: 100%;   
+    font-size: 100%; 
+    position: static;  
 
     /* height: 100vh; */
 }
@@ -4428,6 +4437,7 @@ div#admin-area article.note{
     height: 15em;
     object-fit: cover;
     border-radius: 0.5em;
+    margin-top: 1em;
     box-shadow: 0 0.25em 0.625em rgba(0,0,0,0.2);
     margin: 1em auto 0 auto;
 }
@@ -4450,7 +4460,6 @@ div#admin-area article.note{
     width: 3em;
     transition: transform 0.2s ease;
     padding: 0.5em;
-    /* margin-top: -0.5em; */
     border-radius: 0.5em;
     transition: 0.4s;
     border:2px solid transparent;

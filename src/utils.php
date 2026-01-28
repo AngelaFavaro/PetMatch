@@ -210,7 +210,7 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
 
     $isDark = (isset($_COOKIE['theme']) && $_COOKIE['theme'] === 'dark');
     // Parte iniziale: Checkbox e Label (Hamburger)
-    $html = '
+    $html = '<header>
     <input type="checkbox" id="menu-toggle-checkbox" class="sr-only" />
 
     <div id="log-theme">
@@ -262,7 +262,7 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
         <form action="./area-riservata" method="post">
             <button type="submit" name="logout" class="logout-btn">Disconnettiti</button>
         </form>
-    </nav>';
+    </nav></header>';
 
     return $html;
 }
