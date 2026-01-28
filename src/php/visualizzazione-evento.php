@@ -7,6 +7,16 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 use DB\DBAccess;
+$isAdmin=0;
+$action='visualizzazione-evento';
+if (defined('ADMIN_EVENTO')) {
+    $isAdmin=1;
+}
+if($isAdmin) {
+    $action='dettagli-evento';
+}
+
+$url=$isAdmin?'dettagli-evento':'visualizzazione-evento'; 
 
 $titoloGET = $_GET['titolo'] ?? null;
 $dataGET   = $_GET['data'] ?? null;
@@ -114,6 +124,9 @@ if ($connection->openDBConnection()) {
 
             // Aggiornamento metadati SEO
             $titoloPagina = "$titolo - PetMatch";
+            if($isAdmin) {
+                $titoloPagina .='-area riservata';
+            }
             $descrizioneMeta = "Partecipa all'evento $titolo a $luogo il $dataFormattata";
 
             // 3. Creazione del blocco HTML (con le variabili ora piene!)
