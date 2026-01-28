@@ -6,32 +6,159 @@
 
 :root{
     --bgcolor: #FFF6D7;
+    --navButton: #FFF6D7;
+    --logolink: #FFF6D7;
     --txtcolor: #481515;
+    --light-txtcolor: #FFF6D7;
+    --cat-txtcolor: #FFF6D7;
     --buttoncolor: #EA654C;
     --secondsection: #6D7541;
     --placeholderDarker-text:#5e4232;
     --placeholder-text:#825E49;
+    --placeholderForm-text:#825E49;
+    --polaroid-color: #FFF6D7;
+    --polaroid-txt: #481515;
+    --timeline-line: #EA654C;
+    --row-time-line: #FFF6D7;
+    --form-bg: #FFF6D7;
+    --text-form: #481515;
+    --hovertext-form-button: #FFF6D7;
+    --text-form-button: #481515;
+    --hover-link: #481515;
     --darkbgcolor: #E4D4BA;
+    --cardHover: #481515;
+    --textDarkinput: #481515;
+    --modifiedAccount:#E4D4BA;
+    --bordermodifiedAccount:#E4D4BA;
+    --text-deletebutton: #481515;
+    --selectTypeAnimal: #E4D4BA;
+    
+    --darkMdode-selectTypeAnimal: #b79378;
+    --darkMode-text-deletebutton: #ba4d3b;
+    --darkMode-bordermodifiedAccount:#C7B097;
+    --darkMode-modifiedAccount:#5B2E25;
+    --darkMode-textDarkinput: #C7B097;
+    --darkMode-placeholder-text:#a48f78;
+    --darkMode-placeholderDarker-text:#7f6b56;
+    --darkMode-cardHover: #C7B097;
+    --darkMode-darkbgcolor: #481515;
+    --darkMode-hover-link: #C7B097;
+    --darkMode-form-bg: #C7B097;
+    --darkMode-text: #C7B097;
+    --darkMode-bgcolor: #5B2E25;
+    --darkMode-cat-txtcolor: #E0CFBE;
+    --darkMode-visitedLinkHeader: #ba4d3b;
+    --darkMode-colorLink: #C7B097;
+    --darkMode-visitedcolorLink: #ba4d3b;
+    --darkMode-timeline-line: #C7B097;
+    --darkMode-row-time-line: #481515;
+    --darkMode-bglink-hover: #b79378;
+    --darkMode-txtclose-request: #C7B097;
+    --darkMode--darklinkcolor:#C7B097;
+
     --successtxt:#576F30;
     --errortxt: #BA3A24;
     --txtclose-request: #6b5050;
-    --headercolor: var(--txtcolor);
-    --darkSection:var(--txtcolor);
-    --buttoncolor-hover: var(--txtcolor);
-    --text-buttoncolor:  var(--txtcolor);
-    --footercolor:  var(--txtcolor);
-    --headerlink:  var(--txtcolor);
+    --headercolor: #481515;
+    --darkSection:#481515;
+    --buttoncolor-hover: #481515;
+    --text-buttoncolor:  #481515;
+    --footercolor:  #481515;
+    --headerlink:  #481515;
     --text-buttoncolor-hover: var(--bgcolor);
-    --linkcolor: var(--bgcolor);
+    --linkcolor: #FFF6D7;
+    --darklinkcolor: #481515;
     --bgconfermbutton:var(--bgcolor);
-    --visitedcolor: var(--buttoncolor);
-    --headervisitedlink: var(--secondsection);
+    --visitedcolor: #EA654C;
+    --headervisitedlink: #6D7541;
     --bgform: var(--secondsection);
     --bgconfirmbutton:var(--secondsection);
     --greencolor: var(--secondsection);
-    --bglink-hover: var(--darkbgcolor);
+    --bglink-hover: #E4D4BA;
     --txtcancelbutton:var(--bgconfirmbutton);
     --greencolor: #6D7541;
+}
+
+:root:has(input#theme-toggle:checked){
+    --darklinkcolor: var(--darkMode--darklinkcolor);
+    --selectTypeAnimal: var(--darkMdode-selectTypeAnimal);
+    --text-deletebutton: var(--darkMode-text-deletebutton);
+    --bordermodifiedAccount:var(--darkMode-bordermodifiedAccount);
+    --modifiedAccount:var(--darkMode-modifiedAccount);
+    --txtclose-request:var(--darkMode-txtclose-request);
+    --bglink-hover: var(--darkMode-bglink-hover);
+    --placeholderForm-text: var(--darkMode-placeholderDarker-text);
+    --textDarkinput:var(--darkMode-te);
+    --placeholderDarker-text: var(--darkMode-textDarkinput);
+    --placeholder-text: var(--darkMode-textDarkinput);
+    --cardHover: var(--darkMode-cardHover);
+    --bgcolor: var(--darkMode-bgcolor);
+    --headervisitedlink: var(--darkMode-visitedLinkHeader);
+    --navButton: var(--darkMode-text);
+    --linkcolor: var(--darkMode-colorLink);
+    --logolink: var(--darkMode-text);
+    --light-txtcolor: var(--darkMode-text);
+    --cat-txtcolor: var(--darkMode-cat-txtcolor);
+    --txtcolor: var(--darkMode-text);
+    --form-bg: var(--darkMode-form-bg);
+    --visitedcolor: var(--darkMode-visitedcolorLink);
+    --hover-link: var(--darkMode-hover-link);
+    --darkbgcolor: var(--darkMode-darkbgcolor);
+}
+
+:root:has(input#theme-toggle:checked){
+    --buttoncolor: var(--darkMode-visitedLinkHeader);
+    --timeline-line: var(--darkMode-timeline-line);
+    --row-time-line: var(--darkMode-row-time-line);
+}
+
+:root:has(input#theme-toggle:checked) #button-cancel img,
+:root:has(input#theme-toggle:checked) #header-logo,
+:root:has(input#theme-toggle:checked) #logo-footer,
+:root:has(input#theme-toggle:checked) #heart-normal,
+:root:has(input#theme-toggle:checked) .circle,
+:root:has(input#theme-toggle:checked) #user-info a img,
+:root:has(input#theme-toggle:checked) #instagram,
+:root:has(input#theme-toggle:checked) #animali .heart-normal,
+:root:has(input#theme-toggle:checked) #animali .heart-hover,
+:root:has(input#theme-toggle:checked) #visualizzazione-animale .heart-normal,
+:root:has(input#theme-toggle:checked) #visualizzazione-animale .heart-hover,
+:root:has(input#theme-toggle:checked) #menu-admin #logo,
+:root:has(input#theme-toggle:checked) .pencil img,
+:root:has(input#theme-toggle:checked) #account-normal,
+:root:has(input#theme-toggle:checked) #introduction-home img{
+    filter: brightness(0) saturate(100%) invert(79%) sepia(17%) saturate(541%) hue-rotate(346deg) brightness(92%) contrast(88%);
+}
+
+:root:has(input#theme-toggle:checked) .polaroid::before{
+    filter: brightness(0) saturate(100%) invert(18%) sepia(34%) saturate(1637%) hue-rotate(329deg) brightness(93%) contrast(92%);
+}
+
+:root:has(input#theme-toggle:checked) #section-events,
+:root:has(input#theme-toggle:checked) #ci-presentiamo{
+    background-image: 
+        linear-gradient(to bottom, transparent 70%, var(--secondsection) 98%),
+        url('../../assets/images/cat-darkbg.svg');
+    transition: background-color 0.4s;
+}
+
+:root:has(input#theme-toggle:checked) #sponsor{
+    background-image: url('../../assets/images/sponsor-darkbg.svg');
+}
+
+:root:has(input#theme-toggle:checked) #container-form-affidamento{
+    background-image: url('../../assets/images/darkhouse-form.svg');
+}
+:root:has(input#theme-toggle:checked) .torna-su-button img{
+    filter: brightness(80%) saturate(85%) contrast(110%);
+}
+
+:root:has(input#theme-toggle:checked) select{
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%23C7B097" d="M7 10l5 5 5-5z"/></svg>');
+}
+
+:root:has(input#theme-toggle:checked) select#mobile-select{
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%481515" d="M7 10l5 5 5-5z"/></svg>');
 }
 
 a{
@@ -44,7 +171,7 @@ a:visited{
 }
 
 a.orange-button:visited{
-    color: var(--txtcolor);
+    color: var(--text-form-button);
 }
 
 a.orange-button:hover{
@@ -59,6 +186,7 @@ a.orange-button:hover{
     padding-left:1em;
     padding-right:1em;
 }
+
 
 div#admin-area .container{
     padding: 0;
@@ -78,6 +206,7 @@ main#content{
     /* min-height: 100vh; */
     flex: 1;
     padding-top: 2em;
+    padding-bottom: 2em;
     min-height: auto;
 }
 
@@ -86,7 +215,7 @@ main#content{
 }
 
 #NavHeader + main #breadcrumb{
-    border: 1px solid var(--bgcolor);
+    border: 1px solid var(--light-txtcolor);
 }
 
 html{
@@ -131,7 +260,13 @@ h4{
 
 #form-signup + p a,
 #form-login + p a{
-    color:var(--txtcolor);
+    color:var(--darklinkcolor);
+    font-weight: 500;
+}
+
+#form-signup + p a:visited,
+#form-login + p a:visited{
+    color:var(--headervisitedlink);
     font-weight: 500;
 }
 
@@ -140,6 +275,7 @@ h4{
 }
 
 /*==================PULSANTI==================*/
+#compila-form-adozione>summary,
 #currentLink.orange-button,
 a.orange-button, a.brown-button,
 button.brown-button,
@@ -153,21 +289,23 @@ button.orange-button{
     font-weight: 500;
     letter-spacing: 0px;
     text-decoration: none;
-    transition: background-color 0.6s ease;
+    transition: background-color 0.6s ease, border-color 0.6s ease;
 }
 
+#compila-form-adozione>summary,
 .orange-button:hover,
-button.orange-button:hover {
+button.orange-button:hover{
     background-color: var(--buttoncolor-hover); 
-    color: var(--linkcolor);
+    color: var(--hovertext-form-button);
 }
 
+#compila-form-adozione>summary,
 #currentLink.orange-button,
 a.orange-button,
 button.orange-button,
 .white-button:hover{
     background-color: var(--buttoncolor);
-    color: var(--txtcolor);
+    color: var(--text-form-button);
 }
 
 button.orange-button{
@@ -186,6 +324,7 @@ a.brown-button, button.brown-button{
     margin: 0.7em auto 0.7em auto;
     text-decoration: underline;
     margin-right: 0;
+    border:1px solid var(--txtcolor);
 }
 
 a.brown-button:visited{
@@ -195,8 +334,9 @@ a.brown-button:visited{
 .brown-button:hover, button.brown-button:hover,
 .brown-button:visited:hover{
     background-color:transparent; 
-    color: var(--text-buttoncolor);
+    color: var(--hover-link);
     cursor: pointer;
+    border:1px solid transparent;
 }
 
 button.brown-button{
@@ -215,7 +355,7 @@ button.brown-button{
     font-weight: 500;
     text-decoration: none;
     transition: background-color 0.6s ease;
-    background-color: var(--bgcolor);
+    background-color: var(--navButton);
     color:var(--text-buttoncolor)
 }
 
@@ -269,9 +409,12 @@ input{
     font-size: 1em;
 }
 
+button,
 select{
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    cursor: pointer;
+}
+
+select{
     appearance: none;
     background-repeat: no-repeat;
     background-position: right 1em center; /* Destra, un po' staccata dal bordo, centrata verticale */
@@ -287,7 +430,7 @@ input:placeholder-shown{
 /*==================WIDGET UTILI==================*/
 .polaroid{
     width: 30%;
-    background-color: white;
+    background-color: var(--polaroid-color);
     padding: 0.5em 0.5em 3em 0.5em;
 }
 
@@ -310,7 +453,7 @@ input:placeholder-shown{
     left: 10%;
     right: 10%;
     height: 2px;
-    background-image: linear-gradient(to right, var(--buttoncolor) 50%, transparent 50%);
+    background-image: linear-gradient(to right, var(--timeline-line) 50%, transparent 50%);
     background-size: 20px 100%;
     z-index: 0;
   }
@@ -500,6 +643,11 @@ li.capsula-filtro select:focus{
     border-radius: 0.5em;
 }
 
+li.capsula-filtro input:focus{
+    outline: none;
+}
+
+
 
 /* ==================LAVORA CON NOI ================== */
 
@@ -511,8 +659,8 @@ li.capsula-filtro select:focus{
     display: flex;
     gap: 4em;
 }
-#introduction-lavora-con-noi .column-user {
-    flex: 1; 
+#introduction-lavora-con-noi .column-user:first-of-type {
+    flex: 1 1 30%; 
 }
 #introduction-lavora-con-noi h1 {
     margin-bottom: 0.5em;
@@ -520,14 +668,14 @@ li.capsula-filtro select:focus{
 }
 
 #introduction-lavora-con-noi a{
-    color:var(--headerlink);
+    color:var(--darklinkcolor);
     font-weight: 500;
 }
 
 
 #come-diventare-volontario {
     background-color: var(--greencolor); 
-    color: var(--bgcolor);                       
+    color: var(--cat-txtcolor);                       
     width: 100%;
     padding: 2.5em;
 }
@@ -567,7 +715,7 @@ li.capsula-filtro select:focus{
 #come-diventare-sostenitore {
     margin-top: 3em;
     background-color: var(--footercolor); 
-    color: var(--bgcolor);        
+    color: var(--light-txtcolor);        
     border-top-right-radius: 2.5em;
     border-top-left-radius: 2.5em;     
     padding: 2em 4em;
@@ -588,7 +736,6 @@ li.capsula-filtro select:focus{
 #contatto-sostenitore {
     margin-top: 3em;
     margin-bottom:-2em;
-    text-align: center;
 }
 
 #contatto-sostenitore a {
@@ -619,6 +766,7 @@ li.capsula-filtro select:focus{
 
 #layout-user #osso #currentLink{
     font-weight: 600;
+    color:var(--text-form);
 }
 
 #layout-user #currentLink.white-button:hover{
@@ -626,12 +774,9 @@ li.capsula-filtro select:focus{
     color:var(--txtcolor);
 }
 
-#layout-user #currentLink a:visited{
-    color:var(--headerlink);
-}
 
 
-#layout-user #currentLink a{
+#layout-user #currentLink{
     font-weight: 600;
 }
 
@@ -672,7 +817,7 @@ header a{
 #header-logo h1 {
     margin-left: 0;
     margin-right: auto;
-    color: var(--linkcolor);
+    color: var(--logolink);
     text-align: center;
 }
 
@@ -714,7 +859,7 @@ header a{
     text-align: center;
     
     /* Stile Osso */
-    background-color: var(--bgcolor);
+    background-color: var(--navButton);
     padding: 0 2em;
     position: relative;
     margin: 1em 2em; 
@@ -728,9 +873,9 @@ header a{
     width: 2.3em; 
     height: 2.3em;
     border-radius: 50%;
-    background-color: var(--bgcolor);
+    background-color: var(--navButton);
     transform: translateY(-50%); 
-    box-shadow: 0 2.2em 0 var(--bgcolor);
+    box-shadow: 0 2.2em 0 var(--navButton);
 }
 
 #osso::before {
@@ -802,6 +947,62 @@ header a{
     background-color: var(--bgcolor);
 }
 
+
+
+
+
+
+
+
+
+/* per admin */
+#solo-stampa{
+    display: none;
+}
+
+#admin-body #theme-toggle {
+    position: fixed;
+    top:0; left:0;
+    bottom: 20px;
+    right: 20px;
+}
+
+#admin-body #theme-switch {
+    position: fixed;
+    width: 45px;
+    height: 45px;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+}
+
+#admin-body #slider {
+    position: absolute;
+    top:0; left:0; right: 0; bottom: 0;
+    background-color: var(--bgcolor);
+    border-radius: 50%;
+    transition: 0.4s;
+    box-shadow: none;
+    border:2px solid var(--buttoncolor-hover);
+}
+
+#admin-body #slider img{
+    width: 90%;
+    left: 0.2em;
+    right: 0;
+}
+
+#admin-body #slider::before {
+    content: none;
+    display: none;
+}
+
+
+
+
+
+
+
 /* Icone sole/luna */
 #sun, #moon {
     position: absolute;
@@ -821,11 +1022,6 @@ input:checked + #theme-switch #slider::before {
 }
 input:checked + #theme-switch #slider #sun { opacity: 0; }
 input:checked + #theme-switch #slider #moon { opacity: 1; }
-
-:root:has(input#theme-toggle:checked){
-    /* aiuto non so usare i colori */
-    transition: background-color 0.3s;
-}
 
 /* Icona Preferiti */
 #preferiti {
@@ -856,9 +1052,9 @@ input:checked + #theme-switch #slider #moon { opacity: 1; }
 
 #header-actions #currentLink.white-button,
 #header-actions #currentLink.white-button:hover{
-    outline: 1px solid var(--bgcolor);
+    outline: 1px solid var(--light-txtcolor);
     background-color: var(--buttoncolor-hover);
-    color:var(--bgcolor);
+    color:var(--light-txtcolor);
 }
 
 /* ==================FOOTER================== */
@@ -881,8 +1077,13 @@ footer a:hover{
 
 footer {
     background-color: var(--footercolor);
-    color: var(--bgcolor);
+    color: var(--light-txtcolor);
 }
+
+#name-site-footer{
+    color: var(--logolink);
+}
+
 footer p{
     font-weight: bold;
     font-size: 1.2em;
@@ -943,7 +1144,7 @@ footer .container + div a:visited{
     display: block;
     /* sono 12px, il minimo per l'accessibilità */
     font-size: 0.85rem; 
-    color: var(--darkbgcolor);
+    color: var(--light-txtcolor);
     /* font-size: 0.9em; */
     /* margin-bottom: 1em; */
 }
@@ -959,7 +1160,7 @@ footer .container + div a:visited{
     background-color: var(--darkSection);
     margin-top: -130px;
     padding-top: 130px;
-    color: var(--bgcolor);
+    color: var(--light-txtcolor);
 }
 
 #introduction-home .column-user:first-child {
@@ -1055,8 +1256,8 @@ footer .container + div a:visited{
     
     width: 10px;  
     height: 10px;
-    border-right: 2px solid var(--bgcolor); 
-    border-bottom: 2px solid var(--bgcolor);
+    border-right: 2px solid var(--row-time-line); 
+    border-bottom: 2px solid var(--row-time-line);
     border-top: 0;
     border-left: 0;
     
@@ -1078,7 +1279,7 @@ details:not([open]) .popup {
 #adoption-timeline{
     padding:2em 0 2em 0;
     background-color: var(--headercolor);
-    color:var(--bgcolor);
+    color:var(--light-txtcolor);
 }
 
 .popup img{
@@ -1129,7 +1330,7 @@ details:not([open]) .popup {
     background-repeat: no-repeat;
     background-position:top;
     height: fit-content;
-    color: var(--bgcolor);
+    color: var(--cat-txtcolor);
     padding: 3em;
     border-radius: 1em;
 }
@@ -1183,7 +1384,7 @@ details:not([open]) .popup {
 #events-list .polaroid{
     display: block;
     flex: 1 1 20%;
-    color: var(--txtcolor);
+    color: var(--polaroid-txt);
     transform-origin: top center;
     --base-rot: 0deg;
     margin:auto;
@@ -1323,7 +1524,7 @@ details:not([open]) .popup {
 
 #affidamento-home{
     background-color: var(--headercolor);
-    color:var(--bgcolor);
+    color:var(--light-txtcolor);
     margin-top: 7%;
 }
 
@@ -1347,8 +1548,8 @@ details:not([open]) .popup {
 }
 
 #form-affidamento {
-    background-color: var(--bgcolor);
-    color: var(--txtcolor);
+    background-color: var(--form-bg);
+    color: var(--text-form);
     margin:3em auto 0.1em auto;
     padding: 0em 2em;
     display: block;
@@ -1363,6 +1564,7 @@ fieldset {
     margin: 0;
 }
 
+#richiesta-adozione input[type="checkbox"],
 #home input[name="type-animal"]{
     float: left;
     align-items: center;
@@ -1372,6 +1574,7 @@ fieldset {
 #home input[name="type-animal"]+label{
     padding:6px;
     margin:auto 2em;
+    cursor: pointer;;
 }
 
 .radio-input{
@@ -1407,15 +1610,16 @@ legend {
 #user-profile label + input,
 #login label + input,
 .edit-number div input, 
+#richiesta-adozione input,
 .password-container input, div#admin-area label + input {
     border-radius: 5em;
     padding: 0.5em 1em;
     margin: 0.2em 0 0.3em 0;
     width: 100%; 
     border: 1px solid var(--headercolor);
-    color: var(--txtcolor);
+    color: var(--text-form);
     font-size: 100%;
-    background-color: var(--bgcolor);
+    background-color: var(--form-bg);
     box-sizing: border-box; 
 }
 
@@ -1426,10 +1630,12 @@ legend {
 #animali label + input::placeholder,
 #signup label + input::placeholder,
 #home label + input::placeholder,
+div#admin-area label + input::placeholder,
+.edit-number div input::placeholder, 
 .password-container input::placeholder,
 #user-profile label + input::placeholder,
 #login label + input::placeholder{
-    color: var(--placeholder-text);
+    color: var(--placeholderForm-text);
     font-weight: lighter;
     font-size: 0.9em;
 }
@@ -1455,7 +1661,8 @@ label {
     max-width: 800px;
     padding: 2em 3em;
     border-radius: 1em;
-    background-color: var(--bgcolor);
+    color:var(--text-form);
+    background-color: var(--form-bg);
 }
 
 body:has(#signup), body:has(#login) {
@@ -1475,11 +1682,8 @@ body:has(#signup), body:has(#login) {
 }
 
 /* cambio il colore dell'autofill */
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px var(--bglink-hover) inset;
+input:autofill{
+    box-shadow: 0 0 0 30px var(--bglink-hover) inset;
 }
 
 .column-container div{
@@ -1607,27 +1811,41 @@ input:-webkit-autofill:active{
     right: 10px;
     top: 50%;
     transform: translateY(-50%); 
-    color: var(--placeholder-text);
+    color: var(--placeholderForm-text);
 }
 
 .password-container i:hover {
-    color: var(--txtcolor);
+    color: var(--text-form);
+    cursor: pointer;
 }
 
 
 
 /*=================PAGINA ANIMALI======================*/
 
-/* contenitore principale */
+#animali a.brown-button{
+    margin:0;
+    float: right;
+}
+/* aggiunto questo altrimenti mi si sminchiano le cose da admin */
+div#admin-area #animali a.brown-button{
+float: none;
+    display: inline-block; /* Assicura che il margine funzioni correttamente */
+    margin: 0.5em;
+}
+#animali h1{
+    display: inline-block;
+    margin-top: 0.2em;
+}
 
 /* FILTRI */
+
 #animali .filtri ul, #eventi .filtri ul, #richieste .filtri ul{
     display: flex;
     list-style: none;
     gap: 1em;
     flex-wrap: wrap;
     width: 100%;
-    /* justify-content: flex-end; */
 }
 
 #animali .filtri, #eventi .filtri, #richieste .filtri{
@@ -1636,11 +1854,15 @@ input:-webkit-autofill:active{
     justify-content: flex-end;
 }
 
+#eventi .filtri{
+    align-items: center;
+}
+
 #animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro
 , #richieste .filtri .capsula-filtro {
     display: flex;
     flex: 1 1 30%;
-    border: 1px solid var(--text-buttoncolor);
+    border: 1px solid var(--txtcolor);
     border-radius: 1em;
     padding: 0.5em;
     height: 2.5em;
@@ -1671,6 +1893,7 @@ input:-webkit-autofill:active{
 #animali .filtri #searchName.capsula-filtro input, #eventi .filtri #searchName.capsula-filtro input {
     text-align:left;
     display: flex;
+    color:var(--textDarkinput);
     min-width: 3em;
     /* display:contents; */
     background-color: var(--darkbgcolor);
@@ -1707,16 +1930,18 @@ input:-webkit-autofill:active{
     background-position: right 0em center;
 }
 
+#animali .filtri #searchSize.capsula-filtro {
+    max-width: fit-content;
+}
+
+#animali .filtri #searchSex.capsula-filtro {
+    max-width: fit-content;
+}
 
 #animali .filtri .capsula-filtro input::placeholder, #eventi .filtri .capsula-filtro input::placeholder {
     color: var(--placeholder-text);
     text-align: center;
     font-size: 0.9em;
-}
-
-#animali .filtri .capsula-filtro#searchSex,
-#animali .filtri .capsula-filtro#searchSize{
-    max-width: fit-content;
 }
 
 #animali .filtri .capsula-filtro label, #eventi .filtri .capsula-filtro label,
@@ -1727,15 +1952,22 @@ input:-webkit-autofill:active{
 
 /* contenitore nav */
 /* NAV container */
-#animali #nav-animali-type {
+#animali #nav-animali-type,
+#nav-event-type {
     display: flex;
     align-items: flex-end;
     margin-bottom: 1.5em;
+}
+
+#animali #nav-animali-type{
     margin-top: 1.5em;
+    clear:right;
+    /* clear: both; */
 }
 
 
-#animali #nav-animali-type ul {
+#animali #nav-animali-type ul,
+#nav-event-type ul{
     display: flex;
     list-style: none;
     padding: 0;
@@ -1744,17 +1976,19 @@ input:-webkit-autofill:active{
 }
 
 
-#animali #nav-animali-type li {
-    flex: 1;                     /* 1/3 ciascuno */
-    white-space: nowrap;         /* niente a capo */
+#animali #nav-animali-type li,
+#nav-event-type li {
+    flex: 1;                    
+    white-space: nowrap;
     text-align: center;
-    padding: 0.6em 0;
+    padding: 0.6em 1.2em;
     border-bottom: 1px solid var(--txtcolor);
     min-width: 200px;
 }
 
 
-#animali #nav-animali-type::after {
+#animali #nav-animali-type::after,
+#nav-event-type::after {
     content: "";
     flex: 1;
     border-bottom: 1px solid var(--txtcolor);
@@ -1763,23 +1997,23 @@ input:-webkit-autofill:active{
 
 
 /* link */
-#animali #nav-animali-type a {
+#animali #nav-animali-type a,
+#nav-event-type a {
     display: block;
     text-decoration: none;
-    color: var(--headerlink);
+    color: var(--txtcolor);
     font-weight: normal;
 }
 
 /* elemento attivo */
-#animali #nav-animali-type .currentType {
-    /*flex: 0 0 auto;*/
+#animali #nav-animali-type .currentType,
+#nav-event-type .currentType {
     padding: 0.6em 1.2em;
     font-weight: bold;
     border: 1px solid var(--txtcolor);
     border-top-left-radius: 0.5em;
     border-top-right-radius: 0.5em;
     border-bottom: none;
-    /*margin-bottom: -2px;*/
     background: var(--bgcolor);
 }
 
@@ -1802,8 +2036,8 @@ input:-webkit-autofill:active{
 
 #animali #content-filter-button, #eventi #content-filter-button{
     display: flex;
-    /* margin:auto; */
-    gap:1em;
+    margin:auto;
+    gap:0.5em;
     height: fit-content;
 }
 
@@ -1830,10 +2064,10 @@ input:-webkit-autofill:active{
     flex-wrap: wrap;
     justify-content: left; 
     margin-top: 1em;
-    margin-bottom: 2em;
 }
 
-#animali .cards-container:has(.errore) {
+#animali .cards-container:has(.errore),
+#eventi .cards-container:has(.errore) {
     justify-content: center; 
 }
 
@@ -1845,7 +2079,7 @@ input:-webkit-autofill:active{
 
 #animali li.card, #animali li.dark-card {
     width: 11em;
-    height: 14em;
+    height: 16em;
     margin: 0.5em;
     border-radius: 0.2em;
     position: relative;
@@ -1862,21 +2096,19 @@ input:-webkit-autofill:active{
 
 
 #animali li.card:hover{
-    /* background-color: var(--bgcolor); */
-    border-color: var(--buttoncolor-hover); /* colore evidenziato */
     box-shadow: 0 6px 14px rgba(0,0,0,0.3);
-    border: 3px solid var(--buttoncolor-hover);
+    border: 3px solid var(--cardHover);
 }
 
 #animali li.card article, #animali li.dark-card article {
     /* width: 11em; */
-    height: 14em;
+    height: 16em;
     overflow: hidden;
     align-items: center;
 }
 
 #animali .immagine {
-    height: 60%;
+    height: 65%;
     width: 100%;
     align-content: center;
     /* overflow: hidden; */
@@ -1906,6 +2138,10 @@ input:-webkit-autofill:active{
     white-space: nowrap;      /* testo su una sola riga */
     overflow: hidden;         /* taglia il testo che esce dal box */
     text-overflow: ellipsis;  /* aggiunge "..." alla fine */
+}
+
+#nav-animali-type ~ #animali .card .nome,#nav-animali-type ~ #animali .dark-card .nome{
+    width: 100%;
 }
 
 #animali .card .sesso-etaDesk,
@@ -1986,7 +2222,7 @@ input:-webkit-autofill:active{
     /* float: right; */
 }
 
-#animali .card .cuore, #animali .dark-card .cuore {
+#animali .card .cuore {
     display: flex;
     justify-content: end;
 }
@@ -1998,8 +2234,6 @@ input:-webkit-autofill:active{
 }
 
 /* hover */
-
-
 #animali .not-favorite:hover .heart-hover, #preferiti .not-favorite:hover .heart-hover, #visualizzazione-animale .not-favorite:hover .heart-hover {
     opacity: 1;
 }
@@ -2175,6 +2409,11 @@ input:-webkit-autofill:active{
 
 /*=================PAGINA EVENTI======================*/
 
+#new-event-button{
+    margin-left: auto;
+    margin-right: 0;
+}
+
 #eventi #content-filter-button button {
     flex: 1 1 100%;
     min-width: 5em;
@@ -2189,11 +2428,6 @@ input:-webkit-autofill:active{
     width: 30%;
     text-align:center;
 }
-
-#eventi .filtri {
-    flex-wrap: wrap;
-}
-
 
 #eventi .filtri .capsula-filtro .data-range {
     /* display:contents; */
@@ -2264,19 +2498,9 @@ input:-webkit-autofill:active{
     min-width: 5.7em;
 }
 
-#eventi input[type="date"]::-webkit-calendar-picker-indicator {
-    position: absolute;
-    opacity: 0;
-    top: 0;
-    left: 0;
-    cursor: pointer;
-    
-    width: 100%;
-    height: 100%;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-    cursor: pointer;
+#eventi input[type="date"] {
+    appearance: none;
+    position: relative;
 }
 
 input[type="date"]{
@@ -2309,12 +2533,13 @@ cursor: pointer;
     display: none;
 }
 
-#eventi .evento, #visualizzazione-evento .evento {
+#eventi .evento {
     position: relative;
     list-style: none;
     width: 100%;
     height: 10em;
-    display: block;
+    /* display: block; */
+    min-width: 30em;
     padding-right: 1em;
     background-color: var(--darkbgcolor);
     /* border: 0.1em solid var(--darkbgcolor); */
@@ -2331,9 +2556,10 @@ cursor: pointer;
 #eventi .cards-container li, #visualizzazione-evento .cards-container li{
     border-radius: 0.5em;
     list-style: none;
-    width: 47%;
+    flex: 1 1 45%;
+    /* width: 47%; */
     height: 10em;
-    display: block;
+    /* display: block; */
     background-color: var(--darkbgcolor);
     margin: 0.5em;
 }
@@ -2360,14 +2586,19 @@ cursor: pointer;
     object-fit: contain;
 }
 
+#eventi .evento .posizione-evento img {
+    float: left;
+}
+
 #eventi .evento .posizione-evento {
-    float:left;
     gap: 0.2em;
-    margin-right: 0.6em;
     margin-top: 0.4em;
-    margin-bottom: 0.2em;
-    align-items: center;
-    display: flex;
+    max-width: calc(100% - 22em);
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: fit-content;
 }
 
 #eventi .evento .data-evento {
@@ -2394,23 +2625,41 @@ cursor: pointer;
 }
 
 #eventi .evento .descrizione-evento {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    /* -webkit-line-clamp: 4; */
     overflow: hidden;
     clear: right;
     max-width: 35em;
     text-align: left;
-    padding-top: 0.5em;
 }
-
-#eventi .evento h2, #visualizzazione-evento .evento h2 {
+#visualizzazione-evento .evento h2 {
     font-size: 1.3em;
     margin: 0.2em 0 0.2em 0;
+}
+ 
+#eventi .evento h2 {
+    font-size: 1em;
+    margin: 0 0 0.2em 0;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #eventi .evento .descrizione-evento p {
     margin: 0;
+    max-height: 4.2em;
+    overflow: hidden;
+    position: relative;
+}
+
+.descrizione-evento p.is-truncated::after {
+    content: "(continua...)";
+    position: absolute;
+    font-style: italic;
+    font-weight: 450;
+    bottom: -5px;
+    right: 0;
+    padding-left: 10px;
+    background: var(--darkbgcolor); 
 }
 
 #eventi .cards-container, #visualizzazione-evento .cards-container{
@@ -2488,9 +2737,9 @@ cursor: pointer;
     flex: 1 0 46%;
     padding: 1.8% 2%;
     height: 50px;
-    border-bottom: 1px solid var(--headercolor);
+    border-bottom: 1px solid var(--txtcolor);
     text-align: center;
-    
+    height: auto;
     margin:0;
     cursor: pointer; 
 }
@@ -2498,12 +2747,16 @@ cursor: pointer;
 #user-profile .tabs-container .tab-content, #admin-area .tabs-container .tab-content{
     flex: 1 0 50%;
     height: fit-content;
-    border-bottom: 1px solid var(--headercolor);
-    border-left: 1px solid var(--headercolor);
-    border-right: 1px solid var(--headercolor);
+    border-bottom: 1px solid var(--txtcolor);
+    border-left: 1px solid var(--txtcolor);
+    border-right: 1px solid var(--txtcolor);
     display: none; 
     padding: 1em;
     border-radius: 0 0 0.5em 0.5em;
+}
+
+#admin-area .tabs-container .tab-content{
+    padding: 0;
 }
 
 /* con questo se dezoommi richieste di adozione e animali senza amministratore il contenuto delle tab rimane giù */
@@ -2511,14 +2764,15 @@ cursor: pointer;
 flex: 1 0 100%;
 }
 #user-profile input:checked + label, #admin-area input:checked + label{
-    border-top: 1px solid var(--headercolor); 
-    border-left: 1px solid var(--headercolor); 
-    border-right: 1px solid var(--headercolor); 
+    border-top: 1px solid var(--txtcolor); 
+    border-left: 1px solid var(--txtcolor); 
+    border-right: 1px solid var(--txtcolor); 
     border-bottom:0;
     /* border-bottom: 1px solid var(--bgcolor); */
     border-radius: 0.5em 0.5em 0 0;
     font-weight: bold;
     z-index: 1;
+    height: auto;
 }
 
 #admin-area input:checked + label h2{
@@ -2549,6 +2803,10 @@ flex: 1 0 100%;
     display: none;
 }
 
+#animale-detailed-container #button-cancel,
+#animale-detailed-container button[name="delete-animale"],
+#user-info #button-cancel,
+#user-info button[name="delete-account"],
 #user-profile .tab-content form button,
 .logout-btn,
 #revisione-richiesta #button-cancel,
@@ -2556,12 +2814,29 @@ flex: 1 0 100%;
 .dialog-buttons label{
     border-radius: 2em;
     background-color: var(--buttoncolor);
-    color:var(--txtcolor);
+    color:var(--text-buttoncolor);
     padding: 0.5em 2em;
     transition: 0.3s;
     border:2px solid var(--buttoncolor);
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 600;
+}
+
+#dettaglio-animale #animale-detailed-container #button-cancel{
+    padding: 0.3em 1em;
+    border-radius: 2em;
+    position: absolute;
+    left:0;
+    top:0;
+    width: fit-content;
+    color:var(--txtcolor);
+}
+
+#dettaglio-animale #animale-detailed-container button[name="delete-animale"],
+#dettaglio-animale .generic-info-container label{
+    margin:0.5em 0;
+    width: fit-content;
+    padding: 0.5em 2em;
 }
 
 #user-profile .tab-content form button{
@@ -2577,20 +2852,26 @@ flex: 1 0 100%;
 
 #user-profile .tab-content form button:hover,
 .logout-btn:hover,
-#revisione-richiesta #button-cancel:hover,
-#revisione-richiesta button:hover{
+#animale-detailed-container #button-cancel:hover,
+#user-info #button-cancel:hover,
+#revisione-richiesta #button-cancel:hover{
     background-color:var(--bgcolor);
+    color:var(--hover-link);
+}
+
+#revisione-richiesta button:hover{
+    background-color:var(--form-bg);
 }
 
 
 
 #user-profile .tabs-container select,
 #profilo-richiedente .tabs-container select{
-    padding:0.5em;
+    padding: 0.5em 3em 0.5em 0.5em;
     background-color: var(--bgcolor);
     border-radius: 2em;
-    border-color: var(--text-buttoncolor);
-    color:var(--text-buttoncolor);
+    border-color: var(--txtcolor);
+    color:var(--txtcolor);
     margin:5px;
     font-size: 1em;
 }
@@ -2601,7 +2882,7 @@ flex: 1 0 100%;
 
 #user-info{
     padding: 2em 1em;
-    border:1px solid var(--headercolor);
+    border:1px solid var(--txtcolor);
     border-radius: 0.5em;
 }
 
@@ -2650,10 +2931,11 @@ flex: 1 0 100%;
     margin:0.5em auto 0 auto;
     border-radius: 2em;
     background-color: var(--buttoncolor-hover);
-    color:var(--bgcolor);
+    color:var(--light-txtcolor);
     padding: 3px 2em;
     transition: 0.3s;
     font-weight: 500;
+    border: 1px solid var(--txtcolor);
 }
 
 #user-profile #lista-movimenti li p+p,
@@ -2667,7 +2949,7 @@ flex: 1 0 100%;
     color:var(--txtcolor);
     padding: 1px 0.9em;
     transition: 0.3s;
-    border:2px solid var(--buttoncolor-hover);
+    border:2px solid var(--txtcolor);
 }
 
 #user-profile #lista-movimenti li a:hover,
@@ -2706,7 +2988,7 @@ flex: 1 0 100%;
 
 .view-mode .edit-profile-link{
     margin:0.5em auto;
-    background-color: var(--bglink-hover);
+    background-color: var(--modifiedAccount);
     padding: 0.5em 1em;
     color:var(--txtcolor);
     border-radius: 2em;
@@ -2714,13 +2996,13 @@ flex: 1 0 100%;
     width: fit-content;
     flex-wrap: nowrap ;
     text-decoration: none;
-    border:2px solid var(--bglink-hover);
+    border:2px solid var(--bordermodifiedAccount);
     transition: 0.4s;
     letter-spacing: 0.5px;
 }
 
 .view-mode .edit-profile-link:hover{
-    border:2px solid var(--bglink-hover);
+    border:2px solid var(--modifiedAccount);
     background-color: transparent;
 }
 
@@ -2769,9 +3051,11 @@ a:hover .hover-icon {opacity: 1;}
     gap: 10px;                 
 }
 
+#richiesta-adozione input[type="checkbox"],
 .checkbox-container-pic input[type="checkbox"],
 #home input[name="type-animal"],
 input#createMore,
+input#check-assegna,
 #form-add-animal .checkbox-label input[type="checkbox"]{
     appearance: none;
     width: 25px;
@@ -2779,19 +3063,33 @@ input#createMore,
     position: relative;
     top:5px;
     background-color: transparent;
-    border: 1px solid var(--txtcolor);
     cursor: pointer;
     margin: 0;
 }
 
-.checkbox-container-pic input[type="checkbox"],
+#home input[name="type-animal"],
+input#createMore,
+input#check-assegna,
+#richiesta-adozione input[type="checkbox"],
+#form-add-animal .checkbox-label input[type="checkbox"],
+.checkbox-container-pic input[type="checkbox"]{
+    border: 1px solid var(--text-form);
+}
+
 #home input[name="type-animal"]{
     border-radius: 2em;
 }
 
+#richiesta-adozione input[type="checkbox"],
+.checkbox-container-pic input[type="checkbox"],
 #form-add-animal .checkbox-label input[type="checkbox"],
+input#check-assegna,
 input#createMore{
     border-radius: 4px;
+}
+
+.sex-option input[type="radio"]:disabled{
+    cursor: auto;
 }
 
 .sex-option input[type="radio"]{
@@ -2801,15 +3099,22 @@ input#createMore{
     position: relative;
     top:5px;
     background-color: transparent;    
-    border: 1px solid var(--txtcolor);     
+    border: 1px solid var(--text-form);     
     border-radius: 2em;         
     cursor: pointer;
     margin: 0;      
 }
 
+.sex-option input[type="radio"]:checked:disabled{
+    background-color: var(--buttoncolor-hover);
+    border-color: var(--buttoncolor-hover);
+}
+
+#richiesta-adozione input[type="checkbox"]:checked,
 .checkbox-container-pic input[type="checkbox"]:checked,
 #home input[name="type-animal"]:checked,
 input#createMore:checked,
+input#check-assegna:checked,
 .sex-option input[type="radio"]:checked,
 #form-add-animal .checkbox-label input[type="checkbox"]:checked {
     background-color: var(--buttoncolor);   
@@ -2831,8 +3136,10 @@ input#createMore:checked,
     transition: 0.2s transform ease-in-out;
 }
 
+#richiesta-adozione input[type="checkbox"]::before,
 .checkbox-container-pic input[type="checkbox"]::before,
 input#createMore::before,
+input#check-assegna::before,
 #home input[name="type-animal"]::before,
 #form-add-animal .checkbox-label input[type="checkbox"]::before{
     content: "";
@@ -2865,9 +3172,11 @@ input#createMore::before,
     transition: 0.2s transform ease-in-out;
 }
 
+#richiesta-adozione input[type="checkbox"]:checked::before,
 .checkbox-container-pic input[type="checkbox"]:checked::before,
 #home input[name="type-animal"]:checked::before,
 input#createMore:checked:before,
+input#check-assegna:checked:before,
 .sex-option input[type="radio"]:checked::before,
 #form-add-animal .checkbox-label input[type="checkbox"]:checked::before {
     transform: scale(1);        
@@ -2895,10 +3204,11 @@ input#createMore:checked:before,
     margin-top:1em;
 }
 
-.edit-mode input[type="file"]{
-    background-color: var(--darkbgcolor);
+.edit-mode input[type="file"],
+div#admin-area input[type="file"]{
+    background-color: transparent;
     color: var(--text-buttoncolor);
-    border:none;
+    border:1px solid var(--text-form);
     border-radius: 2em;
     cursor: pointer;
 }
@@ -2914,14 +3224,19 @@ input[type="file"]::file-selector-button {
     cursor: pointer;
 }
 
+#user-info:has(.edit-mode){
+    background-color: var(--form-bg);
+    color:var(--text-form);
+}
+
 input[type="file"]::file-selector-button:hover {
-    background-color: var(--darkbgcolor);
+    background-color: var(--modifiedAccount);
+    color:var(--txtcolor);
 }
 
 .edit-mode form span,
 .edit-management form span,
 #form-add-animal .form-buttons-container,
-#form-edit-animal .form-buttons-container,
 #new-event .form-buttons-container{
     display: flex;
     flex-wrap: wrap;
@@ -2932,8 +3247,6 @@ input[type="file"]::file-selector-button:hover {
 .edit-mode form span button,
 .edit-management form span a,
 .edit-management form span button,
-#form-edit-animal button[name="submit-edit-animal"],
-#form-edit-animal a#cancel-edit-animal,
 #form-add-animal button[name="submit-animal"],
 #form-add-animal a#cancel-add-animal,
 #new-event button[name="submit-event"],
@@ -2950,7 +3263,6 @@ input[type="file"]::file-selector-button:hover {
 .edit-mode form span button,
 .edit-management form span button,
 #form-add-animal button[name="submit-animal"],
-#form-edit-animal button[name="submit-edit-animal"],
 #new-event button[name="submit-event"]{
     background-color: var(--buttoncolor);
     color:var(--text-buttoncolor);
@@ -2963,7 +3275,6 @@ input[type="file"]::file-selector-button:hover {
 .edit-mode form span a,
 .edit-management form span a,
 #form-add-animal a#cancel-add-animal,
-#form-edit-animal a#cancel-edit-animal,
 #new-event a#cancel-new-event{
     color:var(--text-buttoncolor);
     border:2px solid var(--buttoncolor);
@@ -2977,8 +3288,6 @@ input[type="file"]::file-selector-button:hover {
 .edit-management form span button:hover,
 #form-add-animal button[name="submit-animal"]:hover,
 #form-add-animal a#cancel-add-animal:hover,
-#form-edit-animal button[name="submit-edit-animal"]:hover,
-#form-edit-animal a#cancel-edit-animal:hover,
 #new-event button[name="submit-event"]:hover,
 #new-event a#cancel-new-event:hover
 {
@@ -2987,6 +3296,11 @@ input[type="file"]::file-selector-button:hover {
 }
 
 /* ================== REVISIONE RICHIESTA ==================*/
+
+
+.details-card-animale img{
+    max-height: 180px;
+}
 
 #revisione-richiesta h1{
     border-bottom:2px solid var(--footercolor);
@@ -3013,8 +3327,8 @@ input[type="file"]::file-selector-button:hover {
 #revisione-richiesta .details-card-animale{
     border:1px solid var(--txtcolor);
     border-radius:0.5em;
-    padding:1em;
-    margin-top:1em;
+    padding:1em 1em 1.5em 1em;
+    margin:1em 0;
 }
 
 #revisione-richiesta #info-request dl,
@@ -3098,8 +3412,9 @@ input[type="file"]::file-selector-button:hover {
 }
 
 .dialog-box {
-    background: var(--bgcolor);
+    background: var(--form-bg);
     padding: 2em;
+    color:var(--text-form);
     border-radius: 8px;
     max-width: 400px;
     text-align: center;
@@ -3113,6 +3428,10 @@ input[type="file"]::file-selector-button:hover {
     margin-top: 1.5em;
 }
 
+#animale-detailed-container #button-cancel,
+#animale-detailed-container button[name="delete-animale"],
+#user-info #button-cancel,
+#user-info button[name="delete-account"],
 #revisione-richiesta #button-cancel,
 #revisione-richiesta button{
     font-size: 1em;
@@ -3127,21 +3446,68 @@ input[type="file"]::file-selector-button:hover {
     padding:0.3em 2.7em;
 }
 
+#user-info .dialog-buttons label{
+    padding: 0.5em 2em;
+}
+
+#animale-detailed-container #button-cancel,
+#user-info .edit-management #button-cancel{
+    width: 100%;
+    text-align: center;
+    background-color: transparent;
+    border-radius: 1em;
+}
+
+#animale-detailed-container #button-cancel:hover,
+#user-info .edit-management #button-cancel:hover{
+    border-color: transparent;
+    color:var(--text-form);
+}
+
 .dialog-buttons label:hover,
+#animale-detailed-container button[name="delete-animal"]:hover,
+#user-info button[name="delete-account"]:hover,
 #revisione-richiesta button:hover{
     border-color:var(--bgcolor);
 }
 
+.dialog-buttons label[for="delete-animal-check"],
+.dialog-buttons label[for="delete-request-check"]{
+    background-color: var(--form-bg);
+    border-color:var(--buttoncolor);
+    color:var(--text-form);
+}
+
+.dialog-buttons label[for="delete-animal-check"]:hover,
+.dialog-buttons label[for="delete-request-check"]:hover{
+    border-color:transparent;
+    color:var(--text-form);
+}
+
+#button-cancel img{
+    display: inline-block;
+    margin:0 0 -5px 0;
+    width: 2em;
+    height:auto;
+}
+
+#delete-animal-check:disabled + #button-cancel:hover,
+#delete-animal-check:disabled + #button-cancel,
 #delete-request-check:disabled + #button-cancel:hover,
 #delete-request-check:disabled + #button-cancel{
-    background-color: var(--darkbgcolor);
-    border-color:var(--darkbgcolor);
+    background-color: var(--modifiedAccount);
+    border-color:var(--bordermodifiedAccount);
     color:var(--txtclose-request);
     cursor:default;
     font-weight: 500;
+    font-style: italic;
 }
 
-
+#animale-detailed-container .dialog-buttons button[name="delete-animale"]:hover,
+#user-info .dialog-buttons button[name="delete-request"]:hover,
+#revisione-richiesta .dialog-buttons button[name="delete-request"]:hover{
+    border-color:transparent;
+}
 /* ================== LOGIN ==================*/
 #container-image-login{
     flex: 0 1 50%;
@@ -3168,7 +3534,8 @@ input[type="file"]::file-selector-button:hover {
 }
 
 #login .container .column-container{
-    background-color: var(--bgcolor);
+    background-color: var(--form-bg);
+    color:var(--text-form);
     border-radius: 1.5em;
     padding:0;
     gap:0;
@@ -3182,6 +3549,14 @@ input[type="file"]::file-selector-button:hover {
 #form-login button{
     width: 80%;
     margin-top:3em;
+}
+
+#log-theme{
+    margin:auto 0 auto auto;
+}
+
+#log-theme-desktop{
+    margin:auto;
 }
 
 /* ================== CHI SIAMO ==================*/
@@ -3204,11 +3579,78 @@ input[type="file"]::file-selector-button:hover {
     width: 100%;
 }
 
+/* TABELLA ORARI CHI SIAMO */
+
+#orari-chi-siamo table#tabella-chi-siamo {
+    background-color: var(--secondsection);
+    color: var(--bgcolor);
+    max-width: 40em;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#orari-chi-siamo{
+    text-align: center;
+}
+
+#orari-chi-siamo h1 {
+    margin-bottom: 0.2em;
+}
+
+#orari-chi-siamo p {
+    margin-bottom: 0.5em;
+}
+
+#orari-chi-siamo table#tabella-chi-siamo tr {
+    height: 2em;
+}
+
+#orari-chi-siamo table#tabella-chi-siamo thead {
+    background-color: var(--headercolor);
+    color: var(--bgcolor);
+}
+
+#orari-chi-siamo table#tabella-chi-siamo tbody td {
+    background-color: var(--darkbgcolor);
+    color: var(--txtcolor);
+    border-bottom: 1px solid var(--headervisitedlink);
+}
+
+#orari-chi-siamo table#tabella-chi-siamo tbody td, #orari-chi-siamo table#tabella-chi-siamo thead th, #orari-chi-siamo table#tabella-chi-siamo tbody th{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 33.333%;
+}
+
+#orari-chi-siamo table#tabella-chi-siamo {
+    border: 1px solid var(--headervisitedlink);
+    border-bottom: none;
+}
+
+/* Celle pari */
+#orari-chi-siamo table#tabella-chi-siamo tbody td:nth-child(even),
+#orari-chi-siamo table#tabella-chi-siamo tbody th:nth-child(even) {
+    border-left: 1px solid var(--headervisitedlink);
+    border-right: 1px solid var(--headervisitedlink);
+}
+
+#orari-chi-siamo table#tabella-chi-siamo tbody td[colspan="2"]{
+    text-align: center;
+    border-right: none;
+}
+
+#orari-chi-siamo table#tabella-chi-siamo tbody th {
+    background-color: var(--headervisitedlink);
+    color: var(--bgcolor);
+    /* text-align: left; */
+}
+
 /* Sezione 2 Chi Siamo */
 
 #second-chapter-chi-siamo{
     background-color: var(--headercolor);
-    color:var(--bgcolor);
+    color:var(--light-txtcolor);
     margin-top: 1em;
 }
 
@@ -3224,9 +3666,6 @@ input[type="file"]::file-selector-button:hover {
     padding:2em 0;
     flex: 1 1 50%;
     margin:auto;
-    /* height: fit-content; */
-
-
 }
 
 
@@ -3249,7 +3688,7 @@ input[type="file"]::file-selector-button:hover {
     left: 10%;
     right: 10%;
     height: 2px;
-    background-image: linear-gradient(to right, var(--buttoncolor) 50%, transparent 50%);
+    background-image: linear-gradient(to right, var(--timeline-line) 50%, transparent 50%);
     background-size: 20px 100%;
     z-index: 0;
   }
@@ -3318,7 +3757,7 @@ input[type="file"]::file-selector-button:hover {
     background-repeat: no-repeat;
     background-position:top;
     height: fit-content;
-    color: var(--bgcolor);
+    color: var(--cat-txtcolor);
     padding: 3em;
     border-radius: 1em;
 }
@@ -3356,7 +3795,10 @@ input[type="file"]::file-selector-button:hover {
 body#admin-body{
     background-color: var(--footercolor);
     display: inline-block;
+    min-height: 100vh;
     width: 100%;
+    display: flex;
+    flex-direction: row;
 }
 
 body#admin-body #animali .filtri,
@@ -3386,7 +3828,6 @@ div#admin-area article h2{
 
 div#admin-area{
     padding: 0em 5em;
-    min-height: 100vh;
     margin-top: 2em;
 }
 
@@ -3397,13 +3838,13 @@ body#admin-body #breadcrumb{
 div#admin-area div#row2 article{
     margin-top:0em;
 }
+
 div#admin-area article:not(.card) { /*aggiunto il not(.card) perchè così visualizzo bene le card degli animali in "assegnati a te" di admin*/
   padding:1em 1em 1em 1em;
   border: 1px solid var(--txtcolor);
   border-radius:0.5em;
   margin: 2em 0em;
 }
-
 
 div#admin-area article#query, div#admin-area article#row2-container{
     padding: 2em 2em 0em 2em;
@@ -3433,8 +3874,8 @@ ul#to-do-list li, ul#statistics-list li{
 }
 
 ul#to-do-list li{
-     background-color: var(--buttoncolor);
-    }
+    background-color: var(--buttoncolor);
+}
     
 ul#statistics-list li{
     background-color: var(--darkbgcolor);
@@ -3442,7 +3883,7 @@ ul#statistics-list li{
 }
 #to-do-list a, #statistics-list a{
     width:100%; /*riempie tutto il li*/
-    color: var(--txtcolor);
+    color: var(--text-form);
     text-decoration: none;
     font-weight: normal;
 }
@@ -3464,8 +3905,9 @@ p.n-query{
 #mobile-account-hover
 { display: none; } /* Nascondi tasto su desktop */
 
-nav#menu-admin {
-    display: flex;
+header:has(#menu-admin) {
+    /* display: flex; */
+    flex:0 0 20%;
     flex-direction: column;
     transition: 0.3s;
     float: left;
@@ -3473,19 +3915,12 @@ nav#menu-admin {
     padding: 1em 0em 1em 1em;
     height: 100%;
     overflow: hidden;
-     font-size: 100%;
+    font-size: 100%; 
+    position: static;  
+
     /* height: 100vh; */
 }
-nav#menu-admin #logo{
-    display: block;
-    height: 7em;
-    margin: 1em auto;
-    max-width: 100%;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-image: url("../../assets/icons/light-mode-logo.svg");
-}
+
 nav#menu-admin li a {
     width: 100%;
     display: block;
@@ -3493,8 +3928,20 @@ nav#menu-admin li a {
 
 body#admin-body main {
     background-color: var(--bgcolor);
-    margin-left:20%;
+    overflow: hidden;
+    /* margin-left:20%; */
+    flex: 0 0 80%;
+    /* min-height: 100vh; */
 }
+
+nav#menu-admin #logo {
+    display: block;
+    margin: 1em auto;
+    width: 12em;
+    max-width: 100%;
+    height: auto;
+}
+
 
 nav#menu-admin li {
   padding: 1.1em 1.3em;
@@ -3510,13 +3957,12 @@ nav#menu-admin li a{
 
 nav#menu-admin button.logout-btn:hover{
     background-color: var(--buttoncolor-hover);
-    color:var(--text-buttoncolor-hover);
-    border-color: var(--buttoncolor-hover);
+    color:var(--light-txtcolor);
 }
 
 .description-menu{
     font-size: 1.3em;
-    border-bottom:1px solid var(--darkbgcolor);
+    border-bottom:1px solid var(--navButton);
     margin-right: 1em;
     margin-top: 2em;
 }
@@ -3536,7 +3982,7 @@ nav#menu-admin li a:visited{
 
 nav#menu-admin li:hover{
     /* background-color: var(--darkbgcolor); */
-    outline: 2px solid var(--bgcolor);
+    outline: 2px solid var(--navButton);
     border-radius: 2em 0em 0em 2em;
 }
 
@@ -3550,17 +3996,22 @@ nav#menu-admin li#currentLink:hover{
 
 nav#menu-admin li#currentLink a{
     font-weight: 700;
-    color: var(--txtcolor);
+    color: var(--navButton);
 }
 nav#menu-admin span{
-    color: var(--bgcolor);
+    color: var(--navButton);
     margin-left: 0.5em;
     font-weight: 700;
+}
+
+nav#menu-admin .orange-button{
+    margin: 0 auto 1em auto;
 }
 
 nav#menu-admin ul{
     margin-top:1em;
     margin-bottom: 1em;
+    list-style: none;
 }
 
 nav#menu-admin a#logout{
@@ -3581,6 +4032,11 @@ div#row2 article{
     flex-direction: column; /* Mette la testata SOPRA e le info SOTTO */
 }
 
+#admin-info:has(button){
+    color:var(--text-form);
+    background-color: var(--form-bg);
+}
+
 .header-info h2{
     float: left;
 }
@@ -3595,10 +4051,31 @@ a.pencil {
 .generic-info-container {
     display: flex;
     flex-wrap: wrap;
+    align-items: flex-start;
 }
 
+/* l'ho messo a sinistra apposta */
+.generic-info-container img {
+    margin:0 auto 0 0;
+}
+
+#admin-area h2#responsabile{
+    font-size: 1.5em;
+    font-weight: 600;
+    margin-top:0.3em;
+    background-color: var(--darkbgcolor);
+    padding: 0.3em 0.5em;
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+}
+
+/* #informazioni-admin{
+    width: 100%;
+} */
+
 .generic-info-container form{
-    max-width: 100%;
+    max-width: 90%;
+    margin:auto;
 }
 
 
@@ -3712,9 +4189,7 @@ a.pencil {
     margin: 0em auto 1em 0em;
 }
 #admin-area .tabs-container h2{
-    font-size: 1.1em;
-    color: var(--txtcolor);
-    font-weight: normal;
+    margin-bottom: 1em;
 }
 
 div#admin-area dt{
@@ -3745,8 +4220,10 @@ dt.data-error, .data-error+ dd{
     align-items: flex-start;
 }
 
-p#altre-richieste{
+em#note-richiesta{
+    margin-top: 1em;
     text-align: center;
+    display: block; /* per centrare*/
 }
 
 
@@ -3801,7 +4278,24 @@ div#admin-area div#animal-container{
 div#admin-area article#stato-trasporto{
     margin: 2em auto 1em 0em;
 } 
+div.button-group{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    margin-top: 1em;
+}
 
+div.button-group button{
+    flex: 1 1 20px;
+}
+
+div.button-group button[type="reset"]{
+    background-color: var(--darkbgcolor);
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--buttoncolor);
+    color: var(--txtcolor);
+}
 #top-container{
     display: flex;
     justify-content: flex-end;
@@ -3856,6 +4350,8 @@ div#admin-area article.note{
 
 .note pre {
     font-family: inherit;
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 
@@ -3882,6 +4378,257 @@ div#admin-area article.note{
     pointer-events: none;
 }
 
+/*================= DETTAGLI ANIMALI ADMIN ==================*/
+/* ============================================================
+   STRUTTURA PRINCIPALE (LAYOUT)
+   ============================================================ */
+#dettaglio-animale {
+    display: flex;
+    gap: 2em;
+    align-items: flex-start;
+}
+
+/* Box generico delle informazioni (Sinistra) */
+#dettaglio-animale article#animale-detailed-container {
+    border: 0.1em solid var(--txtcolor);
+    border-radius: 0.5em;
+    padding: 0 1.5em 1.5em 1.5em;
+    flex: 1 1 55%; /* Aumentato leggermente per dare spazio al contenuto affiancato */
+    min-width: 25em;
+}
+
+#dettaglio-animale button[name="delete-assignment"]{
+    width: 100%;
+    background-color: transparent;
+    border:2px solid var(--buttoncolor);
+    color:var(--txtcolor);
+}
+
+#dettaglio-animale button[name="delete-assignment"]:hover{
+    border-color: transparent;
+}
+
+/* Box delle richieste (Destra) */
+#dettaglio-animale #content-manage {
+    flex: 1 1 35%;
+    margin-top: 2em;
+}
+
+#dettaglio-animale #visualizza-richieste-animale{
+    border: 0.1em solid var(--txtcolor); 
+    border-radius: 0.5em;
+    padding: 1em;
+}
+
+#dettaglio-animale #start-requests ul{
+    border: none;
+}
+
+/* ============================================================
+   SEZIONE INFO ANIMALE (FOTO E TESTO AFFIANCATI)
+   ============================================================ */
+#dettaglio-animale .generic-info-container {
+    display: flex;
+    flex-direction: column; /* Forza l'affiancamento */
+    align-items: center;
+    gap: 2em;
+    position: relative;
+    padding-top: 2em; /* Spazio per il pulsante matita */
+}
+
+#dettaglio-animale .generic-info-container .text-details{
+    width: 100%;
+    column-count: 2;
+    border-bottom: 1px solid var(--cardHover);
+    padding-bottom: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+#dettaglio-animale .generic-info-container img.square-foto {
+    width: 15em;
+    height: 15em;
+    object-fit: cover;
+    border-radius: 0.5em;
+    margin-top: 1em;
+    box-shadow: 0 0.25em 0.625em rgba(0,0,0,0.2);
+    margin-top: 1em;
+}
+
+#dettaglio-animale .text-details {
+    flex: 1; /* Il testo occupa lo spazio rimanente accanto alla foto */
+}
+
+/* Pulsante Matita (Modifica) */
+#dettaglio-animale .edit-btn-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#sezione-note a#edit-note img,
+.edit-admin-info img,
+#dettaglio-animale a.pencil img {
+    height: auto;
+    width: 3em;
+    transition: transform 0.2s ease;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    transition: 0.4s;
+    border:2px solid transparent;
+}
+
+#sezione-note a#edit-note img:hover{
+    border-color: var(--txtcolor);
+}
+
+#sezione-note a#edit-note img{
+    margin-top: -0.5em;
+}
+
+.edit-admin-info img:hover,
+#dettaglio-animale a.pencil img:hover {
+    border-color: var(--darkbgcolor);
+}
+
+/* ============================================================
+   SEZIONE TABS E FILTRI (RICHIESTE)
+   ============================================================ */
+#dettaglio-animale .tabs-container legend {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 0.8em;
+    padding: 0; /* Titolo attaccato al margine sinistro */
+    display: block;
+    width: 100%;
+}
+
+/* Fieldset - ALLINEAMENTO SOTTO AL TITOLO */
+#dettaglio-animale .tabs-container fieldset {
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start; 
+    border: none; 
+    padding: 0 ; 
+    margin: 0;
+    width: auto;
+}
+
+#dettaglio-animale .tabs-container select {
+    min-width: 12em;
+    border: 0.1em solid var(--buttoncolor);
+    background-color: var(--buttoncolor);
+    color: var(--txtcolor);
+    padding: 0.5em 2.5em 0.5em 1em;
+    border-radius: 1.5em;
+    cursor: pointer;
+    box-sizing: border-box; 
+    margin-bottom: 1em;
+}
+
+/* RESET COLORI TENDINA APERTA */
+#dettaglio-animale .tabs-container option {
+    background-color: var(--bgcolor); /* Sfondo della lista aperta diverso dalla tendina chiusa */
+    color: var(--txtcolor);
+}
+
+/* ============================================================
+   LISTA CARD RICHIESTE E RESET
+   ============================================================ */
+#visualizza-richieste-animale .tabs-container,
+#visualizza-richieste-animale .tabs-container fieldset,
+#visualizza-richieste-animale .tabs-container ul {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+#dettaglio-animale .tabs-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.5em 0 0 0;
+    width: 100%;
+}
+
+#dettaglio-animale .tabs-container li.richiesta-card {
+    background-color: var(--darkbgcolor);
+    border-radius: 1.5em; 
+    padding: 1.2em 1.5em;
+    margin-bottom: 1em;
+    border: none;
+}
+
+#dettaglio-animale .tabs-container .card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
+}
+
+/* Bottone Vedi Richiesta */
+#dettaglio-animale .tabs-container a.btn-vedi-richiesta {
+    padding: 0.5em 1.5em;
+    text-decoration: none;
+    color: var(--buttoncolor); 
+    font-weight: 400; 
+    background-color: var(--darklinkcolor); 
+    border: 0.0625em solid var(--darklinkcolor); 
+    border-radius: 1.5em;
+    font-size: 0.9em;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+/* Selettore specifico per non intaccare altre liste del sito */
+#visualizza-richieste-animale .tab-content {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+/* Stile della card specifica per questa sezione */
+#visualizza-richieste-animale .richiesta-card {
+    border-radius: 12px;
+    margin-bottom: 12px;
+    padding: 15px 20px;
+}
+
+/* Layout flex solo per le card in questa sezione */
+#visualizza-richieste-animale .card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px; /* Spazio minimo tra testo e bottone */
+}
+
+#visualizza-richieste-animale .card-content p {
+    margin: 0;
+    color: #3d1411;
+    font-size: 1rem;
+}
+
+/* Il bottone specifico */
+#visualizza-richieste-animale .btn-vedi-richiesta {
+    background-color: var(--cardHover);
+    color: var(--visitedcolor);
+    padding: 8px 18px;
+    border-radius: 20px;
+    text-decoration: underline;
+    font-weight: bold;
+    white-space: nowrap; /* Impedisce al bottone di andare a capo */
+}
+
+/* Gestione visibilità Tab tramite i radio button */
+/*#visualizza-richieste-animale .tab-content { display: none; }*/
+
+#anim-tab1:checked ~ #start-requests .content-tab1,
+#anim-tab2:checked ~ #start-requests .content-tab2,
+#anim-tab3:checked ~ #start-requests .content-tab3,
+#anim-tab4:checked ~ #start-requests .content-tab4,
+#anim-tab5:checked ~ #start-requests .content-tab5,
+#anim-tab6:checked ~ #start-requests .content-tab6 {
+    display: block;
+}
+
 /*================= RICHIESTE DI ADOZIONE ==================*/
 
 
@@ -3904,7 +4651,7 @@ footer a{
 
 
 thead th, tfoot th, tfoot td {
-    padding: 0.5em 2em;
+    padding: 0.5em 0.5em;
     text-align: left;
 }
 
@@ -3917,11 +4664,20 @@ thead tr:first-child th:last-child {
 }
 
 tbody td, tbody th {
-    padding: 0em 2em;
+    padding: 0em 0.5em;
     text-align: left;
     border-bottom: 1px solid var(--txtcolor);
 }
+tbody tr th,thead tr th:first-child{
+    padding-left:2em;
+}
 
+td.col-dettagli{
+    padding: 0;
+}
+.col-dettagli img{
+    vertical-align: middle;
+}
 tbody tr:last-child td, 
 tbody tr:last-child th {
     border-bottom: none;
@@ -3940,8 +4696,31 @@ caption {
     overflow: hidden;
 }
 
+td.col-dettagli a:hover img{
+    filter: brightness(0) saturate(100%) invert(8%) sepia(45%) saturate(5833%) hue-rotate(348deg) brightness(95%) contrast(96%);
+}
+
 td.col-dettagli a,td.col-dettagli button{
     margin: 0.5em;
+    width: fit-content;
+    /* min-width: 10.5em; */
+}
+
+td.col-dettagli a:hover img{
+    filter: brightness(0) saturate(100%) invert(8%) sepia(45%) saturate(5833%) hue-rotate(348deg) brightness(95%) contrast(96%);
+}
+#admin-area #animali tbody .orange-button[name="elimina_segnalazione"]{
+    background-color: transparent;
+    border: 2px solid var(--buttoncolor);
+    color:var(--txtcolor);
+    padding:0.6em 1.5em;
+    transition: 0.3s;
+}
+
+#admin-area #animali tbody .orange-button[name="elimina_segnalazione"]:hover, div.button-group button[type="reset"]:hover{
+    background-color: transparent;
+    border: 2px solid transparent;
+        border-color: var(--bgcolor);
 }
 
 .nessun-risultato-message{
@@ -3951,10 +4730,10 @@ td.col-dettagli a,td.col-dettagli button{
     display: block;
 }
 
-tr:hover {
+/* l'ho tolto perché la riga non era cliccabile */
+/* tr:hover {
     background-color: var(--darkbgcolor);          
-}
-
+} */
 
 /*================== ANIMALI ASSEGNATI A TE ADMIN  ==================*/
 
@@ -3968,6 +4747,7 @@ div#admin-area .container#animali .filtri ul{
 div#admin-area #animali .filtri ul{
     justify-content: flex-end;
 }
+
 /*================== FILTRI  ==================*/
 .tab-content .filtri ul{
     /* margin: 1em; */
@@ -3981,13 +4761,28 @@ div#admin-area #animali .filtri ul{
     display: inline;
 }
 
-/*==================NUOVO Animale==================*/
+/*==================NUOVO Animali==================*/
+
+#form-add-animal input:disabled+.radio-card{
+    cursor:auto;
+}
+
+#form-add-animal input:checked+.radio-card{
+    background-color: var(--buttoncolor-hover);
+    color:var(--light-txtcolor);
+    border-color: var(--text-buttoncolor);
+}
+
+#form-add-animal input:disabled:not(input:checked)+.radio-card:hover{
+    background-color: var(--selectTypeAnimal);
+    border-color: var(--text-buttoncolor);
+    color:var(--text-form);
+}
 
 /* ========================================
    CONTAINER PRINCIPALE
    ======================================== */
 #admin-area-aggiungi,
-#admin-area-modifica,
 #nuovo-evento {
     margin-top:-6em;
     display: flex;
@@ -4005,9 +4800,9 @@ div#admin-area #animali .filtri ul{
    FORM BASE
    ======================================== */
 #form-add-animal,
-#form-edit-animal,
 #new-event {
-    background-color: var(--bgcolor);
+    background-color: var(--form-bg);
+    color:var(--text-form);
     width: 95%;
     max-width: 950px;
     padding: 3em 4em;
@@ -4018,7 +4813,6 @@ div#admin-area #animali .filtri ul{
 }
 
 #form-add-animal fieldset,
-#form-edit-animal fieldset,
 #new-event fieldset {
     margin-bottom: 1em;
     border: none;
@@ -4026,7 +4820,6 @@ div#admin-area #animali .filtri ul{
 }
 
 #form-add-animal legend,
-#form-edit-animal legend,
 #new-event legend {
     float: left;
     width: 100%;
@@ -4036,9 +4829,63 @@ div#admin-area #animali .filtri ul{
     border-top:2px solid var(--darkbgcolor);
 }
 
-#form-add-animal fieldset:first-of-type legend,
-#form-edit-animal fieldset:first-of-type legend{
+#form-add-animal fieldset:first-of-type legend{
     margin-top:1.5em;
+}
+
+/* Reset del fieldset */
+#fieldset-assegnazione {
+    border: none;
+    padding: 0;
+    margin: 1em 0; 
+}
+
+/* Allineamento della legend */
+.legend-content {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75em; 
+    cursor: pointer;
+    line-height: 1.5;
+}
+
+/* Stile del quadratino personalizzato */
+#check-assegna {
+    appearance: none;
+    width: 1.4em;  /* Circa 22px */
+    height: 1.4em; /* Circa 22px */
+    cursor: pointer;
+    position: relative;
+    border-radius: 0.25em; /* Circa 4px */
+    transition: all 0.3s ease;
+    
+    /* COLORE QUANDO NON CLICCATO */
+    background-color: var(--bgcolor); 
+    border: 0.1em solid var(--text-form); /* Circa 2px */
+}
+
+/* Effetto al passaggio del mouse */
+#check-assegna:hover {
+    border-color: var(--buttoncolor-hover);
+}
+
+/* COLORE QUANDO CLICCATO */
+#check-assegna:checked {
+    background-color: var(--buttoncolor); 
+    border-color: var(--buttoncolor);
+}
+
+/* Il segno di spunta bianco */
+#check-assegna:checked::after {
+    content: '';
+    position: absolute;
+    left: 0.375em;    /* Circa 6px */
+    top: 0.125em;     /* Circa 2px */
+    width: 0.375em;   /* Circa 6px */
+    height: 0.6875em; /* Circa 11px */
+    border: solid #ffffff;
+    border-width: 0 0.1875em 0.1875em 0; /* Spessore spunta circa 3px */
+    transform: rotate(45deg);
 }
 
 /* ========================================
@@ -4063,7 +4910,7 @@ div#admin-area #animali .filtri ul{
     padding: 0.5em 5em;
     min-width: 150px;
     border: 2px solid var(--text-buttoncolor);
-    background-color: var(--darkbgcolor);
+    background-color: var(--selectTypeAnimal);
     border-radius: 0.5em;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -4072,7 +4919,7 @@ div#admin-area #animali .filtri ul{
 }
 
 .radio-card:hover {
-    color: var(--bgcolor);
+    color: var(--form-bg);
     background-color: var(--buttoncolor-hover);
 }
 
@@ -4086,7 +4933,7 @@ div#admin-area #animali .filtri ul{
 /* ========================================
    RADIO BUTTONS - SESSO
    ======================================== */
-#form-add-animal,
+#form-add-animal p+p.sex-title,
 #form-edit-animal p+p.sex-title {
     font-weight: 550;
     /* display: inline-block; */
@@ -4111,7 +4958,7 @@ div#admin-area #animali .filtri ul{
     transition: all 0.3s ease;
 }
 
-#form-add-animal,
+#form-add-animal label.sex-option,
 #form-edit-animal label.sex-option{
     margin:0;
 }
@@ -4120,24 +4967,26 @@ div#admin-area #animali .filtri ul{
    LABELS
    ======================================== */
 #form-add-animal label,
-#form-edit-animal label,
 #new-event label,
 #form-add-animal #label-foto,
-#form-edit-animal #label-foto,
 #new-event #label-foto{
     font-weight: 500;
     display: block;
     margin: 1.5em 0 0 0;
 }
 
+#richiesta-adozione label{
+    font-weight: 500;
+    display: block;
+    margin: 0.3em 0 0 0;
+}
+
 #form-add-animal label.file-upload-label,
-#form-edit-animal label.file-upload-label,
 #new-event label.file-upload-label{
     margin: 0;
 }
 
-#form-add-animal .checkbox-label input[type="checkbox"],
-#form-edit-animal .checkbox-label input[type="checkbox"]{
+#form-add-animal .checkbox-label input[type="checkbox"]{
     margin-left: 0.5em;
 }
 
@@ -4146,8 +4995,6 @@ div#admin-area #animali .filtri ul{
    ======================================== */
 #form-add-animal input[type="text"],
 #form-add-animal input[type="date"],
-#form-edit-animal input[type="text"],
-#form-edit-animal input[type="date"],
 #new-event input[type="text"],
 #new-event input[type="date"]{
     display: block;
@@ -4156,20 +5003,18 @@ div#admin-area #animali .filtri ul{
     border-radius: 0.2em;
     font-size: 1em;
     font-family: inherit;
-    background-color: var(--bgcolor);
-    color: var(--buttoncolor-hover);
+    background-color: var(--form-bg);
+    color: var(--text-form);
     transition: all 0.3s ease;
 }
 
 #form-add-animal input[type="text"],
-#form-edit-animal input[type="text"],
 #new-event input[type="text"]{
     padding: 0.55em;
     margin:0;
 }
 
 #form-add-animal input[type="date"],
-#form-edit-animal input[type="date"],
 #new-event input[type="date"] {
     margin:0;
     padding: 0.5em;
@@ -4182,15 +5027,15 @@ div#admin-area #animali .filtri ul{
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.1);
 } */
 
+#richiesta-adozione .checkbox-description,
+#richiesta-adozione input::placeholder,
+#richiesta-adozione textarea::placeholder,
 #new-event input::placeholder,
 #new-event textarea::placeholder,
 #form-add-animal input::placeholder,
 #form-add-animal select::placeholder,
-#form-add-animal textarea::placeholder,
-#form-edit-animal input::placeholder,
-#form-edit-animal select::placeholder,
-#form-edit-animal textarea::placeholder{
-    color:var(--placeholder-text);
+#form-add-animal textarea::placeholder{
+    color:var(--placeholderForm-tex);
     font-weight: lighter;
     font-size: 0.9em;
 }
@@ -4198,8 +5043,7 @@ div#admin-area #animali .filtri ul{
 /* ========================================
    SELECT (TAGLIA E PELO)
    ======================================== */
-#form-add-animal select,
-#form-edit-animal select {
+#form-add-animal select {
     /* display: block;
     width: 100%;
     padding: 0.5em;
@@ -4213,10 +5057,10 @@ div#admin-area #animali .filtri ul{
     /* transition: all 0.3s ease;
     font-family: "Parkinsans", Roboto, sans serif; */ 
     padding:0.5em 2em 0.5em 0.5em;
-    background-color: var(--bgcolor);
+    background-color: var(--form-bg);
     border-radius: 2em;
     border-color: var(--text-buttoncolor);
-    color:var(--text-buttoncolor);
+    color:var(--text-form);
     margin:0;
     width: 100%;
     min-height: 44px;
@@ -4227,8 +5071,8 @@ div#admin-area #animali .filtri ul{
 /* ========================================
    TEXTAREA
    ======================================== */
+#richiesta-adozione textarea,
 #form-add-animal textarea,
-#form-edit-animal textarea,
 #new-event textarea {
     display: block;
     width: 100%;
@@ -4237,8 +5081,8 @@ div#admin-area #animali .filtri ul{
     border-radius: 0.2em;
     font-size: 1em;
     font-family: inherit;
-    background-color: var(--bgcolor);
-    color: var(--txtcolor);
+    background-color: var(--form-bg);
+    color: var(--text-form);
     resize: vertical;
     transition: all 0.3s ease;
 }
@@ -4273,7 +5117,7 @@ div#admin-area #animali .filtri ul{
 
 .file-upload-label:hover {
     border-color: var(--buttoncolor-hover);
-    background-color: var(--darkbgcolor);
+    background-color: var(--selectTypeAnimal);
     text-decoration: underline;
 }
 
@@ -4324,7 +5168,7 @@ div#admin-area #animali .filtri ul{
     color: var(--buttoncolor-hover);
 }
 
-.transport-wrapper {
+.transport-wrapper{
     display: flex;
     justify-content: center;
 }
@@ -4345,52 +5189,6 @@ div#admin-area #animali .filtri ul{
     border-radius: 0.5em;
     text-align: center;
 }
-
-.disabled-group {
-    opacity: 0.6;
-    pointer-events: none; /* Impedisce click accidentali */
-    cursor: not-allowed;
-}
-
-.disabled-group .radio-card {
-    border-style: dashed; /* Rende visivamente diverso il bordo */
-}
-
-/* .checkbox-label input[type="checkbox"] {
-    width: 1.1em;
-    height: 1.1em;
-    accent-color: var(--buttoncolor-hover);
-} */
-
-/* .form-buttons-container {
-    display: flex;
-    gap: 1.5em;
-    width: 100%;
-    margin-top: 2.5em;
-    justify-content: center;
-}
-
-.form-buttons-container button {
-    flex: 1;
-    padding: 1em;
-    font-size: 1.1em;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border-radius: 0.8em;
-    text-align: center;
-} */
-
-/* .form-buttons-container .white-button {
-    background-color: var(--bgcolor);
-    color: var(--headervisitedlink);
-    border: 3px solid var(--headervisitedlink);
-}
-
-.form-buttons-container .white-button:hover {
-    background-color: var(--headervisitedlink);
-    color: var(--bgcolor);
-} */
 
 /* ========================================
    MESSAGGI DI ERRORE
@@ -4543,7 +5341,7 @@ nav#breadcrumb{
     text-align: center;
     width: fit-content;
     background-color: var(--footercolor);
-    color: var(--bgcolor);
+    color: var(--light-txtcolor);
     padding: 0.7em 1.5em;
     border-radius: 1em;
     font-weight: 400;
@@ -4563,36 +5361,9 @@ nav#breadcrumb a:visited{
 }
 
 
+
 /*================VISUALIZZAZIONE ANIMALI ==================*/
-/* .contattaci{
-    background-color: var(--secondsection);
-    border-radius: 2em;
-    display: inline;
-    text-decoration: none;
-    text-align: center;
-    height: min-content;
-    padding: 0.6em;
-    margin-left: auto;
-}
 
-.contattaci:hover {
-    background-color: var(--buttoncolor-hover);
-    text-decoration:underline; 
-}
-.contattaci:visited{
-    background-color: var(--headerlink);
-}  
-
-
-@media (max-width: 550px) { 
-    .contattaci {
-        margin-right: auto;
-        order: -1;       
-  }
-  #titolo-dettagli-animale{
-   align-self: center;
-} 
-}*/
 #visualizzazione-animale .column-container{
     gap:2em;
 }
@@ -4600,15 +5371,38 @@ nav#breadcrumb a:visited{
     margin-bottom: 2em;
 }
 
-#visualizzazione-animale #titolo-dettagli-animale{
-    font-size: 1.8em;
-    margin-bottom: 1em;
+#richiesta-adozione input[type="checkbox"] + label[for='trasporto']{
+    margin: 0;
+}
+
+#richiesta-adozione legend{
+    padding-top:0;
+    border-bottom: 2px solid var(--darkbgcolor);
+    text-align: center;
+    font-size: 1.2em;
+}
+
+#richiesta-adozione fieldset:last-of-type legend{
+    padding-top:1em;
+}
+
+#richiesta-adozione legend + p{
+    font-style: italic;
+}
+
+#richiesta-adozione textarea{
+    max-height: 120px;
+}
+
+#checkbox-trasporto-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px; 
 }
 
 #visualizzazione-animale #interessamento-animale{
     background-color: var(--darkbgcolor);
     text-align: center;
-    /* font-weight: 600; */
     padding: 0.6em;
     border: 6em 6em;
     width: 100%;
@@ -4679,12 +5473,18 @@ nav#breadcrumb a:visited{
         margin-top: 1em;
 }
 #visualizzazione-animale #foto-animale{
-    max-width:19em;
+    max-width:50%;
+    min-width: 300px;
+    max-height: 200px;
+    margin-right:auto;
     width: auto;
     height: auto;
     object-fit: contain;
 }
 
+#info-aggiuntive-separate dl dd{
+    margin-bottom: 0.5em;
+}
 
 #visualizzazione-animale .dettagli-animale dt {
     float: left;
@@ -4700,41 +5500,101 @@ nav#breadcrumb a:visited{
     margin-bottom: 0.5em;
 }
 
+#indirizzo-incompleto{
+    margin-bottom: 1em;
+}
+
 
 /* SEZIONE FINALE IN CASO DI NO ACCESSO */
 #contatta-rifugio{
-    background-color: var(--darkbgcolor);
+    border-top:2px solid var(--darkbgcolor);
+    border-bottom:2px solid var(--darkbgcolor);
     padding: 1.5em;
     margin-bottom: 2em;
     text-align: center;
-    font-style: oblique;
+    font-style: italic;
     font-weight: 400;
+}
+
+#contatta-rifugio a{
+    color:var(--darklinkcolor);
+}
+
+#contatta-rifugio a:visited{
+    color:var(--headervisitedlink);
 }
 
 
 /* SEZIONE FORM RICHIESTA ADOZIONE */
-#richiesta-adozione {
-    background-color: var(--bgform);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding:3.5em;
+
+#richiesta-adozione{
+    background-color: var(--secondsection);
+    margin-bottom:-3em;
+    padding-bottom:10em;
+    background-repeat: repeat;
+    background-size: contain;
+    padding: 1.5em 2em;
+    display: none;
+    overflow: hidden; /*mi serve per fare l'animazione in js, lasciatemelo pls*/
+}
+
+/* anche questa mi serve per il js, non toccare */
+#richiesta-adozione.bg-active {
     background-image: url('../../assets/images/bg-pow.svg');
     background-repeat: repeat;
     background-size: contain;
-
 }
 
-#richiesta-adozione .column-container {
-    background-color: var(--bgcolor);
-    max-width: 70em;
-    width: 100%;
-    display: flex;
-    gap: 2em;
-    padding: 1.5em 2em; 
-    border-radius: 0.9em; 
+#compila-form-adozione>summary{
+    margin:0 0 1em auto;
+    cursor: pointer;
+}
+
+/* questo mi serve per la freccetta personalizzata */
+#compila-form-adozione>summary {
+    position: relative;
+    padding-left: 3em; 
+}
+
+/* sto mettendo la freccia da un'altra parte rispetto ai bottoni della timeline, non riesco a riutilizzarlo 
+angelac*/
+#compila-form-adozione > summary::before {
+    content: '';
+    display: block;
+    position: absolute;   
+    left: 1.5em;
+    top: 50%;
+    width: 10px;  
+    height: 10px;
+    border-right: 2px solid var(--text-form); 
+    border-bottom: 2px solid var(--text-form);
     
+    transform: translateY(-70%) rotate(45deg); 
     
+    transition: transform 0.3s ease; 
+    pointer-events: none; 
+}
+/* gira la freccia, anche questo non riutilizzabile per il top che c'è nell'altro */
+#compila-form-adozione[open] > summary::before{
+    transform: translateY(-30%) rotate(225deg);
+}
+
+div:has(#compila-form-adozione[open]) + #richiesta-adozione{
+    display: block;
+}
+
+#content-form{
+    width: 90%;
+    margin: 0 auto;
+    background-color: var(--form-bg);
+    color:var(--text-form);
+    padding: 2em;
+    border-radius: 1em;
+}
+
+#richiesta-adozione form {
+    background-color: var(--form-bg);
+    color:var(--text-form);
 }
 
 #richiesta-adozione .column-user {
@@ -4746,235 +5606,32 @@ nav#breadcrumb a:visited{
     width: 100%;
 }
 
-
-#richiesta-adozione form {
-    min-width: 0;
-    
-}
-
-
 #richiesta-adozione fieldset {
-    border: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em; 
-    min-width: 0;
-    padding: 0;
-    margin: 0;
-
-}
-
-#richiesta-adozione #legenda-richiesta-adozione{
-    font-weight: 600;
-    font-size: 1.3em;
-    font-weight: 500;
-    text-align: center;
-    width: 100%;
-    padding-top: 0em;
-}
-
-#richiesta-adozione label {
-    padding-top: 0.3em;
-    font-weight: 400;
-
- } 
-
-
-
-#richiesta-adozione input[type="text"]{
-    padding: 0.5em;
-    border-radius: 2.1em;
-    border: 0.1em solid #776B6B; 
-    resize: vertical;
-    background-color: var(--bgcolor);
-    font-family: inherit;
-
-}
-
-#richiesta-adozione textarea {
-    padding: 0.5em;
-    border-radius: 0.5em;
-    border: 0.1em solid #776B6B; 
-    background-color: var(--bgcolor);
-    resize: vertical;
-    font-family: inherit;
-    width: 100%;
-    display: block;
-
-
-}
-
-#richiesta-adozione .checkbox-group {
-    display: flex;
-    flex-wrap: nowrap;
-
-    gap: 0.5em; 
-    padding-top: 1em;
-}
-
-    
-
-#richiesta-adozione .checkbox-group label {
-    display: flex;
-    flex:1 1 90%;
-    flex-direction: column;
-    padding-top: 0;
-    cursor: pointer;}
-
-    #richiesta-adozione .checkbox-description {
-    color: #666666;
-    line-height: 1.4;
-    margin-top: 0.1em;
-}
-
-
-#richiesta-adozione input[type="checkbox"] {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 25px;
-    background-color: transparent;    
-    border: 1px solid var(--txtcolor);     
-    border-radius: 4px;         
-    cursor: pointer;
-    margin: 0;     
-    position: relative;
-
-}
-
-#richiesta-adozione input[type="checkbox"]:checked {
-    background-color: var(--buttoncolor);   
-    border-color: var(--buttoncolor);  
-}
-
-#richiesta-adozione input[type="checkbox"]::before {
-    content: "";
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    top:4px;
-    left:4px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
-    background-size: contain;
-    background-repeat: no-repeat;
-    transform: scale(0);
-    transition: 0.2s transform ease-in-out;
-}
-
-#richiesta-adozione input[type="checkbox"]:checked::before {
-    transform: scale(1);        
+    padding:0.5em;
 }
 
 #richiesta-adozione .orange-button {
     width: 100%;
+    margin-top:1em;
 }
 
-#richiesta-adozione #new-address{
+#richiesta-adozione input[type="checkbox"]{
+    padding-right: 0.5em;
+}
+
+#richiesta-adozione input{
     width: 100%;
 }
 
-#richiesta-adozione #indirizzo-row {
+#richiesta-adozione #indirizzo-row{
     display: flex;
+    gap:1em;
 }
 
-#richiesta-adozione #indirizzo-row #new-city {
-    width: 90%;
-}
-
-#richiesta-adozione #indirizzo-row #new-cap{
-    max-width: 8em;
-}
-
-#richiesta-adozione .checkbox-text {
-    display: flex;
-    align-items: left;
-    flex-direction: column;
-     }
-
-#trasporto-container .column-container{
-    gap: 0.9em;
-    padding:0;
-}
-#richiesta-adozione .fieldset-indirizzo legend{
-   text-align: left;
-   width: 100%;
-   font-size: 1rem;
-   padding-top: 0.1em;
-}
-/* ================== CHI SIAMO ==================*/
-
-#second-chapter-chi-siamo{
-    margin-top: 1em;
-}
-#first-chapter-chi-siamo .column-container{
-    align-items: center;
-}
-
-#chi-siamo-content {
-    flex: 1 1 50%;
-}
-#chi-siamo-img{
-    flex: 0 1 40%;
-}
-
-#chi-siamo-img img{
+#richiesta-adozione input#new-cap,
+#richiesta-adozione input#new-city{
     width: 100%;
 }
-
-/* Sezione 2 Chi Siamo */
-
-#second-chapter-chi-siamo{
-    background-color: var(--headercolor);
-    color:var(--bgcolor);
-    margin-top: 1em;
-}
-
-#chi-siamo2-img{
-    flex: 0 1 35%;
-}
-#chi-siamo2-img img{
-    width: 90%;
-}
-
-#content-chi-siamo2{
-    vertical-align: middle;
-    padding:2em 0;
-    flex: 1 1 50%;
-    margin:auto;
-    /* height: fit-content; */
-
-
-}
-
-
-/*Sezione "PetMatch timeline"*/
-
-#pm-timeline{   
-   display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    align-items: flex-start;
-    margin-top: 2em;
-    list-style: none;
-  }
-
-#pm-timeline::before {
-    content: '';
-    position: absolute;
-    top: 1.5em; 
-    left: 10%;
-    right: 10%;
-    height: 2px;
-    background-image: linear-gradient(to right, var(--buttoncolor) 50%, transparent 50%);
-    background-size: 20px 100%;
-    z-index: 0;
-  }
-
-  #pm-timeline li{
-    position: relative; 
-    text-align: center;
-  }
 
 /* ================== NUOVO EVENTO ==================*/
 #new-event .split-input{
@@ -4985,15 +5642,8 @@ nav#breadcrumb a:visited{
     margin: auto;
 }
 
-#team-img img{      /*qui potrebbe non esserci me lo dava come mio cambiamento ma mai toccato*/
-    width: 100%;
-    flex:0 1 30%;
-    height: auto;
-    max-height: 15em;
-    padding: 0;
-} 
-
-#ModifiedMode{
+#ModifiedMode,
+#AdminMode{
     display: none;
 }
 
@@ -5035,15 +5685,21 @@ nav#breadcrumb a:visited{
     padding-bottom: 1.5em;
 }
 
+#check-assegna-container,
 #createMore-container{
     text-align: right;
     border-top:2px solid var(--darkbgcolor);
 }
 
+#check-assegna-container label,
 #createMore-container label{
     font-weight: normal;
     margin-top: 0;
 }
+
+
+
+
 
 /* PAGINA COME FUNZIONA */
 #come-funziona .testo {
@@ -5095,7 +5751,7 @@ nav#breadcrumb a:visited{
     border-top-right-radius: 1.5em;
     border-top-left-radius: 1.5em;
     z-index: 0;
-    color: var(--bgcolor);
+    color: var(--light-txtcolor);
     padding: 2em;
     padding-right: 3em;
     margin-top: 1.5em;
@@ -5204,13 +5860,21 @@ nav#breadcrumb a:visited{
     margin-top: 3em;
     background-color: var(--bgform);
     display: flex;
-    color: var(--bgcolor);
+    color: var(--cat-txtcolor);
     padding-top: 3em;
     padding-left: 5em;
     padding-right: 5em;
     padding-bottom: 2em;
     border-bottom-left-radius: 1em;
     border-bottom-right-radius: 1em;
+}
+
+#come-funziona #invitoLavoro a{
+    border:none;
+}
+
+#come-funziona #invitoLavoro a.brown-button:hover{
+    color:var(--cat-txtcolor);
 }
 
 #come-funziona #invitoLavoro h2{
@@ -5320,7 +5984,13 @@ position: static;
 
 
 #visualizzazione-evento aside.altri-eventi {
-    flex: 1 1 25%;
+    flex: 1 1 30%;
+    display: flex;
+    flex-direction: column;
+}
+
+#visualizzazione-evento div#mainEvento {
+    flex: 0 1 70%;
     display: flex;
     flex-direction: column;
 }
@@ -5349,6 +6019,22 @@ position: static;
     border-radius: 0.5em;
     padding: 1em;
     list-style: none;
+}
+
+#visualizzazione-evento .evento {
+    position: relative;
+    list-style: none;
+    width: 100%;
+    height: 10em;
+    /* display: block; */
+    min-width: 20em;
+    padding-right: 1em;
+    background-color: var(--darkbgcolor);
+    /* border: 0.1em solid var(--darkbgcolor); */
+    border-radius: 0.5em;
+    /* margin: 0.2em; */
+    border: 2px solid var(--darkbgcolor);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 
