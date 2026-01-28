@@ -4019,6 +4019,11 @@ a.pencil {
     align-items: flex-start;
 }
 
+
+#admin-area .tabs-container #Richiedente img{
+    margin-bottom:0.5em;
+}
+
 /* l'ho messo a sinistra apposta */
 .generic-info-container img {
     margin:0 auto 0 0;
@@ -4155,6 +4160,10 @@ a.pencil {
 }
 #admin-area .tabs-container h2{
     margin-bottom: 1em;
+}
+
+#admin-area .tabs-container #Richiedente h2{
+    margin-bottom: 0.5em;
 }
 
 div#admin-area dt{
@@ -4420,7 +4429,7 @@ div#admin-area article.note{
     object-fit: cover;
     border-radius: 0.5em;
     box-shadow: 0 0.25em 0.625em rgba(0,0,0,0.2);
-    margin-top: 1em;
+    margin: 1em auto 0 auto;
 }
 
 #dettaglio-animale .text-details {
