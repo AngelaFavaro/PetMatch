@@ -1063,3 +1063,23 @@ body#admin-body #animali .filtri .capsula-filtro{
 #dettaglio-animale #content-manage{
     margin:0;
 }
+
+/* =========DETTAGLI RICHIESTA ADMIN============ */
+#details-container{
+    margin: 0;
+    gap:2em;
+}
+
+.generic-info-container img{
+    margin:0 auto 0.5em auto;
+}
+
+div#admin-area #details-container article#animale-richiesta{
+    margin-bottom: 2em;
+}
+
+div#admin-area #details-container article#animale-richiesta .text-details{
+    width: 100%;
+    margin:0;
+    padding:0;
+}

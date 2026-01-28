@@ -178,7 +178,7 @@ if (isset($_GET['from_email'])) {
 $btnModifica = '
 <div class="edit-btn-container">
     <a href="' . e($urlModifica) . '" class="pencil">
-        <img src="./assets/icons/edit-pencil.svg" alt="Modifica scheda animale">
+        <img src="./assets/icons/edit-pencil.svg" alt="Modifica scheda animale" />
     </a>
 </div>';
 $main = str_replace('[pulsanti-modifica-animale]', $btnModifica, $main);

@@ -273,8 +273,8 @@ $inputHiddenFoto = "";
 if (!empty($NewAnimalInfo['ImgPath'])) {
     $nomeFile = basename($NewAnimalInfo['ImgPath']);
     $fotoInfo = "<p class='success-form'>Immagine già caricata: <strong>$nomeFile</strong></p>";
-    $fotoInfo .= "<img src='{$NewAnimalInfo['ImgPath']}' alt='Anteprima immagine caricata' style='max-width:200px;'>";
-    $inputHiddenFoto = "<input type='hidden' name='foto' value='{$NewAnimalInfo['ImgPath']}'>";
+    $fotoInfo .= "<img src='{$NewAnimalInfo['ImgPath']}' alt='Anteprima immagine caricata' />";
+    $inputHiddenFoto = "<input type='hidden' name='foto' value='{$NewAnimalInfo['ImgPath']}'/>";
 }
 
 if ($isModified) {
@@ -319,8 +319,8 @@ $paginaHTML = str_replace('[disabledEdit]', $isModified?'disabled':'', $paginaHT
 $sessoPlaceholder = $NewAnimalInfo['Sesso']==='M'? '0' : '1';
 $tipologiaPlaceholder = $NewAnimalInfo['Tipo']==='Cane'?'0':'1';
 
-$paginaHTML = str_replace('[hiddenPerTipologia]', $isModified?'<input type="hidden" name="tipologia" value="'.$tipologiaPlaceholder.'">':'', $paginaHTML);
-$paginaHTML = str_replace('[hiddenPerSesso]', $isModified?'<input type="hidden" name="sesso" value="'.$sessoPlaceholder.'">':'', $paginaHTML);
+$paginaHTML = str_replace('[hiddenPerTipologia]', $isModified?'<input type="hidden" name="tipologia" value="'.$tipologiaPlaceholder.'"/>':'', $paginaHTML);
+$paginaHTML = str_replace('[hiddenPerSesso]', $isModified?'<input type="hidden" name="sesso" value="'.$sessoPlaceholder.'"/>':'', $paginaHTML);
 
 
 

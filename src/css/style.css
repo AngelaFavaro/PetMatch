@@ -4019,8 +4019,19 @@ a.pencil {
     align-items: flex-start;
 }
 
+/* l'ho messo a sinistra apposta */
 .generic-info-container img {
-    margin:1em auto 0 auto;
+    margin:0 auto 0 0;
+}
+
+#admin-area h2#responsabile{
+    font-size: 1.5em;
+    font-weight: 600;
+    margin-top:0.3em;
+    background-color: var(--darkbgcolor);
+    padding: 0.3em 0.5em;
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
 }
 
 /* #informazioni-admin{
@@ -4417,15 +4428,21 @@ div#admin-area article.note{
     right: 0;
 }
 
+#sezione-note a#edit-note img,
 .edit-admin-info img,
 #dettaglio-animale a.pencil img {
     height: auto;
     width: 3em;
     transition: transform 0.2s ease;
     padding: 0.5em;
+    margin-top: -0.5em;
     border-radius: 0.5em;
     transition: 0.4s;
     border:2px solid transparent;
+}
+
+#sezione-note a#edit-note img:hover{
+    border-color: var(--txtcolor);
 }
 
 .edit-admin-info img:hover,
@@ -4499,7 +4516,7 @@ div#admin-area article.note{
     border-radius: 1.5em; 
     padding: 1.2em 1.5em;
     margin-bottom: 1em;
-    border: none !important;
+    border: none;
 }
 
 #dettaglio-animale .tabs-container .card-content {
