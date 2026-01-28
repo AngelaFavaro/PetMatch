@@ -19,9 +19,9 @@ I colori tentano di richiamare quelli tipici degli animali domestici, con tonali
 \end{itemize}
 \paragraph{Per l'accessibilità} 
 Le seguenti informazioni sono state verificate utilizzando diversi strumenti, in ultimo il tool \textit{Color Contrast} di Silktide.
-Non sono riportate le combinazioni di colori che non sono state usate come testo e background insieme.
 \begin{center}
-\begin{tabular}{|p{4.5cm}|p{4.5cm}|p{2cm}|p{3cm}|} % Ho allargato leggermente per far spazio ai box
+\setcounter{table}{1} 
+\begin{tabular}{|p{4.5cm}|p{4.5cm}|p{2cm}|p{2.5cm}|} % Ho allargato leggermente per far spazio ai box
 \hline
 \rowcolor{brown}
 \color{white}\textbf{Colore 1} & 
@@ -38,11 +38,12 @@ Non sono riportate le combinazioni di colori che non sono state usate come testo
 \rowcolor{beige} \cbox{brown} Marrone (\#481515) & \cbox{orange} Arancione (\#EA654C) & 4.65:1 & Raggiunto AA \\
 \hline
 \end{tabular}
+\captionof{table}{Verifiche di contrasto colori. NOTA: Non sono riportate le combinazioni di colori che non sono state usate come testo e background insieme.}
 \end{center}
 \begin{adjustwidth}{1cm}{1cm}
     \textmd{(*) La combinazione DA FARE NON SO COSA SCRIVERE SONO CONFUSA. RICORDO CHE OK 3:1 MA FORSE SOLO SE NON VICINI O SE SOTTOLINEATI MA LA NOSTRA NAV NON LO È} 
 \end{adjustwidth}
-
+Poichè ci siamo concentrate sull'accessibilità della palette nella modalità light mode, la dark mode (che rispecchia una scelta dell'utente, per quanto possibile) è stata progettata cercando di mantenere un buon contrasto tra gli elementi, tuttavia non è assicurato che tutte le combinazioni di colori rispettino gli standard di accessibilità.
 \subsubsection{Font}
 Il carattere tipografico selezionato per questo progetto è Parkinsans, un font sans geometrico e moderno, reperibile gratuitamente sulla piattaforma Google Fonts al seguente link \href{https://fonts.google.com/specimen/Parkinsans}{fonts.google.com/Parkinsans}.
 Il font utilizzato vuole essere chiaro e leggibile, pur mantenendo un aspetto giocoso e amichevole. \\
@@ -55,11 +56,14 @@ La scelta è ricaduta su questo font perché rappresenta un esempio d'eccellenza
 \end{adjustwidth}
 \paragraph{Verifiche di accessibilità}
 \begin{itemize}
-    \item controllo apertura delle lettere (e, c, a)
-    \item controllo spaziatura tra lettere (qp, db)
-    \item controllo differenza tra lettere simili (iIl1, oO0)
+    \item controllo apertura delle lettere (e, c, a);
+    \item controllo legature tra caratteri (qp, db, rn);
+    \item controllo differenza tra lettere simili (iIl1, oO0);
+    \item controllo spaziatura tra parole.
 \end{itemize}
-\subsubsection{Divisione utente / amministratore}
+\subsubsection{Divisione utente / amministratore}\
+Il layout e in generale il design grafico delle pagine dedicate agli amministratori si presenta più sobrio e formale rispetto a quello delle pagine utente, per sottolineare la differenza di ruolo e responsabilità tra i due tipi di utenti.\\
+Inoltre, come descritto nella sezione \ref{sec:layout_responsive}{Layout responsive}, le pagine amministratore, non sono ottimizzate per la visualizzazione su dispositivi mobili, in quanto si presume che gli amministratori accedano al sito principalmente da computer desktop o laptop. In particolare il difetto si riscontra nella nav bar, che non rimane fissa in cima alla pagina come avviene per le pagine utente.
 \subsubsection{Logo}
 Il logo, utilizzato in più varianti, raffigura un cuore realizzato con le sagome di due tipici segnaposto di mappe. Una strada collega il cuore ad una casa stilizzata posta alla destra in lontananza. \\
 L'idea è quella di rappresentare il significato del sito web con un singolo simbolo: il cuore rappresenta l'amore e l'affetto che gli utenti cercano per i loro animali, mentre i segnaposto simboleggiano la localizzazione geografica che, grazie alla piattaforma, può essere superata, arrivando idealmente fino alla casa dell'utente.\\
