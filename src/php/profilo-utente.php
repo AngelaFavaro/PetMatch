@@ -646,25 +646,28 @@ $htmlManagement = '
             </div>
         </form>
 
+        <form method="post" action="#user-info">
+            <button type="submit" name="show-dialog" class="button-cancel">Elimina profilo</button>
+        </form>
 
-        <input type="checkbox" id="delete-request-check" class="popup-checkbox" [isDisabled]/>
-        <label for="delete-request-check" id="button-cancel">Elimina profilo</label>
-        <div class="overlay-content">
-            <div class="dialog-box">
-                <h3>Eliminazione profilo</h3>
-                <p>L\'eliminazione è <strong>irreversibile</strong>, vuoi continuare?</p>
-                
-                <div class="dialog-buttons">
-                    <label for="delete-request-check">No, annulla</label>
+        <dialog [openDialog] class="overlay-content">
+                <div class="dialog-box">
+                    <h3 id="modal-title">Eliminazione profilo</h3>
+                    <p id="modal-desc">L\'eliminazione è <strong>irreversibile</strong>, vuoi continuare?</p>
                     
-                    <form method="post">
-                        <button type="submit" name="delete-account">Si, elimina</button>
-                    </form>
+                    <div class="dialog-buttons">
+                        <form method="post" action="#user-info">
+                            <button type="submit" name="close-dialog" class="button-cancel">No, annulla</button>
+                        </form>
+                        
+                        <form method="post">
+                            <button type="submit" name="delete-account" >Si, elimina</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-    </div>';
+            </dialog>
+        
+        </div>';
 
 if (isset($_GET['mode']) && $_GET['mode'] === 'edit') {
     $contenutoScelto = $htmlEdit;
@@ -676,6 +679,7 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'edit') {
         unset($_SESSION['form_inputs']);
     }
 }
+
 
 
 
@@ -791,6 +795,13 @@ $paginaHTML = str_replace('[cap-utente]', $NewUserInfo['CAP'] ? $NewUserInfo['CA
 $paginaHTML = str_replace('[telefono-utente]', $NewUserInfo['phoneNumber'] ? $NewUserInfo['phoneNumber'] : $infoUtente['Telefono']??'', $paginaHTML);
 $paginaHTML = str_replace('[telefono-utente-view]', $infoUtente['Telefono'] ? $printTelefono : "<em>Sconosciuto</em>", $paginaHTML);
 $paginaHTML = str_replace('[footer]', $footer, $paginaHTML);
+
+ 
+$showModal = $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['show-dialog']);
+$closeModal = $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['close-dialog']);
+$paginaHTML = str_replace('[openDialog]', $showModal?'open':'', $paginaHTML);
+$paginaHTML = str_replace('[openDialog]', $closeModal?'':'', $paginaHTML);
+
 
 echo $paginaHTML;
 

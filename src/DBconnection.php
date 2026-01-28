@@ -549,25 +549,6 @@ class DBAccess {
         ];
     }
 
-
-    public function updateAdminInfo(string $email, string $newName, string $newSurname, string $newImg): bool {
-        if (!$this->connection){
-            return false;
-        }
-
-        $query = "UPDATE UTENTI SET Nome = ?, Cognome = ?, ImgPath = ? WHERE Email = ?";
-
-        $stmt = mysqli_prepare($this->connection, $query);
-        if($stmt === false){
-            return false;
-        }
-
-        mysqli_stmt_bind_param($stmt, 'ssss', $newName, $newSurname, $newImg, $email);
-        $result = mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
-        return $result;
-    }
-
     function getNewRequests($email): array {
         $requests = [];
         
@@ -791,51 +772,6 @@ class DBAccess {
             mysqli_stmt_close($stmt);
         }
         return $requests;
-    }
-
-    function getDetailsNonAdminAnimals(): array {
-        $results = [
-            'Gatto' => [],
-            'Cane' => []
-        ];
-
-        $query = "SELECT 
-                    IDanimale AS id_animale, 
-                    Nome AS nome_animale, 
-                    DataRegistrazione AS data_registrazione, 
-                    Trasporto AS trasporto_animale, 
-                    Razza AS razza, 
-                    DataNascita AS data_nascita
-                FROM ANIMALI 
-                WHERE Email IS NULL";
-
-        $stmt = mysqli_prepare($this->connection, $query);
-
-        if ($stmt) {
-            mysqli_stmt_execute($stmt);
-            $result = mysqli_stmt_get_result($stmt);
-
-            while ($row = mysqli_fetch_assoc($result)) {
-            }
-            
-            mysqli_data_seek($result, 0);
-            
-            $query_completa = "SELECT *, IDanimale AS id_animale, Nome AS nome_animale, 
-                            DataRegistrazione AS data_registrazione, Trasporto AS trasporto_animale, 
-                            Razza AS razza_animale, DataNascita AS data_nascita
-                            FROM ANIMALI WHERE Email IS NULL";
-            
-            $res = mysqli_query($this->connection, $query_completa);
-            
-            while ($row = mysqli_fetch_assoc($res)) {
-                $tipo = $row['Tipo'];
-                if (isset($results[$tipo])) {
-                    $results[$tipo][] = $row;
-                }
-            }
-        }
-
-        return $results;
     }
 
     function getDetailsNonAdminAnimalsPaged(int $limit, int $offCani, int $offGatti): array {
@@ -1427,75 +1363,6 @@ class DBAccess {
         return $state;
     }
 
-    // restituisce tipo, immagine, nome, sesso e età di tutti gli animali, oppure solo di cani o solo gatti(valori possibili per $type=tutti,cani,gatti)
-    public function getListAnimalsByType(string $type): array|null {
-        // 1. Controllo connessione
-        if (!$this->connection) {
-            return null;
-        }
-
-        // 2. Query (con o senza filtro)
-        if ($type === "tutti") {
-            $query = "
-                SELECT Nome, Sesso, DataNascita, ImgPath, Tipo, Colore
-                FROM ANIMALI
-                ORDER BY IDanimale ASC
-            ";
-            $stmt = mysqli_prepare($this->connection, $query);
-        } else {
-            $query = "
-                SELECT Nome, Sesso, DataNascita, ImgPath, Tipo
-                FROM ANIMALI
-                WHERE Tipo = ?
-                ORDER BY IDanimale ASC
-            ";
-            $stmt = mysqli_prepare($this->connection, $query);
-        }
-
-        // 3. Controllo prepare
-        if ($stmt === false) {
-            return null;
-        }
-
-        // 4. Bind param (solo se necessario)
-        if ($type !== "tutti") {
-            mysqli_stmt_bind_param($stmt, 's', $type);
-        }
-
-        // 5. Esecuzione
-        if (!mysqli_stmt_execute($stmt)) {
-            mysqli_stmt_close($stmt);
-            return null;
-        }
-
-        // 6. Recupero risultati
-        $queryResult = mysqli_stmt_get_result($stmt);
-
-        if ($queryResult === false || mysqli_num_rows($queryResult) === 0) {
-            mysqli_stmt_close($stmt);
-            return null;
-        }
-
-        // 7. Costruzione array risultati
-        $result = [];
-
-        while ($row = mysqli_fetch_assoc($queryResult)) {
-            $result[] = [
-                'nome' => $row['Nome'],
-                'sesso' => $row['Sesso'],
-                'colore' => $row['Colore'],
-                'eta' => calcolaEta($row['DataNascita']),
-                'immagine' => $row['ImgPath'],
-                'tipo' => $row['Tipo']
-            ];
-        }
-
-        // 8. Chiusura statement
-        mysqli_stmt_close($stmt);
-
-        return $result;
-    }
-
     public function countAnimalsFiltered(string $type, array $filters): int {
 
     if (!$this->connection) {
@@ -1831,7 +1698,7 @@ class DBAccess {
         }
         return $counts;
     }  
-    public function getEventsFilteredPaged(array $filters, int $limit, int $offset): array {
+    public function getEventsFilteredPaged(array $filters, int $limit, int $offset=0): array {
 
     if (!$this->connection) return [];
 
@@ -1867,6 +1734,12 @@ class DBAccess {
         $types .= 's';
     }
 
+    // ---------- FILTRO TITOLO NO VISUALIZZARE ---------
+    if (!empty($filters['nomeNO'])) {
+        $where[] = 'Titolo != ?';
+        $params[] = $filters['nomeNO'];
+        $types .= 's';
+    }
     /* ---------- FILTRO TIPO (prossimi / terminati) ---------- */
     if (!empty($filters['tipo'])) {
         $today = date('Y-m-d');
@@ -1927,23 +1800,6 @@ class DBAccess {
 
     mysqli_stmt_close($stmt);
     return $eventi;
-}
-
-
-public function getEventCities(): array {
-    if (!$this->connection) return [];
-
-    $query = "SELECT DISTINCT Citta FROM EVENTI ORDER BY Citta ASC";
-    $res = mysqli_query($this->connection, $query);
-
-    if (!$res) return [];
-
-    $cities = [];
-    while ($row = mysqli_fetch_assoc($res)) {
-        $cities[] = $row['Citta'];
-    }
-
-    return $cities;
 }
 
 public function countEventsFiltered(array $filters): int {

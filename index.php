@@ -36,6 +36,12 @@ $routes = [
     'registrati' => [
         'file' => __DIR__ . '/src/php/registrati.php'
     ],
+   'visualizzazione-animale' => [
+        'file' => __DIR__ . '/src/php/visualizzazione-animale.php'
+    ],
+   'visualizzazione-evento' => [
+        'file' => __DIR__ . '/src/php/visualizzazione-evento.php'
+    ],    
     'preferiti' => [
         'file' => __DIR__ . '/src/php/preferiti.php'
     ],

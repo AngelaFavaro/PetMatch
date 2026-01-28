@@ -549,3 +549,14 @@ document.addEventListener("DOMContentLoaded", function() {
     checkTruncation();
     window.addEventListener('resize', checkTruncation);
 });
+
+
+//per non far uscire lo screen reader dal dialog
+window.addEventListener('DOMContentLoaded', () => {
+    const dialog = document.querySelector('dialog[open]');
+    if (dialog) {
+        // Rimuoviamo l'attributo 'open' di PHP e apriamolo come modale nativa
+        dialog.removeAttribute('open'); 
+        dialog.showModal();
+    }
+});
