@@ -25,7 +25,7 @@ $routes = [
         'file' => __DIR__ . '/src/php/admin/richieste-adozione.php'
     ],
     'animali' => [
-        'file' => __DIR__ . '/src/php/animali.php',
+        'file' => __DIR__ . '/src/php/animali.php'
     ],
     'lavora-con-noi' => [
         'file' => __DIR__ . '/src/php/lavora-con-noi.php'
@@ -63,6 +63,9 @@ $routes = [
     'nuovo-animale' => [
         'file' => __DIR__ . '/src/php/admin/nuovo-animale.php'
     ],
+    'dettagli-animale' => [
+        'file' => __DIR__ . '/src/php/admin/dettagli-animale.php'
+    ],
     'modifica-animale' => [
         'file' => __DIR__ . '/src/php/admin/modifica-animale.php'
     ],
@@ -83,6 +86,9 @@ $routes = [
     ],
     'visualizzazione-eventi' => [
         'file' => __DIR__ . '/src/php/admin/visualizzazione-eventi.php'
+    ],
+    'visualizzazione-animale' => [
+        'file' => __DIR__ . '/src/php/visualizzazione-animale.php'
     ]
 ];
 

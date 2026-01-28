@@ -509,7 +509,7 @@ $htmlView =
     </span>
     <img src="[imgPath]" alt="foto profilo" class="circle-foto"/>
     <a href="?mode=edit#modifica-profilo" class="edit-profile-link">
-       <p aria-hidden=true>Modifica profilo</p> <img src="./assets/icons/edit-pencil.svg" alt=""></a>
+       <p aria-hidden=true>Modifica profilo</p> <img src="./assets/icons/edit-pencil.svg" alt="" /></a>
     <dl aria-label="informazioni dell\'utente">
         <dt>Nome: </dt> <dd>[nome-utente]</dd>
         <dt>Cognome: </dt> <dd>[cognome-utente]</dd>
@@ -531,28 +531,28 @@ $htmlEdit = '
             <fieldset>
                 <legend>Informazioni personali</legend>
                 <div>
-                    <img src="[imgPath]" alt="Foto" id="foto-profilo" class="circle-foto">
+                    <img src="[imgPath]" alt="Foto" id="foto-profilo" class="circle-foto" />
                     <label for="new-pic">Cambia Foto</label>
-                    <input type="file" id="new-pic" name="new-pic" accept=".jpg, .jpeg, .png" aria-label="carica la tua foto profilo.">
+                    <input type="file" id="new-pic" name="new-pic" accept=".jpg, .jpeg, .png" aria-label="carica la tua foto profilo."/>
                     <label class="checkbox-container-pic" for="delete-pic">
-                        <input type="checkbox" id="delete-pic" name="delete-pic">
+                        <input type="checkbox" id="delete-pic" name="delete-pic"/>
                         Rimuovi foto profilo
                     </label>
                 </div>
                 <div>
                     <label for="new-name">Nome*</label>
-                    <input type="text" id="new-name" name="new-name" autocomplete="name" value="[nome-utente]" placeholder="Nome">
+                    <input type="text" id="new-name" name="new-name" autocomplete="name" value="[nome-utente]" placeholder="Nome"/>
                     <p class="error-form">[erroriNome]</p>
                 </div>
                 <div>
                     <label for="new-surname">Cognome*</label>
-                    <input type="text" id="new-surname" name="new-surname" autocomplete="family-name" value="[cognome-utente]" placeholder="Cognome">
+                    <input type="text" id="new-surname" name="new-surname" autocomplete="family-name" value="[cognome-utente]" placeholder="Cognome"/>
                     <p class="error-form">[erroriCognome]</p>
                 </div>
                 <div class="edit-number">
                     <label for="new-number">Telefono con prefisso</label>
                     <div>
-                        <input type="tel" id="new-number" name="new-number" autocomplete="tel" value="[telefono-utente]" placeholder="+39 000 000 0000">
+                        <input type="tel" id="new-number" name="new-number" autocomplete="tel" value="[telefono-utente]" placeholder="+39 000 000 0000"/>
                     </div>
                     <p class="error-form">[erroriTelefono]</p>
                 </div>
@@ -563,28 +563,28 @@ $htmlEdit = '
                     <div>
                         <label for="new-address">Via e numero civico</label>
                         <input type="text" id="new-address" name="new-address" autocomplete="street-address" 
-                        value="[via-utente]" placeholder="Via L. Da Vinci n.10" aria-label="Tutti i campi dell\'indirizzo devono essere completi, altrimenti nessuno.">
+                        value="[via-utente]" placeholder="Via L. Da Vinci n.10" aria-label="Tutti i campi dell\'indirizzo devono essere completi, altrimenti nessuno."/>
                         <p class="error-form">[erroriIndirizzo]</p>
                     </div>
                     <div>
                         <label for="new-city">Città</label>
                         <input type="text" id="new-city" name="new-city" autocomplete="address-level2" 
-                        value="[citta-utente]" placeholder="Roma">
+                        value="[citta-utente]" placeholder="Roma"/>
                         <p class="error-form">[erroriCitta]</p>
                     </div>
                     <div>
                         <label for="new-cap">CAP</label>
                         <input type="text" id="new-cap" name="new-cap" autocomplete="postal-code" 
-                        value="[cap-utente]" placeholder="00000">
+                        value="[cap-utente]" placeholder="00000"/>
                         <p class="error-form">[erroriCAP]</p>
                         <p class="error-form">[erroriIndirizzoTotale]</p>
                     </div>
             </fieldset>
             [messaggiForm]
-            <span>
+            <div>
                 <a href="profilo-utente" class="cancel-edit">Annulla</a>
                 <button type="submit" name="edit-profile">Salva</button>
-            </span>
+            </div>
         </form>
     </div>';
 
@@ -598,7 +598,7 @@ $htmlManagement = '
                 <legend>Modifica email</legend>
                 <div>
                     <label for="new-email">Email*</label>
-                    <input type="email" id="new-email" name="new-email" autocomplete="email" value="[email-utente]" placeholder="esempio@gmail.com">
+                    <input type="email" id="new-email" name="new-email" autocomplete="email" value="[email-utente]" placeholder="esempio@gmail.com"/>
                     <p class="error-form">[erroriEmail]</p>
                 </div> 
             </fieldset>
@@ -609,7 +609,7 @@ $htmlManagement = '
                     <input type="password" id="old-pw" name="old-pw" placeholder="Vecchia password" 
                     onpaste="return false;" 
                     oncopy="return false;"
-                    autocomplete="off">
+                    autocomplete="off"/>
                     <i class="fas fa-eye"></i>
                 </div>
                 <label for="new-pw">Nuova password</label>
@@ -617,7 +617,7 @@ $htmlManagement = '
                     <input type="password" id="new-pw" name="new-pw" placeholder="Nuova password"
                     onpaste="return false;" 
                     oncopy="return false;"
-                    autocomplete="off">
+                    autocomplete="off"/>
                     <i class="fas fa-eye"></i>
                 </div>
                 <label for="new-pw-Confirmed">Conferma la password</label>
@@ -625,7 +625,7 @@ $htmlManagement = '
                     <input type="password" id="new-pw-Confirmed" name="new-pw-Confirmed" placeholder="Conferma la password"
                     onpaste="return false;" 
                     oncopy="return false;"
-                    autocomplete="off">
+                    autocomplete="off"/>
                     <i class="fas fa-eye"></i>
                 </div>
             </fieldset>
@@ -640,14 +640,14 @@ $htmlManagement = '
                     <li>Almeno un carattere speciale (! @ + ? / , - . $ _ =)</li>
                 </ul>
             </p>
-            <span>
+            <div>
                 <a href="profilo-utente" class="cancel-edit">Annulla</a>
                 <button type="submit" name="edit-profile-management">Salva</button>
-            </span>
+            </div>
         </form>
 
 
-        <input type="checkbox" id="delete-request-check" class="popup-checkbox" [isDisabled]>
+        <input type="checkbox" id="delete-request-check" class="popup-checkbox" [isDisabled]/>
         <label for="delete-request-check" id="button-cancel">Elimina profilo</label>
         <div class="overlay-content">
             <div class="dialog-box">

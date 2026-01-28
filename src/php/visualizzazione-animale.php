@@ -2,10 +2,6 @@
 require_once './src/utils.php';
 require_once './src/DBconnection.php';
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 use DB\DBAccess;
 
 $idAnimale = $_GET['id'] ?? null;
@@ -284,26 +280,26 @@ if (!$utenteAccesso) {
                             <div>
                                 <label for='new-address'>Via e numero civico</label>
                                 <input type='text' id='new-address' name='new-address' autocomplete='street-address' 
-                                value='[via-utente]' placeholder='Via L. Da Vinci n.10' required>
+                                value='[via-utente]' placeholder='Via L. Da Vinci n.10' required/>
                                 <p class='error-form'>[erroriIndirizzo]</p>   
                             </div>
                             <div id='indirizzo-row'>
                                 <div id='citta-container'>
                                     <label for='new-city'>Città</label>
                                     <input type='text' id='new-city' name='new-city' autocomplete='address-level2' 
-                                    value='[citta-utente]' placeholder='Roma' required>
+                                    value='[citta-utente]' placeholder='Roma' required/>
                                     <p class='error-form'>[erroriCitta]</p>
                                 </div>
                                 <div id='cap-container'>
                                     <label for='new-cap'>CAP</label>
                                     <input type='text' id='new-cap' name='new-cap' autocomplete='postal-code' 
-                                    value='[cap-utente]' placeholder='00000' required>
+                                    value='[cap-utente]' placeholder='00000' required/>
                                     <p class='error-form'>[erroriCAP]</p>
                                 </div>
                             </div>
                             <p class='error-form' id='indirizzo-incompleto'>[erroriIndirizzoTotale]</p>   
                             <div id='checkbox-trasporto-container'>
-                                <input type='checkbox' id='trasporto' name='trasporto'>
+                                <input type='checkbox' id='trasporto' name='trasporto'/>
                                 <label for='trasporto'>
                                     <p class='checkbox-title'>Voglio il trasporto dell’animale a casa</p>
                                     <p class='checkbox-description'>Spuntando la casella, verrà programmato il trasporto dell’animale. Ci si prende la responsibilità di essere presenti nel domicilio indicato alla data che verrà comunicata per email.</p>
@@ -415,13 +411,13 @@ if (!$utenteAccesso) {
 // COSTRUZIONE BLOCCHI HTML
 
 $CARDANIMALE1 = "
-    <img id='foto-animale' src='$img' alt='Foto di $nome'>  
+    <img id='foto-animale' src='$img' alt='Foto di $nome' />  
     <div id= 'info-generiche-testo'>
                 <form method='post' action='' class='preferiti-form'>
-        <input type='hidden' name='id-animale-preferito' value='$idAnimale'>
+        <input type='hidden' name='id-animale-preferito' value='$idAnimale'/>
         <button type='submit' class='$classePreferito' aria-label='$statusPreferiti'>
-            <img class='heart-normal' src='./assets/icons/$heartNormal' alt=''>
-            <img class='heart-hover' src='./assets/icons/$heartHover' alt=''>
+            <img class='heart-normal' src='./assets/icons/$heartNormal' alt='' />
+            <img class='heart-hover' src='./assets/icons/$heartHover' alt='' />
         </button>
     </form>
         <dl>

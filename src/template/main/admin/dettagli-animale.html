@@ -1,0 +1,99 @@
+<div id="admin-area">
+    <h1>Informazioni animale</h1>
+    <div class="column-container" id="dettaglio-animale">
+        <article id="animale-detailed-container">
+            <div class="generic-info-container">
+                <div class="action-buttons-group">
+                    [pulsanti-modifica-animale]
+                    
+                    <input type="checkbox" id="delete-animal-check" class="popup-checkbox" hidden/>
+                    
+                    <label for="delete-animal-check" id="button-cancel" >
+                        <img src="./assets/icons/delete-trash.svg" alt="" />Elimina animale
+                    </label>
+
+                    <div class="overlay-content">
+                        <div class="dialog-box">
+                            <h3>Conferma eliminazione</h3>
+                            <p>L'eliminazione di <strong>[nomeAnimale]</strong> è <strong>irreversibile</strong>. Vuoi continuare?</p>
+                            <div class="dialog-buttons">
+                                <label for="delete-animal-check">No, annulla</label>
+                                <form method="post">
+                                    <button type="submit" name="delete-animale">Sì, elimina</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <img src="[animalImgPath]" alt="Foto di [nomeAnimale]" class="square-foto" />
+
+                <div class="text-details">
+                    <dl>
+                        <dt>Nome</dt><dd>[nomeAnimale]</dd>
+                        <dt>Sesso</dt><dd>[sessoAnimale]</dd>
+                        <dt>Età</dt><dd>[etaAnimale]</dd>
+                        <dt>Razza</dt><dd>[razzaAnimale]</dd>
+                        <dt>Pelo</dt><dd>[peloAnimale]</dd> 
+                        <dt>Taglia</dt><dd>[tagliaAnimale]</dd>
+                        <dt>Colore</dt><dd>[coloreAnimale]</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="description-info-container">
+                <dl>
+                    <dt>Idoneo al trasporto</dt><dd>[trasportoAnimale]</dd>
+                    <dt>Condizioni mediche</dt><dd>[condizioniMediche]</dd>
+                    <dt>Descrizione caratteriale</dt><dd>[descrizioneCaratteriale]</dd>
+                    <dt>Famiglia ideale</dt><dd>[famigliaIdeale]</dd>
+                </dl>
+            </div>
+
+        </article>
+
+
+        <div id="content-manage">
+
+            <form method="post">
+                    <button type="submit" name="delete-assignment" class="orange-button">Toglimi dall'assegnaizone</button>
+            </form>
+            <article id="visualizza-richieste-animale">
+                <section class="tabs-container">
+                    <fieldset>
+                        <legend id="title-richieste-animale">Richieste per questo animale</legend>
+    
+                        <label class="no-visible" for="anim-tab1">Nuove</label>
+                        <label class="no-visible" for="anim-tab2">In valutazione</label>
+                        <label class="no-visible" for="anim-tab3">Accettate</label>
+                        <label class="no-visible" for="anim-tab4">Respinte</label>
+                        <label class="no-visible" for="anim-tab5">Annullate</label>
+                        <label class="no-visible" for="anim-tab6">Da trasportare</label>
+    
+                        <select id="filtri-richieste-animale" name="tab-group-select" 
+                                aria-label="Selezionare la tipologia di richieste che si vuole visualizzare:"
+                                onchange="document.getElementById(this.value).checked = true;">
+                            <option value="anim-tab1">Nuove ([n-nuove])</option>
+                            <option value="anim-tab2">In valutazione ([n-valutazione])</option>
+                            <option value="anim-tab3">Accettate ([n-accettate])</option>
+                            <option value="anim-tab4">Respinte ([n-respinte])</option>
+                            <option value="anim-tab5">Annullate ([n-annullate])</option>
+                            <option value="anim-tab6">Da trasportare ([n-trasporto])</option>
+                        </select>
+                    </fieldset>
+    
+                    <input class="no-visible" aria-hidden="true" type="radio" id="anim-tab1" name="anim-tab-group" checked/>
+                    <input class="no-visible" aria-hidden="true" type="radio" id="anim-tab2" name="anim-tab-group"/>
+                    <input class="no-visible" aria-hidden="true" type="radio" id="anim-tab3" name="anim-tab-group"/>
+                    <input class="no-visible" aria-hidden="true" type="radio" id="anim-tab4" name="anim-tab-group"/>
+                    <input class="no-visible" aria-hidden="true" type="radio" id="anim-tab5" name="anim-tab-group"/>
+                    <input class="no-visible" aria-hidden="true" type="radio" id="anim-tab6" name="anim-tab-group"/>
+    
+                    [elencoRichieste]
+                    
+                    <a href="#filtri-richieste" class="sr-only">Torna al filtro richieste</a>
+                </section>
+            </article>
+        </div>
+    </div>
+</div>

@@ -2,10 +2,7 @@
 include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
-session_start();
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// session_start();
 
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo controlla se esiste la variabile admin in session, la seconda controlla che sia affettivamente admin
     header("Location: ./accedi");
@@ -13,36 +10,14 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo cont
 }
 
 
-
-function displayDateItalianFormat(string $dateStr): string {
-    $timestamp = strtotime($dateStr);
-    if ($timestamp === false) {
-        return '';
-    }
-    return date('d/m/Y', $timestamp);
-}
-/**
- * Escape stringa per output HTML serve a prevenire XSS ossia Cross Site Scripting ossia l'inserimento di codice malevolo in pagine web visualizzate da altri utenti
- */
-function e(string $s): string {
-    return htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-}
-
-/**
- * Ritorna "Sì" o "No" in base a valore booleano/intero
- */
-function siNo($val): string {
-    return ($val === 1 || $val === '1' || $val === true) ? 'Sì' : 'No';
-}
-
 /** DA TOGLIERE, NON NECESSARIO TODO
  * Genera gli input nascosti usati nei form (id_animale + email_richiedente)
  */
 function hiddenInputsFrom(array $r): string {
     $id = e($r['id-animale'] ?? '');
     $email = e($r['email-richiedente'] ?? '');
-    return '<input type="hidden" name="id_animale" value="' . $id . '">
-            <input type="hidden" name="email_richiedente" value="' . $email . '">';
+    return '<input type="hidden" name="id_animale" value="' . $id . '"/>
+            <input type="hidden" name="email_richiedente" value="' . $email . '"/>';
 }
 
 /**
@@ -242,7 +217,7 @@ $keywords = "";
 
 // Preparazione parti dinamiche
 $scarta_richiesta = renderRejectRequest($richiesta);
-$nav = buildAdminNav($adminMenu,'./richieste-adozione');
+$nav = buildAdminNav($adminMenu,'./dettagli-richiesta');
 $breadcrumb = getBreadcrumb('dettagli-richiesta', $pagine);
 $main = loadTemplate('./src/template/main/admin/dettagli-richiesta.html');
 
@@ -254,14 +229,17 @@ $paginaHTML = str_replace('[description]', $description, $paginaHTML);
 
 $di_chi = '';
 if(!imTheAdmin($richiesta)){
-	$di_chi = '<h2>Richiesta di adozione assegnata a '.e($richiesta['nome-admin'] ?? '').' '.e($richiesta['cognome-admin'] ?? '').'</h2>';
+	$di_chi = '<h2 id="responsabile">Amministratore responsabile: '.e($richiesta['nome-admin'] ?? '').' '.e($richiesta['cognome-admin'] ?? '').'</h2>';
 }
 $main = str_replace('[di chi]', $di_chi, $main);
 $dataRichiesta='<time datetime="' . ($richiesta['data-richiesta'] ?? '') . '">' . displayDateItalianFormat($richiesta['data-richiesta'] ?? '') . '</time>';
 
 $main = str_replace('[data]', $dataRichiesta, $main);
 $main = str_replace('[contenutoLettera]', e($richiesta['lettera-di-presentazione'] ?? ''), $main);
-$main = str_replace('[paginaAnimale]', './animale?id=' . e($richiesta['id-animale'] ?? ''), $main);
+
+$urlDettaglioAnimale = './dettagli-animale?id-animale=' . e($richiesta['id-animale'] ?? '');
+$main = str_replace('[paginaAnimale]', $urlDettaglioAnimale, $main);
+
 $main = str_replace('[paginaRichiedente]', './profilo-richiedente?email=' . urlencode($_GET['email']) ?? '', $main);
 $main = str_replace('[animalID]', $richiesta['id-animale'] ?? '', $main);
 $main = str_replace('[trasporto]', siNo($richiesta['trasporto-richiesta'] ?? 0), $main);
@@ -315,7 +293,12 @@ if($richiesta['sesso-animale'] === 'F')
 elseif($richiesta['sesso-animale'] === 'M')
     $main = str_replace('[sessoAnimale]', '<abbr title="Maschio">M</abbr>', $main);
 
-$main = str_replace('[etaAnimale]', e($richiesta['eta-animale'] ?? ''), $main);
+// Invece di: $main = str_replace('[etaAnimale]', e($richiesta['eta-animale'] ?? ''), $main);
+
+$dataNascita = $richiesta['data-nascita'] ?? null;
+$testoEta = $dataNascita ? formattaEta($dataNascita) : 'Età sconosciuta';
+
+$main = str_replace('[etaAnimale]', e($testoEta), $main);
 $main = str_replace('[razzaAnimale]', e($richiesta['razza-animale'] ?? ''), $main);
 $main = str_replace('[trasportoAnimale]', siNo($richiesta['trasporto-animale'] ?? 0), $main);
 $main = str_replace('[famigliaIdeale]', e($richiesta['famiglia-ideale'] ?? ''), $main);
@@ -344,17 +327,17 @@ if(isset($_GET['mode']) && $_GET['mode'] === 'edit-data'){
             <div class="header-article">
                     <h2>Modifica le date del trasporto</h2>
                     <a href="' . $url_base . '#stato-trasporto" class="pencil">
-                        <img src="./assets/icons/edit-pencil.svg" alt="Annulla modifica">
+                        <img src="./assets/icons/edit-pencil.svg" alt="Annulla modifica" />
                     </a>
              </div>
             <form method="post" action="' . $url_base . '#stato-trasporto">
                 <label for="input-data-partenza" >Data di partenza:</label>
-                <input type="date" name="data_partenza" id="input-data-partenza" value="' . $data_per_input_partenza . '">
+                <input type="date" name="data_partenza" id="input-data-partenza" value="' . $data_per_input_partenza . '"/>
                 <label for="input-data-arrivo" >Data di arrivo:</label>
-                <input type="date" name="data_arrivo" id="input-data-arrivo" value="' . $data_per_input_arrivo . '">
+                <input type="date" name="data_arrivo" id="input-data-arrivo" value="' . $data_per_input_arrivo . '"/>
                 
-                <input type="hidden" name="email_richiedente" value="' . htmlspecialchars($richiesta['email-richiedente']) . '">
-                <input type="hidden" name="id_animale" value="' . htmlspecialchars($richiesta['id-animale']) . '">
+                <input type="hidden" name="email_richiedente" value="' . htmlspecialchars($richiesta['email-richiedente']) . '"/>
+                <input type="hidden" name="id_animale" value="' . htmlspecialchars($richiesta['id-animale']) . '"/>
                 <div class="button-group">
                 <button type="reset" class="orange-button">Elimina modifica</button>
                 <button type="submit" name="salva_date_trasporto" class="orange-button">Salva date</button>
@@ -377,7 +360,7 @@ if(isset($_GET['mode']) && $_GET['mode'] === 'edit-data'){
                 <div class="header-article">
                     <h2>Informazioni sul trasporto</h2>
                     <a href="' . $url_base . '&mode=edit-data#stato-trasporto" class="pencil">
-                        <img src="./assets/icons/edit-pencil.svg" alt="Modifica data di arrivo">
+                        <img src="./assets/icons/edit-pencil.svg" alt="Modifica data di arrivo" />
                     </a>
                 </div>
                 <dl>
@@ -419,7 +402,7 @@ if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($ri
                     <div class="header-article">
                         <h2>Le tue annotazioni</h2>
                         <a href="?email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') . '#sezione-note" id="edit-note" class="pencil" aria-label="Modifica le annotazioni">
-                            <img src="./assets/icons/edit-pencil.svg" alt="" aria-hidden="true">
+                            <img src="./assets/icons/edit-pencil.svg" alt="" />
                         </a>
                     </div>
                     <div id="note-container">
@@ -439,7 +422,7 @@ if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($ri
                 <div class="header-article">
                     <h2>Le tue annotazioni</h2>
                     <a href="?mode=note&email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') . '#sezione-note" id="edit-note" class="pencil" aria-label="Annulla le annotazioni">
-                        <img src="./assets/icons/edit-pencil.svg" alt="" aria-hidden="true">
+                        <img src="./assets/icons/edit-pencil.svg" alt="" />
                     </a>
                 </div>
                 <div id="note-container">
