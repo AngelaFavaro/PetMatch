@@ -439,4 +439,169 @@ article.evento {
     display: block; 
 }
 
-/** ======= ASSEGNATI A TE ======  */
+/* ---------DETTAGLI RICHIESTA ADOZIONE -------- */
+#details-container .tabs-container{
+    display: flex;
+    flex:wrap;
+    gap: 1cm;
+}
+
+#details-container .tabs-container article{
+    flex: 0 0 50%;
+}
+
+#details-container .tabs-container article h2{
+    border-top: none;
+    margin-bottom: 0.3cm;
+}
+
+#responsabile{
+    border:1px solid var(--lightborder);
+    border-radius: 0.3cm;
+    padding: 0.1cm 0.3cm
+}
+#note-richiesta{
+    padding-top:0.5cm;
+}
+
+#animale-richiesta{
+    border-bottom: 1px solid var(--lightborder);
+    padding-bottom: 0.5cm;
+}
+
+#animal-container h2{
+    border-top: 1px solid var(--lightborder);
+    padding-top: 0.5cm;
+}
+
+#animale-richiesta img{
+    padding-bottom: 0.5cm;
+}
+
+#animale-richiesta dd{
+    float:left;
+}
+
+#animale-richiesta dt{
+    clear: both;
+
+}
+
+#animale-richiesta a{
+    border:1px solid var(--lightborder);
+    padding:0.2em 0.5em;
+    border-radius: 0.5cm;
+}
+
+#other-info-container{
+    margin-top: 0.3cm;
+}
+
+#animale-richiesta{
+    column-count: 2;
+}
+
+pre#note-text{
+    font-family: 'Times New Roman', Times, serif;
+    border:1px solid var(--lightborder);
+    padding: 0.3cm;
+    border-radius: 0.1cm;
+}
+
+/* ---------DETTAGLI RICHIESTA ADOZIONE -------- */
+#button-cancel img,
+.overlay-content{
+    display: none;
+}
+
+#generic-info-container {
+    position: relative;
+    display: flex;
+    gap: 20px;     
+    padding: 20px;
+    align-items: flex-start;
+}
+
+#generic-info-container img {
+    width: 15em;
+    height: 15em;
+    object-fit: cover;
+    border-radius: 0.5em;
+}
+
+#animale-detailed-container{
+    display: flex;
+}
+
+.description-info-container{
+    flex: 1 1 60%;
+    margin: 0 0.5cm;
+}
+
+.generic-info-container{
+    flex: 1 1 30%;
+}
+
+#button-cancel {
+    position: absolute;
+    top: 9.5cm;
+    left: 0;
+    padding: 0.2cm 0.1cm;
+    border: 1px solid var(--lightborder);
+    border-radius: 0.5cm;
+}
+
+#content-manage button{
+    padding: 0.2cm 0.1cm;
+    border: 1px solid var(--lightborder);
+    border-radius: 0.5cm;
+    margin: 0 0 0 auto;
+    display: block;
+}
+
+#dettaglio-animale #visualizza-richieste-animale{
+    margin-top: 0.5cm;
+}
+
+#dettaglio-animale #visualizza-richieste-animale select{
+    display: none;
+}
+
+#dettaglio-animale #visualizza-richieste-animale legend{
+    font-size: 16pt;
+    font-weight: 600;
+}
+
+#dettaglio-animale .tab-content{
+    margin-bottom: 0.5cm;
+    list-style: circle;
+}
+
+#dettaglio-animale .content-tab1::before{
+    content: 'Nuove';
+    font-weight: 600;
+}
+#dettaglio-animale .content-tab2::before{
+    content: 'In valutazione';
+    font-weight: 600;
+}
+#dettaglio-animale .content-tab3::before{
+    content: 'Accettate';
+    font-weight: 600;
+}
+#dettaglio-animale .content-tab4::before{
+    content: 'Respinte';
+    font-weight: 600;
+}
+#dettaglio-animale .content-tab5::before{
+    content: 'Annullate';
+    font-weight: 600;
+}
+#dettaglio-animale .content-tab6::before{
+    content: 'Da trasportare';
+    font-weight: 600;
+}
+
+#dettaglio-animale .sr-only{
+    display: none;
+}

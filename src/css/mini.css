@@ -1070,6 +1070,10 @@ body#admin-body #animali .filtri .capsula-filtro{
     gap:2em;
 }
 
+#dettaglio-animale .tabs-container select{
+    width: 100%;
+}
+
 .generic-info-container img{
     margin:0 auto 0.5em auto;
 }

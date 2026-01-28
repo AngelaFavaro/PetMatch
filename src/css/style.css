@@ -4415,6 +4415,7 @@ div#admin-area article.note{
     object-fit: cover;
     border-radius: 0.5em;
     box-shadow: 0 0.25em 0.625em rgba(0,0,0,0.2);
+    margin-top: 1em;
 }
 
 #dettaglio-animale .text-details {
@@ -4435,7 +4436,7 @@ div#admin-area article.note{
     width: 3em;
     transition: transform 0.2s ease;
     padding: 0.5em;
-    margin-top: -0.5em;
+    /* margin-top: -0.5em; */
     border-radius: 0.5em;
     transition: 0.4s;
     border:2px solid transparent;
@@ -4443,6 +4444,10 @@ div#admin-area article.note{
 
 #sezione-note a#edit-note img:hover{
     border-color: var(--txtcolor);
+}
+
+#sezione-note a#edit-note img{
+    margin-top: -0.5em;
 }
 
 .edit-admin-info img:hover,
@@ -4474,13 +4479,11 @@ div#admin-area article.note{
 }
 
 #dettaglio-animale .tabs-container select {
-    width: 60%; 
     min-width: 12em;
-    max-width: 20em;
     border: 0.1em solid var(--buttoncolor);
     background-color: var(--buttoncolor);
     color: var(--txtcolor);
-    padding: 0.5em 1em;
+    padding: 0.5em 2.5em 0.5em 1em;
     border-radius: 1.5em;
     cursor: pointer;
     box-sizing: border-box; 
