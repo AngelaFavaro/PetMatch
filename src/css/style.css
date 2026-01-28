@@ -2513,7 +2513,7 @@ input[type="date"]{
 }
 
 
-#eventi .dettagli-evento-bottone a{
+#eventi .dettagli-evento-bottone a, #visualizzazione-evento .dettagli-evento-bottone a{
     position: absolute;
     top: 0;
     left: 0;
@@ -2525,7 +2525,7 @@ input[type="date"]{
     color:var(--txtcolor);    
 }
 
-#eventi .dettagli-evento-bottone a:hover {
+#eventi .dettagli-evento-bottone a:hover, #visualizzazione-evento .dettagli-evento-bottone a:hover {
 cursor: pointer;
 }
 
@@ -2550,11 +2550,11 @@ cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-#eventi .evento:hover {
+#eventi .evento:hover, #visualizzazione-evento .evento:hover {
     border: 2px solid var(--buttoncolor-hover);
 }
 
-#eventi .cards-container li {
+#eventi .cards-container li, #visualizzazione-evento .cards-container li{
     border-radius: 0.5em;
     list-style: none;
     flex: 1 1 45%;
@@ -2565,7 +2565,7 @@ cursor: pointer;
     margin: 0.5em;
 }
 
-#eventi .evento img.immagine-evento {
+#eventi .evento img.immagine-evento, #visualizzazione-evento .evento img.immagine-evento {
     width: 11em;
     height: 100%;
     padding: 0.8em;
@@ -2578,7 +2578,8 @@ cursor: pointer;
 }
 
 #eventi .evento .posizione-evento img, 
-#eventi .evento .data-evento img {
+#eventi .evento .data-evento img,
+#visualizzazione-evento .evento .data-evento img  {
     padding: 0em;
     height: 1.5em;
     width: 1.5em;
@@ -2601,7 +2602,7 @@ cursor: pointer;
     height: fit-content;
 }
 
-#eventi .evento .data-evento{
+#eventi .evento .data-evento {
     float:right;
     gap: 0.2em;
     margin-right: 0.6em;
@@ -2610,6 +2611,19 @@ cursor: pointer;
     align-items: center;
     display: flex;
 }
+ #visualizzazione-evento .evento .data-evento{
+    float:right;
+    gap: 0.2em;
+    margin-right: 0.6em;
+    margin-top: 0.4em;
+    margin-bottom: 0.2em;
+    align-items: center;
+    display: flex;
+    position: absolute;
+    bottom: 1em; 
+    left: 13em;
+    margin: 0;
+}
 
 #eventi .evento .descrizione-evento {
     overflow: hidden;
@@ -2617,7 +2631,11 @@ cursor: pointer;
     max-width: 35em;
     text-align: left;
 }
-
+#visualizzazione-evento .evento h2 {
+    font-size: 1.3em;
+    margin: 0.2em 0 0.2em 0;
+}
+ 
 #eventi .evento h2 {
     font-size: 1em;
     margin: 0 0 0.2em 0;
@@ -2645,11 +2663,19 @@ cursor: pointer;
     background: var(--darkbgcolor); 
 }
 
-#eventi .cards-container {
+#eventi .cards-container, #visualizzazione-evento .cards-container{
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: left;
+    margin-top: 2em;
+}
+
+#visualizzazione-evento .cards-container li{
+    width: 100%;
+}
+
+#visualizzazione-evento .cards-container {
     margin-top: 2em;
 }
 
@@ -5892,6 +5918,115 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     flex: 1 1 20%;
     min-width: 1em;
     padding-top: 2em;
+}
+
+
+/* -----------PAGINA VISUALIZZAZIONE EVENTO--------------- */
+#visualizzazione-evento #evento {
+    flex: 1 1 65%;
+    border: 1px solid var(--txtcolor);
+    border-radius: 0.5em;
+    padding: 2em;
+    display: flow-root;
+
+    position: relative; /* Punto di riferimento per l'immagine */
+    width: 100%;
+    margin-top: 1.5em;
+    margin-bottom: 2em;
+
+}
+
+#visualizzazione-evento #evento .immagine{
+    /* float: left;
+    height: 100%;
+    max-width: 35%; */          /* Si ancora in alto e in basso */
+    width: fit-content;         /* Larghezza fissa */
+    height: auto;
+    float: left;
+    max-width: 30%;
+    position: relative;
+    margin-right: 1em;
+}
+
+#visualizzazione-evento #evento dl {           /* Lascia il 35% di spazio per l'immagine */
+     /* Sposta il testo a destra */
+     /* Un po' di aria tra foto e testo */
+    box-sizing: border-box;
+}
+
+
+
+#visualizzazione-evento #evento .immagine img{
+    /* float: left;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; */
+position: static; 
+    
+    /* Rimuove lo spazietto bianco fastidioso sotto le immagini */
+    display: block; 
+    
+    /* L'immagine cerca di essere grande al 100% del suo contenitore (che si è adattato a lei) */
+    /* Ma se l'immagine è enorme, max-width del contenitore la fermerà */
+    width: 100%; 
+    
+    /* Mantiene le proporzioni corrette */
+    height: auto;
+}
+
+
+#visualizzazione-evento aside.altri-eventi {
+    flex: 1 1 30%;
+    display: flex;
+    flex-direction: column;
+}
+
+#visualizzazione-evento div#mainEvento {
+    flex: 0 1 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+#visualizzazione-evento #evento dt {
+    float: left;
+    font-weight: 600;
+}
+
+#visualizzazione-evento #evento dt {
+    display: inline-block;
+    font-weight: 600;
+}
+
+#visualizzazione-evento #evento dd {
+    margin-bottom: 0.8em;
+}
+
+#visualizzazione-evento #evento dt::after{
+    content: ":\00a0";
+}
+
+#visualizzazione-evento .altri-eventi .cards-container{
+    border: 1px solid var(--txtcolor);
+    border-radius: 0.5em;
+    padding: 1em;
+    list-style: none;
+}
+
+#visualizzazione-evento .evento {
+    position: relative;
+    list-style: none;
+    width: 100%;
+    height: 10em;
+    /* display: block; */
+    min-width: 20em;
+    padding-right: 1em;
+    background-color: var(--darkbgcolor);
+    /* border: 0.1em solid var(--darkbgcolor); */
+    border-radius: 0.5em;
+    /* margin: 0.2em; */
+    border: 2px solid var(--darkbgcolor);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 
