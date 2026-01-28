@@ -2878,7 +2878,7 @@ flex: 1 0 100%;
 }
 
 #user-profile #user-info img.circle-foto{
-    margin:auto;
+    margin:1em auto;
 }
 
 #user-info{
@@ -3183,13 +3183,6 @@ input#check-assegna:checked:before,
     transform: scale(1);        
 }
 
-.edit-mode .edit-number div{
-    display: flex;
-    flex-wrap: nowrap;
-    width: 100%;
-    margin-top: 0;
-}
-
 .edit-mode .edit-number div span{
     margin:auto 5px auto 0;
 }
@@ -3207,6 +3200,10 @@ input#check-assegna:checked:before,
     margin-top:1em;
 }
 
+#user-profile form label[for="new-pic"]{
+    text-align: center;
+}
+
 .edit-mode input[type="file"],
 div#admin-area input[type="file"]{
     background-color: transparent;
@@ -3214,6 +3211,7 @@ div#admin-area input[type="file"]{
     border:1px solid var(--text-form);
     border-radius: 2em;
     cursor: pointer;
+    padding: 0.3em;
 }
 
 input[type="file"]::file-selector-button {
@@ -3237,8 +3235,8 @@ input[type="file"]::file-selector-button:hover {
     color:var(--txtcolor);
 }
 
-.edit-mode form div,
-.edit-management form div,
+.edit-mode form div:has(button),
+.edit-management form div:has(button),
 #form-add-animal .form-buttons-container,
 #new-event .form-buttons-container{
     display: flex;
