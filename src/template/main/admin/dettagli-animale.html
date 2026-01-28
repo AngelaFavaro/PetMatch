@@ -5,30 +5,9 @@
             <div class="generic-info-container">
                 <div class="action-buttons-group">
                     [pulsanti-modifica-animale]
-
-                    <form method="post">
-                        <button type="submit" name="show-dialog" class="button-cancel">
-                            <img src="./assets/icons/delete-trash.svg" alt="" />Elimina animale
-                        </button>
-                    </form>
-
-                    <dialog [openDialog] class="overlay-content">
-                        <div class="dialog-box">
-                            <h3 id="modal-title">Conferma eliminazione</h3>
-                            <p>L'eliminazione di <strong>[nomeAnimale]</strong> è <strong>irreversibile</strong>. Vuoi continuare?</p>
-                            
-                            <div class="dialog-buttons">
-                                <form method="post">
-                                    <button type="submit" name="close-dialog" class="button-cancel">No, annulla</button>
-                                </form>
-                                
-                                <form method="post">
-                                    <button type="submit" name="delete-animale">Si, elimina</button>
-                                </form>
-                            </div>
-                        </div>
-                    </dialog>
-
+                    [pulsante-elimina-animale]
+                </div>
+                
                 <img src="[animalImgPath]" alt="Foto di [nomeAnimale]" class="square-foto" />
 
                 <div class="text-details">
