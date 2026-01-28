@@ -1853,6 +1853,7 @@ float: none;
     display: flex;
     gap: 0.5em;
     justify-content: flex-end;
+    align-items: center;
 }
 
 #eventi .filtri{
