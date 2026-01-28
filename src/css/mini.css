@@ -476,6 +476,11 @@ img.circle-foto{
     margin:1em auto;
 }
 
+div#admin-area #animali tbody .brown-button{
+    width: 100%;
+    margin: 0.5em 0;
+}
+
 /* ================== 404 PAGE ==================*/
 div#row2{
     gap:0em;
