@@ -4289,10 +4289,10 @@ div#admin-area article.note{
     margin: 0em;
 }
 #bottom-container form{
-    margin: 1em 0em 0em auto;
+    margin: 0em 0em 0em auto;
 }
 #bottom-container button{
-    margin: 1em 0em 0em auto; /*questa regola seleziona DUE button, quello del form delle annotazioni e quello di scarta richiesta*/
+    margin: 0em 0em 0em auto; /*questa regola seleziona DUE button, quello del form delle annotazioni e quello di scarta richiesta*/
 }
 #bottom-container{
     display: flex;

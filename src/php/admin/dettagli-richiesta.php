@@ -241,7 +241,7 @@ $urlDettaglioAnimale = './dettagli-animale?id-animale=' . e($richiesta['id-anima
 $main = str_replace('[paginaAnimale]', $urlDettaglioAnimale, $main);
 
 $main = str_replace('[paginaRichiedente]', './profilo-richiedente?email=' . urlencode($_GET['email']) ?? '', $main);
-$main = str_replace('[animalID]', $richiesta['id-animale'] ?? '', $main);
+// $main = str_replace('[animalID]', $richiesta['id-animale'] ?? '', $main);
 $main = str_replace('[trasporto]', siNo($richiesta['trasporto-richiesta'] ?? 0), $main);
 $main = str_replace('[scarta-richiesta]', $scarta_richiesta, $main);
 $main = str_replace('[stato]', e($richiesta['stato'] ?? ''), $main);

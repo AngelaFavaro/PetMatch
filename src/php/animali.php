@@ -269,7 +269,7 @@ if(isset($_GET['id'])) {
                 }
                 $html.="
                         <div class='dettagli-animale-bottone'>
-                            <a href='visualizzazione-animale?id=$id'>Vedi dettagli</a>
+                            <a href='dettagli-animale?id-animale=$id'>Vedi dettagli</a>
                         </div>
                     </article>
                 </li>";
