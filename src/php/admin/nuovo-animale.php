@@ -203,16 +203,19 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
 
         $_SESSION['form_inputs'] = $inputsToSave; 
 
+        //se si sta modificando l'animale e c'è una failure allora si ricarica la pagina dell'animale, se
+        //invece non è in modifica ricarica la pagina del nuovo animale
+
+        //l'invio della query al db è più in alto, dov'è anche l'invio della query dell'aggiungi animale, solo
+        //se anche li controllo in che caso mi trovo
+
+        //pls non modificate
         if($isModified){
-            $result = $conn->updateAnimal($dataDB, $_GET['id-animale']);
-            if($result){
-                unset($_SESSION['form_status_info'], $_SESSION['form_errors_info'], $_SESSION['form_inputs']);
-                // Cambia da ./animali a ./dettagli-animale
-                header("Location: ./dettagli-animale?id-animale=" . urlencode($_GET['id-animale']));
-                exit;
-            } else {
-                $errors['generic'] = "La modifica non è andata a buon fine.";
-            }
+            header("Location: ./dettagli-animale?id-animale=" . urlencode($_GET['id-animale']));
+            exit;
+        }else{
+            header("Location: ./nuovo-animale");
+            exit;
         }
 
     }
@@ -270,8 +273,8 @@ $inputHiddenFoto = "";
 if (!empty($NewAnimalInfo['ImgPath'])) {
     $nomeFile = basename($NewAnimalInfo['ImgPath']);
     $fotoInfo = "<p class='success-form'>Immagine già caricata: <strong>$nomeFile</strong></p>";
-    $fotoInfo .= "<img src='{$NewAnimalInfo['ImgPath']}' alt='Anteprima immagine caricata' style='max-width:200px;'>";
-    $inputHiddenFoto = "<input type='hidden' name='foto' value='{$NewAnimalInfo['ImgPath']}'>";
+    $fotoInfo .= "<img src='{$NewAnimalInfo['ImgPath']}' alt='Anteprima immagine caricata' />";
+    $inputHiddenFoto = "<input type='hidden' name='foto' value='{$NewAnimalInfo['ImgPath']}'/>";
 }
 
 if ($isModified) {
@@ -316,8 +319,8 @@ $paginaHTML = str_replace('[disabledEdit]', $isModified?'disabled':'', $paginaHT
 $sessoPlaceholder = $NewAnimalInfo['Sesso']==='M'? '0' : '1';
 $tipologiaPlaceholder = $NewAnimalInfo['Tipo']==='Cane'?'0':'1';
 
-$paginaHTML = str_replace('[hiddenPerTipologia]', $isModified?'<input type="hidden" name="tipologia" value="'.$tipologiaPlaceholder.'">':'', $paginaHTML);
-$paginaHTML = str_replace('[hiddenPerSesso]', $isModified?'<input type="hidden" name="sesso" value="'.$sessoPlaceholder.'">':'', $paginaHTML);
+$paginaHTML = str_replace('[hiddenPerTipologia]', $isModified?'<input type="hidden" name="tipologia" value="'.$tipologiaPlaceholder.'"/>':'', $paginaHTML);
+$paginaHTML = str_replace('[hiddenPerSesso]', $isModified?'<input type="hidden" name="sesso" value="'.$sessoPlaceholder.'"/>':'', $paginaHTML);
 
 
 

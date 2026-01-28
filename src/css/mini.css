@@ -1040,3 +1040,46 @@ body#admin-body #animali .filtri .capsula-filtro{
     font-weight: bold;
 }
 
+/* =========DETTAGLI ANIMALI============ */
+
+#dettaglio-animale{
+    padding:0;
+}
+
+#dettaglio-animale .generic-info-container .text-details{
+    width: 100%;
+    column-count: 1;
+    border-bottom: 1px solid var(--cardHover);
+    padding-bottom: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+#dettaglio-animale article#animale-detailed-container{
+    min-width: 0;
+    padding: 0.5em;
+    margin:1em 0 0 0;
+}
+
+#dettaglio-animale #content-manage{
+    margin:0;
+}
+
+/* =========DETTAGLI RICHIESTA ADMIN============ */
+#details-container{
+    margin: 0;
+    gap:2em;
+}
+
+.generic-info-container img{
+    margin:0 auto 0.5em auto;
+}
+
+div#admin-area #details-container article#animale-richiesta{
+    margin-bottom: 2em;
+}
+
+div#admin-area #details-container article#animale-richiesta .text-details{
+    width: 100%;
+    margin:0;
+    padding:0;
+}

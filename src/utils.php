@@ -211,11 +211,11 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
     $isDark = (isset($_COOKIE['theme']) && $_COOKIE['theme'] === 'dark');
     // Parte iniziale: Checkbox e Label (Hamburger)
     $html = '
-    <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
+    <input type="checkbox" id="menu-toggle-checkbox" class="sr-only" />
 
     <div id="log-theme">
     <input type="checkbox" id="theme-toggle" class="sr-only"';
-    $html .= $isDark? ' checked >':'>';
+    $html .= $isDark? ' checked />':'/>';
     $html .= '
         <label for="theme-toggle" id="theme-switch">
             <span class="sr-only">Cambia tema</span>
@@ -225,13 +225,13 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
             </span>
         </label>
     </div>
-    <label for="menu-toggle-checkbox" class="menu-toggle" aria-label="Apri o chiudi menu di navigazione">
-    <span></span> </label>
+    <label for="menu-toggle-checkbox" class="menu-toggle">
+    <span class="sr-only">Apri o chiudi menu di navigazione</span> </label>
     
     <nav id="menu-admin" aria-label="Menù">
         <a class="navigationHelp" href="#content"> Salta il menù di navigazione</a>
         <a id="logo-link" href="./home">
-            <img src="./assets/icons/light-mode-logo.svg" id="logo" alt="Home" lang="en">
+            <img src="./assets/icons/light-mode-logo.svg" id="logo" alt="Home" lang="en" />
         </a>
         <div id="solo-stampa" lang="en">PetMatch</div>
         ';
@@ -281,12 +281,12 @@ function buildNav(array $items, string $currentHref): string {
     $isLogoActive =  ($currentHref === $homeHref)?                    
     
     '<div' . $logoAttributes . '>
-        <img src="./assets/icons/light-mode-logo.svg" id="logo-header" alt="PetMatch Home">
+        <img src="./assets/icons/light-mode-logo.svg" id="logo-header" alt="PetMatch Home" />
         <span id="name-site">Pet<span class="not-bold">Match</span></span>
     </div>' :
     
     '<a href="' . $homeHref . '"' . $logoAttributes . '>
-        <img src="./assets/icons/light-mode-logo.svg" id="logo-header" alt="PetMatch Home">
+        <img src="./assets/icons/light-mode-logo.svg" id="logo-header" alt="PetMatch Home" />
         <span id="name-site">Pet<span class="not-bold">Match</span></span>
     </a>';
     
@@ -314,7 +314,7 @@ function buildNav(array $items, string $currentHref): string {
                     </h1>
                 </nav>
                 
-                <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
+                <input type="checkbox" id="menu-toggle-checkbox" class="sr-only"/>
     
                 <nav aria-label="Menù principale" id="nav-osso">
                     <ul id="osso">';
@@ -339,9 +339,10 @@ function buildNav(array $items, string $currentHref): string {
                 
                 <div id="header-actions">
                 <input type="checkbox" id="theme-toggle" class="sr-only"';
-                $html .= $isDark? ' checked >':'>';
+                $html .= $isDark? ' checked />':'/>';
                 $html .= '
-                    <label for="theme-toggle" id="theme-switch" aria-label="Cambia tema" >
+                    <label for="theme-toggle" id="theme-switch">
+                        <span class="sr-only">Cambia tema</span>
                         <span id="slider">
                             <img src="./assets/icons/sun.svg" id="sun" alt=""/>
                             <img src="./assets/icons/moon.svg" id="moon" alt=""/>
@@ -390,7 +391,8 @@ function buildNav(array $items, string $currentHref): string {
                         </ul> 
                     </nav>
                     
-                    <label for="menu-toggle-checkbox" class="menu-toggle" aria-label="Apri il menù">
+                    <label for="menu-toggle-checkbox" class="menu-toggle">
+                        <span class="sr-only">Apri il menù</span>
                     </label>
     
                 </div>
@@ -403,16 +405,17 @@ function buildNav(array $items, string $currentHref): string {
                 <nav id="header-logo" aria-label="link alla home">
                     <h1>
                         <a href="./home">
-                            <img src="./assets/icons/light-mode-logo.svg" id="logo-header" alt="PetMatch Home">
+                            <img src="./assets/icons/light-mode-logo.svg" id="logo-header" alt="PetMatch Home" />
                             <span id="name-site">Pet<span class="not-bold">Match</span></span>
                         </a>
                     </h1>
                 </nav>
                 <div id="log-theme">
                     <input type="checkbox" id="theme-toggle" class="sr-only"';
-                    $html .= $isDark? ' checked >':'>';
+                    $html .= $isDark? ' checked />':'/>';
                     $html .= '
-                        <label for="theme-toggle" id="theme-switch" aria-label="Cambia tema" >
+                        <label for="theme-toggle" id="theme-switch" >
+                            <span class="sr-only">Cambia tema</span>
                             <span id="slider">
                                 <img src="./assets/icons/sun.svg" id="sun" alt=""/>
                                 <img src="./assets/icons/moon.svg" id="moon" alt=""/>
@@ -433,7 +436,7 @@ function buildFooter(array $menuGroups, string $currentHref): string {
     $logoAttributes = ($currentHref === $homeHref)? ' id="currentLinkFooter"' : '';
     $isLogoActive =  ($currentHref === $homeHref)?   
     '<div' . $logoAttributes . '>
-        <img src="./assets/icons/light-mode-logo.svg" id="logo-footer" alt="PetMatch Home">
+        <img src="./assets/icons/light-mode-logo.svg" id="logo-footer" alt="PetMatch Home" />
         <span id="name-site-footer" lang="en">Pet<span class="not-bold">Match</span></span>
     </div>' :
     
@@ -500,7 +503,7 @@ function buildFooter(array $menuGroups, string $currentHref): string {
                             <li class="social-media-links">
                                 <address>
                         <a id="insta-link" href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram: @petmatch_shelter">
-                                        <img src="./assets/icons/Instagram.svg" id="instagram" alt="">
+                                        <img src="./assets/icons/Instagram.svg" id="instagram" alt="" />
                                         @petmatch_shelter
                                     </a>
                                 </address>
@@ -769,9 +772,9 @@ function renderCaniGattiTabs(): string{
                 Gatti ([n-gatti])
             </option>
         </select>
-        <input class="sr-only" type="radio" id="tab1" name="tab-group"'.$checked['Cani'].'>
+        <input class="sr-only" type="radio" id="tab1" name="tab-group"'.$checked['Cani'].'/>
         <label for="tab1">Cani ([n-cani])</label>
-        <input class="sr-only" type="radio" id="tab2" name="tab-group" '.$checked['Gatti'].'>
+        <input class="sr-only" type="radio" id="tab2" name="tab-group" '.$checked['Gatti'].'/>
         <label for="tab2">Gatti ([n-gatti])</label>';
     }else{
         $html = '
@@ -785,9 +788,9 @@ function renderCaniGattiTabs(): string{
             </option>
         </select>
 
-        <input class="sr-only" type="radio" id="tab1" name="tab-group" checked>
+        <input class="sr-only" type="radio" id="tab1" name="tab-group" checked/>
         <label for="tab1">Cani ([n-cani])</label>
-        <input class="sr-only" type="radio" id="tab2" name="tab-group">
+        <input class="sr-only" type="radio" id="tab2" name="tab-group"/>
         <label for="tab2">Gatti ([n-gatti])</label>';
     }
 

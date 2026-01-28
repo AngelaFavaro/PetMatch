@@ -86,7 +86,7 @@ if ($connessioneOK) {
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-animale'])) {
         if ($connessione->deleteAnimal($idAnimale)) {
             $connessione->closeConnection();
-            header("Location: ./area-riservata?msg=eliminato");
+            header("Location: ./assegnati-a-te");//lascialo qua così quando elima l'animale si accorge che è effettivamente stato elimnato
             exit;
         } else {
             $erroreEliminazione = "Errore durante l'eliminazione.";
@@ -120,7 +120,16 @@ $main = loadTemplate('./src/template/main/admin/dettagli-animale.html');
 $title = '<title>Dettagli ' . e($richiesta['nome'] ?? 'Animale') . ' - Admin PetMatch</title>';
 $description = '<meta name="description" content="Visualizzazione dettagliata dell\'animale nel sistema gestionale">';
 
-$activeNav = $fromEmail ? './richieste-adozione' : './area-riservata';
+$from = $_GET['from'] ?? null;
+
+if ($fromEmail) {
+    $activeNav = './richieste-adozione';
+} elseif ($from === 'senza-admin') {
+    $activeNav = './senza-amministratore';
+} else {
+    $activeNav = './assegnati-a-te'; 
+}
+
 $nav = buildAdminNav($adminMenu, $activeNav);
 $paginaHTML = str_replace(['[breadcrumb]', '[title]', '[nav]', '[description]', '[keywords]'], 
                          [$breadcrumb, $title, $nav, $description, ""], 
@@ -157,6 +166,11 @@ if (trim($condizioni) === '' ||$condizioni === '0') {
 $main = str_replace('[condizioniMediche]', e($richiesta['CondizioniMediche'] ?? 'Nessuna'), $main);
 
 $urlModifica = $pagine['modifica-animale']['url'] . "?id-animale=" . urlencode($idAnimale);
+
+if ($from) {
+    $urlModifica .= "&from=" . urlencode($from);
+}
+
 if (isset($_GET['from_email'])) {
     $urlModifica .= "&from_email=" . urlencode($_GET['from_email']);
 }
@@ -164,7 +178,7 @@ if (isset($_GET['from_email'])) {
 $btnModifica = '
 <div class="edit-btn-container">
     <a href="' . e($urlModifica) . '" class="pencil">
-        <img src="./assets/icons/edit-pencil.svg" alt="Modifica scheda animale">
+        <img src="./assets/icons/edit-pencil.svg" alt="Modifica scheda animale" />
     </a>
 </div>';
 $main = str_replace('[pulsanti-modifica-animale]', $btnModifica, $main);

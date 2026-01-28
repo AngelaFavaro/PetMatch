@@ -6,10 +6,10 @@
         <fieldset>
             <legend>Tipologia di animale *</legend>
             <div class="radio-group-cg">
-                <input type="radio" name="tipologia" id="cane" value="0" [tipoCane_checked] [disabledEdit]>
+                <input type="radio" name="tipologia" id="cane" value="0" [tipoCane_checked] [disabledEdit]/>
                 <label for="cane" class="radio-card">Cane</label>
 
-                <input type="radio" name="tipologia" id="gatto" value="1" [tipoGatto_checked] [disabledEdit]>
+                <input type="radio" name="tipologia" id="gatto" value="1" [tipoGatto_checked] [disabledEdit]/>
                 <label for="gatto" class="radio-card">Gatto</label>
 
                 [hiddenPerTipologia]
@@ -24,13 +24,13 @@
                 <div class="column-user">
                     <div>
                         <label for="nome">Nome *</label>
-                        <input type="text" name="nome" id="nome" placeholder="Nome" autocomplete="nome" value="[Nome]">
+                        <input type="text" name="nome" id="nome" placeholder="Nome" autocomplete="nome" value="[Nome]"/>
                         <p class="error-form">[erroriNome]</p>
                     </div>
 
                     <div>
                         <label for="razza">Razza *</label>
-                        <input type="text" name="razza" id="razza" placeholder="Razza" autocomplete="razza" value="[Razza]">
+                        <input type="text" name="razza" id="razza" placeholder="Razza" autocomplete="razza" value="[Razza]"/>
                         <p class="error-form">[erroriRazza]</p>
                     </div>
 
@@ -46,12 +46,12 @@
                     <p class="sex-title">Sesso *</p>
                     <div class="sex-group">
                         <label class="sex-option">
-                            <input type="radio" name="sesso" id="Maschio" value="0" required [sessoM_checked] [disabledEdit]>
+                            <input type="radio" name="sesso" id="Maschio" value="0" required [sessoM_checked] [disabledEdit]/>
                             <span>Maschio</span>
                         </label>
 
                         <label class="sex-option">
-                            <input type="radio" name="sesso" id="Femmina" value="1" [sessoF_checked] [disabledEdit]>
+                            <input type="radio" name="sesso" id="Femmina" value="1" [sessoF_checked] [disabledEdit]/>
                             <span>Femmina</span>
                         </label>
 
@@ -63,7 +63,7 @@
                     <label for="foto" class="file-upload-label">
                         <span class="file-upload-text"> Importa un immagine o trascinala</span>
                         <span class="file-name-display"></span>
-                        <input type="file" id="foto" name="foto" accept=".jpg, .jpeg, .png">
+                        <input type="file" id="foto" name="foto" accept=".jpg, .jpeg, .png"/>
                         <div class="foto-caricata-info">
                             [infoFotoCaricata]
                         </div>
@@ -73,7 +73,7 @@
                     <div class="transport-wrapper">
                         <label class="checkbox-label">
                             Disponibile al trasporto
-                            <input type="checkbox" name="trasporto" id="trasporto" value="1" [trasporto_checked]>
+                            <input type="checkbox" name="trasporto" id="trasporto" value="1" [trasporto_checked]/>
                         </label>
                     </div> 
                     
@@ -82,7 +82,7 @@
                 <div class="column-user">
                     <div>
                         <label for="dataNascita">Data di Nascita *</label>
-                        <input type="date" name="dataNascita" id="dataNascita" autocomplete="Data di nascita" value="[DataNascita]">
+                        <input type="date" name="dataNascita" id="dataNascita" autocomplete="Data di nascita" value="[DataNascita]"/>
                         <p class="error-form">[erroriDataNascita]</p>
                     </div>
 
@@ -97,7 +97,7 @@
                     
                     <div>
                         <label for="colore">Colore *</label>
-                        <input type="text" name="colore" id="colore" placeholder="Colore" autocomplete="colore" value="[Colore]">
+                        <input type="text" name="colore" id="colore" placeholder="Colore" autocomplete="colore" value="[Colore]"/>
                         <p class="error-form">[erroriColore]</p>
                     </div>
 
@@ -128,7 +128,7 @@
         <div id="check-assegna-container">
             <label for="check-assegna" class="legend-content">
                 Assegna a me 
-                <input type="checkbox" id="check-assegna" name="assegna_a_me" value="1" [assegna_checked]>
+                <input type="checkbox" id="check-assegna" name="assegna_a_me" value="1" [assegna_checked]/>
             </label>
         </div>
 
