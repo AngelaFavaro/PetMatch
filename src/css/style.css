@@ -112,6 +112,7 @@
     --row-time-line: var(--darkMode-row-time-line);
 }
 
+:root:has(input#theme-toggle:checked) .button-cancel img,
 :root:has(input#theme-toggle:checked) #header-logo,
 :root:has(input#theme-toggle:checked) #logo-footer,
 :root:has(input#theme-toggle:checked) #heart-normal,
@@ -626,6 +627,7 @@ input [type="checkbox"]:focus-visible{
     outline-offset: 2px;
     transition: none;
 }
+
 
 input:focus,
 li:has(input:focus),
@@ -1980,7 +1982,7 @@ float: none;
     flex: 1;                    
     white-space: nowrap;
     text-align: center;
-    padding: 0.6em 0;
+    padding: 0.6em 1.2em;
     border-bottom: 1px solid var(--txtcolor);
     min-width: 200px;
 }
@@ -2137,6 +2139,10 @@ float: none;
     white-space: nowrap;      /* testo su una sola riga */
     overflow: hidden;         /* taglia il testo che esce dal box */
     text-overflow: ellipsis;  /* aggiunge "..." alla fine */
+}
+
+#nav-animali-type ~ #animali .card .nome,#nav-animali-type ~ #animali .dark-card .nome{
+    width: 100%;
 }
 
 #animali .card .sesso-etaDesk,
@@ -2507,7 +2513,7 @@ input[type="date"]{
 }
 
 
-#eventi .dettagli-evento-bottone a{
+#eventi .dettagli-evento-bottone a, #visualizzazione-evento .dettagli-evento-bottone a{
     position: absolute;
     top: 0;
     left: 0;
@@ -2519,7 +2525,7 @@ input[type="date"]{
     color:var(--txtcolor);    
 }
 
-#eventi .dettagli-evento-bottone a:hover {
+#eventi .dettagli-evento-bottone a:hover, #visualizzazione-evento .dettagli-evento-bottone a:hover {
 cursor: pointer;
 }
 
@@ -2544,11 +2550,11 @@ cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-#eventi .evento:hover {
+#eventi .evento:hover, #visualizzazione-evento .evento:hover {
     border: 2px solid var(--buttoncolor-hover);
 }
 
-#eventi .cards-container li {
+#eventi .cards-container li, #visualizzazione-evento .cards-container li{
     border-radius: 0.5em;
     list-style: none;
     flex: 1 1 45%;
@@ -2559,7 +2565,7 @@ cursor: pointer;
     margin: 0.5em;
 }
 
-#eventi .evento img.immagine-evento {
+#eventi .evento img.immagine-evento, #visualizzazione-evento .evento img.immagine-evento {
     width: 11em;
     height: 100%;
     padding: 0.8em;
@@ -2572,7 +2578,8 @@ cursor: pointer;
 }
 
 #eventi .evento .posizione-evento img, 
-#eventi .evento .data-evento img {
+#eventi .evento .data-evento img,
+#visualizzazione-evento .evento .data-evento img  {
     padding: 0em;
     height: 1.5em;
     width: 1.5em;
@@ -2595,7 +2602,7 @@ cursor: pointer;
     height: fit-content;
 }
 
-#eventi .evento .data-evento{
+#eventi .evento .data-evento {
     float:right;
     gap: 0.2em;
     margin-right: 0.6em;
@@ -2604,6 +2611,19 @@ cursor: pointer;
     align-items: center;
     display: flex;
 }
+ #visualizzazione-evento .evento .data-evento{
+    float:right;
+    gap: 0.2em;
+    margin-right: 0.6em;
+    margin-top: 0.4em;
+    margin-bottom: 0.2em;
+    align-items: center;
+    display: flex;
+    position: absolute;
+    bottom: 1em; 
+    left: 13em;
+    margin: 0;
+}
 
 #eventi .evento .descrizione-evento {
     overflow: hidden;
@@ -2611,7 +2631,11 @@ cursor: pointer;
     max-width: 35em;
     text-align: left;
 }
-
+#visualizzazione-evento .evento h2 {
+    font-size: 1.3em;
+    margin: 0.2em 0 0.2em 0;
+}
+ 
 #eventi .evento h2 {
     font-size: 1em;
     margin: 0 0 0.2em 0;
@@ -2639,11 +2663,19 @@ cursor: pointer;
     background: var(--darkbgcolor); 
 }
 
-#eventi .cards-container {
+#eventi .cards-container, #visualizzazione-evento .cards-container{
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: left;
+    margin-top: 2em;
+}
+
+#visualizzazione-evento .cards-container li{
+    width: 100%;
+}
+
+#visualizzazione-evento .cards-container {
     margin-top: 2em;
 }
 
@@ -2724,6 +2756,10 @@ cursor: pointer;
     border-radius: 0 0 0.5em 0.5em;
 }
 
+#admin-area .tabs-container .tab-content{
+    padding: 0;
+}
+
 /* con questo se dezoommi richieste di adozione e animali senza amministratore il contenuto delle tab rimane giù */
 #admin-area .tabs-container .tab-content{
 flex: 1 0 100%;
@@ -2768,10 +2804,14 @@ flex: 1 0 100%;
     display: none;
 }
 
+#animale-detailed-container .button-cancel,
+#animale-detailed-container button[name="delete-animale"],
+#user-info .button-cancel,
+#user-info button[name="delete-account"],
 #user-profile .tab-content form button,
 .logout-btn,
-#revisione-richiesta #button-cancel,
-#revisione-richiesta button,
+#revisione-richiesta .button-cancel,
+#revisione-richiesta button[name="delete-request"],
 .dialog-buttons label{
     border-radius: 2em;
     background-color: var(--buttoncolor);
@@ -2780,7 +2820,24 @@ flex: 1 0 100%;
     transition: 0.3s;
     border:2px solid var(--buttoncolor);
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 600;
+}
+
+#dettaglio-animale #animale-detailed-container button[name="show-dialog"]{
+    padding: 0.3em 1em;
+    border-radius: 2em;
+    position: absolute;
+    left:0;
+    top:0;
+    width: fit-content;
+    color:var(--txtcolor);
+}
+
+#dettaglio-animale #animale-detailed-container button[name="delete-animale"],
+#dettaglio-animale .generic-info-container label{
+    margin:0.5em 0;
+    width: fit-content;
+    padding: 0.5em 2em;
 }
 
 #user-profile .tab-content form button{
@@ -2796,15 +2853,13 @@ flex: 1 0 100%;
 
 #user-profile .tab-content form button:hover,
 .logout-btn:hover,
-#revisione-richiesta #button-cancel:hover{
+#animale-detailed-container .button-cancel:hover,
+#user-info .button-cancel:hover,
+#revisione-richiesta .button-cancel:hover{
     background-color:var(--bgcolor);
     color:var(--hover-link);
+    border-color: transparent;
 }
-
-#revisione-richiesta button:hover{
-    background-color:var(--form-bg);
-}
-
 
 
 #user-profile .tabs-container select,
@@ -2997,6 +3052,7 @@ a:hover .hover-icon {opacity: 1;}
 .checkbox-container-pic input[type="checkbox"],
 #home input[name="type-animal"],
 input#createMore,
+input#check-assegna,
 #form-add-animal .checkbox-label input[type="checkbox"]{
     appearance: none;
     width: 25px;
@@ -3010,6 +3066,7 @@ input#createMore,
 
 #home input[name="type-animal"],
 input#createMore,
+input#check-assegna,
 #richiesta-adozione input[type="checkbox"],
 #form-add-animal .checkbox-label input[type="checkbox"],
 .checkbox-container-pic input[type="checkbox"]{
@@ -3023,8 +3080,13 @@ input#createMore,
 #richiesta-adozione input[type="checkbox"],
 .checkbox-container-pic input[type="checkbox"],
 #form-add-animal .checkbox-label input[type="checkbox"],
+input#check-assegna,
 input#createMore{
     border-radius: 4px;
+}
+
+.sex-option input[type="radio"]:disabled{
+    cursor: auto;
 }
 
 .sex-option input[type="radio"]{
@@ -3034,16 +3096,22 @@ input#createMore{
     position: relative;
     top:5px;
     background-color: transparent;    
-    border: 1px solid var(--txtcolor);     
+    border: 1px solid var(--text-form);     
     border-radius: 2em;         
     cursor: pointer;
     margin: 0;      
+}
+
+.sex-option input[type="radio"]:checked:disabled{
+    background-color: var(--buttoncolor-hover);
+    border-color: var(--buttoncolor-hover);
 }
 
 #richiesta-adozione input[type="checkbox"]:checked,
 .checkbox-container-pic input[type="checkbox"]:checked,
 #home input[name="type-animal"]:checked,
 input#createMore:checked,
+input#check-assegna:checked,
 .sex-option input[type="radio"]:checked,
 #form-add-animal .checkbox-label input[type="checkbox"]:checked {
     background-color: var(--buttoncolor);   
@@ -3068,6 +3136,7 @@ input#createMore:checked,
 #richiesta-adozione input[type="checkbox"]::before,
 .checkbox-container-pic input[type="checkbox"]::before,
 input#createMore::before,
+input#check-assegna::before,
 #home input[name="type-animal"]::before,
 #form-add-animal .checkbox-label input[type="checkbox"]::before{
     content: "";
@@ -3104,6 +3173,7 @@ input#createMore::before,
 .checkbox-container-pic input[type="checkbox"]:checked::before,
 #home input[name="type-animal"]:checked::before,
 input#createMore:checked:before,
+input#check-assegna:checked:before,
 .sex-option input[type="radio"]:checked::before,
 #form-add-animal .checkbox-label input[type="checkbox"]:checked::before {
     transform: scale(1);        
@@ -3112,6 +3182,8 @@ input#createMore:checked:before,
 .edit-mode .edit-number div{
     display: flex;
     flex-wrap: nowrap;
+    width: 100%;
+    margin-top: 0;
 }
 
 .edit-mode .edit-number div span{
@@ -3161,19 +3233,19 @@ input[type="file"]::file-selector-button:hover {
     color:var(--txtcolor);
 }
 
-.edit-mode form span,
-.edit-management form span,
+.edit-mode form div,
+.edit-management form div,
 #form-add-animal .form-buttons-container,
 #new-event .form-buttons-container{
     display: flex;
     flex-wrap: wrap;
-    margin: 1em auto 0 auto;
+    margin: 1em auto;
 }
 
-.edit-mode form span a,
-.edit-mode form span button,
-.edit-management form span a,
-.edit-management form span button,
+.edit-mode form div a,
+.edit-mode form div button,
+.edit-management form div a,
+.edit-management form div button,
 #form-add-animal button[name="submit-animal"],
 #form-add-animal a#cancel-add-animal,
 #new-event button[name="submit-event"],
@@ -3187,8 +3259,8 @@ input[type="file"]::file-selector-button:hover {
     transition: 0.3s;
 }
 
-.edit-mode form span button,
-.edit-management form span button,
+.edit-mode form div button,
+.edit-management form div button,
 #form-add-animal button[name="submit-animal"],
 #new-event button[name="submit-event"]{
     background-color: var(--buttoncolor);
@@ -3199,8 +3271,8 @@ input[type="file"]::file-selector-button:hover {
     font-family: "Parkinsans", Roboto, sans serif;
 }
 
-.edit-mode form span a,
-.edit-management form span a,
+.edit-mode form div a,
+.edit-management form div a,
 #form-add-animal a#cancel-add-animal,
 #new-event a#cancel-new-event{
     color:var(--text-buttoncolor);
@@ -3209,10 +3281,10 @@ input[type="file"]::file-selector-button:hover {
     margin-right:0.5em;
 }
 
-.edit-mode form span a:hover,
-.edit-mode form span button:hover,
-.edit-management form span a:hover,
-.edit-management form span button:hover,
+.edit-mode form div a:hover,
+.edit-mode form div button:hover,
+.edit-management form div a:hover,
+.edit-management form div button:hover,
 #form-add-animal button[name="submit-animal"]:hover,
 #form-add-animal a#cancel-add-animal:hover,
 #new-event button[name="submit-event"]:hover,
@@ -3320,23 +3392,22 @@ input[type="file"]::file-selector-button:hover {
 }
 
 /* Stile base del popup (nascosto di default) */
-.overlay-content {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6); /* Sfondo scuro semitrasparente */
-    z-index: 1000;
-    display: none;
-    justify-content: center;
-    align-items: center;
+dialog[open].overlay-content {
+    border: none;
+    padding: 0;
+    border-radius: 0.8em;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    max-width: 90vw;
+    width: 400px;
+    
+    margin: auto;
 }
 
-.popup-checkbox:checked + label + .overlay-content, 
-.popup-checkbox:checked ~ .overlay-content {
-    display: flex; 
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.6); /* Oscura il resto del sito */
+    backdrop-filter: blur(2px);          /* Effetto sfocato opzionale molto moderno */
 }
+
 
 .dialog-box {
     background: var(--form-bg);
@@ -3348,6 +3419,10 @@ input[type="file"]::file-selector-button:hover {
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
+.dialog-box p{
+    margin-bottom: 1em;
+}
+
 .dialog-buttons {
     display: flex;
     justify-content: center;
@@ -3355,10 +3430,20 @@ input[type="file"]::file-selector-button:hover {
     margin-top: 1.5em;
 }
 
-#revisione-richiesta #button-cancel,
-#revisione-richiesta button{
+#animale-detailed-container .dialog-buttons  .button-cancel:not([name="show-dialog"]),
+#revisione-richiesta .dialog-buttons  .button-cancel:not([name="show-dialog"]),
+#user-info .dialog-buttons button[name="close-dialog"].button-cancel{
+    border-radius: 2em;
+}
+
+#animale-detailed-container .button-cancel,
+#animale-detailed-container button[name="delete-animale"],
+#user-info .button-cancel,
+#user-info button[name="delete-account"],
+#revisione-richiesta .button-cancel,
+#revisione-richiesta button[name="delete-request"]{
     font-size: 1em;
-    margin:1em 0 1em auto;
+    margin:0 0 0 auto;
     width: fit-content;
 }
 
@@ -3369,24 +3454,43 @@ input[type="file"]::file-selector-button:hover {
     padding:0.3em 2.7em;
 }
 
-.dialog-buttons label:hover,
-#revisione-richiesta button:hover{
-    border-color:var(--bgcolor);
+#user-info .dialog-buttons label{
+    padding: 0.5em 2em;
 }
 
-.dialog-buttons label[for="delete-request-check"]{
-    background-color: var(--form-bg);
-    border-color:var(--buttoncolor);
+#animale-detailed-container .button-cancel:not([name="show-dialog"]),
+#revisione-richiesta .button-cancel:not([name="show-dialog"]),
+#animale-detailed-container .button-cancel,
+#user-info .edit-management .button-cancel{
+    width: 100%;
+    text-align: center;
+    background-color: transparent;
+    border-radius: 1em;
+}
+
+#animale-detailed-container .button-cancel:hover,
+#user-info .edit-management .button-cancel:hover{
+    border-color: transparent;
     color:var(--text-form);
 }
 
-.dialog-buttons label[for="delete-request-check"]:hover{
-    border-color:transparent;
-    color:var(--text-form);
+#user-info button[name="delete-account"]:hover,
+#revisione-richiesta button[name="delete-request"]:hover,
+#animale-detailed-container button[name="delete-animale"]:hover{
+    background-color: transparent;
+    border-color: transparent;
 }
 
-#delete-request-check:disabled + #button-cancel:hover,
-#delete-request-check:disabled + #button-cancel{
+
+button[name="show-dialog"].button-cancel img{
+    display: inline-block;
+    margin:0 0 -5px 0;
+    width: 2em;
+    height:auto;
+}
+
+#revisione-richiesta button[name="show-dialog"]:disabled:hover,
+#revisione-richiesta button[name="show-dialog"]:disabled{
     background-color: var(--modifiedAccount);
     border-color:var(--bordermodifiedAccount);
     color:var(--txtclose-request);
@@ -3395,11 +3499,11 @@ input[type="file"]::file-selector-button:hover {
     font-style: italic;
 }
 
+#animale-detailed-container .dialog-buttons button[name="delete-animale"]:hover,
+#user-info .dialog-buttons button[name="delete-request"]:hover,
 #revisione-richiesta .dialog-buttons button[name="delete-request"]:hover{
     border-color:transparent;
 }
-
-
 /* ================== LOGIN ==================*/
 #container-image-login{
     flex: 0 1 50%;
@@ -3515,13 +3619,9 @@ input[type="file"]::file-selector-button:hover {
     width: 33.333%;
 }
 
-#orari-chi-siamo table#tabella-chi-siamo tbody td[colspan="2"]{
-    text-align: center;
-    border-right: none;
-}
-
 #orari-chi-siamo table#tabella-chi-siamo {
     border: 1px solid var(--headervisitedlink);
+    border-bottom: none;
 }
 
 /* Celle pari */
@@ -3529,6 +3629,11 @@ input[type="file"]::file-selector-button:hover {
 #orari-chi-siamo table#tabella-chi-siamo tbody th:nth-child(even) {
     border-left: 1px solid var(--headervisitedlink);
     border-right: 1px solid var(--headervisitedlink);
+}
+
+#orari-chi-siamo table#tabella-chi-siamo tbody td[colspan="2"]{
+    text-align: center;
+    border-right: none;
 }
 
 #orari-chi-siamo table#tabella-chi-siamo tbody th {
@@ -3717,6 +3822,10 @@ div#admin-area article h2{
      font-weight: 600;
 }
 
+div#admin-area article#admin-info .header-info h2{
+    margin-top: 0.5em;
+}
+
 div#admin-area{
     padding: 0em 5em;
     margin-top: 2em;
@@ -3765,8 +3874,8 @@ ul#to-do-list li, ul#statistics-list li{
 }
 
 ul#to-do-list li{
-     background-color: var(--buttoncolor);
-    }
+    background-color: var(--buttoncolor);
+}
     
 ul#statistics-list li{
     background-color: var(--darkbgcolor);
@@ -3796,19 +3905,18 @@ p.n-query{
 #mobile-account-hover
 { display: none; } /* Nascondi tasto su desktop */
 
-nav#menu-admin {
+header:has(#menu-admin) {
     /* display: flex; */
     flex:0 0 20%;
     flex-direction: column;
     transition: 0.3s;
-    float: left;
     width: 20%;
     padding: 1em 0em 1em 1em;
     height: 100%;
     overflow: hidden;
-     font-size: 100%;   
-
-    /* height: 100vh; */
+    font-size: 100%; 
+    position: static;  
+    box-shadow: none;
 }
 
 nav#menu-admin li a {
@@ -3820,7 +3928,7 @@ body#admin-body main {
     background-color: var(--bgcolor);
     overflow: hidden;
     /* margin-left:20%; */
-    flex:1 1 80%;
+    flex: 0 0 80%;
     /* min-height: 100vh; */
 }
 
@@ -3941,10 +4049,22 @@ a.pencil {
 .generic-info-container {
     display: flex;
     flex-wrap: wrap;
+    align-items: flex-start;
 }
 
+/* l'ho messo a sinistra apposta */
 .generic-info-container img {
-    margin:0 auto 1em auto;
+    margin:0 auto 0 0;
+}
+
+#admin-area h2#responsabile{
+    font-size: 1.5em;
+    font-weight: 600;
+    margin-top:0.3em;
+    background-color: var(--darkbgcolor);
+    padding: 0.3em 0.5em;
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
 }
 
 /* #informazioni-admin{
@@ -4016,8 +4136,7 @@ a.pencil {
 
 .text-details{
     margin: auto 0 auto 1em;
-    max-width: 100%;
-    min-width: 50%;
+    width: 100%;
 }
 
 .text-details ul{
@@ -4256,6 +4375,257 @@ div#admin-area article.note{
     pointer-events: none;
 }
 
+/*================= DETTAGLI ANIMALI ADMIN ==================*/
+/* ============================================================
+   STRUTTURA PRINCIPALE (LAYOUT)
+   ============================================================ */
+#dettaglio-animale {
+    display: flex;
+    gap: 2em;
+    align-items: flex-start;
+}
+
+/* Box generico delle informazioni (Sinistra) */
+#dettaglio-animale article#animale-detailed-container {
+    border: 0.1em solid var(--txtcolor);
+    border-radius: 0.5em;
+    padding: 1em 1.5em 1.5em 1.5em;
+    flex: 1 1 55%; /* Aumentato leggermente per dare spazio al contenuto affiancato */
+    min-width: 25em;
+}
+
+#dettaglio-animale button[name="delete-assignment"]{
+    width: 100%;
+    background-color: transparent;
+    border:2px solid var(--buttoncolor);
+    color:var(--txtcolor);
+}
+
+#dettaglio-animale button[name="delete-assignment"]:hover{
+    border-color: transparent;
+}
+
+/* Box delle richieste (Destra) */
+#dettaglio-animale #content-manage {
+    flex: 1 1 35%;
+    margin-top: 2em;
+}
+
+#dettaglio-animale #visualizza-richieste-animale{
+    border: 0.1em solid var(--txtcolor); 
+    border-radius: 0.5em;
+    padding: 1em;
+}
+
+#dettaglio-animale #start-requests ul{
+    border: none;
+}
+
+/* ============================================================
+   SEZIONE INFO ANIMALE (FOTO E TESTO AFFIANCATI)
+   ============================================================ */
+#dettaglio-animale .generic-info-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2em;
+    position: relative;
+    padding-top: 3em; /* Spazio per il pulsante matita */
+}
+
+#dettaglio-animale .action-buttons-group{
+    display: flex;
+    margin-top: 1em;
+}
+
+#dettaglio-animale .action-buttons-group .text-details{
+    margin-left: 1em;
+}
+
+
+#dettaglio-animale .generic-info-container img.square-foto {
+    width: 15em;
+    height: 15em;
+    object-fit: cover;
+    border-radius: 0.5em;
+    box-shadow: 0 0.25em 0.625em rgba(0,0,0,0.2);
+}
+
+#dettaglio-animale .text-details {
+    flex: 1; /* Il testo occupa lo spazio rimanente accanto alla foto */
+}
+
+/* Pulsante Matita (Modifica) */
+#dettaglio-animale .edit-btn-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#sezione-note a#edit-note img,
+.edit-admin-info img,
+#dettaglio-animale a.pencil img {
+    height: auto;
+    width: 3em;
+    transition: transform 0.2s ease;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    transition: 0.4s;
+    border:2px solid transparent;
+}
+
+#sezione-note a#edit-note img:hover{
+    border-color: var(--txtcolor);
+}
+
+#sezione-note a#edit-note img{
+    margin-top: -0.5em;
+}
+
+.edit-admin-info img:hover,
+#dettaglio-animale a.pencil img:hover {
+    border-color: var(--darkbgcolor);
+}
+
+/* ============================================================
+   SEZIONE TABS E FILTRI (RICHIESTE)
+   ============================================================ */
+#dettaglio-animale .tabs-container legend {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 0.8em;
+    padding: 0; /* Titolo attaccato al margine sinistro */
+    display: block;
+    width: 100%;
+}
+
+/* Fieldset - ALLINEAMENTO SOTTO AL TITOLO */
+#dettaglio-animale .tabs-container fieldset {
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start; 
+    border: none; 
+    padding: 0 ; 
+    margin: 0;
+    width: auto;
+}
+
+#dettaglio-animale .tabs-container select {
+    min-width: 12em;
+    border: 0.1em solid var(--buttoncolor);
+    background-color: var(--buttoncolor);
+    color: var(--txtcolor);
+    padding: 0.5em 2.5em 0.5em 1em;
+    border-radius: 1.5em;
+    cursor: pointer;
+    box-sizing: border-box; 
+    margin-bottom: 1em;
+}
+
+/* RESET COLORI TENDINA APERTA */
+#dettaglio-animale .tabs-container option {
+    background-color: var(--bgcolor); /* Sfondo della lista aperta diverso dalla tendina chiusa */
+    color: var(--txtcolor);
+}
+
+/* ============================================================
+   LISTA CARD RICHIESTE E RESET
+   ============================================================ */
+#visualizza-richieste-animale .tabs-container,
+#visualizza-richieste-animale .tabs-container fieldset,
+#visualizza-richieste-animale .tabs-container ul {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+#dettaglio-animale .tabs-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.5em 0 0 0;
+    width: 100%;
+}
+
+#dettaglio-animale .tabs-container li.richiesta-card {
+    background-color: var(--darkbgcolor);
+    border-radius: 1.5em; 
+    padding: 1.2em 1.5em;
+    margin-bottom: 1em;
+    border: none;
+}
+
+#dettaglio-animale .tabs-container .card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
+}
+
+/* Bottone Vedi Richiesta */
+#dettaglio-animale .tabs-container a.btn-vedi-richiesta {
+    padding: 0.5em 1.5em;
+    text-decoration: none;
+    color: var(--buttoncolor); 
+    font-weight: 400; 
+    background-color: var(--darklinkcolor); 
+    border: 0.0625em solid var(--darklinkcolor); 
+    border-radius: 1.5em;
+    font-size: 0.9em;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+/* Selettore specifico per non intaccare altre liste del sito */
+#visualizza-richieste-animale .tab-content {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+/* Stile della card specifica per questa sezione */
+#visualizza-richieste-animale .richiesta-card {
+    border-radius: 12px;
+    margin-bottom: 12px;
+    padding: 15px 20px;
+}
+
+/* Layout flex solo per le card in questa sezione */
+#visualizza-richieste-animale .card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px; /* Spazio minimo tra testo e bottone */
+}
+
+#visualizza-richieste-animale .card-content p {
+    margin: 0;
+    color: #3d1411;
+    font-size: 1rem;
+}
+
+/* Il bottone specifico */
+#visualizza-richieste-animale .btn-vedi-richiesta {
+    background-color: var(--cardHover);
+    color: var(--visitedcolor);
+    padding: 8px 18px;
+    border-radius: 20px;
+    text-decoration: underline;
+    font-weight: bold;
+    white-space: nowrap; /* Impedisce al bottone di andare a capo */
+}
+
+/* Gestione visibilità Tab tramite i radio button */
+/*#visualizza-richieste-animale .tab-content { display: none; }*/
+
+#anim-tab1:checked ~ #start-requests .content-tab1,
+#anim-tab2:checked ~ #start-requests .content-tab2,
+#anim-tab3:checked ~ #start-requests .content-tab3,
+#anim-tab4:checked ~ #start-requests .content-tab4,
+#anim-tab5:checked ~ #start-requests .content-tab5,
+#anim-tab6:checked ~ #start-requests .content-tab6 {
+    display: block;
+}
+
 /*================= RICHIESTE DI ADOZIONE ==================*/
 
 
@@ -4271,11 +4641,6 @@ table {
 thead, tfoot {
     background-color: var(--darkbgcolor);
 }
-
-footer a{
-    text-decoration: none;
-}
-
 
 thead th, tfoot th, tfoot td {
     padding: 0.5em 0.5em;
@@ -4389,6 +4754,22 @@ div#admin-area #animali .filtri ul{
 }
 
 /*==================NUOVO Animali==================*/
+
+#form-add-animal input:disabled+.radio-card{
+    cursor:auto;
+}
+
+#form-add-animal input:checked+.radio-card{
+    background-color: var(--buttoncolor-hover);
+    color:var(--light-txtcolor);
+    border-color: var(--text-buttoncolor);
+}
+
+#form-add-animal input:disabled:not(input:checked)+.radio-card:hover{
+    background-color: var(--selectTypeAnimal);
+    border-color: var(--text-buttoncolor);
+    color:var(--text-form);
+}
 
 /* ========================================
    CONTAINER PRINCIPALE
@@ -4972,6 +5353,7 @@ nav#breadcrumb a:visited{
 }
 
 
+
 /*================VISUALIZZAZIONE ANIMALI ==================*/
 
 #visualizzazione-animale .column-container{
@@ -5108,6 +5490,10 @@ nav#breadcrumb a:visited{
 #visualizzazione-animale .dettagli-animale h2{
     font-size:1.5em;
     margin-bottom: 0.5em;
+}
+
+#indirizzo-incompleto{
+    margin-bottom: 1em;
 }
 
 
@@ -5291,11 +5677,13 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     padding-bottom: 1.5em;
 }
 
+#check-assegna-container,
 #createMore-container{
     text-align: right;
     border-top:2px solid var(--darkbgcolor);
 }
 
+#check-assegna-container label,
 #createMore-container label{
     font-weight: normal;
     margin-top: 0;
@@ -5531,3 +5919,114 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     min-width: 1em;
     padding-top: 2em;
 }
+
+
+/* -----------PAGINA VISUALIZZAZIONE EVENTO--------------- */
+#visualizzazione-evento #evento {
+    flex: 1 1 65%;
+    border: 1px solid var(--txtcolor);
+    border-radius: 0.5em;
+    padding: 2em;
+    display: flow-root;
+
+    position: relative; /* Punto di riferimento per l'immagine */
+    width: 100%;
+    margin-top: 1.5em;
+    margin-bottom: 2em;
+
+}
+
+#visualizzazione-evento #evento .immagine{
+    /* float: left;
+    height: 100%;
+    max-width: 35%; */          /* Si ancora in alto e in basso */
+    width: fit-content;         /* Larghezza fissa */
+    height: auto;
+    float: left;
+    max-width: 30%;
+    position: relative;
+    margin-right: 1em;
+}
+
+#visualizzazione-evento #evento dl {           /* Lascia il 35% di spazio per l'immagine */
+     /* Sposta il testo a destra */
+     /* Un po' di aria tra foto e testo */
+    box-sizing: border-box;
+}
+
+
+
+#visualizzazione-evento #evento .immagine img{
+    /* float: left;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; */
+position: static; 
+    
+    /* Rimuove lo spazietto bianco fastidioso sotto le immagini */
+    display: block; 
+    
+    /* L'immagine cerca di essere grande al 100% del suo contenitore (che si è adattato a lei) */
+    /* Ma se l'immagine è enorme, max-width del contenitore la fermerà */
+    width: 100%; 
+    
+    /* Mantiene le proporzioni corrette */
+    height: auto;
+}
+
+
+#visualizzazione-evento aside.altri-eventi {
+    flex: 1 1 30%;
+    display: flex;
+    flex-direction: column;
+}
+
+#visualizzazione-evento div#mainEvento {
+    flex: 0 1 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+#visualizzazione-evento #evento dt {
+    float: left;
+    font-weight: 600;
+}
+
+#visualizzazione-evento #evento dt {
+    display: inline-block;
+    font-weight: 600;
+}
+
+#visualizzazione-evento #evento dd {
+    margin-bottom: 0.8em;
+}
+
+#visualizzazione-evento #evento dt::after{
+    content: ":\00a0";
+}
+
+#visualizzazione-evento .altri-eventi .cards-container{
+    border: 1px solid var(--txtcolor);
+    border-radius: 0.5em;
+    padding: 1em;
+    list-style: none;
+}
+
+#visualizzazione-evento .evento {
+    position: relative;
+    list-style: none;
+    width: 100%;
+    height: 10em;
+    /* display: block; */
+    min-width: 20em;
+    padding-right: 1em;
+    background-color: var(--darkbgcolor);
+    /* border: 0.1em solid var(--darkbgcolor); */
+    border-radius: 0.5em;
+    /* margin: 0.2em; */
+    border: 2px solid var(--darkbgcolor);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+

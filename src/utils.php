@@ -37,7 +37,7 @@ $pagine = [
     'richieste-adozione' => [
         'label' => 'Richieste di adozione',
         'url' => './richieste-adozione',
-        'parent' => 'home'
+        'parent' => 'area-riservata'
     ],
     'dettagli-richiesta' => [
         'label' => 'Dettagli richiesta',
@@ -47,13 +47,12 @@ $pagine = [
     'nuovo-animale' => [
         'label' => 'Aggiungi animale',
         'url' => './nuovo-animale',
-        'parent' => 'home'
+        'parent' => 'area-riservata'
     ],
     'modifica-animale' => [
-        // QUI VA CAMBIATO IL PARENT QUANDO SARA' PRONTA LA PAGINA DI DETTAGLIO
         'label' => 'Modifica animale',
         'url' => './modifica-animale', 
-        'parent' => 'area-riservata'  
+        'parent' => 'dettagli-animale'  
     ],
     'animali' => [
         'label' => 'Animali',
@@ -93,7 +92,7 @@ $pagine = [
     'preferiti' => [
         'label' => 'Preferiti',
         'url' => './preferiti',
-        'parent' => 'animali'
+        'parent' => 'home'
     ],
     'lavora-con-noi' => [
         'label' => 'Lavora con noi',
@@ -104,21 +103,26 @@ $pagine = [
         'label' => 'Visualizzazione animale',
         'url' => './animali', 
         'parent' => 'animali'
-    ], 
+    ],
     'senza-amministratore' => [
         'label' => 'Animali senza amministratore',
         'url' => './senza-amministratore',
-        'parent' => 'animali'
+        'parent' => 'area-riservata'
     ],
     'eventi' => [
         'label' => 'Eventi',
         'url' => './eventi',
         'parent' => 'home'
     ],
+        'visualizzazione-evento' => [
+        'label' => 'Visualizzazione evento',
+        'url' => './visualizzazione-evento', 
+        'parent' => 'eventi'
+    ], 
     'nuove-accoglienze' => [
         'label' => 'Nuove accoglienze',
         'url' => './nuove-accoglienze',
-        'parent' => 'animali'
+        'parent' => 'area-riservata'
     ],
     'profilo-richiedente' => [
         'label' => 'Profilo richiedente',
@@ -128,7 +132,7 @@ $pagine = [
     'adottati' => [
         'label' => 'Adottati',
         'url' => './adottati',
-        'parent' => 'animali'
+        'parent' => 'area-riservata'
     ],
     'nuovo-evento' => [
         'label' => 'Nuovo evento',
@@ -138,7 +142,12 @@ $pagine = [
     'assegnati-a-te' => [
         'label' => 'Assegnati a te',
         'url' => './assegnati-a-te',
-        'parent' => 'animali'
+        'parent' => 'area-riservata'
+    ],
+    'dettagli-animale' => [
+        'label' => 'Dettagli animale',
+        'url' => './dettagli-animale', 
+        'parent' => 'assegnati-a-te' 
     ],
     'modifica-evento' => [
         'label' => 'Modifica evento',
@@ -146,9 +155,9 @@ $pagine = [
         'parent' => 'visualizzazione-eventi'
     ],
     'visualizzazione-eventi' => [
-        'label' => 'Visualizzazione-eventi',
+        'label' => 'Visualizzazione eventi',
         'url' => './visualizzazione-eventi',
-        'parent' => 'home'
+        'parent' => 'area-riservata'
     ],
 ];
 
@@ -206,12 +215,12 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
 
     $isDark = (isset($_COOKIE['theme']) && $_COOKIE['theme'] === 'dark');
     // Parte iniziale: Checkbox e Label (Hamburger)
-    $html = '
-    <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
+    $html = '<header>
+    <input type="checkbox" id="menu-toggle-checkbox" class="sr-only" />
 
     <div id="log-theme">
     <input type="checkbox" id="theme-toggle" class="sr-only"';
-    $html .= $isDark? ' checked >':'>';
+    $html .= $isDark? ' checked />':'/>';
     $html .= '
         <label for="theme-toggle" id="theme-switch">
             <span class="sr-only">Cambia tema</span>
@@ -221,13 +230,13 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
             </span>
         </label>
     </div>
-    <label for="menu-toggle-checkbox" class="menu-toggle" aria-label="Apri o chiudi menu di navigazione">
-    <span></span> </label>
+    <label for="menu-toggle-checkbox" class="menu-toggle">
+    <span class="sr-only">Apri o chiudi menu di navigazione</span> </label>
     
     <nav id="menu-admin" aria-label="Menù">
         <a class="navigationHelp" href="#content"> Salta il menù di navigazione</a>
         <a id="logo-link" href="./home">
-            <img src="./assets/icons/light-mode-logo.svg" id="logo" alt="Home" lang="en">
+            <img src="./assets/icons/light-mode-logo.svg" id="logo" alt="Home" lang="en" />
         </a>
         <div id="solo-stampa" lang="en">PetMatch</div>
         ';
@@ -255,10 +264,10 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
     }
 
     $html .= '
-        <form action="./area-riservata" method="POST">
+        <form action="./area-riservata" method="post">
             <button type="submit" name="logout" class="logout-btn">Disconnettiti</button>
         </form>
-    </nav>';
+    </nav></header>';
 
     return $html;
 }
@@ -277,12 +286,12 @@ function buildNav(array $items, string $currentHref): string {
     $isLogoActive =  ($currentHref === $homeHref)?                    
     
     '<div' . $logoAttributes . '>
-        <img src="./assets/icons/light-mode-logo.svg" id="logo-header" alt="PetMatch Home">
+        <img src="./assets/icons/light-mode-logo.svg" id="logo-header" alt="PetMatch Home" />
         <span id="name-site">Pet<span class="not-bold">Match</span></span>
     </div>' :
     
     '<a href="' . $homeHref . '"' . $logoAttributes . '>
-        <img src="./assets/icons/light-mode-logo.svg" id="logo-header" alt="PetMatch Home">
+        <img src="./assets/icons/light-mode-logo.svg" id="logo-header" alt="PetMatch Home" />
         <span id="name-site">Pet<span class="not-bold">Match</span></span>
     </a>';
     
@@ -310,7 +319,7 @@ function buildNav(array $items, string $currentHref): string {
                     </h1>
                 </nav>
                 
-                <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
+                <input type="checkbox" id="menu-toggle-checkbox" class="sr-only"/>
     
                 <nav aria-label="Menù principale" id="nav-osso">
                     <ul id="osso">';
@@ -335,9 +344,10 @@ function buildNav(array $items, string $currentHref): string {
                 
                 <div id="header-actions">
                 <input type="checkbox" id="theme-toggle" class="sr-only"';
-                $html .= $isDark? ' checked >':'>';
+                $html .= $isDark? ' checked />':'/>';
                 $html .= '
-                    <label for="theme-toggle" id="theme-switch" aria-label="Cambia tema" >
+                    <label for="theme-toggle" id="theme-switch">
+                        <span class="sr-only">Cambia tema</span>
                         <span id="slider">
                             <img src="./assets/icons/sun.svg" id="sun" alt=""/>
                             <img src="./assets/icons/moon.svg" id="moon" alt=""/>
@@ -386,7 +396,8 @@ function buildNav(array $items, string $currentHref): string {
                         </ul> 
                     </nav>
                     
-                    <label for="menu-toggle-checkbox" class="menu-toggle" aria-label="Apri il menù">
+                    <label for="menu-toggle-checkbox" class="menu-toggle">
+                        <span class="sr-only">Apri il menù</span>
                     </label>
     
                 </div>
@@ -399,16 +410,17 @@ function buildNav(array $items, string $currentHref): string {
                 <nav id="header-logo" aria-label="link alla home">
                     <h1>
                         <a href="./home">
-                            <img src="./assets/icons/light-mode-logo.svg" id="logo-header" alt="PetMatch Home">
+                            <img src="./assets/icons/light-mode-logo.svg" id="logo-header" alt="PetMatch Home" />
                             <span id="name-site">Pet<span class="not-bold">Match</span></span>
                         </a>
                     </h1>
                 </nav>
                 <div id="log-theme">
                     <input type="checkbox" id="theme-toggle" class="sr-only"';
-                    $html .= $isDark? ' checked >':'>';
+                    $html .= $isDark? ' checked />':'/>';
                     $html .= '
-                        <label for="theme-toggle" id="theme-switch" aria-label="Cambia tema" >
+                        <label for="theme-toggle" id="theme-switch" >
+                            <span class="sr-only">Cambia tema</span>
                             <span id="slider">
                                 <img src="./assets/icons/sun.svg" id="sun" alt=""/>
                                 <img src="./assets/icons/moon.svg" id="moon" alt=""/>
@@ -429,7 +441,7 @@ function buildFooter(array $menuGroups, string $currentHref): string {
     $logoAttributes = ($currentHref === $homeHref)? ' id="currentLinkFooter"' : '';
     $isLogoActive =  ($currentHref === $homeHref)?   
     '<div' . $logoAttributes . '>
-        <img src="./assets/icons/light-mode-logo.svg" id="logo-footer" alt="PetMatch Home">
+        <img src="./assets/icons/light-mode-logo.svg" id="logo-footer" alt="PetMatch Home" />
         <span id="name-site-footer" lang="en">Pet<span class="not-bold">Match</span></span>
     </div>' :
     
@@ -496,7 +508,7 @@ function buildFooter(array $menuGroups, string $currentHref): string {
                             <li class="social-media-links">
                                 <address>
                         <a id="insta-link" href="https://www.instagram.com/petmatch_shelter" target="_blank" aria-label="Instagram: @petmatch_shelter">
-                                        <img src="./assets/icons/Instagram.svg" id="instagram" alt="">
+                                        <img src="./assets/icons/Instagram.svg" id="instagram" alt="" />
                                         @petmatch_shelter
                                     </a>
                                 </address>
@@ -649,22 +661,31 @@ function logout(){
     
     session_destroy();
     
-    header("Location: ./home");
+    // meglio mandarlo ad accedi che alla home, così sa che è andato tutto bene
+    header("Location: ./accedi");
     exit;
 }
 
-function calcolaEta(?string $dataNascita): ?int {
+function calcolaEta(?string $dataNascita): ?string {
     if (!$dataNascita) {
         return null;
     }
 
     try {
         $nascita = new DateTime($dataNascita);
-        return (new DateTime())->diff($nascita)->y;
+        $oggi = new DateTime();
+        $diff = $oggi->diff($nascita);
+
+        if ($diff->y > 0) {
+            return $diff->y . ' anni';
+        }
+
+        return $diff->m . ' mesi';
     } catch (Exception $e) {
         return null;
     }
 }
+
 
 // FUNZIONI PER COOKIES
 // Funzione che va a prendere gli animali messi nei preferiti dal guest non loggato
@@ -764,9 +785,9 @@ function renderCaniGattiTabs(): string{
                 Gatti ([n-gatti])
             </option>
         </select>
-        <input class="sr-only" type="radio" id="tab1" name="tab-group"'.$checked['Cani'].'>
+        <input class="sr-only" type="radio" id="tab1" name="tab-group"'.$checked['Cani'].'/>
         <label for="tab1">Cani ([n-cani])</label>
-        <input class="sr-only" type="radio" id="tab2" name="tab-group" '.$checked['Gatti'].'>
+        <input class="sr-only" type="radio" id="tab2" name="tab-group" '.$checked['Gatti'].'/>
         <label for="tab2">Gatti ([n-gatti])</label>';
     }else{
         $html = '
@@ -780,9 +801,9 @@ function renderCaniGattiTabs(): string{
             </option>
         </select>
 
-        <input class="sr-only" type="radio" id="tab1" name="tab-group" checked>
+        <input class="sr-only" type="radio" id="tab1" name="tab-group" checked/>
         <label for="tab1">Cani ([n-cani])</label>
-        <input class="sr-only" type="radio" id="tab2" name="tab-group">
+        <input class="sr-only" type="radio" id="tab2" name="tab-group"/>
         <label for="tab2">Gatti ([n-gatti])</label>';
     }
 
@@ -813,4 +834,95 @@ function formattaDataItaliana(string $data): string {
     $anno   = date('Y', $timestamp);
 
     return "$giorno $mese $anno";
+}
+
+function convertiDataItalianaInSQL($dataItaliana) {
+    // 1. Creiamo un "dizionario" per tradurre i mesi
+    $mesi = [
+        'Gennaio'   => '01',
+        'Febbraio'  => '02',
+        'Marzo'     => '03',
+        'Aprile'    => '04',
+        'Maggio'    => '05',
+        'Giugno'    => '06',
+        'Luglio'    => '07',
+        'Agosto'    => '08',
+        'Settembre' => '09',
+        'Ottobre'   => '10',
+        'Novembre'  => '11',
+        'Dicembre'  => '12'
+    ];
+
+    // 2. Puliamo la stringa e la dividiamo negli spazi
+    // Esempio input: "10 Agosto 2026" diventa array: ['10', 'Agosto', '2026']
+    $parti = explode(' ', trim($dataItaliana));
+
+    // Controllo di sicurezza: se non ho 3 pezzi, la data non è valida
+    if (count($parti) !== 3) {
+        return null; 
+    }
+
+    $giorno = $parti[0];
+    $meseNome = ucfirst(strtolower($parti[1])); // Rende "agosto" -> "Agosto" per sicurezza
+    $anno = $parti[2];
+
+    // 3. Controlliamo se il mese esiste nel nostro dizionario
+    if (!isset($mesi[$meseNome])) {
+        return null; // Mese non valido
+    }
+
+    $meseNumero = $mesi[$meseNome];
+
+    // 4. Assicuriamoci che il giorno abbia due cifre (es: 5 diventa 05)
+    $giorno = str_pad($giorno, 2, '0', STR_PAD_LEFT);
+
+    // 5. Restituiamo il formato SQL: YYYY-MM-DD
+    return "$anno-$meseNumero-$giorno";
+}
+
+/**
+ * Escape stringa per output HTML serve a prevenire XSS ossia Cross Site Scripting ossia l'inserimento di codice malevolo in pagine web visualizzate da altri utenti
+ */
+function e(string $s): string {
+    return htmlspecialchars($s ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+/**
+ * Ritorna "Sì" o "No" in base a valore booleano/intero
+ */
+function siNo($val): string {
+    return ($val === 1 || $val === '1' || $val === true) ? 'Sì' : 'No';
+}
+
+function displayDateItalianFormat(string $dateStr): string {
+    $timestamp = strtotime($dateStr);
+    if ($timestamp === false) {
+        return '';
+    }
+    return date('d/m/Y', $timestamp);
+}
+
+function formattaEta($dataNascita) {
+    if (!$dataNascita) return "Età sconosciuta";
+
+    try {
+        $nascita = new DateTime($dataNascita);
+        $oggi = new DateTime();
+        $diff = $nascita->diff($oggi);
+
+        $parti = [];
+
+        if ($diff->y > 0) {
+            $parti[] = $diff->y . ($diff->y == 1 ? " anno" : " anni");
+        }
+
+        // Gestione Mesi
+        if ($diff->m > 0) {
+            $parti[] = $diff->m . ($diff->m == 1 ? " mese" : " mesi");
+        }
+
+        return implode(" e ", $parti);
+    } catch (Exception $e) {
+        return "Data non valida";
+    }
 }

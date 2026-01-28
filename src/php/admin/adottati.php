@@ -27,7 +27,7 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo cont
 
         $idTabella = "sumTabella" . $tipo;
         $html = '
-            <span id="' . $idTabella . '" class="sr-only" aria-hidden="true">In questa tabella vengono elencati i ' . $tipoMinuscoloPlurale . ' adottati e i dettagli della richiesta di adozione. Per ogni ' . $tipoMinuscoloPlurale . ' adottato, sono disponibili le seguenti informazioni: identificativo animale, nome animale, nominativo adottante, email adottante, data di chiusura dell\'adozione, numero di giorni di valutazione e dettagli della richiesta nel completo.</span>
+            <span id="' . $idTabella . '" class="sr-only" aria-hidden="true">In questa tabella vengono elencati i ' . $tipoMinuscoloPlurale . ' adottati e i dettagli della richiesta di adozione. Per ogni ' . strtolower($tipo) . ' adottato, sono disponibili le seguenti informazioni: identificativo animale, nome animale, nominativo adottante, email adottante, data di chiusura dell\'adozione, numero di giorni di valutazione e dettagli della richiesta nel completo.</span>
             <table aria-describedby="' . $idTabella . '">
                 <caption>Dettagli (' . $tipoMinuscoloPlurale . ') adottati e dettagli della richiesta</caption>
                 <thead>
@@ -102,8 +102,8 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo cont
             $perPagina, 
             $offCani, 
             $offGatti, 
-            ($filtroCorrente === 'mie' || $filtroCorrente === 'non-mie') ? $_SESSION['email'] : null, 
-            $filtroCorrente
+            $filtroCorrente,
+            ($filtroCorrente === 'mie' || $filtroCorrente === 'non-mie') ? $_SESSION['email'] : null
         );
         
         $connessione->closeConnection();

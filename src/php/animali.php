@@ -203,6 +203,7 @@ if(isset($_GET['id'])) {
     
                 $eta = $a['eta'];
                 $id  = $a['id'];
+                $colore = $a['colore'];
     
                 /* -------- ADOTTATO (opzionale) -------- */
                 $adottato = isset($a['adottato']) && (int)$a['adottato'] === 1;
@@ -241,37 +242,34 @@ if(isset($_GET['id'])) {
     
                 /* -------- HTML -------- */
                 $html .= "
-                <li class='$cardClass' aria-labelledby='nome-animale-$id'>
-                    <article class='card' aria-label='descrizione:'>
-                        <div class='immagine'>
-                            <img src='$img' alt=''>
-                        </div>
-    
-                        <h3 class='nome' id='nome-animale-$id'>$nome</h3>";
+                    <li class='$cardClass' aria-labelledby='nome-animale-$id'>
+                        <article class='card'>
+                            <div class='immagine'>
+                                <img src='$img' alt='foto di $nome: un {$a['tipo']} di colore {$colore}' />                        
+                            </div>
+                            <h3 class='nome' id='nome-animale-$id'>$nome</h3>";
                 if(!$adottato) {
                     $html.="
-                        <p class='sesso-etaDesk'>$sesso - $eta anni</p>
-                        <p class='sesso-etaMob'>$sessoAbbr - $eta anni</p>";
+                        <p class='sesso-etaDesk'>$sesso - $eta</p>
+                        <p class='sesso-etaMob'>$sessoAbbr - $eta</p>";
                 }
                 if(!(isset($_SESSION['admin']) && $_SESSION['admin'] === true)) { //qui in generale tolto il cuore se admin (anche nel sito non è corretto che l'admin veda i preferiti)
                     $html.="
                             <div class='cuore'>
                                 <form method='post' action='animali' class='preferiti-form'>
-                                    <input type='hidden' name='id-animale-preferito' value='$id'>
+                                    <input type='hidden' name='id-animale-preferito' value='$id' />
                                     <button type='submit'
                                             class='$classePreferito'
                                             aria-label='$statusPreferiti'>
-                                        <img class='heart-normal' src='./assets/icons/$heartNormal' alt=''>
-                                        <img class='heart-hover' src='./assets/icons/$heartHover' alt=''>
+                                        <img class='heart-normal' src='./assets/icons/$heartNormal' alt='' />
+                                        <img class='heart-hover' src='./assets/icons/$heartHover' alt='' />
                                     </button>
                                 </form>
                             </div>";
                 }
                 $html.="
-                        <p class='$classeInteressato'>$giàInteressato</p>
-    
                         <div class='dettagli-animale-bottone'>
-                            <a href='animali?id=$id'>Vedi dettagli</a>
+                            <a href='dettagli-animale?id-animale=$id'>Vedi dettagli</a>
                         </div>
                     </article>
                 </li>";
@@ -407,15 +405,15 @@ if(isset($_GET['id'])) {
         $stringaFiltri="<form class='filtri' id='form-ricerca' method='get' action=".($isFromAdmin ? './assegnati-a-te' : './animali').">
             <!-- rotta gestita dal router -->
             
-            <input type='hidden' name='tipo' value='[TYPE]'>
+            <input type='hidden' name='tipo' value='[TYPE]'/>
     
             <ul aria-label='Filtri di ricerca'>
                 <li class='capsula-filtro' id='searchName'>
                     <label for='name-animal'>Nome</label>
-                    <input type='text' id='name-animal' name='name-animal' value='[NAME]' placeholder='Cerca...'>
+                    <input type='text' id='name-animal' name='name-animal' value='[NAME]' placeholder='Cerca...'/>
                 </li>
     
-                <li class='capsula-filtro' id='searchSize' role='presentation'>
+                <li class='capsula-filtro' id='searchSize' >
                     <label for='taglia'>Taglia</label>
                     <select id='taglia' name='taglia'>
                         <option value='' [TAGLIA_SELECTED_EMPTY]>Tutti</option>
@@ -425,7 +423,7 @@ if(isset($_GET['id'])) {
                     </select>
                 </li>
     
-                <li class='capsula-filtro' id='searchSex' role='presentation'>
+                <li class='capsula-filtro' id='searchSex' >
                     <label for='sesso'>Sesso</label>
                     <select id='sesso' name='sesso'>
                         <option value='' [SESSO_SELECTED_EMPTY]>Tutti</option>
@@ -434,16 +432,16 @@ if(isset($_GET['id'])) {
                     </select>
                 </li>
     
-                <li class='capsula-filtro' id='searchEta' role='presentation'>
+                <li class='capsula-filtro' id='searchEta'>
                     <label>Età</label>
                     <div class='eta-range'>
                         <input type='number' name='eta_min' 
                             value='[ETA_MIN]' 
-                            placeholder='Da' min='0' aria-label='Età minima'>
+                            placeholder='Da' min='0' aria-label='Età minima'/>
                         <span aria-hidden=true>–</span>
                         <input type='number' name='eta_max' 
                             value='[ETA_MAX]' 
-                            placeholder='A' min='0' aria-label='Età massima'>
+                            placeholder='A' min='0' aria-label='Età massima'/>
                     </div>
                 </li>
             </ul>

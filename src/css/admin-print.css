@@ -37,7 +37,6 @@ h2{
     padding-top: 0.2cm;
     margin-top: 0.3cm;
     margin-bottom: 0.1cm;
-    border-top: 1px solid var(--lightborder);
 }
 
 article{
@@ -92,6 +91,33 @@ table, th, td {
     border-collapse: collapse;
     padding: 0.2cm;
 }
+
+table{
+    width: 99.9%;
+}
+
+table button{
+    border-radius: 0.2cm;
+    padding: 0.2cm;
+}
+
+.col-dettagli a img{
+    width: 14pt;
+    height:auto;
+    filter: brightness(0);
+    margin-bottom: -5px;
+}
+
+.col-dettagli button[name="assegna_segnalazione"]{
+    max-width: 3.5cm;
+}
+
+
+.col-dettagli a:has(img)::after{
+    content: 'Contatta candidato';
+}
+
+
 /* ========== FILTRI DATE========== */
 
 /* toglie il template delle date */
@@ -202,6 +228,64 @@ ul#to-do-list p, ul#statistics-list p {
     margin-left: 0.5cm;
 }
 
+div#row2{
+    display: flex;
+}
+
+div#row2 article h2{
+    border-top: none;
+}
+
+#to-do-list{
+    border: 1px solid var(--lightborder);
+    border-radius: 0.1cm;
+    padding: 0.3cm;
+    margin: 0.3cm;
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+div#row2 article{
+    flex: 1 1 50%;
+    border: 1px solid var(--lightborder);
+    border-radius: 0.1cm;
+    margin: 0.3cm;
+    padding: 0.3cm;
+}
+
+#query #to-do-list li{
+    flex: 1 1 5cm;
+    margin: 0.2cm;
+    text-align: left;
+}
+
+#to-do-list li,
+#statistics-list li{
+    border: 1px solid var(--lightborder);
+    padding: 0.2cm 0.3cm; 
+    margin: 0.2cm 0;
+    border-radius: 0.1cm;
+    list-style: none;
+    
+    display: flex;
+    align-items: center;
+}
+
+.circle-foto {
+    width: 3cm;
+    height: 3cm;
+    object-fit: cover;
+    clip-path: circle(50%);
+    pointer-events: none;
+    background-color: var(--bglink-hover);
+    margin: 0.2cm 0;
+}
+
+#informazioni-admin{
+    margin-top: 0.55cm;
+}
+
 /** ======= ASSEGNATI A TE ======  e ======= EVENTI ====== */
 .evento img:not(.immagine-evento){
     display: none;
@@ -228,12 +312,38 @@ ul#to-do-list p, ul#statistics-list p {
     display: none;
 }
 
-#animali .capsula-filtro::before,
+#animali .capsula-filtro:not(.capsula-filtro:has(label[for='filtro-assegnata']))::before,
 #eventi .capsula-filtro::before{
     content:', ';
     float: left;
     display: inline;
     margin-right: 0.2cm;
+}
+
+.capsula-filtro:has(label[for='filtro-assegnata']){
+    margin-bottom: 0.5cm;
+}
+
+.capsula-filtro label[for='filtro-assegnata']{
+    font-weight: 600;
+}
+
+.capsula-filtro label[for='filtro-assegnata']::after{
+    content:':';
+}
+
+.capsula-filtro select#filtro-assegnata{
+    font-weight: normal;
+}
+
+#sumTabellaCane, #sumTabellaGatto{
+    display: block;
+    clear: both;
+    margin-bottom: 0.5cm;
+}
+
+#animali label[for="mobile-select"]{
+    display: none;
 }
 
 ul[aria-label="Filtri sulla tipologia"],
@@ -284,7 +394,7 @@ ul[aria-label="Filtri sulla tipologia"],
 
 article.card,
 .evento{
-    padding:0.3cm 0.5cm;
+    padding:0.3cm;
     border:1px solid var(--lightborder);
     height:100%;
     border-radius: 0.1cm;
@@ -318,6 +428,22 @@ article.card,
     box-sizing: border-box;
     flex-direction: column;
     margin-bottom: -0.8cm;
+}
+
+.cards-container:has(article.card) li a,
+.cards-container:has(.evento) li a{
+    padding-top: 0.2cm;
+    display: block;
+}
+
+#animali  .cards-container:has(article.card) li{
+    flex: 0 0 4.6cm;
+}
+
+.cards-container:has(article.card) li img{
+    margin: 0 auto 0.2cm auto;
+    object-fit: cover;
+    display: block;
 }
 
 .evento img{
@@ -364,4 +490,183 @@ article.evento {
     break-inside: avoid; 
     page-break-inside: avoid; 
     display: block; 
+}
+
+/* ---------DETTAGLI RICHIESTA ADOZIONE CON NOTE-------- */
+#details-container .tabs-container{
+    display: flex;
+    flex:wrap;
+    gap: 1cm;
+}
+
+#details-container .tabs-container article{
+    flex: 0 0 50%;
+}
+
+#details-container .tabs-container article h2{
+    border-top: none;
+    margin-bottom: 0.3cm;
+}
+
+#responsabile{
+    border:1px solid var(--lightborder);
+    border-radius: 0.3cm;
+    padding: 0.1cm 0.3cm
+}
+#note-richiesta{
+    padding-top:0.5cm;
+}
+
+#animale-richiesta{
+    border-bottom: 1px solid var(--lightborder);
+    padding-bottom: 0.5cm;
+}
+
+#animal-container h2{
+    border-top: 1px solid var(--lightborder);
+    padding-top: 0.5cm;
+}
+
+#animale-richiesta img{
+    padding-bottom: 0.5cm;
+}
+
+#animale-richiesta dd{
+    float:left;
+}
+
+#animale-richiesta dt{
+    clear: both;
+
+}
+
+#bottom-container button,
+#Richiedente a,
+#animale-richiesta a{
+    border:1px solid var(--lightborder);
+    padding:0.2em 0.5em;
+    border-radius: 0.5cm;
+    display: block;
+    text-align: left;
+}
+
+#bottom-container button{
+    margin: 0 0 0 auto;
+}
+
+#Richiedente a{
+    max-width:8cm;
+}
+
+#other-info-container{
+    margin-top: 0.3cm;
+}
+
+#animale-richiesta{
+    column-count: 2;
+}
+
+pre#note-text{
+    font-family: 'Times New Roman', Times, serif;
+    border:1px solid var(--lightborder);
+    padding: 0.3cm;
+    border-radius: 0.1cm;
+}
+
+/* ---------DETTAGLI RICHIESTA ADOZIONE-------- */
+#button-cancel img,
+.overlay-content{
+    display: none;
+}
+
+#generic-info-container {
+    position: relative;
+    display: flex;
+    gap: 20px;     
+    padding: 20px;
+    align-items: flex-start;
+}
+
+#generic-info-container img {
+    width: 15em;
+    height: 15em;
+    object-fit: cover;
+    border-radius: 0.5em;
+}
+
+#animale-detailed-container{
+    display: flex;
+}
+
+.description-info-container{
+    flex: 1 1 60%;
+    margin: 0 0.5cm;
+}
+
+.generic-info-container{
+    flex: 1 1 30%;
+}
+
+#button-cancel {
+    position: absolute;
+    top: 9.5cm;
+    left: 0;
+    padding: 0.2cm 0.1cm;
+    border: 1px solid var(--lightborder);
+    border-radius: 0.5cm;
+}
+
+#content-manage button{
+    padding: 0.2cm 0.1cm;
+    border: 1px solid var(--lightborder);
+    border-radius: 0.5cm;
+    margin: 0 0 0 auto;
+    display: block;
+}
+
+#dettaglio-animale #visualizza-richieste-animale{
+    margin-top: 0.5cm;
+}
+
+#dettaglio-animale #visualizza-richieste-animale select{
+    display: none;
+}
+
+#dettaglio-animale #visualizza-richieste-animale legend{
+    font-size: 16pt;
+    font-weight: 600;
+}
+
+#dettaglio-animale .tab-content{
+    margin-bottom: 0.5cm;
+    list-style: circle;
+}
+
+#dettaglio-animale .content-tab1::before{
+    content: 'Nuove';
+    font-weight: 600;
+}
+#dettaglio-animale .content-tab2::before{
+    content: 'In valutazione';
+    font-weight: 600;
+}
+#dettaglio-animale .content-tab3::before{
+    content: 'Accettate';
+    font-weight: 600;
+}
+#dettaglio-animale .content-tab4::before{
+    content: 'Respinte';
+    font-weight: 600;
+}
+#dettaglio-animale .content-tab5::before{
+    content: 'Annullate';
+    font-weight: 600;
+}
+#dettaglio-animale .content-tab6::before{
+    content: 'Da trasportare';
+    font-weight: 600;
+}
+
+#dettaglio-animale .sr-only{
+    display: none;
 }

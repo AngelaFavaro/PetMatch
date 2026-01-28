@@ -140,13 +140,13 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
             ];
 
             if($isModified){
-                if($conn->updateNewEvent($infoDB, $oldTitle, $oldData)){
+                if($conn->updateEvent($infoDB, $oldTitle, $oldData)){
                     unset($_SESSION['form_inputs'], $_SESSION['form_errors_info']);
                     // TO DO: mettere l'evento appena modificato
                     header("Location: ./eventi"); 
                     exit;
                 }else{
-                    $errors['generic'] = "L'inserimenti dell'evento non è andato a buon fine, riprovare più tardi.";
+                    $errors['generic'] = "La modifica dell'evento non è andato a buon fine, riprovare più tardi.";
                 }
 
             }else{
@@ -185,11 +185,19 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
     return $message;
 }
 
+
+$currentUri = $_SERVER['REQUEST_URI'];
 $isModifiedEvent=false;
-if(isset($_GET['titolo']) && isset($_GET['data'])){
-    $dataEvento = $_GET['data'];
-    $titoloEvento = $_GET['titolo'];
-    $isModifiedEvent=true;
+
+if(strpos($currentUri, 'modifica-evento') !== false){
+    if(isset($_GET['data']) && isset($_GET['titolo'])){
+        $dataEvento = $_GET['data'];
+        $titoloEvento = $_GET['titolo'];
+        $isModifiedEvent=true;
+    }else{
+        header("Location: ./nuovo-evento");
+        exit;
+    }
 }
 
 $connessione = new DBAccess();
@@ -225,7 +233,7 @@ if (!empty($NewEventInfo['ImgPath']) && $NewEventInfo['ImgPath'] !== '../../asse
     $nomeFile = basename($NewEventInfo['ImgPath']);
     $fotoInfo = "<p class='success-form'>Immagine caricata: <strong>$nomeFile</strong></p>";
     $fotoInfo .= "<img src='{$NewEventInfo['ImgPath']}' alt='Anteprima immagine caricata'>";
-    $inputHiddenFoto = "<input type='hidden' name='old-foto' value='{$NewEventInfo['ImgPath']}'>";
+    $inputHiddenFoto = "<input type='hidden' name='old-foto' value='{$NewEventInfo['ImgPath']}'/>";
 }
 $paginaHTML = str_replace('[foto-event-upload]', $fotoInfo, $paginaHTML);
 $paginaHTML = str_replace('[input-hidden-foto]', $inputHiddenFoto??'', $paginaHTML);

@@ -67,12 +67,12 @@ function buildEventsCards($events, $filtro): string {
         $html .= "<li>
                     <article class='evento' aria-labelledby='evento-titolo'>
                         <!-- Immagine dell'evento -->
-                        <img class='immagine-evento' src=$img alt=''>
+                        <img class='immagine-evento' src=$img alt='' />
 
                         <!-- Posizione dell'evento -->
                         <p class='posizione-evento'>
                             <!-- icona decorativa -->
-                            <img src='assets/icons/position-cat.svg' alt='' aria-hidden='true' class='icon-position'>
+                            <img src='assets/icons/position-cat.svg' alt='' class='icon-position' />
                             <!-- data semantica -->
                             $citta
                         </p>
@@ -81,7 +81,7 @@ function buildEventsCards($events, $filtro): string {
                         <!-- Data dell'evento -->
                         <p class='data-evento'>
                             <!-- icona decorativa -->
-                            <img src='assets/icons/calendar.svg' alt='' aria-hidden='true' class='icon-calendar'>
+                            <img src='assets/icons/calendar.svg' alt='' class='icon-calendar' />
                             <!-- data semantica -->
                             <time datetime=$data>$data</time>
                         </p>
@@ -111,7 +111,7 @@ $pagina = max(1, (int)($_GET['page'] ?? 1));
 $offset = ($pagina - 1) * $perPagina;
 
 $eventi='';
-$typefilter=$isAdmin? "<input type='hidden' name='tipo' value='[TYPE]'>" : '';
+$typefilter=$isAdmin? "<input type='hidden' name='tipo' value='[TYPE]'/>" : '';
 
 
 $rawfilters= [

@@ -8,9 +8,9 @@
     <div id="details-container">
         
         <div class="tabs-container">
-            <input id="tab1" class="sr-only" type="radio" name="tab-group" checked>
+            <input id="tab1" class="sr-only" type="radio" name="tab-group" checked/>
             <label for="tab1">Richiesta</label>
-            <input id="tab2" class="sr-only" type="radio" name="tab-group">
+            <input id="tab2" class="sr-only" type="radio" name="tab-group"/>
             <label for="tab2">Richiedente</label>
             <article id="Richiesta" class="tab-content">
                 <h2>Informazioni richiesta</h2>
@@ -29,7 +29,7 @@
             <article id="Richiedente" class="tab-content">
                 <h2>Informazioni richiedente</h2>
                 <div class="generic-info-container">
-                    <img src="[imgPath]" alt="Foto di [nome]" class="circle-foto">
+                    <img src="[imgPath]" alt="Foto di [nome]" class="circle-foto" />
                     
                     <div class="text-details">
                         <dl>
@@ -43,11 +43,11 @@
                 </div>
 
                 <em id="note-richiesta">Ha altre <strong>[n]</strong> richieste attive</em>
-                <form method="POST" action="[paginaRichiedente]">
-                    <input type="hidden" name="id-animale" value="[animalID]">
+                <!-- <form method="post" action="[paginaRichiedente]">
+                    <input type="hidden" name="id-animale" value="[animalID]"/>
                     <button type="submit" name="view-profile" class="brown-button">Vedi profilo</button>
-                </form>
-                <!-- <a href="[paginaRichiedente]" class="brown-button">Vedi profilo</a> -->
+                </form> -->
+                <a href="[paginaRichiedente]" class="brown-button">Vedi profilo</a>
             </article>
             
         </div> 
@@ -55,7 +55,7 @@
             <h2>Informazioni animale</h2>
             <article id="animale-richiesta">
                 <div class="generic-info-container">
-                    <img src="[animalImgPath]" alt="Foto di [nomeAnimale]" class="square-foto">
+                    <img src="[animalImgPath]" alt="Foto di [nomeAnimale]" class="square-foto" />
                     
                     <div class="text-details">
                         <dl>
