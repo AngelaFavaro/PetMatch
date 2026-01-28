@@ -114,6 +114,10 @@ $paginaHTML = str_replace('[FamigliaIdealeAnimale]', $infoRequest['DescrFamiglia
 $paginaHTML = str_replace('[CondizioniMedicheAnimale]', $infoRequest['CondizioniMediche']?$infoRequest['CondizioniMediche']:'Sano', $paginaHTML);
 $paginaHTML = str_replace('[DescrizioneCaratterialeAnimale]', $infoRequest['DescrComportamentale'], $paginaHTML);
 
+$showModal = $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['show-dialog']);
+$closeModal = $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['close-dialog']);
+$paginaHTML = str_replace('[openDialog]', $showModal?'open':'', $paginaHTML);
+$paginaHTML = str_replace('[openDialog]', $closeModal?'':'', $paginaHTML);
 
 echo $paginaHTML;
 ?>

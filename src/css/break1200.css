@@ -223,3 +223,26 @@ td.col-dettagli a,td.col-dettagli button{
 #come-funziona #comeSiAdotta #paws-containter img {
     display: none;
 }
+/* ==========INFORMAZIONI ANIMALE============== */
+#dettaglio-animale .generic-info-container .text-details{
+    width: 100%;
+    column-count: 2;
+    border-bottom: 1px solid var(--cardHover);
+    padding-bottom: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+#dettaglio-animale .action-buttons-group{
+    display: block;
+    margin-top: 1em;
+}
+
+#dettaglio-animale .action-buttons-group .text-details{
+    margin-left: 0;
+}
+
+#dettaglio-animale .generic-info-container img.square-foto{
+    margin: auto;
+    display: block;
+    margin-bottom: 1em;
+}

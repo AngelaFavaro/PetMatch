@@ -1705,7 +1705,7 @@ class DBAccess {
         }
         return $counts;
     }  
-    public function getEventsFilteredPaged(array $filters, int $limit, int $offset): array {
+    public function getEventsFilteredPaged(array $filters, int $limit, int $offset=0): array {
 
     if (!$this->connection) return [];
 
@@ -1741,6 +1741,12 @@ class DBAccess {
         $types .= 's';
     }
 
+    // ---------- FILTRO TITOLO NO VISUALIZZARE ---------
+    if (!empty($filters['nomeNO'])) {
+        $where[] = 'Titolo != ?';
+        $params[] = $filters['nomeNO'];
+        $types .= 's';
+    }
     /* ---------- FILTRO TIPO (prossimi / terminati) ---------- */
     if (!empty($filters['tipo'])) {
         $today = date('Y-m-d');

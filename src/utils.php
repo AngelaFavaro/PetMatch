@@ -103,7 +103,7 @@ $pagine = [
         'label' => 'Visualizzazione animale',
         'url' => './animali', 
         'parent' => 'animali'
-    ], 
+    ],
     'senza-amministratore' => [
         'label' => 'Animali senza amministratore',
         'url' => './senza-amministratore',
@@ -114,6 +114,11 @@ $pagine = [
         'url' => './eventi',
         'parent' => 'home'
     ],
+        'visualizzazione-evento' => [
+        'label' => 'Visualizzazione evento',
+        'url' => './visualizzazione-evento', 
+        'parent' => 'eventi'
+    ], 
     'nuove-accoglienze' => [
         'label' => 'Nuove accoglienze',
         'url' => './nuove-accoglienze',
@@ -829,6 +834,50 @@ function formattaDataItaliana(string $data): string {
     $anno   = date('Y', $timestamp);
 
     return "$giorno $mese $anno";
+}
+
+function convertiDataItalianaInSQL($dataItaliana) {
+    // 1. Creiamo un "dizionario" per tradurre i mesi
+    $mesi = [
+        'Gennaio'   => '01',
+        'Febbraio'  => '02',
+        'Marzo'     => '03',
+        'Aprile'    => '04',
+        'Maggio'    => '05',
+        'Giugno'    => '06',
+        'Luglio'    => '07',
+        'Agosto'    => '08',
+        'Settembre' => '09',
+        'Ottobre'   => '10',
+        'Novembre'  => '11',
+        'Dicembre'  => '12'
+    ];
+
+    // 2. Puliamo la stringa e la dividiamo negli spazi
+    // Esempio input: "10 Agosto 2026" diventa array: ['10', 'Agosto', '2026']
+    $parti = explode(' ', trim($dataItaliana));
+
+    // Controllo di sicurezza: se non ho 3 pezzi, la data non è valida
+    if (count($parti) !== 3) {
+        return null; 
+    }
+
+    $giorno = $parti[0];
+    $meseNome = ucfirst(strtolower($parti[1])); // Rende "agosto" -> "Agosto" per sicurezza
+    $anno = $parti[2];
+
+    // 3. Controlliamo se il mese esiste nel nostro dizionario
+    if (!isset($mesi[$meseNome])) {
+        return null; // Mese non valido
+    }
+
+    $meseNumero = $mesi[$meseNome];
+
+    // 4. Assicuriamoci che il giorno abbia due cifre (es: 5 diventa 05)
+    $giorno = str_pad($giorno, 2, '0', STR_PAD_LEFT);
+
+    // 5. Restituiamo il formato SQL: YYYY-MM-DD
+    return "$anno-$meseNumero-$giorno";
 }
 
 /**
