@@ -1822,7 +1822,7 @@ class DBAccess {
         }
         return $counts;
     }  
-    public function getEventsFilteredPaged(array $filters, int $limit, int $offset): array {
+    public function getEventsFilteredPaged(array $filters, int $limit, int $offset=0): array {
 
     if (!$this->connection) return [];
 
@@ -1855,6 +1855,13 @@ class DBAccess {
     if (!empty($filters['citta'])) {
         $where[] = 'Citta = ?';
         $params[] = $filters['citta'];
+        $types .= 's';
+    }
+
+    // ---------- FILTRO TITOLO NO VISUALIZZARE ---------
+    if (!empty($filters['nomeNO'])) {
+        $where[] = 'Titolo != ?';
+        $params[] = $filters['nomeNO'];
         $types .= 's';
     }
 
