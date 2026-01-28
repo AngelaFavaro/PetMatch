@@ -29,6 +29,7 @@
 \usepackage{geometry} %per l'interlinea
 \usepackage{setspace} %per i margini
 \usepackage{ragged2e} %per il giustificato
+\usepackage{enumitem} % per personalizzare gli elenchi (noitmsep)
 
 \usepackage{float} % serve per la [H] nelle figure, non so se mi servirà
 \usepackage{caption} % per le caption delle figure
@@ -62,6 +63,7 @@
   \makebox[0pt][c]{\raisebox{0.3cm}{\textcolor{white}{\Large{\textbf{\thepage}}}}}%
 }
 
+\setlist{nosep} % non voglio l'interlinea extra negli elenchiiiiiiiiiiiiiiiiii
 
 % Comando per inserire una pagina bianca senza numerazione (ma viene contata)
 \newcommand{\paginaBianca}{

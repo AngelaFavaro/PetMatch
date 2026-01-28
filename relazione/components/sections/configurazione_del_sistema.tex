@@ -43,15 +43,14 @@ Le cartelle main e php raccolgono le pagine di admin in una sottocartella dedica
 
 \subsection{I file .htaccess e index.php di routing}
 Il file \texttt{.htaccess} è utilizzato per configurare il server web Apache e gestire le regole di riscrittura degli URL. La scelta di utilizzare URL "puliti" (senza estensioni come .php o .html) è stata fatta per migliorare l'usabilità ma anche per motivi di sicurezza, in quanto nasconde la struttura interna del sito web.\\
-Il file \texttt{index.php} funge da punto di ingresso principale per tutte le richieste al sito web. Utilizzando un sistema di routing, questo file determina quale pagina o funzionalità deve essere servita in base all'URL richiesto dall'utente. Questo approccio consente una gestione centralizzata delle richieste e facilita l'implementazione di funzionalità comuni come l'autenticazione e la gestione delle sessioni.
+Il file \texttt{index.php} funge da punto di ingresso principale per tutte le richieste al sito web. Utilizzando un sistema di routing, questo file determina quale pagina o funzionalità deve essere servita in base all'URL richiesto dall'utente. Questo approccio consente una gestione centralizzata delle richieste e facilita l'implementazione di funzionalità comuni come l'autenticazione e la gestione delle sessioni.\\
 È importante notare che non è eseguito un redirect ma un semplice require, ciò ha un significato importante: i percorsi relativi alle risorse (es. file CSS, immagini, ecc.) rimangono invariati e fanno riferimento al primo punto di accesso (il file di routing in questione) e non è necessario modificarli per ogni pagina.
 \subsection{Come avviene la costruzione delle pagine}
-Ogni pagina utilizza un layout base (\texttt{layout.html} per utenti e \texttt{layout-admin.html} per admin) che definisce la struttura generale della pagina. In particolare sono definiti gli elementi comuni a tutte le pagine dello stesso tipo, come l'header e body ma soprattutto le posizioni in cui inserire i contenuti dinamici per ogni pagina. Questi ultimi contenuti evidenziati dai placeholder \texttt{\[content\]}.\\
-Quando una pagina viene richiesta, passa dal routing e viene richiesta la pagina php specifica. Questa pagina php si occupa di:
+Ogni pagina utilizza un layout base (\texttt{layout.html} per utenti e \texttt{layout-admin.html} per admin) che definisce la struttura generale della pagina. In particolare sono definiti gli elementi comuni a tutte le pagine dello stesso tipo, come l'header e body ma soprattutto le posizioni in cui inserire i contenuti dinamici per ogni pagina. Questi ultimi contenuti evidenziati dai placeholder \texttt{[content]}.\\
+Quando una pagina viene richiesta, passa dal routing (\textit{index.php}) e viene richiesta la pagina php specifica. Ognuna di queste pagine php specifiche si occupano di:
 \begin{itemize}
     \item caricare il layout corretto;
-    \item caricare e rimpiazzare il contenuto main corretto nella posizione del placeholder \texttt{\[main\]};
-    \item caricare nav e breadcrumb specifiche per la pagina (uso di funzioni buildNav, buildNavAdmin, buildBreadcrumb) e rimpiazzarle nei rispettivi placeholder \texttt{\[nav\]} e \texttt{\[breadcrumb\]};
-    \item gestire la logica specifica della pagina (es. recupero dati dal database, gestione form, ecc.);
+    \item caricare e rimpiazzare il contenuto main corretto nella posizione del placeholder \texttt{[main]};
+    \item caricare nav e breadcrumb specifiche per la pagina (uso di funzioni buildNav, buildNavAdmin, buildBreadcrumb) e rimpiazzarle nei rispettivi placeholder \texttt{[nav]} e \texttt{[breadcrumb]};   \item gestire la logica specifica della pagina (es. recupero dati dal database, gestione form, ecc.);
     \item restituire la pagina html completa al browser.
 \end{itemize}
