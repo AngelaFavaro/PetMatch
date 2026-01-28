@@ -107,7 +107,7 @@ $pagine = [
     'senza-amministratore' => [
         'label' => 'Animali senza amministratore',
         'url' => './senza-amministratore',
-        'parent' => 'home'
+        'parent' => 'area-riservata'
     ],
     'eventi' => [
         'label' => 'Eventi',
@@ -137,7 +137,7 @@ $pagine = [
     'assegnati-a-te' => [
         'label' => 'Assegnati a te',
         'url' => './assegnati-a-te',
-        'parent' => 'home'
+        'parent' => 'area-personale'
     ],
     'dettagli-animale' => [
         'label' => 'Dettagli animale',

@@ -5,25 +5,7 @@
             <div class="generic-info-container">
                 <div class="action-buttons-group">
                     [pulsanti-modifica-animale]
-                    
-                    <input type="checkbox" id="delete-animal-check" class="popup-checkbox" hidden/>
-                    
-                    <label for="delete-animal-check" id="button-cancel" >
-                        <img src="./assets/icons/delete-trash.svg" alt="" />Elimina animale
-                    </label>
-
-                    <div class="overlay-content">
-                        <div class="dialog-box">
-                            <h3>Conferma eliminazione</h3>
-                            <p>L'eliminazione di <strong>[nomeAnimale]</strong> è <strong>irreversibile</strong>. Vuoi continuare?</p>
-                            <div class="dialog-buttons">
-                                <label for="delete-animal-check">No, annulla</label>
-                                <form method="post">
-                                    <button type="submit" name="delete-animale">Sì, elimina</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                    [pulsante-elimina-animale]
                 </div>
 
                 <img src="[animalImgPath]" alt="Foto di [nomeAnimale]" class="square-foto" />
@@ -49,27 +31,16 @@
                     <dt>Famiglia ideale</dt><dd>[famigliaIdeale]</dd>
                 </dl>
             </div>
-
         </article>
 
-
         <div id="content-manage">
+            [pulsante-assegnazione]
 
-            <form method="post">
-                    <button type="submit" name="delete-assignment" class="orange-button">Toglimi dall'assegnaizone</button>
-            </form>
             <article id="visualizza-richieste-animale">
                 <section class="tabs-container">
                     <fieldset>
                         <legend id="title-richieste-animale">Richieste per questo animale</legend>
-    
-                        <label class="no-visible" for="anim-tab1">Nuove</label>
-                        <label class="no-visible" for="anim-tab2">In valutazione</label>
-                        <label class="no-visible" for="anim-tab3">Accettate</label>
-                        <label class="no-visible" for="anim-tab4">Respinte</label>
-                        <label class="no-visible" for="anim-tab5">Annullate</label>
-                        <label class="no-visible" for="anim-tab6">Da trasportare</label>
-    
+                        
                         <select id="filtri-richieste-animale" name="tab-group-select" 
                                 aria-label="Selezionare la tipologia di richieste che si vuole visualizzare:"
                                 onchange="document.getElementById(this.value).checked = true;">
@@ -90,8 +61,6 @@
                     <input class="no-visible" aria-hidden="true" type="radio" id="anim-tab6" name="anim-tab-group"/>
     
                     [elencoRichieste]
-                    
-                    <a href="#filtri-richieste" class="sr-only">Torna al filtro richieste</a>
                 </section>
             </article>
         </div>

@@ -4,34 +4,25 @@ include './src/DBconnection.php';
 use DB\DBAccess;
 session_start();
 
-
+// 1. Controllo Accesso
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
     header("Location: ./accedi");
     exit;
 }
 
+// 2. Parametri iniziali
 $idAnimale = $_GET['id-animale'] ?? null;
+$emailLoggato = $_SESSION['email'] ?? '';
 $fromEmail = $_GET['from_email'] ?? null; 
+$from = $_GET['from'] ?? null;
+
 if (!$idAnimale) {
     header("Location: ./area-riservata");
     exit;
 }
 
-
-
-// Gestione gerarchia breadcrumb
-// if ($fromEmail) {
-//     $pagine['dettagli-animale']['parent'] = 'dettagli-richiesta';
-    
-//     $pagine['dettagli-richiesta']['url'] = "./richieste-adozione?email=" . urlencode($fromEmail) . "&id-animale=" . urlencode($idAnimale);
-// } else {
-//     $pagine['dettagli-animale']['parent'] = 'assegnati-a-te';
-// }
-
-$pagine['dettagli-animale']['url'] .= "?id-animale=" . urlencode($idAnimale);
-
+// Funzione helper per la lista richieste
 function createAnimalRequestList(array $richieste): string {
-
     $stati = ['Nuova', 'In valutazione', 'Accettata', 'Respinta', 'Annullata', 'Da trasportare'];
     $gruppi = array_fill_keys($stati, '');
 
@@ -71,71 +62,109 @@ function createAnimalRequestList(array $richieste): string {
         $htmlOutput .= '<ul class="tab-content content-tab' . $i . '" aria-label="Richieste di tipo: ' . $stato . '">' . $content . '</ul>';
         $i++;
     }
-    echo "";
     return '<div id="start-requests" class="requests-container">' . $htmlOutput . '</div>';
 }
 
-$breadcrumb = getBreadcrumb('dettagli-animale', $pagine);
-
+// 3. Connessione e recupero dati
 $connessione = new DBAccess();
 $connessioneOK = $connessione->openDBConnection();
 $richiesta = null; 
+$btnModifica = '';
+$btnEliminaHTML = '';
+$btnAssegnazione = '';
+$listRequestHTML = '';
+$NRequestsByStatus = [];
 
 if ($connessioneOK) {
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-animale'])) {
-        if ($connessione->deleteAnimal($idAnimale)) {
-            $connessione->closeConnection();
-            header("Location: ./assegnati-a-te");//lascialo qua così quando elima l'animale si accorge che è effettivamente stato elimnato
-            exit;
-        } else {
-            $erroreEliminazione = "Errore durante l'eliminazione.";
-        }
-    }
-
+    // Recupero dati animale (fondamentale farlo prima di tutto il resto)
     $richiesta = $connessione->getAnimalById($idAnimale);
 
-    $elencoRichiesteDati = $connessione->getAnimalRequestsId($idAnimale);
+    if ($richiesta) {
+        // Controllo proprietà
+        $isOwner = (isset($richiesta['EmailAdmin']) && $richiesta['EmailAdmin'] === $emailLoggato);
 
-    if (empty($elencoRichiesteDati)) {
-            $listRequestHTML = "<p>Debug: Il database non ha restituito richieste per l'ID $idAnimale</p>";
-    } else {
-        $listRequestHTML = createAnimalRequestList($elencoRichiesteDati);
+        // Gestione Eliminazione
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-assignment'])) {
+            if ($isOwner) {
+                if ($connessione->removeAdminAssignment($idAnimale)) {
+                    $connessione->closeConnection();
+                    header("Location: ./senza-amministratore"); // Lo mandiamo alla lista animali liberi
+                    exit;
+                }
+            }
+        }
+
+        // Costruzione URL Modifica
+        $urlModifica = $pagine['modifica-animale']['url'] . "?id-animale=" . urlencode($idAnimale);
+        if ($from) $urlModifica .= "&from=" . urlencode($from);
+        if ($fromEmail) $urlModifica .= "&from_email=" . urlencode($fromEmail);
+
+        // Generazione pulsanti basata su permessi
+        if ($isOwner) {
+            $btnModifica = '
+            <div class="edit-btn-container">
+                <a href="' . e($urlModifica) . '" class="pencil">
+                    <img src="./assets/icons/edit-pencil.svg" alt="Modifica scheda animale" />
+                </a>
+            </div>';
+            
+            $btnEliminaHTML = '
+                <input type="checkbox" id="delete-animal-check" class="popup-checkbox" hidden/>
+                <label for="delete-animal-check" id="button-cancel">
+                    <img src="./assets/icons/delete-trash.svg" alt="" />Elimina animale
+                </label>
+                <div class="overlay-content">
+                    <div class="dialog-box">
+                        <h3>Conferma eliminazione</h3>
+                        <p>L\'eliminazione di <strong>' . e($richiesta['Nome']) . '</strong> è irreversibile. Vuoi continuare?</p>
+                        <div class="dialog-buttons">
+                            <label for="delete-animal-check">No, annulla</label>
+                            <form method="post">
+                                <button type="submit" name="delete-animale">Sì, elimina</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>';
+            
+            $btnAssegnazione = '<form method="post">
+                                    <button type="submit" name="delete-assignment" class="orange-button">Toglimi dall\'assegnazione</button>
+                                </form>';
+        } else {
+            $btnEliminaHTML = '<p class="read-only-badge">Sola lettura: l\'animale non è assegnato a te in questo momento.</p>';
+        }
+
+        // Dati richieste
+        $elencoRichiesteDati = $connessione->getAnimalRequestsId($idAnimale);
+        $listRequestHTML = empty($elencoRichiesteDati) ? "<p>Nessuna richiesta per questo animale.</p>" : createAnimalRequestList($elencoRichiesteDati);
+        $NRequestsByStatus = $connessione->getNRequestByStatusAnimal($idAnimale);
     }
-
-    $NRequestsByStatus = $connessione->getNRequestByStatusAnimal($idAnimale);
-    
-    $listRequestHTML = createAnimalRequestList($elencoRichiesteDati);
-
     $connessione->closeConnection();
 }
 
+// Controllo finale esistenza animale
 if (!$richiesta) {
     die("Errore: Animale non trovato o ID non valido.");
 }
 
+// 4. Caricamento Template e Sostituzioni
+$breadcrumb = getBreadcrumb('dettagli-animale', $pagine);
 $paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore caricamento layout.</p>');
 $main = loadTemplate('./src/template/main/admin/dettagli-animale.html');
 
-$title = '<title>Dettagli ' . e($richiesta['nome'] ?? 'Animale') . ' - Admin PetMatch</title>';
-$description = '<meta name="description" content="Visualizzazione dettagliata dell\'animale nel sistema gestionale">';
+$title = '<title>Dettagli ' . e($richiesta['Nome'] ?? 'Animale') . ' - Admin PetMatch</title>';
+$description = '<meta name="description" content="Visualizzazione dettagliata dell\'animale">';
 
-$from = $_GET['from'] ?? null;
-
-if ($fromEmail) {
-    $activeNav = 'richieste-adozione';
-} elseif ($from === 'senza-admin') {
-    $activeNav = 'senza-amministratore';
-} else {
-    $activeNav = 'assegnati-a-te'; 
-}
-
+// Menu laterale attivo
+$activeNav = $fromEmail ? 'richieste-adozione' : ($from === 'senza-admin' ? 'senza-amministratore' : 'assegnati-a-te');
 $nav = buildAdminNav($adminMenu, $activeNav, $pagine);
+
+// Sostituzioni Layout
 $paginaHTML = str_replace(['[breadcrumb]', '[title]', '[nav]', '[description]', '[keywords]'], 
                          [$breadcrumb, $title, $nav, $description, ""], 
                          $paginaHTML);
 
-$main = str_replace('[nomeAnimale]', e($richiesta['Nome'] ?? 'Non specificato'), $main);
+// Sostituzioni Main (Info Animali)
+$main = str_replace('[nomeAnimale]', e($richiesta['Nome'] ?? 'N/D'), $main);
 
 $imgPath = $richiesta['ImgPath'] ?? '';
 if (!$imgPath || !file_exists($imgPath)) {
@@ -152,47 +181,32 @@ $main = str_replace('[sessoAnimale]', $sessoHTML, $main);
 $etaCalcolata = calcolaEta($richiesta['DataNascita'] ?? null);
 $main = str_replace('[etaAnimale]', e($etaCalcolata !== null ? $etaCalcolata . " anni" : "N/D"), $main);
 
-$main = str_replace('[razzaAnimale]', e($richiesta['Razza'] ?? 'N/D'), $main);
-$main = str_replace('[peloAnimale]', e($richiesta['Pelo'] ?? 'N/D'), $main);
-$main = str_replace('[tagliaAnimale]', e($richiesta['Taglia'] ?? 'N/D'), $main);
-$main = str_replace('[coloreAnimale]', e($richiesta['Colore'] ?? 'N/D'), $main);
-$main = str_replace('[trasportoAnimale]', siNo($richiesta['Trasporto'] ?? 0), $main);
-$main = str_replace('[famigliaIdeale]', e($richiesta['DescrFamiglia'] ?? 'N/D'), $main);
-$main = str_replace('[descrizioneCaratteriale]', e($richiesta['DescrComportamentale'] ?? 'N/D'), $main);
-$condizioni = $richiesta['CondizioniMediche'] ?? '';
-if (trim($condizioni) === '' ||$condizioni === '0') {
-    $richiesta['CondizioniMediche'] = 'Nessuna';
-}
-$main = str_replace('[condizioniMediche]', e($richiesta['CondizioniMediche'] ?? 'Nessuna'), $main);
+$main = str_replace([
+    '[razzaAnimale]', '[peloAnimale]', '[tagliaAnimale]', '[coloreAnimale]', 
+    '[trasportoAnimale]', '[famigliaIdeale]', '[descrizioneCaratteriale]'
+], [
+    e($richiesta['Razza'] ?? 'N/D'), e($richiesta['Pelo'] ?? 'N/D'), e($richiesta['Taglia'] ?? 'N/D'), e($richiesta['Colore'] ?? 'N/D'),
+    siNo($richiesta['Trasporto'] ?? 0), e($richiesta['DescrFamiglia'] ?? 'N/D'), e($richiesta['DescrComportamentale'] ?? 'N/D')
+], $main);
 
-$urlModifica = $pagine['modifica-animale']['url'] . "?id-animale=" . urlencode($idAnimale);
+$condizioni = ($richiesta['CondizioniMediche'] == '0' || empty(trim($richiesta['CondizioniMediche']))) ? 'Nessuna' : $richiesta['CondizioniMediche'];
+$main = str_replace('[condizioniMediche]', e($condizioni), $main);
 
-if ($from) {
-    $urlModifica .= "&from=" . urlencode($from);
-}
-
-if (isset($_GET['from_email'])) {
-    $urlModifica .= "&from_email=" . urlencode($_GET['from_email']);
-}
-
-$btnModifica = '
-<div class="edit-btn-container">
-    <a href="' . e($urlModifica) . '" class="pencil">
-        <img src="./assets/icons/edit-pencil.svg" alt="Modifica scheda animale" />
-    </a>
-</div>';
+// Inserimento pulsanti dinamici
 $main = str_replace('[pulsanti-modifica-animale]', $btnModifica, $main);
+$main = str_replace('[pulsante-elimina-animale]', $btnEliminaHTML, $main); 
+$main = str_replace('[pulsante-assegnazione]', $btnAssegnazione, $main);
 
-$main = str_replace('[n-nuove]', $NRequestsByStatus['Nuova'] ?? 0, $main);
-$main = str_replace('[n-valutazione]', $NRequestsByStatus['In valutazione'] ?? 0, $main);
-$main = str_replace('[n-accettate]', $NRequestsByStatus['Accettata'] ?? 0, $main);
-$main = str_replace('[n-respinte]', $NRequestsByStatus['Respinta'] ?? 0, $main);
-$main = str_replace('[n-annullate]', $NRequestsByStatus['Annullata'] ?? 0, $main);
-$main = str_replace('[n-trasporto]', $NRequestsByStatus['Da trasportare'] ?? 0, $main);
+// Conteggi tab
+$main = str_replace([
+    '[n-nuove]', '[n-valutazione]', '[n-accettate]', '[n-respinte]', '[n-annullate]', '[n-trasporto]'
+], [
+    $NRequestsByStatus['Nuova'] ?? 0, $NRequestsByStatus['In valutazione'] ?? 0, $NRequestsByStatus['Accettata'] ?? 0,
+    $NRequestsByStatus['Respinta'] ?? 0, $NRequestsByStatus['Annullata'] ?? 0, $NRequestsByStatus['Da trasportare'] ?? 0
+], $main);
 
 $main = str_replace('[elencoRichieste]', $listRequestHTML, $main);
 
-// Infine unisci tutto al layout
 $paginaHTML = str_replace('[main]', $main, $paginaHTML);
 echo $paginaHTML;
 ?>
