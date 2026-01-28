@@ -4,6 +4,7 @@ include './src/DBconnection.php';
 use DB\DBAccess;
 session_start();
 
+// 1. Controllo Accesso
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
     if(isset($_GET['id-animale'])) header("Location: ./visualizzazione-animale?id=".urlencode($_GET['id-animale']));
     else header("Location: ./animali");
@@ -21,7 +22,18 @@ if (!$idAnimale) {
     exit;
 }
 
-// Funzione helper per la lista richieste
+
+// Gestione gerarchia breadcrumb
+// if ($fromEmail) {
+//     $pagine['dettagli-animale']['parent'] = 'dettagli-richiesta';
+    
+//     $pagine['dettagli-richiesta']['url'] = "./richieste-adozione?email=" . urlencode($fromEmail) . "&id-animale=" . urlencode($idAnimale);
+// } else {
+//     $pagine['dettagli-animale']['parent'] = 'assegnati-a-te';
+// }
+
+$pagine['dettagli-animale']['url'] .= "?id-animale=" . urlencode($idAnimale);
+
 function createAnimalRequestList(array $richieste): string {
     $stati = ['Nuova', 'In valutazione', 'Accettata', 'Respinta', 'Annullata', 'Da trasportare'];
     $gruppi = array_fill_keys($stati, '');
@@ -151,13 +163,16 @@ $breadcrumb = getBreadcrumb('dettagli-animale', $pagine);
 $paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore caricamento layout.</p>');
 $main = loadTemplate('./src/template/main/admin/dettagli-animale.html');
 
-$title = '<title>Dettagli ' . e($richiesta['nome'] ?? 'Animale') . ' - Admin PetMatch</title>';
-$description = '<meta name="description" content="Visualizzazione dettagliata dell\'animale nel sistema gestionale">';
+$title = '<title>Dettagli ' . e($richiesta['Nome'] ?? 'Animale') . ' - Admin PetMatch</title>';
+$description = '<meta name="description" content="Visualizzazione dettagliata dell\'animale">';
 
-$from = $_GET['from'] ?? null;
+// Menu laterale attivo
+$activeNav = $fromEmail ? 'richieste-adozione' : ($from === 'senza-admin' ? 'senza-amministratore' : 'assegnati-a-te');
+$nav = buildAdminNav($adminMenu, $activeNav, $pagine);
 
+// Sostituzioni Layout
 
-$nav = buildAdminNav($adminMenu, './dettagli-animale');
+$nav = buildAdminNav($adminMenu, 'dettagli-animale', $pagine);
 $paginaHTML = str_replace(['[breadcrumb]', '[title]', '[nav]', '[description]', '[keywords]'], 
                          [$breadcrumb, $title, $nav, $description, ""], 
                          $paginaHTML);
