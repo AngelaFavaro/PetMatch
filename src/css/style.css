@@ -112,7 +112,7 @@
     --row-time-line: var(--darkMode-row-time-line);
 }
 
-:root:has(input#theme-toggle:checked) #button-cancel img,
+:root:has(input#theme-toggle:checked) .button-cancel img,
 :root:has(input#theme-toggle:checked) #header-logo,
 :root:has(input#theme-toggle:checked) #logo-footer,
 :root:has(input#theme-toggle:checked) #heart-normal,
@@ -627,6 +627,7 @@ input [type="checkbox"]:focus-visible{
     outline-offset: 2px;
     transition: none;
 }
+
 
 input:focus,
 li:has(input:focus),
@@ -2777,14 +2778,14 @@ flex: 1 0 100%;
     display: none;
 }
 
-#animale-detailed-container #button-cancel,
+#animale-detailed-container .button-cancel,
 #animale-detailed-container button[name="delete-animale"],
-#user-info #button-cancel,
+#user-info .button-cancel,
 #user-info button[name="delete-account"],
 #user-profile .tab-content form button,
 .logout-btn,
-#revisione-richiesta #button-cancel,
-#revisione-richiesta button,
+#revisione-richiesta .button-cancel,
+#revisione-richiesta button[name="delete-request"],
 .dialog-buttons label{
     border-radius: 2em;
     background-color: var(--buttoncolor);
@@ -2796,7 +2797,7 @@ flex: 1 0 100%;
     font-weight: 600;
 }
 
-#dettaglio-animale #animale-detailed-container #button-cancel{
+#dettaglio-animale #animale-detailed-container button[name="show-dialog"]{
     padding: 0.3em 1em;
     border-radius: 2em;
     position: absolute;
@@ -2826,17 +2827,13 @@ flex: 1 0 100%;
 
 #user-profile .tab-content form button:hover,
 .logout-btn:hover,
-#animale-detailed-container #button-cancel:hover,
-#user-info #button-cancel:hover,
-#revisione-richiesta #button-cancel:hover{
+#animale-detailed-container .button-cancel:hover,
+#user-info .button-cancel:hover,
+#revisione-richiesta .button-cancel:hover{
     background-color:var(--bgcolor);
     color:var(--hover-link);
+    border-color: transparent;
 }
-
-#revisione-richiesta button:hover{
-    background-color:var(--form-bg);
-}
-
 
 
 #user-profile .tabs-container select,
@@ -3159,6 +3156,8 @@ input#check-assegna:checked:before,
 .edit-mode .edit-number div{
     display: flex;
     flex-wrap: nowrap;
+    width: 100%;
+    margin-top: 0;
 }
 
 .edit-mode .edit-number div span{
@@ -3208,19 +3207,19 @@ input[type="file"]::file-selector-button:hover {
     color:var(--txtcolor);
 }
 
-.edit-mode form span,
-.edit-management form span,
+.edit-mode form div,
+.edit-management form div,
 #form-add-animal .form-buttons-container,
 #new-event .form-buttons-container{
     display: flex;
     flex-wrap: wrap;
-    margin: 1em auto 0 auto;
+    margin: 1em auto;
 }
 
-.edit-mode form span a,
-.edit-mode form span button,
-.edit-management form span a,
-.edit-management form span button,
+.edit-mode form div a,
+.edit-mode form div button,
+.edit-management form div a,
+.edit-management form div button,
 #form-add-animal button[name="submit-animal"],
 #form-add-animal a#cancel-add-animal,
 #new-event button[name="submit-event"],
@@ -3234,8 +3233,8 @@ input[type="file"]::file-selector-button:hover {
     transition: 0.3s;
 }
 
-.edit-mode form span button,
-.edit-management form span button,
+.edit-mode form div button,
+.edit-management form div button,
 #form-add-animal button[name="submit-animal"],
 #new-event button[name="submit-event"]{
     background-color: var(--buttoncolor);
@@ -3246,8 +3245,8 @@ input[type="file"]::file-selector-button:hover {
     font-family: "Parkinsans", Roboto, sans serif;
 }
 
-.edit-mode form span a,
-.edit-management form span a,
+.edit-mode form div a,
+.edit-management form div a,
 #form-add-animal a#cancel-add-animal,
 #new-event a#cancel-new-event{
     color:var(--text-buttoncolor);
@@ -3256,10 +3255,10 @@ input[type="file"]::file-selector-button:hover {
     margin-right:0.5em;
 }
 
-.edit-mode form span a:hover,
-.edit-mode form span button:hover,
-.edit-management form span a:hover,
-.edit-management form span button:hover,
+.edit-mode form div a:hover,
+.edit-mode form div button:hover,
+.edit-management form div a:hover,
+.edit-management form div button:hover,
 #form-add-animal button[name="submit-animal"]:hover,
 #form-add-animal a#cancel-add-animal:hover,
 #new-event button[name="submit-event"]:hover,
@@ -3367,23 +3366,22 @@ input[type="file"]::file-selector-button:hover {
 }
 
 /* Stile base del popup (nascosto di default) */
-.overlay-content {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6); /* Sfondo scuro semitrasparente */
-    z-index: 1000;
-    display: none;
-    justify-content: center;
-    align-items: center;
+dialog[open].overlay-content {
+    border: none;
+    padding: 0;
+    border-radius: 0.8em;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    max-width: 90vw;
+    width: 400px;
+    
+    margin: auto;
 }
 
-.popup-checkbox:checked + label + .overlay-content, 
-.popup-checkbox:checked ~ .overlay-content {
-    display: flex; 
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.6); /* Oscura il resto del sito */
+    backdrop-filter: blur(2px);          /* Effetto sfocato opzionale molto moderno */
 }
+
 
 .dialog-box {
     background: var(--form-bg);
@@ -3395,6 +3393,10 @@ input[type="file"]::file-selector-button:hover {
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
+.dialog-box p{
+    margin-bottom: 1em;
+}
+
 .dialog-buttons {
     display: flex;
     justify-content: center;
@@ -3402,14 +3404,20 @@ input[type="file"]::file-selector-button:hover {
     margin-top: 1.5em;
 }
 
-#animale-detailed-container #button-cancel,
+#animale-detailed-container .dialog-buttons  .button-cancel:not([name="show-dialog"]),
+#revisione-richiesta .dialog-buttons  .button-cancel:not([name="show-dialog"]),
+#user-info .dialog-buttons button[name="close-dialog"].button-cancel{
+    border-radius: 2em;
+}
+
+#animale-detailed-container .button-cancel,
 #animale-detailed-container button[name="delete-animale"],
-#user-info #button-cancel,
+#user-info .button-cancel,
 #user-info button[name="delete-account"],
-#revisione-richiesta #button-cancel,
-#revisione-richiesta button{
+#revisione-richiesta .button-cancel,
+#revisione-richiesta button[name="delete-request"]{
     font-size: 1em;
-    margin:1em 0 1em auto;
+    margin:0 0 0 auto;
     width: fit-content;
 }
 
@@ -3424,51 +3432,39 @@ input[type="file"]::file-selector-button:hover {
     padding: 0.5em 2em;
 }
 
-#animale-detailed-container #button-cancel,
-#user-info .edit-management #button-cancel{
+#animale-detailed-container .button-cancel:not([name="show-dialog"]),
+#revisione-richiesta .button-cancel:not([name="show-dialog"]),
+#animale-detailed-container .button-cancel,
+#user-info .edit-management .button-cancel{
     width: 100%;
     text-align: center;
     background-color: transparent;
     border-radius: 1em;
 }
 
-#animale-detailed-container #button-cancel:hover,
-#user-info .edit-management #button-cancel:hover{
+#animale-detailed-container .button-cancel:hover,
+#user-info .edit-management .button-cancel:hover{
     border-color: transparent;
     color:var(--text-form);
 }
 
-.dialog-buttons label:hover,
-#animale-detailed-container button[name="delete-animal"]:hover,
 #user-info button[name="delete-account"]:hover,
-#revisione-richiesta button:hover{
-    border-color:var(--bgcolor);
+#revisione-richiesta button[name="delete-request"]:hover,
+#animale-detailed-container button[name="delete-animale"]:hover{
+    background-color: transparent;
+    border-color: transparent;
 }
 
-.dialog-buttons label[for="delete-animal-check"],
-.dialog-buttons label[for="delete-request-check"]{
-    background-color: var(--form-bg);
-    border-color:var(--buttoncolor);
-    color:var(--text-form);
-}
 
-.dialog-buttons label[for="delete-animal-check"]:hover,
-.dialog-buttons label[for="delete-request-check"]:hover{
-    border-color:transparent;
-    color:var(--text-form);
-}
-
-#button-cancel img{
+button[name="show-dialog"].button-cancel img{
     display: inline-block;
     margin:0 0 -5px 0;
     width: 2em;
     height:auto;
 }
 
-#delete-animal-check:disabled + #button-cancel:hover,
-#delete-animal-check:disabled + #button-cancel,
-#delete-request-check:disabled + #button-cancel:hover,
-#delete-request-check:disabled + #button-cancel{
+#revisione-richiesta button[name="show-dialog"]:disabled:hover,
+#revisione-richiesta button[name="show-dialog"]:disabled{
     background-color: var(--modifiedAccount);
     border-color:var(--bordermodifiedAccount);
     color:var(--txtclose-request);
@@ -3800,6 +3796,10 @@ div#admin-area article h2{
      font-weight: 600;
 }
 
+div#admin-area article#admin-info .header-info h2{
+    margin-top: 0.5em;
+}
+
 div#admin-area{
     padding: 0em 5em;
     margin-top: 2em;
@@ -3884,15 +3884,13 @@ header:has(#menu-admin) {
     flex:0 0 20%;
     flex-direction: column;
     transition: 0.3s;
-    float: left;
     width: 20%;
     padding: 1em 0em 1em 1em;
     height: 100%;
     overflow: hidden;
     font-size: 100%; 
     position: static;  
-
-    /* height: 100vh; */
+    box-shadow: none;
 }
 
 nav#menu-admin li a {
@@ -4112,8 +4110,7 @@ a.pencil {
 
 .text-details{
     margin: auto 0 auto 1em;
-    max-width: 100%;
-    min-width: 50%;
+    width: 100%;
 }
 
 .text-details ul{
@@ -4366,7 +4363,7 @@ div#admin-area article.note{
 #dettaglio-animale article#animale-detailed-container {
     border: 0.1em solid var(--txtcolor);
     border-radius: 0.5em;
-    padding: 0 1.5em 1.5em 1.5em;
+    padding: 1em 1.5em 1.5em 1.5em;
     flex: 1 1 55%; /* Aumentato leggermente per dare spazio al contenuto affiancato */
     min-width: 25em;
 }
@@ -4403,29 +4400,29 @@ div#admin-area article.note{
    ============================================================ */
 #dettaglio-animale .generic-info-container {
     display: flex;
-    flex-direction: column; /* Forza l'affiancamento */
+    flex-direction: row;
     align-items: center;
     gap: 2em;
     position: relative;
-    padding-top: 2em; /* Spazio per il pulsante matita */
+    padding-top: 3em; /* Spazio per il pulsante matita */
 }
 
-#dettaglio-animale .generic-info-container .text-details{
-    width: 100%;
-    column-count: 2;
-    border-bottom: 1px solid var(--cardHover);
-    padding-bottom: 0.2em;
-    margin-bottom: 0.2em;
+#dettaglio-animale .action-buttons-group{
+    display: flex;
+    margin-top: 1em;
 }
+
+#dettaglio-animale .action-buttons-group .text-details{
+    margin-left: 1em;
+}
+
 
 #dettaglio-animale .generic-info-container img.square-foto {
     width: 15em;
     height: 15em;
     object-fit: cover;
     border-radius: 0.5em;
-    margin-top: 1em;
     box-shadow: 0 0.25em 0.625em rgba(0,0,0,0.2);
-    margin-top: 1em;
 }
 
 #dettaglio-animale .text-details {
@@ -4618,11 +4615,6 @@ table {
 thead, tfoot {
     background-color: var(--darkbgcolor);
 }
-
-footer a{
-    text-decoration: none;
-}
-
 
 thead th, tfoot th, tfoot td {
     padding: 0.5em 0.5em;

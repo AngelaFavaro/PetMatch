@@ -91,6 +91,33 @@ table, th, td {
     border-collapse: collapse;
     padding: 0.2cm;
 }
+
+table{
+    width: 99.9%;
+}
+
+table button{
+    border-radius: 0.2cm;
+    padding: 0.2cm;
+}
+
+.col-dettagli a img{
+    width: 14pt;
+    height:auto;
+    filter: brightness(0);
+    margin-bottom: -5px;
+}
+
+.col-dettagli button[name="assegna_segnalazione"]{
+    max-width: 3.5cm;
+}
+
+
+.col-dettagli a:has(img)::after{
+    content: 'Contatta candidato';
+}
+
+
 /* ========== FILTRI DATE========== */
 
 /* toglie il template delle date */
@@ -285,12 +312,38 @@ div#row2 article{
     display: none;
 }
 
-#animali .capsula-filtro::before,
+#animali .capsula-filtro:not(.capsula-filtro:has(label[for='filtro-assegnata']))::before,
 #eventi .capsula-filtro::before{
     content:', ';
     float: left;
     display: inline;
     margin-right: 0.2cm;
+}
+
+.capsula-filtro:has(label[for='filtro-assegnata']){
+    margin-bottom: 0.5cm;
+}
+
+.capsula-filtro label[for='filtro-assegnata']{
+    font-weight: 600;
+}
+
+.capsula-filtro label[for='filtro-assegnata']::after{
+    content:':';
+}
+
+.capsula-filtro select#filtro-assegnata{
+    font-weight: normal;
+}
+
+#sumTabellaCane, #sumTabellaGatto{
+    display: block;
+    clear: both;
+    margin-bottom: 0.5cm;
+}
+
+#animali label[for="mobile-select"]{
+    display: none;
 }
 
 ul[aria-label="Filtri sulla tipologia"],

@@ -259,6 +259,10 @@ input:checked + #slider {
     padding: 0.7em 2em;
 }
 
+#user-profile .tabs-container input + label, #admin-area .tabs-container input + label{
+    min-height: 44px;
+}
+
 #request-state-movement,
 #request-state-richieste{
     width: 60%;
@@ -353,27 +357,31 @@ body#admin-body{
     display: block;
 }
 
-#admin-body .menu-toggle {
-    display: flex;
-    margin: 0em 0em 0em auto ;
-    width: fit-content;
+#admin-body header:has(.menu-toggle) {
+    width: 100%;
     cursor: pointer;
     color: var(--navButton);
-    padding: 0.5em 0.5em;
+    padding: 0;
 }
 
 nav#menu-admin li{
     padding:0.8em 1.3em;
 }
 
+#admin-body header .menu-toggle{
+    width: 21.5%;
+    margin: 0.93em 0 0.5em auto;
+}
+
+
 /* da vedere se possibile unificare con quello dello user, per ora lascio così */
 #admin-body .menu-toggle::before {
+
     content: "\2630";
     display: block;
     width: 45px;
-    text-align: center;
 }
-#menu-toggle-checkbox:checked + div + .menu-toggle::before {
+#admin-body  #menu-toggle-checkbox:checked + div + .menu-toggle::before {
     content: "\2715"; 
     width: 45px;
 }
@@ -382,7 +390,7 @@ nav#menu-admin li{
     transform: rotate(180deg);
 }
 
-nav#menu-admin {
+nav#menu-admin{
     padding-top: 0;
     width: 100%;
     position: relative;
@@ -393,8 +401,6 @@ nav#menu-admin {
     visibility: hidden;
     transition: max-height 0.3s ease-out;
     padding-bottom:2em;
-    margin-bottom:1em;
-    border-bottom:2px solid var(--bgcolor);
 }
 
 #menu-toggle-checkbox:checked ~ nav#menu-admin {
@@ -405,7 +411,6 @@ nav#menu-admin {
 
 body#admin-body main {
     margin-left: 0;
-    overflow: visible;
     min-height: 95vh;
 }
 
@@ -422,6 +427,10 @@ nav#menu-admin img {
 /* ================== ADMIN AREA ==================*/
 div#admin-area article{
     margin-bottom: 1em;
+    margin-top: 0.5em;
+}
+
+div#admin-area article#admin-info .header-info h2{
     margin-top: 0.5em;
 }
 
@@ -461,11 +470,11 @@ nav#breadcrumb {
 }
 /* ================== DETTAGLI RICHIESTE ==================*/
 a.pencil img{
-    width: 30px;
+    width: 44px;
 }
 
-a.pencil{
-    padding:0  15px 5px 15px;
+#admin-info .header-info{
+    align-items: center;
 }
 
 .text-details{
@@ -1055,6 +1064,10 @@ body#admin-body #animali .filtri .capsula-filtro{
 }
 
 /* =========DETTAGLI ANIMALI============ */
+
+#dettaglio-animale .generic-info-container{
+    gap:0;
+}
 
 #dettaglio-animale{
     padding:0;

@@ -31,20 +31,26 @@
     </div>
 
     [messaggiForm]
-    <input type="checkbox" id="delete-request-check" class="popup-checkbox" [isDisabled]/>
-    <label for="delete-request-check" id="button-cancel">Annulla richiesta</label>
-    <div class="overlay-content">
+
+    <form method="post" action="#info-animal">
+        <button type="submit" name="show-dialog" class="button-cancel" [isDisabled]>Annulla richiesta</button>
+    </form>
+
+    <dialog [openDialog] class="overlay-content">
         <div class="dialog-box">
-            <h3>Sei sicuro?</h3>
+            <h3 id="modal-title">Sei sicuro?</h3>
             <p>L'annullamento della richiesta per <em>[nomeAnimale]</em> è <strong>irreversibile</strong>.</p>
             
             <div class="dialog-buttons">
-                <label for="delete-request-check">No, tieni</label>
+                <form method="post" action="#info-animal">
+                    <button type="submit" name="close-dialog" class="button-cancel">No, tienila</button>
+                </form>
                 
                 <form method="post">
-                    <button type="submit" name="delete-request">Si, annulla</button>
+                    <button type="submit" name="delete-request" >Si, annulla</button>
                 </form>
             </div>
         </div>
-    </div>
+    </dialog>
+
 </div>
