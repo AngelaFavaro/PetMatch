@@ -24,7 +24,7 @@ function buildEventsCards($events): string {
         $data=formattaDataItaliana($e['data_evento']);
         $titolo=$e['titolo'];
         $html .= "<li>
-                    <article class='evento' aria-labelledby='evento-titolo'>
+                    <article class='evento'>
                         <!-- Immagine dell'evento -->
                         <img class='immagine-evento' src=$img alt=''>
                         <h2 id='evento-titolo-$titolo'>$titolo</h2>
@@ -64,17 +64,15 @@ function buildMainevent(array $dettagliEvento): string {
 
         // 3. Creazione del blocco HTML (con le variabili ora piene!)
         $html = "<div id='mainEvent'>
-        <h1>$titolo</h1>
         <div id='evento'>
-            <div class='immagine'>
-                <img id='foto-animale' src='$img' alt='Immagine evento $titolo'>
-            </div>
-                <dl>
-                    <dt>Luogo</dt> <dd> $luogo </dd>
-                    <dt>Data</dt> <dd> $dataFormattata </dd>
-                    <dt>Descrizione</dt> <dd>$descrizione</dd>
-                </dl>
-            </div>
+        <img class='square-foto' id='foto-animale' src='$img' alt='foto del luogo per evento  $titolo'>
+            <h1>$titolo</h1>
+            <dl>
+                <dt>Luogo</dt> <dd> $luogo </dd>
+                <dt>Data</dt> <dd> $dataFormattata </dd>
+                <dt id='descrizione-evento'>Descrizione</dt> <dd>$descrizione</dd>
+            </dl>
+        </div>
         </div>";
     } else {
         $html = "<p class='errore'>No info</p>";

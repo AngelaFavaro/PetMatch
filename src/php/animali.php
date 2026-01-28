@@ -172,7 +172,7 @@ if(isset($_GET['id'])) {
         // helper per ogni voce
         $item = function (string $t, string $label) use ($type, $buildLink) {
             if ($type === $t) {
-                return "<li class='currentType'>$label</li>";
+                return "<li class='currentType' aria-label='filtro attivo:$label'>$label</li>";
             }
     
             return "<li><a href='{$buildLink($t)}'>$label</a></li>";
