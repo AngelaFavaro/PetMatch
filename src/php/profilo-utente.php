@@ -70,12 +70,19 @@ function createMovementList(DBAccess $conn, $filtro = 'all'): string {
 
             $nomeAnimale = htmlspecialchars($richiesta['NomeAnimale']);
 
+
+
             switch($richiesta['Stato']){
                 case 'In valutazione':
                     $statoRichiesta = 'La tua richesta di adozione per <em>'.$nomeAnimale.'</em> è in <strong>valutazione.</strong>';
                     break;
                 case 'Da trasportare':
-                    $statoRichiesta = '<em>'.$nomeAnimale.'</em> <strong>partità</strong> il giorno <em>'.$richiesta['DataPartenza'].'</em> e <strong>arriverà</strong> il giorno<em>'.$richiesta['DataArrivo'].'</em>!';
+                    $dataFormattataPartenza= date("d/m/Y", strtotime($richiesta['DataPartenza']));
+                    $dataFormattataArrivo= date("d/m/Y", strtotime($richiesta['DataArrivo']));
+
+                    $screenPartenza = date("Y-m-d", strtotime($richiesta['DataPartenza']));
+                    $screenArrivo = date("Y-m-d", strtotime($richiesta['DataArrivo']));
+                    $statoRichiesta = '<em>'.$nomeAnimale.'</em> <strong>partità</strong> il giorno <em><time datetime = "'.$screenPartenza.'">'.$dataFormattataPartenza.'</time></em> e <strong>arriverà</strong> il giorno<em><time datetime="'.$screenArrivo.'">'.$dataFormattataArrivo.'</time>!</em>';
                     break;
                 case 'Accettata':
                     $statoRichiesta = 'Complimenti! <strong>Hai adottato</strong> con successo <em>'.$nomeAnimale.'</em>.';
