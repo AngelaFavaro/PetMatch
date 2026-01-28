@@ -44,7 +44,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                 <tbody>';
         if(!empty($animaliSegnalati)){
             foreach ($animaliSegnalati as $animale) {
-                $subject= rawurlencode('Segnalazione n. ' . $animale['id_segnalazione'] . ' - PetMatch - Hai bisogno di trovare casa al tuo amico a quattro zampe?');
+                $subject= rawurlencode('Segnalazione numero ' . $animale['id_segnalazione'] . ' - PetMatch - Hai bisogno di trovare casa al tuo animale?');
 
                 $messaggio = "Ciao! Ho visto la tua segnalazione su PetMatch per un " . strtolower($tipo) . " e siamo interessati a raccogliere maggiori informazioni riguardo al tuo animale.\n\n" .
                 "Potresti raccontarci un po' di più? Non ti preoccupare, ecco alcune domande che ci aiuterebbero molto (se non conosci la risposta ad alcune, scrivi pure 'non so'):\n\n" .
@@ -71,19 +71,19 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                         $html .='
                             <td colspan="2" class="col-dettagli">
                                 <form method="post" action="nuove-accoglienze">
-                                    <input type="hidden" name="id_segnalazione" value="' . htmlspecialchars($animale['id_segnalazione']) . '">
-                                    <button type="submit" name="assegna_segnalazione" class="orange-button">Assegna a me</button>
+                                    <input type="hidden" name="id_segnalazione" value="' . htmlspecialchars($animale['id_segnalazione']) . '"/>
+                                    <button type="submit" name="assegna_segnalazione" class="orange-button">Assegna a me<span class="sr-only"> numero' . htmlspecialchars($animale['id_segnalazione']) . '</span></button>
                                 </form>
                             </td>';
                     else{
                          $html .='
                             <td class="col-dettagli">
                                 <form method="post" action="nuove-accoglienze">
-                                    <input type="hidden" name="id_segnalazione" value="' . htmlspecialchars($animale['id_segnalazione']) . '">
-                                    <button type="submit" name="elimina_segnalazione" class="orange-button">Elimina</button>
+                                    <input type="hidden" name="id_segnalazione" value="' . htmlspecialchars($animale['id_segnalazione']) . '"/>
+                                    <button type="submit" name="elimina_segnalazione" class="orange-button">Elimina<span class="sr-only"> numero' . htmlspecialchars($animale['id_segnalazione']) . '</span></button>
                                 </form>
                             </td>
-                            <td class="col-dettagli"><a href="mailto:' . htmlspecialchars($animale['email_segnalante']) . '?subject=' . $subject . '&body=' . $object . '" class="brown-button">Chiedi informazioni'.'<span class="sr-only"> a '.htmlspecialchars($animale['nominativo_segnalante']).' per la segnalazione</span></a></td>';
+                            <td class="col-dettagli"><a href="mailto:' . htmlspecialchars($animale['email_segnalante']) . '?subject=' . $subject . '&body=' . $object . '" class="brown-button"><img src="assets/icons/mail.svg" alt="chiedi informazioni" /></a></td>';
                     }
                     $html .='</tr>';
                 }

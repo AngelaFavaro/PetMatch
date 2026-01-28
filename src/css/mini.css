@@ -1,8 +1,3 @@
-*{
-    -webkit-tap-highlight-color: transparent;
-}
-
-
 /*==================PULSANTI==================*/
 /* PER MOBILE DEVE ESSERE MINIMO 44 xx 44 */
 .orange-button,
@@ -35,7 +30,6 @@ select,
     
     display: flex; 
     flex-direction: column;
-    background-color: var(--bgcolor); 
     margin: 0;
     padding: 1em 0;
     box-shadow: 0 10px 15px rgba(0,0,0,0.1);
@@ -94,7 +88,7 @@ select,
     height: 100%;
     background: none;
     cursor: pointer;
-    color: var(--bgcolor,); 
+    color: var(--navButton); 
     padding:0;
     margin: 0;
     transition: transform 0.3s ease;
@@ -231,10 +225,6 @@ input:checked + #slider {
     padding:1.5em;
 }
 
-#timeline summary::-webkit-details-marker {
-    display: none;
-}
-
 #section-events + a{
     margin-bottom:3em;
 }
@@ -283,6 +273,7 @@ input:checked + #slider {
 
 #animali li.card, #animali li.dark-card {
     flex-shrink: 1;
+    width: 9em;
 }
 
 #animali .filtri .capsula-filtro, #eventi .filtri .capsula-filtro
@@ -301,7 +292,7 @@ input:checked + #slider {
     text-overflow: ellipsis;  /* aggiunge "..." alla fine */
 }
 
-#animali #nav-animali-type ul {
+#animali #nav-animali-type ul, #nav-event-type ul {
     display: flex;
     list-style: none;
     padding: 0;
@@ -310,10 +301,10 @@ input:checked + #slider {
     width: 100%;    
     flex-shrink: 1;      
 }
-#animali #nav-animali-type::after {
+#animali #nav-animali-type::after, #nav-event-type::after {
     display: none;
 }
-#animali #nav-animali-type li {
+#animali #nav-animali-type li, #nav-event-type li {
     min-width: 100px;
 }
 
@@ -324,25 +315,21 @@ input:checked + #slider {
 #animali .card .interessamento, #animali .dark-card .interessamento {
     float: left;   
     clear: left;
-    padding:0.5em;
+    /* padding:0.5em; */
 }
-
-/* #animali #content-filter-button button {
-    width: 100%;
-    flex: 0 0 100%;
-} */
 
 #animali .filtri #searchSex.capsula-filtro,
 #animali .filtri #searchEta.capsula-filtro {
     max-width: 100%;
 }
 
+#richieste .filtri .capsula-filtro,
 #animali .filtri .capsula-filtro {
     height: 3em;
 }
 
 #animali .immagine {
-    height: 50%;
+    height: 60%;
     width: 100%;
 }
 
@@ -359,61 +346,19 @@ input:checked + #slider {
 }
 
 
-
-/* ================== NAV ADMIN ==================*/
-    
-/* nav#menu-admin {
-    padding-top:0em;
-    float: none;
-    width: 100%;
-    position: relative;
-    left: 0;
-    max-height: 0;
-    overflow: hidden;
-    background-color: transparent; 
-    z-index: 1000;
-    visibility: hidden;
-}
-
-#menu-admin.active {
-    max-height: 100vh;
-    background-color: var(--footercolor)
-    visibility: visible;
-}
-
-body#admin-body main {
-    margin-left: 0;
-}
-
-div#admin-area {
-    padding: 1em;
-}
-
-#admin-body .menu-toggle {
-    display: block;
-    font-size: 2em;
-    background: none;
-    border: none;
-    cursor: pointer;
-        color: var(--bgcolor);
-    padding: 0.5em 1em 0em 1em;
-}
-
-nav#menu-admin img {
-    width: 10em;
-    max-width: 100%;
-    height: auto;
-} */
-
 /* ================== NAV ADMIN (Versione No-JS) ==================*/
 
+
+body#admin-body{
+    display: block;
+}
 
 #admin-body .menu-toggle {
     display: flex;
     margin: 0em 0em 0em auto ;
     width: fit-content;
     cursor: pointer;
-    color: var(--bgcolor);
+    color: var(--navButton);
     padding: 0.5em 0.5em;
 }
 
@@ -428,12 +373,12 @@ nav#menu-admin li{
     width: 45px;
     text-align: center;
 }
-#menu-toggle-checkbox:checked + .menu-toggle::before {
+#menu-toggle-checkbox:checked + div + .menu-toggle::before {
     content: "\2715"; 
     width: 45px;
 }
 
-#menu-toggle-checkbox:checked + .menu-toggle {
+#menu-toggle-checkbox:checked + div + .menu-toggle {
     transform: rotate(180deg);
 }
 
@@ -460,6 +405,8 @@ nav#menu-admin {
 
 body#admin-body main {
     margin-left: 0;
+    overflow: visible;
+    min-height: 95vh;
 }
 
 div#admin-area {
@@ -527,6 +474,11 @@ a.pencil{
 
 img.circle-foto{
     margin:1em auto;
+}
+
+div#admin-area #animali tbody .brown-button{
+    width: 100%;
+    margin: 0.5em 0;
 }
 
 /* ================== 404 PAGE ==================*/
@@ -601,9 +553,7 @@ div#admin-area article#query h2{
 }
 
 #form-add-animal .column-container, 
-#form-add-animal .column-user,
-#form-edit-animal .column-container, 
-#form-edit-animal .column-user {
+#form-add-animal .column-user {
     display: flex;
     flex-direction: column; 
     gap: 0; 
@@ -620,6 +570,7 @@ div#admin-area article#query h2{
     width: 100%;
 }
 
+
 #form-add-animal .form-group, 
 #form-add-animal .column-user > div,
 #form-edit-animal .form-group,      
@@ -628,11 +579,6 @@ div#admin-area article#query h2{
     flex-direction: column;
     margin-bottom: 1em; 
     width: 100%;
-}
-
-#form-add-animal label,
-#form-edit-animal label{
-    margin-top:0.8em;
 }
 
 #form-add-animal input[type="text"],
@@ -667,6 +613,10 @@ div#admin-area article#query h2{
 #form-add-animal .radio-group-cg,
 #form-edit-animal .radio-group-cg {
     gap: 0.3em;
+}
+
+#form-add-animal .radio-group-cg label{
+    margin:0;
 }
 
 #form-add-animal .radio-card,
@@ -807,12 +757,29 @@ body#lavora-con-noi {
     display: none;
 }
 
-/*                  EVENTI                       */
+/*==================EVENTI==================*/
 
+#nav-event-type li {
+    flex: 1 1 50%;
+    min-width: 0;
+}
+
+#nav-event-type::after {
+    display: none;
+}
+
+#new-event-button{
+    width: 100%;
+    margin-top: 0.5em;
+}
 
 
 #eventi .cards-container{
     margin:auto;
+}
+
+#nav-event-type{
+    margin-top: 1.5em;
 }
 
 #eventi .cards-container li{
@@ -825,6 +792,16 @@ body#lavora-con-noi {
     clear: both;
     margin:0 auto;
     padding:0 1em;
+}
+
+#eventi .evento .descrizione-evento p{
+    margin: 0;
+    max-height: 2.9em;
+    min-height: 2.9em;
+}
+
+.descrizione-evento p.is-truncated::after {
+    bottom: 0px;
 }
 
 #eventi .evento .posizione-data-abbr {
@@ -855,11 +832,8 @@ body#lavora-con-noi {
     height: 8em;
     padding: 0.8em;
     float:left;
-    /* padding-right: 2em; */
     object-fit: cover;
     min-width: 8em;
-    /* margin-right: 2em; */
-    /* display: flex; */
 }
 
 #eventi .evento {
@@ -867,31 +841,111 @@ body#lavora-con-noi {
     margin-bottom: 2em;
     margin:auto;
     padding:0.3em;
+    min-width: 20em;
 }
 /* Visualizzazione animale */
 #visualizzazione-animale #foto-animale{
-    max-width:16em;
+    max-width: 100%;
+    max-height: 250px;
+    margin:0 auto;
 }
 #visualizzazione-animale .column-container { 
     gap: 0.5em;
 }
 
-#visualizzazione-animale #titolo-dettagli-animale{
-    margin-bottom: 0em;
+#visualizzazione-animale h1 + a{
+    width: 100%;
 }
 
-
-/* Form adozione */
-
-#richiesta-adozione {
-    padding:1.1em
+#richiesta-adozione{
+    padding: 1em;
 }
-#richiesta-adozione .column-container{
-    gap:0em;
-    padding: 1.3em 0.7em;
+
+#richiesta-adozione #indirizzo-row{
+    display: block;
+    gap:0;
 }
-#richiesta-adozione .column-container .column-container{
-    gap:0.7em;
+
+#richiesta-adozione input#new-cap,
+#richiesta-adozione input#new-city{
+    width: 100%;
+}
+
+#content-form{
+    width: 100%;
+    padding: 1.5em 1em;
+}
+
+#richiesta-adozione textarea {
+    max-height: 140px;
+    margin-top:5px;
+}
+
+/* ================== CHECKBOX ==================*/
+
+
+.checkbox-container-pic input[type="checkbox"],
+#home input[name="type-animal"],
+input#createMore,
+#form-add-animal .checkbox-label input[type="checkbox"]{
+    width: 30px;
+    height: 30px;
+}
+
+#home input[name="type-animal"] + label{
+    padding:10px;
+}
+
+.sex-option input[type="radio"]{
+    width: 20px;
+    height: 20px; 
+}
+
+input#createMore::before,
+.checkbox-container-pic input[type="checkbox"]::before{
+    top:6px;
+    left:6px;
+}
+
+.checkbox-container-pic input[type="checkbox"]::before,
+input#createMore::before,
+#home input[name="type-animal"]::before,
+#form-add-animal .checkbox-label input[type="checkbox"]::before{
+    top:6px;
+    left:6px;
+}
+
+.sex-option input[type="radio"]::before{
+
+    top:3px;
+    left:3px;
+}
+
+/* ================== IMMAGINE AGGIUNGI EVENTO E ANIMALI ==================*/
+
+.success-form +img{
+    max-width: 50%;
+    max-height: 200px;
+    text-align: center;
+}
+/* ================== FILTRI RICHIESTE ADOZIONE ==================*/
+body#admin-body #richieste .filtri button{
+    width: 100%;
+}
+
+body#admin-body #richieste .filtri .capsula-filtro{
+    width: 50%;
+    flex: 1 1 55%;
+    margin:auto;
+}
+
+body#admin-body #richieste .filtri .capsula-filtro label{
+    margin-right: 10px;
+}
+
+body#admin-body #richieste .filtri .capsula-filtro select{
+    margin: 0 0 0 auto;
+    padding-left: 1em;
 }
 
 
@@ -945,50 +999,105 @@ body#lavora-con-noi {
 #come-funziona #comeSiAdotta #immagini{
     display: none;
 }
-/* ================== CHECKBOX ==================*/
 
 
-.checkbox-container-pic input[type="checkbox"],
-#home input[name="type-animal"],
-input#createMore,
-#form-add-animal .checkbox-label input[type="checkbox"]{
-    width: 30px;
-    height: 30px;
+
+
+
+
+/* ================== FILTRI RICHIESTE ADOZIONE ==================*/
+body#admin-body #richieste .filtri button{
+    width: 100%;
 }
 
-#home input[name="type-animal"] + label{
-    padding:10px;
+body#admin-body #richieste .filtri .capsula-filtro{
+    width: 50%;
+    flex: 1 1 55%;
+    margin:auto;
 }
 
-.sex-option input[type="radio"]{
-    width: 20px;
-    height: 20px; 
+body#admin-body #richieste .filtri .capsula-filtro label{
+    margin-right: 10px;
 }
 
-input#createMore::before,
-.checkbox-container-pic input[type="checkbox"]::before{
-    top:6px;
-    left:6px;
+body#admin-body #richieste .filtri .capsula-filtro select{
+    margin: 0 0 0 auto;
+    padding-left: 1em;
 }
 
-.checkbox-container-pic input[type="checkbox"]::before,
-input#createMore::before,
-#home input[name="type-animal"]::before,
-#form-add-animal .checkbox-label input[type="checkbox"]::before{
-    top:6px;
-    left:6px;
+body#admin-body #animali .filtri .capsula-filtro{
+    margin: auto;
 }
 
-.sex-option input[type="radio"]::before{
 
-    top:3px;
-    left:3px;
+/* =========PAGINA CHI SIAMO============ */
+
+#orari-chi-siamo table#tabella-chi-siamo thead {
+    display: none;
 }
 
-/* ================== IMMAGINE AGGIUNGI EVENTO E ANIMALI ==================*/
+#orari-chi-siamo table#tabella-chi-siamo tbody th, #orari-chi-siamo table#tabella-chi-siamo tbody tr, #orari-chi-siamo table#tabella-chi-siamo tbody td{
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    white-space: normal;
+    height: fit-content;
+}
 
-.success-form +img{
-    max-width: 50%;
-    max-height: 200px;
-    text-align: center;
+#orari-chi-siamo table#tabella-chi-siamo tbody th, #orari-chi-siamo table#tabella-chi-siamo tbody td{
+    height: 2em;
+}
+
+#orari-chi-siamo table#tabella-chi-siamo tbody th[data-title]:before, #orari-chi-siamo table#tabella-chi-siamo tbody td[data-title]:before {
+    content: attr(data-title) ":\00A0";
+    font-weight: bold;
+}
+
+/* =========DETTAGLI ANIMALI============ */
+
+#dettaglio-animale{
+    padding:0;
+}
+
+#dettaglio-animale .generic-info-container .text-details{
+    width: 100%;
+    column-count: 1;
+    border-bottom: 1px solid var(--cardHover);
+    padding-bottom: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+#dettaglio-animale article#animale-detailed-container{
+    min-width: 0;
+    padding: 0.5em;
+    margin:1em 0 0 0;
+}
+
+#dettaglio-animale #content-manage{
+    margin:0;
+}
+
+/* =========DETTAGLI RICHIESTA ADMIN============ */
+#details-container{
+    margin: 0;
+    gap:2em;
+}
+
+#dettaglio-animale .tabs-container select{
+    width: 100%;
+}
+
+.generic-info-container img{
+    margin:0 auto 0.5em auto;
+}
+
+div#admin-area #details-container article#animale-richiesta{
+    margin-bottom: 2em;
+}
+
+div#admin-area #details-container article#animale-richiesta .text-details{
+    width: 100%;
+    margin:0;
+    padding:0;
 }

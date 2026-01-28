@@ -123,7 +123,7 @@ if ($paginaHTML === false) {
 
 $title = '<title>Accedi - PetMatch </title>';
 $description = '<meta name="description" content="Accedi a PetMatch">';
-$keywords = "";
+$keywords = "<meta name='keywords' content='Accedi'>";
 
 $nav = buildNav($userMenu, './accedi');
 $footer = buildFooter($footerMenu,  './accedi');

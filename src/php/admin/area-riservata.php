@@ -21,13 +21,13 @@ function buildToDoList(DBAccess $conn): string {
 		['href' => './richieste-adozione?stato=In+valutazione&appunti=0', 'type' => 'Appunti da prendere'],
 		['href' => './nuove-accoglienze', 'type' => 'Accoglienze'],
 		['href' => './richieste-adozione?stato=Nuove', 'type' => 'Adozioni da valutare'],
-		['href' => 'richieste-adozione?stato=Da+trasportare&trasporto=0', 'type' => 'Trasporti da organizzare'],
+		['href' => './richieste-adozione?stato=Da+trasportare&trasporto=0', 'type' => 'Trasporti da organizzare'],
 	];
 	foreach ($links as $index => $link) {
 		$nQuery = $tasks[$index] ?? 0;
 		$html .= '
 		<li>
-			<a href="' . $link['href'] . '" aria-label="' . $nQuery . $link['type'].'">
+			<a href="' . $link['href'] . '" aria-label="' . $nQuery . ' ' . $link['type'].'">
 				<p class="n-query" aria-hidden="true">' . $nQuery . '</p>
 				<p class="query-type" aria-hidden="true">' . $link['type'] . '</p>
 			</a>
@@ -67,12 +67,12 @@ function buildInfoAdmin(): array{
 		$titolo = '<h2>Modifica le tue informazioni</h2>';
 		$html = '
 			<div id="informazioni-admin" class="edit-mode">
-				<form class="edit-mode" method="POST" action="area-riservata#informazioni-admin" enctype="multipart/form-data">
+				<form class="edit-mode" method="post" action="area-riservata#informazioni-admin" enctype="multipart/form-data">
 					<fieldset>
 						<legend class="sr-only">Informazioni personali</legend>
 						<div>
 							<label class="sr-only" for="new-pic">Cambia Foto</label>
-							<input type="file" id="new-pic" name="new-pic" accept="image/*">
+							<input type="file" id="new-pic" name="new-pic" accept="image/*"/>
 							<label class="checkbox-container-pic" for="delete-pic">
 								<input type="checkbox" id="delete-pic" name="delete-pic">
 								Rimuovi foto profilo
@@ -80,31 +80,34 @@ function buildInfoAdmin(): array{
 						</div>
 						<div>
 							<label for="new-name">Nome*</label>
-							<input type="text" id="new-name" name="new-name" autocomplete="name" value="[nomeAdmin]" placeholder="Nome">
+							<input type="text" id="new-name" name="new-name" autocomplete="name" value="[nomeAdmin]" placeholder="Nome"/>
 							<p class="error-form">[erroriNome]</p>
 						</div>
 						<div>
 							<label for="new-surname">Cognome*</label>
-							<input type="text" id="new-surname" name="new-surname" autocomplete="family-name" value="[cognomeAdmin]" placeholder="Cognome">
+							<input type="text" id="new-surname" name="new-surname" autocomplete="family-name" value="[cognomeAdmin]" placeholder="Cognome"/>
 							<p class="error-form">[erroriCognome]</p>
 						</div>
 						<div class="edit-number">
 							<label for="new-number">Telefono con prefisso</label>
 							<div>
-								<input type="tel" id="new-number" name="new-number" autocomplete="tel" value="[telefono-Admin]" placeholder="+39 000 000 0000">
+								<input type="tel" id="new-number" name="new-number" autocomplete="tel" value="[telefono-Admin]" placeholder="+39 000 000 0000"/>
 							</div>
 							<p class="error-form">[erroriTelefono]</p>
 						</div>
 					</fieldset>
-					<span>
+					<div>
 						<a href="area-riservata#informazioni-admin" class="cancel-edit">Annulla</a>
 						<button type="submit" name="edit-profile">Salva</button>
-					</span>
+					</div>
 				</form>
 			</div>';
 
 	} else {
-		$titolo = '<h2>Le tue informazioni</h2>';
+		$titolo = '<h2>Le tue informazioni</h2>
+                    <a href="?mode=edit#admin-info" class="edit-admin-info pencil">
+                        <img src="./assets/icons/edit-pencil.svg" alt="Modifica informazioni" />
+                    </a>';
 		$html =
 			'<div id="informazioni-admin" class="text-details"><dl aria-label="informazioni dell\'utente">
 				<dt>Nome</dt> <dd>[nomeAdmin]</dd>

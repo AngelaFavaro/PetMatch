@@ -2,7 +2,7 @@
 include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
-session_start();
+// session_start();
 
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo controlla se esiste la variabile admin in session, la seconda controlla che sia affettivamente admin
     header("Location: ./accedi");
@@ -10,70 +10,48 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo cont
 }
 
 
-
-function displayDateItalianFormat(string $dateStr): string {
-    $timestamp = strtotime($dateStr);
-    if ($timestamp === false) {
-        return '';
-    }
-    return date('d/m/Y', $timestamp);
-}
-/**
- * Escape stringa per output HTML serve a prevenire XSS ossia Cross Site Scripting ossia l'inserimento di codice malevolo in pagine web visualizzate da altri utenti
- */
-function e(string $s): string {
-    return htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-}
-
-/**
- * Ritorna "Sì" o "No" in base a valore booleano/intero
- */
-function siNo($val): string {
-    return ($val === 1 || $val === '1' || $val === true) ? 'Sì' : 'No';
-}
-
 /** DA TOGLIERE, NON NECESSARIO TODO
  * Genera gli input nascosti usati nei form (id_animale + email_richiedente)
  */
 function hiddenInputsFrom(array $r): string {
     $id = e($r['id-animale'] ?? '');
     $email = e($r['email-richiedente'] ?? '');
-    return '<input type="hidden" name="id_animale" value="' . $id . '">
-            <input type="hidden" name="email_richiedente" value="' . $email . '">';
+    return '<input type="hidden" name="id_animale" value="' . $id . '"/>
+            <input type="hidden" name="email_richiedente" value="' . $email . '"/>';
 }
 
 /**
- * Rende il blocco "scarta/apri richiesta"
+ * Renderizza il blocco "scarta/apri richiesta"
  */
 function renderRejectRequest(array $r): string {
     if (($r['stato'] ?? '') !== 'Respinta' && ($r['stato'] ?? '') !== 'Annullata') {
-        return '<form method="POST">' .
+        return '<form method="post">' .
             hiddenInputsFrom($r) .
             '<button type="submit" name="scarta_richiesta" class="orange-button">Scarta richiesta</button>
         </form>';
     }
-    return '<form method="POST">' .
+    return '<form method="post">' .
         hiddenInputsFrom($r) .
         '<button type="submit" name="apri_richiesta" class="orange-button">Apri richiesta</button>
     </form>';
 }
 
 /**
- * Rende i pulsanti di azione in base allo stato della richiesta
+ * Renderizza i pulsanti di azione in base allo stato della richiesta
  */
 function renderPulsantiAzioni(array $r): string {
     $stato = $r['stato'] ?? '';
     $html = '';
     if ($stato === 'Da trasportare') {
         $subject = rawurlencode('Richiesta informazioni per adozione di ' . ($r['nome-animale'] ?? ''));
-        $html = '<a href="mailto:' . ($r['email-richiedente'] ?? '') . '?subject=' . $subject . '" class="orange-button" target="_blank">Contatta candidato</a>';
+        $html = '<a href="mailto:' . ($r['email-richiedente'] ?? '') . '?subject=' . $subject . '" class="brown-button" target="_blank">Contatta candidato</a>';
     } elseif ($stato === 'Nuova') {
-        $html = '<form method="POST">' .
+        $html = '<form method="post">' .
             hiddenInputsFrom($r) .
             '<button type="submit" name="inizia_valutazione" class="orange-button">Inizia valutazione</button>
         </form>';
     } elseif ($stato === 'In valutazione') {
-        $html = '<form method="POST">' .
+        $html = '<form method="post">' .
             hiddenInputsFrom($r) .
             '<button type="submit" name="accetta_richiesta" class="orange-button">Accetta richiesta</button>
         </form>';
@@ -95,9 +73,19 @@ function buildDateInfo(array $r): array {
 	if(($r['stato'] ?? '') === 'In valutazione') {
 		$dataInizio = '<dt>Data inizio valutazione</dt><dd><time datetime="' . ($r['data_inizio_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_inizio_valutazione'] ?? '') . '</time></dd>';
 	}
-	if(($r['stato'] ?? '') === 'Annullata') {
-		$dataInizio = '<dt>Data inizio valutazione</dt><dd><time datetime="' . ($r['data_inizio_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_inizio_valutazione'] ?? '') . '</time></dd>';
-		$dataRifiuto = '<dt>Data annullamento</dt><dd><time datetime="' . ($r['data_fine_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_fine_valutazione'] ?? '') . '</time></dd>';
+	if(($r['stato'] ?? '') === 'Annullata' || ($r['stato'] ?? '') === 'Respinta' || ($r['stato'] ?? '') === 'Accettata') {
+        $dataInizio = '';
+        $dataRifiuto = '';
+        if (($r['data_inizio_valutazione'] ?? '') !== '') {
+            $dataInizio = '<dt>Data inizio valutazione</dt><dd><time datetime="' . $r['data_inizio_valutazione'] . '">' . displayDateItalianFormat($r['data_inizio_valutazione']) . '</time></dd>';
+        } else {
+            $dataInizio = '<dt>Data inizio valutazione</dt><dd>Non presente</dd>';
+        }
+        if (($r['data_fine_valutazione'] ?? '') !== '') {
+            $dataRifiuto = '<dt>Data fine valutazione</dt><dd><time datetime="' . $r['data_fine_valutazione'] . '">' . displayDateItalianFormat($r['data_fine_valutazione']) . '</time></dd>';
+        } else {
+            $dataRifiuto = '<dt>Data fine valutazione</dt><dd>Non presente</dd>';
+        }
 	}
     return [$dataInizio, $dataFine, $dataRifiuto];
 }
@@ -105,7 +93,7 @@ function buildDateInfo(array $r): array {
 /**
  * Gestione delle azioni POST che modificano lo stato (eseguono redirect)
  */
-function handlePostActions(DBAccess $conn, array $r, string $email, int $idAnimale): array {
+function handlePostActions(DBAccess $conn, array $r, string $email, int $idAnimale, &$messaggiForm): array {
     
 
     if (isset($_POST['inizia_valutazione'])) {
@@ -148,21 +136,30 @@ function handlePostActions(DBAccess $conn, array $r, string $email, int $idAnima
         exit;
     }
 
-	if (isset($_POST['salva_data_arrivo'])) {
-		$newDate = $_POST['data_arrivo'];
-		$conn->setArrivalDate($email, $idAnimale, $newDate);
-        $r = $conn->getRequestDetails($email, $idAnimale);
-		header("Location: richieste-adozione?email=$email&id-animale=$idAnimale");
-		exit;
-	}
+	if (isset($_POST['salva_date_trasporto'])) {
+        $dataPartenza = $_POST['data_partenza'];
+        $dataArrivo = $_POST['data_arrivo'];
+        $dataFineValutazione = $r['data_fine_valutazione'] ?? null; 
 
-    // if (isset($_POST['annulla_data_arrivo'])) {
-	// 	$newDate = $_POST['data_arrivo'];
-	// 	$conn->setArrivalDate($email, $idAnimale, null);
-    //     $r = $conn->getRequestDetails($email, $idAnimale);
-	// 	header("Location: richieste-adozione?email=$email&id-animale=$idAnimale");
-	// 	exit;
-	// }
+        if ($dataFineValutazione !== null) {
+            $dataFineValutazioneFormatted = date('Y-m-d', strtotime($dataFineValutazione));
+            if ($dataPartenza < $dataFineValutazioneFormatted) {
+                $_SESSION['error_msg'] = "<em class='error' role='alert' aria-live='polite'>La data di partenza non può essere precedente alla data di fine valutazione (" . displayDateItalianFormat($dataFineValutazioneFormatted) . ").</em>";
+                header("Location: richieste-adozione?email=" . urlencode($email) . "&id-animale=" . urlencode($idAnimale) . "&mode=edit-data#stato-trasporto");
+                exit;
+            }
+        }
+
+        $conn->setTransportDates($email, $idAnimale, $dataPartenza, $dataArrivo);
+        header("Location: richieste-adozione?email=" . urlencode($email) . "&id-animale=" . urlencode($idAnimale));
+        exit;
+    }
+    if (isset($_POST['trasporto_effettuato'])) {
+        // $conn->markTransportCompleted($email, $idAnimale);
+        $r = $conn->getRequestDetails($email, $idAnimale);
+        header("Location: richieste-adozione?email=$email&id-animale=$idAnimale");
+        exit;
+    }
 
     return $r;
 }
@@ -193,6 +190,9 @@ $richiesta = [];
 $dataRichiestaRespinta = '';
 $dataInizioValutazione = '';
 $dataFineValutazione = '';
+$nRichiesteRichiedente = '';
+$noteTrasportoRichiesta = '';
+$messaggiForm = '';
 $connessione = new DBAccess();
 $connessioneOK = $connessione->openDBConnection();
 
@@ -200,9 +200,15 @@ if ($connessioneOK) {
     $richiesta = $connessione->getRequestDetails($email, $idAnimale);
 
     // Gestione POST centralizzata (esegue redirect dove necessario)
-    $richiesta = handlePostActions($connessione, $richiesta, $email, $idAnimale);
-
+    $richiesta = handlePostActions($connessione, $richiesta, $email, $idAnimale, $messaggiForm);
+    // ... dopo $connessioneOK = $connessione->openDBConnection(); ...
+    $nRichiesteRichiedente =  $connessione->countActiveRequestsForUser($richiesta['email-richiedente'] ?? '');
     $connessione->closeConnection();
+}
+//tolgo i messaggiForm
+if (isset($_SESSION['error_msg'])) {
+    $messaggiForm = $_SESSION['error_msg'];
+    unset($_SESSION['error_msg']);
 }
 
 $title = '<title>Area riservata admin - PetMatch </title>';
@@ -211,7 +217,7 @@ $keywords = "";
 
 // Preparazione parti dinamiche
 $scarta_richiesta = renderRejectRequest($richiesta);
-$nav = buildAdminNav($adminMenu,'./richieste-adozione');
+$nav = buildAdminNav($adminMenu,'./dettagli-richiesta');
 $breadcrumb = getBreadcrumb('dettagli-richiesta', $pagine);
 $main = loadTemplate('./src/template/main/admin/dettagli-richiesta.html');
 
@@ -223,21 +229,28 @@ $paginaHTML = str_replace('[description]', $description, $paginaHTML);
 
 $di_chi = '';
 if(!imTheAdmin($richiesta)){
-	$di_chi = '<h2>Richiesta di adozione assegnata a '.e($richiesta['nome-admin'] ?? '').' '.e($richiesta['cognome-admin'] ?? '').'</h2>';
+	$di_chi = '<h2 id="responsabile">Amministratore responsabile: '.e($richiesta['nome-admin'] ?? '').' '.e($richiesta['cognome-admin'] ?? '').'</h2>';
 }
 $main = str_replace('[di chi]', $di_chi, $main);
 $dataRichiesta='<time datetime="' . ($richiesta['data-richiesta'] ?? '') . '">' . displayDateItalianFormat($richiesta['data-richiesta'] ?? '') . '</time>';
 
 $main = str_replace('[data]', $dataRichiesta, $main);
 $main = str_replace('[contenutoLettera]', e($richiesta['lettera-di-presentazione'] ?? ''), $main);
-$main = str_replace('[paginaAnimale]', './animale?id=' . e($richiesta['id-animale'] ?? ''), $main);
+
+$urlDettaglioAnimale = './dettagli-animale?id-animale=' . e($richiesta['id-animale'] ?? '');
+$main = str_replace('[paginaAnimale]', $urlDettaglioAnimale, $main);
+
 $main = str_replace('[paginaRichiedente]', './profilo-richiedente?email=' . urlencode($_GET['email']) ?? '', $main);
-$main = str_replace('[animalID]', $richiesta['id-animale'] ?? '', $main);
+// $main = str_replace('[animalID]', $richiesta['id-animale'] ?? '', $main);
 $main = str_replace('[trasporto]', siNo($richiesta['trasporto-richiesta'] ?? 0), $main);
 $main = str_replace('[scarta-richiesta]', $scarta_richiesta, $main);
 $main = str_replace('[stato]', e($richiesta['stato'] ?? ''), $main);
 $main = str_replace('[nome]', e($richiesta['nome-richiedente'] ?? ''), $main);
-$main = str_replace('[imgPath]', e($richiesta['imgPath'] ?? ''), $main);
+if(!$richiesta['imgPath'] || !file_exists($richiesta['imgPath'])){
+    $main = str_replace('[imgPath]', './assets/images/users/default-pic.png', $main);
+}else{
+    $main = str_replace('[imgPath]', e($richiesta['imgPath']), $main);
+}
 $main = str_replace('[cognome]', e($richiesta['cognome-richiedente'] ?? ''), $main);
 //telefono e indirizzo sono opzionali
 if($richiesta['telefono-richiedente'] !== null){
@@ -262,6 +275,7 @@ if($richiesta['trasporto-richiesta']===1 && $richiesta['indirizzo-richiedente'])
     $indirizzo_richiedente='<dt class="data-error">Indirizzo</dt><dd>MANCANTE</dd>'; //
 }
 $main = str_replace('[indirizzo-richiedente]', $indirizzo_richiedente, $main);
+$main = str_replace('[idAnimale]', e($richiesta['id-animale'] ?? ''), $main);
 $main = str_replace('[nomeAnimale]', e($richiesta['nome-animale'] ?? ''), $main);
 
 if(!$richiesta['animalImgPath'] || !file_exists($richiesta['animalImgPath'])){
@@ -279,7 +293,12 @@ if($richiesta['sesso-animale'] === 'F')
 elseif($richiesta['sesso-animale'] === 'M')
     $main = str_replace('[sessoAnimale]', '<abbr title="Maschio">M</abbr>', $main);
 
-$main = str_replace('[etaAnimale]', e($richiesta['eta-animale'] ?? ''), $main);
+// Invece di: $main = str_replace('[etaAnimale]', e($richiesta['eta-animale'] ?? ''), $main);
+
+$dataNascita = $richiesta['data-nascita'] ?? null;
+$testoEta = $dataNascita ? formattaEta($dataNascita) : 'Età sconosciuta';
+
+$main = str_replace('[etaAnimale]', e($testoEta), $main);
 $main = str_replace('[razzaAnimale]', e($richiesta['razza-animale'] ?? ''), $main);
 $main = str_replace('[trasportoAnimale]', siNo($richiesta['trasporto-animale'] ?? 0), $main);
 $main = str_replace('[famigliaIdeale]', e($richiesta['famiglia-ideale'] ?? ''), $main);
@@ -300,68 +319,67 @@ $url_base = "?email=$email_url&id-animale=$id_url";
 if (($richiesta['stato'] ?? '') === 'Da trasportare') {
     
 if(isset($_GET['mode']) && $_GET['mode'] === 'edit-data'){
-        $data_per_input = ($richiesta['data-arrivo'] === null) ? '' : date('Y-m-d', strtotime($richiesta['data-arrivo']));
+        $data_per_input_arrivo = ($richiesta['data-arrivo'] === null) ? '' : date('Y-m-d', strtotime($richiesta['data-arrivo']));
+        $data_per_input_partenza = ($richiesta['data-partenza'] === null) ? '' : date('Y-m-d', strtotime($richiesta['data-partenza']));
 
         $stato_trasporto .= '
         <article id="stato-trasporto" class="note">
             <div class="header-article">
-                    <h2>Modifica la data di arrivo</h2>
+                    <h2>Modifica le date del trasporto</h2>
                     <a href="' . $url_base . '#stato-trasporto" class="pencil">
-                        <img src="./assets/icons/edit-pencil.svg" alt="Annulla modifica">
+                        <img src="./assets/icons/edit-pencil.svg" alt="Annulla modifica" />
                     </a>
              </div>
-            <form method="POST" action="' . $url_base . '#stato-trasporto">
-                <label for="input-data" class="sr-only" >Nuova data di arrivo:</label>
-                <input type="date" name="data_arrivo" id="input-data" value="' . $data_per_input . '">
+            <form method="post" action="' . $url_base . '#stato-trasporto">
+                <label for="input-data-partenza" >Data di partenza:</label>
+                <input type="date" name="data_partenza" id="input-data-partenza" value="' . $data_per_input_partenza . '"/>
+                <label for="input-data-arrivo" >Data di arrivo:</label>
+                <input type="date" name="data_arrivo" id="input-data-arrivo" value="' . $data_per_input_arrivo . '"/>
                 
-                <input type="hidden" name="email_richiedente" value="' . htmlspecialchars($richiesta['email-richiedente']) . '">
-                <input type="hidden" name="id_animale" value="' . htmlspecialchars($richiesta['id-animale']) . '">
-                
-                <button type="submit" name="salva_data_arrivo" class="orange-button">Salva data</button>
-                
+                <input type="hidden" name="email_richiedente" value="' . htmlspecialchars($richiesta['email-richiedente']) . '"/>
+                <input type="hidden" name="id_animale" value="' . htmlspecialchars($richiesta['id-animale']) . '"/>
+                <div class="button-group">
+                <button type="reset" class="orange-button">Elimina modifica</button>
+                <button type="submit" name="salva_date_trasporto" class="orange-button">Salva date</button>
+                </div>
             </form>
+            [messaggiForm]
         </article>';
-    // <button type="submit" name="annulla_data_arrivo" class="orange-button">Annulla</button> TODO
     } else {
-        $data_raw = $richiesta['data-arrivo'] ?? '';
-        if($data_raw === '' || $data_raw === null){
+        $data_raw_arrivo = $richiesta['data-arrivo'] ?? '';
+        $data_raw_partenza = $richiesta['data-partenza'] ?? '';
+        if(($data_raw_partenza === '' || $data_raw_partenza === null) && ($data_raw_arrivo !== '' || $data_raw_arrivo !== null)){
             $contenuto_data_arrivo = 'Ancora nessuna data di arrivo impostata.';
+            $contenuto_data_partenza = 'Ancora nessuna data di partenza impostata.';
         } else {
-            $contenuto_data_arrivo = '<time datetime="' . $data_raw . '">' . displayDateItalianFormat($data_raw) . '</time>';
+            $contenuto_data_arrivo = '<time datetime="' . $data_raw_arrivo . '">' . displayDateItalianFormat($data_raw_arrivo) . '</time>';
+            $contenuto_data_partenza = '<time datetime="' . $data_raw_partenza . '">' . displayDateItalianFormat($data_raw_partenza) . '</time>';
         }
         $stato_trasporto .= '
             <article id="stato-trasporto" class="note">
                 <div class="header-article">
                     <h2>Informazioni sul trasporto</h2>
                     <a href="' . $url_base . '&mode=edit-data#stato-trasporto" class="pencil">
-                        <img src="./assets/icons/edit-pencil.svg" alt="Modifica data di arrivo">
+                        <img src="./assets/icons/edit-pencil.svg" alt="Modifica data di arrivo" />
                     </a>
                 </div>
                 <dl>
+                    <dt>Data di partenza</dt>
+                    <dd>' . $contenuto_data_partenza . '</dd>
                     <dt>Data di arrivo</dt>
                     <dd>' . $contenuto_data_arrivo . '</dd>
-                </dl>
-            </article>';
+                </dl>';
+            //se la data di arrivo è impostata ed è quella odierna o passata, mostra il bottone per segnare il trasporto come effettuato
+        $data_odierna = date('Y-m-d');
+        if($data_raw_arrivo !== '' && $data_raw_arrivo !== null && $data_raw_arrivo <= $data_odierna){
+                     $stato_trasporto .= '<form method="post" action="' . $url_base . '#stato-trasporto">
+                        <button type="submit" name="trasporto_effettuato" class="orange-button">Segna trasporto come effettuato</button>
+                    </form> </article>';
+        }else{
+            $stato_trasporto .= '</article>';
+        }
     }
 }
-
-    // $stato_trasporto = '
-    // <article id="stato-trasporto" class="note">
-        
-    //         <strong>Data di arrivo:</strong> 
-    //         <time datetime="' . $richiesta['data-arrivo'] . '" id="data-text">' . displayDateItalianFormat($richiesta['data-arrivo']) . '</time>
-
-    //         <form id="form-data">
-    //             <label for="input-data">Nuova data di arrivo:</label>
-    //             <input type="date" name="data_arrivo" id="input-data" 
-    //                 value="' . $richiesta['data-arrivo'] . '">
-    //             <button type="submit" class="sr-only" aria-label="Modifica la data di arrivo"></button>
-    //         </form>
-        
-    //     <a href="#" id="btn-attiva-modifica" class="edit-btn">
-    //         <img src="./assets/icons/edit-pencil.svg" alt="Modifica la data">
-    //     </a>
-    // </article>';
 
 
 $main = str_replace('[stato-trasporto]', $stato_trasporto, $main);
@@ -384,11 +402,11 @@ if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($ri
                     <div class="header-article">
                         <h2>Le tue annotazioni</h2>
                         <a href="?email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') . '#sezione-note" id="edit-note" class="pencil" aria-label="Modifica le annotazioni">
-                            <img src="./assets/icons/edit-pencil.svg" alt="" aria-hidden="true">
+                            <img src="./assets/icons/edit-pencil.svg" alt="" />
                         </a>
                     </div>
                     <div id="note-container">
-                        <form id="form-note" action="richieste-adozione?email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') .'" method="POST">
+                        <form id="form-note" action="richieste-adozione?email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') .'" method="post">
                             <label for="input-note" class="sr-only">Modifica annotazioni:</label>
                             <textarea id="input-note" name="note" rows="4">' . htmlspecialchars($richiesta['appunti'] ?? '', ENT_QUOTES, 'UTF-8') . '</textarea>
                             <button name="salva_annotazioni" type="submit" class="orange-button">Salva annotazioni</button>
@@ -404,7 +422,7 @@ if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($ri
                 <div class="header-article">
                     <h2>Le tue annotazioni</h2>
                     <a href="?mode=note&email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') . '#sezione-note" id="edit-note" class="pencil" aria-label="Annulla le annotazioni">
-                        <img src="./assets/icons/edit-pencil.svg" alt="" aria-hidden="true">
+                        <img src="./assets/icons/edit-pencil.svg" alt="" />
                     </a>
                 </div>
                 <div id="note-container">
@@ -413,7 +431,14 @@ if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($ri
             </article>';
     }
 }
+if($richiesta['trasporto-richiesta']!==$richiesta['trasporto-animale'] && $richiesta['trasporto-richiesta']===1){
+    $noteTrasportoRichiesta = '
+                    <em id="note-richiesta">Il richiedente ha richiesto il trasporto dell\'animale, ma l\'animale non è idoneo al trasporto.</em>';
 
+}
+$main = str_replace('[messaggiForm]', $messaggiForm, $main);
+$main = str_replace('[note-trasporto-richiesta]', $noteTrasportoRichiesta, $main);
+$main = str_replace('[n]', $nRichiesteRichiedente, $main);
 $main = str_replace('[annotazioni]', $annotazioni, $main);
 
 $main = str_replace('[descrizioneCaratteriale]', e($richiesta['descrizione-caratteriale'] ?? ''), $main);

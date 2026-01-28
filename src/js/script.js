@@ -463,3 +463,89 @@ document.addEventListener('scroll', function() {
         themeSwitch.style.bottom = defaultBottom + 'px';
     }
 });
+
+// animazione apertura e chiusura del form richiesta di adozione
+
+document.addEventListener('DOMContentLoaded', () => {
+    const details = document.getElementById('compila-form-adozione');
+    const content = document.getElementById('richiesta-adozione');
+    const summary = details.querySelector('summary');
+
+    const animOptions = { duration: 400, easing: 'ease-out' };
+
+    summary.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        if (details.hasAttribute('open')) {
+            content.classList.remove('bg-active');
+            const animation = content.animate([
+                { height: content.offsetHeight + 'px', opacity: 1, padding: '1.5em 2em' },
+                { height: '0px', opacity: 0, padding: '0 2em' }
+            ], animOptions);
+
+            animation.onfinish = () => {
+                details.removeAttribute('open');
+            };
+
+        } else {
+            details.setAttribute('open', '');
+            const targetHeight = content.scrollHeight; 
+            const animation = content.animate([
+                { height: '0px', opacity: 0, padding: '0 2em' },
+                { height: targetHeight + 'px', opacity: 1, padding: '1.5em 2em' }
+            ], animOptions);
+            animation.onfinish = () => {
+                content.classList.add('bg-active');
+            };
+        }
+    });
+});
+
+
+
+// aggiorna subuto l'immagine profilo
+document.addEventListener('DOMContentLoaded', function() {
+    
+    const fileInput = document.getElementById('new-pic');
+    const imgPreview = document.getElementById('foto-profilo');
+    const deleteCheckbox = document.getElementById('delete-pic');
+
+    if(fileInput && imgPreview) {
+        
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    imgPreview.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+
+                //se metto un nuovo file la spunta era checkata allora la toglie
+                if(deleteCheckbox) {
+                    deleteCheckbox.checked = false;
+                }
+            }
+        });
+    }
+});
+
+// PUNTINI PER GLI EVENTI
+document.addEventListener("DOMContentLoaded", function() {
+    const descrizioni = document.querySelectorAll('.descrizione-evento p');
+
+    function checkTruncation() {
+        descrizioni.forEach(container => {
+            container.classList.remove('is-truncated');
+            
+            if (container.scrollHeight > container.offsetHeight) {
+                container.classList.add('is-truncated');
+            }
+        });
+    }
+
+    checkTruncation();
+    window.addEventListener('resize', checkTruncation);
+});

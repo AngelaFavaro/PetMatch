@@ -89,7 +89,7 @@
     width: 2px;
     height: auto;
     max-height: 550px;
-    background-image: linear-gradient(to top, var(--buttoncolor) 50%, transparent 50%);
+    background-image: linear-gradient(to top, var(--timeline-line) 50%, transparent 50%);
     background-size: 100% 20px;
 }
 
@@ -169,8 +169,6 @@ details[open] .number::after {
 }
 
 #form-affidamento {
-    background-color: var(--bgcolor);
-    color: var(--txtcolor);
     margin:2em auto 0.1em auto;
     padding: 0em 2em;
     flex: 1 0 40%;
@@ -181,6 +179,10 @@ details[open] .number::after {
     padding: 0;
     background-image: none;
     overflow:hidden;
+}
+
+:root:has(input#theme-toggle:checked) #container-form-affidamento{
+    background-image: none;
 }
 /* ==================CHI SIAMO==================*/
 
@@ -243,8 +245,13 @@ details[open] .number::after {
     justify-content: center;
 }
 
-#animali .filtri #searchName.capsula-filtro {
+body#admin-body #animali .filtri .capsula-filtro {
     width: 100%;
+    flex: 1 1 100%;
+}
+
+body#admin-body #animali .filtri .capsula-filtro label[for="filtro-assegnata"] + select{
+    padding: 0.5em 4.5em;
 }
 
 #animali .filtri {
@@ -288,6 +295,7 @@ details[open] .number::after {
     flex: 1 1 100%;
 }
 
+#visualizzazione-animale .preferiti-form img,
 #animali .is-favorite img,
 #animali .not-favorite img {
     position: absolute;
@@ -322,8 +330,10 @@ details[open] .number::after {
 
 #animali li.card, #animali li.dark-card {
     cursor: pointer;
-    width: 45.5%;
-    height: 14em;
+    /* width: 45.5%; */
+    /* max-width: 15em; */
+    flex-grow: 1;
+    height: 15em;
     margin: 0.5em;
     overflow: hidden;
     
@@ -342,7 +352,7 @@ details[open] .number::after {
     margin-bottom:0em;
 }
 
-/*                      PAGINA EVENTI                 */
+/*===================PAGINA EVENTI==================*/
 #eventi .filtri {
     display:flex;
     align-items: center;

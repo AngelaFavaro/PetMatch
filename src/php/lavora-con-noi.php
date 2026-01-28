@@ -8,7 +8,7 @@ if ($paginaHTML === false) {
 
 $title = '<title>Lavora con Noi - PetMatch </title>';
 $description = '<meta name="description" content="Pagina per avere informazioni su come lavorare o fare volontariato o diventare un sostenitore di PetMatch">';
-$keywords = "";
+$keywords = "<meta name='keywords' content='Lavora con noi, volontariato, sostenitore, persone disponibili, siruazioni difficili, vita migliore'>";
 
 $breadcrumb = getBreadcrumb('lavora-con-noi', $pagine);
 

@@ -50,7 +50,7 @@ class DBAccess {
                 ra.IDanimale AS id_animale,
                 a.Nome AS nome_animale,
                 a.Sesso AS sesso_animale,
-                TIMESTAMPDIFF(YEAR, a.DataNascita, CURDATE()) AS eta_animale,
+                a.DataNascita AS data_nascita_animale,
                 a.Razza AS razza_animale,
                 a.Trasporto AS trasporto_animale,
                 a.DescrFamiglia AS famiglia_ideale,
@@ -67,9 +67,9 @@ class DBAccess {
                 a.Email as email_admin,
                 m.Nome as nome_admin,
                 m.Cognome as cognome_admin,
-                t.Via AS via_trasporto,
-                t.Citta AS citta_trasporto,
-                t.CAP AS cap_trasporto,
+                u.Via AS via_trasporto,
+                u.Citta AS citta_trasporto,
+                u.CAP AS cap_trasporto,
                 t.DataArrivo AS data_arrivo,
                 t.DataPartenza AS data_partenza,
                 u.imgPath AS imgPath,
@@ -113,7 +113,7 @@ class DBAccess {
             'id-animale' => $row['id_animale'],
             'nome-animale' => $row['nome_animale'],
             'sesso-animale' => $row['sesso_animale'],
-            'eta-animale' => $row['eta_animale'],
+            'data-nascita' => $row['data_nascita_animale'],
             'razza-animale' => $row['razza_animale'],
             'trasporto-animale' => $row['trasporto_animale'],
             'famiglia-ideale' => $row['famiglia_ideale'],
@@ -141,48 +141,77 @@ class DBAccess {
 		
 	}
 
-
-    public function addTransport($emailRichiedente, $idAnimale, $dataArrivo): bool {
-        if (!$this->connection){ //se la connessione non è aperta
-            return false;
-        }
-        $query = "INSERT INTO `TRASPORTI` 
-          (`Email`, `IDanimale`, `Via`, `Citta`, `CAP`, `DataArrivo`, `DataPartenza`) 
-          VALUES ( ?, ?, 'caca', 'pupu', '35036', ?, '2026-01-01')";
-        $stmt = mysqli_prepare($this->connection, $query);
-        if($stmt === false){
-            return false;
+    /** trova per un determinato user il numero richieste attive-1 dove attive significa non concluse, non annullate, non respinte
+     */
+    public function countActiveRequestsForUser($email): int {
+        if (!$this->connection){
+            return 0;
         }
 
-        mysqli_stmt_bind_param($stmt, 'sis', $emailRichiedente, $idAnimale, $dataArrivo);
-        $result = mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
-        return $result;
-    }
-
-
-    public function setArrivalDate($emailRichiedente, $idAnimale, $dataArrivo): bool {
-        if (!$this->connection){ //se la connessione non è aperta
-            return false;
-        }
-
-        $query = "UPDATE TRASPORTI SET DataArrivo = ? WHERE Email = ? AND IDanimale = ?";
+        $query = "SELECT COUNT(*)-1 AS totale FROM RICHIESTE_ADOZIONI R WHERE R.Stato NOT IN ('Accettata', 'Annullata', 'Respinta') AND R.Email = ?";
 
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
-            return false;
+            return 0;
         }
 
-        mysqli_stmt_bind_param($stmt, 'ssi', $dataArrivo, $emailRichiedente, $idAnimale);
-        $result = mysqli_stmt_execute($stmt);
-        //se le righe modificate sono 0, significa che non esisteva il trasporto, lo aggiungo
-        if(mysqli_stmt_affected_rows($stmt) === 0){
+        mysqli_stmt_bind_param($stmt, 's', $email);
+        if(!mysqli_stmt_execute($stmt)){
             mysqli_stmt_close($stmt);
-            return $result && $this->addTransport($emailRichiedente, $idAnimale, $dataArrivo);
+            return 0;
         }
+        $queryResult = mysqli_stmt_get_result($stmt);
+        if($queryResult === false || mysqli_num_rows($queryResult) == 0){
+            mysqli_stmt_close($stmt);
+            return 0;
+        }
+        $row = mysqli_fetch_assoc($queryResult);
+        mysqli_stmt_close($stmt);
+        $totale = (int)$row['totale'];
+        return $totale < 0 ? 0 : $totale;
+    }
+
+
+    public function setTransportDates($email, $idAnimale, $newDatePartenza,$newDateArrivo): bool {
+        if (!$this->connection){ //se la connessione non è aperta
+            return false;
+        }
+
+        $query = "UPDATE TRASPORTI SET DataArrivo = ?, DataPartenza = ? WHERE Email = ? AND IDanimale = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 'sssi', $newDateArrivo, $newDatePartenza, $email, $idAnimale);
+        $result = mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
         return $result;
     }
+
+    // public function setArrivalDate($emailRichiedente, $idAnimale, $dataArrivo): bool {
+    //     if (!$this->connection){ //se la connessione non è aperta
+    //         return false;
+    //     }
+
+    //     $query = "UPDATE TRASPORTI SET DataArrivo = ? WHERE Email = ? AND IDanimale = ?";
+
+    //     $stmt = mysqli_prepare($this->connection, $query);
+    //     if($stmt === false){
+    //         return false;
+    //     }
+
+    //     mysqli_stmt_bind_param($stmt, 'ssi', $dataArrivo, $emailRichiedente, $idAnimale);
+    //     $result = mysqli_stmt_execute($stmt);
+    //     //se le righe modificate sono 0, significa che non esisteva il trasporto, lo aggiungo
+    //     if(mysqli_stmt_affected_rows($stmt) === 0){
+    //         mysqli_stmt_close($stmt);
+    //         return $result && $this->addTransport($emailRichiedente, $idAnimale, $dataArrivo);
+    //     }
+    //     mysqli_stmt_close($stmt);
+    //     return $result;
+    // }
     public function startEvaluation($emailRichiedente, $idAnimale): bool {
         if (!$this->connection){ //se la connessione non è aperta
             return false;
@@ -218,7 +247,7 @@ class DBAccess {
             mysqli_stmt_bind_param($stmt, 'si', $emailRichiedente, $idAnimale);
             
         } else {
-            $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Annullata', DataFineValutazione=? WHERE Email = ? AND IDanimale = ?";
+            $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Respinta', DataFineValutazione=? WHERE Email = ? AND IDanimale = ?";
             $stmt = mysqli_prepare($this->connection, $query);
             if($stmt === false){
                 return false;
@@ -249,7 +278,7 @@ class DBAccess {
             return false;
         }
 
-        $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Nuova', DataFineValutazione = NULL WHERE Email = ? AND IDanimale = ?";
+        $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Nuova', DataFineValutazione = NULL, DataInizioValutazione = NULL WHERE Email = ? AND IDanimale = ?";
 
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
@@ -261,7 +290,6 @@ class DBAccess {
         mysqli_stmt_close($stmt);
         return $result;
     }
-
     public function setToTransport($emailRichiedente, $idAnimale): bool {
         if (!$this->connection){ //se la connessione non è aperta
             return false;
@@ -278,8 +306,22 @@ class DBAccess {
         $result = mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
 
+        if(!$result){
+            return false;
+        }
 
-        return $result; //non dovrebbe fare addTransport se fallisce l'update dello stato
+        // Insert into TRASPORTI
+        $queryTransport = "INSERT INTO TRASPORTI (Email, IDanimale) VALUES (?, ?)";
+        $stmtTransport = mysqli_prepare($this->connection, $queryTransport);
+        if($stmtTransport === false){
+            return false;
+        }
+        
+        mysqli_stmt_bind_param($stmtTransport, 'si', $emailRichiedente, $idAnimale);
+        $resultTransport = mysqli_stmt_execute($stmtTransport);
+        mysqli_stmt_close($stmtTransport);
+
+        return $resultTransport;
     }
 
     public function acceptRequest($emailRichiedente, $idAnimale): bool {
@@ -326,8 +368,7 @@ class DBAccess {
     return $this->connection->error; 
     }
 
-    public function addAnimal(array $data, string $email) {
-        // La data di registrazione la impostiamo al momento dell'inserimento (CURDATE())
+    public function addAnimal(array $data, ?string $email): ?int {
         $query = "INSERT INTO ANIMALI (
                     Nome, DataNascita, DataRegistrazione, Sesso, Tipo, 
                     Colore, Pelo, Taglia, Razza, DescrFamiglia, 
@@ -340,8 +381,6 @@ class DBAccess {
             return false;
         }
 
-        // "sssssssssssiss" indica i tipi: s = string, i = integer
-        // Nota: Trasporto è un TINYINT(1), lo passiamo come integer 'i'
         $stmt->bind_param(
             "ssssssssssisss",
             $data['nome'],
@@ -363,11 +402,11 @@ class DBAccess {
         $success = $stmt->execute();
         
         if ($success) {
-            $insertedId = $this->connection->insert_id;
+            // Recupera l'ID autogenerato dall'ultima query INSERT
+            $insertedId = (int)$this->connection->insert_id;
             $stmt->close();
             return $insertedId;
         } else {
-            // Log dell'errore per debugging
             error_log("Errore inserimento animale: " . $stmt->error);
             $stmt->close();
             return false;
@@ -377,20 +416,20 @@ class DBAccess {
     public function getAnimalById($id) {
         // Usiamo degli ALIAS (AS ...) per far coincidere i nomi del DB con quelli del tuo PHP
         $query = "SELECT 
-                    IDanimale AS idAnimale, 
-                    Nome AS nome, 
-                    DataNascita AS dataNascita, 
-                    Sesso AS sesso, 
-                    Tipo AS tipologia, 
-                    Colore AS colore, 
-                    Pelo AS pelo, 
-                    Taglia AS taglia, 
-                    Razza AS razza, 
-                    DescrFamiglia AS famiglia, 
-                    DescrComportamentale AS carattere, 
-                    CondizioniMediche AS condMediche, 
-                    Trasporto AS trasporto, 
-                    ImgPath AS foto 
+                    IDanimale, 
+                    Nome, 
+                    DataNascita, 
+                    Sesso, 
+                    Tipo, 
+                    Colore, 
+                    Pelo, 
+                    Taglia, 
+                    Razza, 
+                    DescrFamiglia, 
+                    DescrComportamentale , 
+                    CondizioniMediche, 
+                    Trasporto , 
+                    ImgPath  
                 FROM ANIMALI WHERE IDanimale = ?";
 
         $stmt = $this->connection->prepare($query);
@@ -405,7 +444,7 @@ class DBAccess {
         return $data; // Ritorna un array associativo o null
     }
 
-    public function updateAnimal(array $data): bool {
+    public function updateAnimal(array $data, $idanimale): bool {
         $query = "UPDATE ANIMALI SET 
                     Nome = ?, Razza = ?, Taglia = ?, DataNascita = ?, 
                     Pelo = ?, Colore = ?, DescrComportamentale = ?, 
@@ -420,7 +459,7 @@ class DBAccess {
             $data['nome'], $data['razza'], $data['taglia'], $data['dataNascita'],
             $data['pelo'], $data['colore'], $data['carattere'], 
             $data['condMediche'], $data['famiglia'], $data['foto'], 
-            $data['trasporto'], $data['id']
+            $data['trasporto'], $idanimale
         );
 
         $res = $stmt->execute();
@@ -519,25 +558,6 @@ class DBAccess {
             'telefono' => $row['Telefono'],
             'imgPath' => $row['ImgPath']
         ];
-    }
-
-
-    public function updateAdminInfo(string $email, string $newName, string $newSurname, string $newImg): bool {
-        if (!$this->connection){
-            return false;
-        }
-
-        $query = "UPDATE UTENTI SET Nome = ?, Cognome = ?, ImgPath = ? WHERE Email = ?";
-
-        $stmt = mysqli_prepare($this->connection, $query);
-        if($stmt === false){
-            return false;
-        }
-
-        mysqli_stmt_bind_param($stmt, 'ssss', $newName, $newSurname, $newImg, $email);
-        $result = mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
-        return $result;
     }
 
     function getNewRequests($email): array {
@@ -765,51 +785,6 @@ class DBAccess {
         return $requests;
     }
 
-    function getDetailsNonAdminAnimals(): array {
-        $results = [
-            'Gatto' => [],
-            'Cane' => []
-        ];
-
-        $query = "SELECT 
-                    IDanimale AS id_animale, 
-                    Nome AS nome_animale, 
-                    DataRegistrazione AS data_registrazione, 
-                    Trasporto AS trasporto_animale, 
-                    Razza AS razza, 
-                    DataNascita AS data_nascita
-                FROM ANIMALI 
-                WHERE Email IS NULL";
-
-        $stmt = mysqli_prepare($this->connection, $query);
-
-        if ($stmt) {
-            mysqli_stmt_execute($stmt);
-            $result = mysqli_stmt_get_result($stmt);
-
-            while ($row = mysqli_fetch_assoc($result)) {
-            }
-            
-            mysqli_data_seek($result, 0);
-            
-            $query_completa = "SELECT *, IDanimale AS id_animale, Nome AS nome_animale, 
-                            DataRegistrazione AS data_registrazione, Trasporto AS trasporto_animale, 
-                            Razza AS razza_animale, DataNascita AS data_nascita
-                            FROM ANIMALI WHERE Email IS NULL";
-            
-            $res = mysqli_query($this->connection, $query_completa);
-            
-            while ($row = mysqli_fetch_assoc($res)) {
-                $tipo = $row['Tipo'];
-                if (isset($results[$tipo])) {
-                    $results[$tipo][] = $row;
-                }
-            }
-        }
-
-        return $results;
-    }
-
     function getDetailsNonAdminAnimalsPaged(int $limit, int $offCani, int $offGatti): array {
         $results = ['Gatto' => [], 'Cane' => []];
 
@@ -864,7 +839,7 @@ class DBAccess {
     // per vedere solo le segnalazioni proprie, si passa mode = 'mie' e l'email dell'admin
     // per vedere solo le segnalazioni senza admin, si passa mode = 'nessuno' e si può lasciare emailAdmin a null
     // per vedere tutte le segnalazioni, si passa mode = 'tutte' e l'email dell'admin
-    function getDetailsSegnalazioniAnimalsPaged($perPagina, $offCani, $offGatti, string $emailAdmin = null, string $mode = 'tutte'): array {
+    function getDetailsSegnalazioniAnimalsPaged($perPagina, $offCani, $offGatti, ?string $emailAdmin = null, string $mode = 'tutte'): array {
         $results = ['Gatto' => [], 'Cane' => []];
         $config = ['Cane' => $offCani, 'Gatto' => $offGatti];
 
@@ -910,7 +885,7 @@ class DBAccess {
         return $results;
     }
 
-    public function getAdoptedAnimalsPaged(int $limit, int $offCani, int $offGatti, string $myEmail = null, string $filtro): array {
+    public function getAdoptedAnimalsPaged(int $limit, int $offCani, int $offGatti, string $filtro, ?string $myEmail = null): array {
         $results = ['Cane' => [], 'Gatto' => []];
         $tipi = ['Cane', 'Gatto'];
 
@@ -1305,7 +1280,7 @@ class DBAccess {
         return $row;
     }
 
-    function getAnimalRequest($email, $idAnimale): ?array {
+    public function getAnimalRequest($email, $idAnimale): ?array {
         
         $request = null; 
         
@@ -1356,8 +1331,7 @@ class DBAccess {
         // controllo se dataInizioValutazione esiste, se non esiste metto quella di oggi
         $query = "UPDATE RICHIESTE_ADOZIONI 
                 SET Stato = ?, 
-                    DataFineValutazione = ?, 
-                    DataInizioValutazione = COALESCE(DataInizioValutazione, ?) 
+                    DataFineValutazione = ?
                 WHERE Email = ? AND IDanimale = ?";
 
         $stmt = mysqli_prepare($this->connection, $query);
@@ -1367,7 +1341,7 @@ class DBAccess {
         }
 
         mysqli_stmt_bind_param(
-            $stmt, 'ssssi', $stato, $dataOggi, $dataOggi, $email, $idAnimale);
+            $stmt, 'sssi', $stato, $dataOggi, $email, $idAnimale);
 
         $result = mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
@@ -1400,136 +1374,41 @@ class DBAccess {
         return $state;
     }
 
-    // restituisce tipo, immagine, nome, sesso e età di tutti gli animali, oppure solo di cani o solo gatti(valori possibili per $type=tutti,cani,gatti)
-    public function getListAnimalsByType(string $type): array|null {
-        // 1. Controllo connessione
-        if (!$this->connection) {
-            return null;
-        }
-
-        // 2. Query (con o senza filtro)
-        if ($type === "tutti") {
-            $query = "
-                SELECT Nome, Sesso, DataNascita, ImgPath, Tipo
-                FROM ANIMALI
-                ORDER BY IDanimale ASC
-            ";
-            $stmt = mysqli_prepare($this->connection, $query);
-        } else {
-            $query = "
-                SELECT Nome, Sesso, DataNascita, ImgPath, Tipo
-                FROM ANIMALI
-                WHERE Tipo = ?
-                ORDER BY IDanimale ASC
-            ";
-            $stmt = mysqli_prepare($this->connection, $query);
-        }
-
-        // 3. Controllo prepare
-        if ($stmt === false) {
-            return null;
-        }
-
-        // 4. Bind param (solo se necessario)
-        if ($type !== "tutti") {
-            mysqli_stmt_bind_param($stmt, 's', $type);
-        }
-
-        // 5. Esecuzione
-        if (!mysqli_stmt_execute($stmt)) {
-            mysqli_stmt_close($stmt);
-            return null;
-        }
-
-        // 6. Recupero risultati
-        $queryResult = mysqli_stmt_get_result($stmt);
-
-        if ($queryResult === false || mysqli_num_rows($queryResult) === 0) {
-            mysqli_stmt_close($stmt);
-            return null;
-        }
-
-        // 7. Costruzione array risultati
-        $result = [];
-
-        while ($row = mysqli_fetch_assoc($queryResult)) {
-            $result[] = [
-                'nome' => $row['Nome'],
-                'sesso' => $row['Sesso'],
-                'eta' => calcolaEta($row['DataNascita']),
-                'immagine' => $row['ImgPath'],
-                'tipo' => $row['Tipo']
-            ];
-        }
-
-        // 8. Chiusura statement
-        mysqli_stmt_close($stmt);
-
-        return $result;
-    }
-
     public function countAnimalsFiltered(string $type, array $filters): int {
 
-        if (!$this->connection) return 0;
+    if (!$this->connection) {
+        return 0;
+    }
 
-        $where = [];
-        $params = [];
-        $types = '';
+    $where = 'WHERE 1=1';
+    $params = [];
+    $types = '';
 
-        if ($type !== 'tutti') {
-            $where[] = 'Tipo = ?';
-            $params[] = $type;
-            $types .= 's';
-        }
+    // Applichiamo i filtri comuni
+    $this->applyFilters($type, $filters, $where, $params, $types);
 
-        if (!empty($filters['name-animal'])) {
-            $where[] = 'Nome LIKE ?';
-            $params[] = '%' . $filters['name-animal'] . '%';
-            $types .= 's';
-        }
+    $query = "SELECT COUNT(*) AS totale FROM ANIMALI A";
 
-        if (!empty($filters['taglia'])) {
-            $where[] = 'Taglia = ?';
-            $params[] = $filters['taglia'];
-            $types .= 's';
-        }
+    if (!empty($where)) {
+        $query .= " $where";
+    }
 
-        if (!empty($filters['sesso'])) {
-            $where[] = 'Sesso = ?';
-            $params[] = strtoupper(substr($filters['sesso'], 0, 1));
-            $types .= 's';
-        }
-
-        if (!empty($filters['eta_min'])) {
-            $where[] = 'TIMESTAMPDIFF(YEAR, DataNascita, CURDATE()) >= ?';
-            $params[] = (int)$filters['eta_min'];
-            $types .= 'i';
-        }
-
-        if (!empty($filters['eta_max'])) {
-            $where[] = 'TIMESTAMPDIFF(YEAR, DataNascita, CURDATE()) <= ?';
-            $params[] = (int)$filters['eta_max'];
-            $types .= 'i';
-        }
-
-        $query = "SELECT COUNT(*) AS totale FROM ANIMALI";
-
-        if ($where) {
-            $query .= ' WHERE ' . implode(' AND ', $where);
-        }
-
-        $stmt = mysqli_prepare($this->connection, $query);
-        if ($params) {
+    $stmt = mysqli_prepare($this->connection, $query);
+    if ($stmt) {
+        if (!empty($params)) {
             mysqli_stmt_bind_param($stmt, $types, ...$params);
         }
 
         mysqli_stmt_execute($stmt);
         $res = mysqli_stmt_get_result($stmt);
         $row = mysqli_fetch_assoc($res);
-
         mysqli_stmt_close($stmt);
+
         return (int)$row['totale'];
     }
+
+    return 0;
+}
 
 
     public function countAssignedAnimalsFiltered(string $type, array $filters, string $adminEmail): int {
@@ -1566,10 +1445,11 @@ class DBAccess {
         $query = "SELECT 
                     A.IDanimale AS id, 
                     A.Nome AS nome, 
+                    A.Colore AS colore, 
                     A.Sesso AS sesso, 
                     A.Tipo AS tipo,
                     A.ImgPath AS immagine,
-                    TIMESTAMPDIFF(YEAR, A.DataNascita, CURDATE()) AS eta 
+                    A.DataNascita AS eta 
                 FROM ANIMALI A 
                 LEFT JOIN RICHIESTE_ADOZIONI R ON A.IDanimale = R.IDanimale AND R.Stato = 'Accettata'
                 $where 
@@ -1585,12 +1465,21 @@ class DBAccess {
             mysqli_stmt_bind_param($stmt, $types, ...$params);
             mysqli_stmt_execute($stmt);
             $res = mysqli_stmt_get_result($stmt);
-            while ($row = mysqli_fetch_assoc($res)) {
-                $results[] = $row;
-            }
+            $animali = [];
+        while ($row = mysqli_fetch_assoc($res)) {
+            $animali[] = [
+                'nome'     => $row['nome'],
+                'sesso'    => $row['sesso'],
+                'colore'    => $row['colore'],
+                'eta'      => calcolaEta($row['eta']),
+                'immagine' => $row['immagine'],
+                'tipo'     => $row['tipo'],
+                'id'     => $row['id']
+            ];
+        }
             mysqli_stmt_close($stmt);
         }
-        return $results;
+        return $animali;
     }
 
 
@@ -1609,10 +1498,7 @@ class DBAccess {
 
         if (!empty($filters['taglia'])) {
             $where .= " AND A.Taglia = ? ";
-            $tagliaDB = (substr($filters['taglia'], -1) === 'a') 
-                        ? substr($filters['taglia'], 0, -1) . 'o' 
-                        : $filters['taglia'];
-            $params[] = $tagliaDB;
+            $params[] = $filters['taglia'];
             $types .= "s";
         }
 
@@ -1685,7 +1571,7 @@ class DBAccess {
 
         /* ---------- QUERY ---------- */
         $query = "
-            SELECT a.Nome, a.Sesso, a.DataNascita, a.ImgPath, a.Tipo, a.IDanimale AS Id
+            SELECT a.Nome, a.Sesso, a.DataNascita, a.ImgPath, a.Tipo, a.Colore, a.IDanimale AS Id
             FROM ANIMALI a
             LEFT JOIN RICHIESTE_ADOZIONI r 
             ON a.IDanimale = r.IDanimale AND r.Stato = 'Accettata'
@@ -1714,6 +1600,7 @@ class DBAccess {
             $animali[] = [
                 'nome'     => $row['Nome'],
                 'sesso'    => $row['Sesso'],
+                'colore'    => $row['Colore'],
                 'eta'      => calcolaEta($row['DataNascita']),
                 'immagine' => $row['ImgPath'],
                 'tipo'     => $row['Tipo'],
@@ -1747,7 +1634,7 @@ class DBAccess {
 
     public function hasActiveAdoptionRequest(int $idAnimale): bool {
         $sql = "SELECT 1 FROM RICHIESTE_ADOZIONI 
-                WHERE IDanimale = ? AND Stato IN ('Nuova', 'In valutazione', 'Da trasportare')
+                WHERE IDanimale = ? AND Stato IN ('Nuova', 'In valutazione', 'Da trasportare') 
                 LIMIT 1";
 
         $stmt = $this->connection->prepare($sql);
@@ -1851,7 +1738,7 @@ class DBAccess {
         $types .= 's';
     }
 
-    /* ---------- FILTRO CITTÀ (opzionale) ---------- */
+    /* ---------- FILTRO CITTÀ ---------- */
     if (!empty($filters['citta'])) {
         $where[] = 'Citta = ?';
         $params[] = $filters['citta'];
@@ -1863,6 +1750,20 @@ class DBAccess {
         $where[] = 'Titolo != ?';
         $params[] = $filters['nomeNO'];
         $types .= 's';
+    }
+    /* ---------- FILTRO TIPO (prossimi / terminati) ---------- */
+    if (!empty($filters['tipo'])) {
+        $today = date('Y-m-d');
+
+        if ($filters['tipo'] === 'prossimi') {
+            $where[] = 'DataEvento >= ?';
+            $params[] = $today;
+            $types .= 's';
+        } elseif ($filters['tipo'] === 'terminati') {
+            $where[] = 'DataEvento < ?';
+            $params[] = $today;
+            $types .= 's';
+        }
     }
 
     /* ---------- QUERY BASE ---------- */
@@ -1912,22 +1813,6 @@ class DBAccess {
     return $eventi;
 }
 
-public function getEventCities(): array {
-    if (!$this->connection) return [];
-
-    $query = "SELECT DISTINCT Citta FROM EVENTI ORDER BY Citta ASC";
-    $res = mysqli_query($this->connection, $query);
-
-    if (!$res) return [];
-
-    $cities = [];
-    while ($row = mysqli_fetch_assoc($res)) {
-        $cities[] = $row['Citta'];
-    }
-
-    return $cities;
-}
-
 public function countEventsFiltered(array $filters): int {
 
     if (!$this->connection) return 0;
@@ -1936,7 +1821,7 @@ public function countEventsFiltered(array $filters): int {
     $params = [];
     $types = '';
 
-    /* ---------- FILTRO TITOLO EVENTO ---------- */
+    /* ---------- FILTRO TITOLO ---------- */
     if (!empty($filters['search'])) {
         $where[] = 'Titolo LIKE ?';
         $params[] = '%' . $filters['search'] . '%';
@@ -1964,6 +1849,21 @@ public function countEventsFiltered(array $filters): int {
         $types .= 's';
     }
 
+    /* ---------- FILTRO TIPO (prossimi / terminati) ---------- */
+    if (!empty($filters['tipo'])) {
+        $today = date('Y-m-d');
+
+        if ($filters['tipo'] === 'prossimi') {
+            $where[] = 'DataEvento >= ?';
+            $params[] = $today;
+            $types .= 's';
+        } elseif ($filters['tipo'] === 'terminati') {
+            $where[] = 'DataEvento < ?';
+            $params[] = $today;
+            $types .= 's';
+        }
+    }
+
     /* ---------- QUERY COUNT ---------- */
     $query = "SELECT COUNT(*) AS totale FROM EVENTI";
 
@@ -1984,6 +1884,7 @@ public function countEventsFiltered(array $filters): int {
     mysqli_stmt_close($stmt);
     return (int)$row['totale'];
 }
+
 
 
 
@@ -2103,6 +2004,7 @@ public function getFavouritesPaged(
         SELECT
             a.Nome,
             a.Sesso,
+            a.Colore,
             a.DataNascita,
             a.ImgPath,
             a.Tipo,
@@ -2145,6 +2047,7 @@ public function getFavouritesPaged(
             'immagine' => $row['ImgPath'],
             'tipo'     => $row['Tipo'],
             'id'       => $row['Id'],
+            'colore'       => $row['Colore'],
             'adottato' => (int)$row['adottato']
         ];
     }
@@ -2184,6 +2087,7 @@ public function getGuestFavPaged(string $type, int $perPagina, int $offset): arr
             a.Sesso,
             a.DataNascita,
             a.ImgPath,
+            a.Colore,
             a.Tipo,
             a.IDanimale AS Id,
             EXISTS (
@@ -2220,6 +2124,7 @@ public function getGuestFavPaged(string $type, int $perPagina, int $offset): arr
             'immagine' => $row['ImgPath'],
             'tipo'     => $row['Tipo'],
             'id'       => $row['Id'],
+            'colore'       => $row['Colore'],
             'adottato' => (int)$row['adottato']
         ];
     }
@@ -2364,7 +2269,7 @@ public function getAnimalArrivalDate($idAnimale): ?string {
         return false; }
 
     
-    public function updateNewEvent(array $EventValues, string $oldTitolo ,string $oldData): bool {
+    public function updateEvent(array $EventValues, string $oldTitolo ,string $oldData): bool {
         if (!$this->connection){
             return false;
         }
@@ -2465,6 +2370,92 @@ public function getAnimalArrivalDate($idAnimale): ?string {
         }
 
         return $evento;
+    }
+
+    // Recupera il conteggio delle richieste per ogni stato per un SINGOLO ANIMALE
+    public function getNRequestByStatusAnimal($idAnimale): array {
+        $stati = ['Nuova', 'In valutazione', 'Accettata', 'Respinta', 'Annullata', 'Da trasportare'];
+        $risultati = array_fill_keys($stati, 0);
+        
+        $query = "SELECT Stato, COUNT(*) as totale FROM RICHIESTE_ADOZIONI WHERE IDanimale = ? GROUP BY Stato";
+        $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'i', $idAnimale);
+            mysqli_stmt_execute($stmt);
+            $res = mysqli_stmt_get_result($stmt);
+            while ($row = mysqli_fetch_assoc($res)) {
+                $risultati[$row['Stato']] = $row['totale'];
+            }
+            mysqli_stmt_close($stmt);
+        }
+        return $risultati;
+    }
+
+    // Recupera l'elenco delle richieste per un SINGOLO ANIMALE
+    public function getAnimalRequestsId($idAnimale): array {
+        $query = "SELECT ra.*, u.Nome, u.Cognome, a.Nome AS NomeAnimale 
+                FROM RICHIESTE_ADOZIONI ra 
+                JOIN UTENTI u ON ra.Email = u.Email 
+                JOIN ANIMALI a ON ra.IDanimale = a.IDanimale
+                WHERE ra.IDanimale = ?
+                ORDER BY ra.DataRichiesta DESC";
+                
+        $stmt = mysqli_prepare($this->connection, $query);
+        $data = [];
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'i', $idAnimale);
+            mysqli_stmt_execute($stmt);
+            $res = mysqli_stmt_get_result($stmt);
+            while ($row = mysqli_fetch_assoc($res)) {
+                $data[] = $row;
+            }
+            mysqli_stmt_close($stmt);
+        }
+        return $data;
+    }
+
+
+    public function deleteAccount(string $email): bool {
+        if (!$this->connection){
+            return false;
+        }
+
+        $query = "DELETE FROM UTENTI WHERE Email = ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+
+        mysqli_stmt_bind_param($stmt, 's', $email);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $result;
+    }
+
+    public function deleteAnimal(int $idAnimale): bool {
+        if (!$this->connection) return false;
+
+        // 1. Eliminiamo prima le richieste associate (se presenti)
+        $queryRichieste = "DELETE FROM RICHIESTE WHERE IDanimale = ?";
+        $stmtR = mysqli_prepare($this->connection, $queryRichieste);
+        if ($stmtR) {
+            mysqli_stmt_bind_param($stmtR, 'i', $idAnimale);
+            mysqli_stmt_execute($stmtR);
+            mysqli_stmt_close($stmtR);
+        }
+
+        // 2. Ora possiamo eliminare l'animale in sicurezza
+        $queryAnimale = "DELETE FROM ANIMALI WHERE IDanimale = ?";
+        $stmtA = mysqli_prepare($this->connection, $queryAnimale);
+        if ($stmtA) {
+            mysqli_stmt_bind_param($stmtA, 'i', $idAnimale);
+            $res = mysqli_stmt_execute($stmtA);
+            mysqli_stmt_close($stmtA);
+            return $res;
+        }
+
+        return false;
     }
 
 }

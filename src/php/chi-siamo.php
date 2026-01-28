@@ -8,14 +8,13 @@ if ($paginaHTML === false) {
 
 $title = '<title>Chi Siamo - PetMatch </title>';
 $description = '<meta name="description" content="Pagina dedicata a spiegare da chi è composto e come funziona il rifugio PetMatch">';
-$keywords =     '<meta name="keywords" content= "PetMatch, rifugio, animali, adottare, cani, gatti">';
-;
+$keywords = '<meta name="keywords" content= "PetMatch, rifugio, animali, adottare, cani, gatti">';
 
 $breadcrumb = getBreadcrumb('chi-siamo', $pagine);
 $nav = buildNav($userMenu, './chi-siamo');
 $main = file_get_contents('./src/template/main/chi-siamo.html');
 
-$footer = file_get_contents('./src/template/partials/footer.html');
+$footer = buildFooter($footerMenu,  './chi-siamo');
 
 $paginaHTML = str_replace('[title]', $title, $paginaHTML);
 $paginaHTML = str_replace('[description]', $description, $paginaHTML);

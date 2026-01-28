@@ -1,31 +1,35 @@
 <div id="eventi" class="container">
-    <h1>Prossimi eventi</h1>
+    <h1>[TitoloEventi]</h1>
+
+    <a id="new-event-button" class="orange-button" href="./nuovo-evento">+ Aggiungi un evento</a>
+
+    [nav-admin-events]
 
     <a href="#content-animali" class="navigationHelp">salta agli eventi</a>
     <a href=".next-page-links" class="navigationHelp">salta alla navigazione delle prossime pagine</a>
     
 
-    <form class="filtri" method="get" action="eventi">
+    <form class="filtri" method="get" action="[ACTION]">
+        [TYPEFILTER]
         <ul aria-label="Filtri di ricerca">
             <li class="capsula-filtro" id="searchName">
                 <label for="search">Cerca</label>
-                <input type="text" id="search" name="search" value="[NAME]" placeholder="Per nome o città...">
+                <input type="text" id="search" name="search" value="[NAME]" placeholder="Per nome o città..."/>
             </li>
 
-            <li class="capsula-filtro" id="searchData" role="presentation">     
+            <li class="capsula-filtro" id="searchData" >     
                 <div class="data-range">
-                    <label>Data</label>
-                    <input type="date" name="data_inizio" value="[DATA_INIZIO]" placeholder="Da" min="0" aria-label="Data minima">
-                    <!-- <img src='assets/icons/calendar.svg' alt='' aria-hidden='true' class='icon-calendar'> -->
+                    <label for="date">Data</label>
+                    <input id="date" type="date" name="data_inizio" value="[DATA_INIZIO]" placeholder="Da" min="0" aria-label="Data minima"/>
                     <span aria-hidden=true>–</span>
-                    <input type="date" name="data_fine" value="[DATA_FINE]" placeholder="A" min="0" aria-label="Data massima">
-                    <!-- <img src='assets/icons/calendar.svg' alt='' aria-hidden='true' class='icon-calendar'> -->
+                    <input type="date" name="data_fine" value="[DATA_FINE]" placeholder="A" min="0" aria-label="Data massima"/>
                 </div>
             </li>
         </ul>
+    
         <div id="content-filter-button">
-            <a href="eventi" id="[VISIBILITA-FILTRO]" aria-label="elimina i filtri">X</a>
-            <button type="submit" class="orange-button">Applica</button>
+            <a href="[ACTION]" id="[VISIBILITA-FILTRO]" aria-label="elimina i filtri">X</a>
+            <button type="submit" class="orange-button">Cerca</button>
         </div>
     </form>
 

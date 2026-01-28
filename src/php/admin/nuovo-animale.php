@@ -2,16 +2,39 @@
 include './src/utils.php';
 include './src/DBconnection.php';
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 use DB\DBAccess;
 
+if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo controlla se esiste la variabile admin in session, la seconda controlla che sia affettivamente admin
+    header("Location: ./accedi");
+    exit;
+}
+
+//controllo che non sono nell'area di modifica animale e non di nuovo animale
+$currentUri = $_SERVER['REQUEST_URI'];
+$isModified=false;
+
+if(strpos($currentUri, 'modifica-animale') !== false){
+    if(isset($_GET['id-animale'])){
+        $idAnimaleMod = filter_var($_GET['id-animale'], FILTER_VALIDATE_INT);
+        $isModified=true;
+    }else{
+        header("Location: ./nuovo-animale");
+        exit;
+    }
+}
+
 $NewAnimalInfo = [
-    'tipologia' => '', 'nome' => '', 'razza' => '', 'taglia' => '',
-    'sesso' => '', 'foto' => '', 'dataNascita' => '', 'pelo' => '',
-    'colore' => '', 'condMediche' => '', 'carattere' => '', 'famiglia' => '',
-    'trasporto' => '', 'createMore'=>'' // Corretto refuso 'trasposrto'
+    'Tipo' => '', 'Nome' => '', 'Razza' => '', 'Taglia' => '',
+    'Sesso' => '', 'ImgPath' => '', 'DataNascita' => '', 'Pelo' => '',
+    'Colore' => '', 'CondizioniMediche' => '', 'DescrComportamentale' => '', 'DescrFamiglia' => '',
+    'Trasporto' => '', 'assegna_a_me' => ''
 ];
 
-function createInfoAnimale(DBAccess $conn, &$NewAnimalValues): array {
+function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): array {
     $message = [
         'generic' => '', 'tipologia' => '', 'nome' => '', 'razza' => '',
         'taglia' => '', 'sesso' => '', 'dataNascita' => '', 'colore' => '',
@@ -24,11 +47,12 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues): array {
         foreach ($savedErrors as $key => $val) {
             $message[$key] = ($key === 'generic') ? $val : "<p class='error-form'>$val</p>";
         }
+        
         $savedInputs = $_SESSION['form_inputs'] ?? [];
-        foreach ($NewAnimalValues as $key => $val) {
-            $NewAnimalValues[$key] = $savedInputs[$key] ?? '';
+        // Aggiorniamo NewAnimalValues con quello che l'utente aveva scritto
+        foreach ($savedInputs as $key => $val) {
+            $NewAnimalValues[$key] = $val;
         }
-        unset($_SESSION['form_status_info'], $_SESSION['form_errors_info'], $_SESSION['form_inputs']);
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit-animal'])) { 
@@ -79,19 +103,37 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues): array {
             }
         }
         if (!in_array($pelo, ['Lungo', 'Corto', 'Medio'])) $errors['pelo'] = "Seleziona tipo pelo.";
+
+        if (empty($carattere)) {
+            $errors['carattere'] = "Inserire una descrizione del carattere.";
+        } elseif (strlen($carattere) < 10) {
+            $errors['carattere'] = "La descrizione del carattere è troppo breve (minimo 10 caratteri).";
+        }
+
+        if (empty($famiglia)) {
+            $errors['famiglia'] = "Inserire una descrizione della famiglia ideale.";
+        } elseif (strlen($famiglia) < 10) {
+            $errors['famiglia'] = "La descrizione della famiglia è troppo breve (minimo 10 caratteri).";
+        }
         
         // Gestione Foto
-        $fotoPath = (!empty($NewAnimalValues['foto'])) ? $NewAnimalValues['foto'] : 'assets/images/animals/default.png';
-        if(isset($_FILES['foto']) && $_FILES['foto']['name'] != "") {
-            echo "Tentativo upload foto...<br>";
+        $fotoPath = $NewAnimalValues['ImgPath'] ?? '';
+
+        if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK && $_FILES['foto']['name'] != "") {
             $path = uploadImage($_FILES['foto'], 'animals');
-            echo "Path ritornato: " . ($path ?? 'NULL') . "<br>";
             if ($path !== null) {
-                $fotoPath = $path;
+                $fotoPath = $path; 
             } else {
-                echo "ERRORE: upload fallito<br>";
+                $errors['generic'] = "Errore nel caricamento dell'immagine. Riprova con un altro file.";
             }
+        } 
+        elseif (isset($_POST['foto']) && !empty($_POST['foto'])) {
+            $fotoPath = $_POST['foto'];
+        } 
+        if (empty($fotoPath)) {
+            $errors['generic'] = "La foto dell'animale è obbligatoria per completare l'inserimento.";
         }
+        
 
         if (empty($errors)) {
             $dataDB = [
@@ -104,43 +146,78 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues): array {
                 'pelo' => $pelo,
                 'colore' => mb_convert_case($colore, MB_CASE_TITLE, "UTF-8"),
                 'carattere' => trim($carattere),      
-                'condMediche' => trim($condMediche),  
-                'famiglia' => trim($famiglia),        
+                'condMediche' => (trim($condMediche) === "" || $condMediche === "0") ? "" : trim($condMediche),                'famiglia' => trim($famiglia),        
                 'foto' => $fotoPath,
                 'trasporto' => $trasporto
             ];
 
-            // RECUPERO EMAIL DALLA SESSIONE
-            $email_admin = $_SESSION['email'] ?? null; 
+            $email_loggato = $_SESSION['email'] ?? null; 
 
-            if ($email_admin) {
-                $result = $conn->addAnimal($dataDB, $email_admin);
-                if ($result) {
-
-                    if($createMoreValue){
-                        header("Location: ./nuovo-animale?createMore=1");
-                    }else{
-                        header("Location: ./area-riservata?success=1");
-                    }
-                    unset($_SESSION['form_inputs'], $_SESSION['form_errors_info']);
+            if($isModified){
+                // Esegui l'update
+                $result = $conn->updateAnimal($dataDB, $_GET['id-animale']);
+                if($result){
+                    unset($_SESSION['form_status_info'], $_SESSION['form_errors_info'], $_SESSION['form_inputs']);
+                    // REDIRECT alla pagina dettagli-animale usando l'ID esistente
+                    header("Location: ./dettagli-animale?id-animale=" . urlencode($_GET['id-animale']));
                     exit;
                 } else {
-                    // Mostra l'errore specifico MySQL
-                    $errors['generic'] = "Errore database: " . htmlspecialchars($conn->getConnectionError());                }
+                    $errors['generic'] = "La modifica dell'animale non è andata a buon fine, riprovare più tardi.";
+                }
             } else {
-                $errors['generic'] = "Errore: Sessione amministratore non trovata. Effettua il login.";
+                // Esegui l'inserimento nuovo
+                $assegna_a_me = isset($_POST['assegna_a_me']);
+                $email_da_inserire = $assegna_a_me ? $email_loggato : null;
+                $result = $conn->addAnimal($dataDB, $email_da_inserire);
+    
+                if ($result) {
+                    unset($_SESSION['form_status_info'], $_SESSION['form_errors_info'], $_SESSION['form_inputs']);
+                    // REDIRECT alla pagina dettagli-animale usando l'ID appena creato ($result)
+                    header("Location: ./dettagli-animale?id-animale=" . urlencode($result));
+                    exit;
+                } else {
+                    $errors['generic'] = "Errore database: " . htmlspecialchars($conn->getConnectionError());
+                }
             }
+            
         }
 
         $_SESSION['form_status_info'] = 'error';
         $_SESSION['form_errors_info'] = $errors;
-        $_SESSION['form_inputs'] = $_POST; 
-        $inputsToSave = $_POST;
-        $inputsToSave['foto'] = $fotoPath; 
+
+        $inputsToSave['Nome'] = $nome;
+        $inputsToSave['Tipo'] = $tipologia; 
+        $inputsToSave['Razza'] = $razza; 
+        $inputsToSave['Taglia'] = $taglia; 
+        $inputsToSave['Pelo'] = $pelo; 
+        $inputsToSave['DataNascita'] = $dataNascita; 
+        $inputsToSave['ImgPath'] = $fotoPath; 
+        $inputsToSave['Sesso'] = $sesso_db; 
+        $inputsToSave['Colore'] = $colore; 
+        $inputsToSave['CondizioniMediche'] = $condMediche; 
+        $inputsToSave['DescrComportamentale'] = $carattere; 
+        $inputsToSave['DescrFamiglia'] = $famiglia; 
+        $inputsToSave['Trasporto'] = $trasporto; 
+        $inputsToSave['assegna_a_me'] = isset($_POST['assegna_a_me']) ? 1 : 0;
+
+
         $_SESSION['form_inputs'] = $inputsToSave; 
 
-        header("Location: ./nuovo-animale");
-        exit;
+        //se si sta modificando l'animale e c'è una failure allora si ricarica la pagina dell'animale, se
+        //invece non è in modifica ricarica la pagina del nuovo animale
+
+        //l'invio della query al db è più in alto, dov'è anche l'invio della query dell'aggiungi animale, solo
+        //se anche li controllo in che caso mi trovo
+
+        //pls non modificate
+        if($isModified){
+            header("Location: ./dettagli-animale?id-animale=" . urlencode($_GET['id-animale']));
+            exit;
+        }else{
+            header("Location: ./nuovo-animale");
+            exit;
+        }
+
     }
     return $message;
 }
@@ -149,7 +226,12 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues): array {
 $connessione = new DBAccess();
 $messageInfoForm = [];
 if ($connessione->openDBConnection()) {
-    $messageInfoForm = createInfoAnimale($connessione, $NewAnimalInfo);
+
+    if($isModified){
+        $NewAnimalInfo = $connessione->getAnimalById($idAnimaleMod);
+    }
+    $messageInfoForm = createInfoAnimale($connessione, $NewAnimalInfo, $isModified);
+
     $connessione->closeConnection();
 } else {
     $messageInfoForm['generic'] = "<p class='error'>Connessione al database fallita, riprovare più tardi.</p>";
@@ -157,20 +239,25 @@ if ($connessione->openDBConnection()) {
 
 
 // COSTRUZIONE PAGINA HTML
+
 $paginaHTML = file_get_contents('./src/template/layout-admin.html');
 $main = file_get_contents('./src/template/main/admin/nuovo-animale.html');
-$breadcrumb = getBreadcrumb('nuovo-animale', $pagine);
-$nav = buildAdminNav($adminMenu,'./nuovo-animale');
-$keywords = "<meta name='keywords' content='aggiungi, animale, adozione, amministratore'>";
-$title = "<title>Aggiungi un animale - PetMatch</title>";
-$description = "<meta name='description' content='Aggiungi un animale al database di PetMatch per poterlo visualizzare nel sito.'>";
+$breadcrumb = $isModified? getBreadcrumb('modifica-animale', $pagine) : getBreadcrumb('nuovo-animale', $pagine);
+$nav =  $isModified?buildAdminNav($adminMenu,'./modifica-animale'): buildAdminNav($adminMenu,'./nuovo-animale');
+$keywords = $isModified? "<meta name='keywords' content='modifica animale'>" : "<meta name='keywords' content='aggiungi animale'>";
+$title = $isModified? "<title>Modifica ".$NewAnimalInfo['Nome']." - PetMatch</title>":"<title>Aggiungi un animale - PetMatch</title>";
+$description = $isModified? "<meta name='description' content='Modifica un animale al database di PetMatch per aggiornarne la scheda.'>"
+                            :"<meta name='description' content='Aggiungi un animale al database di PetMatch per poterlo visualizzare nel sito.'>";
 
+                            
 $paginaHTML = str_replace('[title]', $title, $paginaHTML);
 $paginaHTML = str_replace('[description]', $description, $paginaHTML);
 $paginaHTML = str_replace('[keywords]', $keywords, $paginaHTML);
 $paginaHTML = str_replace('[nav]', $nav, $paginaHTML);
 $paginaHTML = str_replace('[breadcrumb]', $breadcrumb, $paginaHTML);
 $paginaHTML = str_replace('[main]', $main, $paginaHTML);
+
+
 
 $campi_errori = ['tipologia', 'nome', 'razza', 'taglia', 'sesso', 'dataNascita', 'pelo', 'colore', 'condMediche', 'carattere', 'famiglia'];
 foreach ($campi_errori as $campo) {
@@ -181,42 +268,71 @@ foreach ($campi_errori as $campo) {
 }
 
 $fotoInfo = "";
-if (!empty($NewAnimalInfo['foto']) && $NewAnimalInfo['foto'] !== '../../assets/images/animals/default.png') {
-    $nomeFile = basename($NewAnimalInfo['foto']);
-    $fotoInfo = "<p class='success-form'>Immagine caricata: <strong>$nomeFile</strong></p>";
-    $fotoInfo .= "<img src='{$NewAnimalInfo['foto']}' alt='Anteprima immagine caricata'>";
+$inputHiddenFoto = ""; 
+
+if (!empty($NewAnimalInfo['ImgPath'])) {
+    $nomeFile = basename($NewAnimalInfo['ImgPath']);
+    $fotoInfo = "<p class='success-form'>Immagine già caricata: <strong>$nomeFile</strong></p>";
+    $fotoInfo .= "<img src='{$NewAnimalInfo['ImgPath']}' alt='Anteprima immagine caricata' />";
+    $inputHiddenFoto = "<input type='hidden' name='foto' value='{$NewAnimalInfo['ImgPath']}'/>";
 }
+
+if ($isModified) {
+    $urlAnnulla = "./dettagli-animale?id-animale=" . urlencode($idAnimaleMod);
+} else {
+    $urlAnnulla = "./area-riservata";
+}
+$paginaHTML = str_replace('[urlAnnulla]', $urlAnnulla, $paginaHTML);
+
 $paginaHTML = str_replace('[infoFotoCaricata]', $fotoInfo, $paginaHTML);
+$paginaHTML = str_replace('[input-hidden-foto]', $inputHiddenFoto??'', $paginaHTML);
 
 $paginaHTML = str_replace('[erroriGeneric]', $messageInfoForm['generic'] ?? '', $paginaHTML);
 
-$paginaHTML = str_replace('[sessoM_checked]', ($NewAnimalInfo['sesso'] === '0' ? 'checked="checked"' : ''), $paginaHTML);
-$paginaHTML = str_replace('[sessoF_checked]', ($NewAnimalInfo['sesso'] === '1' ? 'checked="checked"' : ''), $paginaHTML);
+$assegna_val = $NewAnimalInfo['assegna_a_me'] ?? '';
+$is_checked = ($assegna_val == 1 || $assegna_val === 'on' || $assegna_val === true) ? 'checked' : '';
+$paginaHTML = str_replace('[assegna_checked]', $is_checked, $paginaHTML);
 
-$paginaHTML = str_replace('[tipoCane_checked]', ($NewAnimalInfo['tipologia'] === '0' ? 'checked="checked"' : ''), $paginaHTML);
-$paginaHTML = str_replace('[tipoGatto_checked]', ($NewAnimalInfo['tipologia'] === '1' ? 'checked="checked"' : ''), $paginaHTML);
+$paginaHTML = str_replace('[sessoM_checked]', ($NewAnimalInfo['Sesso'] === 'M' ? 'checked' : ''), $paginaHTML);
+$paginaHTML = str_replace('[sessoF_checked]', ($NewAnimalInfo['Sesso'] === 'F' ? 'checked' : ''), $paginaHTML);
 
-$paginaHTML = str_replace('[tagliaVuota_selected]', (empty($NewAnimalInfo['taglia']) ? 'selected' : ''), $paginaHTML);
-$paginaHTML = str_replace('[tagliaPiccola_selected]', ($NewAnimalInfo['taglia'] === 'Piccolo' ? 'selected' : ''), $paginaHTML);
-$paginaHTML = str_replace('[tagliaMedia_selected]', ($NewAnimalInfo['taglia'] === 'Medio' ? 'selected' : ''), $paginaHTML);
-$paginaHTML = str_replace('[tagliaGrande_selected]', ($NewAnimalInfo['taglia'] === 'Grande' ? 'selected' : ''), $paginaHTML);
+$paginaHTML = str_replace('[tipoCane_checked]', ($NewAnimalInfo['Tipo'] === 'Cane' ? 'checked' : ''), $paginaHTML);
+$paginaHTML = str_replace('[tipoGatto_checked]', ($NewAnimalInfo['Tipo'] === 'Gatto' ? 'checked' : ''), $paginaHTML);
 
-$paginaHTML = str_replace('[peloVuoto_selected]', (empty($NewAnimalInfo['pelo']) ? 'selected' : ''), $paginaHTML);
-$paginaHTML = str_replace('[peloCorto_selected]', ($NewAnimalInfo['pelo'] === 'Corto' ? 'selected' : ''), $paginaHTML);
-$paginaHTML = str_replace('[peloLungo_selected]', ($NewAnimalInfo['pelo'] === 'Lungo' ? 'selected' : ''), $paginaHTML);
-$paginaHTML = str_replace('[peloMedio_selected]', ($NewAnimalInfo['pelo'] === 'Medio' ? 'selected' : ''), $paginaHTML);
+$paginaHTML = str_replace('[tagliaVuota_selected]', (empty($NewAnimalInfo['Taglia']) ? 'selected' : ''), $paginaHTML);
+$paginaHTML = str_replace('[tagliaPiccola_selected]', ($NewAnimalInfo['Taglia'] === 'Piccolo' ? 'selected' : ''), $paginaHTML);
+$paginaHTML = str_replace('[tagliaMedia_selected]', ($NewAnimalInfo['Taglia'] === 'Medio' ? 'selected' : ''), $paginaHTML);
+$paginaHTML = str_replace('[tagliaGrande_selected]', ($NewAnimalInfo['Taglia'] === 'Grande' ? 'selected' : ''), $paginaHTML);
 
-$trasporto_val = $NewAnimalInfo['trasporto'];
-$paginaHTML = str_replace('[trasporto_checked]', ($trasporto_val == 1 || $trasporto_val === 'on' ? 'checked="checked"' : ''), $paginaHTML);
+$paginaHTML = str_replace('[peloVuoto_selected]', (empty($NewAnimalInfo['Pelo']) ? 'selected' : ''), $paginaHTML);
+$paginaHTML = str_replace('[peloCorto_selected]', ($NewAnimalInfo['Pelo'] === 'Corto' ? 'selected' : ''), $paginaHTML);
+$paginaHTML = str_replace('[peloLungo_selected]', ($NewAnimalInfo['Pelo'] === 'Lungo' ? 'selected' : ''), $paginaHTML);
+$paginaHTML = str_replace('[peloMedio_selected]', ($NewAnimalInfo['Pelo'] === 'Medio' ? 'selected' : ''), $paginaHTML);
 
-if(isset($_GET['createMore']) && $_GET['createMore'] == 1){
-    $paginaHTML = str_replace('[checkCreateMore]', 'checked', $paginaHTML);
-}else{
-    $paginaHTML = str_replace('[checkCreateMore]', ($NewAnimalInfo['createMore']? 'checked':''), $paginaHTML);
+//informaizoni diverse a seconda della pagina
+if (($NewAnimalInfo['CondizioniMediche'] ?? '') === '0') {
+    $NewAnimalInfo['CondizioniMediche'] = '';
+}
+$paginaHTML = str_replace('[titoloAnimale]', $isModified?'Modifica la scheda di: '.$NewAnimalInfo['Nome']:'Aggiungi animale', $paginaHTML);
+$paginaHTML = str_replace('[disabledEdit]', $isModified?'disabled':'', $paginaHTML);
+
+$sessoPlaceholder = $NewAnimalInfo['Sesso']==='M'? '0' : '1';
+$tipologiaPlaceholder = $NewAnimalInfo['Tipo']==='Cane'?'0':'1';
+
+$paginaHTML = str_replace('[hiddenPerTipologia]', $isModified?'<input type="hidden" name="tipologia" value="'.$tipologiaPlaceholder.'"/>':'', $paginaHTML);
+$paginaHTML = str_replace('[hiddenPerSesso]', $isModified?'<input type="hidden" name="sesso" value="'.$sessoPlaceholder.'"/>':'', $paginaHTML);
+
+
+
+if($isModified){
+    $paginaHTML = str_replace('id="check-assegna-container"', 'id="ModifiedMode"', $paginaHTML);
 }
 
+$paginaHTML = str_replace('[trasporto_checked]', ($NewAnimalInfo['Trasporto'] == 1 ? 'checked' : ''), $paginaHTML);
+
 foreach ($NewAnimalInfo as $key => $value) {
-    $paginaHTML = str_replace('[' . $key . ']', htmlspecialchars($value, ENT_QUOTES, 'UTF-8'), $paginaHTML);
+    $val = $value ?? ''; 
+    $paginaHTML = str_replace('[' . $key . ']', htmlspecialchars($val, ENT_QUOTES, 'UTF-8'), $paginaHTML);
 }
 
 echo $paginaHTML;
