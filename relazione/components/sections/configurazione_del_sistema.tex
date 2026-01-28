@@ -1,4 +1,47 @@
 \section{Configurazione delle cartelle e del sistema}
 \subsection{Struttura generale}
+Il sito web è organizzato in cartelle e sottocartelle per mantenere una struttura ordinata e facilitare la gestione dei file.\\
+\textbf{Le principali cartelle sono:}
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\fontsize{11pt}{13pt}\selectfont,
+    backgroundcolor=\color{gray!10},
+    frame=single,
+    breaklines=true,
+    keywordstyle=\color{blue}\bfseries,  % grassetto + blu
+    morekeywords={src,assets,database,relazione,index,htaccess},
+    commentstyle=\color{gray!80},
+    showstringspaces=false
+}
+
+
+\begin{lstlisting}[language=Python]
+assets/
+|-- icons/         # loghi, icone
+|-- images/...     # foto di animali, di utenti, di admin ecc.
+
+database/
+|-- schema.sql     # schema del database
+|-- populate.sql   # script per il popolamento iniziale del database (già eseguito sul server)
+
+src/
+|-- css/           # file per stili con pagine esterne: suddivisione per utente e admin, breakpoints e stampa 
+|-- js/            # file JavaScript minimo per abbellimenti
+|-- php/           # file PHP per la logica di creazione delle pagine e logica interna alle stesse.
+|-- html/
+    |-- main/      # file statici contenuto principale statico (quello racchiuso solitamente in <main>...</main>).
+    |-- layout.html        # layout per utenti
+    |-- layout-admin.html  # layout per admin
+|-- DBconnection.php  # file per la connessione al database e le funzioni per eseguire query
+|-- utils.php         # file con funzioni di utilità generali
+
+relazione/
+|-- ...            # file della relazione (questo file)
+
+index.php          # file di routing principale del sito web
+.htaccess         # file di configurazione del server web Apache
+\end{lstlisting}
+Le cartelle main e php raccolgono le pagine di admin in una sottocartella dedicata (\texttt{admin}), per chiarezza e organizzazione.
+
 \subsection{file .htaccess e index.php di routing}
 \subsection{Come avviene la costruzione delle pagine}
