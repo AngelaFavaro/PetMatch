@@ -1,85 +1,93 @@
-\documentclass[a4paper, 12pt, colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=blue, hidelinks]{article}
+\documentclass[a4paper, 12pt, colorlinks=true, linkcolor=orange, urlcolor=orange, citecolor=blue, hidelinks]{article}
 \usepackage[colorlinks=true, linkcolor=black, urlcolor=black]{hyperref}
 \usepackage{svg}
 
-
-\hyphenpenalty=10000
-\exhyphenpenalty=10000
-
-\usepackage{array}
 \usepackage{xcolor}
 \usepackage{colortbl}
 \usepackage{bookmark}
+\usepackage{hyperref}
+\hypersetup{
+  pdfauthor={Linor Sadè},
+  pdftitle={Relazione di progetto},
+  pdfsubject={Se stai leggendo questa descrizione significa che stai guardando i metadati del PDF! O il .tex pfff},
+  pdfkeywords={relazione, petmatch, animali, adozione, progetto, unipd, accattivante e accessibile, informatica, gaggi, tecweb} %si gaggi più importante di tecweb
+}
 
-\usepackage[a-1b]{pdfx}
+\usepackage[a-1b]{pdfx} % PDF/A-1b 
 \usepackage[italian]{babel} % Language
-%Font
+%package per Font
 \usepackage{fontspec}
 \usepackage{comment}
-\usepackage{booktabs}
 
+
+%tabelle
+\usepackage{booktabs} 
+\usepackage{array}
 \usepackage{graphicx}
-\usepackage{geometry} %per i margini
 
-\usepackage{setspace}
-%\usepackage[hang,flushmargin]{footmisc} % Removes footnote indentation
-\usepackage{enumitem} % Removes bulletin indentation
-%\catcode`\_=12 % change catcode of "_" to "other" 
+\usepackage{fancyhdr}   % intestazioni e piè di pagina
+\usepackage{geometry} %per l'interlinea
+\usepackage{setspace} %per i margini
+\usepackage{ragged2e} %per il giustificato
 
-\usepackage{float} % Required for the [H] option
-\usepackage{caption}
-%\captionsetup[figure]{font=small,labelfont=small}
+\usepackage{float} % serve per la [H] nelle figure, non so se mi servirà
+\usepackage{caption} % per le caption delle figure
 
-\setmainfont{Times New Roman}
-\geometry{a4paper,inner=3cm,outer=3cm,top=2.5cm,bottom=2.5cm}
+% ---------------------------------------------------
+
+%definisco i colori che uso
+\definecolor{headerbrown}{HTML}{481515} % intestazione marrone
+\definecolor{cellyellow}{HTML}{FFF6D7}  % celle giallino chiaro
+
+\setmainfont{Times New Roman} %font
+\geometry{a4paper,inner=3cm,outer=3cm,top=2.5cm,bottom=3cm}
 \setstretch{1.5} % Interlinea
+\captionsetup{font={small,stretch=1.5}} %setup specifico per le section, non so se mi servirà
+
+\makeatletter
+  \renewcommand\large{\@setfontsize\large{13pt}{16pt}} % cambia la grandezza del font large, in 13 pt (così ci stanno i nomi nella pagina del frontespizio)
+\makeatother
+
+\pagestyle{fancy} % per attivare le intestazioni e piè di pagina personalizzate
+\setlength{\headheight}{25pt}  % lunghezza dell'intestazione per non sovrapporre il testo
+\fancyhead[L]{\includegraphics[height=1.2cm]{assets/header-logo.png}}
+\fancyhead[R]{\textbf{PetMatch}}
+\fancyfoot[C]{%
+  \makebox[0pt][c]{\includegraphics[height=1.8cm]{assets/paw.png}}%
+  \makebox[0pt][c]{\raisebox{0.3cm}{\textcolor{white}{\Large{\textbf{\thepage}}}}}%
+}
 
 
-\usepackage{titlesec}
-
-
-\titlespacing*{\paragraph}{0pt}{0.5em}{0.0pt}\setlength{\parindent}{0pt}  % non so- spazio tra paragrafi - rientro
-
-
-
-\usepackage{fontspec}
-
+% Comando per inserire una pagina bianca senza numerazione (ma viene contata)
 \newcommand{\paginaBianca}{
   \clearpage             % chiude la pagina corrente
   \thispagestyle{empty}  % rimuove intestazione/piede pagina
   \mbox{}                 % forza contenuto minimo sulla pagina
   \clearpage             % chiude la pagina bianca e riprende la numerazione
-  }
+}
   
-  
-  \usepackage{tocloft}
-  \renewcommand{\cfttoctitlefont}{\normalfont\fontsize{14pt}{16pt}\bfseries}
-  % Aggiunge i puntini (leader) a tutti i livelli fino alle subsection
-  \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
-  \renewcommand{\cftsubsecleader}{\cftdotfill{\cftdotsep}}
-  \renewcommand{\cftdotsep}{1.5}
-  
-  \setlength{\cftbeforesecskip}{0pt}   % spazio verticale prima di ogni \section
-  
-  
-\usepackage{ragged2e} %per il giustificato
-% \usepackage{sectsty} %per la dimensione dei titoli
+% ------------INIZIO DOCUMENTO--------------
+
 \begin{document}
-% 
+
 \justifying
-\captionsetup{font={small,stretch=1.5}}
+
 %\pagenumbering{roman}
 \pagenumbering{arabic}
 
 
-\input{sections/frontespizio}
+\input{components/frontespizio}
+\input{components/sections/riassunto}
 
-
-\paginaBianca
-
+\newpage
 \tableofcontents
-
-
+\newpage
+\input{components/sections/abstract}
+\input{components/sections/sito_web}
+\input{components/sections/configurazione_del_sistema}
+\input{components/sections/divisione_del_lavoro}
+\paginaBianca
+\input{components/ringraziamenti}
 
 \end{document}
 
