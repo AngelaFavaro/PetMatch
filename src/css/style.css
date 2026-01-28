@@ -4785,6 +4785,7 @@ div#admin-area #animali .filtri ul{
 #nuovo-evento {
     margin-top:-6em;
     display: flex;
+    margin-bottom: -2em;
     justify-content: center;
     align-items: center;
     background-color: var(--secondsection);
