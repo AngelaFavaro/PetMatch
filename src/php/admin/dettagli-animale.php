@@ -86,7 +86,7 @@ if ($connessioneOK) {
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-animale'])) {
         if ($connessione->deleteAnimal($idAnimale)) {
             $connessione->closeConnection();
-            header("Location: ./area-riservata?msg=eliminato");
+            header("Location: ./assegnati-a-te");//lascialo qua così quando elima l'animale si accorge che è effettivamente stato elimnato
             exit;
         } else {
             $erroreEliminazione = "Errore durante l'eliminazione.";
