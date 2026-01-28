@@ -93,9 +93,6 @@ $routes = [
     'visualizzazione-eventi' => [
         'file' => __DIR__ . '/src/php/admin/visualizzazione-eventi.php'
     ],
-    'visualizzazione-animale' => [
-        'file' => __DIR__ . '/src/php/visualizzazione-animale.php'
-    ]
 ];
 
 // inizio della logica del routing
