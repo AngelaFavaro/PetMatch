@@ -197,7 +197,7 @@ $gatti_content = renderGattiContent($animali['Gatto'],$NNonAdminByType);
 
 $paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore: template layout.html non trovato o non leggibile.</p>');
 $breadcrumb = getBreadcrumb('senza-amministratore', $pagine);
-$nav = buildAdminNav($adminMenu,'senza-amministratore', $pagine);
+$nav = buildAdminNav($adminMenu,'./senza-amministratore');
 
 $main = loadTemplate('./src/template/main/admin/senza-amministratore.html');
 $main = str_replace('[tabs-animali]', renderCaniGattiTabs(), $main);

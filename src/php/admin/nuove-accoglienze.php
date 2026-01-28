@@ -177,7 +177,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     
     $paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore: template layout.html non trovato o non leggibile.</p>');
     $breadcrumb = getBreadcrumb('nuove-accoglienze', $pagine);
-    $nav = buildAdminNav($adminMenu,'nuove-accoglienze', $pagine);
+    $nav = buildAdminNav($adminMenu,'./nuove-accoglienze');
     
     $main = loadTemplate('./src/template/main/admin/nuove-accoglienze.html');
     $main = str_replace('[tabs-animali]', renderCaniGattiTabs(), $main);

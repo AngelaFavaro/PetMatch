@@ -217,7 +217,7 @@ $keywords = "";
 
 // Preparazione parti dinamiche
 $scarta_richiesta = renderRejectRequest($richiesta);
-$nav = buildAdminNav($adminMenu,'dettagli-richiesta', $pagine);
+$nav = buildAdminNav($adminMenu,'./dettagli-richiesta');
 $breadcrumb = getBreadcrumb('dettagli-richiesta', $pagine);
 $main = loadTemplate('./src/template/main/admin/dettagli-richiesta.html');
 
