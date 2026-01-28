@@ -253,8 +253,8 @@ if(isset($_GET['id'])) {
                             <h3 class='nome' id='nome-animale-$id'>$nome</h3>";
                 if(!$adottato) {
                     $html.="
-                        <p class='sesso-etaDesk'>$sesso - $eta anni</p>
-                        <p class='sesso-etaMob'>$sessoAbbr - $eta anni</p>";
+                        <p class='sesso-etaDesk'>$sesso - $eta</p>
+                        <p class='sesso-etaMob'>$sessoAbbr - $eta</p>";
                 }
                 if(!(isset($_SESSION['admin']) && $_SESSION['admin'] === true)) { //qui in generale tolto il cuore se admin (anche nel sito non è corretto che l'admin veda i preferiti)
                     $html.="

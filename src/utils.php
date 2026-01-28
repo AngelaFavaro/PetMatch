@@ -686,18 +686,26 @@ function logout(){
     exit;
 }
 
-function calcolaEta(?string $dataNascita): ?int {
+function calcolaEta(?string $dataNascita): ?string {
     if (!$dataNascita) {
         return null;
     }
 
     try {
         $nascita = new DateTime($dataNascita);
-        return (new DateTime())->diff($nascita)->y;
+        $oggi = new DateTime();
+        $diff = $oggi->diff($nascita);
+
+        if ($diff->y > 0) {
+            return $diff->y . ' anni';
+        }
+
+        return $diff->m . ' mesi';
     } catch (Exception $e) {
         return null;
     }
 }
+
 
 // FUNZIONI PER COOKIES
 // Funzione che va a prendere gli animali messi nei preferiti dal guest non loggato

@@ -1571,7 +1571,7 @@ class DBAccess {
                     A.Sesso AS sesso, 
                     A.Tipo AS tipo,
                     A.ImgPath AS immagine,
-                    TIMESTAMPDIFF(YEAR, A.DataNascita, CURDATE()) AS eta 
+                    A.DataNascita AS eta 
                 FROM ANIMALI A 
                 LEFT JOIN RICHIESTE_ADOZIONI R ON A.IDanimale = R.IDanimale AND R.Stato = 'Accettata'
                 $where 
@@ -1587,12 +1587,21 @@ class DBAccess {
             mysqli_stmt_bind_param($stmt, $types, ...$params);
             mysqli_stmt_execute($stmt);
             $res = mysqli_stmt_get_result($stmt);
-            while ($row = mysqli_fetch_assoc($res)) {
-                $results[] = $row;
-            }
+            $animali = [];
+        while ($row = mysqli_fetch_assoc($res)) {
+            $animali[] = [
+                'nome'     => $row['nome'],
+                'sesso'    => $row['sesso'],
+                'colore'    => $row['colore'],
+                'eta'      => calcolaEta($row['eta']),
+                'immagine' => $row['immagine'],
+                'tipo'     => $row['tipo'],
+                'id'     => $row['id']
+            ];
+        }
             mysqli_stmt_close($stmt);
         }
-        return $results;
+        return $animali;
     }
 
 
@@ -1851,11 +1860,26 @@ class DBAccess {
         $types .= 's';
     }
 
-    /* ---------- FILTRO CITTÀ (opzionale) ---------- */
+    /* ---------- FILTRO CITTÀ ---------- */
     if (!empty($filters['citta'])) {
         $where[] = 'Citta = ?';
         $params[] = $filters['citta'];
         $types .= 's';
+    }
+
+    /* ---------- FILTRO TIPO (prossimi / terminati) ---------- */
+    if (!empty($filters['tipo'])) {
+        $today = date('Y-m-d');
+
+        if ($filters['tipo'] === 'prossimi') {
+            $where[] = 'DataEvento >= ?';
+            $params[] = $today;
+            $types .= 's';
+        } elseif ($filters['tipo'] === 'terminati') {
+            $where[] = 'DataEvento < ?';
+            $params[] = $today;
+            $types .= 's';
+        }
     }
 
     /* ---------- QUERY BASE ---------- */
@@ -1905,6 +1929,7 @@ class DBAccess {
     return $eventi;
 }
 
+
 public function getEventCities(): array {
     if (!$this->connection) return [];
 
@@ -1929,7 +1954,7 @@ public function countEventsFiltered(array $filters): int {
     $params = [];
     $types = '';
 
-    /* ---------- FILTRO TITOLO EVENTO ---------- */
+    /* ---------- FILTRO TITOLO ---------- */
     if (!empty($filters['search'])) {
         $where[] = 'Titolo LIKE ?';
         $params[] = '%' . $filters['search'] . '%';
@@ -1957,6 +1982,21 @@ public function countEventsFiltered(array $filters): int {
         $types .= 's';
     }
 
+    /* ---------- FILTRO TIPO (prossimi / terminati) ---------- */
+    if (!empty($filters['tipo'])) {
+        $today = date('Y-m-d');
+
+        if ($filters['tipo'] === 'prossimi') {
+            $where[] = 'DataEvento >= ?';
+            $params[] = $today;
+            $types .= 's';
+        } elseif ($filters['tipo'] === 'terminati') {
+            $where[] = 'DataEvento < ?';
+            $params[] = $today;
+            $types .= 's';
+        }
+    }
+
     /* ---------- QUERY COUNT ---------- */
     $query = "SELECT COUNT(*) AS totale FROM EVENTI";
 
@@ -1977,6 +2017,7 @@ public function countEventsFiltered(array $filters): int {
     mysqli_stmt_close($stmt);
     return (int)$row['totale'];
 }
+
 
 
 

@@ -423,7 +423,7 @@ $CARDANIMALE1 = "
         <dl>
             <dt> Nome</dt> <dd> $nome </dd>
             <dt> Sesso</dt> <dd> $sesso </dd>
-            <dt> Età</dt> <dd>$eta anni</dd>
+            <dt> Età</dt> <dd>$eta</dd>
             <dt> Razza</dt> <dd>$razza </dd>
             <dt> Pelo</dt> <dd> $pelo </dd>
             <dt> Taglia</dt> <dd>$taglia </dd>
