@@ -216,7 +216,7 @@ $main = file_get_contents('./src/template/main/admin/nuovo-evento.html');
 
 $breadcrumb = $isModifiedEvent?getBreadcrumb('modifica-evento', $pagine): getBreadcrumb('nuovo-evento', $pagine);;
 
-$nav = buildAdminNav($adminMenu,'./nuovo-evento');
+$nav = buildAdminNav($adminMenu,'nuovo-evento', $pagine);
 $keywords = $isModifiedEvent? "<meta name='keywords' content='modifica evento, PetMatch'>":"<meta name='keywords' content='nuovo evento, PetMatch'>";
 $title = $isModifiedEvent? "<title>Modifica evento - PetMatch</title>" : "<title>Nuovo evento - PetMatch</title>";
 $description = $isModifiedEvent? "<meta name='description' content='Modifica un evento presente nel sito di PetMatch.'>" : "<meta name='description' content='Organizza e pubblica un nuovo evento nel sito di PetMatch.'>";

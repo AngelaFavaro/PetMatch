@@ -212,7 +212,7 @@ $title = '<title>Eventi - PetMatch</title>';
 $description = $isAdmin? '<meta name="description" content="Organizza tutti gli eventi di PetMatch">': '<meta name="description" content="Eventi prossimi qui da PetMatch!">';
 $keywords = "<meta name='keywords' content='Prossimi eventi'>";
 
-$nav = $isAdmin? buildAdminNav($adminMenu, './visualizzazione-eventi') : buildNav($userMenu, './eventi');
+$nav = $isAdmin? buildAdminNav($adminMenu, 'visualizzazione-eventi', $pagine) : buildNav($userMenu, './eventi');
 $breadcrumb = $isAdmin? getBreadcrumb('visualizzazione-eventi', $pagine) : getBreadcrumb('eventi', $pagine);
 
 $paginaHTML = str_replace(

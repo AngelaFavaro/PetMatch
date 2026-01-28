@@ -106,7 +106,7 @@ if($infoUtente['Telefono']){
 $paginaHTML = file_get_contents('./src/template/layout-admin.html');
 $main = file_get_contents('./src/template/main/admin/profilo-richiedente.html');
 $breadcrumb = getBreadcrumb('profilo-richiedente', $pagine);
-$nav = buildAdminNav($adminMenu,'./profilo-richiedente');
+$nav = buildAdminNav($adminMenu,'profilo-richiedente', $pagine);
 $keywords = "<meta name='keywords' content='profilo richiedente, informazioni utente'>";
 $title = "<title>Visualizza profilo candidato - PetMatch</title>";
 $description = "<meta name='description' content='Visualizza il profilo candidato per poterne gestire le richieste.'>";

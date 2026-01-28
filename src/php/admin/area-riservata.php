@@ -310,7 +310,7 @@ $description = '<meta name="description" content="Area riservata per gli amminis
 $keywords = ""; //TO DO
 
 
-$nav = buildAdminNav($adminMenu, './area-riservata');
+$nav = buildAdminNav($adminMenu, 'area-riservata', $pagine);
 $breadcrumb = getBreadcrumb('area-riservata', $pagine);
 
 $main = loadTemplate('./src/template/main/admin/area-riservata.html', '<p>Errore: template area-riservata.html non trovato o non leggibile.</p>');

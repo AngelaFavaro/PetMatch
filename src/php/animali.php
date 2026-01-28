@@ -188,7 +188,7 @@ if(isset($_GET['id'])) {
     
     
     /* ------------------ CARD ANIMALI ------------------ */
-    function buildAnimalCards(array $animali, ?string $email): string {
+    function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = false): string {
         $html = '';
         $conn = new DBAccess();
     
@@ -239,7 +239,10 @@ if(isset($_GET['id'])) {
                         ? 'assets/images/animals/defaultCane.jpg'
                         : 'assets/images/animals/defaultGatto.jpg';
                 }
-    
+
+                $linkDettagli = $isFromAdmin 
+                    ? "dettagli-animale?id-animale=$id" 
+                    : "visualizzazione-animale?id=$id";    
                 /* -------- HTML -------- */
                 $html .= "
                     <li class='$cardClass' aria-labelledby='nome-animale-$id'>
@@ -267,9 +270,9 @@ if(isset($_GET['id'])) {
                                 </form>
                             </div>";
                 }
-                $html.="
+                $html .= "
                         <div class='dettagli-animale-bottone'>
-                            <a href='visualizzazione-animale?id=$id'>Vedi dettagli</a>
+                            <a href='$linkDettagli'>Vedi dettagli</a>
                         </div>
                     </article>
                 </li>";
@@ -313,7 +316,7 @@ if(isset($_GET['id'])) {
             } else {
                 $animali = $connessione->getGuestFavPaged($type, $perPagina, $offset);
             }
-            $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail,$isFromAdmin) : "<p class='errore'>$messaggioNoAnimali</p>";
+            $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail, false) : "<p class='errore'>$messaggioNoAnimali</p>";
             // $linkPagine = "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine'>
             // <ul aria-label='Pagine di navigazione'>"
             $linkPagine = ($pagineTotali > 1)
@@ -341,7 +344,7 @@ if(isset($_GET['id'])) {
             
             $animali = $isFromAdmin ? $connessione->getAssignedAnimalsFilteredPaged($type, $filters, $perPagina, $offset,$adminEmail) : $connessione->getAnimalsFilteredPaged($type, $filters, $perPagina, $offset);
             $userEmail = $_SESSION['email'] ?? null;
-            $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail,$isFromAdmin) : "<p class='errore'>$messaggioNoAnimali</p>";
+            $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail, (bool)$isFromAdmin) : "<p class='errore'>$messaggioNoAnimali</p>";
             if($filters) {
             $params= array_merge(['tipo' => $type], $filters);
             } else {
@@ -473,7 +476,7 @@ if(isset($_GET['id'])) {
     $keywords = "<meta name='keywords' content='animali, nome, taglia, sesso, età'>";
     
     
-    $nav = $isPreferiti ? buildNav($userMenu, './preferiti') : ($isFromAdmin ? buildAdminNav($adminMenu, './assegnati-a-te') : buildNav($userMenu, './animali'));
+    $nav = $isPreferiti ? buildNav($userMenu, './preferiti') : ($isFromAdmin ? buildAdminNav($adminMenu, 'animali', $pagine) : buildNav($userMenu, './animali'));
     $breadcrumb = $isPreferiti ? getBreadcrumb('preferiti', $pagine) : ($isFromAdmin ? getBreadcrumb('assegnati-a-te', $pagine) : getBreadcrumb('animali', $pagine));
     
     if(!$isFromAdmin) {

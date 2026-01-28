@@ -243,7 +243,7 @@ if ($connessione->openDBConnection()) {
 $paginaHTML = file_get_contents('./src/template/layout-admin.html');
 $main = file_get_contents('./src/template/main/admin/nuovo-animale.html');
 $breadcrumb = $isModified? getBreadcrumb('modifica-animale', $pagine) : getBreadcrumb('nuovo-animale', $pagine);
-$nav =  $isModified?buildAdminNav($adminMenu,'./modifica-animale'): buildAdminNav($adminMenu,'./nuovo-animale');
+$nav =  $isModified?buildAdminNav($adminMenu,'modifica-animale', $pagine): buildAdminNav($adminMenu,'nuovo-animale', $pagine);
 $keywords = $isModified? "<meta name='keywords' content='modifica animale'>" : "<meta name='keywords' content='aggiungi animale'>";
 $title = $isModified? "<title>Modifica ".$NewAnimalInfo['Nome']." - PetMatch</title>":"<title>Aggiungi un animale - PetMatch</title>";
 $description = $isModified? "<meta name='description' content='Modifica un animale al database di PetMatch per aggiornarne la scheda.'>"

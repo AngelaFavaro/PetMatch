@@ -133,7 +133,7 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo cont
 
     $paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore: template layout.html non trovato o non leggibile.</p>');
     $breadcrumb = getBreadcrumb('adottati', $pagine);
-    $nav = buildAdminNav($adminMenu,'./adottati');
+    $nav = buildAdminNav($adminMenu,'adottati', $pagine);
 
     $main = loadTemplate('./src/template/main/admin/adottati.html');
     $main = str_replace('[tabs-animali]', renderCaniGattiTabs(), $main);

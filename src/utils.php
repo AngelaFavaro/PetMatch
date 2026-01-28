@@ -22,7 +22,7 @@ if (isset($inputData['toggle_theme'])) {
     exit; 
 }
 
-/* Definizione delle pagine esistenti PER LA BREADCRUMB, aggiungerne altre quando possibile*/
+/* Definizione delle pagine esistenti PER LA BREADCRUMB , aggiungerne altre quando possibile*/
 $pagine = [
     'home' => [
         'label' => '<span lang="en">Home</span>', //la label e' quella che viene mostrata nella breadcrumb
@@ -37,7 +37,7 @@ $pagine = [
     'richieste-adozione' => [
         'label' => 'Richieste di adozione',
         'url' => './richieste-adozione',
-        'parent' => 'area-riservata'
+        'parent' => 'home'
     ],
     'dettagli-richiesta' => [
         'label' => 'Dettagli richiesta',
@@ -107,7 +107,7 @@ $pagine = [
     'senza-amministratore' => [
         'label' => 'Animali senza amministratore',
         'url' => './senza-amministratore',
-        'parent' => 'area-riservata'
+        'parent' => 'home'
     ],
     'eventi' => [
         'label' => 'Eventi',
@@ -117,7 +117,7 @@ $pagine = [
     'nuove-accoglienze' => [
         'label' => 'Nuove accoglienze',
         'url' => './nuove-accoglienze',
-        'parent' => 'area-riservata'
+        'parent' => 'home'
     ],
     'profilo-richiedente' => [
         'label' => 'Profilo richiedente',
@@ -127,7 +127,7 @@ $pagine = [
     'adottati' => [
         'label' => 'Adottati',
         'url' => './adottati',
-        'parent' => 'area-riservata'
+        'parent' => 'home'
     ],
     'nuovo-evento' => [
         'label' => 'Nuovo evento',
@@ -137,7 +137,7 @@ $pagine = [
     'assegnati-a-te' => [
         'label' => 'Assegnati a te',
         'url' => './assegnati-a-te',
-        'parent' => 'area-riservata'
+        'parent' => 'home'
     ],
     'dettagli-animale' => [
         'label' => 'Dettagli animale',
@@ -152,7 +152,7 @@ $pagine = [
     'visualizzazione-eventi' => [
         'label' => 'Visualizzazione eventi',
         'url' => './visualizzazione-eventi',
-        'parent' => 'area-riservata'
+        'parent' => 'home'
     ],
 ];
 
@@ -206,17 +206,14 @@ function loadTemplate(string $path, string $default = ''): string {
 }
 
 
-function buildAdminNav(array $menuGroups, string $currentHref): string {
-
+function buildAdminNav(array $menuGroups, string $currentPageKey, array $allPages): string {
     $isDark = (isset($_COOKIE['theme']) && $_COOKIE['theme'] === 'dark');
-    // Parte iniziale: Checkbox e Label (Hamburger)
+    
+    // Parte iniziale (Checkbox, Theme Switch, Logo) - Invariata
     $html = '
     <input type="checkbox" id="menu-toggle-checkbox" class="sr-only" />
-
     <div id="log-theme">
-    <input type="checkbox" id="theme-toggle" class="sr-only"';
-    $html .= $isDark? ' checked />':'/>';
-    $html .= '
+        <input type="checkbox" id="theme-toggle" class="sr-only"' . ($isDark ? ' checked' : '') . ' />
         <label for="theme-toggle" id="theme-switch">
             <span class="sr-only">Cambia tema</span>
             <span id="slider">
@@ -226,34 +223,62 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
         </label>
     </div>
     <label for="menu-toggle-checkbox" class="menu-toggle">
-    <span class="sr-only">Apri o chiudi menu di navigazione</span> </label>
+        <span class="sr-only">Apri o chiudi menu di navigazione</span>
+    </label>
     
     <nav id="menu-admin" aria-label="Menù">
         <a class="navigationHelp" href="#content"> Salta il menù di navigazione</a>
         <a id="logo-link" href="./home">
             <img src="./assets/icons/light-mode-logo.svg" id="logo" alt="Home" lang="en" />
         </a>
-        <div id="solo-stampa" lang="en">PetMatch</div>
-        ';
-        $html .= $currentHref==='./nuovo-animale' ? '<p class="orange-button" id="currentLink" href="./nuovo-animale">+ Aggiungi animale</p>' : '<a class="orange-button" href="./nuovo-animale">+ Aggiungi animale</a>';
+        <div id="solo-stampa" lang="en">PetMatch</div>';
+
+    // Gestione bottone "Aggiungi animale"
+    $isNuovoAnimale = ($currentPageKey === 'nuovo-animale');
+    if ($isNuovoAnimale) {
+        $html .= '<p class="orange-button" id="currentLink">+ Aggiungi animale</p>';
+    } else {
+        $html .= '<a class="orange-button" href="./nuovo-animale">+ Aggiungi animale</a>';
+    }
 
     foreach ($menuGroups as $key => $items) {
-
-        if ($key === 'animali') {
-            $html .= '<span class="description-menu" aria-hidden="true">Animali</span>';
-            $html .= '<ul aria-label="Menù gestione animali">';
-        }else{
-            $html .= '<span class="description-menu" aria-hidden="true">Principale</span>';
-            $html .= '<ul aria-label="Menù principale">';
-        }
+        $labelGroup = ($key === 'animali') ? 'Animali' : 'Principale';
+        $ariaLabel = ($key === 'animali') ? 'Menù gestione animali' : 'Menù principale';
+        
+        $html .= '<span class="description-menu" aria-hidden="true">' . $labelGroup . '</span>';
+        $html .= '<ul aria-label="' . $ariaLabel . '">';
 
         foreach ($items as $item) {
-            $active = ($item['href'] === $currentHref) ? ' id="currentLink"' : '';
-            $linkHref = ($item['href'] === $currentHref) ? '<li'.$active.' aria-label="pagina attuale:'.$item['text'].'">'.$item['text'].'</li>' : '<li'.$active.'><a href="'.$item['href'].'">'.$item['text'].'</a></li>';
-            
-            // In questa versione, anche il link corrente rimane cliccabile 
-            //ho sistemato - angelac
-            $html .= $linkHref;
+            // Troviamo la chiave della pagina corrispondente all'URL del menu
+            $menuItemKey = '';
+            foreach ($allPages as $keyP => $valP) {
+                if ($valP['url'] === $item['href']) {
+                    $menuItemKey = $keyP;
+                    break;
+                }
+            }
+
+            // Controllo Gerarchia (Sei in questa pagina o in una figlia?)
+            $isCurrentOrParent = ($currentPageKey === $menuItemKey);
+            $tempKey = $currentPageKey;
+            while (isset($allPages[$tempKey]['parent']) && !$isCurrentOrParent) {
+                $tempKey = $allPages[$tempKey]['parent'];
+                if ($tempKey === $menuItemKey) {
+                    $isCurrentOrParent = true;
+                }
+            }
+
+            // Generazione HTML Link
+            if ($currentPageKey === $menuItemKey) {
+                // Pagina ESATTA: No link (evita circolarità)
+                $html .= '<li id="currentLink" aria-current="page">' . $item['text'] . '</li>';
+            } elseif ($isCurrentOrParent) {
+                // Pagina FIGLIA: Manteniamo il link per tornare al "padre"
+                $html .= '<li id="currentLink"><a href="' . $item['href'] . '">' . $item['text'] . '</a></li>';
+            } else {
+                // Pagina diversa
+                $html .= '<li><a href="' . $item['href'] . '">' . $item['text'] . '</a></li>';
+            }
         }
         $html .= '</ul>';
     }

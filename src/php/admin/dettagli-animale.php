@@ -123,14 +123,14 @@ $description = '<meta name="description" content="Visualizzazione dettagliata de
 $from = $_GET['from'] ?? null;
 
 if ($fromEmail) {
-    $activeNav = './richieste-adozione';
+    $activeNav = 'richieste-adozione';
 } elseif ($from === 'senza-admin') {
-    $activeNav = './senza-amministratore';
+    $activeNav = 'senza-amministratore';
 } else {
-    $activeNav = './assegnati-a-te'; 
+    $activeNav = 'assegnati-a-te'; 
 }
 
-$nav = buildAdminNav($adminMenu, $activeNav);
+$nav = buildAdminNav($adminMenu, $activeNav, $pagine);
 $paginaHTML = str_replace(['[breadcrumb]', '[title]', '[nav]', '[description]', '[keywords]'], 
                          [$breadcrumb, $title, $nav, $description, ""], 
                          $paginaHTML);
