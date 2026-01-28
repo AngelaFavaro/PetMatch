@@ -37,7 +37,7 @@ $pagine = [
     'richieste-adozione' => [
         'label' => 'Richieste di adozione',
         'url' => './richieste-adozione',
-        'parent' => 'home'
+        'parent' => 'area-riservata'
     ],
     'dettagli-richiesta' => [
         'label' => 'Dettagli richiesta',
@@ -112,12 +112,12 @@ $pagine = [
     'eventi' => [
         'label' => 'Eventi',
         'url' => './eventi',
-        'parent' => 'home'
+        'parent' => 'area-riservata'
     ],
     'nuove-accoglienze' => [
         'label' => 'Nuove accoglienze',
         'url' => './nuove-accoglienze',
-        'parent' => 'home'
+        'parent' => 'area-riservata'
     ],
     'profilo-richiedente' => [
         'label' => 'Profilo richiedente',
@@ -127,7 +127,7 @@ $pagine = [
     'adottati' => [
         'label' => 'Adottati',
         'url' => './adottati',
-        'parent' => 'home'
+        'parent' => 'area-riservata'
     ],
     'nuovo-evento' => [
         'label' => 'Nuovo evento',
@@ -137,7 +137,7 @@ $pagine = [
     'assegnati-a-te' => [
         'label' => 'Assegnati a te',
         'url' => './assegnati-a-te',
-        'parent' => 'area-personale'
+        'parent' => 'area-riservata'
     ],
     'dettagli-animale' => [
         'label' => 'Dettagli animale',
