@@ -4342,6 +4342,11 @@ div#admin-area article.note{
     align-items: flex-start;
 }
 
+#dettaglio-animale.column-container{
+    max-width: none;
+    padding: 0;
+}
+
 /* Box generico delle informazioni (Sinistra) */
 #dettaglio-animale article#animale-detailed-container {
     border: 0.1em solid var(--txtcolor);
