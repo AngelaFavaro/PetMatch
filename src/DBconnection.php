@@ -1582,7 +1582,7 @@ class DBAccess {
                     A.Sesso AS sesso, 
                     A.Tipo AS tipo,
                     A.ImgPath AS immagine,
-                    TIMESTAMPDIFF(YEAR, A.DataNascita, CURDATE()) AS eta 
+                    A.DataNascita AS eta 
                 FROM ANIMALI A 
                 LEFT JOIN RICHIESTE_ADOZIONI R ON A.IDanimale = R.IDanimale AND R.Stato = 'Accettata'
                 $where 
@@ -1598,12 +1598,21 @@ class DBAccess {
             mysqli_stmt_bind_param($stmt, $types, ...$params);
             mysqli_stmt_execute($stmt);
             $res = mysqli_stmt_get_result($stmt);
-            while ($row = mysqli_fetch_assoc($res)) {
-                $results[] = $row;
-            }
+            $animali = [];
+        while ($row = mysqli_fetch_assoc($res)) {
+            $animali[] = [
+                'nome'     => $row['nome'],
+                'sesso'    => $row['sesso'],
+                'colore'    => $row['colore'],
+                'eta'      => calcolaEta($row['eta']),
+                'immagine' => $row['immagine'],
+                'tipo'     => $row['tipo'],
+                'id'     => $row['id']
+            ];
+        }
             mysqli_stmt_close($stmt);
         }
-        return $results;
+        return $animali;
     }
 
 
