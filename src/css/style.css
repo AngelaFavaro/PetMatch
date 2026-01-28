@@ -4543,6 +4543,57 @@ div#admin-area article.note{
     display: inline-block;
 }
 
+/* Selettore specifico per non intaccare altre liste del sito */
+#visualizza-richieste-animale .tab-content {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+/* Stile della card specifica per questa sezione */
+#visualizza-richieste-animale .richiesta-card {
+    border-radius: 12px;
+    margin-bottom: 12px;
+    padding: 15px 20px;
+}
+
+/* Layout flex solo per le card in questa sezione */
+#visualizza-richieste-animale .card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px; /* Spazio minimo tra testo e bottone */
+}
+
+#visualizza-richieste-animale .card-content p {
+    margin: 0;
+    color: #3d1411;
+    font-size: 1rem;
+}
+
+/* Il bottone specifico */
+#visualizza-richieste-animale .btn-vedi-richiesta {
+    background-color: var(--cardHover);
+    color: var(--visitedcolor);
+    padding: 8px 18px;
+    border-radius: 20px;
+    text-decoration: underline;
+    font-weight: bold;
+    white-space: nowrap; /* Impedisce al bottone di andare a capo */
+}
+
+/* Gestione visibilità Tab tramite i radio button */
+/*#visualizza-richieste-animale .tab-content { display: none; }*/
+
+#anim-tab1:checked ~ #start-requests .content-tab1,
+#anim-tab2:checked ~ #start-requests .content-tab2,
+#anim-tab3:checked ~ #start-requests .content-tab3,
+#anim-tab4:checked ~ #start-requests .content-tab4,
+#anim-tab5:checked ~ #start-requests .content-tab5,
+#anim-tab6:checked ~ #start-requests .content-tab6 {
+    display: block;
+}
+
 /*================= RICHIESTE DI ADOZIONE ==================*/
 
 
@@ -5843,53 +5894,3 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
 }
 
 
-/* Selettore specifico per non intaccare altre liste del sito */
-#visualizza-richieste-animale .tab-content {
-    list-style-type: none;
-    padding: 0;
-    margin: 20px 0;
-}
-
-/* Stile della card specifica per questa sezione */
-#visualizza-richieste-animale .richiesta-card {
-    border-radius: 12px;
-    margin-bottom: 12px;
-    padding: 15px 20px;
-}
-
-/* Layout flex solo per le card in questa sezione */
-#visualizza-richieste-animale .card-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px; /* Spazio minimo tra testo e bottone */
-}
-
-#visualizza-richieste-animale .card-content p {
-    margin: 0;
-    color: #3d1411;
-    font-size: 1rem;
-}
-
-/* Il bottone specifico */
-#visualizza-richieste-animale .btn-vedi-richiesta {
-    background-color: var(--cardHover);
-    color: var(--visitedcolor);
-    padding: 8px 18px;
-    border-radius: 20px;
-    text-decoration: underline;
-    font-weight: bold;
-    white-space: nowrap; /* Impedisce al bottone di andare a capo */
-}
-
-/* Gestione visibilità Tab tramite i radio button */
-/*#visualizza-richieste-animale .tab-content { display: none; }*/
-
-#anim-tab1:checked ~ #start-requests .content-tab1,
-#anim-tab2:checked ~ #start-requests .content-tab2,
-#anim-tab3:checked ~ #start-requests .content-tab3,
-#anim-tab4:checked ~ #start-requests .content-tab4,
-#anim-tab5:checked ~ #start-requests .content-tab5,
-#anim-tab6:checked ~ #start-requests .content-tab6 {
-    display: block;
-}

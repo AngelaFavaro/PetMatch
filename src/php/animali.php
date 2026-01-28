@@ -242,12 +242,12 @@ if(isset($_GET['id'])) {
     
                 /* -------- HTML -------- */
                 $html .= "
-                <li class='$cardClass' aria-labelledby='nome-animale-$id'>
-                    <article class='card' aria-label='descrizione:'>
-                        <div class='immagine'>
-                            <img src='$img' alt='foto di $nome: un {$a['tipo']} di colore {$colore}' />                        
+                    <li class='$cardClass' aria-labelledby='nome-animale-$id'>
+                        <article class='card'>
+                            <div class='immagine'>
+                                <img src='$img' alt='foto di $nome: un {$a['tipo']} di colore {$colore}' />                        
                             </div>
-                        <h3 class='nome' id='nome-animale-$id'>$nome</h3>";
+                            <h3 class='nome' id='nome-animale-$id'>$nome</h3>";
                 if(!$adottato) {
                     $html.="
                         <p class='sesso-etaDesk'>$sesso - $eta anni</p>
@@ -268,10 +268,8 @@ if(isset($_GET['id'])) {
                             </div>";
                 }
                 $html.="
-                        <p class='$classeInteressato'>$giàInteressato</p>
-    
                         <div class='dettagli-animale-bottone'>
-                            <a href='dettagli-animale?id-animale=$id'>Vedi dettagli</a>
+                            <a href='visualizzazione-animale?id=$id'>Vedi dettagli</a>
                         </div>
                     </article>
                 </li>";
