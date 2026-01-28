@@ -1871,11 +1871,26 @@ class DBAccess {
         $types .= 's';
     }
 
-    /* ---------- FILTRO CITTÀ (opzionale) ---------- */
+    /* ---------- FILTRO CITTÀ ---------- */
     if (!empty($filters['citta'])) {
         $where[] = 'Citta = ?';
         $params[] = $filters['citta'];
         $types .= 's';
+    }
+
+    /* ---------- FILTRO TIPO (prossimi / terminati) ---------- */
+    if (!empty($filters['tipo'])) {
+        $today = date('Y-m-d');
+
+        if ($filters['tipo'] === 'prossimi') {
+            $where[] = 'DataEvento >= ?';
+            $params[] = $today;
+            $types .= 's';
+        } elseif ($filters['tipo'] === 'terminati') {
+            $where[] = 'DataEvento < ?';
+            $params[] = $today;
+            $types .= 's';
+        }
     }
 
     /* ---------- QUERY BASE ---------- */
@@ -1925,6 +1940,7 @@ class DBAccess {
     return $eventi;
 }
 
+
 public function getEventCities(): array {
     if (!$this->connection) return [];
 
@@ -1949,7 +1965,7 @@ public function countEventsFiltered(array $filters): int {
     $params = [];
     $types = '';
 
-    /* ---------- FILTRO TITOLO EVENTO ---------- */
+    /* ---------- FILTRO TITOLO ---------- */
     if (!empty($filters['search'])) {
         $where[] = 'Titolo LIKE ?';
         $params[] = '%' . $filters['search'] . '%';
@@ -1977,6 +1993,21 @@ public function countEventsFiltered(array $filters): int {
         $types .= 's';
     }
 
+    /* ---------- FILTRO TIPO (prossimi / terminati) ---------- */
+    if (!empty($filters['tipo'])) {
+        $today = date('Y-m-d');
+
+        if ($filters['tipo'] === 'prossimi') {
+            $where[] = 'DataEvento >= ?';
+            $params[] = $today;
+            $types .= 's';
+        } elseif ($filters['tipo'] === 'terminati') {
+            $where[] = 'DataEvento < ?';
+            $params[] = $today;
+            $types .= 's';
+        }
+    }
+
     /* ---------- QUERY COUNT ---------- */
     $query = "SELECT COUNT(*) AS totale FROM EVENTI";
 
@@ -1997,6 +2028,7 @@ public function countEventsFiltered(array $filters): int {
     mysqli_stmt_close($stmt);
     return (int)$row['totale'];
 }
+
 
 
 
