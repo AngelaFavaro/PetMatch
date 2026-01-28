@@ -4,19 +4,18 @@ include './src/DBconnection.php';
 use DB\DBAccess;
 session_start();
 
-
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
-    header("Location: ./accedi");
+    if(isset($_GET['id-animale'])) header("Location: ./visualizzazione-animale?id=".urlencode($_GET['id-animale']));
+    else header("Location: ./animali");
     exit;
 }
 
 $idAnimale = $_GET['id-animale'] ?? null;
 $fromEmail = $_GET['from_email'] ?? null; 
 if (!$idAnimale) {
-    header("Location: ./area-riservata");
+    header("Location: ./assegnati-a-te");
     exit;
 }
-
 
 
 // Gestione gerarchia breadcrumb
@@ -122,15 +121,8 @@ $description = '<meta name="description" content="Visualizzazione dettagliata de
 
 $from = $_GET['from'] ?? null;
 
-if ($fromEmail) {
-    $activeNav = './richieste-adozione';
-} elseif ($from === 'senza-admin') {
-    $activeNav = './senza-amministratore';
-} else {
-    $activeNav = './assegnati-a-te'; 
-}
 
-$nav = buildAdminNav($adminMenu, $activeNav);
+$nav = buildAdminNav($adminMenu, './dettagli-animale');
 $paginaHTML = str_replace(['[breadcrumb]', '[title]', '[nav]', '[description]', '[keywords]'], 
                          [$breadcrumb, $title, $nav, $description, ""], 
                          $paginaHTML);
