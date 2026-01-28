@@ -1314,14 +1314,10 @@ class DBAccess {
             mysqli_stmt_bind_param($stmt, 'si', $email, $idAnimale);
             mysqli_stmt_execute($stmt);
             $result = mysqli_stmt_get_result($stmt);
-
-            // Salviamo il risultato nella variabile giusta
             $request = mysqli_fetch_assoc($result);
             
             mysqli_stmt_close($stmt);
         }
-        
-        // Restituiamo la variabile giusta
         return $request;
     }
 
