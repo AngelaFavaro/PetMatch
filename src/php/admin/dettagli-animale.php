@@ -199,5 +199,11 @@ $main = str_replace([
 $main = str_replace('[elencoRichieste]', $listRequestHTML, $main);
 
 $paginaHTML = str_replace('[main]', $main, $paginaHTML);
+
+$showModal = $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['show-dialog']);
+$closeModal = $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['close-dialog']);
+$paginaHTML = str_replace('[openDialog]', $showModal?'open':'', $paginaHTML);
+$paginaHTML = str_replace('[openDialog]', $closeModal?'':'', $paginaHTML);
+
 echo $paginaHTML;
 ?>
