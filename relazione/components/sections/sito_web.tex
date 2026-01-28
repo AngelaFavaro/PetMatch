@@ -4,12 +4,85 @@
 \subsubsection{Amministratore}
 \subsection{Profilazione utente}
 \subsection{Design grafico e accessibilità}
-\subsubsection{Logo}
 \subsubsection{Palette di colori}
+I colori tentano di richiamare quelli tipici degli animali domestici, con tonalità calde e accoglienti.
+\begin{adjustwidth}{1cm}{1cm}
+    \centering
+    \includegraphics[width=0.8\textwidth]{assets/palette.png}
+\end{adjustwidth}
+ La palette principale, in modalità giorno (\textit{light mode}), include:
+\begin{itemize}
+    \item \textbf{Colore primario: \#FFF6D7 (Beige)} - un colore chiaro e neutro che offre un buon contrasto con gli altri colori
+    \item \textbf{Colore secondario: \#481515 (Marrone)} - un marrone scuro utilizzato per elementi di testo o background secondari.
+    \item \textbf{Colore di accento: \#EA654C (Arancione)} - per elementi interattivi come pulsanti e link.
+    \item \textbf{Colore secondario: \#6D7541 (Verde)} - un colore neutro e morbido che offre un buon contrasto con i colori primari e secondari.
+\end{itemize}
+\paragraph{Per l'accessibilità} 
+Le seguenti informazioni sono state verificate utilizzando diversi strumenti, in ultimo il tool \textit{Color Contrast} di Silktide.
+Non sono riportate le combinazioni di colori che non sono state usate come testo e background insieme.
+\begin{center}
+\begin{tabular}{|p{4.5cm}|p{4.5cm}|p{2cm}|p{3cm}|} % Ho allargato leggermente per far spazio ai box
+\hline
+\rowcolor{brown}
+\color{white}\textbf{Colore 1} & 
+\color{white}\textbf{Colore 2} & 
+\color{white}\textbf{Contrasto} & 
+\color{white}\textbf{Accessibilità} \\
+\hline
+\rowcolor{beige} \cbox{beige} Beige (\#FFF6D7) & \cbox{brown} Marrone (\#481515) & 13.93:1 & Raggiunto AA e AAA \\
+\hline
+\rowcolor{beige} \cbox{beige} Beige (\#FFF6D7) & \cbox{orange} Arancione (\#EA654C) & 3.00:1 & Zona grigia (*) \\
+\hline
+\rowcolor{beige} \cbox{beige} Beige (\#FFF6D7) & \cbox{green} Verde (\#6D7541) & 4.55:1 & Raggiunto AA \\
+\hline
+\rowcolor{beige} \cbox{brown} Marrone (\#481515) & \cbox{orange} Arancione (\#EA654C) & 4.65:1 & Raggiunto AA \\
+\hline
+\end{tabular}
+\end{center}
+\begin{adjustwidth}{1cm}{1cm}
+    \textmd{(*) La combinazione DA FARE NON SO COSA SCRIVERE SONO CONFUSA. RICORDO CHE OK 3:1 MA FORSE SOLO SE NON VICINI O SE SOTTOLINEATI MA LA NOSTRA NAV NON LO È} 
+\end{adjustwidth}
+
 \subsubsection{Font}
+Il carattere tipografico selezionato per questo progetto è Parkinsans, un font sans geometrico e moderno, reperibile gratuitamente sulla piattaforma Google Fonts al seguente link \href{https://fonts.google.com/specimen/Parkinsans}{fonts.google.com/Parkinsans}.
+Il font utilizzato vuole essere chiaro e leggibile, pur mantenendo un aspetto giocoso e amichevole. \\
+Il nome stesso del font rivela la sua nobile origine: è stato infatti progettato dall'agenzia londinese Red Stone per l'associazione britannica \textit{Parkinson’s UK}, con l'intento di creare un linguaggio visivo che fosse al contempo energico, umano e accessibile.\\
+La scelta è ricaduta su questo font perché rappresenta un esempio d'eccellenza nel design inclusivo: esso è stato infatti progettato specificamente per l'associazione britannica Parkinson’s UK con l'obiettivo di rispondere alle sfide visive e cognitive poste dalla malattia.
+
+\begin{adjustwidth}{1cm}{1cm}
+    \centering
+    \includegraphics[width=0.8\textwidth]{assets/esempio_parkinsans.png}
+\end{adjustwidth}
+\paragraph{Verifiche di accessibilità}
+\begin{itemize}
+    \item controllo apertura delle lettere (e, c, a)
+    \item controllo spaziatura tra lettere (qp, db)
+    \item controllo differenza tra lettere simili (iIl1, oO0)
+\end{itemize}
 \subsubsection{Divisione utente / amministratore}
+\subsubsection{Logo}
+Il logo, utilizzato in più varianti, raffigura un cuore realizzato con le sagome di due tipici segnaposto di mappe. Una strada collega il cuore ad una casa stilizzata posta alla destra in lontananza. \\
+L'idea è quella di rappresentare il significato del sito web con un singolo simbolo: il cuore rappresenta l'amore e l'affetto che gli utenti cercano per i loro animali, mentre i segnaposto simboleggiano la localizzazione geografica che, grazie alla piattaforma, può essere superata, arrivando idealmente fino alla casa dell'utente.\\
+\begin{minipage}[c]{0.5\textwidth}
+    \centering
+    \includegraphics[width=5cm]{assets/light-mode-logo.png}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.5\textwidth}
+    \centering
+    \includegraphics[width=5cm]{assets/dark-mode-logo.png}
+\end{minipage}
+Un significato alternativo ma dualmente significativo è quello per cui gli animali portano amore nelle case degli utenti, rappresentato dalla strada che collega il cuore alla casa.\\
+\begin{adjustwidth}{1cm}{1cm}
+    \textmd{Il logo di PetMatch è stato realizzato senza l'ausilio di strumenti di intelligenza artificiale, utilizzando esclusivamente inventiva personale e software di grafica vettoriale.}
+\end{adjustwidth}
+\subsubsection{Le immagini}
+Le illustrazioni tentano di essere inclusive rappresentando persone di diverse etnie, generi di età e anche persone con mobilità ridotta. Le immagini in questione si trovano alle pagine di registrazione e login, lavora con noi, e nel form di adozione degli animali.\\
+\begin{adjustwidth}{1cm}{1cm}
+    \textmd{Le illustrazioni sono state create senza l'ausilio di strumenti di intelligenza artificiale, utilizzando esclusivamente inventiva personale e software di grafica.}
+\end{adjustwidth}
+
 \subsection{Scelte di accessibilità}
 \subsection{Schemi organizzativi}
 \subsection{Strutture organizzative}
-\section{Database}
 
