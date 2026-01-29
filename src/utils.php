@@ -287,7 +287,7 @@ function buildNav(array $items, string $currentHref): string {
     
     '<div' . $logoAttributes . '>
         <img src="./assets/icons/light-mode-logo.svg" id="logo-header" alt="PetMatch Home" />
-        <span id="name-site">Pet<span class="not-bold">Match</span></span>
+        <span id="name-site" lang="en">Pet<span class="not-bold">Match</span></span>
     </div>' :
     
     '<a href="' . $homeHref . '"' . $logoAttributes . '>
