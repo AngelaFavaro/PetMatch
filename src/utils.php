@@ -564,50 +564,65 @@ function getBreadcrumb($currentPageKey, $pagine) {
     return $html;
 }
 
-/** dentro a dettagli-richiesta.php ho lasciato un blocco commentato che richiama questa funzione,
- * guardate li per capire come usarla (cerca 'SCRIPT DI TEST'), l'echo che si trova in basso al blocco commentato è il form da cui vengono presi i dati
- * NOTA: possibile che l'estensione di vscode non vi faccia vedere l'immagine caricata, guardate dal terminale ssh
-*/
 // se $_FILES['foto'] non esiste o è vuoto, la funzione ritorna null
+//NOTA: il server è stato impostato per avere un max upload di 8MB in POST
 function uploadImage($file, $folder) {
     $basePath = dirname(__DIR__) . '/assets/images/' . $folder . '/';
     $dbPathPrefix = 'assets/images/' . $folder . '/';
     
-    // Verifica se la cartella esiste, altrimenti creala
-    if (!file_exists($basePath)) {
-        if (!mkdir($basePath, 0755, true)) {
-            // Log l'errore invece di stamparlo
-            error_log("ERRORE uploadImage: Impossibile creare la cartella $basePath");
-            return null;
-        }
-    }
+    if (!file_exists($basePath)) mkdir($basePath, 0755, true);
+    if (!is_writable($basePath) || $file['error'] !== UPLOAD_ERR_OK) return null;
     
-    // Verifica permessi di scrittura
-    if (!is_writable($basePath)) {
-        error_log("ERRORE uploadImage: La cartella $basePath non è scrivibile");
-        return null;
-    }
-    
-    // Verifica errori di upload
-    if ($file['error'] !== UPLOAD_ERR_OK) {
-        error_log("ERRORE uploadImage: Errore PHP upload, codice: " . $file['error']);
-        return null;
-    }
-    
-    // Genera nome file univoco
     $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
     $fileName = $folder . "_" . time() . "_" . bin2hex(random_bytes(4)) . "." . $extension;
     $targetFile = $basePath . $fileName;
-    
-    // Sposta il file
-    if (move_uploaded_file($file['tmp_name'], $targetFile)) {
-        // Log successo (opzionale, puoi commentare)
-        error_log("uploadImage: File caricato con successo - $fileName");
-        return $dbPathPrefix . $fileName;
-    } else {
-        error_log("ERRORE uploadImage: move_uploaded_file fallito per $fileName");
-        return null;
+
+    $info = getimagesize($file['tmp_name']);
+    if (!$info) return null;
+
+    switch ($info[2]) {
+        case IMAGETYPE_JPEG: $sourceImage = imagecreatefromjpeg($file['tmp_name']); break;
+        case IMAGETYPE_PNG:  $sourceImage = imagecreatefrompng($file['tmp_name']);  break;
+        case IMAGETYPE_WEBP: $sourceImage = imagecreatefromwebp($file['tmp_name']); break;
+        default: return move_uploaded_file($file['tmp_name'], $targetFile) ? $dbPathPrefix . $fileName : null;
     }
+
+    $quality = 80;
+    $maxSize = 40 * 1024; // SOGLIA 40KB
+    $width = imagesx($sourceImage);
+    $height = imagesy($sourceImage);
+
+    do {
+        ob_start();
+        if ($extension === 'png') {
+            imagepng($sourceImage, null, (int)(($quality / 100) * 9));
+        } else {
+            imagejpeg($sourceImage, null, $quality);
+        }
+        
+        $imageData = ob_get_clean();
+        $currentSize = strlen($imageData);
+
+        if ($currentSize > $maxSize) {
+            $quality -= 15;
+            if ($quality < 40) { 
+                $width = (int)($width * 0.75);
+                $height = (int)($height * 0.75);
+                $canvas = imagecreatetruecolor($width, $height);
+                imagealphablending($canvas, false);
+                imagesavealpha($canvas, true);
+                imagecopyresampled($canvas, $sourceImage, 0, 0, 0, 0, $width, $height, imagesx($sourceImage), imagesy($sourceImage));
+                imagedestroy($sourceImage);
+                $sourceImage = $canvas;
+                $quality = 70;
+            }
+        }
+    } while ($currentSize > $maxSize && $width > 50);
+
+    $success = file_put_contents($targetFile, $imageData);
+    imagedestroy($sourceImage);
+
+    return $success ? $dbPathPrefix . $fileName : null;
 }
 
 // elimina un'immagine dal server
