@@ -65,7 +65,7 @@ function buildEventsCards($events, $filtro): string {
         $titolo=$e['titolo'];
         $descrEvento=$e['descrizione'];
         $html .= "<li>
-                    <article class='evento' aria-labelledby='evento-titolo'>
+                    <article class='evento'>
                         <!-- Immagine dell'evento -->
                         <img class='immagine-evento' src=$img alt='' />
 

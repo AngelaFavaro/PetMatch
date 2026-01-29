@@ -19,7 +19,7 @@ function buildEventsCards($events): string {
         if (!empty($e['immagine']) && file_exists($e['immagine'])) {
             $img = $e['immagine'];
         } else {
-            $img = 'assets/images/animals/defaultCane.jpg';
+            $img = 'assets/images/events/eventi-default.jpg';
         }
         $data=formattaDataItaliana($e['data_evento']);
         $titolo=$e['titolo'];
