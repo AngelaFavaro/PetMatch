@@ -3972,9 +3972,9 @@ nav#menu-admin li a:hover{
   text-decoration: underline;
 }
 
-nav#menu-admin li#currentLink {
+nav#menu-admin li#currentLink{
     background-color: var(--bgcolor);
-    color: var(--txtcolor);
+    /*color: var(--txtcolor);*/
     font-weight: 600;
 }
 nav#menu-admin li a:visited{
@@ -3987,7 +3987,7 @@ nav#menu-admin li:hover{
     border-radius: 2em 0em 0em 2em;
 }
 
-nav#menu-admin li#currentLink:hover{
+nav#menu-admin li#currentLink a:hover{
     outline:none;
 }
 
@@ -3997,7 +3997,8 @@ nav#menu-admin li#currentLink:hover{
 
 nav#menu-admin li#currentLink a{
     font-weight: 700;
-    color: var(--navButton);
+    color: var(--txtcolor);
+    text-decoration: none;
 }
 nav#menu-admin span{
     color: var(--navButton);
@@ -4436,9 +4437,17 @@ div#admin-area article.note{
     padding-top: 3em; /* Spazio per il pulsante matita */
 }
 
-#dettaglio-animale .action-buttons-group{
+#dettaglio-animale .action-buttons-group {
     display: flex;
-    margin-top: 1em;
+    justify-content: flex-end; /* Sposta a destra */
+    align-items: center;
+    gap: 1em;
+    position: absolute; /* Fondamentale per non spostare l'immagine */
+    top: 0;
+    right: 0;
+    width: 100%;
+    margin-top: 0;
+    padding-bottom: 1em;
 }
 
 #dettaglio-animale .action-buttons-group .text-details{
