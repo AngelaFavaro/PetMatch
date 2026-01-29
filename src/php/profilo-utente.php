@@ -70,12 +70,19 @@ function createMovementList(DBAccess $conn, $filtro = 'all'): string {
 
             $nomeAnimale = htmlspecialchars($richiesta['NomeAnimale']);
 
+
+
             switch($richiesta['Stato']){
                 case 'In valutazione':
                     $statoRichiesta = 'La tua richesta di adozione per <em>'.$nomeAnimale.'</em> è in <strong>valutazione.</strong>';
                     break;
                 case 'Da trasportare':
-                    $statoRichiesta = '<em>'.$nomeAnimale.'</em> <strong>partità</strong> il giorno <em>'.$richiesta['DataPartenza'].'</em> e <strong>arriverà</strong> il giorno<em>'.$richiesta['DataArrivo'].'</em>!';
+                    $dataFormattataPartenza= date("d/m/Y", strtotime($richiesta['DataPartenza']));
+                    $dataFormattataArrivo= date("d/m/Y", strtotime($richiesta['DataArrivo']));
+
+                    $screenPartenza = date("Y-m-d", strtotime($richiesta['DataPartenza']));
+                    $screenArrivo = date("Y-m-d", strtotime($richiesta['DataArrivo']));
+                    $statoRichiesta = '<em>'.$nomeAnimale.'</em> <strong>partità</strong> il giorno <em><time datetime = "'.$screenPartenza.'">'.$dataFormattataPartenza.'</time></em> e <strong>arriverà</strong> il giorno<em><time datetime="'.$screenArrivo.'">'.$dataFormattataArrivo.'</time>!</em>';
                     break;
                 case 'Accettata':
                     $statoRichiesta = 'Complimenti! <strong>Hai adottato</strong> con successo <em>'.$nomeAnimale.'</em>.';
@@ -290,6 +297,8 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente, $editAddr
         $hasCity    = strlen($NewUserValues['city']) > 0;
         $hasCAP     = strlen($NewUserValues['CAP']) > 0;
 
+        $modifiedAddress = !($infoUtente['Via'] === $NewUserValues['address']) && ($infoUtente['Citta'] === $NewUserValues['city']) && ($infoUtente['CAP'] === $NewUserValues['CAP']);
+
         $isAllEmpty = (!$hasAddress && !$hasCity && !$hasCAP);
         $isAllFull  = ($hasAddress && $hasCity && $hasCAP);
         $isPartial  = !($isAllEmpty || $isAllFull);
@@ -303,8 +312,9 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente, $editAddr
                 if (!$removeAddress) { 
                     $errors['indirizzo-totale'] = "Impossibile rimuovere l'indirizzo: ci sono richieste di adozioni aperte.";
                 }
-            } 
-            if($isAllEmpty || $isAllFull){
+            }
+            
+            if($isAllEmpty || ($isAllFull && $modifiedAddress)){
                 if (!$editAddress) {
                     $errors['indirizzo-totale'] = "Impossibile modificare l'indirizzo: c'è un trasporto attivo.";
                 } 
@@ -346,9 +356,9 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente, $editAddr
         if (empty($errors)) {
 
             //la foto del profilo avrà sempre qualcosa anche se non si selezionano immagini, bisogna controllarlo con empty
-            if(isset($_FILES['new-pic']) && !empty($_FILES['new-pic']['name']) && $_POST['delete-pic'] !== 'on'){
+            if(isset($_FILES['new-pic']) && !empty($_FILES['new-pic']['name']) && !isset($_POST['delete-pic'])){
                 $NewUserValues['profilePic'] = uploadImage($_FILES['new-pic'], 'users');
-            }else if($_POST['delete-pic'] === 'on'){
+            }else if(isset($_POST['delete-pic'])){
                 $NewUserValues['profilePic'] = null;
             }else{
                 $NewUserValues['profilePic'] = $infoUtente['ImgPath']; 
@@ -530,9 +540,9 @@ $htmlEdit = '
         <form class="edit-mode" method="post" action="profilo-utente" enctype="multipart/form-data">
             <fieldset>
                 <legend>Informazioni personali</legend>
+                <label for="new-pic">Cambia Foto</label>
+                <img src="[imgPath]" alt="Foto" id="foto-profilo" class="circle-foto" />
                 <div>
-                    <img src="[imgPath]" alt="Foto" id="foto-profilo" class="circle-foto" />
-                    <label for="new-pic">Cambia Foto</label>
                     <input type="file" id="new-pic" name="new-pic" accept=".jpg, .jpeg, .png" aria-label="carica la tua foto profilo."/>
                     <label class="checkbox-container-pic" for="delete-pic">
                         <input type="checkbox" id="delete-pic" name="delete-pic"/>

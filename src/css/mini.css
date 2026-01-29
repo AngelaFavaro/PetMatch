@@ -1114,3 +1114,46 @@ div#admin-area #details-container article#animale-richiesta .text-details{
     margin:0;
     padding:0;
 }
+
+/* =========DETTAGLI EVENTO============ */
+#visualizzazione-evento #evento h1{
+    order: 1;
+    flex: 1 0 100%;
+}
+
+#visualizzazione-evento #evento dl{
+    order:3;
+    flex: 1 0 100%;
+}
+
+#visualizzazione-evento #evento{
+    display: flex;
+    padding: 0 1em;
+    margin:0 0 1.5em 0;
+    flex-wrap: wrap;
+}
+
+#visualizzazione-evento #evento img.square-foto{
+    order:2;
+    flex: 1 0 100%;
+    clear: both;
+}
+
+#visualizzazione-evento .column-container{
+    display: block;
+    margin:0;
+    padding: 0;
+}
+
+#visualizzazione-evento .cards-container{
+    margin:0;
+}
+
+#visualizzazione-evento .evento{
+    min-width: fit-content;
+    padding:0;
+}
+
+#visualizzazione-evento .data-evento img{
+    display: none;
+}
