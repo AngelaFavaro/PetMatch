@@ -4437,9 +4437,17 @@ div#admin-area article.note{
     padding-top: 3em; /* Spazio per il pulsante matita */
 }
 
-#dettaglio-animale .action-buttons-group{
+#dettaglio-animale .action-buttons-group {
     display: flex;
-    margin-top: 1em;
+    justify-content: flex-end; /* Sposta a destra */
+    align-items: center;
+    gap: 1em;
+    position: absolute; /* Fondamentale per non spostare l'immagine */
+    top: 0;
+    right: 0;
+    width: 100%;
+    margin-top: 0;
+    padding-bottom: 1em;
 }
 
 #dettaglio-animale .action-buttons-group .text-details{
