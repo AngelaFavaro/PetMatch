@@ -22,7 +22,7 @@ if (isset($inputData['toggle_theme'])) {
     exit; 
 }
 
-/* Definizione delle pagine esistenti PER LA BREADCRUMB, aggiungerne altre quando possibile*/
+/* Definizione delle pagine esistenti PER LA BREADCRUMB , aggiungerne altre quando possibile*/
 $pagine = [
     'home' => [
         'label' => '<span lang="en">Home</span>', //la label e' quella che viene mostrata nella breadcrumb
@@ -157,7 +157,7 @@ $pagine = [
     'visualizzazione-eventi' => [
         'label' => 'Visualizzazione eventi',
         'url' => './visualizzazione-eventi',
-        'parent' => 'area-riservata'
+        'parent' => 'home'
     ],
 ];
 

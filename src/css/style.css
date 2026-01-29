@@ -3972,9 +3972,9 @@ nav#menu-admin li a:hover{
   text-decoration: underline;
 }
 
-nav#menu-admin li#currentLink {
+nav#menu-admin li#currentLink{
     background-color: var(--bgcolor);
-    color: var(--txtcolor);
+    /*color: var(--txtcolor);*/
     font-weight: 600;
 }
 nav#menu-admin li a:visited{
@@ -3987,7 +3987,7 @@ nav#menu-admin li:hover{
     border-radius: 2em 0em 0em 2em;
 }
 
-nav#menu-admin li#currentLink:hover{
+nav#menu-admin li#currentLink a:hover{
     outline:none;
 }
 
@@ -3997,7 +3997,8 @@ nav#menu-admin li#currentLink:hover{
 
 nav#menu-admin li#currentLink a{
     font-weight: 700;
-    color: var(--navButton);
+    color: var(--txtcolor);
+    text-decoration: none;
 }
 nav#menu-admin span{
     color: var(--navButton);

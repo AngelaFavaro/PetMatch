@@ -414,22 +414,11 @@ class DBAccess {
     }
 
     public function getAnimalById($id) {
-        // Usiamo degli ALIAS (AS ...) per far coincidere i nomi del DB con quelli del tuo PHP
         $query = "SELECT 
-                    IDanimale, 
-                    Nome, 
-                    DataNascita, 
-                    Sesso, 
-                    Tipo, 
-                    Colore, 
-                    Pelo, 
-                    Taglia, 
-                    Razza, 
-                    DescrFamiglia, 
-                    DescrComportamentale , 
-                    CondizioniMediche, 
-                    Trasporto , 
-                    ImgPath  
+                    IDanimale, Nome, DataNascita, Sesso, Tipo, Colore, 
+                    Pelo, Taglia, Razza, DescrFamiglia, DescrComportamentale, 
+                    CondizioniMediche, Trasporto, ImgPath, 
+                    Email AS EmailAdmin 
                 FROM ANIMALI WHERE IDanimale = ?";
 
         $stmt = $this->connection->prepare($query);
@@ -441,7 +430,7 @@ class DBAccess {
         $data = $result->fetch_assoc();
         $stmt->close();
 
-        return $data; // Ritorna un array associativo o null
+        return $data;
     }
 
     public function updateAnimal(array $data, $idanimale): bool {
@@ -2508,6 +2497,17 @@ public function getAnimalArrivalDate($idAnimale): ?string {
         }
 
         return false;
+    }
+
+    public function removeAdminAssignment($idAnimale) {
+        $query = "UPDATE ANIMALI SET Email = NULL WHERE IDanimale = ?";
+        $stmt = $this->connection->prepare($query);
+        if ($stmt === false) return false;
+
+        $stmt->bind_param("i", $idAnimale);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
     }
 
 }
