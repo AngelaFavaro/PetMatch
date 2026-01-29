@@ -321,6 +321,7 @@ nav#breadcrumb{
     display: none;
 }
 
+#invito-accedi-content a,
 h1 + a.brown-button{
     margin:-1.5cm 0 0 auto;
     border: 1px solid var(--lightborder);
@@ -328,6 +329,39 @@ h1 + a.brown-button{
     border-radius: 0.5cm;
     width: fit-content;
 }
+
+#invito-accedi-content a.orange-button{
+    margin: 0 auto;
+}
+
+
+#animali .is-favorite, #animali .not-favorite {
+    appearance: none;
+    border: none;
+    background: transparent;
+    float: right;
+}
+
+#invitoAdAccedere{
+    text-align: center;
+    margin-top: 0.5cm;
+    padding-top: 0.5cm;
+    border-top: 1px solid var(--bordercolor);
+}
+
+#animali img.heart-normal{
+    display: none;
+    display: block;
+}
+#animali img.heart-normal,
+#animali img.heart-hover{
+    position: static;
+    width: 0.7cm;
+    height: 0.7cm;
+    overflow: visible;
+    margin-top: -1cm;
+}
+
 
 /* ============HOME=========== */
 
@@ -573,7 +607,7 @@ form#form-affidamento .radio-input div label{
 
 .evento{
     padding: 0.2cm 0.3cm;
-    border:apx solid var(--lightbg);
+    border:1px solid var(--lightborder);
     border-radius: 0.3cm;
 }
 
@@ -673,7 +707,7 @@ article.evento {
     page-break-inside: avoid; 
     display: block; 
 }
-
+/* ========== NAV SOTTO ========== */
 #animali .next-page-links, #eventi .next-page-links {
     display: flex;
     justify-content: center;
