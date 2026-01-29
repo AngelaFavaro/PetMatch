@@ -1294,13 +1294,13 @@ details:not([open]) .popup {
     opacity: 0; /* Parte invisibile */
     
     /* Appare dopo 5 secondi */
-    animation: showStatic 0s linear 5s forwards;
+    animation: showStatic 0s linear 3s forwards;
 }
 
 .dinamic-gif {
     opacity: 1; 
     
-    animation: stopShow 0s linear 5s forwards;
+    animation: stopShow 0s linear 3s forwards;
 }
 
 @keyframes showStatic {

@@ -103,12 +103,14 @@ select,
     width: 45px;
 }
 
+#menu-toggle-checkbox:checked ~ .menu-toggle::before,
 #menu-toggle-checkbox:checked ~ #header-actions .menu-toggle::before {
     content: "\2715"; /* ✕ */
     width: 45px;
 }
 
-#menu-toggle-checkbox:checked ~ #header-actions .menu-toggle {
+#menu-toggle-checkbox:checked ~ #header-actions .menu-toggle,
+#menu-toggle-checkbox:checked ~ .menu-toggle {
     transform: rotate(180deg);
 }
 
@@ -343,7 +345,6 @@ input:checked + #slider {
 }
 
 #animali li.card:hover {
-    /* background-color: var(--bgcolor); */
     border-color: var(--darkbgcolor); /* colore evidenziato */
     border: 3px solid var(--darkbgcolor);
     box-shadow: 0 4px 8px rgba(0,0,0,0.5);
@@ -359,9 +360,11 @@ body#admin-body{
 
 #admin-body header:has(.menu-toggle) {
     width: 100%;
-    cursor: pointer;
     color: var(--navButton);
     padding: 0;
+    position: fixed;
+    height: 7em;
+    padding: 2.5em 0;
 }
 
 nav#menu-admin li{
@@ -369,25 +372,19 @@ nav#menu-admin li{
 }
 
 #admin-body header .menu-toggle{
-    width: 21.5%;
-    margin: 0.93em 0 0.5em auto;
+    width: 45px;    
+    margin: 0em 0.33em 0em auto;
 }
 
 
-/* da vedere se possibile unificare con quello dello user, per ora lascio così */
-#admin-body .menu-toggle::before {
-
-    content: "\2630";
-    display: block;
+#admin-body header:has(#menu-toggle-checkbox:checked) .menu-toggle{
     width: 45px;
+    margin-bottom: 1em;
 }
-#admin-body  #menu-toggle-checkbox:checked + div + .menu-toggle::before {
-    content: "\2715"; 
-    width: 45px;
-}
-
-#menu-toggle-checkbox:checked + div + .menu-toggle {
-    transform: rotate(180deg);
+#admin-body header:has(#menu-toggle-checkbox:checked){
+    height: fit-content;
+    position: static;
+    /* padding-top: 2.5em; */
 }
 
 nav#menu-admin{
