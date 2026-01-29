@@ -1853,6 +1853,7 @@ float: none;
     display: flex;
     gap: 0.5em;
     justify-content: flex-end;
+    align-items: center;
 }
 
 #eventi .filtri{
@@ -2565,7 +2566,7 @@ cursor: pointer;
     margin: 0.5em;
 }
 
-#eventi .evento img.immagine-evento, #visualizzazione-evento .evento img.immagine-evento {
+#eventi .evento img.immagine-evento{
     width: 11em;
     height: 100%;
     padding: 0.8em;
@@ -2575,6 +2576,15 @@ cursor: pointer;
    min-width: 8em;
    /* margin-right: 2em; */
    /* display: flex; */
+}
+
+#visualizzazione-evento .evento img.immagine-evento {
+    width: 10em;
+    height: 100%;
+    padding: 0.8em;
+   float:left;
+   object-fit: cover;
+   min-width: 8em;
 }
 
 #eventi .evento .posizione-evento img, 
@@ -2601,7 +2611,6 @@ cursor: pointer;
     text-overflow: ellipsis;
     height: fit-content;
 }
-
 #eventi .evento .data-evento {
     float:right;
     gap: 0.2em;
@@ -2612,16 +2621,12 @@ cursor: pointer;
     display: flex;
 }
  #visualizzazione-evento .evento .data-evento{
-    float:right;
+
     gap: 0.2em;
     margin-right: 0.6em;
     margin-top: 0.4em;
     margin-bottom: 0.2em;
     align-items: center;
-    display: flex;
-    position: absolute;
-    bottom: 1em; 
-    left: 13em;
     margin: 0;
 }
 
@@ -2632,8 +2637,8 @@ cursor: pointer;
     text-align: left;
 }
 #visualizzazione-evento .evento h2 {
-    font-size: 1.3em;
-    margin: 0.2em 0 0.2em 0;
+    font-size: 1em;
+    margin: 0.5em auto 0.5em 0;
 }
  
 #eventi .evento h2 {
@@ -2874,7 +2879,7 @@ flex: 1 0 100%;
 }
 
 #user-profile #user-info img.circle-foto{
-    margin:auto;
+    margin:1em auto;
 }
 
 #user-info{
@@ -3179,13 +3184,6 @@ input#check-assegna:checked:before,
     transform: scale(1);        
 }
 
-.edit-mode .edit-number div{
-    display: flex;
-    flex-wrap: nowrap;
-    width: 100%;
-    margin-top: 0;
-}
-
 .edit-mode .edit-number div span{
     margin:auto 5px auto 0;
 }
@@ -3203,6 +3201,10 @@ input#check-assegna:checked:before,
     margin-top:1em;
 }
 
+#user-profile form label[for="new-pic"]{
+    text-align: center;
+}
+
 .edit-mode input[type="file"],
 div#admin-area input[type="file"]{
     background-color: transparent;
@@ -3210,6 +3212,7 @@ div#admin-area input[type="file"]{
     border:1px solid var(--text-form);
     border-radius: 2em;
     cursor: pointer;
+    padding: 0.3em;
 }
 
 input[type="file"]::file-selector-button {
@@ -3233,8 +3236,8 @@ input[type="file"]::file-selector-button:hover {
     color:var(--txtcolor);
 }
 
-.edit-mode form div,
-.edit-management form div,
+.edit-mode form div:has(button),
+.edit-management form div:has(button),
 #form-add-animal .form-buttons-container,
 #new-event .form-buttons-container{
     display: flex;
@@ -4442,14 +4445,17 @@ div#admin-area article.note{
     margin-left: 1em;
 }
 
-
 #dettaglio-animale .generic-info-container img.square-foto {
     width: 15em;
     height: 15em;
     object-fit: cover;
+    display: block;
+    margin: 0 auto;
     border-radius: 0.5em;
     box-shadow: 0 0.25em 0.625em rgba(0,0,0,0.2);
 }
+
+
 
 #dettaglio-animale .text-details {
     flex: 1; /* Il testo occupa lo spazio rimanente accanto alla foto */
@@ -4778,6 +4784,7 @@ div#admin-area #animali .filtri ul{
 #nuovo-evento {
     margin-top:-6em;
     display: flex;
+    margin-bottom: -2em;
     justify-content: center;
     align-items: center;
     background-color: var(--secondsection);
@@ -5923,60 +5930,23 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
 
 /* -----------PAGINA VISUALIZZAZIONE EVENTO--------------- */
 #visualizzazione-evento #evento {
-    flex: 1 1 65%;
     border: 1px solid var(--txtcolor);
     border-radius: 0.5em;
     padding: 2em;
-    display: flow-root;
-
-    position: relative; /* Punto di riferimento per l'immagine */
     width: 100%;
-    margin-top: 1.5em;
     margin-bottom: 2em;
-
 }
 
-#visualizzazione-evento #evento .immagine{
-    /* float: left;
-    height: 100%;
-    max-width: 35%; */          /* Si ancora in alto e in basso */
-    width: fit-content;         /* Larghezza fissa */
-    height: auto;
-    float: left;
-    max-width: 30%;
-    position: relative;
-    margin-right: 1em;
+#visualizzazione-evento #mainEvent{
+    flex: 1 0 63%;
 }
 
-#visualizzazione-evento #evento dl {           /* Lascia il 35% di spazio per l'immagine */
-     /* Sposta il testo a destra */
-     /* Un po' di aria tra foto e testo */
-    box-sizing: border-box;
+#visualizzazione-evento #evento h1{
+    overflow-wrap: break-word; 
 }
-
-
-
-#visualizzazione-evento #evento .immagine img{
-    /* float: left;
-    width: 100%;
-    height: 100%;
-    object-fit: contain; */
-position: static; 
-    
-    /* Rimuove lo spazietto bianco fastidioso sotto le immagini */
-    display: block; 
-    
-    /* L'immagine cerca di essere grande al 100% del suo contenitore (che si è adattato a lei) */
-    /* Ma se l'immagine è enorme, max-width del contenitore la fermerà */
-    width: 100%; 
-    
-    /* Mantiene le proporzioni corrette */
-    height: auto;
-}
-
 
 #visualizzazione-evento aside.altri-eventi {
-    flex: 1 1 30%;
+    flex: 1 1 29%;
     display: flex;
     flex-direction: column;
 }
@@ -6029,4 +5999,30 @@ position: static;
     transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+#mainEvent #evento dl{
+    margin-top: 1em;
+}
 
+#mainEvent #evento dd:first-of-type{
+    margin-right: 3em;
+}  
+
+#descrizione-evento{
+    float: left;
+    width: 100%;
+    border-top: 1px solid var(--headercolor);
+}
+#descrizione-evento+dd{
+    clear: both;
+}
+
+#visualizzazione-evento #evento img.square-foto{
+    width: 15em;
+    height: 15em;
+    object-fit: cover;
+    margin-right: 1em;
+    margin-bottom: 1em;
+    float: left;
+    border-radius: 0.5em;
+    box-shadow: 0 0.25em 0.625em rgba(0,0,0,0.2);
+}

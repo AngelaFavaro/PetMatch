@@ -46,7 +46,10 @@ if ($connessioneOK) {
 	$messageForm['generic'] = "<p class='error'>Impossibile completare l'operazione, riprova più tardi.</p>";
 }
 
-$fineRichiesta = $infoRequest['DataFineValutazione']?'<dt>Data fine valutazione:</dt><dd>'.date("d/m/Y", strtotime($infoRequest['DataFineValutazione'])).'</dd>':'';
+
+if($infoRequest['DataFineValutazione']) $screenFineValutazione= date("Y-m-d", strtotime($infoRequest['DataFineValutazione']));
+
+$fineRichiesta = $infoRequest['DataFineValutazione']?'<dt>Data fine valutazione:</dt><dd><time datetime="'.$screenFineValutazione.'">'.date("d/m/Y", strtotime($infoRequest['DataFineValutazione'])).'</time></dd>':'';
 
 if (empty($infoRequest['ImgPath']) || !file_exists($infoRequest['ImgPath'])) {
     $infoRequest['ImgPath'] = $infoRequest['tipo']=='Cane'? 'assets/images/animals/defaultCane.jpg':'assets/images/animals/defaultGatto.jpg';
@@ -57,8 +60,12 @@ if($infoRequest['DataNascita']){
 }
 
 if($infoRequest['DataPartenza'] && $infoRequest['DataArrivo']){
-    $dataPartenza = '<dt>Data di partenza:</dt><dd><em>'. date("d/m/Y",strtotime($infoRequest['DataPartenza'])).'</em></dd>';
-    $dataArrivo = '<dt>Data di partenza:</dt><dd><em>'. date("d/m/Y",strtotime($infoRequest['DataArrivo'])).'</em></dd>';
+
+    $screenArrivo = date("Y-m-d", strtotime($infoRequest['DataArrivo']));
+    $screenPartenza = date("Y-m-d", strtotime($infoRequest['DataPartenza']));
+
+    $dataPartenza = '<dt>Data di partenza:</dt><dd><em><time datetime="'.$screenPartenza.'">'. date("d/m/Y",strtotime($infoRequest['DataPartenza'])).'</time></em></dd>';
+    $dataArrivo = '<dt>Data di partenza:</dt><dd><em><time datetime="'.$screenPartenza.'">'. date("d/m/Y",strtotime($infoRequest['DataArrivo'])).'</time></em></dd>';
 }else{
     $dataPartenza = '';
     $dataArrivo = '';
@@ -98,9 +105,13 @@ $paginaHTML = str_replace('[isDisabled]', $isDisabled, $paginaHTML);
 $paginaHTML = str_replace('[messaggiForm]', $messageForm, $paginaHTML);
 $paginaHTML = str_replace('[imgAnimale]', $infoRequest['ImgPath'], $paginaHTML);
 $paginaHTML = str_replace('[nomeAnimale]', $infoRequest['NomeAnimale'], $paginaHTML);
-$paginaHTML = str_replace('[dataRichiesta]', date("d/m/Y", strtotime($infoRequest['DataRichiesta'])), $paginaHTML);
+
+$screenRichiesta= date("Y-m-d", strtotime($infoRequest['DataRichiesta']));
+if($infoRequest['DataInizioValutazione']) $screenInizioValutazione= date("Y-m-d", strtotime($infoRequest['DataInizioValutazione']));
+
+$paginaHTML = str_replace('[dataRichiesta]', '<time datetime ="'.$screenRichiesta.'">'.date("d/m/Y", strtotime($infoRequest['DataRichiesta'])).'</time>', $paginaHTML);
 $paginaHTML = str_replace('[StatoRichiesta]', $infoRequest['Stato'], $paginaHTML);
-$paginaHTML = str_replace('[DataInizio]', $infoRequest['DataInizioValutazione']? date("d/m/Y", strtotime($infoRequest['DataInizioValutazione'])):'<em>La richiesta non è ancora stata presa in carico.</em>', $paginaHTML);
+$paginaHTML = str_replace('[DataInizio]', $infoRequest['DataInizioValutazione']? '<time datetime ="'.$screenInizioValutazione.'">'.date("d/m/Y", strtotime($infoRequest['DataInizioValutazione'])):'</time><em>La richiesta non è ancora stata presa in carico.</em>', $paginaHTML);
 $paginaHTML = str_replace('[DataFineRichiesta]', $fineRichiesta, $paginaHTML);
 $paginaHTML = str_replace('[dataPartenza]', $dataPartenza, $paginaHTML);
 $paginaHTML = str_replace('[dataArrivo]', $dataArrivo, $paginaHTML);

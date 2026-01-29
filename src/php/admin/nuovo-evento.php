@@ -3,7 +3,7 @@ include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
 
-// modifica-evento?titolo=altro+evento+eventoso&data=2026-01-24
+// modifica-evento?titolo=prova+con+autore&data=2026-01-31
 
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { 
     header("Location: ./eventi");
@@ -136,7 +136,8 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
                 'descrizione' => $descValue,
 				'via' => $addressValue,
                 'citta' => $cityValue,
-                'foto' => $fotoPath
+                'foto' => $fotoPath,
+                'email' => $_SESSION['email']
             ];
 
             if($isModified){
@@ -154,7 +155,7 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
                     unset($_SESSION['form_inputs'], $_SESSION['form_errors_info']);
                     if($createMoreValue){
                         header("Location: ./nuovo-evento?createMore=1");
-                    }else header("Location: ./eventi");
+                    }else header("Location: ./eventi"); //TODO da modificare con l'ultimo evento creato
                     exit;
                 } else {
                     $errors['generic'] = "L'inserimenti dell'evento non è andato a buon fine, riprovare più tardi.";
@@ -253,7 +254,7 @@ if($isModifiedEvent){
 }else{
     $paginaHTML = str_replace('[Action-modified]', 'Aggiungi', $paginaHTML);
     $paginaHTML = str_replace('[Action-modified-legend]', 'Organizza il nuovo evento', $paginaHTML);
-    $paginaHTML = str_replace('[urlCancel]', './eventi', $paginaHTML); //TODO : modifica mettendo eventi versione admin
+    $paginaHTML = str_replace('[urlCancel]', './visualizzazione-eventi', $paginaHTML);
     if(isset($_GET['createMore']) && $_GET['createMore'] == 1){
         $paginaHTML = str_replace('[checkCreateMore]', 'checked', $paginaHTML);
     }else{

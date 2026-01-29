@@ -53,10 +53,6 @@ body#admin-body nav#breadcrumb a::after{
     content: '';
 }
 
-img{
-    height: 3cm;
-}
-
 a.pencil img, div#log-theme{
     display: none;
 }
@@ -409,7 +405,6 @@ article.card,
     margin-top: 0.2cm;
     clear: both;
     padding-top:0.5cm;
-    border-top:1px solid var(--lightborder);
 }
 
 .evento .descrizione-evento p{
@@ -444,6 +439,7 @@ article.card,
     margin: 0 auto 0.2cm auto;
     object-fit: cover;
     display: block;
+    height: 3cm;
 }
 
 .evento img{
@@ -669,4 +665,61 @@ pre#note-text{
 
 #dettaglio-animale .sr-only{
     display: none;
+}
+
+
+
+/* NAV DELLE PAGINE SOTTO */
+
+#animali .next-page-links, #eventi .next-page-links {
+    display: flex;
+    justify-content: center;
+    margin: 0.5cm;
+}
+
+#animali .next-page-links li,
+#animali .next-page-links li a, 
+#eventi .next-page-links li, 
+#eventi .next-page-links li a {
+    list-style: none;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#animali .next-page-links li, #eventi .next-page-links li {
+    padding: 0.1cm;
+    margin: 0.1cm;
+    border: 2.3px solid var(--lightborder);
+    border-radius: 0.5em;
+    width: 0.6cm;
+    height: 0.6cm;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+#animali .next-page-links li a:hover, #eventi .next-page-links li a:hover{
+    border-bottom:2px solid var(--lightborder);
+}
+
+#animali .next-page-links li a, #eventi .next-page-links li a {
+    transition: 0.3s;
+    border-bottom:2px solid var(--lightborder);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+#animali .next-page-links ul, #eventi .next-page-links ul {
+    display: flex;
+    justify-content: center;
+    border: 2.3px solid var(--lightborder);
+    border-radius: 0.5em;
+    margin: 1cm 0;
+}
+
+#animali .next-page-links .currentLinkPagination, #eventi .next-page-links .currentLinkPagination {
+    justify-content: center;
 }

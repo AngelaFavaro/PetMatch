@@ -573,7 +573,7 @@ function getBreadcrumb($currentPageKey, $pagine) {
  * guardate li per capire come usarla (cerca 'SCRIPT DI TEST'), l'echo che si trova in basso al blocco commentato è il form da cui vengono presi i dati
  * NOTA: possibile che l'estensione di vscode non vi faccia vedere l'immagine caricata, guardate dal terminale ssh
 */
-// se $_FILES['foto'] non esiste o è vuoto, la funzione ritorna false
+// se $_FILES['foto'] non esiste o è vuoto, la funzione ritorna null
 function uploadImage($file, $folder) {
     $basePath = dirname(__DIR__) . '/assets/images/' . $folder . '/';
     $dbPathPrefix = 'assets/images/' . $folder . '/';
@@ -614,6 +614,7 @@ function uploadImage($file, $folder) {
         return null;
     }
 }
+
 
 function getCardAnimal(int $idanimale, bool $isAdmin, bool $isAdopted):string{
     $html = '<section id=\'info-animal\'>
