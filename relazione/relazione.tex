@@ -50,7 +50,6 @@
 \definecolor{green}{HTML}{6D7541}
 
 \setmainfont{Times New Roman} %font
-\newfontfamily\parkinsans[]{Parkinsans} % definisco il font Parkinsans
 \geometry{a4paper,inner=3cm,outer=3cm,top=2.5cm,bottom=2.5cm}
 \setstretch{1.5} % Interlinea
 \captionsetup{font={small,stretch=1.5}} %setup specifico per le section, non so se mi servirà
@@ -94,16 +93,22 @@
 
 \justifying
 
-%\pagenumbering{roman}
-\pagenumbering{arabic}
+\pagenumbering{gobble} % Disabilita la numerazione delle pagine
+\pagestyle{empty}
+
 
 
 \input{components/frontespizio}
-\input{components/sections/riassunto}
 
+\input{components/sections/riassunto}
 \newpage
 \tableofcontents
 \newpage
+\pagenumbering{gobble} % Disabilita la numerazione delle pagine
+
+\pagenumbering{arabic}
+\pagestyle{fancy}
+\setcounter{page}{1}
 \input{components/sections/abstract}
 \input{components/sections/funzionalita}
 \input{components/sections/profilazione}
