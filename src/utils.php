@@ -159,6 +159,11 @@ $pagine = [
         'url' => './visualizzazione-eventi',
         'parent' => 'area-riservata'
     ],
+    'dettagli-evento' => [
+        'label' => 'Dettagli evento',
+        'url' => './dettagli-evento',
+        'parent' => 'visualizzazione-eventi'
+    ],
 ];
 
 $adminMenu = [

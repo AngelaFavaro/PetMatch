@@ -23,7 +23,11 @@ $dataGET   = $_GET['data'] ?? null;
 
 
 function buildEventsCards($events): string {
-    $html='';
+    $html="<h2>Altri eventi nella zona</h2>
+            <ul class='cards-container' id='content-animali' tabindex='-1' aria-label='Animali in adozione'>
+            [ALTRI-EVENTI]
+            </ul>
+            <a class='brown-button' href = './eventi'> Guarda tutti gli eventi →</a>";
     foreach ($events as $e) {
         $img='';
         if (!empty($e['immagine']) && file_exists($e['immagine'])) {
@@ -59,7 +63,7 @@ function buildEventsCards($events): string {
 
 
 
-function buildMainevent(array $dettagliEvento): string {
+function buildMainevent(array $dettagliEvento, int $isAdmin=0): string {
     $html = '';
     if($dettagliEvento) {
         $titolo = htmlspecialchars($dettagliEvento['Titolo']);
@@ -74,8 +78,14 @@ function buildMainevent(array $dettagliEvento): string {
 
         // 3. Creazione del blocco HTML (con le variabili ora piene!)
         $html = "<div id='mainEvent'>
-        <h1>$titolo</h1>
-        <div id='evento'>
+        <h1>$titolo</h1>";
+        if($isAdmin) {
+            $html.="<a href='?mode=edit#admin-info' class='edit-admin-info pencil'>
+                        <img src='./assets/icons/edit-pencil.svg' alt='Modifica informazioni' />
+                    </a>";
+        }
+        $html.=
+        "<div id='evento'>
             <div class='immagine'>
                 <img id='foto-animale' src='$img' alt='Immagine evento $titolo'>
             </div>
@@ -92,6 +102,26 @@ function buildMainevent(array $dettagliEvento): string {
     return $html;
 }
 
+function buildCollaboratorsCard($collaboratori): string {
+    $collaboratoriCards='';
+    if($collaboratori) {
+        foreach ($collaboratori as $c) {
+            $name=$c['Nome'];
+            $surname=$c['Cognome'];
+            $profilePic=$c['ImgPath'];
+            $collaboratoriCards.="<li><img src='$profilePic' alt=''> $name $surname</li>";
+        }
+        $html="<h2>Scritto da:</h2>
+            <ul class='cards-container' id='content-animali' tabindex='-1' aria-label='Animali in adozione'>
+                $collaboratoriCards
+            </ul>";
+    } else {
+        $html = "<p class='errore'>No info</p>";
+    }
+return $html;
+
+}
+
 // PARAMETRI
 $luogo = '';
 $titolo = '';
@@ -102,17 +132,19 @@ $titoloPagina = '';
 $descrizioneMeta = '';
 $contenutoEvento = '';
 $titoloEncoded='';
+$dettagliEvento='';
 
+$dataIta=convertiDataItalianaInSQL($dataGET);
 
 $connection = new DBAccess();
 if ($connection->openDBConnection()) {
     
     if ($titoloGET && $dataGET) {
-        $dettagliEvento = $connection->getInfoEvent($titoloGET, convertiDataItalianaInSQL($dataGET));
+        $dettagliEvento = $connection->getInfoEvent($titoloGET, $dataIta);
         if (!$dettagliEvento) {
             // ENT_QUOTES converte ' in &#039;
             $titoloEncoded = htmlspecialchars($titoloGET, ENT_QUOTES); 
-            $dettagliEvento = $connection->getInfoEvent($titoloEncoded, convertiDataItalianaInSQL($dataGET));
+            $dettagliEvento = $connection->getInfoEvent($titoloEncoded, $dataIta);
             if ($dettagliEvento) {
                 // html_entity_decode trasforma "c&#039;è" in "c'è"
                 $dettagliEvento['Titolo'] = html_entity_decode($dettagliEvento['Titolo'], ENT_QUOTES);
@@ -130,21 +162,33 @@ if ($connection->openDBConnection()) {
             $descrizioneMeta = "Partecipa all'evento $titolo a $luogo il $dataFormattata";
 
             // 3. Creazione del blocco HTML (con le variabili ora piene!)
-            $contenutoEvento = buildMainevent($dettagliEvento);
+            $contenutoEvento = buildMainevent($dettagliEvento, $isAdmin);
         } else {
             $contenutoEvento = $titoloGET;
         }
     }
-    if($titoloEncoded) {
-        $citta=['citta' => $dettagliEvento['Citta'],
-                'nomeNO' => $titoloEncoded];
-    } else {
-        $citta=['citta' => $dettagliEvento['Citta'],
-                'nomeNO' => $dettagliEvento['Titolo']];
-    }
-    $eventi = $connection->getEventsFilteredPaged($citta, 3);
-    $eventiAside=$eventi?buildEventsCards($eventi) : "<p class='errore'>Per ora non ci sono altri eventi in programma in questa città. Ritorna tra qualche giorno a controllare</p>";;
 
+    if(!$isAdmin) {
+        if($titoloEncoded) {
+            $citta=['citta' => $dettagliEvento['Citta'],
+                    'nomeNO' => $titoloEncoded,
+                    'dataNO' => $dataIta];
+        } else {
+            $citta=['citta' => $dettagliEvento['Citta'],
+                    'nomeNO' => $dettagliEvento['Titolo'],
+                    'dataNO' => $dataIta];
+        }
+        $eventi = $connection->getEventsFilteredPaged($citta, 3);
+        $Aside=$eventi?buildEventsCards($eventi) : "<p class='errore'>Per ora non ci sono altri eventi in programma in questa città. Ritorna tra qualche giorno a controllare</p>";
+    } else {
+        if($titoloEncoded) {
+            $collaboratori=$connection->getOrganizzatoriEvento($titoloEncoded, $dataIta);
+        } else {
+        //recupera i collaboratori con la query e mettili nell'aside
+            $collaboratori=$connection->getOrganizzatoriEvento($dettagliEvento['Titolo'], $dataIta);
+        }
+        $Aside=$collaboratori?buildCollaboratorsCard($collaboratori) : "<p class='errore'>Impossibile accedere ai collaboratori</p>";
+    }
     $connection->closeConnection();
 } else {
     $contenutoEvento = "<p class='errore'>Impossibile connettersi al database.</p>";
@@ -154,7 +198,7 @@ if ($connection->openDBConnection()) {
 
 
 //Layout pagina
-$paginaHTML = file_get_contents('./src/template/layout.html');
+$paginaHTML = $isAdmin? file_get_contents('./src/template/layout-admin.html') : file_get_contents('./src/template/layout.html');
 if ($paginaHTML === false) {
 	$paginaHTML = "<p>Errore: template layout.html non trovato o non leggibile.</p>";
 }
@@ -162,17 +206,21 @@ if ($paginaHTML === false) {
 $title = '<title> Visualizzazione evento </title>'; //da cambiare
 $description = '<meta name="description" content="Pagina dedicata all\'evento organizzato da PetMatch dedicato a cani e gatti ">';  //da cambiare
 $keywords =     '<meta name="keywords" content= "PetMatch, evento, animali, cani, gatti">';//da cambiare
-;
 
-$breadcrumb = getBreadcrumb('visualizzazione-evento', $pagine);
-$nav = buildNav($userMenu, './visualizzazione-evento');
+
+$breadcrumb = $isAdmin? getBreadcrumb('dettagli-evento', $pagine) :getBreadcrumb('visualizzazione-evento', $pagine);
+$nav = $isAdmin? buildAdminNav($adminMenu, './dettagli-evento'): buildNav($userMenu, './visualizzazione-evento');
 $main = file_get_contents('./src/template/main/visualizzazione-evento.html');
 
-$footer = file_get_contents('./src/template/partials/footer.html');
+$footer = $isAdmin? '' : buildFooter($footerMenu,  './visualizzazione-evento');
 
 $main = str_replace('[EVENTO]', $contenutoEvento, $main);
-$main = str_replace('[ALTRI-EVENTI]', $eventiAside, $main);
+if(!$isAdmin) {
+    $main = str_replace('[ALTRI-EVENTI]', $Aside, $main);
+} else {
 
+$main = str_replace('[ASIDE]', $Aside, $main);
+}
 
 $paginaHTML = str_replace('[title]', $title, $paginaHTML);
 $paginaHTML = str_replace('[description]', $description, $paginaHTML);

@@ -95,6 +95,9 @@ $routes = [
     ],
     'visualizzazione-animale' => [
         'file' => __DIR__ . '/src/php/visualizzazione-animale.php'
+    ],
+    'dettagli-evento' => [
+        'file' => __DIR__ . '/src/php/admin/dettagli-evento.php'
     ]
 ];
 

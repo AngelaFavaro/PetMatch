@@ -2454,6 +2454,35 @@ public function getAnimalArrivalDate($idAnimale): ?string {
         return false;
     }
 
+    public function getOrganizzatoriEvento(string $titoloEvento, string $dataEvento): array {
+    $query = "SELECT u.Nome, u.Cognome, e.Titolo, e.DataEvento, u.ImgPath
+              FROM ORGANIZZAZIONE o
+              JOIN UTENTI u ON o.Email = u.Email
+              JOIN EVENTI e 
+                ON o.Titolo = e.Titolo 
+               AND o.DataEvento = e.DataEvento
+              WHERE o.Titolo = ?
+                AND o.DataEvento = ?";
+
+    $stmt = mysqli_prepare($this->connection, $query);
+    $data = [];
+
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, 'ss', $titoloEvento, $dataEvento);
+        mysqli_stmt_execute($stmt);
+        $res = mysqli_stmt_get_result($stmt);
+
+        while ($row = mysqli_fetch_assoc($res)) {
+            $data[] = $row;
+        }
+
+        mysqli_stmt_close($stmt);
+    }
+
+    return $data;
+}
+
+
 }
 
 ?>
