@@ -23,11 +23,8 @@ $dataGET   = $_GET['data'] ?? null;
 
 
 function buildEventsCards($events): string {
-    $html="<h2>Altri eventi nella zona</h2>
-            <ul class='cards-container' id='content-animali' tabindex='-1' aria-label='Altri eventi nella zona'>
-            [ALTRI-EVENTI]
-            </ul>
-            <a class='brown-button' href = './eventi'> Guarda tutti gli eventi →</a>";
+    $html='';
+    $altriEventi='';
     foreach ($events as $e) {
         $img='';
         if (!empty($e['immagine']) && file_exists($e['immagine'])) {
@@ -37,7 +34,7 @@ function buildEventsCards($events): string {
         }
         $data=formattaDataItaliana($e['data_evento']);
         $titolo=$e['titolo'];
-        $html .= "<li>
+        $altriEventi .= "<li>
                     <article class='evento'>
                         <!-- Immagine dell'evento -->
                         <img class='immagine-evento' src=$img alt=''>
@@ -56,6 +53,11 @@ function buildEventsCards($events): string {
                     </article>
                 </li>";
     }
+    $html="<h2>Altri eventi nella zona</h2>
+            <ul class='cards-container' id='content-animali' tabindex='-1' aria-label='Altri eventi nella zona'>
+            $altriEventi
+            </ul>
+            <a class='brown-button' href = './eventi'> Guarda tutti gli eventi →</a>";
     return $html;
 }
 
@@ -69,6 +71,7 @@ function buildMainevent(array $dettagliEvento, int $isAdmin=0): string {
         $titolo = htmlspecialchars($dettagliEvento['Titolo']);
         $luogo = htmlspecialchars($dettagliEvento['Via'] . ", " . $dettagliEvento['Citta']);
         $descrizione = htmlspecialchars($dettagliEvento['DescrEvento']);
+        $date=$dettagliEvento['DataEvento'];
         
         // Formattazione Data
         $dataFormattata = date("d/m/Y", strtotime($dettagliEvento['DataEvento']));
@@ -77,12 +80,11 @@ function buildMainevent(array $dettagliEvento, int $isAdmin=0): string {
         $img = (!empty($dettagliEvento['ImgPath']) && file_exists($dettagliEvento['ImgPath'])) ? $dettagliEvento['ImgPath'] : 'assets/images/events/eventi-default.jpg';
 
         // 3. Creazione del blocco HTML (con le variabili ora piene!)
-        $html = "<div id='mainEvent'>
-        <h1>$titolo</h1>";
+        $html = "<div id='mainEvent'>";
         if($isAdmin) {
-            $html.="<a href='?mode=edit#admin-info' class='edit-admin-info pencil'>
-                        <img src='./assets/icons/edit-pencil.svg' alt='Modifica informazioni' />
-                    </a>";
+            $html.="<div class='edit-btn-container'>
+    <a class='orange-button' href='modifica-evento?titolo=$titolo&data=$date'>Modifica<span class='sr-only'> scheda evento</span></a>
+</div>";
         }
         $html.="
         <div id='evento'>
@@ -178,7 +180,11 @@ if ($connection->openDBConnection()) {
                     'dataNO' => $dataIta];
         }
         $eventi = $connection->getEventsFilteredPaged($citta, 3);
-        $Aside=$eventi?buildEventsCards($eventi) : "<p class='errore'>Per ora non ci sono altri eventi in programma in questa città. Ritorna tra qualche giorno a controllare</p>";
+        $Aside=$eventi?buildEventsCards($eventi) : "<h2>Altri eventi nella zona</h2>
+            <ul class='cards-container' id='content-animali' tabindex='-1' aria-label='Altri eventi nella zona'>
+            <p class='errore'>Per ora non ci sono altri eventi in programma in questa città. Ritorna tra qualche giorno a controllare</p>
+            </ul>
+            <a class='brown-button' href = './eventi'> Guarda tutti gli eventi →</a>";
     } else {
         if($titoloEncoded) {
             $collaboratori=$connection->getOrganizzatoriEvento($titoloEncoded, $dataIta);
@@ -214,12 +220,7 @@ $main = file_get_contents('./src/template/main/visualizzazione-evento.html');
 $footer = $isAdmin? '' : buildFooter($footerMenu,  './visualizzazione-evento');
 
 $main = str_replace('[EVENTO]', $contenutoEvento, $main);
-if(!$isAdmin) {
-    $main = str_replace('[ALTRI-EVENTI]', $Aside, $main);
-} else {
-
 $main = str_replace('[ASIDE]', $Aside, $main);
-}
 
 $paginaHTML = str_replace('[title]', $title, $paginaHTML);
 $paginaHTML = str_replace('[description]', $description, $paginaHTML);
