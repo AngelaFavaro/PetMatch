@@ -205,13 +205,12 @@ $main = str_replace('[pulsante-elimina-animale]', $btnEliminaHTML, $main);
 $main = str_replace('[pulsante-assegnazione]', $btnAssegnazione, $main);
 
 // Conteggi Tab e Lista Richieste
-$main = str_replace('[n-nuove]', $NRequestsByStatus['Nuova'] ?? 0, $main);
-$main = str_replace('[n-valutazione]', $NRequestsByStatus['In valutazione'] ?? 0, $main);
-$main = str_replace('[n-accettate]', $NRequestsByStatus['Accettata'] ?? 0, $main);
-$main = str_replace('[n-respinte]', $NRequestsByStatus['Respinta'] ?? 0, $main);
-$main = str_replace('[n-annullate]', $NRequestsByStatus['Annullata'] ?? 0, $main);
-$main = str_replace('[n-trasporto]', $NRequestsByStatus['Da trasportare'] ?? 0, $main);
-
+$main = str_replace([
+    '[n-nuove]', '[n-valutazione]', '[n-accettate]', '[n-respinte]', '[n-annullate]', '[n-trasporto]'
+], [
+    $NRequestsByStatus['Nuova'] ?? 0, $NRequestsByStatus['In valutazione'] ?? 0, $NRequestsByStatus['Accettata'] ?? 0,
+    $NRequestsByStatus['Respinta'] ?? 0, $NRequestsByStatus['Annullata'] ?? 0, $NRequestsByStatus['Da trasportare'] ?? 0
+], $main);
 
 $main = str_replace('[elencoRichieste]', $listRequestHTML, $main);
 
