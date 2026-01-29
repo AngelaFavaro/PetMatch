@@ -106,8 +106,8 @@ if ($connessioneOK) {
             // Tasto Modifica
             $btnModifica = '
                 <div class="edit-btn-container">
-                    <a href="' . e($urlModifica) . '" class="pencil">
-                        <img src="./assets/icons/edit-pencil.svg" alt="Modifica scheda animale" />
+                    <a href="' . e($urlModifica) . '" class="orange-button">
+                        Modifica
                     </a>
                 </div>';
             
@@ -181,7 +181,7 @@ if (!$imgPath || !file_exists($imgPath)) {
 }
 $main = str_replace('[animalImgPath]', e($imgPath), $main);
 $sesso = $richiesta['Sesso'] ?? '';
-$sessoHTML = ($sesso === 'F') ? '<abbr title="Femmina">F</abbr>' : (($sesso === 'M') ? '<abbr title="Maschio">M</abbr>' : e($sesso));
+$sessoHTML = ($sesso === 'F') ? 'Femmina' : (($sesso === 'M') ? 'Maschio' : e($sesso));
 $main = str_replace('[sessoAnimale]', $sessoHTML, $main);
 
 $etaCalcolata = calcolaEta($richiesta['DataNascita'] ?? null);

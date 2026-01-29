@@ -212,7 +212,7 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
 
         //pls non modificate
         if($isModified){
-            header("Location: ./dettagli-animale?id-animale=" . urlencode($_GET['id-animale']));
+            header("Location: ./modifica-animale?id-animale=" . urlencode($_GET['id-animale']));
             exit;
         }else{
             header("Location: ./nuovo-animale");

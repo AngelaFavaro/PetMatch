@@ -162,6 +162,10 @@ td.col-dettagli a,td.col-dettagli button{
     color:var(--text-form);
 }
 
+#animali #mobile-select{
+    margin-bottom: 1em;
+}
+
 #mobile-select option{
     background-color: var(--form-bg);
 }

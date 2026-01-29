@@ -2619,7 +2619,7 @@ cursor: pointer;
 #eventi .evento .posizione-evento {
     gap: 0.2em;
     margin-top: 0.4em;
-    max-width: calc(100% - 22em);
+    max-width: calc(100% - 25em);
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
@@ -4184,6 +4184,7 @@ a.pencil {
 .pointer-events-none{
     pointer-events: none;
 }
+
 #mobile-select{
     display: none;
 }
@@ -4200,7 +4201,7 @@ a.pencil {
 
 #admin-area .tabs-container#richieste .tab-content, #admin-area .tabs-container#animali .tab-content{
     border: none;
-    margin: 0.5em;
+    margin: 0.5em 0;
 }
 .tab-content#Richiedente .brown-button{
     margin: 0.5em 0em 0em auto;
@@ -4383,6 +4384,7 @@ div#admin-area article.note{
     padding: 0.5rem;
     background-color: var(--darkbgcolor);
     border: 1px solid var(--txtcolor);
+    color:var(--txtcolor);
     border-radius: 4px;
     font-family: inherit;
     font-size: 1rem;
@@ -4485,6 +4487,7 @@ div#admin-area article.note{
     margin-left: 1em;
 }
 
+#animale-richiesta .generic-info-container img.square-foto,
 #dettaglio-animale .generic-info-container img.square-foto {
     width: 15em;
     height: 15em;
@@ -4493,6 +4496,17 @@ div#admin-area article.note{
     margin: 0 auto;
     border-radius: 0.5em;
     box-shadow: 0 0.25em 0.625em rgba(0,0,0,0.2);
+}
+
+h2+#animale-richiesta .generic-info-container img.square-foto{
+    margin: 0 auto 0 0;
+    float: left;
+    margin-right: 1em;
+}
+
+#admin-area h2+#animale-richiesta .generic-info-container img.square-foto + .text-details{
+    width: auto;
+    padding-left: 0;
 }
 
 
@@ -4509,8 +4523,7 @@ div#admin-area article.note{
 }
 
 #sezione-note a#edit-note img,
-.edit-admin-info img,
-#dettaglio-animale a.pencil img {
+.edit-admin-info img {
     height: auto;
     width: 3em;
     transition: transform 0.2s ease;
@@ -4528,8 +4541,7 @@ div#admin-area article.note{
     margin-top: -0.5em;
 }
 
-.edit-admin-info img:hover,
-#dettaglio-animale a.pencil img:hover {
+.edit-admin-info img:hover{
     border-color: var(--darkbgcolor);
 }
 
@@ -4545,6 +4557,10 @@ div#admin-area article.note{
     width: 100%;
 }
 
+#dettaglio-animale .edit-btn-container .orange-button{
+    margin: 0 0 0 auto;
+}
+
 /* Fieldset - ALLINEAMENTO SOTTO AL TITOLO */
 #dettaglio-animale .tabs-container fieldset {
     display: flex;
@@ -4557,7 +4573,7 @@ div#admin-area article.note{
 }
 
 #dettaglio-animale .tabs-container select {
-    min-width: 12em;
+    min-width:100%;
     border: 0.1em solid var(--buttoncolor);
     background-color: var(--buttoncolor);
     color: var(--txtcolor);
@@ -4583,6 +4599,7 @@ div#admin-area article.note{
     border: none;
     outline: none;
     box-shadow: none;
+    display: block;
 }
 
 #dettaglio-animale .tabs-container ul {
@@ -5493,6 +5510,16 @@ nav#breadcrumb a:visited{
 #visualizzazione-animale .dettagli-animale h2{
     font-size:1.5em;
     margin-bottom: 0.5em;
+}
+
+#animale-detailed-container .read-only-badge{
+    background-color: var(--darkbgcolor);
+    padding: 1em;
+    text-align: center;
+    margin: 0 auto;
+    font-style: italic;
+    width: 100%;
+    border-radius: 0.5em;
 }
 
 #indirizzo-incompleto{
