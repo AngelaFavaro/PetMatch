@@ -24,7 +24,7 @@ $dataGET   = $_GET['data'] ?? null;
 
 function buildEventsCards($events): string {
     $html="<h2>Altri eventi nella zona</h2>
-            <ul class='cards-container' id='content-animali' tabindex='-1' aria-label='Animali in adozione'>
+            <ul class='cards-container' id='content-animali' tabindex='-1' aria-label='Altri eventi nella zona'>
             [ALTRI-EVENTI]
             </ul>
             <a class='brown-button' href = './eventi'> Guarda tutti gli eventi →</a>";
