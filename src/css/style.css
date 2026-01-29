@@ -4614,7 +4614,7 @@ div#admin-area article.note{
 
 #visualizza-richieste-animale .card-content p {
     margin: 0;
-    color: #3d1411;
+    color: var(--txtcolor);
     font-size: 1rem;
 }
 
