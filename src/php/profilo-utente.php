@@ -21,10 +21,10 @@ $filtroCorrenteRichieste = 'all';
 $tabAvvisi= 'checked';
 $tabRichieste= '';
 if (isset($_GET['state-avvisi'])) {
-    $filtroCorrenteAvvisi = htmlspecialchars($_GET['state-avvisi']);
+    $filtroCorrenteAvvisi = urldecode($_GET['state-avvisi']);
 }
 else if (isset($_GET['state-richieste'])) {
-    $filtroCorrenteRichieste = htmlspecialchars($_GET['state-richieste']);
+    $filtroCorrenteRichieste = urldecode($_GET['state-richieste']);
     $tabAvvisi= '';
     $tabRichieste= 'checked';
 }
@@ -352,21 +352,31 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente, $editAddr
             $errors['phoneNumber'] = "Il numero di telefono non è valido.";
         }
 
+        $valueforDB = [
+            'name' => $name,
+            'surname' => $surname,
+            'phoneNumber' => $phoneNumber,
+            'address' => $address,
+            'city' => $city,
+            'CAP' => $CAP,
+            'profilePic' =>'',
+        ];
+
         /* AZIONI */
         if (empty($errors)) {
 
             //la foto del profilo avrà sempre qualcosa anche se non si selezionano immagini, bisogna controllarlo con empty
             if(isset($_FILES['new-pic']) && !empty($_FILES['new-pic']['name']) && !isset($_POST['delete-pic'])){
                 $risultato = deleteStoredFile($infoUtente['ImgPath'],);
-                $NewUserValues['profilePic'] = uploadImage($_FILES['new-pic'], 'users');
+                $valueforDB['profilePic'] = uploadImage($_FILES['new-pic'], 'users');
             }else if(isset($_POST['delete-pic'])){
                 deleteStoredFile($infoUtente['ImgPath']);
-                $NewUserValues['profilePic'] = null;
+                $valueforDB['profilePic'] = null;
             }else{
-                $NewUserValues['profilePic'] = $infoUtente['ImgPath']; 
+                $valueforDB['profilePic'] = $infoUtente['ImgPath']; 
             }
 
-            $EditResult = $conn->updateUserInfo($_SESSION['email'], $NewUserValues);
+            $EditResult = $conn->updateUserInfo($_SESSION['email'], $valueforDB);
             
             if (!$EditResult){
                 $_SESSION['form_status_info'] = 'error';
@@ -470,15 +480,22 @@ function editManagementAccount(DBAccess $conn, &$NewUserValues, $infoUtente): ar
             $errors['password'] = "La nuova password deve essere diversa dalla vecchia.";
         }
 
+        $valueForDB = [
+            'email' => '',
+            'Newpassword' => '',
+        ];
+
         /* AZIONI */
         if (empty($errors)) {
             if(strlen($newPassword) !== 0){
-                $NewUserValues['Newpassword'] = password_hash($newPassword, PASSWORD_DEFAULT);
+                $valueForDB['Newpassword'] = password_hash($newPassword, PASSWORD_DEFAULT);
             }else{
-                $NewUserValues['Newpassword'] = $infoUtente['Password'];
+                $valueForDB['Newpassword'] = $infoUtente['Password'];
             }
 
-            $EditResult = $conn->updateUserManagement($_SESSION['email'], $NewUserValues);
+            $valueForDB['email'] = $_POST['new-email'];
+
+            $EditResult = $conn->updateUserManagement($_SESSION['email'], $valueForDB);
             
             if ($EditResult) {
 				$_SESSION['email'] = $email;
