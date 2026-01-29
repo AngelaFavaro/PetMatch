@@ -46,7 +46,7 @@ function createAnimalRequestList(array $richieste): string {
         $li = '<li class="richiesta-card">
                 <div class="card-content">
                     <p>' . ($testi[$statoAttuale] ?? "Richiesta da $nomeCandidato") . '</p>
-                    <a href="./richieste-adozione?email=' . urlencode($r['Email']) . '&id-animale=' . urlencode($r['IDanimale']) . '" class="btn-vedi-richiesta">Vedi richiesta</a>
+                    <a href="./richieste-adozione?email=' . urlencode($r['Email']) . '&id-animale=' . urlencode($r['IDanimale']) . '" class="brown-button">Vedi richiesta</a>
                 </div>
                </li>';
         if (isset($gruppi[$statoAttuale])) {

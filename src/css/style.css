@@ -32,7 +32,9 @@
     --bordermodifiedAccount:#E4D4BA;
     --text-deletebutton: #481515;
     --selectTypeAnimal: #E4D4BA;
+    --limitecaratterecolor: #5e4232;
     
+    --darkMode-limitecaratterecolor: #481515;
     --darkMdode-selectTypeAnimal: #b79378;
     --darkMode-text-deletebutton: #ba4d3b;
     --darkMode-bordermodifiedAccount:#C7B097;
@@ -80,6 +82,7 @@
 }
 
 :root:has(input#theme-toggle:checked){
+    --limitecaratterecolor : var(--darkMode-limitecaratterecolor);
     --darklinkcolor: var(--darkMode--darklinkcolor);
     --selectTypeAnimal: var(--darkMdode-selectTypeAnimal);
     --text-deletebutton: var(--darkMode-text-deletebutton);
@@ -2026,6 +2029,11 @@ float: none;
     background: var(--bgcolor);
 }
 
+#animali #nav-animali-type .currentType h2,
+#nav-event-type .currentType h2{
+    font-size: 1em;
+}
+
 /* Lista filtri */
 
 
@@ -2566,7 +2574,7 @@ cursor: pointer;
     border-radius: 0.5em;
     list-style: none;
     flex: 1 1 45%;
-    /* width: 47%; */
+    /* max-width: 47%; */
     height: 10em;
     /* display: block; */
     background-color: var(--darkbgcolor);
@@ -3994,13 +4002,9 @@ nav#menu-admin li:hover{
     border-radius: 2em 0em 0em 2em;
 }
 
-nav#menu-admin li#currentLink a:hover{
+nav#menu-admin li#currentLink:hover{
     outline:none;
 }
-
-/* nav#menu-admin li:hover a{
-    color: var(--txtcolor);
-} */
 
 nav#menu-admin li#currentLink a{
     font-weight: 700;
@@ -4404,6 +4408,9 @@ div#admin-area article.note{
     gap: 2em;
     align-items: flex-start;
 }
+#dettaglio-animale.column-container{
+    padding: 0;
+}
 
 /* Box generico delle informazioni (Sinistra) */
 #dettaglio-animale article#animale-detailed-container {
@@ -4459,7 +4466,7 @@ div#admin-area article.note{
 }
 
 #dettaglio-animale .description-info-container{
-    border-top: 1px solid var(--headercolor);
+    border-top: 1px solid var(--txtcolor);
     padding-top: 1em;
 }
 
@@ -4593,27 +4600,6 @@ div#admin-area article.note{
     border: none;
 }
 
-#dettaglio-animale .tabs-container .card-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1em;
-}
-
-/* Bottone Vedi Richiesta */
-#dettaglio-animale .tabs-container a.btn-vedi-richiesta {
-    padding: 0.5em 1.5em;
-    text-decoration: none;
-    color: var(--buttoncolor); 
-    font-weight: 400; 
-    background-color: var(--darklinkcolor); 
-    border: 0.0625em solid var(--darklinkcolor); 
-    border-radius: 1.5em;
-    font-size: 0.9em;
-    white-space: nowrap;
-    display: inline-block;
-}
-
 /* Selettore specifico per non intaccare altre liste del sito */
 #visualizza-richieste-animale .tab-content {
     list-style-type: none;
@@ -4628,12 +4614,8 @@ div#admin-area article.note{
     padding: 15px 20px;
 }
 
-/* Layout flex solo per le card in questa sezione */
-#visualizza-richieste-animale .card-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px; /* Spazio minimo tra testo e bottone */
+#visualizza-richieste-animale .brown-button{
+    margin: 0.5em auto;
 }
 
 #visualizza-richieste-animale .card-content p {
@@ -4642,16 +4624,6 @@ div#admin-area article.note{
     font-size: 1rem;
 }
 
-/* Il bottone specifico */
-#visualizza-richieste-animale .btn-vedi-richiesta {
-    background-color: var(--cardHover);
-    color: var(--visitedcolor);
-    padding: 8px 18px;
-    border-radius: 20px;
-    text-decoration: underline;
-    font-weight: bold;
-    white-space: nowrap; /* Impedisce al bottone di andare a capo */
-}
 
 /* Gestione visibilità Tab tramite i radio button */
 /*#visualizza-richieste-animale .tab-content { display: none; }*/
@@ -5682,7 +5654,7 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     text-align: right;
     display: block;
     font-size: 0.85rem; 
-    color: var(--placeholderDarker-text);       
+    color: var(--limitecaratterecolor);       
     margin-top: 5px;
 }
 
@@ -6034,7 +6006,7 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
 #descrizione-evento{
     float: left;
     width: 100%;
-    border-top: 1px solid var(--headercolor);
+    border-top: 1px solid var(--txtcolor);
 }
 #descrizione-evento+dd{
     clear: both;

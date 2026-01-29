@@ -96,7 +96,7 @@ function buildEventsCards($events, $filtro): string {
                             <p>$descrEvento</p>
                         </div>
                         <div class='dettagli-evento-bottone'>
-                        <a href='./visualizzazione-evento?titolo=$titolo&data=$data'>Vedi dettagli</a>
+                        <a href='./visualizzazione-evento?titolo=".urlencode($titolo)."&data=".$e['data_evento']."'>Vedi dettagli</a>
                     </div>
                     </article>
                 </li>";

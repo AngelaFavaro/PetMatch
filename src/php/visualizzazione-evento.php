@@ -37,7 +37,7 @@ function buildEventsCards($events): string {
                             <time datetime=$data>$data</time>
                         </p>
                         <div class='dettagli-evento-bottone'>
-                        <a href='visualizzazione-evento?titolo=$titolo&data=$data'>Vedi dettagli</a>
+                        <a href='visualizzazione-evento?titolo=".urlencode($titolo)."&data=".urlencode($e['data_evento'])."'>Vedi dettagli</a>
                     </div>
                     </article>
                 </li>";
@@ -96,11 +96,11 @@ $connection = new DBAccess();
 if ($connection->openDBConnection()) {
     
     if ($titoloGET && $dataGET) {
-        $dettagliEvento = $connection->getInfoEvent($titoloGET, convertiDataItalianaInSQL($dataGET));
+        $dettagliEvento = $connection->getInfoEvent($titoloGET, $dataGET);
         if (!$dettagliEvento) {
             // ENT_QUOTES converte ' in &#039;
             $titoloEncoded = htmlspecialchars($titoloGET, ENT_QUOTES); 
-            $dettagliEvento = $connection->getInfoEvent($titoloEncoded, convertiDataItalianaInSQL($dataGET));
+            $dettagliEvento = $connection->getInfoEvent($titoloEncoded, $dataGET);
             if ($dettagliEvento) {
                 // html_entity_decode trasforma "c&#039;è" in "c'è"
                 $dettagliEvento['Titolo'] = html_entity_decode($dettagliEvento['Titolo'], ENT_QUOTES);
@@ -128,7 +128,7 @@ if ($connection->openDBConnection()) {
                 'nomeNO' => $dettagliEvento['Titolo']];
     }
     $eventi = $connection->getEventsFilteredPaged($citta, 3);
-    $eventiAside=$eventi?buildEventsCards($eventi) : "<p class='errore'>Per ora non ci sono altri eventi in programma in questa città. Ritorna tra qualche giorno a controllare</p>";;
+    $eventiAside=$eventi?buildEventsCards($eventi) : "<p class='errore'>Per ora non ci sono altri eventi in programma in questa città. Ritorna tra qualche giorno a controllare</p>";
 
     $connection->closeConnection();
 } else {
