@@ -4,9 +4,12 @@
 Un utente non registrato può navigare liberamente tra le pagine del sito web e visualizzare gli animali disponibili per l'adozione. Può utilizzare i filtri di ricerca per trovare animali in base a criteri specifici come tipo (Cane o Gatto), razza, età, taglia, sesso ma anche filtrare per nome.
 \paragraph{Gestione preferiti}
 Per ogni utente non amministratore, registrato o meno, è possibile inserire tra i preferiti gli animali di interesse, in modo da poterli ritrovare facilmente in futuro.\\
-La particolarità è che i preferiti sono salvati tramite cookie nel browser dell'utente e al momento dell'accesso vengono caricati automaticamente nel database. Nella sezione preferiti, senza accesso, si vede un chiaro messaggio che invita alla registrazione per salvare i preferiti in modo permanente e quindi sincronizzarli con tutti i dispositivi.
+La particolarità è che i preferiti sono salvati tramite cookie nel browser dell'utente e al momento dell'accesso vengono caricati automaticamente nel database. Nella sezione preferiti, senza accesso, si vede un chiaro messaggio che invita alla registrazione per salvare i preferiti in modo permanente e quindi sincronizzarli con tutti i dispositivi.\\
+Per far fronte alla possibilità che un utente inserisca nei preferiti un animale che viene successivamente adottato, questi verranno mostrati ma con un chiaro avviso che l'animale non è più disponibile per l'adozione, mentre nella sezione "Animali" non verrà semplicemente mostrato.
 \paragraph{Visualizzazione di eventi}
 Nella pagina dedicata agli eventi, un utente può visualizzare gli eventi organizzati dal rifugio, con dettagli come data, ora, luogo e descrizione dell'evento.
+\paragraph{Trovare casa ad un animale}
+Qualsiasi utente può inviare delle segnalazioni per aiutare a trovare casa ad un gatto o cane bisognoso. Compilando un semplice form con le informazioni richieste, la segnalazione verrà inviata agli amministratori del sito che potranno valutare se aggiungere l'animale al database.\\
 Alcune delle funzionalità hanno scopi precisi per rispondere a bisogni di specifiche tipologie di utente. Più dettagli nella sezione relativa all'attrazione degli utenti \ref{sec:attrazione_utenti}.
 \subsection{Utente registrato}
 Oltre a tutte le funzionalità disponibili per gli utenti non registrati, gli utenti registrati hanno specifiche funzionalità aggiuntive.
@@ -20,11 +23,16 @@ Nell'area personale un utente può visualizzare lo stato delle proprie richieste
 In ultimo l'utente può visionare una richiesta inviata in dettaglio, con tutte le informazioni inserite e annullare la richiesta di adozione se ancora in stato di "in valutazione" o "nuova".
 \subsection{Amministratore}
 Un utente amministratore può visualizzare il sito web come un utente normale, ma ha accesso a funzionalità aggiuntive accessibili nell'area amministratore.\\
-Ci sono tuttevia delle differenze apportate al sito web normale, sia per migliorare le funzionalità amministrative, sia per limitare l'accesso a funzionalità non necessarie.
+Ci sono tuttavia delle differenze apportate al sito web normale, sia per migliorare le funzionalità amministrative, sia per limitare l'accesso a funzionalità non necessarie.
 Per esempio, la pagina Animali mostra un pulsante che reindirizza alla pagina di amministratore "Assegnati a te" che fa riferimento a tutti gli animali attivi (non adottati) che sono stati assegnati all'amministratore. Inoltre è stato rimossa la pagina dei preferiti e la funzionalità di aggiunta ai preferiti poichè pensata esclusivamente per gli utenti senza privilegi di amministratore.
 Infine, come è logico che sia, l'amministratore non può inviare richieste di adozione e per questo non ha un'area dedicata.
 \paragraph{Area personale e gestione profilo}
 Ogni amministratore ha una propria area personale che mostra le attività da completare e le proprie statistiche personali.\\
 Inoltre, come per gli utenti normali, l'amministratore ha una pagina di profilo in cui può visualizzare e modificare le proprie informazioni personali. Tuttavia, rispetto un utente normale, all'amministratore non è concessa la modifica (e l'eliminazione) delle informazioni di accesso (email e password). Si presume che le credenziali di accesso siano gestite in modo più sicuro e controllato.
 \paragraph{Gestione richieste di adozione}
-L'amministratore ha pieno controllo sulle richieste di adozione degli animali assegnati a lui. Può visualizzarle, cambiare il loro stato ()
+L'amministratore ha pieno controllo sulle richieste di adozione degli animali assegnati a lui. Può visualizzarle, valutarle, accettarle o rifiutarle.
+\paragraph{Gestione degli animali}
+Gli animali possono essere assegnati solamente ad uno specifico amministratore che ne gestirà le richieste di adozione. Egli ha anche la responsabilità di mantenere aggiornate le informazioni dell'animale e di rimuoverlo dal sito qualora l'animale non fosse più disponibile per forze maggiori. Si nota che, come descritto precedentemente, gli animali adottati rimangono nel database.\\
+Un amministratore può aggiungere nuovi animali al database, compilando un form con tutte le informazioni richieste. Il form include la possibilità di assegnare la gestione dell'animale a sé stesso o lasciarlo non assegnato, in modo che un altro amministratore possa occuparsene in seguito.
+\paragraph{Gestione animali senza amministatore}
+Gli animali non assegnati ad alcun amministratore sono visibili in una pagina dedicata. Un amministratore può decidere di prendersi carico di uno di questi animali, assegnandolo a sé stesso, in modo da poter gestire le richieste di adozione relative a quell'animale.
