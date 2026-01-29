@@ -6,7 +6,11 @@ session_start();
 
 // 1. Controllo Accesso
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
-    header("Location: ./accedi");
+    if(isset($_GET['id-animale'])){
+        header("Location: ./visualizzazione-animale?=".urlencode($_GET['id-animale']));
+    }else{
+        header("Location: ./animali");
+    }
     exit;
 }
 
@@ -17,7 +21,7 @@ $fromEmail = $_GET['from_email'] ?? null;
 $from = $_GET['from'] ?? null;
 
 if (!$idAnimale) {
-    header("Location: ./area-riservata");
+    header("Location: ./assegnati-a-te");
     exit;
 }
 
@@ -122,7 +126,7 @@ if ($connessioneOK) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-assignment'])) {
                 if ($connessione->removeAdminAssignment($idAnimale)) {
                     $connessione->closeConnection();
-                    header("Location: ./senza-amministratore");
+                    header("Location: ./assegnati-a-te");
                     exit;
                 }
             }

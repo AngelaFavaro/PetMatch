@@ -4419,6 +4419,7 @@ div#admin-area article.note{
     background-color: transparent;
     border:2px solid var(--buttoncolor);
     color:var(--txtcolor);
+    margin-bottom: 1em;
 }
 
 #dettaglio-animale button[name="delete-assignment"]:hover{
@@ -4434,7 +4435,7 @@ div#admin-area article.note{
 #dettaglio-animale #visualizza-richieste-animale{
     border: 0.1em solid var(--txtcolor); 
     border-radius: 0.5em;
-    padding: 1em;
+    margin:0;
 }
 
 #dettaglio-animale #start-requests ul{
@@ -5503,15 +5504,6 @@ nav#breadcrumb a:visited{
         display: flow-root;
         margin-top: 1em;
 }
-#visualizzazione-animale #foto-animale{
-    max-width:50%;
-    min-width: 300px;
-    max-height: 200px;
-    margin-right:auto;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-}
 
 #info-aggiuntive-separate dl dd{
     margin-bottom: 0.5em;
@@ -6048,6 +6040,7 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     clear: both;
 }
 
+#visualizzazione-animale img.square-foto,
 #visualizzazione-evento #evento img.square-foto{
     width: 15em;
     height: 15em;

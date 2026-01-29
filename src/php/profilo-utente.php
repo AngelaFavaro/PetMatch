@@ -98,7 +98,6 @@ function createMovementList(DBAccess $conn, $filtro = 'all'): string {
                     break;
             }
 
-            // TODO: il link "Vedi animale" deve portare alla pagina di dettaglio dell'animale, da fare quando la pagina sarà pronta
             $listaMovimenti .= '<li>
                 <article>
                     <p>'.$statoRichiesta.'</p>';
@@ -152,7 +151,6 @@ function createRequestList(DBAccess $conn, $filtro = 'all'): string {
                     break;
             }
 
-            // TODO: il vai alla richiesta deve portare ad una pagina che ancora non c'è
             $listaRichieste .= $statoRichiesta.'</p>
                     <a href="./revisione-richiesta?id-animale='.$richiesta['IDanimale'].'">Vai alla richiesta</a>
                 </article>
@@ -734,13 +732,12 @@ if ($connessioneOK) {
         $messageManagementForm = editManagementAccount($connessione, $NewUserManagement, $infoUtente);
         deleteAccount($connessione);
     }else{
-        header("Location: ./login"); 
+        header("Location: ./accedi"); 
         exit;
     }
     $connessione->closeConnection();
     $messaggiGenerici = $messageInfoForm['generic'] . $messageManagementForm['generic'];
 }else{
-	header("Location: ./404");
     exit;    
 }
 
@@ -751,7 +748,7 @@ if (empty($infoUtente['ImgPath']) || !file_exists($infoUtente['ImgPath'])) {
 //se non riesco a prendere le info dell'utente rimando alla pagina di login, vuol dire che l'utente non era nel db 
 // (impossibile ma meglio essere sicuri)
 if ($infoUtente == null) {
-    header("Location: ./login"); 
+    header("Location: ./accedi"); 
     exit;
 }
 

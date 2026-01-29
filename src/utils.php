@@ -655,7 +655,6 @@ function getCardAnimal(int $idanimale, bool $isAdmin, bool $isAdopted):string{
                 <div>
                     <div>
                         <img src="[imgAnimale]" alt="" />';
-                        // <!-- TODO: aggiungere link alla pagina dell\'animale -->'
                     $html .= ($isAdopted&&!$isAdmin)?'<p class="nonDisponibile"><em>Animale adottato</em></p>':'<a href="./animali?id='.urlencode($idanimale).'" class="brown-button">Vedi animale</a>';
                     $html.='
                     </div>

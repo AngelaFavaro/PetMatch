@@ -262,7 +262,6 @@ if($isModifiedEvent){
      $paginaHTML = str_replace('[Action-modified]', 'Modifica', $paginaHTML);
      $paginaHTML = str_replace('[Action-modified-legend]', 'Modifica l\'organizzazione dell\'evento', $paginaHTML);
      $paginaHTML = str_replace('[urlCancel]', './eventi', $paginaHTML); //TODO : modifica mettendo l'evento che si stava visualizzando
-     $paginaHTML = str_replace('[urlCancel]', './eventi', $paginaHTML); //TODO : modifica mettendo l'evento che si stava visualizzando
 }else{
     $paginaHTML = str_replace('[Action-modified]', 'Aggiungi', $paginaHTML);
     $paginaHTML = str_replace('[Action-modified-legend]', 'Organizza il nuovo evento', $paginaHTML);

@@ -165,7 +165,7 @@ if ($connessioneOK) {
     $animali = $connessione->getDetailsNonAdminAnimalsPaged($perPagina, $offCani, $offGatti);
 
     if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['assegnami_animale'])){
-        $connessione->assignAnimalToAdmin((int)$_POST['id_animale'], $_SESSION['email']); //id è un numero intero
+        $connessione->assignAnimalToAdmin((int)$_POST['id_animale'], $_SESSION['email']);
         header("Location: ./senza-amministratore?tipo=$tipoAttivo&page=$paginaCorrente");
         exit;
     }
