@@ -80,15 +80,21 @@ function buildMainevent(array $dettagliEvento, int $isAdmin=0): string {
         $img = (!empty($dettagliEvento['ImgPath']) && file_exists($dettagliEvento['ImgPath'])) ? $dettagliEvento['ImgPath'] : 'assets/images/events/eventi-default.jpg';
 
         // 3. Creazione del blocco HTML (con le variabili ora piene!)
-        $html = "<div id='mainEvent'>";
-        if($isAdmin) {
-            $html.="<div class='edit-btn-container'>
-    <a class='orange-button' href='modifica-evento?titolo=$titolo&data=$date'>Modifica<span class='sr-only'> scheda evento</span></a>
-</div>";
+        $html = "<div id='mainEvent'>
+        <div id='evento'>
+        <img class='square-foto' id='foto-animale' src='$img' alt='foto del luogo per evento  $titolo'>";
+
+        if ($isAdmin && $date) {
+            $dataEvento = DateTime::createFromFormat('Y-m-d', $date);
+            $oggi = new DateTime('today');
+
+            if ($dataEvento && $dataEvento > $oggi) {
+                $html.="<div class='edit-btn-container'>
+                <a class='orange-button' href='modifica-evento?titolo=$titolo&data=$date'>Modifica<span class='sr-only'> scheda evento</span></a>
+                </div>";
+            }
         }
         $html.="
-        <div id='evento'>
-        <img class='square-foto' id='foto-animale' src='$img' alt='foto del luogo per evento  $titolo'>
             <h1>$titolo</h1>
             <dl>
                 <dt>Luogo</dt> <dd> $luogo </dd>

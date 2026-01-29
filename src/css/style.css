@@ -6026,3 +6026,31 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     border-radius: 0.5em;
     box-shadow: 0 0.25em 0.625em rgba(0,0,0,0.2);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#visualizzazione-evento a.orange-button {
+    margin-right: 0.5em;
+}
