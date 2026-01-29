@@ -551,18 +551,18 @@ $htmlEdit = '
                 </div>
                 <div>
                     <label for="new-name">Nome*</label>
-                    <input type="text" id="new-name" name="new-name" autocomplete="name" value="[nome-utente]" placeholder="Nome"/>
+                    <input type="text" id="new-name" name="new-name" maxlength="100" autocomplete="name" value="[nome-utente]" placeholder="Nome"/>
                     <p class="error-form">[erroriNome]</p>
                 </div>
                 <div>
                     <label for="new-surname">Cognome*</label>
-                    <input type="text" id="new-surname" name="new-surname" autocomplete="family-name" value="[cognome-utente]" placeholder="Cognome"/>
+                    <input type="text" id="new-surname" name="new-surname" maxlength="100" autocomplete="family-name" value="[cognome-utente]" placeholder="Cognome"/>
                     <p class="error-form">[erroriCognome]</p>
                 </div>
                 <div class="edit-number">
                     <label for="new-number">Telefono con prefisso</label>
                     <div>
-                        <input type="tel" id="new-number" name="new-number" autocomplete="tel" value="[telefono-utente]" placeholder="+39 000 000 0000"/>
+                        <input type="tel" id="new-number" name="new-number" maxlength="15" autocomplete="tel" value="[telefono-utente]" placeholder="+39 000 000 0000"/>
                     </div>
                     <p class="error-form">[erroriTelefono]</p>
                 </div>
@@ -572,19 +572,19 @@ $htmlEdit = '
                     <p>Tutti i campi dell\'indirizzo devono essere completi, altrimenti nessuno.</p>
                     <div>
                         <label for="new-address">Via e numero civico</label>
-                        <input type="text" id="new-address" name="new-address" autocomplete="street-address" 
+                        <input type="text" id="new-address" name="new-address" maxlength="255" autocomplete="street-address" 
                         value="[via-utente]" placeholder="Via L. Da Vinci n.10" aria-label="Tutti i campi dell\'indirizzo devono essere completi, altrimenti nessuno."/>
                         <p class="error-form">[erroriIndirizzo]</p>
                     </div>
                     <div>
                         <label for="new-city">Città</label>
-                        <input type="text" id="new-city" name="new-city" autocomplete="address-level2" 
+                        <input type="text" id="new-city" name="new-city" maxlength="100" autocomplete="address-level2" 
                         value="[citta-utente]" placeholder="Roma"/>
                         <p class="error-form">[erroriCitta]</p>
                     </div>
                     <div>
                         <label for="new-cap">CAP</label>
-                        <input type="text" id="new-cap" name="new-cap" autocomplete="postal-code" 
+                        <input type="text" id="new-cap" name="new-cap" maxlength="5" autocomplete="postal-code" 
                         value="[cap-utente]" placeholder="00000"/>
                         <p class="error-form">[erroriCAP]</p>
                         <p class="error-form">[erroriIndirizzoTotale]</p>
@@ -608,7 +608,7 @@ $htmlManagement = '
                 <legend>Modifica email</legend>
                 <div>
                     <label for="new-email">Email*</label>
-                    <input type="email" id="new-email" name="new-email" autocomplete="email" value="[email-utente]" placeholder="esempio@gmail.com"/>
+                    <input type="email" id="new-email" name="new-email" maxlength="255" autocomplete="email" value="[email-utente]" placeholder="esempio@gmail.com"/>
                     <p class="error-form">[erroriEmail]</p>
                 </div> 
             </fieldset>
