@@ -127,9 +127,10 @@ if ($connessioneOK) {
                 }
             }
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-animale'])) {
+                    deleteStoredFile($connessione->getFotoAnimalById($idAnimale));    
                 if ($connessione->deleteAnimal($idAnimale)) {
                     $connessione->closeConnection();
-                    header("Location: ./area-riservata");
+                    header("Location: ./assegnati-a-te");
                     exit;
                 }
             }

@@ -1111,6 +1111,13 @@ footer .container + div{
     margin-bottom: 1em;
 }
 
+footer .container + div a{
+    width: fit-content;
+    margin: 0 auto;
+    display: block;
+}
+
+
 footer .container + div a:visited{
     color:var(--bgcolor);
 }
@@ -2831,7 +2838,7 @@ flex: 1 0 100%;
 #dettaglio-animale #animale-detailed-container button[name="show-dialog"]{
     padding: 0.3em 1em;
     border-radius: 2em;
-    position: absolute;
+    position: relative;
     left:0;
     top:0;
     width: fit-content;
@@ -4056,10 +4063,18 @@ a.pencil {
     align-items: flex-start;
 }
 
-/* l'ho messo a sinistra apposta */
-.generic-info-container img {
-    margin:0 auto 0 0;
+.header-info + .generic-info-container .text-details{
+    width: 40%;
 }
+
+.header-info + .generic-info-container:has(.edit-mode){
+    display: block;
+}
+
+.header-info + .generic-info-container:has(.edit-mode) img{
+    margin:1em auto;
+}
+
 
 #admin-area h2#responsabile{
     font-size: 1.5em;
@@ -4078,6 +4093,7 @@ a.pencil {
 .generic-info-container form{
     max-width: 90%;
     margin:auto;
+    float: left;
 }
 
 
@@ -4127,7 +4143,7 @@ a.pencil {
     pointer-events: none;
     margin-left: 1.5em;
     display: flex;
-    background-color: var(--bglink-hover);
+    background-color: var(--darkbgcolor);
     margin-bottom: 1em;
 }
 
@@ -4429,25 +4445,32 @@ div#admin-area article.note{
    SEZIONE INFO ANIMALE (FOTO E TESTO AFFIANCATI)
    ============================================================ */
 #dettaglio-animale .generic-info-container {
-    display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 2em;
-    position: relative;
-    padding-top: 3em; /* Spazio per il pulsante matita */
+    /* position: relative; */
+}
+
+#container-animal-details{
+    display: flex;
+    gap:1em;
+    flex-wrap: wrap;
+    margin: 1em auto;
+}
+
+#dettaglio-animale .description-info-container{
+    border-top: 1px solid var(--headercolor);
+    padding-top: 1em;
 }
 
 #dettaglio-animale .action-buttons-group {
     display: flex;
+    flex: 0 0 100%;
     justify-content: flex-end; /* Sposta a destra */
     align-items: center;
-    gap: 1em;
-    position: absolute; /* Fondamentale per non spostare l'immagine */
     top: 0;
     right: 0;
     width: 100%;
     margin-top: 0;
-    padding-bottom: 1em;
 }
 
 #dettaglio-animale .action-buttons-group .text-details{
@@ -4472,7 +4495,7 @@ div#admin-area article.note{
 
 /* Pulsante Matita (Modifica) */
 #dettaglio-animale .edit-btn-container {
-    position: absolute;
+    position: relative;
     top: 0;
     right: 0;
 }
@@ -5095,7 +5118,7 @@ div#admin-area #animali .filtri ul{
     transition: all 0.3s ease;
 }
 #form-add-animal textarea{
-    height: 9.3em;
+    height: 10.2em;
 }
 
 #new-event textarea{

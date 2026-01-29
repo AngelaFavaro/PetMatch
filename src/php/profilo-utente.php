@@ -357,8 +357,10 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente, $editAddr
 
             //la foto del profilo avrà sempre qualcosa anche se non si selezionano immagini, bisogna controllarlo con empty
             if(isset($_FILES['new-pic']) && !empty($_FILES['new-pic']['name']) && !isset($_POST['delete-pic'])){
+                $risultato = deleteStoredFile($infoUtente['ImgPath'],);
                 $NewUserValues['profilePic'] = uploadImage($_FILES['new-pic'], 'users');
             }else if(isset($_POST['delete-pic'])){
+                deleteStoredFile($infoUtente['ImgPath']);
                 $NewUserValues['profilePic'] = null;
             }else{
                 $NewUserValues['profilePic'] = $infoUtente['ImgPath']; 
@@ -509,7 +511,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])){ logout();}
 // --- HTML VISUALIZZAZIONE ---
 
 $htmlView =
-'<aside class="view-mode">
+'<article class="view-mode">
     <span>
         <h2>Le tue informazioni</h2>
         <a href="?mode=management#gestisci-profilo" aria-label="Gestione dell\'account">
@@ -530,7 +532,7 @@ $htmlView =
     <form action="./profilo-utente" method="post">
         <button type="submit" name="logout" class="logout-btn">Disconnettiti</button>
     </form>
-</aside>';
+</article>';
 
 // --- HTML MODIFICA ---
 
@@ -573,13 +575,13 @@ $htmlEdit = '
                     <div>
                         <label for="new-address">Via e numero civico</label>
                         <input type="text" id="new-address" name="new-address" maxlength="255" autocomplete="street-address" 
-                        value="[via-utente]" placeholder="Via L. Da Vinci n.10" aria-label="Tutti i campi dell\'indirizzo devono essere completi, altrimenti nessuno."/>
+                        value="[via-utente]" placeholder="Via Paolotti n.42" aria-label="Tutti i campi dell\'indirizzo devono essere completi, altrimenti nessuno."/>
                         <p class="error-form">[erroriIndirizzo]</p>
                     </div>
                     <div>
                         <label for="new-city">Città</label>
                         <input type="text" id="new-city" name="new-city" maxlength="100" autocomplete="address-level2" 
-                        value="[citta-utente]" placeholder="Roma"/>
+                        value="[citta-utente]" placeholder="Padova"/>
                         <p class="error-form">[erroriCitta]</p>
                     </div>
                     <div>

@@ -227,9 +227,6 @@ td.col-dettagli a,td.col-dettagli button{
 #dettaglio-animale .generic-info-container .text-details{
     width: 100%;
     column-count: 2;
-    border-bottom: 1px solid var(--cardHover);
-    padding-bottom: 0.2em;
-    margin-bottom: 0.2em;
 }
 
 #dettaglio-animale .action-buttons-group{

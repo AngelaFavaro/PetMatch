@@ -120,7 +120,8 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
         $fotoPath = $NewAnimalValues['ImgPath'] ?? '';
 
         if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK && $_FILES['foto']['name'] != "") {
-            $path = uploadImage($_FILES['foto'], 'animals');
+        deleteStoredFile($NewAnimalValues['ImgPath']);    
+        $path = uploadImage($_FILES['foto'], 'animals');
             if ($path !== null) {
                 $fotoPath = $path; 
             } else {

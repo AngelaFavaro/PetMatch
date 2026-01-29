@@ -39,12 +39,26 @@
             <div class="split-input">
                 <div>
                     <label for="address-event">Via e numero civico*</label>
-                    <input type="text" name="address-event" id="address-event" maxlength="255" placeholder="Via Paolotti n.21" value="[address-event-value]"/>
+                    <input type="text" name="address-event" id="address-event" maxlength="255" 
+                    aria-describedby="help-counter-address"
+                    oninput="contaCaratteri(this, 'conta-corrente-address')"
+                    placeholder="Via Paolotti n.42" value="[address-event-value]"/>
+                    <p id="help-counter-address">
+                        <span class="labelledby-element">limite caratteri</span>
+                        <span class="conteggio-testo" id="conta-corrente-address"></span>
+                    </p>
                     [error-address]
                 </div>
                 <div>
                     <label for="city-event">Città*</label>
-                    <input type="text" name="city-event" id="city-event"  maxlength="100" placeholder="Padova" value="[city-event-value]"/>
+                    <input type="text" name="city-event" id="city-event"  maxlength="100" placeholder="Padova" 
+                    aria-describedby="help-counter-citta"
+                    oninput="contaCaratterilimit100(this, 'conta-corrente-citta')"
+                    value="[city-event-value]"/>
+                    <p id="help-counter-citta">
+                        <span class="labelledby-element">limite caratteri</span>
+                        <span class="conteggio-testo" id="conta-corrente-citta"></span>
+                    </p>
                     [error-city]
                 </div>
             </div> 

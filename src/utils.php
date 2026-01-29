@@ -610,6 +610,28 @@ function uploadImage($file, $folder) {
     }
 }
 
+// elimina un'immagine dal server
+function deleteStoredFile($filename) {
+    //lista di immagini di default da non cancellare
+    $protected_files = ['default-pic.png', 'defaultCane.jpg','defaultGatto.jpg', 'eventi-default.jpg'];
+
+    // controllo che il file che sto passando abbia un nome e che non faccia parte di quelli di default
+   $pureName = basename($filename);
+
+    if (empty($filename) || in_array($pureName, $protected_files)) {
+        return true; 
+    }
+
+    // 2. Costruzione del percorso. 
+    $path = dirname(__DIR__) .'/'. $filename;
+
+    if (file_exists($path) && is_file($path)) {
+        return unlink($path);
+    }
+
+    return false;
+}
+
 
 function getCardAnimal(int $idanimale, bool $isAdmin, bool $isAdopted):string{
     $html = '<section id=\'info-animal\'>

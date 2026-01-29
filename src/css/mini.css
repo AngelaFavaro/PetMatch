@@ -1066,6 +1066,10 @@ body#admin-body #animali .filtri .capsula-filtro{
     gap:0;
 }
 
+#dettaglio-animale #container-animal-details{
+    display: block;
+}
+
 #dettaglio-animale{
     padding:0;
 }
@@ -1073,14 +1077,11 @@ body#admin-body #animali .filtri .capsula-filtro{
 #dettaglio-animale .generic-info-container .text-details{
     width: 100%;
     column-count: 1;
-    border-bottom: 1px solid var(--cardHover);
-    padding-bottom: 0.2em;
-    margin-bottom: 0.2em;
 }
 
 #dettaglio-animale article#animale-detailed-container{
     min-width: 0;
-    padding: 0.5em;
+    padding: 1em;
     margin:1em 0 0 0;
 }
 

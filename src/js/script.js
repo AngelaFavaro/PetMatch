@@ -286,12 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const isChecked = Array.from(radioGroup).some(r => r.checked);
                 if (!isChecked) return "Selezione obbligatoria";
             }
-
-            if (name === 'foto' && field.files.length > 0) {
-                const file = field.files[0];
-                if (file.size > 2 * 1024 * 1024) return "Immagine troppo pesante (max 2MB)";
-            }
-
+            
             return ""; // Nessun errore
         };
 
@@ -410,24 +405,43 @@ function contaCaratterilimit40(campo, idContatore) {
     contatore.innerText = lunghezzaAttuale+'/40';
 }
 
+function contaCaratterilimit100(campo, idContatore) {
+    var lunghezzaAttuale = campo.value.length;
+    var contatore = document.getElementById(idContatore);
+        
+    contatore.innerText = lunghezzaAttuale+'/100';
+}
+
 
 //mette il limite quando si ricarica la pagina con i dati già inseriti
 document.addEventListener("DOMContentLoaded", function() {
     var campo_desc = document.getElementById('desc-event');
-    var campo_cond = document.getElementById('condMediche');
-    var campo_car = document.getElementById('carattere');
     var campo_titleEvent = document.getElementById('title-event');
+    var campo_city = document.getElementById('city-event');
+    var campo_address = document.getElementById('address-event');
+    var campo_nome = document.getElementById('nome');
+    var campo_colore = document.getElementById('colore');
+    var campo_razza = document.getElementById('razza');
     if(campo_desc) {
         contaCaratteri(campo_desc, "conta-corrente-evento");
     }
-    if(campo_cond) {
-        contaCaratteri(campo_cond, "conta-corrente-condMediche");
+    if(campo_city) {
+        contaCaratterilimit100(campo_city, "conta-corrente-citta");
     }
-    if(campo_car) {
-        contaCaratteri(campo_car, "conta-corrente-carattere");
+    if(campo_address) {
+        contaCaratteri(campo_address, "conta-corrente-address");
+    }
+    if(campo_nome) {
+        contaCaratterilimit100(campo_nome, "conta-corrente-nome");
     }
     if(campo_titleEvent) {
         contaCaratterilimit40(campo_titleEvent, "conta-corrente-titoloevento");
+    }
+    if(campo_razza) {
+        contaCaratterilimit100(campo_razza, "conta-corrente-razza");
+    }
+    if(campo_colore) {
+        contaCaratterilimit100(campo_colore, "conta-corrente-colore");
     }
 });
 
@@ -481,6 +495,9 @@ document.addEventListener('scroll', function() {
 document.addEventListener('DOMContentLoaded', () => {
     const details = document.getElementById('compila-form-adozione');
     const content = document.getElementById('richiesta-adozione');
+
+    if (!details || !content) return;
+
     const summary = details.querySelector('summary');
 
     const animOptions = { duration: 400, easing: 'ease-out' };

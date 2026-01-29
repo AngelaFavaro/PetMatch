@@ -128,6 +128,9 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
         
         // Gestione Foto
         if(isset($_FILES['foto']) && $_FILES['foto']['name'] != "") {
+            if($newEventValues['ImgPath']){
+                deleteStoredFile($newEventValues['ImgPath']);
+            } 
             $path = uploadImage($_FILES['foto'], 'events');
             if ($path !== null) {
                 $fotoPath = $path;
