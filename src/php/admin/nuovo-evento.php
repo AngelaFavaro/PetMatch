@@ -3,7 +3,7 @@ include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
 
-// modifica-evento?titolo=altro+evento+eventoso&data=2026-01-24
+// modifica-evento?titolo=prova+con+autore&data=2026-01-31
 
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { 
     header("Location: ./eventi");
@@ -64,7 +64,7 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
 
         $regexData = '/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/';
 		$regex_indirizzo = '/^[a-zA-Z\.\']{3,}\s+.+\s+(?:n\.?\s?)?\d+[a-zA-Z]?$/';
-        $regex_citta = '/^[a-zA-Z\s\.\']{2,}$/';
+        $regex_citta = '/^[\p{L}\s\.\']{2,}$/u';
 
         // Validazione
         if (empty($titoloValue)){
@@ -72,12 +72,16 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
         }
         else if (strlen($titoloValue) < 2 ){
             $errors['titolo'] = "Il titolo è troppo corto.";
-        } 
+        } else if(strlen($titoloValue)>40){
+            $error['titolo'] = "Il titolo è troppo lungo.";
+        }
 
         if (empty($descValue)){
             $errors['descrizione'] = "Inserisci una descrizione.";
         }else if (strlen($descValue) < 5 ){
             $errors['descrizione'] = "La descrizione è troppo corta.";
+        }else if(strlen($descValue)>255){
+            $error['descrizione'] = "La descrizione è troppo lunga.";
         }
 
         if(empty($addressValue)){
@@ -85,7 +89,10 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
         } 
         else if (strlen($addressValue) < 3 ){
             $errors['via'] = "La via è troppo corta.";
-        }else if(!preg_match($regex_indirizzo, $addressValue)){
+        }else if(strlen($addressValue) > 255){
+            $errors['via'] = "La via è troppo lunga.";
+        }
+        else if(!preg_match($regex_indirizzo, $addressValue)){
             $errors['via'] = "La via non è valida.";
         } 
 
@@ -94,6 +101,8 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
             $errors['citta'] = "Inserisci la città.";
         }else if (strlen($cityValue) < 2 ){
             $errors['citta'] = "La città è troppo corto.";
+        }else if(strlen($cityValue) >100){
+            $errors['citta'] = "La città è troppo lunga.";
         }else if(!preg_match($regex_citta, $cityValue)){
             $errors['citta'] = "La città non è valida.";
         } 
@@ -136,7 +145,8 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
                 'descrizione' => $descValue,
 				'via' => $addressValue,
                 'citta' => $cityValue,
-                'foto' => $fotoPath
+                'foto' => $fotoPath,
+                'email' => $_SESSION['email']
             ];
 
             if($isModified){
@@ -154,7 +164,7 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
                     unset($_SESSION['form_inputs'], $_SESSION['form_errors_info']);
                     if($createMoreValue){
                         header("Location: ./nuovo-evento?createMore=1");
-                    }else header("Location: ./eventi");
+                    }else header("Location: ./eventi"); //TODO da modificare con l'ultimo evento creato
                     exit;
                 } else {
                     $errors['generic'] = "L'inserimenti dell'evento non è andato a buon fine, riprovare più tardi.";
@@ -253,7 +263,7 @@ if($isModifiedEvent){
 }else{
     $paginaHTML = str_replace('[Action-modified]', 'Aggiungi', $paginaHTML);
     $paginaHTML = str_replace('[Action-modified-legend]', 'Organizza il nuovo evento', $paginaHTML);
-    $paginaHTML = str_replace('[urlCancel]', './eventi', $paginaHTML); //TODO : modifica mettendo eventi versione admin
+    $paginaHTML = str_replace('[urlCancel]', './visualizzazione-eventi', $paginaHTML);
     if(isset($_GET['createMore']) && $_GET['createMore'] == 1){
         $paginaHTML = str_replace('[checkCreateMore]', 'checked', $paginaHTML);
     }else{

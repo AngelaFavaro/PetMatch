@@ -403,11 +403,20 @@ function contaCaratteri(campo, idContatore) {
     contatore.innerText = lunghezzaAttuale+'/255';
 }
 
+function contaCaratterilimit40(campo, idContatore) {
+    var lunghezzaAttuale = campo.value.length;
+    var contatore = document.getElementById(idContatore);
+        
+    contatore.innerText = lunghezzaAttuale+'/40';
+}
+
+
 //mette il limite quando si ricarica la pagina con i dati già inseriti
 document.addEventListener("DOMContentLoaded", function() {
     var campo_desc = document.getElementById('desc-event');
     var campo_cond = document.getElementById('condMediche');
     var campo_car = document.getElementById('carattere');
+    var campo_titleEvent = document.getElementById('title-event');
     if(campo_desc) {
         contaCaratteri(campo_desc, "conta-corrente-evento");
     }
@@ -416,6 +425,9 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     if(campo_car) {
         contaCaratteri(campo_car, "conta-corrente-carattere");
+    }
+    if(campo_titleEvent) {
+        contaCaratterilimit40(campo_titleEvent, "conta-corrente-titoloevento");
     }
 });
 

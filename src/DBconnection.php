@@ -414,22 +414,11 @@ class DBAccess {
     }
 
     public function getAnimalById($id) {
-        // Usiamo degli ALIAS (AS ...) per far coincidere i nomi del DB con quelli del tuo PHP
         $query = "SELECT 
-                    IDanimale, 
-                    Nome, 
-                    DataNascita, 
-                    Sesso, 
-                    Tipo, 
-                    Colore, 
-                    Pelo, 
-                    Taglia, 
-                    Razza, 
-                    DescrFamiglia, 
-                    DescrComportamentale , 
-                    CondizioniMediche, 
-                    Trasporto , 
-                    ImgPath  
+                    IDanimale, Nome, DataNascita, Sesso, Tipo, Colore, 
+                    Pelo, Taglia, Razza, DescrFamiglia, DescrComportamentale, 
+                    CondizioniMediche, Trasporto, ImgPath, 
+                    Email AS EmailAdmin 
                 FROM ANIMALI WHERE IDanimale = ?";
 
         $stmt = $this->connection->prepare($query);
@@ -441,7 +430,7 @@ class DBAccess {
         $data = $result->fetch_assoc();
         $stmt->close();
 
-        return $data; // Ritorna un array associativo o null
+        return $data;
     }
 
     public function updateAnimal(array $data, $idanimale): bool {
@@ -2133,24 +2122,53 @@ public function getGuestFavPaged(string $type, int $perPagina, int $offset): arr
         if (!$this->connection){
             return false;
         }
-                $query = "INSERT INTO EVENTI (Titolo, DataEvento, DescrEvento, ImgPath, Via, Citta, DataPubblicazione) VALUES (?, ?, ?, ?, ?, ?, CURRENT_DATE())";
 
-        $stmt = mysqli_prepare($this->connection, $query);
-        if($stmt === false){
-            return false;
-        }
+        //se uno dei due salvataggi va male, faccio rollback
+        mysqli_begin_transaction($this->connection);
 
-        mysqli_stmt_bind_param($stmt, 'ssssss', 
+        try {
+        // 1. Inserimento nella tabella EVENTI
+        $queryEvento = "INSERT INTO EVENTI (Titolo, DataEvento, DescrEvento, ImgPath, Via, Citta, DataPubblicazione) 
+                        VALUES (?, ?, ?, ?, ?, ?, CURRENT_DATE())";
+        
+        $stmtEvento = mysqli_prepare($this->connection, $queryEvento);
+        if ($stmtEvento === false) throw new Exception("Errore prepare Eventi");
+
+        mysqli_stmt_bind_param($stmtEvento, 'ssssss', 
             $EventValues['titolo'], 
             $EventValues['data'],
             $EventValues['descrizione'],
             $EventValues['foto'],
             $EventValues['via'],
             $EventValues['citta']
-            );
-        $result = mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
-        return $result;
+        );
+
+        if (!mysqli_stmt_execute($stmtEvento)) throw new Exception("Errore execute Eventi");
+        mysqli_stmt_close($stmtEvento);
+
+        // 2. Inserimento nella tabella ORGANIZZAZIONE
+        $queryOrg = "INSERT INTO ORGANIZZAZIONE (Titolo, DataEvento, Email) VALUES (?, ?, ?)";
+        
+        $stmtOrg = mysqli_prepare($this->connection, $queryOrg);
+        if ($stmtOrg === false) throw new Exception("Errore prepare Organizzazione");
+
+        mysqli_stmt_bind_param($stmtOrg, 'sss', 
+            $EventValues['titolo'], 
+            $EventValues['data'],
+            $EventValues['email']
+        );
+
+        if (!mysqli_stmt_execute($stmtOrg)) throw new Exception("Errore execute Organizzazione");
+        mysqli_stmt_close($stmtOrg);
+
+        mysqli_commit($this->connection);
+        return true;
+
+        } catch (Exception $e) {
+            // Se qualcosa fallisce, rollback
+            mysqli_rollback($this->connection);
+            return false;
+        }
     }
 
 
@@ -2265,32 +2283,59 @@ public function getAnimalArrivalDate($idAnimale): ?string {
         return false; }
 
     
-    public function updateEvent(array $EventValues, string $oldTitolo ,string $oldData): bool {
-        if (!$this->connection){
+    public function updateEvent(array $EventValues, string $oldTitolo, string $oldData): bool {
+        if (!$this->connection) {
             return false;
         }
 
-        $query = "UPDATE EVENTI SET Titolo = ?, DataEvento = ?, DescrEvento = ?, ImgPath = ?, Via = ?, Citta = ?
-                    WHERE Titolo = ? AND DataEvento = ?";
+        // inizio della transizione per l'atomicità
+        mysqli_begin_transaction($this->connection);
 
-        $stmt = mysqli_prepare($this->connection, $query);
-        if($stmt === false){
+        try {
+            // 1. Aggiorniamo i dati dell'evento
+            $queryUpdate = "UPDATE EVENTI SET Titolo = ?, DataEvento = ?, DescrEvento = ?, ImgPath = ?, Via = ?, Citta = ?
+                            WHERE Titolo = ? AND DataEvento = ?";
+
+            $stmtUpdate = mysqli_prepare($this->connection, $queryUpdate);
+            if ($stmtUpdate === false) throw new Exception("Errore prepare Update");
+
+            mysqli_stmt_bind_param($stmtUpdate, 'ssssssss', 
+                $EventValues['titolo'], 
+                $EventValues['data'],
+                $EventValues['descrizione'],
+                $EventValues['foto'],
+                $EventValues['via'],
+                $EventValues['citta'],
+                $oldTitolo,
+                $oldData
+            );
+
+            if (!mysqli_stmt_execute($stmtUpdate)) throw new Exception("Errore execute Update");
+            mysqli_stmt_close($stmtUpdate);
+
+            // 2. inserisco il nuovo contributore (se non è già presente)
+            $queryContrib = "INSERT IGNORE INTO ORGANIZZAZIONE (Titolo, DataEvento, Email) VALUES (?, ?, ?)";
+            
+            $stmtContrib = mysqli_prepare($this->connection, $queryContrib);
+            if ($stmtContrib === false) throw new Exception("Errore prepare Contributor");
+
+            mysqli_stmt_bind_param($stmtContrib, 'sss', 
+                $EventValues['titolo'], 
+                $EventValues['data'],
+                $EventValues['email']
+            );
+
+            if (!mysqli_stmt_execute($stmtContrib)) throw new Exception("Errore execute Contributor");
+            mysqli_stmt_close($stmtContrib);
+
+            mysqli_commit($this->connection);
+            return true;
+
+        } catch (Exception $e) {
+            // rollback se qualcosa fallisce
+            mysqli_rollback($this->connection);
             return false;
         }
-
-        mysqli_stmt_bind_param($stmt, 'ssssssss', 
-            $EventValues['titolo'], 
-            $EventValues['data'],
-            $EventValues['descrizione'],
-            $EventValues['foto'],
-            $EventValues['via'],
-            $EventValues['citta'],
-            $oldTitolo,
-            $oldData);
-        $result = mysqli_stmt_execute($stmt);
-
-        mysqli_stmt_close($stmt);
-        return $result;
     }
 
     public function insertAdoptionRequest($emailUtente, $idAnimale, $lettera, $trasporto) {
@@ -2452,6 +2497,17 @@ public function getAnimalArrivalDate($idAnimale): ?string {
         }
 
         return false;
+    }
+
+    public function removeAdminAssignment($idAnimale) {
+        $query = "UPDATE ANIMALI SET Email = NULL WHERE IDanimale = ?";
+        $stmt = $this->connection->prepare($query);
+        if ($stmt === false) return false;
+
+        $stmt->bind_param("i", $idAnimale);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
     }
 
 }

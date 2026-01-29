@@ -4,31 +4,25 @@
         <article id="animale-detailed-container">
             <div class="generic-info-container">
                 <div class="action-buttons-group">
+                    [pulsante-elimina-animale]
                     [pulsanti-modifica-animale]
+                </div>
 
-                    <form method="post">
-                        <button type="submit" name="show-dialog" class="button-cancel">
-                            <img src="./assets/icons/delete-trash.svg" alt="" />Elimina animale
-                        </button>
-                    </form>
-
-                    <dialog [openDialog] class="overlay-content">
-                        <div class="dialog-box">
-                            <h3 id="modal-title">Conferma eliminazione</h3>
-                            <p>L'eliminazione di <strong>[nomeAnimale]</strong> è <strong>irreversibile</strong>. Vuoi continuare?</p>
-                            
-                            <div class="dialog-buttons">
-                                <form method="post">
-                                    <button type="submit" name="close-dialog" class="button-cancel">No, annulla</button>
-                                </form>
-                                
-                                <form method="post">
-                                    <button type="submit" name="delete-animale">Si, elimina</button>
-                                </form>
-                            </div>
+                <dialog [openDialog] class="overlay-content">
+                    <div class="dialog-box">
+                        <h3 id="modal-title">Conferma eliminazione</h3>
+                        <p>L'eliminazione di <strong>[nomeAnimale]</strong> è <strong>irreversibile</strong>. Vuoi continuare?</p>
+                        <div class="dialog-buttons">
+                            <form method="post">
+                                <button type="submit" name="close-dialog" class="button-cancel">No, annulla</button>
+                            </form>
+                            <form method="post">
+                                <button type="submit" name="delete-animale">Si, elimina</button>
+                            </form>
                         </div>
-                    </dialog>
-
+                    </div>
+                </dialog>
+                
                 <img src="[animalImgPath]" alt="Foto di [nomeAnimale]" class="square-foto" />
 
                 <div class="text-details">
@@ -52,27 +46,15 @@
                     <dt>Famiglia ideale</dt><dd>[famigliaIdeale]</dd>
                 </dl>
             </div>
-
         </article>
 
-
         <div id="content-manage">
-
-            <form method="post">
-                    <button type="submit" name="delete-assignment" class="orange-button">Toglimi dall'assegnazione</button>
-            </form>
+            [pulsante-assegnazione]
             <article id="visualizza-richieste-animale">
                 <section class="tabs-container">
                     <fieldset>
                         <legend id="title-richieste-animale">Richieste per questo animale</legend>
-    
-                        <label class="no-visible" for="anim-tab1">Nuove</label>
-                        <label class="no-visible" for="anim-tab2">In valutazione</label>
-                        <label class="no-visible" for="anim-tab3">Accettate</label>
-                        <label class="no-visible" for="anim-tab4">Respinte</label>
-                        <label class="no-visible" for="anim-tab5">Annullate</label>
-                        <label class="no-visible" for="anim-tab6">Da trasportare</label>
-    
+                        
                         <select id="filtri-richieste-animale" name="tab-group-select" 
                                 aria-label="Selezionare la tipologia di richieste che si vuole visualizzare:"
                                 onchange="document.getElementById(this.value).checked = true;">
@@ -93,8 +75,6 @@
                     <input class="no-visible" aria-hidden="true" type="radio" id="anim-tab6" name="anim-tab-group"/>
     
                     [elencoRichieste]
-                    
-                    <a href="#filtri-richieste" class="sr-only">Torna al filtro richieste</a>
                 </section>
             </article>
         </div>

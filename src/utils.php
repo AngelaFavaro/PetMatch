@@ -22,7 +22,7 @@ if (isset($inputData['toggle_theme'])) {
     exit; 
 }
 
-/* Definizione delle pagine esistenti PER LA BREADCRUMB, aggiungerne altre quando possibile*/
+/* Definizione delle pagine esistenti PER LA BREADCRUMB , aggiungerne altre quando possibile*/
 $pagine = [
     'home' => [
         'label' => '<span lang="en">Home</span>', //la label e' quella che viene mostrata nella breadcrumb
@@ -157,7 +157,7 @@ $pagine = [
     'visualizzazione-eventi' => [
         'label' => 'Visualizzazione eventi',
         'url' => './visualizzazione-eventi',
-        'parent' => 'area-riservata'
+        'parent' => 'home'
     ],
 ];
 
@@ -287,7 +287,7 @@ function buildNav(array $items, string $currentHref): string {
     
     '<div' . $logoAttributes . '>
         <img src="./assets/icons/light-mode-logo.svg" id="logo-header" alt="PetMatch Home" />
-        <span id="name-site">Pet<span class="not-bold">Match</span></span>
+        <span id="name-site" lang="en">Pet<span class="not-bold">Match</span></span>
     </div>' :
     
     '<a href="' . $homeHref . '"' . $logoAttributes . '>
@@ -568,7 +568,7 @@ function getBreadcrumb($currentPageKey, $pagine) {
  * guardate li per capire come usarla (cerca 'SCRIPT DI TEST'), l'echo che si trova in basso al blocco commentato è il form da cui vengono presi i dati
  * NOTA: possibile che l'estensione di vscode non vi faccia vedere l'immagine caricata, guardate dal terminale ssh
 */
-// se $_FILES['foto'] non esiste o è vuoto, la funzione ritorna false
+// se $_FILES['foto'] non esiste o è vuoto, la funzione ritorna null
 function uploadImage($file, $folder) {
     $basePath = dirname(__DIR__) . '/assets/images/' . $folder . '/';
     $dbPathPrefix = 'assets/images/' . $folder . '/';
@@ -609,6 +609,7 @@ function uploadImage($file, $folder) {
         return null;
     }
 }
+
 
 function getCardAnimal(int $idanimale, bool $isAdmin, bool $isAdopted):string{
     $html = '<section id=\'info-animal\'>

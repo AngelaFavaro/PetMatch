@@ -1294,13 +1294,13 @@ details:not([open]) .popup {
     opacity: 0; /* Parte invisibile */
     
     /* Appare dopo 5 secondi */
-    animation: showStatic 0s linear 5s forwards;
+    animation: showStatic 0s linear 3s forwards;
 }
 
 .dinamic-gif {
     opacity: 1; 
     
-    animation: stopShow 0s linear 5s forwards;
+    animation: stopShow 0s linear 3s forwards;
 }
 
 @keyframes showStatic {
@@ -1853,6 +1853,7 @@ float: none;
     display: flex;
     gap: 0.5em;
     justify-content: flex-end;
+    align-items: center;
 }
 
 #eventi .filtri{
@@ -2878,7 +2879,7 @@ flex: 1 0 100%;
 }
 
 #user-profile #user-info img.circle-foto{
-    margin:auto;
+    margin:1em auto;
 }
 
 #user-info{
@@ -3183,13 +3184,6 @@ input#check-assegna:checked:before,
     transform: scale(1);        
 }
 
-.edit-mode .edit-number div{
-    display: flex;
-    flex-wrap: nowrap;
-    width: 100%;
-    margin-top: 0;
-}
-
 .edit-mode .edit-number div span{
     margin:auto 5px auto 0;
 }
@@ -3207,6 +3201,10 @@ input#check-assegna:checked:before,
     margin-top:1em;
 }
 
+#user-profile form label[for="new-pic"]{
+    text-align: center;
+}
+
 .edit-mode input[type="file"],
 div#admin-area input[type="file"]{
     background-color: transparent;
@@ -3214,6 +3212,7 @@ div#admin-area input[type="file"]{
     border:1px solid var(--text-form);
     border-radius: 2em;
     cursor: pointer;
+    padding: 0.3em;
 }
 
 input[type="file"]::file-selector-button {
@@ -3237,8 +3236,8 @@ input[type="file"]::file-selector-button:hover {
     color:var(--txtcolor);
 }
 
-.edit-mode form div,
-.edit-management form div,
+.edit-mode form div:has(button),
+.edit-management form div:has(button),
 #form-add-animal .form-buttons-container,
 #new-event .form-buttons-container{
     display: flex;
@@ -3973,9 +3972,9 @@ nav#menu-admin li a:hover{
   text-decoration: underline;
 }
 
-nav#menu-admin li#currentLink {
+nav#menu-admin li#currentLink{
     background-color: var(--bgcolor);
-    color: var(--txtcolor);
+    /*color: var(--txtcolor);*/
     font-weight: 600;
 }
 nav#menu-admin li a:visited{
@@ -3988,7 +3987,7 @@ nav#menu-admin li:hover{
     border-radius: 2em 0em 0em 2em;
 }
 
-nav#menu-admin li#currentLink:hover{
+nav#menu-admin li#currentLink a:hover{
     outline:none;
 }
 
@@ -3998,7 +3997,8 @@ nav#menu-admin li#currentLink:hover{
 
 nav#menu-admin li#currentLink a{
     font-weight: 700;
-    color: var(--navButton);
+    color: var(--txtcolor);
+    text-decoration: none;
 }
 nav#menu-admin span{
     color: var(--navButton);
@@ -4437,9 +4437,17 @@ div#admin-area article.note{
     padding-top: 3em; /* Spazio per il pulsante matita */
 }
 
-#dettaglio-animale .action-buttons-group{
+#dettaglio-animale .action-buttons-group {
     display: flex;
-    margin-top: 1em;
+    justify-content: flex-end; /* Sposta a destra */
+    align-items: center;
+    gap: 1em;
+    position: absolute; /* Fondamentale per non spostare l'immagine */
+    top: 0;
+    right: 0;
+    width: 100%;
+    margin-top: 0;
+    padding-bottom: 1em;
 }
 
 #dettaglio-animale .action-buttons-group .text-details{
@@ -4785,6 +4793,7 @@ div#admin-area #animali .filtri ul{
 #nuovo-evento {
     margin-top:-6em;
     display: flex;
+    margin-bottom: -2em;
     justify-content: center;
     align-items: center;
     background-color: var(--secondsection);

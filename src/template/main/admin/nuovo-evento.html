@@ -6,7 +6,13 @@
             <div class="split-input">
                 <div>
                     <label for="title-event">Titolo*</label>
-                    <input type="text" name="title-event" id="title-event"  maxlength="40" placeholder="Titolo" value="[title-event-value]"/>
+                    <input type="text" name="title-event" id="title-event"  maxlength="40" placeholder="Titolo" 
+                    aria-describedby="help-counter-titoloevento"
+                    oninput="contaCaratterilimit40(this, 'conta-corrente-titoloevento')"value="[title-event-value]"/>
+                    <p id="help-counter-titoloevento">
+                        <span class="labelledby-element">limite caratteri</span>
+                        <span class="conteggio-testo" id="conta-corrente-titoloevento"></span>
+                    </p>
                     [error-title]
                 </div>
                 <div>
