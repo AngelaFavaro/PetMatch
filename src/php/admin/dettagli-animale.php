@@ -63,7 +63,6 @@ function createAnimalRequestList(array $richieste): string {
     return '<div id="start-requests" class="requests-container">' . $htmlOutput . '</div>';
 }
 
-// 4. Connessione al Database e Logica Dati
 $connessione = new DBAccess();
 $connessioneOK = $connessione->openDBConnection();
 $richiesta = null; 
@@ -78,56 +77,66 @@ if ($connessioneOK) {
 
     if ($richiesta) {
         $isOwner = (isset($richiesta['EmailAdmin']) && $richiesta['EmailAdmin'] === $emailLoggato);
-
         // --- GESTIONE AZIONI POST ---
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-assignment'])) {
-            if ($isOwner) {
+        // if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-assignment'])) {
+        //     if ($isOwner) {
+        //         if ($connessione->removeAdminAssignment($idAnimale)) {
+        //             $connessione->closeConnection();
+        //             header("Location: ./senza-amministratore");
+        //              exit;
+        //         }
+        //     } 
+        // }
+
+        // // --- GENERAZIONE URL E BOTTONI ---
+        // $urlModifica = $pagine['modifica-animale']['url'] . "?id-animale=" . urlencode($idAnimale);
+        // if ($from) $urlModifica .= "&from=" . urlencode($from);
+        // if ($fromEmail) $urlModifica .= "&from_email=" . urlencode($fromEmail);
+
+        if ($isOwner) {
+            $params = ["id-animale" => $idAnimale];
+            if ($from) $params['from'] = $from;
+            if ($fromEmail) $params['from_email'] = $fromEmail;
+            $urlModifica = $pagine['modifica-animale']['url'] . "?" . http_build_query($params);
+        
+            // Tasto Modifica
+            $btnModifica = '
+                <div class="edit-btn-container">
+                    <a href="' . e($urlModifica) . '" class="pencil">
+                        <img src="./assets/icons/edit-pencil.svg" alt="Modifica scheda animale" />
+                    </a>
+                </div>';
+            
+            $btnEliminaHTML = '
+                <form method="post">
+                    <button type="submit" name="show-dialog" class="button-cancel">
+                        <img src="./assets/icons/delete-trash.svg" alt="" />Elimina animale
+                    </button>
+                </form>';
+            
+            $btnAssegnazione = '
+                <form method="post">
+                    <button type="submit" name="delete-assignment" class="orange-button">Toglimi dall\'assegnazione</button>
+                </form>';
+
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-assignment'])) {
                 if ($connessione->removeAdminAssignment($idAnimale)) {
                     $connessione->closeConnection();
                     header("Location: ./senza-amministratore");
-                     exit;
+                    exit;
                 }
-            } 
-        }
-
-        // --- GENERAZIONE URL E BOTTONI ---
-        $urlModifica = $pagine['modifica-animale']['url'] . "?id-animale=" . urlencode($idAnimale);
-        if ($from) $urlModifica .= "&from=" . urlencode($from);
-        if ($fromEmail) $urlModifica .= "&from_email=" . urlencode($fromEmail);
-
-        if ($isOwner) {
-            // Tasto Modifica
-            $btnModifica = '
-            <div class="edit-btn-container">
-                <a href="' . e($urlModifica) . '" class="pencil">
-                    <img src="./assets/icons/edit-pencil.svg" alt="Modifica scheda animale" />
-                </a>
-            </div>';
-            
-            // Tasto Elimina - NOTA: L'input checkbox NON deve avere 'checked'
-            $btnEliminaHTML = '
-                <input type="checkbox" id="delete-animal-check" class="popup-checkbox" hidden/>
-                <label for="delete-animal-check" id="button-cancel">
-                    <img src="./assets/icons/delete-trash.svg" alt="" />Elimina animale
-                </label>
-                <div class="overlay-content">
-                    <div class="dialog-box">
-                        <h3>Conferma eliminazione</h3>
-                        <p>L\'eliminazione di <strong>' . e($richiesta['Nome']) . '</strong> è irreversibile. Vuoi continuare?</p>
-                        <div class="dialog-buttons">
-                            <label for="delete-animal-check">No, annulla</label>
-                            <form method="post">
-                                <button type="submit" name="delete-animale">Sì, elimina</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>';
-            
-            $btnAssegnazione = '<form method="post">
-                                    <button type="submit" name="delete-assignment" class="orange-button">Toglimi dall\'assegnazione</button>
-                                </form>';
+            }
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-animale'])) {
+                if ($connessione->deleteAnimal($idAnimale)) {
+                    $connessione->closeConnection();
+                    header("Location: ./area-riservata");
+                    exit;
+                }
+            }
         } else {
-             $btnEliminaHTML = '<p class="read-only-badge">Sola lettura: l\'animale non è assegnato a te in questo momento.</p>';
+            $btnModifica = '';
+            $btnEliminaHTML = '<p class="read-only-badge">Sola lettura: non sei l\'amministratore assegnato.</p>';
+            $btnAssegnazione = '';
         }
 
         // Dati Richieste e Conteggi
@@ -194,12 +203,6 @@ if (isset($_GET['from_email'])) {
     $urlModifica .= "&from_email=" . urlencode($_GET['from_email']);
 }
 
-$btnModifica = '
-<div class="edit-btn-container">
-    <a href="' . e($urlModifica) . '" class="pencil">
-        <img src="./assets/icons/edit-pencil.svg" alt="Modifica scheda animale" />
-    </a>
-</div>';
 $main = str_replace('[pulsanti-modifica-animale]', $btnModifica, $main);
 $main = str_replace('[pulsante-elimina-animale]', $btnEliminaHTML, $main); 
 $main = str_replace('[pulsante-assegnazione]', $btnAssegnazione, $main);
@@ -214,12 +217,10 @@ $main = str_replace([
 
 $main = str_replace('[elencoRichieste]', $listRequestHTML, $main);
 
-$paginaHTML = str_replace('[main]', $main, $paginaHTML);
-
 $showModal = $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['show-dialog']);
-$closeModal = $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['close-dialog']);
-$paginaHTML = str_replace('[openDialog]', $showModal?'open':'', $paginaHTML);
-$paginaHTML = str_replace('[openDialog]', $closeModal?'':'', $paginaHTML);
+$main = str_replace('[openDialog]', ($showModal ? 'open' : ''), $main);
+
+$paginaHTML = str_replace('[main]', $main, $paginaHTML);
 
 echo $paginaHTML;
 ?>
