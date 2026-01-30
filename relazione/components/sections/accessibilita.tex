@@ -13,7 +13,7 @@ Questa sezione descrive le scelte specifiche dividendole in base ai principi fon
 \subsection{Utilizzabile}
 \begin{itemize}
     \item le icone mobile hanno dimensione 44x44px, per facilitare il tocco con il dito;
-    \item le gif presenti nella home si fermano dopo pochi secondi per evitare distrazioni ma soprattutto per non creare problemi a persone che sono sensibili a stimoli visivi in movimento;
+    \item le gif presenti nella timeline della home si fermano dopo pochi secondi per evitare distrazioni ma soprattutto per non creare problemi a persone che sono sensibili a stimoli visivi in movimento;
     \item la dark mode riduce l'affaticamento visivo in ambienti con scarsa illuminazione e per utenti sensibili alla luce;
     \item i filtri sono selezionabili sia tramite interfaccia grafica che tramite input testuale, migliorando l'usabilità per persone con deficit visivo;
     \item 
@@ -21,7 +21,7 @@ Questa sezione descrive le scelte specifiche dividendole in base ai principi fon
 \subsection{Comprensibile}
 \begin{itemize}
     \item abbiamo dato un significato ai pulsanti di colore diverso: quelli che fanno un'operazione al db (es. invio form) sono arancioni, mentre quelli che portano semplicemente ad una pagina diversa (interna o esterna) sono marroni;
-    \item i pulsanti a icona hanno sempre il medesimo risultato una volta cliccati. Per esempio li click (o tap) all'icona di modifica nel profilo utente normale e amministratore la modifica direttamente nella pagina. Invece nella pagina di dettaglio animale è stato usato un pulsante arancione che riporta alla pagina di aggiungi animale con i campi precompilati pronti per la modifica.
+    \item i pulsanti a icona hanno sempre il medesimo risultato una volta cliccati. Per esempio li click (o tap) all'icona di modifica nel profilo utente normale e amministratore la modifica direttamente nella pagina. Invece nella pagina di dettaglio animale è stato usato un pulsante arancione che riporta ad una pagina simile a quella per aggiungere l'animale ma con i campi precompilati pronti per la modifica.
     \item la timeline (o elenco numerato) delle fasi di adozione è simile a quella usata nella pagina chi siamo ma con la differenza che non presenta l'icona a V che indica l'interazione con la stessa;
     \item le polaroid presenti in chi siamo non sono dei link e non sono neanche interattive. Per rendere evidente la differenza rispetto alla sezione degli eventi nella homepage, le polaroid sono attaccate con del nastro adesivo stilizzato invece che con delle mollette;
     \item i numeri grandi sono scritti in forma estesa (es. 5 mila invece di 5.000) per migliorare la leggibilità, specialmente per i lettori più giovani;
@@ -47,8 +47,9 @@ Oltre a permettere una corretta visualizzazione a tutti i dispositivi (layout re
 \begin{itemize} 
     \item la \textit{timeline} presente nella home prevede punti cliccabili in assenza di JavaScript; 
     \item quando un animale viene inserito nei preferiti, la pagina viene ricaricata per mostrare l'aggiornamento dello stato (cuore pieno o vuoto). È stato usato AJAX solo come miglioramento per evitare il ricaricamento e migliorare la fluidità dell'interfaccia; 
-    \item la validazione dei form di inserimento dati è garantita lato server in PHP. Il controllo tramite JavaScript è implementato per fornire un \textit{feedback} immediato all'utente, ma non sostituisce i controlli di sicurezza del server; 
-    \item la navigazione del menù principale e la commutazione del tema (Light/Dark mode) rimangono funzionali anche senza script, essendo basate su elementi standard HTML e fogli di stile CSS; 
+
+    \item la navigazione del menù principale e la commutazione del tema (Light/Dark mode) rimangono funzionali anche senza script, essendo basate su elementi standard HTML e fogli di stile CSS, sebbene lo stato non venga salvato e quindi al successivo caricamento della pagina venga ripristinato il tema di default;
+
     \item i contatori di caratteri per i campi di testo forniscono un ausilio alla compilazione, ma i limiti di lunghezza sono gestiti in modo definitivo dai controlli PHP e dalle specifiche del database;
     \item la funzionalità di anteprima dell'immagine del profilo è un ausilio visivo, mentre il caricamento effettivo del file è gestito nativamente dal protocollo HTTP tramite l'invio del form.
 \end{itemize}
