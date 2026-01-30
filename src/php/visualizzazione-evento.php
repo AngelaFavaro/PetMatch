@@ -22,7 +22,7 @@ function buildEventsCards($events): string {
             $img = 'assets/images/animals/defaultCane.jpg';
         }
         $data=formattaDataItaliana($e['data_evento']);
-        $titolo=$e['titolo'];
+        $titolo=htmlspecialchars($e['titolo']);
         $html .= "<li>
                     <article class='evento'>
                         <!-- Immagine dell'evento -->
@@ -97,7 +97,7 @@ if ($connection->openDBConnection()) {
     
     if ($titoloGET && $dataGET) {
         $dettagliEvento = $connection->getInfoEvent($titoloGET, convertiDataItalianaInSQL($dataGET));
-        if (!$dettagliEvento) {
+        if (!$dettagliEvento) {     
             // ENT_QUOTES converte ' in &#039;
             $titoloEncoded = htmlspecialchars($titoloGET, ENT_QUOTES); 
             $dettagliEvento = $connection->getInfoEvent($titoloEncoded, convertiDataItalianaInSQL($dataGET));

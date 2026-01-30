@@ -28,9 +28,9 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
 
         $idTabella = "sumTabella" . $tipo;
         $html = '
-            <span id="' . $idTabella . '" class="sr-only" aria-hidden="true">In questa tabella vengono elencate le segnalazioni per nuove accoglienze per ' . $tipoMinuscoloPlurale . ' e i loro dettagli: identificativo segnalazione, data segnalazione, nominativo del segnalante (nome e cognome), email segnalante. Infine per ogni segnalazione un link alla gestione della segnalazione e eventualmente un pulsante per contattare il segnalante.</span>
-            <table aria-describedby="' . $idTabella . '">
-                <caption>Segnalazioni di accoglienze per ' . $tipo . '</caption>
+            <span id="' . htmlspecialchars($idTabella) . '" class="sr-only" aria-hidden="true">In questa tabella vengono elencate le segnalazioni per nuove accoglienze per ' . $tipoMinuscoloPlurale . ' e i loro dettagli: identificativo segnalazione, data segnalazione, nominativo del segnalante (nome e cognome), email segnalante. Infine per ogni segnalazione un link alla gestione della segnalazione e eventualmente un pulsante per contattare il segnalante.</span>
+            <table aria-describedby="' . htmlspecialchars($idTabella) . '">
+                <caption>Segnalazioni di accoglienze per ' . htmlspecialchars($tipo) . '</caption>
                 <thead>
                     <tr>
                         <th scope="col"><abbr title="Identificativo segnalazione"><span lang="en">Id</span></abbr></th>
