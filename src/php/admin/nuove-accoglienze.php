@@ -71,6 +71,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                         $html .='
                             <td colspan="2" class="col-dettagli">
                                 <form method="post" action="nuove-accoglienze">
+                                    <input type="hidden" name="tipo" value="' . htmlspecialchars($tipo) . '"/>
                                     <input type="hidden" name="id_segnalazione" value="' . htmlspecialchars($animale['id_segnalazione']) . '"/>
                                     <button type="submit" name="assegna_segnalazione" class="orange-button">Assegna a me<span class="sr-only"> numero' . htmlspecialchars($animale['id_segnalazione']) . '</span></button>
                                 </form>
@@ -79,6 +80,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                          $html .='
                             <td class="col-dettagli">
                                 <form method="post" action="nuove-accoglienze">
+                                    <input type="hidden" name="tipo" value="' . htmlspecialchars($tipo) . '"/>
                                     <input type="hidden" name="id_segnalazione" value="' . htmlspecialchars($animale['id_segnalazione']) . '"/>
                                     <button type="submit" name="elimina_segnalazione" class="orange-button">Elimina<span class="sr-only"> numero' . htmlspecialchars($animale['id_segnalazione']) . '</span></button>
                                 </form>
@@ -140,12 +142,14 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['assegna_segnalazione'])) {
             $connessione->assignAdminToSegnalazione($_POST['id_segnalazione'], $_SESSION['email']);
+            $tipoAttivo = $_POST['tipo']=='Cane'?'Cani':'Gatti';
             header("Location: ./nuove-accoglienze?tipo=$tipoAttivo&page=$paginaCorrente");
             exit;
         }
 
         if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['elimina_segnalazione'])) {
             $connessione->deleteSegnalazione($_POST['id_segnalazione']);
+            $tipoAttivo = $_POST['tipo']=='Cane'?'Cani':'Gatti';
             header("Location: ./nuove-accoglienze?tipo=$tipoAttivo&page=$paginaCorrente");
             exit;
         }
