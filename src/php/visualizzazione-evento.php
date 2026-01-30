@@ -51,7 +51,8 @@ function buildEventsCards($events): string {
                         <a href='visualizzazione-evento?titolo=".urlencode($titolo)."&data=".urlencode($e['data_evento'])."'>Vedi dettagli</a>
                     </div>
                     </article>
-                </li>";
+                </li>
+";
     }
     $html="<h2>Altri eventi nella zona</h2>
             <ul class='cards-container' id='content-animali' tabindex='-1' aria-label='Altri eventi nella zona'>
