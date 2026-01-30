@@ -5953,10 +5953,6 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
 
 /* -----------PAGINA VISUALIZZAZIONE EVENTO--------------- */
 #visualizzazione-evento #evento {
-<<<<<<< HEAD
-    /* flex: 1 1 65%; */
-=======
->>>>>>> 754bfd873d22cf0b732dee8c24a079079f82c609
     border: 1px solid var(--txtcolor);
     border-radius: 0.5em;
     padding: 2em;
