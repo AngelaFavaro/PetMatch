@@ -42,8 +42,6 @@ function checkCredential(DBAccess $conn, &$email) {
 
         $email = mb_strtolower($email, "UTF-8");
 
-        $email   = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
-
         $errors = '';
 
         //controllo le credenziali
@@ -121,6 +119,8 @@ if ($paginaHTML === false) {
 	$paginaHTML = "<p>Errore: template layout.html non trovato o non leggibile.</p>";
 }
 
+$emailToEcho   = htmlspecialchars($emailValue, ENT_QUOTES, 'UTF-8');
+
 $title = '<title>Accedi - PetMatch </title>';
 $description = '<meta name="description" content="Accedi a PetMatch">';
 $keywords = "<meta name='keywords' content='Accedi'>";
@@ -139,7 +139,7 @@ $paginaHTML = str_replace('[breadcrumb]', $breadcrumb, $paginaHTML);
 $paginaHTML = str_replace('[nav]', $nav, $paginaHTML);
 $paginaHTML = str_replace('[main]', $main, $paginaHTML);
 
-$paginaHTML = str_replace('[emailValue]', $emailValue, $paginaHTML);
+$paginaHTML = str_replace('[emailValue]', $emailToEcho, $paginaHTML);
 $paginaHTML = str_replace('[erroriLogin]', $messageForm, $paginaHTML);
 
 $paginaHTML = str_replace('[footer]', $footer, $paginaHTML);
