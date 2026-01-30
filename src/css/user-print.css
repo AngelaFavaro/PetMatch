@@ -1046,3 +1046,19 @@ margin-bottom: 0.3cm;
 .view-mode span a {
     display: none;
 }
+
+.edit-mode .cancel-edit,
+.edit-mode label[for="new-pic"],
+.edit-mode #new-pic,
+.edit-mode .checkbox-container-pic {
+    display: none;
+}
+
+.edit-mode label {
+    display: block;
+    margin-bottom: 0.1cm;
+}
+
+.edit-mode button[type="submit"] {
+    display: none;
+}
