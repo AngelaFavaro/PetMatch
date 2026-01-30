@@ -832,5 +832,4 @@ $paginaHTML = str_replace('[openDialog]', $closeModal?'':'', $paginaHTML);
 
 
 echo $paginaHTML;
-echo password_hash('admin', PASSWORD_DEFAULT);
 ?>
