@@ -889,3 +889,66 @@ margin-bottom: 0.3cm;
     padding: 0.3cm;
     margin-top: 0.5cm;
 }
+
+/* ==========  VISUALIZZAZIONE EVENTO ========== */
+
+#visualizzazione-evento #evento {
+    border: 1px solid var(--lightborder);
+    padding: 0.5cm;
+    break-inside: avoid;
+}
+
+#visualizzazione-evento #evento img.square-foto {
+    width: 4cm;
+    height: 4cm;
+    object-fit: cover;
+    float: left;
+    margin-right: 0.5cm;
+    margin-bottom: 0.5cm;
+    border-radius: 0.2cm;
+}
+
+#visualizzazione-evento #evento h1 {
+    font-size: 14pt;
+    margin-bottom: 0.3cm;
+}
+
+#visualizzazione-evento #evento dt {
+    font-weight: bold;
+}
+
+#visualizzazione-evento #evento dt::after {
+    content: ":\00a0";
+}
+
+#visualizzazione-evento #evento dd {
+    margin-bottom: 0.3cm;
+}
+
+#descrizione-evento {
+    clear: both;
+    float: left;
+    padding-top: 0.3cm;
+    border-top: 1px solid var(--lightborder);
+    width: 100%;
+}
+
+#descrizione-evento + dd {
+    clear: both;
+}
+
+#visualizzazione-evento aside.altri-eventi {
+    break-inside: avoid;
+    margin-top: 0.5cm;
+}
+
+#visualizzazione-evento .altri-eventi .cards-container {
+    border: 1px solid var(--lightborder);
+    padding: 0.3cm;
+}
+
+#visualizzazione-evento .brown-button,
+#visualizzazione-evento button,
+#visualizzazione-evento a.button {
+    display: none;
+}
