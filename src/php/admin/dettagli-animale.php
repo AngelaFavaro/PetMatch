@@ -166,7 +166,7 @@ $description = '<meta name="description" content="Visualizzazione dettagliata de
 
 // Navigazione attiva
 $activeNav = $fromEmail ? 'richieste-adozione' : ($from === 'senza-admin' ? 'senza-amministratore' : 'assegnati-a-te');
-$nav = buildAdminNav($adminMenu, $activeNav, $pagine);
+$nav = buildAdminNav($adminMenu, $activeNav);
 // Sostituzioni Header
 $paginaHTML = str_replace(['[breadcrumb]', '[title]', '[nav]', '[description]', '[keywords]'], 
                          [$breadcrumb, $title, $nav, $description, ""], 
