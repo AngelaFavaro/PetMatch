@@ -49,6 +49,7 @@ function renderCaniContent(array $CaniNonAdmin, array $NNonAdminByType): string 
                     <td data-title="Età">'.htmlspecialchars($eta).'</td>
                     <td class="col-dettagli">
                         <form method="post" action="senza-amministratore" >
+                            <input type="hidden" name="tipo" value="Cani"/>
                             <input type="hidden" name="id_animale" value="' . htmlspecialchars($caneNonAdmin['id_animale']) . '"/>
                             <button type="submit" name="assegnami_animale" class="orange-button">Assegna a me<span class="sr-only"> numero' . htmlspecialchars($caneNonAdmin['id_animale']) . '</span></button>
                         </form>
@@ -112,6 +113,7 @@ function renderGattiContent(array $GattiNonAdmin,array $NNonAdminByType){
                     <td data-title="Età">'.htmlspecialchars($eta).'</td>
                     <td class="col-dettagli">
                         <form method="post" action="senza-amministratore" >
+                            <input type="hidden" name="tipo" value="Gatti"/>
                             <input type="hidden" name="id_animale" value="' . htmlspecialchars($GattoNonAdmin['id_animale']) . '"/>
                             <button type="submit" name="assegnami_animale" class="orange-button">Assegna a me<span class="sr-only"> numero' . htmlspecialchars($GattoNonAdmin['id_animale']) . '</span></button>
                         </form>
@@ -166,6 +168,7 @@ if ($connessioneOK) {
 
     if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['assegnami_animale'])){
         $connessione->assignAnimalToAdmin((int)$_POST['id_animale'], $_SESSION['email']);
+        $tipoAttivo = $_POST['tipo'] === 'Cani' ? 'Cani' : 'Gatti';
         header("Location: ./senza-amministratore?tipo=$tipoAttivo&page=$paginaCorrente");
         exit;
     }
