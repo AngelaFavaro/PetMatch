@@ -186,19 +186,21 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
         $_SESSION['form_status_info'] = 'error';
         $_SESSION['form_errors_info'] = $errors;
 
-        $inputsToSave['Nome'] = $nome;
-        $inputsToSave['Tipo'] = $tipologia; 
-        $inputsToSave['Razza'] = $razza; 
-        $inputsToSave['Taglia'] = $taglia; 
-        $inputsToSave['Pelo'] = $pelo; 
-        $inputsToSave['DataNascita'] = $dataNascita; 
-        $inputsToSave['ImgPath'] = $fotoPath; 
-        $inputsToSave['Sesso'] = $sesso_db; 
-        $inputsToSave['Colore'] = $colore; 
-        $inputsToSave['CondizioniMediche'] = $condMediche; 
-        $inputsToSave['DescrComportamentale'] = $carattere; 
-        $inputsToSave['DescrFamiglia'] = $famiglia; 
-        $inputsToSave['Trasporto'] = $trasporto; 
+        //sanitize per redisplay, nota: lhp messo anche nelle select perché con ispeziona elemento è possibile 
+        // cambiare il calore mandato invece per le checkbox è solo 0 o 1
+        $inputsToSave['Nome'] = htmlspecialchars($nome, ENT_QUOTES, 'UTF-8');
+        $inputsToSave['Tipo'] = $tipologia;
+        $inputsToSave['Razza'] = htmlspecialchars($razza, ENT_QUOTES, 'UTF-8');
+        $inputsToSave['Taglia'] = htmlspecialchars($taglia, ENT_QUOTES, 'UTF-8');
+        $inputsToSave['Pelo'] = htmlspecialchars($pelo, ENT_QUOTES, 'UTF-8');
+        $inputsToSave['DataNascita'] = htmlspecialchars($dataNascita, ENT_QUOTES, 'UTF-8');
+        $inputsToSave['ImgPath'] = htmlspecialchars($fotoPath, ENT_QUOTES, 'UTF-8');
+        $inputsToSave['Sesso'] = $sesso_db;
+        $inputsToSave['Colore'] = htmlspecialchars($colore, ENT_QUOTES, 'UTF-8');
+        $inputsToSave['CondizioniMediche'] = htmlspecialchars($condMediche, ENT_QUOTES, 'UTF-8');
+        $inputsToSave['DescrComportamentale'] = htmlspecialchars($carattere, ENT_QUOTES, 'UTF-8');
+        $inputsToSave['DescrFamiglia'] = htmlspecialchars($famiglia, ENT_QUOTES, 'UTF-8');
+        $inputsToSave['Trasporto'] = $trasporto;
         $inputsToSave['assegna_a_me'] = isset($_POST['assegna_a_me']) ? 1 : 0;
 
 
