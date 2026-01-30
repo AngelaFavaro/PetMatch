@@ -4232,8 +4232,7 @@ div#admin-area dt::after {
 }
 
 dt.data-error, .data-error+ dd{
-    color: red;
-    font-weight: bold;
+    font-weight: bolder;
 }
 
 

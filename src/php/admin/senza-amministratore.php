@@ -38,13 +38,13 @@ function renderCaniContent(array $CaniNonAdmin, array $NNonAdminByType): string 
 
             $id = htmlspecialchars($caneNonAdmin['id_animale']);
             $urlDettagli = "dettagli-animale?id-animale=" . $id . "&from=senza-admin";
-
+            $trasportoSiNo = $caneNonAdmin['trasporto_animale']==1? 'Sì' : 'No';
             $html .= '
                 <tr>
                     <th scope="row">'.htmlspecialchars($caneNonAdmin['id_animale']).'</th>
                     <td data-title="Nome">'.htmlspecialchars($caneNonAdmin['nome_animale']).'</td>
                     <td data-title="Data"><time datetime="'.htmlspecialchars($caneNonAdmin['data_registrazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($caneNonAdmin['data_registrazione']))).'</time></td>
-                    <td data-title="Trasporto">'.htmlspecialchars($caneNonAdmin['trasporto_animale']).'</td>
+                    <td data-title="Trasporto">'.htmlspecialchars($trasportoSiNo).'</td>
                     <td data-title="Razza">'.htmlspecialchars($caneNonAdmin['razza_animale']).'</td>
                     <td data-title="Età">'.htmlspecialchars($eta).'</td>
                     <td class="col-dettagli">
@@ -79,6 +79,7 @@ function renderGattiContent(array $GattiNonAdmin,array $NNonAdminByType){
     if($NNonAdminByType['Gatto'] == 0){
         return '<p role="status" class="nessun-risultato-message">Nessun gatto senza amministratore.</p>';
     }else{
+        
         $html = '
         <span id="sumTabellaGattiNoAdmin" class="sr-only" aria-hidden="true">In questa tabella vengono elencate Identificativo gatto, Nome gatto, Data di registrazione, se è idoneo al trasporto, Razza gatto, Età gatto e per ogni gatto un link alla scheda dettagli dell\'animale.</span>
         <table aria-describedby="sumTabellaGattiNoAdmin">
@@ -102,13 +103,13 @@ function renderGattiContent(array $GattiNonAdmin,array $NNonAdminByType){
 
             $id = htmlspecialchars($GattoNonAdmin['id_animale']);
             $urlDettagli = "dettagli-animale?id-animale=" . $id . "&from=senza-admin";
-
+            $trasportoSiNo = $GattoNonAdmin['trasporto_animale']==1? 'Sì' : 'No';
             $html .= '
                 <tr>
                     <th scope="row">'.htmlspecialchars($GattoNonAdmin['id_animale']).'</th>
                     <td data-title="Nome">'.htmlspecialchars($GattoNonAdmin['nome_animale']).'</td>
                     <td data-title="Data di registrazione"><time datetime="'.htmlspecialchars($GattoNonAdmin['data_registrazione']).'">'.htmlspecialchars(date('d/m/Y', strtotime($GattoNonAdmin['data_registrazione']))).'</time></td>
-                    <td data-title="Trasporto">'.htmlspecialchars($GattoNonAdmin['trasporto_animale']).'</td>
+                    <td data-title="Trasporto">'.htmlspecialchars($trasportoSiNo).'</td>
                     <td data-title="Razza">'.htmlspecialchars($GattoNonAdmin['razza_animale']).'</td>
                     <td data-title="Età">'.htmlspecialchars($eta).'</td>
                     <td class="col-dettagli">
