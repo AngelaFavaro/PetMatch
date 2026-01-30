@@ -384,6 +384,9 @@ h1 + a.brown-button{
     margin-top: -1cm;
 }
 
+#btn-assegnati-a-te{
+    display: none;
+}
 
 /* ============HOME=========== */
 
@@ -662,7 +665,7 @@ article.card,
 .cards-container:has(.evento) li{
     flex-grow: 1;
     justify-content: space-between;
-    flex: 0 0 49%;
+    flex: 0 0 100%;
     display: flex;
     list-style: none;
     box-sizing: border-box;
@@ -686,13 +689,14 @@ article.card,
     display: block;
 }
 
-.evento img{
+.evento img.immagine-evento{
     float: left;
-    max-height: 2cm;
-    max-width: 3cm;
-    margin: 0 auto 0.5cm auto;
-    padding-right: 0.5cm;
+    max-height: 3cm;
+    max-width: 4cm;
+    margin: 0 0.5cm 0.3cm 0;
+    padding-right: 0;
     object-fit: cover;
+    display: block;
 }
 
 .evento p{
@@ -729,6 +733,7 @@ article.evento {
     page-break-inside: avoid; 
     display: block; 
 }
+
 /* ========== NAV SOTTO ========== */
 #animali .next-page-links, #eventi .next-page-links {
     display: flex;

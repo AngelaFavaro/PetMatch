@@ -96,7 +96,7 @@ if(isset($_GET['id'])) {
     $messaggioNoAnimali = $isPreferiti? 'Non hai ancora salvato nessun animale.': ($isFromAdmin ? 'Non ci sono animali assegnati a te.' : 'Non abbiamo ancora animali disponibili.');
     $assignedButton='';
     if($isAdmin&&!$isFromAdmin) {
-        $assignedButton="<a href='assegnati-a-te' class='brown-button'>Assegnati a te</a>";
+        $assignedButton="<a href='assegnati-a-te' class='brown-button' id='btn-assegnati-a-te' >Assegnati a te</a>";
     }
     
         
