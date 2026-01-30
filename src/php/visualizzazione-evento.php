@@ -23,7 +23,8 @@ function buildEventsCards($events): string {
         }
         $data=formattaDataItaliana($e['data_evento']);
         $titolo=$e['titolo'];
-        $html .= "<li>
+        $html .= "
+                <li>
                     <article class='evento'>
                         <!-- Immagine dell'evento -->
                         <img class='immagine-evento' src=$img alt=''>
@@ -40,7 +41,8 @@ function buildEventsCards($events): string {
                         <a href='visualizzazione-evento?titolo=".urlencode($titolo)."&data=".urlencode($e['data_evento'])."'>Vedi dettagli</a>
                     </div>
                     </article>
-                </li>";
+                </li>
+";
     }
     return $html;
 }
@@ -128,7 +130,8 @@ if ($connection->openDBConnection()) {
                 'nomeNO' => $dettagliEvento['Titolo']];
     }
     $eventi = $connection->getEventsFilteredPaged($citta, 3);
-    $eventiAside=$eventi?buildEventsCards($eventi) : "<p class='errore'>Per ora non ci sono altri eventi in programma in questa città. Ritorna tra qualche giorno a controllare</p>";
+    $eventiAside=$eventi?"<ul class='cards-container' id='content-animali' tabindex='-1' aria-label='Altri eventi nella zona'>" .buildEventsCards($eventi) . "</ul>" : "
+    <p class='errore cards-container'>Per ora non ci sono altri eventi in programma in questa città. Ritorna tra qualche giorno a controllare</p>";
 
     $connection->closeConnection();
 } else {
