@@ -174,7 +174,7 @@ function buildCollaboratorsCard($collaboratori): string {
             $surname=htmlspecialchars($c['Cognome']);
             $profilePic=htmlspecialchars($c['ImgPath']);
             $emailColl=htmlspecialchars($c['Email']);
-            $collaboratoriCards.="<li><img src='$profilePic' class='circle' alt=''> <dl class='collaborator-name'><dt>Nominativo: </dt><dd>$name $surname</dd><dt>Email:</dt><dd>$emailColl</dd></dl></li>";
+            $collaboratoriCards.="<li><img src='$profilePic' class='circle-foto' alt=''> <dl class='collaborator-name'><dt>Nominativo: </dt><dd>$name $surname</dd><dt>Email:</dt><dd>$emailColl</dd></dl></li>";
         }
         $html="<h2>Scritto da:</h2>
             <ul id='content-collaborators' tabindex='-1' aria-label='Organizzatori evento'>
