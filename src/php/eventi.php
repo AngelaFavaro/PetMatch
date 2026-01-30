@@ -50,7 +50,7 @@ function buildFilterNav(array $filters): string {
 
 
 
-function buildEventsCards($events, $filtro): string {
+function buildEventsCards($events, $filtro, $isFromAdmin): string {
     $html='';
     foreach ($events as $e) {
         $img='';
@@ -59,6 +59,7 @@ function buildEventsCards($events, $filtro): string {
         } else {
             $img = 'assets/images/animals/defaultCane.jpg';
         }
+        $link=$isFromAdmin?'dettagli-evento':'visualizzazione-evento';
         $citta=$e['citta'];
         $data=formattaDataItaliana($e['data_evento']);
         $dataAbbr=date("d/m/Y", strtotime($e['data_evento']));
@@ -96,7 +97,7 @@ function buildEventsCards($events, $filtro): string {
                             <p>$descrEvento</p>
                         </div>
                         <div class='dettagli-evento-bottone'>
-                        <a href='./visualizzazione-evento?titolo=".urlencode($titolo)."&data=".$e['data_evento']."'>Vedi dettagli</a>
+                        <a href='./$link?titolo=".urlencode($titolo)."&data=".$e['data_evento']."'>Vedi dettagli</a>
                     </div>
                     </article>
                 </li>";
@@ -182,7 +183,7 @@ $pagineTotali = max(1, ceil($totale / $perPagina));
 
 
 
-$eventiCards= $eventi ? buildEventsCards($eventi, $filtro) : "<p class='errore'>Per ora non ci sono eventi in programma. Torna a controllare tra qualche giorno!</p>";
+$eventiCards= $eventi ? buildEventsCards($eventi, $filtro, $isAdmin) : "<p class='errore'>Per ora non ci sono eventi in programma. Torna a controllare tra qualche giorno!</p>";
 $linkPagine=$pagineTotali>1? "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine'>
         <ul aria-label='Pagine di navigazione'>".buildPagination($pagina, $pagineTotali, $filtersPerTitle)."</ul>
     </nav>" : '';

@@ -289,9 +289,9 @@ if(!$richiesta['animalImgPath'] || !file_exists($richiesta['animalImgPath'])){
 }
 
 if($richiesta['sesso-animale'] === 'F')
-    $main = str_replace('[sessoAnimale]', '<abbr title="Femmina">F</abbr>', $main);
+    $main = str_replace('[sessoAnimale]', 'Femmina', $main);
 elseif($richiesta['sesso-animale'] === 'M')
-    $main = str_replace('[sessoAnimale]', '<abbr title="Maschio">M</abbr>', $main);
+    $main = str_replace('[sessoAnimale]', 'Maschio', $main);
 
 // Invece di: $main = str_replace('[etaAnimale]', e($richiesta['eta-animale'] ?? ''), $main);
 

@@ -1093,6 +1093,14 @@ body#admin-body #animali .filtri .capsula-filtro{
     gap:0;
 }
 
+#dettaglio-animale.column-container{
+    gap:0;
+}
+
+#dettaglio-animale button[name="delete-assignment"]{
+    margin-top: 1em;
+}
+
 #dettaglio-animale #container-animal-details{
     display: block;
 }
@@ -1155,10 +1163,15 @@ div#admin-area #details-container article#animale-richiesta .text-details{
     flex: 1 0 100%;
 }
 
-#visualizzazione-evento #evento{
+#visualizzazione-evento #evento:not(:has(.edit-btn-container)){
     display: flex;
     padding: 0 1em;
     margin:0 0 1.5em 0;
+    flex-wrap: wrap;
+}
+
+#visualizzazione-evento #evento:has(.edit-btn-container){
+    display: flex;
     flex-wrap: wrap;
 }
 
@@ -1185,4 +1198,39 @@ div#admin-area #details-container article#animale-richiesta .text-details{
 
 #visualizzazione-evento .data-evento img{
     display: none;
+}
+
+#evento .edit-btn-container,
+#dettaglio-animale .edit-btn-container{
+    display: block;
+    position: static;
+}
+
+#dettaglio-animale .action-buttons-group{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    gap:0;
+}
+
+#dettaglio-animale #animale-detailed-container .generic-info-container form{
+    min-width:100%;
+    margin:0;
+}
+
+#visualizzazione-evento .edit-btn-container a.orange-button,
+#visualizzazione-evento .button-cancel[name="show-dialog"],
+#dettaglio-animale #animale-detailed-container button[name="show-dialog"],
+#dettaglio-animale .action-buttons-group a{
+    width: 100%;
+    display: block;
+}
+
+#visualizzazione-evento .button-cancel[name="show-dialog"],
+#dettaglio-animale #animale-detailed-container button[name="show-dialog"]{
+    margin-bottom: 1em;
+}
+
+#visualizzazione-evento #evento{
+    padding: 1em;
 }

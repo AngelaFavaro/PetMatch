@@ -2558,6 +2558,35 @@ public function getAnimalArrivalDate($idAnimale): ?string {
         return false;
     }
 
+    public function getOrganizzatoriEvento(string $titoloEvento, string $dataEvento): array {
+    $query = "SELECT u.Nome, u.Cognome, u.Email, e.Titolo, e.DataEvento, u.ImgPath
+              FROM ORGANIZZAZIONE o
+              JOIN UTENTI u ON o.Email = u.Email
+              JOIN EVENTI e 
+                ON o.Titolo = e.Titolo 
+               AND o.DataEvento = e.DataEvento
+              WHERE o.Titolo = ?
+                AND o.DataEvento = ?";
+
+    $stmt = mysqli_prepare($this->connection, $query);
+    $data = [];
+
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, 'ss', $titoloEvento, $dataEvento);
+        mysqli_stmt_execute($stmt);
+        $res = mysqli_stmt_get_result($stmt);
+
+        while ($row = mysqli_fetch_assoc($res)) {
+            $data[] = $row;
+        }
+
+        mysqli_stmt_close($stmt);
+    }
+
+    return $data;
+}
+
+
     public function removeAdminAssignment($idAnimale) {
         $query = "UPDATE ANIMALI SET Email = NULL WHERE IDanimale = ?";
         $stmt = $this->connection->prepare($query);
@@ -2568,6 +2597,23 @@ public function getAnimalArrivalDate($idAnimale): ?string {
         $stmt->close();
         return $result;
     }
+
+    public function deleteEvent(string $titolo, string $dataEvento): bool {
+    if (!$this->connection) return false;
+
+    $query = "DELETE FROM EVENTI WHERE Titolo = ? AND DataEvento = ?";
+    $stmt = mysqli_prepare($this->connection, $query);
+
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, 'ss', $titolo, $dataEvento);
+        $res = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $res;
+    }
+
+    return false;
+}
+
 
 }
 

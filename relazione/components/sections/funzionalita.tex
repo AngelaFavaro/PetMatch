@@ -19,10 +19,10 @@ Oltre a tutte le funzionalità disponibili per gli utenti non registrati, gli ut
 Compilando il form di adozione, presente comodamente nella pagina di dettaglio di ogni animale disponibile, un utente registrato può inviare una richiesta di adozione per l'animale di interesse.\\
 Inoltre la pagina di dettaglio animale cambia dinamicamente, evidenziando lo stato della richiesta inviata dall'utente, se presente, e disabilitando il form di invio di una nuova richiesta.
 \paragraph{Gestione profilo}
-Gli utenti registrati hanno a disposizione una pagina profilo in cui possono visualizzare e modificare le proprie informazioni personali, come nome, cognome, password ma anche immagine profilo.\\
+Gli utenti registrati hanno a disposizione una pagina profilo in cui possono visualizzare e modificare le proprie informazioni personali, come nome, cognome ma anche immagine profilo.\\
 Più interessante è la possibilità di gestire l'account, cambiando email e password, e la possibilità di eliminare l'account in modo permanente.
 \paragraph{Gestione richieste di adozione}
-Nell'area personale un utente può visualizzare lo stato delle proprie richieste, vedere gli ultimi avvisi di movimenti effettuati sugli animali interessati (in adozione o in valutazione) o quelle effettuate dall'amministratore che lo hanno coinvolto.\\ 
+Nell'area personale un utente può visualizzare lo stato delle proprie richieste, vedere gli ultimi avvisi di movimenti effettuati sugli animali interessati (quelli di cui ha fatto richiesta) o quelle effettuate dall'amministratore che lo hanno coinvolto.\\ 
 In ultimo l'utente può visionare una richiesta inviata \textbf{in dettaglio}, con tutte le informazioni inserite e annullare la richiesta di adozione se ancora in stato di "in valutazione" o "nuova". L'utente può quindi recuperare informazioni della propria richiesta sia nella scheda di dettaglio dell'animale che nella pagina delle richieste inviate.
 \subsection{Amministratore}
 Un utente amministratore può visualizzare il sito web come un utente normale, ma ha accesso a funzionalità aggiuntive accessibili nell'area amministratore.\\
@@ -43,7 +43,8 @@ Inoltre l'amministratore può lasciare un commento interno alla richiesta, visib
 Gli animali possono essere assegnati solamente ad uno specifico amministratore che ne gestirà le richieste di adozione. Egli ha anche la responsabilità di mantenere aggiornate le informazioni dell'animale e di rimuoverlo dal sito qualora l'animale non fosse più disponibile per forze maggiori. Si nota che, come descritto precedentemente, gli animali adottati rimangono nel database.\\
 Un amministratore può aggiungere nuovi animali al database, compilando un form con tutte le informazioni richieste. Il form include la possibilità di assegnare la gestione dell'animale a sé stesso o lasciarlo non assegnato, in modo che un altro amministratore possa occuparsene in seguito.
 \paragraph{Gestione animali senza amministatore}
-Gli animali non assegnati ad alcun amministratore sono visibili in una pagina dedicata. Un amministratore può decidere di prendersi carico di uno di questi animali, assegnandolo a sé stesso, in modo da poter gestire le richieste di adozione relative a quell'animale.
+Gli animali non assegnati ad alcun amministratore sono visibili in una pagina dedicata. Un amministratore può decidere di prendersi carico di uno di questi animali, assegnandolo a sé stesso, in modo da poter gestire le richieste di adozione relative a quell'animale.\\
+Inoltre un amministratore può decidere di rilasciare un animale precedentemente assegnato a sé stesso, dalla scheda dettaglio dell'animale.
 \paragraph{Gestione eventi}
 L'amministratore ha la possibilità di creare, modificare ed eliminare eventi organizzati dal rifugio. Può utilizzare un form dedicato per inserire i dettagli dell'evento, come data, luogo e descrizione.
 Ogni modifica agli eventi registra l'amministratore che l'ha effettuata, in modo da mantenere l'organizzazione trasparente.
