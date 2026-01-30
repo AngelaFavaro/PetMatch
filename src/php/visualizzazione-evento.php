@@ -115,11 +115,10 @@ function buildMainevent(array $dettagliEvento, int $isAdmin=0): string {
         // 3. Creazione del blocco HTML (con le variabili ora piene!)
         $html = "<div id='mainEvent' [COLLABORATORI]>
         <div id='evento'>
-        <img class='square-foto' id='foto-animale' src='$img' alt='foto del luogo per evento  $titolo'>
         <div class='edit-btn-container'>
                 <form method='post'>
                     <button type='submit' name='show-dialog' class='button-cancel'>
-                        <img src=''./assets/icons/delete-trash.svg' alt='' />Elimina evento
+                        <img src='assets/icons/delete-trash.svg' alt='' />Elimina evento
                     </button>
                 </form>";
 
@@ -137,6 +136,8 @@ function buildMainevent(array $dettagliEvento, int $isAdmin=0): string {
         }
         $html.="
         </div>
+        <img class='square-foto' id='foto-animale' src='$img' alt='foto del luogo per evento  $titolo'>
+
         <dialog [openDialog] class='overlay-content'>
                     <div class='dialog-box'>
                         <h3 id='modal-title'>Conferma eliminazione</h3>
@@ -172,7 +173,8 @@ function buildCollaboratorsCard($collaboratori): string {
             $name=htmlspecialchars($c['Nome']);
             $surname=htmlspecialchars($c['Cognome']);
             $profilePic=htmlspecialchars($c['ImgPath']);
-            $collaboratoriCards.="<li><img src='$profilePic' alt=''> <span class='collaborator-name'>$name $surname</span></li>";
+            $emailColl=htmlspecialchars($c['Email']);
+            $collaboratoriCards.="<li><img src='$profilePic' class='circle' alt=''> <dl class='collaborator-name'><dt>Nominativo: </dt><dd>$name $surname</dd><dt>Email:</dt><dd>$emailColl</dd></dl></li>";
         }
         $html="<h2>Scritto da:</h2>
             <ul id='content-collaborators' tabindex='-1' aria-label='Organizzatori evento'>

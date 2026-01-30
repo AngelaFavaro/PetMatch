@@ -2812,7 +2812,7 @@ flex: 1 0 100%;
 #user-profile .tabs-container legend{
     display: none;
 }
-#visualizzazione-evento .button-cancel,
+
 #visualizzazione-evento button[name="delete-evento"],
 #animale-detailed-container .button-cancel,
 #animale-detailed-container button[name="delete-animale"],
@@ -2820,6 +2820,7 @@ flex: 1 0 100%;
 #user-info button[name="delete-account"],
 #user-profile .tab-content form button,
 .logout-btn,
+#visualizzazione-evento .button-cancel,
 #revisione-richiesta .button-cancel,
 #revisione-richiesta button[name="delete-request"],
 .dialog-buttons label{
@@ -2833,6 +2834,7 @@ flex: 1 0 100%;
     font-weight: 600;
 }
 
+#visualizzazione-evento .button-cancel[name='show-dialog'],
 #dettaglio-animale #animale-detailed-container button[name="show-dialog"]{
     padding: 0.3em 1em;
     border-radius: 2em;
@@ -3470,14 +3472,19 @@ dialog::backdrop {
     padding: 0.5em 2em;
 }
 
+#visualizzazione-evento .button-cancel:not([name='show-dialog']),
 #animale-detailed-container .button-cancel:not([name="show-dialog"]),
 #revisione-richiesta .button-cancel:not([name="show-dialog"]),
-#animale-detailed-container .button-cancel,
 #user-info .edit-management .button-cancel{
     width: 100%;
     text-align: center;
     background-color: transparent;
     border-radius: 1em;
+}
+
+#animale-detailed-container .button-cancel[name="show-dialog"],
+#visualizzazione-evento .button-cancel[name="show-dialog"]{
+    background-color: transparent;
 }
 
 #animale-detailed-container .button-cancel:hover,
@@ -4562,6 +4569,11 @@ h2+#animale-richiesta .generic-info-container img.square-foto{
 
 #dettaglio-animale .edit-btn-container .orange-button{
     margin: 0 0 0 auto;
+}
+
+#evento .edit-btn-container{
+    display: flex;
+    margin-bottom: 1em;
 }
 
 /* Fieldset - ALLINEAMENTO SOTTO AL TITOLO */
@@ -6095,12 +6107,6 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     margin-right: 0.5em;
 }
 
-#visualizzazione-evento #altri-eventi #content-collaborators img {
-    width: 4em;
-    height: 4em;
-    object-fit: cover;
-    border-radius: 50%;
-}
 
 #visualizzazione-evento #altri-eventi #content-collaborators {
     list-style-type: none;
@@ -6111,11 +6117,18 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
 }
 
 #visualizzazione-evento #altri-eventi #content-collaborators li {
-    /* float: left; */
     display: flex;
     align-items: center;
     min-width: 8em;
     gap: 1em;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--txtcolor);
+    margin-top: 0.5em;
+    padding-top: 0.5em;
+}
+
+#visualizzazione-evento #mainEvent:has(.edit-btn-container){
+    flex: 1 1 55%;
 }
 
 #visualizzazione-evento .collaboratori#altri-eventi {
@@ -6130,20 +6143,37 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     float: left;
 }
 
+#content-collaborators .circle{
+    float: left;
+    width: 6em;
+    height: 6em;
+    object-fit:cover;
+    margin: 0;
+}
+
+#content-collaborators dl{
+    flex: 1 1 65%;
+}
+
 .container#visualizzazione-evento {
     margin-top: 2em;
 }
 
 #visualizzazione-evento .collaboratori#altri-eventi {
     height: fit-content;
-    flex: 0 1 25%;
+    flex: 0 1 40%;
 }
 
-#visualizzazione-evento #mainEvent.collaboratori {
-    flex-shrink: 0;
-    min-width: 35em;
+.collaborator-name dt{
+    float: left;
+    font-weight: 600;
+    margin-right: 0.5em;
 }
 
-#visualizzazione-evento .edit-btn-container {
-    display: flex;
+#visualizzazione-evento #altri-eventi.collaboratori #content-collaborators{
+    display: block;
 }
+
+/* .collaborator-name dd{
+    float: left;
+} */

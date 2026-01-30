@@ -252,7 +252,3 @@ td.col-dettagli a,td.col-dettagli button{
     flex: none;
     width: 100%;
 }
-
-#visualizzazione-evento #altri-eventi #content-collaborators li {
-    width: 33.3333%;
-}

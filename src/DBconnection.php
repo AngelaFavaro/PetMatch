@@ -2559,7 +2559,7 @@ public function getAnimalArrivalDate($idAnimale): ?string {
     }
 
     public function getOrganizzatoriEvento(string $titoloEvento, string $dataEvento): array {
-    $query = "SELECT u.Nome, u.Cognome, e.Titolo, e.DataEvento, u.ImgPath
+    $query = "SELECT u.Nome, u.Cognome, u.Email, e.Titolo, e.DataEvento, u.ImgPath
               FROM ORGANIZZAZIONE o
               JOIN UTENTI u ON o.Email = u.Email
               JOIN EVENTI e 
