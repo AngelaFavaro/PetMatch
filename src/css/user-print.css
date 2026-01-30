@@ -384,6 +384,9 @@ h1 + a.brown-button{
     margin-top: -1cm;
 }
 
+#btn-assegnati-a-te{
+    display: none;
+}
 
 /* ============HOME=========== */
 
@@ -662,7 +665,7 @@ article.card,
 .cards-container:has(.evento) li{
     flex-grow: 1;
     justify-content: space-between;
-    flex: 0 0 49%;
+    flex: 0 0 100%;
     display: flex;
     list-style: none;
     box-sizing: border-box;
@@ -686,13 +689,14 @@ article.card,
     display: block;
 }
 
-.evento img{
+.evento img.immagine-evento{
     float: left;
-    max-height: 2cm;
-    max-width: 3cm;
-    margin: 0 auto 0.5cm auto;
-    padding-right: 0.5cm;
+    max-height: 3cm;
+    max-width: 4cm;
+    margin: 0 0.5cm 0.3cm 0;
+    padding-right: 0;
     object-fit: cover;
+    display: block;
 }
 
 .evento p{
@@ -729,6 +733,7 @@ article.evento {
     page-break-inside: avoid; 
     display: block; 
 }
+
 /* ========== NAV SOTTO ========== */
 #animali .next-page-links, #eventi .next-page-links {
     display: flex;
@@ -808,4 +813,236 @@ margin-bottom: 0.3cm;
 
 .pm-timeline-date::after{
     content: ":";
+}
+
+/* ---------- VISUALIZZAZIONE ANIMALE ------------ */
+
+#contatta-il-rifugio {
+    display: none;
+}
+
+#visualizzazione-animale #interessamento-animale {
+    break-inside: avoid;
+    margin-bottom: 0.5cm;
+    border: 1px solid var(--lightborder);
+    padding: 0.3cm;
+    text-align: center;
+}
+
+#visualizzazione-animale #info-generiche {
+    display: block;
+    border: 1px solid var(--lightborder);
+    padding: 0.5cm;
+    break-inside: avoid;
+}
+
+#visualizzazione-animale #foto-animale {
+    width: 5cm ;
+    height: 5cm ;
+    max-width: 5cm ;
+    max-height: 5cm ;
+    object-fit: cover;
+    flex-shrink: 0;
+    float: right ;
+    margin-left: 0.5cm;
+    margin-bottom: 0.5cm;
+}
+
+#visualizzazione-animale #info-generiche-testo {
+    display: block;
+}
+
+#visualizzazione-animale #info-generiche-testo dt {
+    font-weight: bold;
+}
+
+#visualizzazione-animale #info-aggiuntive-separate,
+#visualizzazione-animale #info-aggiuntive-unite {
+    break-inside: avoid;
+    margin-top: 0.5cm;
+    clear: both;
+    display: block;
+}
+
+#visualizzazione-animale #info-aggiuntive-separate dt,
+#visualizzazione-animale #info-aggiuntive-unite dt {
+    font-weight: bold;
+}
+
+#visualizzazione-animale .preferiti-form {
+    display: none;
+}
+
+#visualizzazione-animale .preferiti-form button {
+    display: none;
+}
+
+#richiesta-adozione,
+#compila-form-adozione,
+#contatta-rifugio {
+    display: none;
+}
+
+#visualizzazione-animale #stato-richiesta {
+    break-inside: avoid;
+    border: 1px solid var(--lightborder);
+    padding: 0.3cm;
+    margin-top: 0.5cm;
+}
+
+/* ==========  VISUALIZZAZIONE EVENTO ========== */
+
+#visualizzazione-evento #evento {
+    border: 1px solid var(--lightborder);
+    padding: 0.5cm;
+    break-inside: avoid;
+}
+
+#visualizzazione-evento #evento img.square-foto {
+    width: 4cm;
+    height: 4cm;
+    object-fit: cover;
+    float: left;
+    margin-right: 0.5cm;
+    margin-bottom: 0.5cm;
+    border-radius: 0.2cm;
+}
+
+#visualizzazione-evento #evento h1 {
+    font-size: 14pt;
+    margin-bottom: 0.3cm;
+}
+
+#visualizzazione-evento #evento dt {
+    font-weight: bold;
+}
+
+#visualizzazione-evento #evento dt::after {
+    content: ":\00a0";
+}
+
+#visualizzazione-evento #evento dd {
+    margin-bottom: 0.3cm;
+}
+
+#descrizione-evento {
+    clear: both;
+    float: left;
+    padding-top: 0.3cm;
+    border-top: 1px solid var(--lightborder);
+    width: 100%;
+}
+
+#descrizione-evento + dd {
+    clear: both;
+}
+
+#visualizzazione-evento aside.altri-eventi {
+    break-inside: avoid;
+    margin-top: 0.5cm;
+}
+
+#visualizzazione-evento .altri-eventi .cards-container {
+    border: 1px solid var(--lightborder);
+    padding: 0.3cm;
+}
+
+#visualizzazione-evento .brown-button,
+#visualizzazione-evento button,
+#visualizzazione-evento a.button {
+    display: none;
+}
+
+/* ========== STAMPA PROFILO UTENTE ========== */
+
+#user-profile .tab-content form button {
+    display: none;
+}
+
+#user-profile .tab-content form {
+    display: none;
+}
+
+#user-profile .column-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#user-profile .column-container #user-info {
+    order: 1;
+    width: 100%;
+    margin-bottom: 0.5cm;
+}
+
+#user-info .view-mode h2 {
+    display: none;
+}
+
+#user-info .view-mode {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5cm;
+    align-items: flex-start;
+}
+
+#user-info .view-mode dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    column-gap: 0.3cm;
+    row-gap: 0.15cm;
+}
+
+#user-info dt {
+    font-weight:bold;
+}
+
+#user-info dt {
+    font-weight: bold;
+}
+
+#user-info img.circle-foto {
+    width: 4cm;
+    height: 3cm;
+    flex-shrink: 0;
+    margin: 0;
+    order: 2;
+}
+
+#user-profile .column-container .tabs-container {
+    order: 2;
+    width: 100%;
+}
+
+#user-profile .tabs-container input + label {
+    display: none;
+}
+
+#user-profile .tabs-container .tab-content {
+    display: block;
+    border: none;
+    padding: 0;
+    margin-bottom: 0.5cm;
+    break-inside: avoid;
+}
+
+#user-profile #lista-movimenti li,
+#user-profile #lista-richieste li {
+    border: 1px solid var(--lightborder);
+    padding: 0.3cm;
+    margin: 0.3cm 0;
+    break-inside: avoid;
+}
+
+#user-profile #lista-movimenti li a,
+#user-profile #lista-richieste li a {
+    display: none;
+}
+
+.logout-btn {
+    display: none;
+}
+
+.view-mode .edit-profile-link,
+.view-mode span a {
+    display: none;
 }
