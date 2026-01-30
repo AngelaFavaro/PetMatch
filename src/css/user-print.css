@@ -1074,3 +1074,10 @@ margin-bottom: 0.3cm;
 i.fas.fa-eye::before, #accedi i.fas.fa-eye::after{
     display: none;
 }
+
+#form-login legend{
+    margin-bottom: 0.4cm;
+}
+#container-form-login .orange-button{
+    margin-bottom: 0.4cm;
+}
