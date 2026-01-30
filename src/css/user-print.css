@@ -952,3 +952,97 @@ margin-bottom: 0.3cm;
 #visualizzazione-evento a.button {
     display: none;
 }
+
+/* ========== STAMPA PROFILO UTENTE ========== */
+
+#user-profile .tab-content form button {
+    display: none;
+}
+
+#user-profile .tab-content form {
+    display: none;
+}
+
+#user-profile .column-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#user-profile .column-container #user-info {
+    order: 1;
+    width: 100%;
+    margin-bottom: 0.5cm;
+}
+
+#user-info .view-mode h2 {
+    display: none;
+}
+
+#user-info .view-mode {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5cm;
+    align-items: flex-start;
+}
+
+#user-info .view-mode dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    column-gap: 0.3cm;
+    row-gap: 0.15cm;
+}
+
+#user-info dt {
+    font-weight:bold;
+}
+
+#user-info dt {
+    font-weight: bold;
+}
+
+#user-info img.circle-foto {
+    width: 4cm;
+    height: 3cm;
+    flex-shrink: 0;
+    margin: 0;
+    order: 2;
+}
+
+#user-profile .column-container .tabs-container {
+    order: 2;
+    width: 100%;
+}
+
+#user-profile .tabs-container input + label {
+    display: none;
+}
+
+#user-profile .tabs-container .tab-content {
+    display: block;
+    border: none;
+    padding: 0;
+    margin-bottom: 0.5cm;
+    break-inside: avoid;
+}
+
+#user-profile #lista-movimenti li,
+#user-profile #lista-richieste li {
+    border: 1px solid var(--lightborder);
+    padding: 0.3cm;
+    margin: 0.3cm 0;
+    break-inside: avoid;
+}
+
+#user-profile #lista-movimenti li a,
+#user-profile #lista-richieste li a {
+    display: none;
+}
+
+.logout-btn {
+    display: none;
+}
+
+.view-mode .edit-profile-link,
+.view-mode span a {
+    display: none;
+}

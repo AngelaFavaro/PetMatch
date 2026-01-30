@@ -533,7 +533,7 @@ $htmlView =
     <img src="[imgPath]" alt="foto profilo" class="circle-foto"/>
     <a href="?mode=edit#modifica-profilo" class="edit-profile-link">
        <p aria-hidden=true>Modifica profilo</p> <img src="./assets/icons/edit-pencil.svg" alt="" /></a>
-    <dl aria-label="informazioni dell\'utente">
+    <dl aria-label="informazioni dell\'utente" id="user-info">
         <dt>Nome: </dt> <dd>[nome-utente]</dd>
         <dt>Cognome: </dt> <dd>[cognome-utente]</dd>
         <dt>Indirizzo: </dt> <dd>[indirizzo-utente]</dd>
