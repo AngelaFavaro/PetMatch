@@ -54,3 +54,7 @@ Quando una pagina viene richiesta, passa dal routing (\textit{index.php}) e vien
     \item caricare nav e breadcrumb specifiche per la pagina (uso di funzioni buildNav, buildNavAdmin, buildBreadcrumb) e rimpiazzarle nei rispettivi placeholder \texttt{[nav]} e \texttt{[breadcrumb]};   \item gestire la logica specifica della pagina (es. recupero dati dal database, gestione form, ecc.);
     \item restituire la pagina html completa al browser.
 \end{itemize}
+\subsubsection{Riutilizzo delle pagine}
+Per facilitare la costruzione delle pagine che in alcuni casi condividono molte sezioni e differiscono di poco, è stato riutilizzato un singolo file php, con una serie di parametri che ne modificano il comportamento.\\
+Per esempio la pagina dei preferiti e la pagina degli animali sono praticamente identiche: differiscono per gli animali mostrati e per la presenza del pulsante a cuore per aggiungere/rimuovere dai preferiti l'animale.\\
+In questo caso viene controllato l'url richiesto e in base a quello viene definita una variabile booleana isPreferiti che modifica il comportamento della pagina. In questo modo si evita la duplicazione del codice e si facilita la manutenzione futura.

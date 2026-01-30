@@ -30,9 +30,20 @@ Infine, come è logico che sia, l'amministratore non può inviare richieste di a
 Ogni amministratore ha una propria area personale che mostra le attività da completare e le proprie statistiche personali.\\
 Inoltre, come per gli utenti normali, l'amministratore ha una pagina di profilo in cui può visualizzare e modificare le proprie informazioni personali. Tuttavia, rispetto un utente normale, all'amministratore non è concessa la modifica (e l'eliminazione) delle informazioni di accesso (email e password). Si presume che le credenziali di accesso siano gestite in modo più sicuro e controllato.
 \paragraph{Gestione richieste di adozione}
-L'amministratore ha pieno controllo sulle richieste di adozione degli animali assegnati a lui. Può visualizzarle, valutarle, accettarle o rifiutarle.
+L'amministratore ha pieno controllo sulle richieste di adozione degli animali assegnati a lui. Può visualizzarle, valutarle, accettarle o rifiutarle.\\
+La pagina di dettaglio di ogni richiesta mostra i dati specifici della richiesta e le informazioni dell'utente che l'ha inviata.\\
+Per rendere l’applicazione più efficace ed efficiente per il lavoro dell’amministratore, sono state integrate informazioni utili alla valutazione della richiesta, evitando la necessità di navigare in altre sezioni.
+Ad esempio, sono visibili i dati dell’animale richiesto, il numero di richieste attive per lo stesso animale e il numero di richieste attive dell’utente che ha effettuato la richiesta.
+Inoltre l'amministratore può lasciare un commento interno alla richiesta, visibile solo a lui e agli altri amministratori, per annotare informazioni rilevanti durante la valutazione della richiesta.
 \paragraph{Gestione degli animali}
 Gli animali possono essere assegnati solamente ad uno specifico amministratore che ne gestirà le richieste di adozione. Egli ha anche la responsabilità di mantenere aggiornate le informazioni dell'animale e di rimuoverlo dal sito qualora l'animale non fosse più disponibile per forze maggiori. Si nota che, come descritto precedentemente, gli animali adottati rimangono nel database.\\
 Un amministratore può aggiungere nuovi animali al database, compilando un form con tutte le informazioni richieste. Il form include la possibilità di assegnare la gestione dell'animale a sé stesso o lasciarlo non assegnato, in modo che un altro amministratore possa occuparsene in seguito.
 \paragraph{Gestione animali senza amministatore}
 Gli animali non assegnati ad alcun amministratore sono visibili in una pagina dedicata. Un amministratore può decidere di prendersi carico di uno di questi animali, assegnandolo a sé stesso, in modo da poter gestire le richieste di adozione relative a quell'animale.
+\paragraph{Gestione eventi}
+L'amministratore ha la possibilità di creare, modificare ed eliminare eventi organizzati dal rifugio. Può utilizzare un form dedicato per inserire i dettagli dell'evento, come data, luogo e descrizione.
+Ogni modifica agli eventi registra l'amministratore che l'ha effettuata, in modo da mantenere l'organizzazione trasparente.
+\paragraph{Gestione segnalazioni}
+L'amministratore può visualizzare tutte le segnalazioni inviate dagli utenti per trovare casa ad animali bisognosi. Le segnalazioni sono visibili da una comoda tabella che mostra le informazioni ricevute, un pulsante per eliminarla e un pulsante per contattare il segnalante tramite email.
+Il pulsante per contattare utilizza inserisce automaticamente oggetto e corpo dell'email, con domande da prassi per raccogliere ulteriori informazioni sull'animale segnalato.
+Le informazioni raccolte tramite il contatto possono essere utilizzate per aggiungere l'animale al database, qualora il rifugio ritenga opportuno accoglierlo.
