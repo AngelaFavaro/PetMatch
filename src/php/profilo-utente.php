@@ -21,10 +21,10 @@ $filtroCorrenteRichieste = 'all';
 $tabAvvisi= 'checked';
 $tabRichieste= '';
 if (isset($_GET['state-avvisi'])) {
-    $filtroCorrenteAvvisi = htmlspecialchars($_GET['state-avvisi']);
+    $filtroCorrenteAvvisi = urldecode($_GET['state-avvisi']);
 }
 else if (isset($_GET['state-richieste'])) {
-    $filtroCorrenteRichieste = htmlspecialchars($_GET['state-richieste']);
+    $filtroCorrenteRichieste = urldecode($_GET['state-richieste']);
     $tabAvvisi= '';
     $tabRichieste= 'checked';
 }
@@ -98,7 +98,6 @@ function createMovementList(DBAccess $conn, $filtro = 'all'): string {
                     break;
             }
 
-            // TODO: il link "Vedi animale" deve portare alla pagina di dettaglio dell'animale, da fare quando la pagina sarà pronta
             $listaMovimenti .= '<li>
                 <article>
                     <p>'.$statoRichiesta.'</p>';
@@ -152,7 +151,6 @@ function createRequestList(DBAccess $conn, $filtro = 'all'): string {
                     break;
             }
 
-            // TODO: il vai alla richiesta deve portare ad una pagina che ancora non c'è
             $listaRichieste .= $statoRichiesta.'</p>
                     <a href="./revisione-richiesta?id-animale='.$richiesta['IDanimale'].'">Vai alla richiesta</a>
                 </article>
@@ -352,19 +350,31 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente, $editAddr
             $errors['phoneNumber'] = "Il numero di telefono non è valido.";
         }
 
+        $valueforDB = [
+            'name' => $name,
+            'surname' => $surname,
+            'phoneNumber' => $phoneNumber,
+            'address' => $address,
+            'city' => $city,
+            'CAP' => $CAP,
+            'profilePic' =>'',
+        ];
+
         /* AZIONI */
         if (empty($errors)) {
 
             //la foto del profilo avrà sempre qualcosa anche se non si selezionano immagini, bisogna controllarlo con empty
             if(isset($_FILES['new-pic']) && !empty($_FILES['new-pic']['name']) && !isset($_POST['delete-pic'])){
-                $NewUserValues['profilePic'] = uploadImage($_FILES['new-pic'], 'users');
+                $risultato = deleteStoredFile($infoUtente['ImgPath'],);
+                $valueforDB['profilePic'] = uploadImage($_FILES['new-pic'], 'users');
             }else if(isset($_POST['delete-pic'])){
-                $NewUserValues['profilePic'] = null;
+                deleteStoredFile($infoUtente['ImgPath']);
+                $valueforDB['profilePic'] = null;
             }else{
-                $NewUserValues['profilePic'] = $infoUtente['ImgPath']; 
+                $valueforDB['profilePic'] = $infoUtente['ImgPath']; 
             }
 
-            $EditResult = $conn->updateUserInfo($_SESSION['email'], $NewUserValues);
+            $EditResult = $conn->updateUserInfo($_SESSION['email'], $valueforDB);
             
             if (!$EditResult){
                 $_SESSION['form_status_info'] = 'error';
@@ -468,15 +478,22 @@ function editManagementAccount(DBAccess $conn, &$NewUserValues, $infoUtente): ar
             $errors['password'] = "La nuova password deve essere diversa dalla vecchia.";
         }
 
+        $valueForDB = [
+            'email' => '',
+            'Newpassword' => '',
+        ];
+
         /* AZIONI */
         if (empty($errors)) {
             if(strlen($newPassword) !== 0){
-                $NewUserValues['Newpassword'] = password_hash($newPassword, PASSWORD_DEFAULT);
+                $valueForDB['Newpassword'] = password_hash($newPassword, PASSWORD_DEFAULT);
             }else{
-                $NewUserValues['Newpassword'] = $infoUtente['Password'];
+                $valueForDB['Newpassword'] = $infoUtente['Password'];
             }
 
-            $EditResult = $conn->updateUserManagement($_SESSION['email'], $NewUserValues);
+            $valueForDB['email'] = $_POST['new-email'];
+
+            $EditResult = $conn->updateUserManagement($_SESSION['email'], $valueForDB);
             
             if ($EditResult) {
 				$_SESSION['email'] = $email;
@@ -509,7 +526,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])){ logout();}
 // --- HTML VISUALIZZAZIONE ---
 
 $htmlView =
-'<aside class="view-mode">
+'<article class="view-mode">
     <span>
         <h2>Le tue informazioni</h2>
         <a href="?mode=management#gestisci-profilo" aria-label="Gestione dell\'account">
@@ -530,7 +547,7 @@ $htmlView =
     <form action="./profilo-utente" method="post">
         <button type="submit" name="logout" class="logout-btn">Disconnettiti</button>
     </form>
-</aside>';
+</article>';
 
 // --- HTML MODIFICA ---
 
@@ -573,13 +590,13 @@ $htmlEdit = '
                     <div>
                         <label for="new-address">Via e numero civico</label>
                         <input type="text" id="new-address" name="new-address" maxlength="255" autocomplete="street-address" 
-                        value="[via-utente]" placeholder="Via L. Da Vinci n.10" aria-label="Tutti i campi dell\'indirizzo devono essere completi, altrimenti nessuno."/>
+                        value="[via-utente]" placeholder="Via Paolotti n.42" aria-label="Tutti i campi dell\'indirizzo devono essere completi, altrimenti nessuno."/>
                         <p class="error-form">[erroriIndirizzo]</p>
                     </div>
                     <div>
                         <label for="new-city">Città</label>
                         <input type="text" id="new-city" name="new-city" maxlength="100" autocomplete="address-level2" 
-                        value="[citta-utente]" placeholder="Roma"/>
+                        value="[citta-utente]" placeholder="Padova"/>
                         <p class="error-form">[erroriCitta]</p>
                     </div>
                     <div>
@@ -715,13 +732,12 @@ if ($connessioneOK) {
         $messageManagementForm = editManagementAccount($connessione, $NewUserManagement, $infoUtente);
         deleteAccount($connessione);
     }else{
-        header("Location: ./login"); 
+        header("Location: ./accedi"); 
         exit;
     }
     $connessione->closeConnection();
     $messaggiGenerici = $messageInfoForm['generic'] . $messageManagementForm['generic'];
 }else{
-	header("Location: ./404");
     exit;    
 }
 
@@ -732,7 +748,7 @@ if (empty($infoUtente['ImgPath']) || !file_exists($infoUtente['ImgPath'])) {
 //se non riesco a prendere le info dell'utente rimando alla pagina di login, vuol dire che l'utente non era nel db 
 // (impossibile ma meglio essere sicuri)
 if ($infoUtente == null) {
-    header("Location: ./login"); 
+    header("Location: ./accedi"); 
     exit;
 }
 

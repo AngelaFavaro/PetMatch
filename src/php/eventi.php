@@ -65,7 +65,7 @@ function buildEventsCards($events, $filtro): string {
         $titolo=$e['titolo'];
         $descrEvento=$e['descrizione'];
         $html .= "<li>
-                    <article class='evento' aria-labelledby='evento-titolo'>
+                    <article class='evento'>
                         <!-- Immagine dell'evento -->
                         <img class='immagine-evento' src=$img alt='' />
 
@@ -96,7 +96,7 @@ function buildEventsCards($events, $filtro): string {
                             <p>$descrEvento</p>
                         </div>
                         <div class='dettagli-evento-bottone'>
-                        <a href='./visualizzazione-evento?titolo=$titolo&data=$data'>Vedi dettagli</a>
+                        <a href='./visualizzazione-evento?titolo=".urlencode($titolo)."&data=".$e['data_evento']."'>Vedi dettagli</a>
                     </div>
                     </article>
                 </li>";
@@ -212,7 +212,7 @@ $title = '<title>Eventi - PetMatch</title>';
 $description = $isAdmin? '<meta name="description" content="Organizza tutti gli eventi di PetMatch">': '<meta name="description" content="Eventi prossimi qui da PetMatch!">';
 $keywords = "<meta name='keywords' content='Prossimi eventi'>";
 
-$nav = $isAdmin? buildAdminNav($adminMenu, 'visualizzazione-eventi', $pagine) : buildNav($userMenu, './eventi');
+$nav = $isAdmin? buildAdminNav($adminMenu, './visualizzazione-eventi', $pagine) : buildNav($userMenu, './eventi');
 $breadcrumb = $isAdmin? getBreadcrumb('visualizzazione-eventi', $pagine) : getBreadcrumb('eventi', $pagine);
 
 $paginaHTML = str_replace(

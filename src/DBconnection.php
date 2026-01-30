@@ -433,6 +433,20 @@ class DBAccess {
         return $data;
     }
 
+    public function getFotoAnimalById($id) {
+        $query = "SELECT ImgPath FROM ANIMALI WHERE IDanimale = ?";
+        $stmt = $this->connection->prepare($query);
+        if ($stmt === false) return null;
+
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+
+        return $data ? $data['ImgPath'] : null;
+    }
+
     public function updateAnimal(array $data, $idanimale): bool {
         $query = "UPDATE ANIMALI SET 
                     Nome = ?, Razza = ?, Taglia = ?, DataNascita = ?, 
@@ -1666,6 +1680,7 @@ class DBAccess {
         return $events;
     }
 
+
     function getNRequestByStatusUser($email): array {
         $counts = [
             'Nuova' => 0,
@@ -2411,6 +2426,33 @@ public function getAnimalArrivalDate($idAnimale): ?string {
         }
 
         return $evento;
+    }
+
+    public function getImgEvent(string $titolo, string $data): ?string { 
+        if (!$this->connection) {
+            return null;
+        }
+
+        $query = "SELECT ImgPath FROM EVENTI WHERE Titolo = ? AND DataEvento = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+        
+        $imgPath = null;
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'ss', $titolo, $data);
+            mysqli_stmt_execute($stmt);
+            $res = mysqli_stmt_get_result($stmt);
+            
+            $evento = mysqli_fetch_assoc($res); 
+            
+            if ($evento) {
+                $imgPath = $evento['ImgPath'];
+            }
+
+            mysqli_stmt_close($stmt);
+        }
+
+        return $imgPath;
     }
 
     // Recupera il conteggio delle richieste per ogni stato per un SINGOLO ANIMALE
