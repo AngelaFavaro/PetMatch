@@ -114,12 +114,10 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
         }
 
         if($isModified){
-            $oldTitle = $_GET['titolo'];
-            $oldData = $_GET['data'];
+            //altrimenti per nomi con gli apostri da problemi
+            $oldTitle = isset($_GET['titolo'])? $_GET['titolo'] : '';
+            $oldData = isset($_GET['data'])? $_GET['data'] : '';
         }
-
-        $oldTitle = isset($_GET['titolo'])? $_GET['titolo'] : '';
-        $oldData = isset($_GET['data'])? $_GET['data'] : '';
 
         if($conn -> checkEventExists($titoloValue, $dayValue)){
             if(!($oldTitle!=='' && $oldData!=='' && $titoloValue === $oldTitle && $dayValue === $oldData))
@@ -128,6 +126,9 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
         
         // Gestione Foto
         if(isset($_FILES['foto']) && $_FILES['foto']['name'] != "") {
+            if($newEventValues['ImgPath']){
+                deleteStoredFile($newEventValues['ImgPath']);
+            } 
             $path = uploadImage($_FILES['foto'], 'events');
             if ($path !== null) {
                 $fotoPath = $path;
@@ -140,11 +141,11 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
 
         if (empty($errors)) {
             $infoDB = [
-                'titolo' => $titoloValue,
-                'data' => $dayValue,
-                'descrizione' => $descValue,
-				'via' => $addressValue,
-                'citta' => $cityValue,
+                'titolo' => $_POST['title-event'],
+                'data' => $_POST['day-event'],
+                'descrizione' => $_POST['desc-event'],
+				'via' => $_POST['address-event'],
+                'citta' => $_POST['city-event'],
                 'foto' => $fotoPath,
                 'email' => $_SESSION['email']
             ];
@@ -258,7 +259,6 @@ if($isModifiedEvent){
      $paginaHTML = str_replace('id="createMore-container"', 'id="ModifiedMode"', $paginaHTML);
      $paginaHTML = str_replace('[Action-modified]', 'Modifica', $paginaHTML);
      $paginaHTML = str_replace('[Action-modified-legend]', 'Modifica l\'organizzazione dell\'evento', $paginaHTML);
-     $paginaHTML = str_replace('[urlCancel]', './eventi', $paginaHTML); //TODO : modifica mettendo l'evento che si stava visualizzando
      $paginaHTML = str_replace('[urlCancel]', './eventi', $paginaHTML); //TODO : modifica mettendo l'evento che si stava visualizzando
 }else{
     $paginaHTML = str_replace('[Action-modified]', 'Aggiungi', $paginaHTML);

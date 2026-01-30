@@ -6,7 +6,11 @@ session_start();
 
 // 1. Controllo Accesso
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
-    header("Location: ./accedi");
+    if(isset($_GET['id-animale'])){
+        header("Location: ./visualizzazione-animale?=".urlencode($_GET['id-animale']));
+    }else{
+        header("Location: ./animali");
+    }
     exit;
 }
 
@@ -17,7 +21,7 @@ $fromEmail = $_GET['from_email'] ?? null;
 $from = $_GET['from'] ?? null;
 
 if (!$idAnimale) {
-    header("Location: ./area-riservata");
+    header("Location: ./assegnati-a-te");
     exit;
 }
 
@@ -31,7 +35,7 @@ function createAnimalRequestList(array $richieste): string {
         $statoAttuale = $r['Stato'];
 
         $testi = [
-            'Nuova' => "<strong>$nomeCandidato</strong> ha fatto richiesta per <em>" . htmlspecialchars($nomeAnimale) . "</em>",
+            'Nuova' => "<strong>$nomeCandidato</strong> ha fatto richiesta per <em>" . $nomeAnimale . "</em>",
             'In valutazione' => "Candidatura di <strong>$nomeCandidato</strong> in valutazione.",
             'Accettata' => "Richiesta di <strong>$nomeCandidato</strong> accettata!",
             'Respinta' => "Richiesta di <strong>$nomeCandidato</strong> respinta.",
@@ -42,7 +46,7 @@ function createAnimalRequestList(array $richieste): string {
         $li = '<li class="richiesta-card">
                 <div class="card-content">
                     <p>' . ($testi[$statoAttuale] ?? "Richiesta da $nomeCandidato") . '</p>
-                    <a href="./richieste-adozione?email=' . urlencode($r['Email']) . '&id-animale=' . urlencode($r['IDanimale']) . '" class="btn-vedi-richiesta">Vedi richiesta</a>
+                    <a href="./richieste-adozione?email=' . urlencode($r['Email']) . '&id-animale=' . urlencode($r['IDanimale']) . '" class="brown-button">Vedi richiesta</a>
                 </div>
                </li>';
         if (isset($gruppi[$statoAttuale])) {
@@ -102,8 +106,8 @@ if ($connessioneOK) {
             // Tasto Modifica
             $btnModifica = '
                 <div class="edit-btn-container">
-                    <a href="' . e($urlModifica) . '" class="pencil">
-                        <img src="./assets/icons/edit-pencil.svg" alt="Modifica scheda animale" />
+                    <a href="' . e($urlModifica) . '" class="orange-button">
+                        Modifica
                     </a>
                 </div>';
             
@@ -122,14 +126,15 @@ if ($connessioneOK) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-assignment'])) {
                 if ($connessione->removeAdminAssignment($idAnimale)) {
                     $connessione->closeConnection();
-                    header("Location: ./senza-amministratore");
+                    header("Location: ./assegnati-a-te");
                     exit;
                 }
             }
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-animale'])) {
+                    deleteStoredFile($connessione->getFotoAnimalById($idAnimale));    
                 if ($connessione->deleteAnimal($idAnimale)) {
                     $connessione->closeConnection();
-                    header("Location: ./area-riservata");
+                    header("Location: ./assegnati-a-te");
                     exit;
                 }
             }
@@ -161,7 +166,7 @@ $description = '<meta name="description" content="Visualizzazione dettagliata de
 
 // Navigazione attiva
 $activeNav = $fromEmail ? 'richieste-adozione' : ($from === 'senza-admin' ? 'senza-amministratore' : 'assegnati-a-te');
-$nav = buildAdminNav($adminMenu, $activeNav, $pagine);
+$nav = buildAdminNav($adminMenu, $activeNav);
 // Sostituzioni Header
 $paginaHTML = str_replace(['[breadcrumb]', '[title]', '[nav]', '[description]', '[keywords]'], 
                          [$breadcrumb, $title, $nav, $description, ""], 
@@ -176,7 +181,7 @@ if (!$imgPath || !file_exists($imgPath)) {
 }
 $main = str_replace('[animalImgPath]', e($imgPath), $main);
 $sesso = $richiesta['Sesso'] ?? '';
-$sessoHTML = ($sesso === 'F') ? '<abbr title="Femmina">F</abbr>' : (($sesso === 'M') ? '<abbr title="Maschio">M</abbr>' : e($sesso));
+$sessoHTML = ($sesso === 'F') ? 'Femmina' : (($sesso === 'M') ? 'Maschio' : e($sesso));
 $main = str_replace('[sessoAnimale]', $sessoHTML, $main);
 
 $etaCalcolata = calcolaEta($richiesta['DataNascita'] ?? null);
