@@ -1062,3 +1062,11 @@ margin-bottom: 0.3cm;
 .edit-mode button[type="submit"] {
     display: none;
 }
+
+/* ------ LAVORA CON NOI --------*/
+#contatto-sostenitore p,
+#contatto-sostenitore address {
+    display: inline;
+    margin: 0;
+    padding: 0;
+} 
