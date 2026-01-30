@@ -3,10 +3,6 @@ include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 //se non sono loggato rimando alla pagina di login
 if (!isset($_SESSION['email'])) {
     header("Location: ./accedi");

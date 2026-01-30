@@ -814,3 +814,78 @@ margin-bottom: 0.3cm;
 .pm-timeline-date::after{
     content: ":";
 }
+
+/* ---------- VISUALIZZAZIONE ANIMALE ------------ */
+
+#contatta-il-rifugio {
+    display: none;
+}
+
+#visualizzazione-animale #interessamento-animale {
+    break-inside: avoid;
+    margin-bottom: 0.5cm;
+    border: 1px solid var(--lightborder);
+    padding: 0.3cm;
+    text-align: center;
+}
+
+#visualizzazione-animale #info-generiche {
+    display: block;
+    border: 1px solid var(--lightborder);
+    padding: 0.5cm;
+    break-inside: avoid;
+}
+
+#visualizzazione-animale #foto-animale {
+    width: 5cm ;
+    height: 5cm ;
+    max-width: 5cm ;
+    max-height: 5cm ;
+    object-fit: cover;
+    flex-shrink: 0;
+    float: right ;
+    margin-left: 0.5cm;
+    margin-bottom: 0.5cm;
+}
+
+#visualizzazione-animale #info-generiche-testo {
+    display: block;
+}
+
+#visualizzazione-animale #info-generiche-testo dt {
+    font-weight: bold;
+}
+
+#visualizzazione-animale #info-aggiuntive-separate,
+#visualizzazione-animale #info-aggiuntive-unite {
+    break-inside: avoid;
+    margin-top: 0.5cm;
+    clear: both;
+    display: block;
+}
+
+#visualizzazione-animale #info-aggiuntive-separate dt,
+#visualizzazione-animale #info-aggiuntive-unite dt {
+    font-weight: bold;
+}
+
+#visualizzazione-animale .preferiti-form {
+    display: none;
+}
+
+#visualizzazione-animale .preferiti-form button {
+    display: none;
+}
+
+#richiesta-adozione,
+#compila-form-adozione,
+#contatta-rifugio {
+    display: none;
+}
+
+#visualizzazione-animale #stato-richiesta {
+    break-inside: avoid;
+    border: 1px solid var(--lightborder);
+    padding: 0.3cm;
+    margin-top: 0.5cm;
+}

@@ -243,14 +243,14 @@ $statoRichiesta = "";
 $contattaci="";
 
 if (!$utenteAccesso) {
-    $contattaci="<a href='mailto:matchpet48@gmail.com' target='_blank' class='brown-button'>Contatta il rifugio</a>";
+    $contattaci="<a href='mailto:matchpet48@gmail.com' target='_blank' class='brown-button' id='contatta-il-rifugio'>Contatta il rifugio</a>";
     $contenutoPagina = "
     <aside id='contatta-rifugio'>
         <p> Vuoi adottare questo animale? <a href='./registrati'>Registrati</a> o <a href='./accedi'>accedi</a> se hai già un profilo e manda una richiesta!</p>
     </aside>";
     $infoAggiuntive='info-aggiuntive-separate';
 } else if (($richiesta === false || $richiesta === null) && $isAdmin === false) {
-    $contattaci="<a href='mailto:matchpet48@gmail.com' target='_blank' class='brown-button'>Contatta il rifugio</a>";
+    $contattaci="<a href='mailto:matchpet48@gmail.com' target='_blank' class='brown-button' id='contatta-il-rifugio'>Contatta il rifugio</a>";
     // FORM ADOZIONE
     $infoAggiuntive='info-aggiuntive-separate';
     $contenutoPagina = "
@@ -338,7 +338,7 @@ if (!$utenteAccesso) {
                         <p> Hai una richiesta di adozione pendente per questo animale, attendi che ti venga comunicato l’esito! </p>
                         <p> Qualche problema o domanda? Valuta di contattarci </p>
                     </div>
-                <a href='mailto:matchpet48@gmail.com' class='brown-button'>Contatta il rifugio</a> "
+                <a href='mailto:matchpet48@gmail.com' class='brown-button' id='contatta-il-rifugio'>Contatta il rifugio</a> "
 ;   
                 break;
 
@@ -354,7 +354,7 @@ if (!$utenteAccesso) {
                         <p> Ti contatteremo nella mail nel tuo profilo per iniziare la tua conoscenza e valutare se sei il giusto candidato per <strong>$nome</strong> </p>
                         <p> Qualche problema o domanda? Valuta di contattarci </p>
                     </div>
-                    <a href='mailto:matchpet48@gmail.com' class='brown-button'>Contatta il rifugio</a>
+                    <a href='mailto:matchpet48@gmail.com' class='brown-button' id='contatta-il-rifugio'>Contatta il rifugio</a>
                 ";
                 break;
             }
@@ -368,7 +368,7 @@ if (!$utenteAccesso) {
                         <p> Data di arrivo: <span class='enfatizzato'>$dataArrivo</span> </p> 
                         <p> Qualche problema o domanda? Valuta di contattarci </p>
                     </div>
-                    <a href='mailto:matchpet48@gmail.com' class='brown-button'>Contatta il rifugio</a> 
+                    <a href='mailto:matchpet48@gmail.com' class='brown-button' id='contatta-il-rifugio'>Contatta il rifugio</a> 
                 ";
                 break;
         }
@@ -382,7 +382,7 @@ if (!$utenteAccesso) {
                         <p> Ci dispiace informati che la tua richiesta di adozione di <strong> $nome </strong> è stata rifiutata. </p> 
                         <p> Qualche problema o domanda? Valuta di contattarci </p>
                     </div>
-                    <a href='mailto:matchpet48@gmail.com' class='brown-button'>Contatta il rifugio</a> 
+                    <a href='mailto:matchpet48@gmail.com' class='brown-button' id='contatta-il-rifugio'>Contatta il rifugio</a> 
                ";
                 break;
         }
@@ -396,7 +396,7 @@ if (!$utenteAccesso) {
                         <p> Hai annullato la richiesta di adozione per <strong> $nome </strong>.</p> 
                         <p> Qualche problema o domanda? Valuta di contattarci  </p>
                     </div>
-                    <a href='mailto:matchpet48@gmail.com' class='brown-button'>Contatta il rifugio</a> 
+                    <a href='mailto:matchpet48@gmail.com' class='brown-button' id='contatta-il-rifugio'>Contatta il rifugio</a> 
                 ";
                 break;
 
