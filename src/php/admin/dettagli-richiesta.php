@@ -155,7 +155,7 @@ function handlePostActions(DBAccess $conn, array $r, string $email, int $idAnima
         exit;
     }
     if (isset($_POST['trasporto_effettuato'])) {
-        // $conn->markTransportCompleted($email, $idAnimale);
+        $conn->markTransportCompleted($email, $idAnimale);
         $r = $conn->getRequestDetails($email, $idAnimale);
         header("Location: richieste-adozione?email=$email&id-animale=$idAnimale");
         exit;

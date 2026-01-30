@@ -1,0 +1,54 @@
+\section{Accessibilità}
+\label{sec:accessibilita}
+Oltre alle scelte di design grafico , che hanno un impatto significativo sull'accessibilità e che sono state descritte nella sezione precedente, sono state adottate ulteriori misure per garantire l'accessibilità del sito web.
+Questa sezione descrive le scelte specifiche dividendole in base ai principi fondamentali delle WCAG 2.1: Percepibile, Utilizzabile, Comprensibile e Robusto (POUR).
+\subsection{Percepibile}
+\textbf{Generali:}
+\begin{itemize}
+    \item font Parkinsans, progettato per facilitare la lettura anche a persone con difficoltà visive o cognitive legate alla lettura;
+    \item contrasti di colori elevati tra testo e sfondo
+    \item testo con allineamento a sinistra per facilitare la lettura
+    \item 
+\end{itemize}
+\subsection{Utilizzabile}
+\begin{itemize}
+    \item le icone mobile hanno dimensione 44x44px, per facilitare il tocco con il dito;
+    \item le gif presenti nella home si fermano dopo pochi secondi per evitare distrazioni ma soprattutto per non creare problemi a persone che sono sensibili a stimoli visivi in movimento;
+    \item la dark mode riduce l'affaticamento visivo in ambienti con scarsa illuminazione e per utenti sensibili alla luce;
+    \item i filtri sono selezionabili sia tramite interfaccia grafica che tramite input testuale, migliorando l'usabilità per persone con deficit visivo;
+    \item 
+    \end{itemize}
+\subsection{Comprensibile}
+\begin{itemize}
+    \item abbiamo dato un significato ai pulsanti di colore diverso: quelli che fanno un'operazione al db (es. invio form) sono arancioni, mentre quelli che portano semplicemente ad una pagina diversa (interna o esterna) sono marroni;
+    \item i pulsanti a icona hanno sempre il medesimo risultato una volta cliccati. Per esempio li click (o tap) all'icona di modifica nel profilo utente normale e amministratore la modifica direttamente nella pagina. Invece nella pagina di dettaglio animale è stato usato un pulsante arancione che riporta alla pagina di aggiungi animale con i campi precompilati pronti per la modifica.
+    \item la timeline (o elenco numerato) delle fasi di adozione è simile a quella usata nella pagina chi siamo ma con la differenza che non presenta l'icona a V che indica l'interazione con la stessa;
+    \item le polaroid presenti in chi siamo non sono dei link e non sono neanche interattive. Per rendere evidente la differenza rispetto alla sezione degli eventi nella homepage, le polaroid sono attaccate con del nastro adesivo stilizzato invece che con delle mollette;
+    \item i numeri grandi sono scritti in forma estesa (es. 5 mila invece di 5.000) per migliorare la leggibilità, specialmente per i lettori più giovani;
+    \item il pulsante di modifica del profilo nell'area utente non amministratore specifica anche l'azione in maniera testuale ("Modifica profilo") diversamente dal profilo amministratore. Non abbiamo ritenuto necessario inserire un'indicazione testuale anche nell'area admin perché questo ha una conoscenza maggiore dell'interfaccia;
+    \item Gli ultimi movimenti e le richieste di adozione sono presentati in ordine di ultima modifica, piuttosto che di creazione.
+    \item È stato adottato un formato a pagine per evitare di disorientare l'utente in caso di un numero elevato di animali da visualizzare, evitando così lo scorrimento infinito;
+     
+\end{itemize}
+\paragraph{Area amministatore}
+\begin{itemize}
+    \item la lista di attività da completare è pensata per migliorare l'usabilità generale, ma in particolare per utenti con difficoltà cognitive (deficit di memoria a breve termine, situazionale o permanente; difficoltà organizzative; ADHD). Ogni attività è collegata a un link che porta automaticamente alla pagina corrispondente con i filtri preselezionati, riducendo il sovraccarico cognitivo. Le attività sono ordinate per priorità e il decremento del contatore fornisce un feedback gratificante al completamento;
+
+\end{itemize}
+\subsection{Robusto}
+Oltre a permettere una corretta visualizzazione a tutti i dispositivi (layout responsive, sezione \ref{sec:layout_responsive}) e l'uso di screen reader, altre considerazioni fatte per il principio di robustezza sono:
+\begin{itemize}
+    \item il sito permette la completa accessibilità alle funzionalità anche in assenza di JavaScript (vedi sezione \ref{sec:javascript_accessibilita}{ Accessibilità senza JavaScript});
+    \item le immagini nella griglia animali hanno un alt creato dinamicamente recuperando le informazioni del database utili (colore e tipo di animale) senza appesantire la lettura dello screen reader con informazioni ridondanti e non reperibili dalla sola immagine;
+    \item l'uso della nav posta nell'area per cambiare numero di pagina (in animali per esempio) permette di saltare direttamente al contenuto di una specifica pagina anche allo screen reader;
+\end{itemize}
+\subsubsection{Accessibilità senza JavaScript}
+\label{sec:javascript_accessibilita}
+\begin{itemize} 
+    \item la \textit{timeline} presente nella home prevede punti cliccabili in assenza di JavaScript; 
+    \item quando un animale viene inserito nei preferiti, la pagina viene ricaricata per mostrare l'aggiornamento dello stato (cuore pieno o vuoto). È stato usato AJAX solo come miglioramento per evitare il ricaricamento e migliorare la fluidità dell'interfaccia; 
+    \item la validazione dei form di inserimento dati è garantita lato server in PHP. Il controllo tramite JavaScript è implementato per fornire un \textit{feedback} immediato all'utente, ma non sostituisce i controlli di sicurezza del server; 
+    \item la navigazione del menù principale e la commutazione del tema (Light/Dark mode) rimangono funzionali anche senza script, essendo basate su elementi standard HTML e fogli di stile CSS; 
+    \item i contatori di caratteri per i campi di testo forniscono un ausilio alla compilazione, ma i limiti di lunghezza sono gestiti in modo definitivo dai controlli PHP e dalle specifiche del database;
+    \item la funzionalità di anteprima dell'immagine del profilo è un ausilio visivo, mentre il caricamento effettivo del file è gestito nativamente dal protocollo HTTP tramite l'invio del form.
+\end{itemize}
