@@ -247,3 +247,12 @@ td.col-dettagli a,td.col-dettagli button{
     display: block;
     margin-bottom: 1em;
 }
+
+#visualizzazione-evento .collaboratori#altri-eventi {
+    flex: none;
+    width: 100%;
+}
+
+#visualizzazione-evento #altri-eventi #content-collaborators li {
+    width: 33.3333%;
+}

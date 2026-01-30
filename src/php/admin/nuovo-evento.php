@@ -154,7 +154,7 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
                 if($conn->updateEvent($infoDB, $oldTitle, $oldData)){
                     unset($_SESSION['form_inputs'], $_SESSION['form_errors_info']);
                     // TO DO: mettere l'evento appena modificato
-                    header("Location: ./eventi"); 
+                    header("Location: ./visualizzazione-eventi"); 
                     exit;
                 }else{
                     $errors['generic'] = "La modifica dell'evento non è andato a buon fine, riprovare più tardi.";
@@ -165,7 +165,7 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
                     unset($_SESSION['form_inputs'], $_SESSION['form_errors_info']);
                     if($createMoreValue){
                         header("Location: ./nuovo-evento?createMore=1");
-                    }else header("Location: ./eventi"); //TODO da modificare con l'ultimo evento creato
+                    }else header("Location: ./visualizzazione-eventi"); //TODO da modificare con l'ultimo evento creato
                     exit;
                 } else {
                     $errors['generic'] = "L'inserimenti dell'evento non è andato a buon fine, riprovare più tardi.";
