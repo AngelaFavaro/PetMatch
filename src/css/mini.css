@@ -1116,6 +1116,10 @@ body#admin-body #animali .filtri .capsula-filtro{
     margin:0;
 }
 
+.no-data{
+    font-style: italic;
+}
+
 /* =========DETTAGLI RICHIESTA ADMIN============ */
 #details-container{
     margin: 0;

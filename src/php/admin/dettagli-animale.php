@@ -196,9 +196,9 @@ $main = str_replace('[famigliaIdeale]', e($richiesta['DescrFamiglia'] ?? 'N/D'),
 $main = str_replace('[descrizioneCaratteriale]', e($richiesta['DescrComportamentale'] ?? 'N/D'), $main);
 
 $condizioni = ($richiesta['CondizioniMediche'] === null || $richiesta['CondizioniMediche'] === '0' || empty(trim($richiesta['CondizioniMediche']))) 
-    ? 'Nessuna' 
-    : $richiesta['CondizioniMediche'];
-$main = str_replace('[condizioniMediche]', e($condizioni), $main);
+    ? '<em class="no-data">Nessuna</em>' 
+    : e($richiesta['CondizioniMediche']);
+$main = str_replace('[condizioniMediche]', $condizioni, $main);
 
 $urlModifica = $pagine['modifica-animale']['url'] . "?id-animale=" . urlencode($idAnimale);
 
