@@ -1,4 +1,5 @@
 \section{Accessibilità}
+\label{sec:accessibilita}
 Oltre alle scelte di design grafico , che hanno un impatto significativo sull'accessibilità e che sono state descritte nella sezione precedente, sono state adottate ulteriori misure per garantire l'accessibilità del sito web.
 Questa sezione descrive le scelte specifiche dividendole in base ai principi fondamentali delle WCAG 2.1: Percepibile, Utilizzabile, Comprensibile e Robusto (POUR).
 \subsection{Percepibile}
@@ -27,6 +28,12 @@ Questa sezione descrive le scelte specifiche dividendole in base ai principi fon
     \item il pulsante di modifica del profilo nell'area utente non amministratore specifica anche l'azione in maniera testuale ("Modifica profilo") diversamente dal profilo amministratore. Non abbiamo ritenuto necessario inserire un'indicazione testuale anche nell'area admin perché questo ha una conoscenza maggiore dell'interfaccia;
     \item Gli ultimi movimenti e le richieste di adozione sono presentati in ordine di ultima modifica, piuttosto che di creazione.
     \item È stato adottato un formato a pagine per evitare di disorientare l'utente in caso di un numero elevato di animali da visualizzare, evitando così lo scorrimento infinito;
+     
+\end{itemize}
+\paragraph{Area amministatore}
+\begin{itemize}
+    \item la lista di attività da completare è pensata per migliorare l'usabilità generale, ma in particolare per utenti con difficoltà cognitive (deficit di memoria a breve termine, situazionale o permanente; difficoltà organizzative; ADHD). Ogni attività è collegata a un link che porta automaticamente alla pagina corrispondente con i filtri preselezionati, riducendo il sovraccarico cognitivo. Le attività sono ordinate per priorità e il decremento del contatore fornisce un feedback gratificante al completamento;
+
 \end{itemize}
 \subsection{Robusto}
 Oltre a permettere una corretta visualizzazione a tutti i dispositivi (layout responsive, sezione \ref{sec:layout_responsive}) e l'uso di screen reader, altre considerazioni fatte per il principio di robustezza sono:
