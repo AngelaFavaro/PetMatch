@@ -6056,30 +6056,44 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     box-shadow: 0 0.25em 0.625em rgba(0,0,0,0.2);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* PARTE ADMIN */
 #visualizzazione-evento a.orange-button {
     margin-right: 0.5em;
+}
+
+#visualizzazione-evento .altri-eventi #content-collaborators img {
+    width: 4em;
+    height: 4em;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+#visualizzazione-evento .altri-eventi #content-collaborators {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+#visualizzazione-evento .altri-eventi #content-collaborators li {
+    float: left;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+#visualizzazione-evento .altri-eventi#collaboratori {
+    border: 1px solid var(--txtcolor);
+    border-radius: 0.5em;
+    padding: 1em;
+    list-style: none;
+    background-color: var(--darkbgcolor);
+}
+
+#visualizzazione-evento .altri-eventi#collaboratori h2 {
+    float: left;
+}
+
+.container#visualizzazione-evento {
+    margin-top: 2em;
 }

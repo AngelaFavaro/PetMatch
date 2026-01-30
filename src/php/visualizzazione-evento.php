@@ -21,6 +21,11 @@ $url=$isAdmin?'dettagli-evento':'visualizzazione-evento';
 $titoloGET = $_GET['titolo'] ?? null;
 $dataGET   = $_GET['data'] ?? null;
 
+$idaside='';
+if($isAdmin) {
+    $idaside="id='collaboratori'";
+}
+
 
 function buildEventsCards($events): string {
     $html='';
@@ -117,10 +122,10 @@ function buildCollaboratorsCard($collaboratori): string {
             $name=htmlspecialchars($c['Nome']);
             $surname=htmlspecialchars($c['Cognome']);
             $profilePic=htmlspecialchars($c['ImgPath']);
-            $collaboratoriCards.="<li><img src='$profilePic' alt=''> $name $surname</li>";
+            $collaboratoriCards.="<li><img src='$profilePic' alt=''> <span class='collaborator-name'>$name $surname</span></li>";
         }
         $html="<h2>Scritto da:</h2>
-            <ul class='cards-container' id='content-animali' tabindex='-1' aria-label='Animali in adozione'>
+            <ul id='content-collaborators' tabindex='-1' aria-label='Organizzatori evento'>
                 $collaboratoriCards
             </ul>";
     } else {
@@ -232,6 +237,7 @@ $footer = $isAdmin? '' : buildFooter($footerMenu,  './visualizzazione-evento');
 
 $main = str_replace('[EVENTO]', $contenutoEvento, $main);
 $main = str_replace('[ASIDE]', $Aside, $main);
+$main = str_replace('[IDASIDE]', $idaside, $main);
 
 $paginaHTML = str_replace('[title]', $title, $paginaHTML);
 $paginaHTML = str_replace('[description]', $description, $paginaHTML);
