@@ -22,8 +22,9 @@ function buildEventsCards($events): string {
             $img = 'assets/images/events/eventi-default.jpg';
         }
         $data=formattaDataItaliana($e['data_evento']);
-        $titolo=htmlspecialchars($e['titolo']);
-        $html .= "<li>
+        $titolo=$e['titolo'];
+        $html .= "
+                <li>
                     <article class='evento'>
                         <!-- Immagine dell'evento -->
                         <img class='immagine-evento' src=$img alt=''>
@@ -40,7 +41,8 @@ function buildEventsCards($events): string {
                         <a href='visualizzazione-evento?titolo=".urlencode($titolo)."&data=".urlencode($e['data_evento'])."'>Vedi dettagli</a>
                     </div>
                     </article>
-                </li>";
+                </li>
+";
     }
     return $html;
 }
@@ -134,7 +136,17 @@ if ($connection->openDBConnection()) {
             $eventiAside = "<p class='errore'>Per ora non ci sono altri eventi in programma in questa città. Ritorna tra qualche giorno a controllare</p>";
         }
     }
-    
+    if($titoloEncoded) {
+        $citta=['citta' => $dettagliEvento['Citta'],
+                'nomeNO' => $titoloEncoded];
+    } else {
+        $citta=['citta' => $dettagliEvento['Citta'],
+                'nomeNO' => $dettagliEvento['Titolo']];
+    }
+    $eventi = $connection->getEventsFilteredPaged($citta, 3);
+    $eventiAside=$eventi?"<ul class='cards-container' id='content-animali' tabindex='-1' aria-label='Altri eventi nella zona'>" .buildEventsCards($eventi) . "</ul>" : "
+    <p class='errore cards-container'>Per ora non ci sono altri eventi in programma in questa città. Ritorna tra qualche giorno a controllare</p>";
+
     $connection->closeConnection();
 } else {
     $contenutoEvento = "<p class='errore'>Impossibile connettersi al database.</p>";
