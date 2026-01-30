@@ -32,7 +32,9 @@
     --bordermodifiedAccount:#E4D4BA;
     --text-deletebutton: #481515;
     --selectTypeAnimal: #E4D4BA;
+    --limitecaratterecolor: #5e4232;
     
+    --darkMode-limitecaratterecolor: #481515;
     --darkMdode-selectTypeAnimal: #b79378;
     --darkMode-text-deletebutton: #ba4d3b;
     --darkMode-bordermodifiedAccount:#C7B097;
@@ -80,6 +82,7 @@
 }
 
 :root:has(input#theme-toggle:checked){
+    --limitecaratterecolor : var(--darkMode-limitecaratterecolor);
     --darklinkcolor: var(--darkMode--darklinkcolor);
     --selectTypeAnimal: var(--darkMdode-selectTypeAnimal);
     --text-deletebutton: var(--darkMode-text-deletebutton);
@@ -1111,6 +1114,13 @@ footer .container + div{
     margin-bottom: 1em;
 }
 
+footer .container + div a{
+    width: fit-content;
+    margin: 0 auto;
+    display: block;
+}
+
+
 footer .container + div a:visited{
     color:var(--bgcolor);
 }
@@ -2019,6 +2029,11 @@ float: none;
     background: var(--bgcolor);
 }
 
+#animali #nav-animali-type .currentType h2,
+#nav-event-type .currentType h2{
+    font-size: 1em;
+}
+
 /* Lista filtri */
 
 
@@ -2559,7 +2574,7 @@ cursor: pointer;
     border-radius: 0.5em;
     list-style: none;
     flex: 1 1 45%;
-    /* width: 47%; */
+    /* max-width: 47%; */
     height: 10em;
     /* display: block; */
     background-color: var(--darkbgcolor);
@@ -2604,7 +2619,7 @@ cursor: pointer;
 #eventi .evento .posizione-evento {
     gap: 0.2em;
     margin-top: 0.4em;
-    max-width: calc(100% - 22em);
+    max-width: calc(100% - 25em);
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
@@ -2831,7 +2846,7 @@ flex: 1 0 100%;
 #dettaglio-animale #animale-detailed-container button[name="show-dialog"]{
     padding: 0.3em 1em;
     border-radius: 2em;
-    position: absolute;
+    position: relative;
     left:0;
     top:0;
     width: fit-content;
@@ -3987,13 +4002,9 @@ nav#menu-admin li:hover{
     border-radius: 2em 0em 0em 2em;
 }
 
-nav#menu-admin li#currentLink a:hover{
+nav#menu-admin li#currentLink:hover{
     outline:none;
 }
-
-/* nav#menu-admin li:hover a{
-    color: var(--txtcolor);
-} */
 
 nav#menu-admin li#currentLink a{
     font-weight: 700;
@@ -4056,10 +4067,18 @@ a.pencil {
     align-items: flex-start;
 }
 
-/* l'ho messo a sinistra apposta */
-.generic-info-container img {
-    margin:0 auto 0 0;
+.header-info + .generic-info-container .text-details{
+    width: 40%;
 }
+
+.header-info + .generic-info-container:has(.edit-mode){
+    display: block;
+}
+
+.header-info + .generic-info-container:has(.edit-mode) img{
+    margin:1em auto;
+}
+
 
 #admin-area h2#responsabile{
     font-size: 1.5em;
@@ -4078,6 +4097,7 @@ a.pencil {
 .generic-info-container form{
     max-width: 90%;
     margin:auto;
+    float: left;
 }
 
 
@@ -4127,7 +4147,7 @@ a.pencil {
     pointer-events: none;
     margin-left: 1.5em;
     display: flex;
-    background-color: var(--bglink-hover);
+    background-color: var(--darkbgcolor);
     margin-bottom: 1em;
 }
 
@@ -4164,6 +4184,7 @@ a.pencil {
 .pointer-events-none{
     pointer-events: none;
 }
+
 #mobile-select{
     display: none;
 }
@@ -4180,7 +4201,7 @@ a.pencil {
 
 #admin-area .tabs-container#richieste .tab-content, #admin-area .tabs-container#animali .tab-content{
     border: none;
-    margin: 0.5em;
+    margin: 0.5em 0;
 }
 .tab-content#Richiedente .brown-button{
     margin: 0.5em 0em 0em auto;
@@ -4363,6 +4384,7 @@ div#admin-area article.note{
     padding: 0.5rem;
     background-color: var(--darkbgcolor);
     border: 1px solid var(--txtcolor);
+    color:var(--txtcolor);
     border-radius: 4px;
     font-family: inherit;
     font-size: 1rem;
@@ -4388,6 +4410,9 @@ div#admin-area article.note{
     gap: 2em;
     align-items: flex-start;
 }
+#dettaglio-animale.column-container{
+    padding: 0;
+}
 
 /* Box generico delle informazioni (Sinistra) */
 #dettaglio-animale article#animale-detailed-container {
@@ -4403,6 +4428,7 @@ div#admin-area article.note{
     background-color: transparent;
     border:2px solid var(--buttoncolor);
     color:var(--txtcolor);
+    margin-bottom: 1em;
 }
 
 #dettaglio-animale button[name="delete-assignment"]:hover{
@@ -4418,7 +4444,7 @@ div#admin-area article.note{
 #dettaglio-animale #visualizza-richieste-animale{
     border: 0.1em solid var(--txtcolor); 
     border-radius: 0.5em;
-    padding: 1em;
+    margin:0;
 }
 
 #dettaglio-animale #start-requests ul{
@@ -4429,31 +4455,39 @@ div#admin-area article.note{
    SEZIONE INFO ANIMALE (FOTO E TESTO AFFIANCATI)
    ============================================================ */
 #dettaglio-animale .generic-info-container {
-    display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 2em;
-    position: relative;
-    padding-top: 3em; /* Spazio per il pulsante matita */
+    /* position: relative; */
+}
+
+#container-animal-details{
+    display: flex;
+    gap:1em;
+    flex-wrap: wrap;
+    margin: 1em auto;
+}
+
+#dettaglio-animale .description-info-container{
+    border-top: 1px solid var(--txtcolor);
+    padding-top: 1em;
 }
 
 #dettaglio-animale .action-buttons-group {
     display: flex;
+    flex: 0 0 100%;
     justify-content: flex-end; /* Sposta a destra */
     align-items: center;
-    gap: 1em;
-    position: absolute; /* Fondamentale per non spostare l'immagine */
     top: 0;
     right: 0;
     width: 100%;
     margin-top: 0;
-    padding-bottom: 1em;
 }
 
 #dettaglio-animale .action-buttons-group .text-details{
     margin-left: 1em;
 }
 
+#animale-richiesta .generic-info-container img.square-foto,
 #dettaglio-animale .generic-info-container img.square-foto {
     width: 15em;
     height: 15em;
@@ -4464,6 +4498,17 @@ div#admin-area article.note{
     box-shadow: 0 0.25em 0.625em rgba(0,0,0,0.2);
 }
 
+h2+#animale-richiesta .generic-info-container img.square-foto{
+    margin: 0 auto 0 0;
+    float: left;
+    margin-right: 1em;
+}
+
+#admin-area h2+#animale-richiesta .generic-info-container img.square-foto + .text-details{
+    width: auto;
+    padding-left: 0;
+}
+
 
 
 #dettaglio-animale .text-details {
@@ -4472,14 +4517,13 @@ div#admin-area article.note{
 
 /* Pulsante Matita (Modifica) */
 #dettaglio-animale .edit-btn-container {
-    position: absolute;
+    position: relative;
     top: 0;
     right: 0;
 }
 
 #sezione-note a#edit-note img,
-.edit-admin-info img,
-#dettaglio-animale a.pencil img {
+.edit-admin-info img {
     height: auto;
     width: 3em;
     transition: transform 0.2s ease;
@@ -4497,8 +4541,7 @@ div#admin-area article.note{
     margin-top: -0.5em;
 }
 
-.edit-admin-info img:hover,
-#dettaglio-animale a.pencil img:hover {
+.edit-admin-info img:hover{
     border-color: var(--darkbgcolor);
 }
 
@@ -4514,6 +4557,10 @@ div#admin-area article.note{
     width: 100%;
 }
 
+#dettaglio-animale .edit-btn-container .orange-button{
+    margin: 0 0 0 auto;
+}
+
 /* Fieldset - ALLINEAMENTO SOTTO AL TITOLO */
 #dettaglio-animale .tabs-container fieldset {
     display: flex;
@@ -4526,7 +4573,7 @@ div#admin-area article.note{
 }
 
 #dettaglio-animale .tabs-container select {
-    min-width: 12em;
+    min-width:100%;
     border: 0.1em solid var(--buttoncolor);
     background-color: var(--buttoncolor);
     color: var(--txtcolor);
@@ -4552,6 +4599,7 @@ div#admin-area article.note{
     border: none;
     outline: none;
     box-shadow: none;
+    display: block;
 }
 
 #dettaglio-animale .tabs-container ul {
@@ -4569,27 +4617,6 @@ div#admin-area article.note{
     border: none;
 }
 
-#dettaglio-animale .tabs-container .card-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1em;
-}
-
-/* Bottone Vedi Richiesta */
-#dettaglio-animale .tabs-container a.btn-vedi-richiesta {
-    padding: 0.5em 1.5em;
-    text-decoration: none;
-    color: var(--buttoncolor); 
-    font-weight: 400; 
-    background-color: var(--darklinkcolor); 
-    border: 0.0625em solid var(--darklinkcolor); 
-    border-radius: 1.5em;
-    font-size: 0.9em;
-    white-space: nowrap;
-    display: inline-block;
-}
-
 /* Selettore specifico per non intaccare altre liste del sito */
 #visualizza-richieste-animale .tab-content {
     list-style-type: none;
@@ -4604,30 +4631,16 @@ div#admin-area article.note{
     padding: 15px 20px;
 }
 
-/* Layout flex solo per le card in questa sezione */
-#visualizza-richieste-animale .card-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px; /* Spazio minimo tra testo e bottone */
+#visualizza-richieste-animale .brown-button{
+    margin: 0.5em auto;
 }
 
 #visualizza-richieste-animale .card-content p {
     margin: 0;
-    color: #3d1411;
+    color: var(--txtcolor);
     font-size: 1rem;
 }
 
-/* Il bottone specifico */
-#visualizza-richieste-animale .btn-vedi-richiesta {
-    background-color: var(--cardHover);
-    color: var(--visitedcolor);
-    padding: 8px 18px;
-    border-radius: 20px;
-    text-decoration: underline;
-    font-weight: bold;
-    white-space: nowrap; /* Impedisce al bottone di andare a capo */
-}
 
 /* Gestione visibilità Tab tramite i radio button */
 /*#visualizza-richieste-animale .tab-content { display: none; }*/
@@ -5095,7 +5108,7 @@ div#admin-area #animali .filtri ul{
     transition: all 0.3s ease;
 }
 #form-add-animal textarea{
-    height: 9.3em;
+    height: 10.2em;
 }
 
 #new-event textarea{
@@ -5480,15 +5493,6 @@ nav#breadcrumb a:visited{
         display: flow-root;
         margin-top: 1em;
 }
-#visualizzazione-animale #foto-animale{
-    max-width:50%;
-    min-width: 300px;
-    max-height: 200px;
-    margin-right:auto;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-}
 
 #info-aggiuntive-separate dl dd{
     margin-bottom: 0.5em;
@@ -5506,6 +5510,16 @@ nav#breadcrumb a:visited{
 #visualizzazione-animale .dettagli-animale h2{
     font-size:1.5em;
     margin-bottom: 0.5em;
+}
+
+#animale-detailed-container .read-only-badge{
+    background-color: var(--darkbgcolor);
+    padding: 1em;
+    text-align: center;
+    margin: 0 auto;
+    font-style: italic;
+    width: 100%;
+    border-radius: 0.5em;
 }
 
 #indirizzo-incompleto{
@@ -5667,7 +5681,7 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     text-align: right;
     display: block;
     font-size: 0.85rem; 
-    color: var(--placeholderDarker-text);       
+    color: var(--limitecaratterecolor);       
     margin-top: 5px;
 }
 
@@ -6019,12 +6033,13 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
 #descrizione-evento{
     float: left;
     width: 100%;
-    border-top: 1px solid var(--headercolor);
+    border-top: 1px solid var(--txtcolor);
 }
 #descrizione-evento+dd{
     clear: both;
 }
 
+#visualizzazione-animale img.square-foto,
 #visualizzazione-evento #evento img.square-foto{
     width: 15em;
     height: 15em;

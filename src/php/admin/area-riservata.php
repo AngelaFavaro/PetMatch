@@ -214,6 +214,7 @@ function editInfoAdmin(DBAccess $conn, &$NewUserValues, $adminInfo): array {
         if (empty($errors)) {
 
             if(isset($_FILES['new-pic']) && !empty($_FILES['new-pic']['name']) && $_POST['delete-pic'] !== 'on'){
+                deleteStoredFile($adminInfo['ImgPath']);
                 $uploadedPicPath = uploadImage($_FILES['new-pic'], 'admins');
                 if ($uploadedPicPath === false) {
                     $_SESSION['form_status_info'] = 'error';
@@ -228,6 +229,7 @@ function editInfoAdmin(DBAccess $conn, &$NewUserValues, $adminInfo): array {
                 }
                 $NewUserValues['profilePic'] = $uploadedPicPath;
             }elseif($_POST['delete-pic'] === 'on'){
+                deleteStoredFile($adminInfo['ImgPath']);
                 $NewUserValues['profilePic'] = "./assets/images/admins/default-pic.png";
             }else{
                 $NewUserValues['profilePic'] = $adminInfo['ImgPath'] ?? null; 

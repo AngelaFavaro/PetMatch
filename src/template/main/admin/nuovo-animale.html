@@ -24,13 +24,27 @@
                 <div class="column-user">
                     <div>
                         <label for="nome">Nome *</label>
-                        <input type="text" name="nome" id="nome" maxlength="100" placeholder="Nome" autocomplete="nome" value="[Nome]"/>
+                        <input type="text" name="nome" id="nome" maxlength="100" placeholder="Nome" 
+                        aria-describedby="help-counter-nome"
+                        oninput="contaCaratterilimit100(this, 'conta-corrente-nome')"
+                        autocomplete="nome" value="[Nome]"/>
+                        <p id="help-counter-nome">
+                            <span class="labelledby-element">limite caratteri</span>
+                            <span class="conteggio-testo" id="conta-corrente-nome"></span>
+                        </p>
                         <p class="error-form">[erroriNome]</p>
                     </div>
 
                     <div>
                         <label for="razza">Razza *</label>
-                        <input type="text" name="razza" id="razza" maxlength="100" placeholder="Razza" autocomplete="razza" value="[Razza]"/>
+                        <input type="text" name="razza" id="razza" maxlength="100" placeholder="Razza" 
+                        aria-describedby="help-counter-razza"
+                        oninput="contaCaratterilimit100(this, 'conta-corrente-razza')"                        
+                        autocomplete="razza" value="[Razza]"/>
+                        <p id="help-counter-razza">
+                            <span class="labelledby-element">limite caratteri</span>
+                            <span class="conteggio-testo" id="conta-corrente-razza"></span>
+                        </p>                        
                         <p class="error-form">[erroriRazza]</p>
                     </div>
 
@@ -97,7 +111,14 @@
                     
                     <div>
                         <label for="colore">Colore *</label>
-                        <input type="text" name="colore" id="colore" maxlength="100" placeholder="Colore" autocomplete="colore" value="[Colore]"/>
+                        <input type="text" name="colore" id="colore" maxlength="100" placeholder="Colore" 
+                        aria-describedby="help-counter-colore"
+                        oninput="contaCaratterilimit100(this, 'conta-corrente-colore')"                        
+                        autocomplete="colore" value="[Colore]"/>
+                        <p id="help-counter-colore">
+                            <span class="labelledby-element">limite caratteri</span>
+                            <span class="conteggio-testo" id="conta-corrente-colore"></span>
+                        </p>                        
                         <p class="error-form">[erroriColore]</p>
                     </div>
 

@@ -108,22 +108,26 @@ function createNewAccount(DBAccess $conn, &$nameValue, &$surnameValue, &$emailVa
         /* VALIDAZIONE CAMPI */
         if (strlen($name) < 2) {
             $errors['name'] = "Il nome è troppo corto.";
-        } elseif (!preg_match($regexNome, $name)) {
+        } else if (!preg_match($regexNome, $name)) {
             $errors['name'] = "Il nome contiene caratteri non validi.";
+        }else if(strlen($name)>100){ 
+            $errors['surname'] = "Il nome è troppo lungo.";
         }
 
         if (strlen($surname) < 2) {
             $errors['surname'] = "Il cognome è troppo corto.";
-        } elseif (!preg_match($regexNome, $surname)) {
+        } else if (!preg_match($regexNome, $surname)) {
             $errors['surname'] = "Il cognome contiene caratteri non validi.";
+        }else if(strlen($surname)>100){ 
+            $errors['surname'] = "Il cognome è troppo lungo.";
         }
 
         if (!preg_match($regexEmail, $email)) {
             $errors['email'] = "Formato email non valido.";
-        } else {
-            if($conn->checkEmailExists($email)){ 
-                $errors['email'] = "L'email è già in uso.";
-            }
+        } else if($conn->checkEmailExists($email)){ 
+            $errors['email'] = "L'email è già in uso.";
+        }else if(strlen($emailValue)>255){
+            $errors['email'] = "L'email è troppo lunga.";
         }
 
         if (strlen($password) < 8 || strlen($confirmPassword) < 8   ) {

@@ -38,11 +38,11 @@ function createCardEvents(DBAccess $conn){
         $titolo = $event["Titolo"];
         $img = $event["ImgPath"];
         $citta = $event["Citta"];
-        $link = "./home"; //TODO LINK EVENTO
+        $link = "./visualizzazione-evento?titolo=".urlencode($titolo)."&data=".urlencode($dataEstesa);
         $ariaLabel = "evento " . $titolo. ': '.$dataEstesa.', '.$citta ;
         
     } else {
-        // --- CASO 2: L'evento NON esiste (slot vuoto) ---
+        
         // Qui metti quello che vuoi mostrare se mancano eventi
         $titolo = "Prossimamente";
         $img = "./assets/images/eventi-default.jpg"; // Immagine di default
