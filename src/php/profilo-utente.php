@@ -752,7 +752,7 @@ if ($infoUtente == null) {
     exit;
 }
 
-if($infoUtente['Via'] === null || $infoUtente['Citta'] === null || $infoUtente['CAP'] === null){
+if(!$infoUtente['Via'] || !$infoUtente['Citta'] || !$infoUtente['CAP']){
     $indirizzoCompleto = "<em>Sconosciuto</em>";
 }else{
     $indirizzoCompleto = $infoUtente['Via'] . ', ' . $infoUtente['Citta'] . ' ' . $infoUtente['CAP'];
@@ -830,5 +830,5 @@ $paginaHTML = str_replace('[openDialog]', $closeModal?'':'', $paginaHTML);
 
 
 echo $paginaHTML;
-
+echo password_hash('admin', PASSWORD_DEFAULT);
 ?>
