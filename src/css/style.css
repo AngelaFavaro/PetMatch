@@ -747,6 +747,7 @@ li.capsula-filtro input:focus{
     text-decoration: underline;
 }
 
+#contatto-sostenitore p,
 #contatto-sostenitore address{
     display: inline;
 }
