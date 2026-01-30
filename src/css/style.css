@@ -2668,7 +2668,7 @@ cursor: pointer;
     background: var(--darkbgcolor); 
 }
 
-#eventi .cards-container, #visualizzazione-evento .cards-container{
+#eventi .cards-container, #visualizzazione-evento .cards{
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -4614,7 +4614,7 @@ div#admin-area article.note{
 
 #visualizza-richieste-animale .card-content p {
     margin: 0;
-    color: var(--txtcolor);
+    color: #3d1411;
     font-size: 1rem;
 }
 
@@ -5939,6 +5939,10 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
 
 /* -----------PAGINA VISUALIZZAZIONE EVENTO--------------- */
 #visualizzazione-evento #evento {
+<<<<<<< HEAD
+    /* flex: 1 1 65%; */
+=======
+>>>>>>> 754bfd873d22cf0b732dee8c24a079079f82c609
     border: 1px solid var(--txtcolor);
     border-radius: 0.5em;
     padding: 2em;
@@ -5958,12 +5962,13 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     flex: 1 1 29%;
     display: flex;
     flex-direction: column;
+    max-height: fit-content;
+    height: fit-content;
 }
 
-#visualizzazione-evento div#mainEvento {
-    flex: 0 1 70%;
-    display: flex;
-    flex-direction: column;
+#visualizzazione-evento div#mainEvent {
+    flex: 1 1 60%;
+    flex-shrink: 0;
 }
 
 
@@ -5989,7 +5994,26 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     border: 1px solid var(--txtcolor);
     border-radius: 0.5em;
     padding: 1em;
-    list-style: none;
+    height: fit-content;
+}
+
+#visualizzazione-evento .cards {
+        list-style: none;
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+
+}
+
+#visualizzazione-evento .altri-eventi .cards-container ul{
+
+    width: 100%;
+}
+
+#visualizzazione-evento .altri-eventi .cards-container ul li{
+    margin: 0;
+    padding: 0;
+    margin-bottom: 0.5em;
 }
 
 #visualizzazione-evento .evento {

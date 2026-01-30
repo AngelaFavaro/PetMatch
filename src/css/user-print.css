@@ -285,6 +285,28 @@ nav#breadcrumb{
     padding:0.1cm;
     margin-top:1.5cm;
 }
+/* ========== TABELLE ========== */
+caption{
+    margin-bottom: 0.5cm;
+    font-weight: bold;
+    font-size: larger;
+}
+
+/* metto i bordi alle tabelle */
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 0.2cm;
+}
+
+table{
+    width: 99.9%;
+}
+
+table button{
+    border-radius: 0.2cm;
+    padding: 0.2cm;
+}
 
 /* ============PAGINA ANIMALI=========== */
 
@@ -763,4 +785,27 @@ article.evento {
 
 .evento p.posizione-data-abbr{
     display: none;
+}
+
+/* ----------CHI SIAMO ------------ */
+
+#content-chi-siamo2 {
+    margin-top: 0.8cm;
+}
+
+#team-img img{
+    width: 3.5cm;
+    height: auto;
+}
+
+#third-chapter-chi-siamo #chi-siamo3-content p{
+    margin-bottom: 0;
+}
+
+#petmatch-timeline #pm-timeline {
+margin-bottom: 0.3cm;
+}
+
+.pm-timeline-date::after{
+    content: ":";
 }
