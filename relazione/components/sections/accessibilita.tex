@@ -23,5 +23,20 @@ Questa sezione descrive le scelte specifiche dividendole in base ai principi fon
     \item le polaroid presenti in chi siamo non sono dei link e non sono neanche interattive. Per rendere evidente la differenza rispetto alla sezione degli eventi nella homepage, le polaroid sono attaccate con del nastro adesivo stilizzato invece che con delle mollette;
     \item i numeri grandi sono scritti in forma estesa (es. 5 mila invece di 5.000) per migliorare la leggibilità, specialmente per i lettori più giovani;
     \item il pulsante di modifica del profilo nell'area utente non amministratore specifica anche l'azione in maniera testuale ("Modifica profilo") diversamente dal profilo amministratore. Non abbiamo ritenuto necessario inserire un'indicazione testuale anche nell'area admin perché questo ha una conoscenza maggiore dell'interfaccia;
+    \item L'ordine degli ultimi movimenti e delle richieste di adozione è in ordine di ultima modifica, non di creazione.
 \end{itemize}
 \subsection{Robusto}
+Oltre a permettere una corretta visualizzazione a tutti i dispositivi (layout responsive, sezione \ref{sec:layout_responsive}) e l'uso di screen reader, altre considerazioni fatte per il principio di robustezza sono:
+\begin{itemize}
+    \item il sito permette la completa accessibilità alle funzionalità anche in assenza di JavaScript (vedi sezione \ref{sec:javascript_accessibilita}{ Accessibilità senza JavaScript});
+\end{itemize}
+\subsubsection{Accessibilità senza JavaScript}
+\label{sec:javascript_accessibilita}
+\begin{itemize} 
+    \item la \textit{timeline} presente nella home prevede punti cliccabili in assenza di JavaScript; 
+    \item quando un animale viene inserito nei preferiti, la pagina viene ricaricata per mostrare l'aggiornamento dello stato (cuore pieno o vuoto). È stato usato AJAX solo come miglioramento per evitare il ricaricamento e migliorare la fluidità dell'interfaccia; 
+    \item la validazione dei form di inserimento dati è garantita lato server in PHP. Il controllo tramite JavaScript è implementato per fornire un \textit{feedback} immediato all'utente, ma non sostituisce i controlli di sicurezza del server; 
+    \item la navigazione del menù principale e la commutazione del tema (Light/Dark mode) rimangono funzionali anche senza script, essendo basate su elementi standard HTML e fogli di stile CSS; 
+    \item i contatori di caratteri per i campi di testo forniscono un ausilio alla compilazione, ma i limiti di lunghezza sono gestiti in modo definitivo dai controlli PHP e dalle specifiche del database;
+    \item la funzionalità di anteprima dell'immagine del profilo è un ausilio visivo, mentre il caricamento effettivo del file è gestito nativamente dal protocollo HTTP tramite l'invio del form.
+\end{itemize}
