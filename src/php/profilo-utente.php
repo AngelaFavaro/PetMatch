@@ -755,11 +755,11 @@ if ($infoUtente == null) {
 if(!$infoUtente['Via'] || !$infoUtente['Citta'] || !$infoUtente['CAP']){
     $indirizzoCompleto = "<em>Sconosciuto</em>";
 }else{
-    $indirizzoCompleto = $infoUtente['Via'] . ', ' . $infoUtente['Citta'] . ' ' . $infoUtente['CAP'];
+    $indirizzoCompleto = htmlspecialchars($infoUtente['Via'], ENT_QUOTES, 'UTF-8') . ', ' . htmlspecialchars($infoUtente['Citta'], ENT_QUOTES, 'UTF-8') . ' ' . htmlspecialchars($infoUtente['CAP'], ENT_QUOTES, 'UTF-8');
 }
 
 if($infoUtente['Telefono']){
-    $telefonoGrezzo = $infoUtente['Telefono'];
+    $telefonoGrezzo = htmlspecialchars($infoUtente['Telefono'], ENT_QUOTES, 'UTF-8');
     $numero = substr($telefonoGrezzo, -10);
     $prefisso = substr($telefonoGrezzo, 0, -10);
     $printTelefono = trim($prefisso . ' ' . $numero);
@@ -810,15 +810,15 @@ $paginaHTML = str_replace('[erroriTelefono]', $messageInfoForm['phoneNumber'], $
 $paginaHTML = str_replace('[messaggiForm]', $messaggiGenerici, $paginaHTML);
 $paginaHTML = str_replace('[erroriIndirizzoTotale]', $messageInfoForm['indirizzo-totale'], $paginaHTML);
 
-$paginaHTML = str_replace('[imgPath]', $infoUtente['ImgPath'] ? $infoUtente['ImgPath'] : './assets/images/users/default-pic.png', $paginaHTML);
-$paginaHTML = str_replace('[nome-utente]', $NewUserInfo['name'] ? $NewUserInfo['name'] : $infoUtente['Nome'], $paginaHTML);
-$paginaHTML = str_replace('[cognome-utente]', $NewUserInfo['surname'] ? $NewUserInfo['surname'] : $infoUtente['Cognome'], $paginaHTML);
+$paginaHTML = str_replace('[imgPath]', $infoUtente['ImgPath'] ? htmlspecialchars($infoUtente['ImgPath'], ENT_QUOTES, 'UTF-8') : './assets/images/users/default-pic.png', $paginaHTML);
+$paginaHTML = str_replace('[nome-utente]', $NewUserInfo['name'] ? $NewUserInfo['name'] : htmlspecialchars($infoUtente['Nome'], ENT_QUOTES, 'UTF-8'), $paginaHTML);
+$paginaHTML = str_replace('[cognome-utente]', $NewUserInfo['surname'] ? $NewUserInfo['surname'] : htmlspecialchars($infoUtente['Cognome'], ENT_QUOTES, 'UTF-8'), $paginaHTML);
 $paginaHTML = str_replace('[indirizzo-utente]', $indirizzoCompleto, $paginaHTML);
 $paginaHTML = str_replace('[email-utente]', $NewUserManagement['email'] ? $NewUserManagement['email'] : $_SESSION['email'], $paginaHTML);
-$paginaHTML = str_replace('[via-utente]', $NewUserInfo['address'] ? $NewUserInfo['address'] : $infoUtente['Via']??'', $paginaHTML);
-$paginaHTML = str_replace('[citta-utente]', $NewUserInfo['city'] ? $NewUserInfo['city'] : $infoUtente['Citta']??'', $paginaHTML);
-$paginaHTML = str_replace('[cap-utente]', $NewUserInfo['CAP'] ? $NewUserInfo['CAP'] : $infoUtente['CAP']??'', $paginaHTML);
-$paginaHTML = str_replace('[telefono-utente]', $NewUserInfo['phoneNumber'] ? $NewUserInfo['phoneNumber'] : $infoUtente['Telefono']??'', $paginaHTML);
+$paginaHTML = str_replace('[via-utente]', $NewUserInfo['address'] ? $NewUserInfo['address'] : htmlspecialchars($infoUtente['Via'], ENT_QUOTES, 'UTF-8')??'', $paginaHTML);
+$paginaHTML = str_replace('[citta-utente]', $NewUserInfo['city'] ? $NewUserInfo['city'] : htmlspecialchars($infoUtente['Citta'], ENT_QUOTES, 'UTF-8')??'', $paginaHTML);
+$paginaHTML = str_replace('[cap-utente]', $NewUserInfo['CAP'] ? $NewUserInfo['CAP'] : htmlspecialchars($infoUtente['CAP'], ENT_QUOTES, 'UTF-8')??'', $paginaHTML);
+$paginaHTML = str_replace('[telefono-utente]', $NewUserInfo['phoneNumber'] ? $NewUserInfo['phoneNumber'] : htmlspecialchars($infoUtente['Telefono'], ENT_QUOTES, 'UTF-8')??'', $paginaHTML);
 $paginaHTML = str_replace('[telefono-utente-view]', $infoUtente['Telefono'] ? $printTelefono : "<em>Sconosciuto</em>", $paginaHTML);
 $paginaHTML = str_replace('[footer]', $footer, $paginaHTML);
 

@@ -684,10 +684,6 @@ li.capsula-filtro input:focus{
     padding: 2.5em;
 }
 
-#come-diventare-sostenitore .lavora-con-noi-img img{
-    border-radius: 2px;
-}
-
 #come-diventare-volontario p,
 #come-diventare-sostenitore p{
     margin-bottom:1.5em;
@@ -4152,6 +4148,7 @@ a.pencil {
     margin-bottom: 1em;
 }
 
+.lavora-con-noi-text +img,
 .square-foto {
     width: 9em;
     height: 9em;
@@ -4488,6 +4485,7 @@ div#admin-area article.note{
     margin-left: 1em;
 }
 
+.lavora-con-noi-text +img,
 #animale-richiesta .generic-info-container img.square-foto,
 #dettaglio-animale .generic-info-container img.square-foto {
     width: 15em;
@@ -4497,6 +4495,12 @@ div#admin-area article.note{
     margin: 0 auto;
     border-radius: 0.5em;
     box-shadow: 0 0.25em 0.625em rgba(0,0,0,0.2);
+}
+
+#come-diventare-volontario .lavora-con-noi-text +img{
+    height: auto;
+    width: fit-content;
+    object-fit: contain;
 }
 
 h2+#animale-richiesta .generic-info-container img.square-foto{
