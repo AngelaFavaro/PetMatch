@@ -2820,7 +2820,8 @@ flex: 1 0 100%;
 #user-profile .tabs-container legend{
     display: none;
 }
-
+#visualizzazione-evento .button-cancel,
+#visualizzazione-evento button[name="delete-evento"],
 #animale-detailed-container .button-cancel,
 #animale-detailed-container button[name="delete-animale"],
 #user-info .button-cancel,
@@ -2871,6 +2872,7 @@ flex: 1 0 100%;
 #user-profile .tab-content form button:hover,
 .logout-btn:hover,
 #animale-detailed-container .button-cancel:hover,
+#visualizzazione-evento .button-cancel:hover,
 #user-info .button-cancel:hover,
 #revisione-richiesta .button-cancel:hover{
     background-color:var(--bgcolor);
@@ -3446,11 +3448,14 @@ dialog::backdrop {
 }
 
 #animale-detailed-container .dialog-buttons  .button-cancel:not([name="show-dialog"]),
+#visualizzazione-evento .dialog-buttons  .button-cancel:not([name="show-dialog"]),
 #revisione-richiesta .dialog-buttons  .button-cancel:not([name="show-dialog"]),
 #user-info .dialog-buttons button[name="close-dialog"].button-cancel{
     border-radius: 2em;
 }
 
+#visualizzazione-evento .button-cancel,
+#visualizzazione-evento button[name="delete-evento"],
 #animale-detailed-container .button-cancel,
 #animale-detailed-container button[name="delete-animale"],
 #user-info .button-cancel,
@@ -3484,7 +3489,8 @@ dialog::backdrop {
 }
 
 #animale-detailed-container .button-cancel:hover,
-#user-info .edit-management .button-cancel:hover{
+#user-info .edit-management .button-cancel:hover,
+#visualizzazione-evento .button-cancel:hover{
     border-color: transparent;
     color:var(--text-form);
 }
@@ -5973,7 +5979,7 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     overflow-wrap: break-word; 
 }
 
-#visualizzazione-evento aside.altri-eventi {
+#visualizzazione-evento aside#altri-eventi {
     flex: 1 1 29%;
     display: flex;
     flex-direction: column;
@@ -6004,7 +6010,7 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     content: ":\00a0";
 }
 
-#visualizzazione-evento .altri-eventi .cards-container{
+#visualizzazione-evento #altri-eventi .cards-container{
     border: 1px solid var(--txtcolor);
     border-radius: 0.5em;
     padding: 1em;
@@ -6061,28 +6067,30 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     margin-right: 0.5em;
 }
 
-#visualizzazione-evento .altri-eventi #content-collaborators img {
+#visualizzazione-evento #altri-eventi #content-collaborators img {
     width: 4em;
     height: 4em;
     object-fit: cover;
     border-radius: 50%;
 }
 
-#visualizzazione-evento .altri-eventi #content-collaborators {
+#visualizzazione-evento #altri-eventi #content-collaborators {
     list-style-type: none;
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     gap: 0.5em;
+    flex-wrap: wrap;
 }
 
-#visualizzazione-evento .altri-eventi #content-collaborators li {
-    float: left;
+#visualizzazione-evento #altri-eventi #content-collaborators li {
+    /* float: left; */
     display: flex;
     align-items: center;
-    gap: 0.5em;
+    min-width: 8em;
+    gap: 1em;
 }
 
-#visualizzazione-evento .altri-eventi#collaboratori {
+#visualizzazione-evento .collaboratori#altri-eventi {
     border: 1px solid var(--txtcolor);
     border-radius: 0.5em;
     padding: 1em;
@@ -6090,10 +6098,24 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     background-color: var(--darkbgcolor);
 }
 
-#visualizzazione-evento .altri-eventi#collaboratori h2 {
+#visualizzazione-evento .collaboratori#altri-eventi h2 {
     float: left;
 }
 
 .container#visualizzazione-evento {
     margin-top: 2em;
+}
+
+#visualizzazione-evento .collaboratori#altri-eventi {
+    height: fit-content;
+    flex: 0 1 25%;
+}
+
+#visualizzazione-evento #mainEvent.collaboratori {
+    flex-shrink: 0;
+    min-width: 35em;
+}
+
+#visualizzazione-evento .edit-btn-container {
+    display: flex;
 }

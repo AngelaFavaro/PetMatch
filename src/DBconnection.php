@@ -2581,6 +2581,23 @@ public function getAnimalArrivalDate($idAnimale): ?string {
         return $result;
     }
 
+    public function deleteEvent(string $titolo, string $dataEvento): bool {
+    if (!$this->connection) return false;
+
+    $query = "DELETE FROM EVENTI WHERE Titolo = ? AND DataEvento = ?";
+    $stmt = mysqli_prepare($this->connection, $query);
+
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, 'ss', $titolo, $dataEvento);
+        $res = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return $res;
+    }
+
+    return false;
+}
+
+
 }
 
 ?>

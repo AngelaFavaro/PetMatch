@@ -21,9 +21,36 @@ $url=$isAdmin?'dettagli-evento':'visualizzazione-evento';
 $titoloGET = $_GET['titolo'] ?? null;
 $dataGET   = $_GET['data'] ?? null;
 
-$idaside='';
+$classCollaboratori='';
 if($isAdmin) {
-    $idaside="id='collaboratori'";
+    $classCollaboratori="class='collaboratori'";
+}
+
+
+$errore='';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-evento'])) {
+    $connessione = new DBAccess();
+    $connessioneOK = $connessione->openDBConnection();
+    if($connessioneOK) {
+        deleteStoredFile($connessione->getImgEvent($titoloGET, $dataGET));    
+        if ($connessione->deleteEvent($titoloGET, $dataGET)) {
+            $connessione->closeConnection();
+            header("Location: ./visualizzazione-eventi");
+            exit;
+        }
+    } else {
+        $errore="<dialog open class='overlay-content'>
+                    <div class='dialog-box'>
+                        <h3 id='modal-title'>Errore di connessione</h3>
+                        <p>L'eliminazione di <strong>".htmlspecialchars($titoloGET)."</strong> è <strong>fallita</strong>. Riprovare più tardi</p>
+                        <div class='dialog-buttons'>
+                            <form method='post'>
+                                <button type='submit' name='close-dialog' class='button-cancel'>Chiudi</button>
+                            </form>
+                        </div>
+                    </div>
+                </dialog>";
+    }
 }
 
 
@@ -86,21 +113,44 @@ function buildMainevent(array $dettagliEvento, int $isAdmin=0): string {
         $img = (!empty($dettagliEvento['ImgPath']) && file_exists($dettagliEvento['ImgPath'])) ? $dettagliEvento['ImgPath'] : 'assets/images/events/eventi-default.jpg';
 
         // 3. Creazione del blocco HTML (con le variabili ora piene!)
-        $html = "<div id='mainEvent'>
+        $html = "<div id='mainEvent' [COLLABORATORI]>
         <div id='evento'>
-        <img class='square-foto' id='foto-animale' src='$img' alt='foto del luogo per evento  $titolo'>";
+        <img class='square-foto' id='foto-animale' src='$img' alt='foto del luogo per evento  $titolo'>
+        <div class='edit-btn-container'>
+                <form method='post'>
+                    <button type='submit' name='show-dialog' class='button-cancel'>
+                        <img src=''./assets/icons/delete-trash.svg' alt='' />Elimina evento
+                    </button>
+                </form>";
 
         if ($isAdmin && $date) {
             $dataEvento = DateTime::createFromFormat('Y-m-d', $date);
             $oggi = new DateTime('today');
 
             if ($dataEvento && $dataEvento > $oggi) {
-                $html.="<div class='edit-btn-container'>
+                $html.="
+
+
                 <a class='orange-button' href='modifica-evento?titolo=$titolo&data=$date'>Modifica<span class='sr-only'> scheda evento</span></a>
-                </div>";
+                ";
             }
         }
         $html.="
+        </div>
+        <dialog [openDialog] class='overlay-content'>
+                    <div class='dialog-box'>
+                        <h3 id='modal-title'>Conferma eliminazione</h3>
+                        <p>L'eliminazione di <strong>$titolo</strong> è <strong>irreversibile</strong>. Vuoi continuare?</p>
+                        <div class='dialog-buttons'>
+                            <form method='post'>
+                                <button type='submit' name='close-dialog' class='button-cancel'>No, annulla</button>
+                            </form>
+                            <form method='post'>
+                                <button type='submit' name='delete-evento'>Si, elimina</button>
+                            </form>
+                        </div>
+                    </div>
+                </dialog>
             <h1>$titolo</h1>
             <dl>
                 <dt>Luogo</dt> <dd> $luogo </dd>
@@ -227,6 +277,7 @@ if ($paginaHTML === false) {
 $title = '<title> Visualizzazione evento </title>'; //da cambiare
 $description = '<meta name="description" content="Pagina dedicata all\'evento organizzato da PetMatch dedicato a cani e gatti ">';  //da cambiare
 $keywords =     '<meta name="keywords" content= "PetMatch, evento, animali, cani, gatti">';//da cambiare
+$showModal = $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['show-dialog']);
 
 
 $breadcrumb = $isAdmin? getBreadcrumb('dettagli-evento', $pagine) :getBreadcrumb('visualizzazione-evento', $pagine);
@@ -237,7 +288,12 @@ $footer = $isAdmin? '' : buildFooter($footerMenu,  './visualizzazione-evento');
 
 $main = str_replace('[EVENTO]', $contenutoEvento, $main);
 $main = str_replace('[ASIDE]', $Aside, $main);
-$main = str_replace('[IDASIDE]', $idaside, $main);
+$main = str_replace('[COLLABORATORI]', $classCollaboratori, $main);
+if($errore) {
+    $main = str_replace('[openDialog]', $errore, $main);
+} else {
+    $main = str_replace('[openDialog]', ($showModal ? 'open' : ''), $main);
+}
 
 $paginaHTML = str_replace('[title]', $title, $paginaHTML);
 $paginaHTML = str_replace('[description]', $description, $paginaHTML);
