@@ -113,9 +113,9 @@ function buildCollaboratorsCard($collaboratori): string {
     $collaboratoriCards='';
     if($collaboratori) {
         foreach ($collaboratori as $c) {
-            $name=$c['Nome'];
-            $surname=$c['Cognome'];
-            $profilePic=$c['ImgPath'];
+            $name=htmlspecialchars($c['Nome']);
+            $surname=htmlspecialchars($c['Cognome']);
+            $profilePic=htmlspecialchars($c['ImgPath']);
             $collaboratoriCards.="<li><img src='$profilePic' alt=''> $name $surname</li>";
         }
         $html="<h2>Scritto da:</h2>
