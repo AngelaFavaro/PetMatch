@@ -7,10 +7,11 @@ I colori tentano di richiamare quelli tipici degli animali domestici, con tonali
 \end{adjustwidth}
  La palette principale, in modalità giorno (\textit{light mode}), include:
 \begin{itemize}
-    \item \textbf{Colore primario: \#FFF6D7 (Beige)} - un colore chiaro e neutro che offre un buon contrasto con gli altri colori
-    \item \textbf{Colore secondario: \#481515 (Marrone)} - un marrone scuro utilizzato per elementi di testo o background secondari.
-    \item \textbf{Colore di accento: \#EA654C (Arancione)} - principalmente per elementi interattivi come pulsanti e link.
-    \item \textbf{Colore secondario: \#6D7541 (Verde)} - un colore neutro che richiama la natura. Utilizzato principalmente per elementi decorativi.
+    \item \textbf{Colore primario: \cbox{beige} \#FFF6D7 (Beige)} - un colore chiaro e neutro che offre un buon contrasto con gli altri colori
+    \item \textbf{Colore secondario 1: \cbox{brown} \#481515 (Marrone)} - un marrone scuro utilizzato per elementi di testo o background secondari.
+    \item \textbf{Colore di accento: \cbox{orange} \#EA654C (Arancione)} - principalmente per elementi interattivi come pulsanti e link.
+    \item \textbf{Colore secondario 2: \cbox{grey} \#E4D4BA (Grigio)} - un colore neutro che fornisce contrasto e aiuta a creare separazione visiva tra gli elementi.
+    \item \textbf{Colore secondario 3: \cbox{green} \#6D7541 (Verde)} - un colore neutro che richiama la natura. Utilizzato principalmente per elementi decorativi.
 \end{itemize}
 \paragraph{Per l'accessibilità}:
 le seguenti informazioni sono state verificate utilizzando diversi strumenti, in ultimo il tool \textit{Color Contrast} di Silktide.
@@ -31,6 +32,8 @@ le seguenti informazioni sono state verificate utilizzando diversi strumenti, in
 \rowcolor{beige} \cbox{beige} Beige (\#FFF6D7) & \cbox{green} Verde (\#6D7541) & 4.55:1 & Raggiunto AA \\
 \hline
 \rowcolor{beige} \cbox{brown} Marrone (\#481515) & \cbox{orange} Arancione (\#EA654C) & 4.65:1 & Raggiunto AA \\
+\hline
+\rowcolor{beige} \cbox{grey} Grigio (\#E4D4BA) & \cbox{brown} Marrone (\#481515) & 10.35:1& Raggiunto AA e AAA\\
 \hline
 \end{tabular}
 \captionof{table}{Verifiche di contrasto colori. NOTA: Non sono riportate le combinazioni di colori che non sono state usate come testo e background insieme.}
@@ -57,8 +60,8 @@ Per le pagine di stampa abbiamo optato per un comune font serif, Times New Roman
 \end{itemize}
 \subsection{Scelte stilistiche nella divisione utente / amministratore}
 Il layout e in generale il design grafico delle pagine dedicate agli amministratori si presenta più sobrio e formale rispetto a quello delle pagine utente, per sottolineare la differenza di ruolo e responsabilità tra i due tipi di utenti.\\
-% Inoltre, come descritto nella sezione \ref{sec:layout_responsive}{ Layout responsive}, le pagine amministratore, non sono completamente ottimizzate per la visualizzazione su dispositivi mobili, in quanto si presume che gli amministratori accedano al sito principalmente da computer desktop o laptop. In particolare il difetto si riscontra nella nav bar, che non rimane fissa in cima alla pagina come avviene per le pagine utente. \\
-Un esempio di differenza di layout, oltre alla nav, è l'assenza del footer nelle pagine amministratore, che risulterebbe superfluo, distraente e ingombrante.
+Un esempio di differenza di layout, oltre alla nav, è l'assenza del footer nelle pagine amministratore, che risulterebbe superfluo, distraente e ingombrante.\\
+In generale nella sezione admin abbiamo rilassato alcune best practice di accessibilità, questo perchè l'area amministratore non è destinata ad un pubblico generico.
 \subsection{Logo}
 Il logo, utilizzato in più varianti, raffigura un cuore realizzato con le sagome di due tipici segnaposto di mappe. Una strada collega il cuore ad una casa stilizzata posta alla destra in lontananza. \\
 L'idea è quella di rappresentare il significato del sito web con un singolo simbolo: il cuore rappresenta l'amore e l'affetto che gli utenti cercano per i loro animali, mentre i segnaposto simboleggiano la localizzazione geografica che, grazie alla piattaforma, può essere superata, arrivando idealmente fino alla casa dell'utente.\\

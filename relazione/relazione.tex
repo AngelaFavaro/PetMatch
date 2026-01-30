@@ -33,6 +33,8 @@
 \usepackage{setspace} %per i margini
 \usepackage{ragged2e} %per il giustificato
 \usepackage{enumitem} % per personalizzare gli elenchi (noitmsep)
+\usepackage{ragged2e} % per definire i rientri di paragrafo
+\usepackage{changepage}
 
 \usepackage{float} % serve per la [H] nelle figure, non so se mi servirà
 \usepackage{caption} % per le caption delle figure
@@ -48,6 +50,7 @@
 \definecolor{beige}{HTML}{FFF6D7}  % celle giallino chiaro
 \definecolor{orange}{HTML}{EA654C}
 \definecolor{green}{HTML}{6D7541}
+\definecolor{grey}{HTML}{E4D4BA}
 
 \setmainfont{Times New Roman} %font
 \geometry{a4paper,inner=3cm,outer=3cm,top=2.5cm,bottom=2.5cm}
@@ -68,8 +71,7 @@
 }
 
 \setlist{nosep} % non voglio l'interlinea extra negli elenchiiiiiiiiiiiiiiiii
-\usepackage{ragged2e} % per definire i rientri di paragrafo
-\usepackage{changepage}
+
 
 % Comando per inserire una pagina bianca senza numerazione (ma viene contata)
 \newcommand{\paginaBianca}{
@@ -87,6 +89,8 @@
   \fcolorbox{black}{#1}{\textcolor{#1}{\rule{0.3cm}{0.3cm}}}%
   \hspace{0.2cm}%
 }
+
+
 % ------------INIZIO DOCUMENTO--------------
 
 \begin{document}
@@ -100,7 +104,7 @@
 
 \input{components/frontespizio}
 
-\input{components/sections/riassunto}
+\input{components/sections/info}
 \newpage
 \tableofcontents
 \newpage

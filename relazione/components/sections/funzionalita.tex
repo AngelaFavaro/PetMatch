@@ -1,7 +1,9 @@
 \section{Funzionalità principali}
 \subsection{Utente non registrato}
 \paragraph{Visualizzazione di animali}
-Un utente non registrato può navigare liberamente tra le pagine del sito web e visualizzare gli animali disponibili per l'adozione. Può utilizzare i filtri di ricerca per trovare animali in base a criteri specifici come tipo (Cane o Gatto), razza, età, taglia, sesso ma anche filtrare per nome.
+Un utente non registrato può navigare liberamente tra le pagine del sito web e visualizzare gli animali disponibili per l'adozione. Può utilizzare i filtri di ricerca per trovare animali in base a criteri specifici come tipo (Cane o Gatto), razza, età, taglia, sesso ma anche filtrare per nome.\\
+Se un animale è già interessato (ossia qualcuno ha già inviato una richiesta di adozione per quell'animale) la scheda di dettaglio dell'animale mostrerà un chiaro avviso per informare l'utente. Tuttavia non è una limitazione: più utenti possono inviare richieste per lo stesso animale, che verranno valutate dall'amministratore.\\
+All'interno di ogni scheda animale si legge un messaggio chiaro che invita alla registrazione per poter inviare richieste di adozione.
 \paragraph{Gestione preferiti}
 Per ogni utente non amministratore, registrato o meno, è possibile inserire tra i preferiti gli animali di interesse, in modo da poterli ritrovare facilmente in futuro.\\
 La particolarità è che i preferiti sono salvati tramite cookie nel browser dell'utente e al momento dell'accesso vengono caricati automaticamente nel database. Nella sezione preferiti, senza accesso, si vede un chiaro messaggio che invita alla registrazione per salvare i preferiti in modo permanente e quindi sincronizzarli con tutti i dispositivi.\\
@@ -9,18 +11,19 @@ Per far fronte alla possibilità che un utente inserisca nei preferiti un animal
 \paragraph{Visualizzazione di eventi}
 Nella pagina dedicata agli eventi, un utente può visualizzare gli eventi organizzati dal rifugio, con dettagli come data, ora, luogo e descrizione dell'evento.
 \paragraph{Trovare casa ad un animale}
-Qualsiasi utente può inviare delle segnalazioni per aiutare a trovare casa ad un gatto o cane bisognoso. Compilando un semplice form con le informazioni richieste, la segnalazione verrà inviata agli amministratori del sito che potranno valutare se aggiungere l'animale al database.\\
+Qualsiasi utente può inviare delle segnalazioni per aiutare a trovare casa ad un gatto o cane bisognoso. Compilando un semplice form con le informazioni richieste, la segnalazione verrà inviata agli amministratori del sito che potranno valutare se aggiungere l'animale al database.\\\\
 Alcune delle funzionalità hanno scopi precisi per rispondere a bisogni di specifiche tipologie di utente. Più dettagli nella sezione relativa all'attrazione degli utenti \ref{sec:attrazione_utenti}.
 \subsection{Utente registrato}
 Oltre a tutte le funzionalità disponibili per gli utenti non registrati, gli utenti registrati hanno specifiche funzionalità aggiuntive.
 \paragraph{Effettuare richieste di adozione}
-Compilando il form di adozione, presente comodamente nella pagina di dettaglio di ogni animale disponibile, un utente registrato può inviare una richiesta di adozione per l'animale di interesse.
+Compilando il form di adozione, presente comodamente nella pagina di dettaglio di ogni animale disponibile, un utente registrato può inviare una richiesta di adozione per l'animale di interesse.\\
+Inoltre la pagina di dettaglio animale cambia dinamicamente, evidenziando lo stato della richiesta inviata dall'utente, se presente, e disabilitando il form di invio di una nuova richiesta.
 \paragraph{Gestione profilo}
 Gli utenti registrati hanno a disposizione una pagina profilo in cui possono visualizzare e modificare le proprie informazioni personali, come nome, cognome, password ma anche immagine profilo.\\
 Più interessante è la possibilità di gestire l'account, cambiando email e password, e la possibilità di eliminare l'account in modo permanente.
 \paragraph{Gestione richieste di adozione}
 Nell'area personale un utente può visualizzare lo stato delle proprie richieste, vedere gli ultimi avvisi di movimenti effettuati sugli animali interessati (in adozione o in valutazione) o quelle effettuate dall'amministratore che lo hanno coinvolto.\\ 
-In ultimo l'utente può visionare una richiesta inviata in dettaglio, con tutte le informazioni inserite e annullare la richiesta di adozione se ancora in stato di "in valutazione" o "nuova".
+In ultimo l'utente può visionare una richiesta inviata \textbf{in dettaglio}, con tutte le informazioni inserite e annullare la richiesta di adozione se ancora in stato di "in valutazione" o "nuova". L'utente può quindi recuperare informazioni della propria richiesta sia nella scheda di dettaglio dell'animale che nella pagina delle richieste inviate.
 \subsection{Amministratore}
 Un utente amministratore può visualizzare il sito web come un utente normale, ma ha accesso a funzionalità aggiuntive accessibili nell'area amministratore.\\
 Ci sono tuttavia delle differenze apportate al sito web normale, sia per migliorare le funzionalità amministrative, sia per limitare l'accesso a funzionalità non necessarie.
