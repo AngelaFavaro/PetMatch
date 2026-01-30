@@ -524,11 +524,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])){ logout();}
 $htmlView =
 '<article class="view-mode">
     <span>
-        <h2>Le tue informazioni</h2>
+        <h2>Le tue informazioni</h2>';
+        $htmlView .= $_SESSION['email']==='user'?'':'
         <a href="?mode=management#gestisci-profilo" aria-label="Gestione dell\'account">
             <img src="./assets/icons/setting.svg" alt="" class="normal-icon"/>
             <img src="./assets/icons/setting-hover.svg" alt="" class="hover-icon"/>
-        </a>
+        </a>';
+    $htmlView .='
     </span>
     <img src="[imgPath]" alt="foto profilo" class="circle-foto"/>
     <a href="?mode=edit#modifica-profilo" class="edit-profile-link">
@@ -669,9 +671,7 @@ $htmlManagement = '
             </div>
         </form>
 
-        <form method="post" action="#user-info">
-            <button type="submit" name="show-dialog" class="button-cancel">Elimina profilo</button>
-        </form>
+        [ButtonEliminaProfilo]
 
         <dialog [openDialog] class="overlay-content">
                 <div class="dialog-box">
@@ -817,6 +817,12 @@ $paginaHTML = str_replace('[cap-utente]', $NewUserInfo['CAP'] ? $NewUserInfo['CA
 $paginaHTML = str_replace('[telefono-utente]', $NewUserInfo['phoneNumber'] ? $NewUserInfo['phoneNumber'] : htmlspecialchars($infoUtente['Telefono'], ENT_QUOTES, 'UTF-8')??'', $paginaHTML);
 $paginaHTML = str_replace('[telefono-utente-view]', $infoUtente['Telefono'] ? $printTelefono : "<em>Sconosciuto</em>", $paginaHTML);
 $paginaHTML = str_replace('[footer]', $footer, $paginaHTML);
+
+$paginaHTML = str_replace('[ButtonEliminaProfilo]', $_SESSION['email']==='user'?'':'   
+            <form method="post" action="#user-info">
+                <button type="submit" name="show-dialog" class="button-cancel">Elimina profilo</button>
+            </form>', $paginaHTML);
+
 
  
 $showModal = $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['show-dialog']);

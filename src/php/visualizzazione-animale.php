@@ -412,14 +412,16 @@ if (!$utenteAccesso) {
 
 $CARDANIMALE1 = "
     <img id='foto-animale' class='square-foto' src='$img' alt='Foto di $nome' />  
-    <div id= 'info-generiche-testo'>
+    <div id= 'info-generiche-testo'>";
+    $CARDANIMALE1 .= ($isAdmin)?'':"
                 <form method='post' action='' class='preferiti-form'>
         <input type='hidden' name='id-animale-preferito' value='$idAnimale'/>
         <button type='submit' class='$classePreferito' aria-label='$statusPreferiti'>
             <img class='heart-normal' src='./assets/icons/$heartNormal' alt='' />
             <img class='heart-hover' src='./assets/icons/$heartHover' alt='' />
         </button>
-    </form>
+    </form>";
+    $CARDANIMALE1 .="
         <dl>
             <dt> Nome</dt> <dd> $nome </dd>
             <dt> Sesso</dt> <dd> $sesso </dd>
