@@ -103,27 +103,27 @@ $paginaHTML = str_replace('[cardAnimal]', getCardAnimal($_GET['id-animale'], $_S
 
 $paginaHTML = str_replace('[isDisabled]', $isDisabled, $paginaHTML);
 $paginaHTML = str_replace('[messaggiForm]', $messageForm, $paginaHTML);
-$paginaHTML = str_replace('[imgAnimale]', $infoRequest['ImgPath'], $paginaHTML);
-$paginaHTML = str_replace('[nomeAnimale]', $infoRequest['NomeAnimale'], $paginaHTML);
+$paginaHTML = str_replace('[imgAnimale]', htmlspecialchars($infoRequest['ImgPath'], ENT_QUOTES, 'UTF-8'), $paginaHTML);
+$paginaHTML = str_replace('[nomeAnimale]', htmlspecialchars($infoRequest['NomeAnimale'], ENT_QUOTES, 'UTF-8'), $paginaHTML);
 
 $screenRichiesta= date("Y-m-d", strtotime($infoRequest['DataRichiesta']));
 if($infoRequest['DataInizioValutazione']) $screenInizioValutazione= date("Y-m-d", strtotime($infoRequest['DataInizioValutazione']));
 
 $paginaHTML = str_replace('[dataRichiesta]', '<time datetime ="'.$screenRichiesta.'">'.date("d/m/Y", strtotime($infoRequest['DataRichiesta'])).'</time>', $paginaHTML);
-$paginaHTML = str_replace('[StatoRichiesta]', $infoRequest['Stato'], $paginaHTML);
+$paginaHTML = str_replace('[StatoRichiesta]', htmlspecialchars($infoRequest['Stato'], ENT_QUOTES, 'UTF-8'), $paginaHTML);
 $paginaHTML = str_replace('[DataInizio]', $infoRequest['DataInizioValutazione']? '<time datetime ="'.$screenInizioValutazione.'">'.date("d/m/Y", strtotime($infoRequest['DataInizioValutazione'])):'</time><em>La richiesta non è ancora stata presa in carico.</em>', $paginaHTML);
 $paginaHTML = str_replace('[DataFineRichiesta]', $fineRichiesta, $paginaHTML);
 $paginaHTML = str_replace('[dataPartenza]', $dataPartenza, $paginaHTML);
 $paginaHTML = str_replace('[dataArrivo]', $dataArrivo, $paginaHTML);
-$paginaHTML = str_replace('[letteraPresentazione]', $infoRequest['LetteraPresentazione'], $paginaHTML);
+$paginaHTML = str_replace('[letteraPresentazione]', htmlspecialchars($infoRequest['LetteraPresentazione'], ENT_QUOTES, 'UTF-8'), $paginaHTML);
 $paginaHTML = str_replace('[richiestaTrasporto]', $infoRequest['Trasporto']?'Si':'No', $paginaHTML);
-$paginaHTML = str_replace('[RazzaAnimale]', $infoRequest['Razza'], $paginaHTML);
+$paginaHTML = str_replace('[RazzaAnimale]', htmlspecialchars($infoRequest['Razza'], ENT_QUOTES, 'UTF-8'), $paginaHTML);
 $paginaHTML = str_replace('[SessoAnimale]', $infoRequest['Sesso']=='M'?'Maschio':'Femmina', $paginaHTML);
-$paginaHTML = str_replace('[EtàAnimale]', $etaAnimale, $paginaHTML);
+$paginaHTML = str_replace('[EtàAnimale]', htmlspecialchars($etaAnimale, ENT_QUOTES, 'UTF-8'), $paginaHTML);
 $paginaHTML = str_replace('[TrasportoAnimale]', $infoRequest['TrasportoAnimale']?'Si':'No', $paginaHTML);
-$paginaHTML = str_replace('[FamigliaIdealeAnimale]', $infoRequest['DescrFamiglia'], $paginaHTML);
-$paginaHTML = str_replace('[CondizioniMedicheAnimale]', $infoRequest['CondizioniMediche']?$infoRequest['CondizioniMediche']:'Sano', $paginaHTML);
-$paginaHTML = str_replace('[DescrizioneCaratterialeAnimale]', $infoRequest['DescrComportamentale'], $paginaHTML);
+$paginaHTML = str_replace('[FamigliaIdealeAnimale]', htmlspecialchars($infoRequest['DescrFamiglia'], ENT_QUOTES, 'UTF-8'), $paginaHTML);
+$paginaHTML = str_replace('[CondizioniMedicheAnimale]', $infoRequest['CondizioniMediche']?htmlspecialchars($infoRequest['CondizioniMediche'], ENT_QUOTES, 'UTF-8'):'Sano', $paginaHTML);
+$paginaHTML = str_replace('[DescrizioneCaratterialeAnimale]', htmlspecialchars($infoRequest['DescrComportamentale'], ENT_QUOTES, 'UTF-8'), $paginaHTML);
 
 $showModal = $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['show-dialog']);
 $closeModal = $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['close-dialog']);

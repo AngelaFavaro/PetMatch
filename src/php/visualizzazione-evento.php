@@ -30,10 +30,10 @@ function buildEventsCards($events): string {
         if (!empty($e['immagine']) && file_exists($e['immagine'])) {
             $img = $e['immagine'];
         } else {
-            $img = 'assets/images/animals/defaultCane.jpg';
+            $img = 'assets/images/events/eventi-default.jpg';
         }
         $data=formattaDataItaliana($e['data_evento']);
-        $titolo=$e['titolo'];
+        $titolo=htmlspecialchars($e['titolo']);
         $altriEventi .= "<li>
                     <article class='evento'>
                         <!-- Immagine dell'evento -->
@@ -48,7 +48,7 @@ function buildEventsCards($events): string {
                             <time datetime=$data>$data</time>
                         </p>
                         <div class='dettagli-evento-bottone'>
-                        <a href='visualizzazione-evento?titolo=$titolo&data=$data'>Vedi dettagli</a>
+                        <a href='visualizzazione-evento?titolo=".urlencode($titolo)."&data=".urlencode($e['data_evento'])."'>Vedi dettagli</a>
                     </div>
                     </article>
                 </li>";
@@ -140,21 +140,22 @@ $descrizioneMeta = '';
 $contenutoEvento = '';
 $titoloEncoded='';
 $dettagliEvento='';
-
-$dataIta=convertiDataItalianaInSQL($dataGET);
+$eventiAside='';
 
 $connection = new DBAccess();
 if ($connection->openDBConnection()) {
     
     if ($titoloGET && $dataGET) {
-        $dettagliEvento = $connection->getInfoEvent($titoloGET, $dataIta);
+        $dettagliEvento = $connection->getInfoEvent($titoloGET, $dataGET);
         if (!$dettagliEvento) {
             // ENT_QUOTES converte ' in &#039;
             $titoloEncoded = htmlspecialchars($titoloGET, ENT_QUOTES); 
-            $dettagliEvento = $connection->getInfoEvent($titoloEncoded, $dataIta);
+            $dettagliEvento = $connection->getInfoEvent($titoloEncoded, $dataGET);
             if ($dettagliEvento) {
                 // html_entity_decode trasforma "c&#039;è" in "c'è"
                 $dettagliEvento['Titolo'] = html_entity_decode($dettagliEvento['Titolo'], ENT_QUOTES);
+            } else {
+                $titoloEncoded = '';
             }
         }
 
@@ -170,20 +171,16 @@ if ($connection->openDBConnection()) {
 
             // 3. Creazione del blocco HTML (con le variabili ora piene!)
             $contenutoEvento = buildMainevent($dettagliEvento, $isAdmin);
-        } else {
-            $contenutoEvento = $titoloGET;
-        }
-    }
 
-    if(!$isAdmin) {
+            if(!$isAdmin) {
         if($titoloEncoded) {
             $citta=['citta' => $dettagliEvento['Citta'],
                     'nomeNO' => $titoloEncoded,
-                    'dataNO' => $dataIta];
+                    'dataNO' => $dataGET];
         } else {
             $citta=['citta' => $dettagliEvento['Citta'],
                     'nomeNO' => $dettagliEvento['Titolo'],
-                    'dataNO' => $dataIta];
+                    'dataNO' => $dataGET];
         }
         $eventi = $connection->getEventsFilteredPaged($citta, 3);
         $Aside=$eventi?buildEventsCards($eventi) : "<h2>Altri eventi nella zona</h2>
@@ -193,13 +190,20 @@ if ($connection->openDBConnection()) {
             <a class='brown-button' href = './eventi'> Guarda tutti gli eventi →</a>";
     } else {
         if($titoloEncoded) {
-            $collaboratori=$connection->getOrganizzatoriEvento($titoloEncoded, $dataIta);
+            $collaboratori=$connection->getOrganizzatoriEvento($titoloEncoded, $dataGET);
         } else {
         //recupera i collaboratori con la query e mettili nell'aside
-            $collaboratori=$connection->getOrganizzatoriEvento($dettagliEvento['Titolo'], $dataIta);
+            $collaboratori=$connection->getOrganizzatoriEvento($dettagliEvento['Titolo'], $dataGET);
         }
         $Aside=$collaboratori?buildCollaboratorsCard($collaboratori) : "<p class='errore'>Impossibile accedere ai collaboratori</p>";
     }
+        } else {
+            $contenutoEvento = "<p class='errore'>Non è stato possibile recuperare l'evento con tale data e nome. Riprovare più tardi</p>";
+            $Aside = "<p class='errore'>Per ora non ci sono altri eventi in programma in questa città. Ritorna tra qualche giorno a controllare</p>";
+        }
+    }
+
+    
     $connection->closeConnection();
 } else {
     $contenutoEvento = "<p class='errore'>Impossibile connettersi al database.</p>";

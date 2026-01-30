@@ -172,7 +172,7 @@ if(isset($_GET['id'])) {
         // helper per ogni voce
         $item = function (string $t, string $label) use ($type, $buildLink) {
             if ($type === $t) {
-                return "<li class='currentType' aria-label='filtro attivo:$label'>$label</li>";
+                return "<li class='currentType' aria-label='filtro attivo:$label'><h2>$label</h2></li>";
             }
     
             return "<li><a href='{$buildLink($t)}'>$label</a></li>";
@@ -188,59 +188,31 @@ if(isset($_GET['id'])) {
     
     
     /* ------------------ CARD ANIMALI ------------------ */
-    function buildAnimalCards(array $animali, ?string $email): string {
+function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = false): string {
         $html = '';
         $conn = new DBAccess();
     
         if ($conn->openDBConnection()) {
             foreach ($animali as $a) {
-    
                 $nome  = htmlspecialchars($a['nome']);
                 $sesso = $a['sesso'] === 'M' ? 'Maschio' : 'Femmina';
-                $sessoAbbr = $a['sesso'] === 'M'
-                    ? '<abbr title="Maschio" aria-label="Maschio">M</abbr>'
-                    : '<abbr title="Femmina" aria-label="Femmina">F</abbr>';
-    
+                $sessoAbbr = $a['sesso'] === 'M' ? '<abbr title="Maschio" aria-label="Maschio">M</abbr>' : '<abbr title="Femmina" aria-label="Femmina">F</abbr>';
                 $eta = $a['eta'];
                 $id  = $a['id'];
                 $colore = $a['colore'];
-    
-                /* -------- ADOTTATO (opzionale) -------- */
                 $adottato = isset($a['adottato']) && (int)$a['adottato'] === 1;
                 $cardClass = $adottato ? 'dark-card' : 'card';
-                $giàInteressato= $adottato ? 'Non disponibile' : '';
-                $classeInteressato= $adottato ? 'adottato' : 'interessamento';
-    
-                /* -------- INTERESSAMENTO -------- */
-                
-                if ($conn->hasActiveAdoptionRequest($id)) {
-                    $giàInteressato = $adottato ? 'Non disponibile' : 'Già Interessato';
-                }
-    
-                /* -------- PREFERITI -------- */
-                if ($email) {
-                    $inPreferiti = $conn->isAnimalInFavorites($email, $id);
-                } else {
-                    $guestFavs = getGuestFavorites();
-                    $inPreferiti = in_array($id, $guestFavs);
-                }
-    
-                // se adottato -> niente interazione
-                $classePreferito = $inPreferiti ? 'is-favorite' : 'not-favorite';
-                $statusPreferiti = $inPreferiti ? 'Rimuovi dai preferiti' : 'Aggiungi ai preferiti';
-                $heartNormal = $inPreferiti ? 'active-like.svg' : 'inactive-like.svg';
-                $heartHover  = $inPreferiti ? 'inactive-like.svg' : 'active-like.svg';
-    
+
+                // LOGICA LINK: Se sono in "assegnati a te" uso dettaglio-animale, altrimenti visualizzazione-animale
+                $linkDettagli = $isFromAdmin ? "dettagli-animale?id-animale=$id" : "visualizzazione-animale?id=$id";
+
                 /* -------- IMMAGINE -------- */
                 if (!empty($a['immagine']) && file_exists($a['immagine'])) {
                     $img = $a['immagine'];
                 } else {
-                    $img = ($a['tipo'] === 'Cane')
-                        ? 'assets/images/animals/defaultCane.jpg'
-                        : 'assets/images/animals/defaultGatto.jpg';
+                    $img = ($a['tipo'] === 'Cane') ? 'assets/images/animals/defaultCane.jpg' : 'assets/images/animals/defaultGatto.jpg';
                 }
     
-                /* -------- HTML -------- */
                 $html .= "
                     <li class='$cardClass' aria-labelledby='nome-animale-$id'>
                         <article class='card'>
@@ -248,36 +220,45 @@ if(isset($_GET['id'])) {
                                 <img src='$img' alt='foto di $nome: un {$a['tipo']} di colore {$colore}' />                        
                             </div>
                             <h3 class='nome' id='nome-animale-$id'>$nome</h3>";
+                
                 if(!$adottato) {
-                    $html.="
-                        <p class='sesso-etaDesk'>$sesso - $eta</p>
-                        <p class='sesso-etaMob'>$sessoAbbr - $eta</p>";
+                    $html .= "<p class='sesso-etaDesk'>$sesso - $eta</p>
+                              <p class='sesso-etaMob'>$sessoAbbr - $eta</p>";
                 }
-                if(!(isset($_SESSION['admin']) && $_SESSION['admin'] === true)) { //qui in generale tolto il cuore se admin (anche nel sito non è corretto che l'admin veda i preferiti)
-                    $html.="
-                            <div class='cuore'>
-                                <form method='post' action='animali' class='preferiti-form'>
-                                    <input type='hidden' name='id-animale-preferito' value='$id' />
-                                    <button type='submit'
-                                            class='$classePreferito'
-                                            aria-label='$statusPreferiti'>
-                                        <img class='heart-normal' src='./assets/icons/$heartNormal' alt='' />
-                                        <img class='heart-hover' src='./assets/icons/$heartHover' alt='' />
-                                    </button>
-                                </form>
-                            </div>";
+
+                // Cuore preferiti: NON compare se sono un admin (indipendentemente dalla pagina)
+                if(!(isset($_SESSION['admin']) && $_SESSION['admin'] === true)) {
+                    if ($email) {
+                        $inPreferiti = $conn->isAnimalInFavorites($email, $id);
+                    } else {
+                        $inPreferiti = in_array($id, getGuestFavorites());
+                    }
+                    $classePreferito = $inPreferiti ? 'is-favorite' : 'not-favorite';
+                    $statusPreferiti = $inPreferiti ? 'Rimuovi dai preferiti' : 'Aggiungi ai preferiti';
+                    $heartNormal = $inPreferiti ? 'active-like.svg' : 'inactive-like.svg';
+                    $heartHover  = $inPreferiti ? 'inactive-like.svg' : 'active-like.svg';
+
+                    $html .= "
+                        <div class='cuore'>
+                            <form method='post' action='animali' class='preferiti-form'>
+                                <input type='hidden' name='id-animale-preferito' value='$id' />
+                                <button type='submit' class='$classePreferito' aria-label='$statusPreferiti'>
+                                    <img class='heart-normal' src='./assets/icons/$heartNormal' alt='' />
+                                    <img class='heart-hover' src='./assets/icons/$heartHover' alt='' />
+                                </button>
+                            </form>
+                        </div>";
                 }
-                $html.="
-                        <div class='dettagli-animale-bottone'>
-                            <a href='dettagli-animale?id-animale=$id'>Vedi dettagli</a>
-                        </div>
-                    </article>
-                </li>";
+
+                $html .= "
+                            <div class='dettagli-animale-bottone'>
+                                <a href='$linkDettagli'>Vedi dettagli</a>
+                            </div>
+                        </article>
+                    </li>";
             }
-    
             $conn->closeConnection();
         }
-    
         return $html;
     }
     

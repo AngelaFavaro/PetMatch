@@ -80,18 +80,18 @@ function buildInfoAdmin(): array{
 						</div>
 						<div>
 							<label for="new-name">Nome*</label>
-							<input type="text" id="new-name" name="new-name" autocomplete="name" value="[nomeAdmin]" placeholder="Nome"/>
+							<input type="text" id="new-name" name="new-name" maxlength="100" autocomplete="name" value="[nomeAdmin]" placeholder="Nome"/>
 							<p class="error-form">[erroriNome]</p>
 						</div>
 						<div>
 							<label for="new-surname">Cognome*</label>
-							<input type="text" id="new-surname" name="new-surname" autocomplete="family-name" value="[cognomeAdmin]" placeholder="Cognome"/>
+							<input type="text" id="new-surname" name="new-surname" maxlength="100" autocomplete="family-name" value="[cognomeAdmin]" placeholder="Cognome"/>
 							<p class="error-form">[erroriCognome]</p>
 						</div>
 						<div class="edit-number">
 							<label for="new-number">Telefono con prefisso</label>
 							<div>
-								<input type="tel" id="new-number" name="new-number" autocomplete="tel" value="[telefono-Admin]" placeholder="+39 000 000 0000"/>
+								<input type="tel" id="new-number" name="new-number" maxlength="15" autocomplete="tel" value="[telefono-Admin]" placeholder="+39 000 000 0000"/>
 							</div>
 							<p class="error-form">[erroriTelefono]</p>
 						</div>
@@ -214,6 +214,7 @@ function editInfoAdmin(DBAccess $conn, &$NewUserValues, $adminInfo): array {
         if (empty($errors)) {
 
             if(isset($_FILES['new-pic']) && !empty($_FILES['new-pic']['name']) && $_POST['delete-pic'] !== 'on'){
+                deleteStoredFile($adminInfo['ImgPath']);
                 $uploadedPicPath = uploadImage($_FILES['new-pic'], 'admins');
                 if ($uploadedPicPath === false) {
                     $_SESSION['form_status_info'] = 'error';
@@ -228,6 +229,7 @@ function editInfoAdmin(DBAccess $conn, &$NewUserValues, $adminInfo): array {
                 }
                 $NewUserValues['profilePic'] = $uploadedPicPath;
             }elseif($_POST['delete-pic'] === 'on'){
+                deleteStoredFile($adminInfo['ImgPath']);
                 $NewUserValues['profilePic'] = "./assets/images/admins/default-pic.png";
             }else{
                 $NewUserValues['profilePic'] = $adminInfo['ImgPath'] ?? null; 

@@ -411,7 +411,7 @@ if (!$utenteAccesso) {
 // COSTRUZIONE BLOCCHI HTML
 
 $CARDANIMALE1 = "
-    <img id='foto-animale' src='$img' alt='Foto di $nome' />  
+    <img id='foto-animale' class='square-foto' src='$img' alt='Foto di $nome' />  
     <div id= 'info-generiche-testo'>
                 <form method='post' action='' class='preferiti-form'>
         <input type='hidden' name='id-animale-preferito' value='$idAnimale'/>

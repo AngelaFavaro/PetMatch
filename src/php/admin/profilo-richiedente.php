@@ -49,11 +49,12 @@ function createRequestList(DBAccess $conn): string {
                 $statoText = 'Ha <strong>fatto richiesta</strong> per <em>'.$nomeAnimale.'</em>.';
                 break;
         }
+        $emailsafe=$_GET['email'];
 
         $li = '<li>
                 <article>
                     <p>'.$statoText.'</p>
-                    <a href="./richieste-adozione?email='.urlencode($_GET['email']).'&id-animale='.urlencode($richiesta['IDanimale']).'" class="brown-button">Vedi richiesta</a>
+                    <a href="./richieste-adozione?email='.urlencode($emailsafe).'&id-animale='.urlencode($richiesta['IDanimale']).'" class="brown-button">Vedi richiesta</a>
                 </article>
                </li>';
 
@@ -119,19 +120,19 @@ $paginaHTML = str_replace('[breadcrumb]', $breadcrumb, $paginaHTML);
 $paginaHTML = str_replace('[main]', $main, $paginaHTML);
 
 $paginaHTML = str_replace('[elencoRichieste]', $listRequest, $paginaHTML);
-$paginaHTML = str_replace('[n-nuove]', $NRequestsByStatus['Nuova'], $paginaHTML);
-$paginaHTML = str_replace('[n-valutazione]', $NRequestsByStatus['In valutazione'], $paginaHTML);
-$paginaHTML = str_replace('[n-accettate]', $NRequestsByStatus['Accettata'], $paginaHTML);
-$paginaHTML = str_replace('[n-respinte]', $NRequestsByStatus['Respinta'], $paginaHTML);
-$paginaHTML = str_replace('[n-annullate]', $NRequestsByStatus['Annullata'], $paginaHTML);
-$paginaHTML = str_replace('[n-trasporto]', $NRequestsByStatus['Da trasportare'], $paginaHTML);
+$paginaHTML = str_replace('[n-nuove]', htmlspecialchars($NRequestsByStatus['Nuova']), $paginaHTML);
+$paginaHTML = str_replace('[n-valutazione]', htmlspecialchars($NRequestsByStatus['In valutazione']), $paginaHTML);
+$paginaHTML = str_replace('[n-accettate]', htmlspecialchars($NRequestsByStatus['Accettata']), $paginaHTML);
+$paginaHTML = str_replace('[n-respinte]', htmlspecialchars($NRequestsByStatus['Respinta']), $paginaHTML);
+$paginaHTML = str_replace('[n-annullate]', htmlspecialchars($NRequestsByStatus['Annullata']), $paginaHTML);
+$paginaHTML = str_replace('[n-trasporto]', htmlspecialchars($NRequestsByStatus['Da trasportare']), $paginaHTML);
 
-$paginaHTML = str_replace('[imgRichiedente]', $infoUtente['ImgPath'], $paginaHTML);
-$paginaHTML = str_replace('[NomeRichiedente]', $infoUtente['Nome'], $paginaHTML);
-$paginaHTML = str_replace('[CognomeRichiedente]', $infoUtente['Cognome'], $paginaHTML);
-$paginaHTML = str_replace('[IndirizzoRichiedente]', $indirizzoCompleto, $paginaHTML);
-$paginaHTML = str_replace('[EmailRichiedente]', $_GET['email'], $paginaHTML);
-$paginaHTML = str_replace('[TelefonoRichiedente]', $printTelefono, $paginaHTML);
+$paginaHTML = str_replace('[imgRichiedente]', htmlspecialchars($infoUtente['ImgPath']), $paginaHTML);
+$paginaHTML = str_replace('[NomeRichiedente]', htmlspecialchars($infoUtente['Nome']), $paginaHTML);
+$paginaHTML = str_replace('[CognomeRichiedente]', htmlspecialchars($infoUtente['Cognome']), $paginaHTML);
+$paginaHTML = str_replace('[IndirizzoRichiedente]', htmlspecialchars($indirizzoCompleto), $paginaHTML);
+$paginaHTML = str_replace('[EmailRichiedente]', htmlspecialchars(($_GET['email'])), $paginaHTML);
+$paginaHTML = str_replace('[TelefonoRichiedente]', htmlspecialchars($printTelefono), $paginaHTML);
 
 echo $paginaHTML;
 ?>
