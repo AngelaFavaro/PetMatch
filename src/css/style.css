@@ -2697,14 +2697,6 @@ cursor: pointer;
 }
 
 
-
-
-
-
-
-
-
-
 /* ================== PROFILO Utente NORMALE ==================*/
 
 
@@ -5880,8 +5872,8 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     right: 20em;
 }
 
-#come-funziona #provAnimali {
-    margin-top: 4em;
+#come-funziona #provAnimali{
+    margin: 4em 0em;
 }
 
 #come-funziona #provAnimali a {
@@ -5939,7 +5931,7 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     width: 3em;
 }
 
-#come-funziona #invitoLavoro #quote-container p {
+#come-funziona #invitoLavoro #quote-container p{
     margin-left: 3em;
     font-style: italic;
 }
@@ -5961,6 +5953,42 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     padding-top: 2em;
 }
 
+#trasporto {
+    background-color: var(--headercolor);
+    width: 100vw; 
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2rem 0; 
+    color: var(--light-txtcolor);
+}
+
+#trasporto > div:first-child {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1em;
+}
+
+#trasporto div {
+    flex: 1 1 50%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+#trasporto img {
+    width: 80%;
+    max-width: 300px;
+    margin: 1rem auto;
+    display: block;
+    border-radius: 1em;
+}
+
+#trasporto p{
+    margin-top: 1em;
+}
 
 /* -----------PAGINA VISUALIZZAZIONE EVENTO--------------- */
 #visualizzazione-evento #evento {

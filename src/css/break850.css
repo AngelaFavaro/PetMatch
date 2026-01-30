@@ -405,3 +405,11 @@ body#admin-body #animali .filtri .capsula-filtro label[for="filtro-assegnata"] +
     border-bottom-left-radius: 1em;
     border-bottom-right-radius: 1em;
 }
+
+#trasporto div {
+    /* Occupa tutto lo spazio disponibile di default (mobile) */
+    flex: 1 1 100%; 
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0em 2em;
+}

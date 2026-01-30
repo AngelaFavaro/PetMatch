@@ -166,7 +166,7 @@ $description = '<meta name="description" content="Visualizzazione dettagliata de
 
 // Navigazione attiva
 $activeNav = $fromEmail ? 'richieste-adozione' : ($from === 'senza-admin' ? 'senza-amministratore' : 'assegnati-a-te');
-$nav = buildAdminNav($adminMenu, $activeNav, $pagine);
+$nav = buildAdminNav($adminMenu, $activeNav);
 // Sostituzioni Header
 $paginaHTML = str_replace(['[breadcrumb]', '[title]', '[nav]', '[description]', '[keywords]'], 
                          [$breadcrumb, $title, $nav, $description, ""], 
@@ -194,9 +194,11 @@ $main = str_replace('[coloreAnimale]', e($richiesta['Colore'] ?? 'N/D'), $main);
 $main = str_replace('[trasportoAnimale]', siNo($richiesta['Trasporto'] ?? 0), $main);
 $main = str_replace('[famigliaIdeale]', e($richiesta['DescrFamiglia'] ?? 'N/D'), $main);
 $main = str_replace('[descrizioneCaratteriale]', e($richiesta['DescrComportamentale'] ?? 'N/D'), $main);
-$condizioni = ($richiesta['CondizioniMediche'] == '0' || empty(trim($richiesta['CondizioniMediche']))) ? 'Nessuna' : $richiesta['CondizioniMediche'];
 
-$main = str_replace('[condizioniMediche]', e($richiesta['CondizioniMediche'] ?? 'Nessuna'), $main);
+$condizioni = ($richiesta['CondizioniMediche'] === null || $richiesta['CondizioniMediche'] === '0' || empty(trim($richiesta['CondizioniMediche']))) 
+    ? '<em class="no-data">Nessuna</em>' 
+    : e($richiesta['CondizioniMediche']);
+$main = str_replace('[condizioniMediche]', $condizioni, $main);
 
 $urlModifica = $pagine['modifica-animale']['url'] . "?id-animale=" . urlencode($idAnimale);
 
