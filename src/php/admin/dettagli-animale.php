@@ -35,7 +35,7 @@ function createAnimalRequestList(array $richieste): string {
         $statoAttuale = $r['Stato'];
 
         $testi = [
-            'Nuova' => "<strong>$nomeCandidato</strong> ha fatto richiesta per <em>" . htmlspecialchars($nomeAnimale) . "</em>",
+            'Nuova' => "<strong>$nomeCandidato</strong> ha fatto richiesta per <em>" . $nomeAnimale . "</em>",
             'In valutazione' => "Candidatura di <strong>$nomeCandidato</strong> in valutazione.",
             'Accettata' => "Richiesta di <strong>$nomeCandidato</strong> accettata!",
             'Respinta' => "Richiesta di <strong>$nomeCandidato</strong> respinta.",

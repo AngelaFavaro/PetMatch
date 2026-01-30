@@ -22,7 +22,7 @@ function buildEventsCards($events): string {
             $img = 'assets/images/events/eventi-default.jpg';
         }
         $data=formattaDataItaliana($e['data_evento']);
-        $titolo=$e['titolo'];
+        $titolo=htmlspecialchars($e['titolo']);
         $html .= "<li>
                     <article class='evento'>
                         <!-- Immagine dell'evento -->
@@ -90,6 +90,7 @@ $titoloPagina = '';
 $descrizioneMeta = '';
 $contenutoEvento = '';
 $titoloEncoded='';
+$eventiAside='';
 
 
 $connection = new DBAccess();
@@ -104,6 +105,8 @@ if ($connection->openDBConnection()) {
             if ($dettagliEvento) {
                 // html_entity_decode trasforma "c&#039;è" in "c'è"
                 $dettagliEvento['Titolo'] = html_entity_decode($dettagliEvento['Titolo'], ENT_QUOTES);
+            } else {
+                $titoloEncoded = '';
             }
         }
 
@@ -116,20 +119,22 @@ if ($connection->openDBConnection()) {
 
             // 3. Creazione del blocco HTML (con le variabili ora piene!)
             $contenutoEvento = buildMainevent($dettagliEvento);
+
+            if($titoloEncoded) {
+                $citta=['citta' => $dettagliEvento['Citta'],
+                'nomeNO' => $titoloEncoded];
+            } else if($dettagliEvento) {
+                $citta=['citta' => $dettagliEvento['Citta'],
+                'nomeNO' => $dettagliEvento['Titolo']];
+            }
+            $eventi = $connection->getEventsFilteredPaged($citta, 3);
+            $eventiAside=$eventi?buildEventsCards($eventi) : "<p class='errore'>Per ora non ci sono altri eventi in programma in questa città. Ritorna tra qualche giorno a controllare</p>";
         } else {
-            $contenutoEvento = $titoloGET;
+            $contenutoEvento = "<p class='errore'>Non è stato possibile recuperare l'evento con tale data e nome. Riprovare più tardi</p>";
+            $eventiAside = "<p class='errore'>Per ora non ci sono altri eventi in programma in questa città. Ritorna tra qualche giorno a controllare</p>";
         }
     }
-    if($titoloEncoded) {
-        $citta=['citta' => $dettagliEvento['Citta'],
-                'nomeNO' => $titoloEncoded];
-    } else {
-        $citta=['citta' => $dettagliEvento['Citta'],
-                'nomeNO' => $dettagliEvento['Titolo']];
-    }
-    $eventi = $connection->getEventsFilteredPaged($citta, 3);
-    $eventiAside=$eventi?buildEventsCards($eventi) : "<p class='errore'>Per ora non ci sono altri eventi in programma in questa città. Ritorna tra qualche giorno a controllare</p>";
-
+    
     $connection->closeConnection();
 } else {
     $contenutoEvento = "<p class='errore'>Impossibile connettersi al database.</p>";

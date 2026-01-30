@@ -159,13 +159,13 @@ function sendReportForm(DBAccess $conn, &$nameValue, &$emailValue, &$animalValue
             } else {
 				$_SESSION['form_status'] = 'error';
                 $_SESSION['form_errors'] = ["Impossibile inviare la richiesta, riprova più tardi."];
-                $_SESSION['form_inputs'] = ['name' => $nameValue, 'email' => $emailValue, 'animal' => $animalValue];
+                $_SESSION['form_inputs'] = ['name' => $name, 'email' => $email, 'animal' => $animalValue];
                 $message = "<p class='error-form'>Impossibile inviare la richiesta, riprova più tardi.</p>";
             }
         }else{
 			$_SESSION['form_status'] = 'error';
 			$_SESSION['form_errors'] = $errors;
-			$_SESSION['form_inputs'] = ['name' => $nameValue, 'email' => $emailValue, 'animal' => $animalValue];
+			$_SESSION['form_inputs'] = ['name' => $name, 'email' => $email, 'animal' => $animalValue];
 			header("Location: ./home");
 			exit;
 		}
