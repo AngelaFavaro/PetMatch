@@ -69,18 +69,18 @@ function buildEventsCards($events): string {
         $altriEventi .= "<li>
                     <article class='evento'>
                         <!-- Immagine dell'evento -->
-                        <img class='immagine-evento' src=$img alt=''>
-                        <h2 id='evento-titolo-$titolo'>$titolo</h2>
+                        <img class='immagine-evento' src='$img' alt=''>
+                        <h2>$titolo</h2>
                         
                         <!-- Data dell'evento -->
                         <p class='data-evento'>
                             <!-- icona decorativa -->
                             <img src='assets/icons/calendar.svg' alt='' aria-hidden='true' class='icon-calendar'>
                             <!-- data semantica -->
-                            <time datetime=$data>$data</time>
+                            <time datetime='".$e['data_evento']."'>$data</time>
                         </p>
                         <div class='dettagli-evento-bottone'>
-                        <a href='visualizzazione-evento?titolo=".urlencode($titolo)."&data=".urlencode($e['data_evento'])."'>Vedi dettagli</a>
+                        <a href='visualizzazione-evento?titolo=".urlencode($e['titolo'])."&data=".urlencode($e['data_evento'])."'>Vedi dettagli</a>
                     </div>
                     </article>
                 </li>
