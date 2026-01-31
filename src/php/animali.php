@@ -472,7 +472,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
         $description = '<meta name="description" content="i tuoi animali preferiti in adozione su PetMatch">';
     
     }
-    $keywords = "<meta name='keywords' content='animali, nome, taglia, sesso, età'>";
+    $keywords = "<meta name='keywords' content='animali, nome, taglia, sesso, età, adozione, PetMatch, colore, pelo, cane, gatto'>";
     
     
     $nav = $isPreferiti ? buildNav($userMenu, './preferiti') : ($isFromAdmin ? buildAdminNav($adminMenu, './animali-admin') : buildNav($userMenu, './animali'));

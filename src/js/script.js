@@ -237,18 +237,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /* ==========================================================================
-       VALIDAZIONE FORM AGGIUNGI Animali
-       ========================================================================== */
+    
     
     const formAdd = document.getElementById('form-add-animal');
 
-   if (formAdd) {
+    if (formAdd) {
         formAdd.querySelectorAll('.error-form').forEach(p => {
             if (p.textContent.trim() === "") {
                 p.style.display = 'none'; 
             } else {
-                p.style.display = 'block'; // Se il PHP ha scritto qualcosa, mostralo!
+                p.style.display = 'block'; 
             }
         });
 
@@ -325,10 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            if (firstErrorField) {
-                // COMMENTA LA RIGA SOTTO PER NON BLOCCARE IL PHP
-                // e.preventDefault(); 
-                
+            if (firstErrorField) {      
                 console.log("JS ha trovato errori, ma lascio inviare al PHP...");
                 firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
@@ -349,7 +344,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }, false);
         });
 
-        // Evidenzia area quando drag
         ['dragenter', 'dragover'].forEach(eventName => {
             fileLabel.addEventListener(eventName, () => {
                 fileLabel.classList.add('drag-active');
@@ -362,7 +356,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }, false);
         });
 
-        // Gestisci il drop
         fileLabel.addEventListener('drop', (e) => {
             const files = e.dataTransfer.files;
             if (files.length > 0) {
