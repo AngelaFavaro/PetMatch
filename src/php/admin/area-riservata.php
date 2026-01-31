@@ -112,7 +112,7 @@ function buildInfoAdmin(): array{
 			'<div id="informazioni-admin" class="text-details"><dl aria-label="informazioni dell\'utente">
 				<dt>Nome</dt> <dd>[nomeAdmin]</dd>
 				<dt>Cognome</dt> <dd>[cognomeAdmin]</dd>
-				<dt>Email</dt> <dd>[emailAdmin]</dd>
+				<dt >Email</dt> <dd class="admin-email">[emailAdmin]</dd>
 				<dt>Telefono</dt> <dd>[telefonoAdmin]</dd>
 			</dl></div>';
 	}

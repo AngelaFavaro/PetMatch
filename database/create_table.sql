@@ -19,12 +19,16 @@ CREATE TABLE UTENTI (
     Citta VARCHAR(100),
     CAP VARCHAR(5),
     Ruolo VARCHAR(5) NOT NULL,
-    ImgPath VARCHAR(512) DEFAULT 'assets/images/users/default-pic.png'
+    ImgPath VARCHAR(512) DEFAULT 'assets/images/users/default-pic.png',
     CHECK (Ruolo IN ('Admin','User')),
     CHECK (
-        (Via IS NULL AND Citta IS NULL AND CAP IS NULL)
+        (Ruolo = 'Admin' AND Via IS NULL AND Citta IS NULL AND CAP IS NULL)
         OR
-        (Via IS NOT NULL AND Citta IS NOT NULL AND CAP IS NOT NULL)
+        (Ruolo = 'User' AND (
+            (Via IS NULL AND Citta IS NULL AND CAP IS NULL)
+            OR
+            (Via IS NOT NULL AND Citta IS NOT NULL AND CAP IS NOT NULL)
+        ))
     )
 );
 

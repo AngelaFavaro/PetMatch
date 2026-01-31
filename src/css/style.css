@@ -8,6 +8,7 @@
     --bgcolor: #FFF6D7;
     --navButton: #FFF6D7;
     --logolink: #FFF6D7;
+    --bgtablecells: #E4D4BA;
     --txtcolor: #481515;
     --light-txtcolor: #FFF6D7;
     --cat-txtcolor: #FFF6D7;
@@ -34,6 +35,7 @@
     --selectTypeAnimal: #E4D4BA;
     --limitecaratterecolor: #5e4232;
     
+    --darkMode-bgtablecells: #5B2E25;
     --darkMode-limitecaratterecolor: #481515;
     --darkMdode-selectTypeAnimal: #b79378;
     --darkMode-text-deletebutton: #ba4d3b;
@@ -82,6 +84,7 @@
 }
 
 :root:has(input#theme-toggle:checked){
+    --bgtablecells: var(--darkMode-bgtablecells);
     --limitecaratterecolor : var(--darkMode-limitecaratterecolor);
     --darklinkcolor: var(--darkMode--darklinkcolor);
     --selectTypeAnimal: var(--darkMdode-selectTypeAnimal);
@@ -2559,7 +2562,6 @@ cursor: pointer;
     width: 100%;
     height: 10em;
     /* display: block; */
-    min-width: 30em;
     padding-right: 1em;
     background-color: var(--darkbgcolor);
     /* border: 0.1em solid var(--darkbgcolor); */
@@ -3629,11 +3631,16 @@ button[name="show-dialog"].button-cancel img{
 
 #orari-chi-siamo table#tabella-chi-siamo thead {
     background-color: var(--headercolor);
-    color: var(--bgcolor);
+    color: var(--light-txtcolor);
+}
+
+#orari-chi-siamo table#tabella-chi-siamo thead th{
+    border-bottom: 1px solid var(--headervisitedlink);
+
 }
 
 #orari-chi-siamo table#tabella-chi-siamo tbody td {
-    background-color: var(--darkbgcolor);
+    background-color: var(--bgtablecells);
     color: var(--txtcolor);
     border-bottom: 1px solid var(--headervisitedlink);
 }
@@ -3644,6 +3651,7 @@ button[name="show-dialog"].button-cancel img{
     margin-right: auto;
     width: 33.333%;
 }
+
 
 #orari-chi-siamo table#tabella-chi-siamo {
     border: 1px solid var(--headervisitedlink);
@@ -3837,9 +3845,7 @@ body#admin-body #richieste .filtri button{
 
 body#admin-body #animali .filtri .capsula-filtro,
 body#admin-body #richieste .filtri .capsula-filtro{
-    /* margin-left: auto; */
     margin-right: 0;
-    /* gap:0; */
     flex:0 0 fit-content;
 }
 
@@ -3913,7 +3919,13 @@ ul#statistics-list li{
     text-decoration: none;
     font-weight: normal;
 }
-
+#to-do-list li:hover{
+    background-color: var(--buttoncolor-hover); 
+    transition: background-color 0.3s ease;
+}
+#to-do-list li:hover a{
+    color: var(--hovertext-form-button);
+}
 p.query-type{
     font-size: 0.9em;
     line-height: normal;
@@ -4074,9 +4086,11 @@ a.pencil {
     flex-wrap: wrap;
     align-items: flex-start;
 }
-
+.header-info + .generic-info-container img{
+    flex: 0 0 20%;
+}
 .header-info + .generic-info-container .text-details{
-    width: 40%;
+    flex: 1 1 60%;
 }
 
 .header-info + .generic-info-container:has(.edit-mode){
@@ -4518,6 +4532,10 @@ h2+#animale-richiesta .generic-info-container img.square-foto{
 #admin-area h2+#animale-richiesta .generic-info-container img.square-foto + .text-details{
     width: auto;
     padding-left: 0;
+}
+
+#informazioni-admin dd.admin-email{
+    word-break: break-all;
 }
 
 

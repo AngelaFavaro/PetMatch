@@ -147,7 +147,8 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
                 'pelo' => $pelo,
                 'colore' => mb_convert_case($colore, MB_CASE_TITLE, "UTF-8"),
                 'carattere' => trim($carattere),      
-                'condMediche' => (trim($condMediche) === "" || $condMediche === "0") ? "" : trim($condMediche),                'famiglia' => trim($famiglia),        
+                'condMediche' => (trim($condMediche) === "" || $condMediche === "0") ? "" : trim($condMediche),                
+                'famiglia' => trim($famiglia),        
                 'foto' => $fotoPath,
                 'trasporto' => $trasporto
             ];
@@ -197,7 +198,8 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
         $inputsToSave['ImgPath'] = htmlspecialchars($fotoPath, ENT_QUOTES, 'UTF-8');
         $inputsToSave['Sesso'] = $sesso_db;
         $inputsToSave['Colore'] = htmlspecialchars($colore, ENT_QUOTES, 'UTF-8');
-        $inputsToSave['CondizioniMediche'] = (trim($condMediche) === "" || $condMediche === "0") ? "" : htmlspecialchars(trim($condMediche), ENT_QUOTES, 'UTF-8');        $inputsToSave['DescrComportamentale'] = htmlspecialchars($carattere, ENT_QUOTES, 'UTF-8');
+        $inputsToSave['CondizioniMediche'] = (trim($condMediche) === "" || $condMediche === "0") ? "" : htmlspecialchars(trim($condMediche), ENT_QUOTES, 'UTF-8');        
+        $inputsToSave['DescrComportamentale'] = htmlspecialchars($carattere, ENT_QUOTES, 'UTF-8');
         $inputsToSave['DescrFamiglia'] = htmlspecialchars($famiglia, ENT_QUOTES, 'UTF-8');
         $inputsToSave['Trasporto'] = $trasporto;
         $inputsToSave['assegna_a_me'] = isset($_POST['assegna_a_me']) ? 1 : 0;
@@ -335,7 +337,7 @@ $paginaHTML = str_replace('[trasporto_checked]', ($NewAnimalInfo['Trasporto'] ==
 
 foreach ($NewAnimalInfo as $key => $value) {
     $val = $value ?? ''; 
-    $paginaHTML = str_replace('[' . $key . ']', htmlspecialchars($val, ENT_QUOTES, 'UTF-8'), $paginaHTML);
+    $paginaHTML = str_replace('[' . $key . ']', $val, $paginaHTML);
 }
 
 echo $paginaHTML;
