@@ -4790,7 +4790,9 @@ td.col-dettagli a:hover img{
 } */
 
 /*================== ANIMALI ASSEGNATI A TE ADMIN  ==================*/
-
+div#admin-area #toggle-assegnazione{
+    margin: 0em 0em 0em auto;
+}
 div#admin-area .container{
     max-width: none;
 }

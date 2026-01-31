@@ -21,7 +21,7 @@ $fromEmail = $_GET['from_email'] ?? null;
 $from = $_GET['from'] ?? null;
 
 if (!$idAnimale) {
-    header("Location: ./assegnati-a-te");
+    header("Location: ./animali-admin");
     exit;
 }
 
@@ -126,7 +126,7 @@ if ($connessioneOK) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-assignment'])) {
                 if ($connessione->removeAdminAssignment($idAnimale)) {
                     $connessione->closeConnection();
-                    header("Location: ./assegnati-a-te");
+                    header("Location: ./animali-admin");
                     exit;
                 }
             }
@@ -134,7 +134,7 @@ if ($connessioneOK) {
                     deleteStoredFile($connessione->getFotoAnimalById($idAnimale));    
                 if ($connessione->deleteAnimal($idAnimale)) {
                     $connessione->closeConnection();
-                    header("Location: ./assegnati-a-te");
+                    header("Location: ./animali-admin");
                     exit;
                 }
             }
@@ -165,7 +165,7 @@ $title = '<title>Dettagli ' . e($richiesta['Nome'] ?? 'Animale') . ' - Admin Pet
 $description = '<meta name="description" content="Visualizzazione dettagliata dell\'animale">';
 
 // Navigazione attiva
-$activeNav = $fromEmail ? 'richieste-adozione' : ($from === 'senza-admin' ? 'senza-amministratore' : 'assegnati-a-te');
+$activeNav = $fromEmail ? 'richieste-adozione' : ($from === 'senza-admin' ? 'senza-amministratore' : 'animali-admin');
 $nav = buildAdminNav($adminMenu, $activeNav);
 // Sostituzioni Header
 $paginaHTML = str_replace(['[breadcrumb]', '[title]', '[nav]', '[description]', '[keywords]'], 
