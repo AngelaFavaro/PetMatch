@@ -17,6 +17,7 @@ $infoAggiuntive = '';
 
 // Variabili per il form (inizializzate vuote o con default)
 $messaggiErrore = [
+    'general' => '',
     'lettera' => '',
     'indirizzo' => '',
     'citta' => '',
@@ -35,13 +36,232 @@ $valLettera = '';
 //details, altrimenti no
 $openDetails = false;
 
+function handleAdoptionRequest(
+    DBAccess $connection,
+    string $emailUtente,
+    int $idAnimale,
+    array $infoUtente,
+    &$valLettera,
+    &$valVia,
+    &$valCitta,
+    &$valCap,
+    &$openDetails
+) {
+
+    $messaggiErrore = [
+        'lettera' => '',
+        'indirizzo' => '',
+        'citta' => '',
+        'cap' => '',
+        'indirizzo_totale' => '',
+        'generic' => ''
+    ];
+
+    /* =====================================================
+       RECUPERO ERRORI E INPUT DA SESSIONE (POST → REDIRECT)
+       ===================================================== */
+    if (isset($_SESSION['form_status']) && $_SESSION['form_status'] === 'error') {
+
+        $savedErrors = $_SESSION['form_errors'] ?? [];
+        $savedInputs = $_SESSION['form_inputs'] ?? [];
+
+        foreach ($savedErrors as $key => $value) {
+            $messaggiErrore[$key] = $value;
+        }
+
+        $valLettera = $savedInputs['lettera'] ?? '';
+        $valVia     = $savedInputs['address'] ?? '';
+        $valCitta   = $savedInputs['city'] ?? '';
+        $valCap     = $savedInputs['cap'] ?? '';
+
+        $openDetails = true;
+
+        unset($_SESSION['form_status'], $_SESSION['form_errors'], $_SESSION['form_inputs']);
+    }
+
+    /* ==========================
+       GESTIONE SUBMIT FORM
+       ========================== */
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit-adoption-request'])) {
+
+        $lettera = trim($_POST['lettera-presentazione'] ?? '');
+        $address = mb_convert_case(trim($_POST['new-address'] ?? ''), MB_CASE_TITLE, "UTF-8");
+        $city    = mb_convert_case(trim($_POST['new-city'] ?? ''), MB_CASE_TITLE, "UTF-8");
+        $CAP     = trim($_POST['new-cap'] ?? '');
+        $trasportoRichiesto = isset($_POST['trasporto']);
+
+        // valori per redisplay
+        $valLettera = htmlspecialchars($lettera, ENT_QUOTES, 'UTF-8');
+        $valVia     = htmlspecialchars($address, ENT_QUOTES, 'UTF-8');
+        $valCitta   = htmlspecialchars($city, ENT_QUOTES, 'UTF-8');
+        $valCap     = htmlspecialchars($CAP, ENT_QUOTES, 'UTF-8');
+
+        $errors = [];
+
+        /* ========= VALIDAZIONE ========= */
+
+        if (strlen($lettera) < 10) {
+            $errors['lettera'] = "La lettera di presentazione è troppo breve.";
+        }
+
+        $regex_indirizzo = '/^[a-zA-Z\.\']{3,}\s+.+\s+(?:n\.?\s?)?\d+[a-zA-Z]?$/';
+        $regex_citta = '/^[a-zA-Z\s\.\']{2,}$/';
+        $regex_cap = '/^\d{5}$/';
+
+        $hasAddress = $address !== '';
+        $hasCity    = $city !== '';
+        $hasCAP     = $CAP !== '';
+
+        if (($hasAddress || $hasCity || $hasCAP) && !($hasAddress && $hasCity && $hasCAP)) {
+            $errors['indirizzo_totale'] = "Indirizzo incompleto: compila tutti i campi o nessuno.";
+        } elseif ($hasAddress) {
+
+            if (!preg_match($regex_indirizzo, $address)) {
+                $errors['indirizzo'] = "Formato indirizzo non valido.";
+            }
+
+            if (!preg_match($regex_citta, $city)) {
+                $errors['citta'] = "Città non valida.";
+            }
+
+            if (!preg_match($regex_cap, $CAP)) {
+                $errors['cap'] = "CAP non valido (5 cifre).";
+            }
+        }
+
+        /* ========= AZIONI ========= */
+
+        if (empty($errors)) {
+
+            if ($hasAddress) {
+                $connection->updateUserAddress($emailUtente, [
+                    'address' => $address,
+                    'city' => $city,
+                    'CAP' => $CAP
+                ]);
+            }
+
+            $success = $connection->insertAdoptionRequest(
+                $emailUtente,
+                $idAnimale,
+                $lettera,
+                $trasportoRichiesto
+            );
+
+            if ($success) {
+                header("Location: animali?id=" . $idAnimale);
+                exit;
+            }
+
+            $errors['generic'] = "Errore durante il salvataggio della richiesta.";
+        }
+
+        /* ========= ERRORI → SESSIONE ========= */
+        $_SESSION['form_status'] = 'error';
+        $_SESSION['form_errors'] = $errors;
+        $_SESSION['form_inputs'] = [
+            'lettera' => $valLettera,
+            'address' => $valVia,
+            'city' => $valCitta,
+            'cap' => $valCap
+        ];
+
+        header("Location: animali?id=" . $idAnimale . "#content-form");
+        exit;
+    }
+
+    /* ==========================
+       PRECARICAMENTO DA DB
+       ========================== */
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        $valVia   = htmlspecialchars($infoUtente['Via'] ?? '', ENT_QUOTES, 'UTF-8');
+        $valCitta = htmlspecialchars($infoUtente['Citta'] ?? '', ENT_QUOTES, 'UTF-8');
+        $valCap   = htmlspecialchars($infoUtente['CAP'] ?? '', ENT_QUOTES, 'UTF-8');
+    }
+
+    return $messaggiErrore;
+}
+
+
+function handleFavorites(
+    DBAccess $connection,
+    bool $utenteAccesso,
+    ?string $emailUtente
+) {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['id-animale-preferito'])) {
+        return;
+    }
+
+    $idAnimalePost = (int)$_POST['id-animale-preferito'];
+    $azione = '';
+
+    if ($utenteAccesso) {
+        // UTENTE LOGGATO → DB
+        if ($connection->isAnimalInFavorites($emailUtente, $idAnimalePost)) {
+            $connection->removeFromFavorites($emailUtente, $idAnimalePost);
+            $azione = 'rimosso';
+        } else {
+            $connection->addToFavorites($emailUtente, $idAnimalePost);
+            $azione = 'aggiunto';
+        }
+    } else {
+        // GUEST → COOKIE
+        $preferiti = getGuestFavorites();
+
+        if (in_array($idAnimalePost, $preferiti)) {
+            $preferiti = array_diff($preferiti, [$idAnimalePost]);
+            $azione = 'rimosso';
+        } else {
+            $preferiti[] = $idAnimalePost;
+            $azione = 'aggiunto';
+        }
+
+        saveGuestFavorites($preferiti);
+    }
+
+    // ===== AJAX =====
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+        strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+
+        header('Content-Type: application/json');
+        echo json_encode([
+            'status' => 'success',
+            'azione' => $azione
+        ]);
+        exit;
+    }
+
+    // ===== FALLBACK (no JS) =====
+    header("Location: " . $_SERVER['REQUEST_URI']);
+    exit;
+}
+
+
+
+
+
+
+
+
 $connection = new DBAccess();
 if ($connection->openDBConnection()) {
+    handleFavorites($connection, $utenteAccesso, $emailUtente);
 
     // 1. Recupero Dettagli Animale
     if ($idAnimale) {
         $dettagliAnimale = $connection->getAnimalDetails($idAnimale); 
     }
+    $giàInteressato = '';
+        if ($connection->hasActiveAdoptionRequest($idAnimale)) {
+            $giàInteressato = "<div id='interessamento-animale'>Qualcuno è già interessato a questo animale</div>";
+        }
+
+    if ($emailUtente) {
+            $inPreferiti = $connection->isAnimalInFavorites($emailUtente, $idAnimale);
+        } else {
+            $guestFavs = getGuestFavorites();
+            $inPreferiti = in_array($idAnimale, $guestFavs);
+        }
         
         // ... (Tuoi assegnamenti variabili animale) ...
         $nome = htmlspecialchars($dettagliAnimale['nome']);
@@ -61,19 +281,34 @@ if ($connection->openDBConnection()) {
         } else {
             $imgPath = ($dettagliAnimale['tipo'] === 'Cane') ? 'assets/images/animals/defaultCane.jpg' : 'assets/images/animals/defaultGatto.jpg';
         }
+        if ($utenteAccesso) {
+            
+            // Recupero info utente base per popolare il form (se non è un POST di errore)
+            $infoUtente = $connection->getUserInfo($emailUtente);            
 
-        $giàInteressato = '';
-        if ($connection->hasActiveAdoptionRequest($idAnimale)) {
-            $giàInteressato = "<div id='interessamento-animale'>Qualcuno è già interessato a questo animale</div>";
-        }
+            // GESTIONE POST RICHIESTA ADOZIONE
+            $messaggiErrore = handleAdoptionRequest(
+            $connection,
+            $emailUtente,
+            $idAnimale,
+            $infoUtente,
+            $valLettera,
+            $valVia,
+            $valCitta,
+            $valCap,
+            $openDetails
+            );
 
-        // Gestione Preferiti (Visualizzazione)
-        if ($emailUtente) {
-            $inPreferiti = $connection->isAnimalInFavorites($emailUtente, $idAnimale);
-        } else {
-            $guestFavs = getGuestFavorites();
-            $inPreferiti = in_array($idAnimale, $guestFavs);
+            // Stato richiesta attuale
+            $richiesta = $connection->getRequestStatus($emailUtente, $idAnimale);
+
+            $richiestaData = $connection->getAnimalArrivalDate($idAnimale);
+            $connection->closeConnection();
+            $dataArrivo = ''; 
+
+            
         }
+        
         
         // ... (Variabili preferiti visuali) ...
         $classePreferito = $inPreferiti ? 'is-favorite' : 'not-favorite';
@@ -89,150 +324,15 @@ if ($connection->openDBConnection()) {
         }
 
         // 2. GESTIONE POST PREFERITI
-       if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id-animale-preferito'])) {
-        $idAnimalePost = (int)$_POST['id-animale-preferito'];
-        $azione = '';
-
-        if ($utenteAccesso) {
-            // UTENTE LOGGATO -> Uso la connessione $connection già aperta
-            if ($connection->isAnimalInFavorites($emailUtente, $idAnimalePost)) {
-                $connection->removeFromFavorites($emailUtente, $idAnimalePost);
-                $azione = 'rimosso';
-            } else {
-                $connection->addToFavorites($emailUtente, $idAnimalePost);
-                $azione = 'aggiunto';
-            }
-        } else {
-            // UTENTE NON LOGGATO -> COOKIE
-            $preferiti = getGuestFavorites();
-            if (in_array($idAnimalePost, $preferiti)) {
-                $preferiti = array_diff($preferiti, [$idAnimalePost]);
-                $azione = 'rimosso';
-            } else {
-                $preferiti[] = $idAnimalePost;
-                $azione = 'aggiunto';
-            }
-            saveGuestFavorites($preferiti);
-        }
-
-        // --- GESTIONE AJAX (fondamentale per il Javascript) ---
-        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            header('Content-Type: application/json');
-            echo json_encode(['status' => 'success', 'azione' => $azione]);
-            exit; 
-        }
-
-        // --- FALLBACK (se JS è disattivato) ---
-        // Ricarica la pagina corrente pulita
-        header("Location: " . $_SERVER['REQUEST_URI']);
-        exit;
-    }
 
         // 3. GESTIONE LOGICA UTENTE LOGGATO (Info e Form Adozione)
-        if ($utenteAccesso) {
-            
-            // Recupero info utente base per popolare il form (se non è un POST di errore)
-            $infoUtente = $connection->getUserInfo($emailUtente);
-            
-            // Stato richiesta attuale
-            $richiesta = $connection->getRequestStatus($emailUtente, $idAnimale);
-
-            $richiestaData = $connection->getAnimalArrivalDate($idAnimale);
-            $dataArrivo = ''; 
-            
-
-            // GESTIONE POST RICHIESTA ADOZIONE
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit-adoption-request'])) {
-                
-                // Dati in ingresso
-                $lettera = trim($_POST['lettera-presentazione'] ?? '');
-                $address = mb_convert_case(trim($_POST['new-address'] ?? ''), MB_CASE_TITLE, "UTF-8");
-                $city    = mb_convert_case(trim($_POST['new-city'] ?? ''), MB_CASE_TITLE, "UTF-8");
-                $CAP     = trim($_POST['new-cap'] ?? '');
-                $trasportoRichiesto = isset($_POST['trasporto']); // checkbox
-
-                // Aggiorno variabili valore per il form in caso di errore
-                $valLettera = htmlspecialchars($lettera);
-                $valVia = htmlspecialchars($address);
-                $valCitta = htmlspecialchars($city);
-                $valCap = htmlspecialchars($CAP);
-
-                // Validazione Lettera
-                if (strlen($lettera) < 10) {
-                    $messaggiErrore['lettera'] = "La lettera di presentazione è troppo breve.";
-                }
-
-                // Validazione Indirizzo
-                $regex_indirizzo = '/^[a-zA-Z\.\']{3,}\s+.+\s+(?:n\.?\s?)?\d+[a-zA-Z]?$/';
-                $regex_citta = '/^[a-zA-Z\s\.\']{2,}$/';
-                $regex_cap = '/^\d{5}$/';
-
-                $hasAddress = strlen($address) > 0;
-                $hasCity    = strlen($city) > 0;
-                $hasCAP     = strlen($CAP) > 0;
-                
-                $isIndirizzoValido = false;
-
-                if (!($hasAddress && $hasCity && $hasCAP) && ($hasAddress || $hasCity || $hasCAP)) {
-                    $messaggiErrore['indirizzo_totale'] = "Indirizzo incompleto: compila tutto o nulla.";
-                } else {
-                    if ($hasAddress) {
-                        if (!preg_match($regex_indirizzo, $address)) $messaggiErrore['indirizzo'] = "Formato via non valido.";
-                        if (!preg_match($regex_citta, $city)) $messaggiErrore['citta'] = "Città non valida.";
-                        if (!preg_match($regex_cap, $CAP)) $messaggiErrore['cap'] = "CAP non valido (5 cifre).";
-                    }
-                    if (empty($messaggiErrore['indirizzo']) && empty($messaggiErrore['citta']) && empty($messaggiErrore['cap']) && empty($messaggiErrore['indirizzo_totale'])) {
-                        $isIndirizzoValido = true;
-                    }
-                }
-
-                if ($isIndirizzoValido && empty($messaggiErrore['lettera'])) {
-                    
-                    // Aggiorna indirizzo utente se inserito
-                    if ($hasAddress) {
-                        $datiUpdate = ['address' => $address, 'city' => $city, 'CAP' => $CAP];
-                        // Assumiamo esista questa funzione o una simile updateUserInfo
-                        // Se non esiste updateUserInfo parziale, dovrai usare quella completa passando gli altri dati vecchi
-                        $connection->updateUserAddress($emailUtente, $datiUpdate); 
-                    }
-
-                    $success = $connection->insertAdoptionRequest($emailUtente, $idAnimale, $lettera, $trasportoRichiesto);
-
-                   if ($success) {
-                        header("Location: animali?id=" . $idAnimale);
-                        exit;
-                    } else {
-                        $messaggiErrore['lettera'] = "Errore durante il salvataggio della richiesta.";
-                    }
-                }else{
-                    //se ci sono errori e allora devi ricaricare la pagina
-                    //se non è andata a buon fine allora ricarica la pagina
-
-                    //bisognarebbe reindirizzare qua, ma per farlo senza perfere dati servirebbe salvarli in una sessione
-                    // header("Location: ./animali?id=" . $idAnimale."#content-form");
-                    
-                    $openDetails = true;
-                    //nota sempre per laura: qua andrebbe un exit e i valori bisogna salvarli in una session
-                    //per poi distruggerla se si compila correttamente, controlla su registrati.php
-                }
-
-            } else {
-                // Se non è POST, precarichiamo i dati dal DB
-                $valVia   = htmlspecialchars($infoUtente['Via'] ?? '');
-                $valCitta = htmlspecialchars($infoUtente['Citta'] ?? '');
-                $valCap   = htmlspecialchars($infoUtente['CAP'] ?? '');
-
-
-            }
-        }
+        
         if(isset($richiestaData) && !empty($richiestaData)){
     $dataArrivo =  date("d/m/Y", strtotime($richiestaData));
     } else $dataArrivo="non ancora stabilita";
-    $connection->closeConnection();
 } else {
     // Gestione errore connessione DB
-    echo "Errore connessione database";
-    exit;
+    $messaggiErrore['generic'] = "<p class='error'>Impossibile completare l'operazione, riprova più tardi.</p>";
 }
 
 
@@ -255,6 +355,7 @@ if (!$utenteAccesso) {
     $infoAggiuntive='info-aggiuntive-separate';
     $contenutoPagina = "
     <div class='container'>
+    <p class='error-form' id='errore-db'>[erroriGenerici]</p>
         <details id='compila-form-adozione' [openOrNot]>
             <summary>Compila il form di adozione</summary>
         </details>
@@ -324,6 +425,7 @@ if (!$utenteAccesso) {
     $contenutoPagina = str_replace('[erroriCitta]', $messaggiErrore['citta'], $contenutoPagina);
     $contenutoPagina = str_replace('[erroriCAP]', $messaggiErrore['cap'], $contenutoPagina);
     $contenutoPagina = str_replace('[erroriIndirizzoTotale]', $messaggiErrore['indirizzo_totale'], $contenutoPagina);
+    $contenutoPagina = str_replace('[erroriGenerici]', $messaggiErrore['generic'], $contenutoPagina);
 
 } else {
     // STATI RICHIESTA ESISTENTE
