@@ -33,7 +33,7 @@ function createCardEvents(DBAccess $conn){
         $titolo = htmlspecialchars($event["titolo"]);
         $img = $event["immagine"];
         $citta = htmlspecialchars($event["citta"]);
-        $link = "./visualizzazione-evento?titolo=".urlencode($titolo)."&data=".urlencode($dataEstesa);
+        $link = "./visualizzazione-evento?titolo=".urlencode($event["titolo"])."&data=".urlencode($event["data_evento"]);
         $ariaLabel = "evento " . $titolo. ': '.$dataEstesa.', '.$citta ;
         
     } else {
