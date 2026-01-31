@@ -299,7 +299,7 @@ if (empty($adminInfo['ImgPath']) || !file_exists($adminInfo['ImgPath'])) {
 $paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore: <span lang="en">template layout</span>.html non trovato o non leggibile.</p>');
 
 $title = '<title>Area riservata <span lang="en">admin</span> - <span lang="en">PetMatch</span></title>';
-$description = '<meta name="description" content="Area riservata per gli amministratori di <span lang="en">PetMatch</span>">';
+$description = '<meta name="description" content="Area riservata per gli amministratori di PetMatch">';
 $keywords = "<meta name='keywords' content='amministratore, area riservata, PetMatch'>";
 
 
