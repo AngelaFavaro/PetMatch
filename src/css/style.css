@@ -2579,7 +2579,7 @@ cursor: pointer;
     border-radius: 0.5em;
     list-style: none;
     flex: 1 1 45%;
-    /* max-width: 47%; */
+    max-width: 49%;
     height: 10em;
     /* display: block; */
     background-color: var(--darkbgcolor);
