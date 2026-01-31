@@ -60,11 +60,12 @@ function buildEventsCards($events, $filtro, $isFromAdmin): string {
             $img = 'assets/images/animals/defaultCane.jpg';
         }
         $link=$isFromAdmin?'dettagli-evento':'visualizzazione-evento';
-        $citta=$e['citta'];
+        $citta=htmlspecialchars($e['citta']);
         $data=formattaDataItaliana($e['data_evento']);
         $dataAbbr=date("d/m/Y", strtotime($e['data_evento']));
-        $titolo=$e['titolo'];
-        $descrEvento=$e['descrizione'];
+        $titolo=htmlspecialchars($e['titolo']);
+        $titoloRaw=$e['titolo'];
+        $descrEvento=htmlspecialchars($e['descrizione']);
         $html .= "<li>
                     <article class='evento'>
                         <!-- Immagine dell'evento -->
@@ -97,7 +98,7 @@ function buildEventsCards($events, $filtro, $isFromAdmin): string {
                             <p>$descrEvento</p>
                         </div>
                         <div class='dettagli-evento-bottone'>
-                        <a href='./$link?titolo=".urlencode($titolo)."&data=".$e['data_evento']."'>Vedi dettagli</a>
+                        <a href='./$link?titolo=".urlencode($titoloRaw)."&data=".$e['data_evento']."'>Vedi dettagli</a>
                     </div>
                     </article>
                 </li>";
