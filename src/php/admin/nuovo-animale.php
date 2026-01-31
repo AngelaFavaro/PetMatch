@@ -197,8 +197,7 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
         $inputsToSave['ImgPath'] = htmlspecialchars($fotoPath, ENT_QUOTES, 'UTF-8');
         $inputsToSave['Sesso'] = $sesso_db;
         $inputsToSave['Colore'] = htmlspecialchars($colore, ENT_QUOTES, 'UTF-8');
-        $inputsToSave['CondizioniMediche'] = htmlspecialchars($condMediche, ENT_QUOTES, 'UTF-8');
-        $inputsToSave['DescrComportamentale'] = htmlspecialchars($carattere, ENT_QUOTES, 'UTF-8');
+        $inputsToSave['CondizioniMediche'] = (trim($condMediche) === "" || $condMediche === "0") ? "" : htmlspecialchars(trim($condMediche), ENT_QUOTES, 'UTF-8');        $inputsToSave['DescrComportamentale'] = htmlspecialchars($carattere, ENT_QUOTES, 'UTF-8');
         $inputsToSave['DescrFamiglia'] = htmlspecialchars($famiglia, ENT_QUOTES, 'UTF-8');
         $inputsToSave['Trasporto'] = $trasporto;
         $inputsToSave['assegna_a_me'] = isset($_POST['assegna_a_me']) ? 1 : 0;
