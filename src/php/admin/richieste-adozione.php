@@ -147,7 +147,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
             return '<p class="nessun-risultato-message">Non ci sono richieste di adozione in valutazione.</p>';
         }else{
             $html = '
-            <span id="sumTabellaInValutazione" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione in valutazione e i loro dettagli: email utente, nome animale, data di inizio valutazione e presenza di appunti.</span>
+            <span id="sumTabellaInValutazione" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione in valutazione e i loro dettagli: <span lang="en">email</span> utente, nome animale, data di inizio valutazione e presenza di appunti.</span>
             <table aria-describedby="sumTabellaInValutazione">
                 <caption>Richieste di Adozione in Valutazione</caption>
                 <thead>
@@ -163,7 +163,6 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
 
             // mi sento così intelligente dopo aver cambiato il mio if elseif if in una sola riga, lascio questo commento per ricordarmelo
             $richieste = $conn->getInEvaluationRequests($_SESSION['email'] ?? '',$_GET['appunti'] ?? null);
-
 
             if(!empty($richieste)){
                 foreach($richieste as $richiesta){
@@ -202,7 +201,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
             return '<p class="nessun-risultato-message">Non ci sono richieste di adozione da trasportare.</p>';
         }else{
             $html = '
-            <span id="sumTabellaDaTrasportare" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione da trasportare e i loro dettagli: email utente, nome animale, data di fine valutazione.</span>
+            <span id="sumTabellaDaTrasportare" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione da trasportare e i loro dettagli: <span lang="en">email</span> utente, nome animale, data di fine valutazione.</span>
             <table aria-describedby="sumTabellaDaTrasportare">
             <caption>Richieste di Adozione da Trasportare</caption>
                 <thead>
@@ -253,7 +252,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
             return '<p class="nessun-risultato-message">Non ci sono richieste di adozione annullate.</p>';
         }else{
             $html = '
-            <span id="sumTabellaAnnullate" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione annullate e i loro dettagli: email utente, nome animale e data di annullamento.</span>
+            <span id="sumTabellaAnnullate" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione annullate e i loro dettagli: <span lang="en">email</span> utente, nome animale e data di annullamento.</span>
                 <table aria-describedby="sumTabellaAnnullate">
                     <caption>Richieste di Adozione Annullate</caption>
                     <thead>
@@ -297,7 +296,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
             return '<p class="nessun-risultato-message">Non ci sono richieste di adozione respinte.</p>';
         }else{
             $html = '
-            <span id="sumTabellaRespinte" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione respinte e i loro dettagli: email utente, nome animale e data di respinta.</span>
+            <span id="sumTabellaRespinte" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione respinte e i loro dettagli: <span lang="en">email</span> utente, nome animale e data di respinta.</span>
             <table aria-describedby="sumTabellaRespinte">
                 <caption>Richieste di Adozione Respinte</caption>
                 <thead>
@@ -378,7 +377,6 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     $main = renderNRequestsByStatus($NRequestsByStatus, $main);
 
 
-    /* ---- sostituzioni varie per i filtri ---*/
     $rawFilters = [
         'appunti'   => $_GET['appunti'] ?? '',
         'trasporto' => $_GET['trasporto'] ?? '',
@@ -399,8 +397,8 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
 
     $main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);
     $title = "<title>Richieste di Adozione - PetMatch</title>";
-    $description = "<meta name='description' content='Visualizza e gestisci le richieste di adozione degli animali presenti su PetMatch.'>";
-    $keywords = "<meta name='keywords' content='richieste, adozione, animali, PetMatch'>";
+    $description = "<meta name='description' content='Un amministratore visualizza e gestisce le richieste di adozione degli animali presenti su PetMatch.'>";
+    $keywords = "<meta name='keywords' content='visualizzazione, gestione, amministratore, richieste, adozione, animali, PetMatch'>";
     $paginaHTML = str_replace('[title]', $title, $paginaHTML);
     $paginaHTML = str_replace('[description]', $description, $paginaHTML);
     $paginaHTML = str_replace('[keywords]', $keywords, $paginaHTML);

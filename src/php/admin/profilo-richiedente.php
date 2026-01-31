@@ -108,9 +108,9 @@ $paginaHTML = file_get_contents('./src/template/layout-admin.html');
 $main = file_get_contents('./src/template/main/admin/profilo-richiedente.html');
 $breadcrumb = getBreadcrumb('profilo-richiedente', $pagine);
 $nav = buildAdminNav($adminMenu,'./profilo-richiedente');
-$keywords = "<meta name='keywords' content='profilo richiedente, informazioni utente'>";
+$keywords = "<meta name='keywords' content='profilo, richiedente, informazioni, utente, PetMatch, amministratore'>";
 $title = "<title>Visualizza profilo candidato - PetMatch</title>";
-$description = "<meta name='description' content='Visualizza il profilo candidato per poterne gestire le richieste.'>";
+$description = "<meta name='description' content='Un amministratore visualizza il profilo del candidato all'adozione di un animale per poterne gestire le richieste.'>";
 
 $paginaHTML = str_replace('[title]', $title, $paginaHTML);
 $paginaHTML = str_replace('[description]', $description, $paginaHTML);

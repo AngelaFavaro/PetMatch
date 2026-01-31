@@ -64,7 +64,6 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
 		$regex_indirizzo = '/^[a-zA-Z\.\']{3,}\s+.+\s+(?:n\.?\s?)?\d+[a-zA-Z]?$/';
         $regex_citta = '/^[\p{L}\s\.\']{2,}$/u';
 
-        // Validazione
         if (empty($titoloValue)){
             $errors['titolo'] = "Inserisci un titolo.";
         }
@@ -225,7 +224,7 @@ $main = file_get_contents('./src/template/main/admin/nuovo-evento.html');
 $breadcrumb = $isModifiedEvent?getBreadcrumb('modifica-evento', $pagine): getBreadcrumb('nuovo-evento', $pagine);;
 
 $nav = buildAdminNav($adminMenu,'./nuovo-evento');
-$keywords = $isModifiedEvent? "<meta name='keywords' content='modifica evento, PetMatch'>":"<meta name='keywords' content='nuovo evento, PetMatch'>";
+$keywords = $isModifiedEvent? "<meta name='keywords' content='modifica, evento, PetMatch, amministratore'>":"<meta name='keywords' content='nuovo, evento, PetMatch, amministratore'>";
 $title = $isModifiedEvent? "<title>Modifica evento - PetMatch</title>" : "<title>Nuovo evento - PetMatch</title>";
 $description = $isModifiedEvent? "<meta name='description' content='Modifica un evento presente nel sito di PetMatch.'>" : "<meta name='description' content='Organizza e pubblica un nuovo evento nel sito di PetMatch.'>";
 

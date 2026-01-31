@@ -2,19 +2,16 @@
 include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo controlla se esiste la variabile admin in session, la seconda controlla che sia affettivamente admin
+
+
+if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { 
     header("Location: ./accedi");
     exit;
 }
 
-
-
 /** DA TOGLIERE, NON NECESSARIO TODO
  * Genera gli input nascosti usati nei form (id_animale + email_richiedente)
- */
+*/
 function hiddenInputsFrom(array $r): string {
     $id = e($r['id-animale'] ?? '');
     $email = e($r['email-richiedente'] ?? '');
@@ -98,7 +95,7 @@ function buildDateInfo(array $r): array {
 }
 
 /**
- * Gestione delle azioni POST che modificano lo stato (eseguono redirect)
+ * Gestione delle azioni POST che modificano lo stato 
  */
 function handlePostActions(DBAccess $conn, array $r, string $emailRichiedente, int $idAnimale, &$messaggiForm): array {
     
@@ -109,7 +106,6 @@ function handlePostActions(DBAccess $conn, array $r, string $emailRichiedente, i
         exit;
     }
 
-    // Accetta richiesta (potrebbe impostare da trasportare)
     if (isset($_POST['accetta_richiesta'])) {
         if ($r['trasporto-richiesta'] == 1) {
             $conn->setToTransport($emailRichiedente, $idAnimale);
@@ -128,7 +124,6 @@ function handlePostActions(DBAccess $conn, array $r, string $emailRichiedente, i
         exit;
     }
 
-    // Scarta richiesta
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scarta_richiesta'])) {
         $conn->rejectRequest($emailRichiedente, $idAnimale,$r['stato']);
         $r = $conn->getRequestDetails($emailRichiedente, $idAnimale);
@@ -136,7 +131,6 @@ function handlePostActions(DBAccess $conn, array $r, string $emailRichiedente, i
         exit;
     }
 
-    // Apri richiesta (riapre richiesta respinta)
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['apri_richiesta'])) {
         $conn->openRequest($emailRichiedente, $idAnimale);
         header("Location: richieste-adozione?email=$emailRichiedente&id-animale=$idAnimale");
@@ -171,22 +165,12 @@ function handlePostActions(DBAccess $conn, array $r, string $emailRichiedente, i
     return $r;
 }
 
-function controlAccess(): bool{
-	//controlla se l'utente è loggato e se è un admin
-	if(!isset($_SESSION['email']) || $_SESSION['role'] !== 'admin'){
-		return false;
-	}
-	return true;
-}
-
 function imTheAdmin($r): bool{
 	if(($r['email-admin'] ?? '') === ($_SESSION['email'] ?? '')){
 		return true;
 	}
 	return false;
 }
-
-/* -------------------- inizio script -------------------- */
 
 $paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore: template layout.html non trovato o non leggibile.</p>');
 
@@ -212,17 +196,16 @@ if ($connessioneOK) {
     $AcceptRequestDetails = $connessione->getAcceptRequestByAnimal($idAnimale, $emailRichiedente);
     $connessione->closeConnection();
 }
-//tolgo i messaggiForm
+
 if (isset($_SESSION['error_msg'])) {
     $messaggiForm = $_SESSION['error_msg'];
     unset($_SESSION['error_msg']);
 }
 
-$title = '<title>Area riservata admin - PetMatch </title>';
-$description = '<meta name="description" content="Area riservata per gli amministratori di PetMatch">';
-$keywords = "";
+$title = '<title>Visualizzazione dettaglio richiesta di adozione  - Amministratore PetMatch </title>';
+$description = '<meta name="description" content="Area riservata per gli amministratori in cui possono controllare nel dettaglio una richiesta di adozione ricevuta per un animale a loro assegnato.">';
+$keywords = "<meta name='keywords' content='amministratore, dettaglio, richiesta, adozione, assegnato, animale, PetMatch'>";
 
-// Preparazione parti dinamiche
 $scarta_richiesta = renderRejectRequest($richiesta,$AcceptRequestDetails);
 $nav = buildAdminNav($adminMenu,'./dettagli-richiesta');
 $breadcrumb = getBreadcrumb('dettagli-richiesta', $pagine);
@@ -304,7 +287,6 @@ if($richiesta['sesso-animale'] === 'F')
 elseif($richiesta['sesso-animale'] === 'M')
     $main = str_replace('[sessoAnimale]', 'Maschio', $main);
 
-// Invece di: $main = str_replace('[etaAnimale]', e($richiesta['eta-animale'] ?? ''), $main);
 
 $dataNascita = $richiesta['data-nascita'] ?? null;
 $testoEta = $dataNascita ? formattaEta($dataNascita) : 'Età sconosciuta';

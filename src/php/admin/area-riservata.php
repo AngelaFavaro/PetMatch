@@ -4,20 +4,21 @@ include './src/DBconnection.php';
 use DB\DBAccess;
 session_start();
 
-if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo controlla se esiste la variabile admin in session, la seconda controlla che sia affettivamente admin
+//il primo controlla se esiste la variabile admin in session, la seconda controlla che sia affettivamente admin
+if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { 
     header("Location: ./accedi");
     exit;
 }
 
-
 if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])){ 
 	logout();
 }
+
 function buildToDoList(DBAccess $conn): string {
 	$html = '<ul id="to-do-list" aria-label="compiti da completare">';
 	$tasks =$conn->createAdminTasks($_SESSION['email'] ?? '');
 	$links= [
-		['href' => './senza-amministratore', 'type' => 'Animali senza admin'],
+		['href' => './senza-amministratore', 'type' => 'Animali senza amministratore'],
 		['href' => './richieste-adozione?stato=In+valutazione&appunti=0', 'type' => 'Appunti da prendere'],
 		['href' => './nuove-accoglienze', 'type' => 'Accoglienze'],
 		['href' => './richieste-adozione?stato=Nuove', 'type' => 'Adozioni da valutare'],
@@ -38,7 +39,6 @@ function buildToDoList(DBAccess $conn): string {
 	return $html;
 }
 
-
 function buildStatisticsArea(DBAccess $conn): string{
 	$html = '<ul id="statistics-list" aria-labelledby="title-statistiche">';
 	$stats = $conn->createAdminStats($_SESSION['email'] ?? '');
@@ -58,7 +58,6 @@ function buildStatisticsArea(DBAccess $conn): string{
 	$html .= '</ul>';
 	return $html;
 }
-
 
 function buildInfoAdmin(): array{
 	$html = '';
@@ -112,7 +111,7 @@ function buildInfoAdmin(): array{
 			'<div id="informazioni-admin" class="text-details"><dl aria-label="informazioni dell\'utente">
 				<dt>Nome</dt> <dd>[nomeAdmin]</dd>
 				<dt>Cognome</dt> <dd>[cognomeAdmin]</dd>
-				<dt >Email</dt> <dd class="admin-email">[emailAdmin]</dd>
+				<dt lang="en">Email</dt> <dd>[emailAdmin]</dd>
 				<dt>Telefono</dt> <dd>[telefonoAdmin]</dd>
 			</dl></div>';
 	}
@@ -274,18 +273,15 @@ $messageInfoForm ='';
 $connessione = new DBAccess();
 $connessioneOK = $connessione->openDBConnection();
 if ($connessioneOK) {
-    // centralizzo le operazioni che richiedono la connessione, così non spreco risorse
-	
+
 	$todolist = buildToDoList($connessione);
 	$stats = buildStatisticsArea($connessione);
 	
 	$adminInfo = $connessione->getUserInfo($_SESSION['email']);
 	$adminInfoSection = buildInfoAdmin();
 	
-	
 	$messageInfoForm = editInfoAdmin($connessione, $NewUserInfo, $adminInfo);
 	
-
 	$connessione->closeConnection();
 }
 
@@ -300,23 +296,17 @@ if (empty($adminInfo['ImgPath']) || !file_exists($adminInfo['ImgPath'])) {
     $adminInfo['ImgPath'] = 'assets/images/admins/default-pic.png';
 }
 
-$msgSuccesso = '';
-if (isset($_GET['success']) && $_GET['success'] == '1') {
-    $msgSuccesso = '<p class="success-message" role="alert">Animale aggiunto con successo!</p>';
-}
+$paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore: <span lang="en">template layout</span>.html non trovato o non leggibile.</p>');
 
-$paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore: template layout.html non trovato o non leggibile.</p>');
-
-$title = '<title>Area riservata admin - PetMatch </title>';
+$title = '<title>Area riservata <span lang="en">admin</span> - <span lang="en">PetMatch</span></title>';
 $description = '<meta name="description" content="Area riservata per gli amministratori di PetMatch">';
-$keywords = ""; //TO DO
+$keywords = "<meta name='keywords' content='amministratore, area riservata, PetMatch'>";
 
 
 $nav = buildAdminNav($adminMenu, './area-riservata');
 $breadcrumb = getBreadcrumb('area-riservata', $pagine);
 
-$main = loadTemplate('./src/template/main/admin/area-riservata.html', '<p>Errore: template area-riservata.html non trovato o non leggibile.</p>');
-$main = str_replace('[messaggioSuccesso]', $msgSuccesso, $main);
+$main = loadTemplate('./src/template/main/admin/area-riservata.html', '<p>Errore: <span lang="en">template</span> area-riservata.html non trovato o non leggibile.</p>');
 $main = str_replace('[to-do-list]', $todolist, $main);
 $main = str_replace('[stats]', $stats, $main);
 $main = str_replace('[titolo]', $adminInfoSection['titolo'], $main);

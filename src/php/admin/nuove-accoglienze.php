@@ -15,12 +15,8 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     include './src/utils.php';
     include './src/DBconnection.php';
     
-
-    
-
-    
     function renderAnimalContent(string $tipo, array $animaliSegnalati, string $NSegnalazioniByType, string $nome_admin): string {
-        $tipoMinuscoloPlurale = ($tipo === 'Cane') ? 'cani' : 'gatti'; //fa un po caca ma va bene per ora
+        $tipoMinuscoloPlurale = ($tipo === 'Cane') ? 'cani' : 'gatti'; 
         
         if (($NSegnalazioniByType ?? 0) == 0) {
             return '<p role="status" class="nessun-risultato-message">Nessuna segnalazione per ' . $tipoMinuscoloPlurale . '.</p>';
@@ -33,7 +29,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                 <caption>Segnalazioni di accoglienze per ' . htmlspecialchars($tipo) . '</caption>
                 <thead>
                     <tr>
-                        <th scope="col"><abbr title="Identificativo segnalazione"><span lang="en">Id</span></abbr></th>
+                        <th scope="col"><abbr title="Identificativo segnalazione">Id</abbr></th>
                         <th scope="col">Data segnalazione</th>
                         <th scope="col">Segnalante</th>
                         <th scope="col">Email segnalante</th>
@@ -46,7 +42,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
             foreach ($animaliSegnalati as $animale) {
                 $subject= rawurlencode('Segnalazione numero ' . $animale['id_segnalazione'] . ' - PetMatch - Hai bisogno di trovare casa al tuo animale?');
 
-                $messaggio = "Ciao! Ho visto la tua segnalazione su PetMatch per un " . strtolower($tipo) . " e siamo interessati a raccogliere maggiori informazioni riguardo al tuo animale.\n\n" .
+                $messaggio = "Ciao! Ho visto la tua segnalazione per un " . strtolower($tipo) . " e siamo interessati a raccogliere maggiori informazioni riguardo al tuo animale.\n\n" .
                 "Potresti raccontarci un po' di più? Non ti preoccupare, ecco alcune domande che ci aiuterebbero molto (se non conosci la risposta ad alcune, scrivi pure 'non so'):\n\n" .
                 "- Qual è la sua storia? (È cresciuto in famiglia o è stato trovato per strada?)\n" .
                 "- Com'è di carattere? (È socievole, timido o un po' timoroso?)\n" .
@@ -57,7 +53,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                 "Attendo un tuo riscontro. Grazie!\n\n".
                 "Un caro saluto,\n" .
                 $nome_admin. "\n".
-                "Amministratore PetMatch";
+                "Amministrazione <span lang='en'>PetMatch</span>";
 
                 $object =rawurlencode($messaggio);
                 $html .='
@@ -116,7 +112,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     $linkAttivi = '';
     $NSegnalazioniCani = '';
     $NSegnalazioniGatti = '';
-    $perPagina = 8; //8 per pagina? a me sembra un buon numero
+    $perPagina = 8; 
     $tipoAttivo = $_GET['tipo'] ?? 'Cani';
     $paginaCorrente = max(1, (int)($_GET['page'] ?? 1));
     $offset = ($paginaCorrente - 1) * $perPagina;
@@ -138,7 +134,8 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
             ($filtroCorrente === 'mie' || $filtroCorrente === 'tutte') ? $_SESSION['email'] : null, 
             $filtroCorrente
         );
-        $nome_admin= ($connessione->findAdminByEmail($_SESSION['email']))['nome']; //per prendere il nome dell'admin da mettere nella mail!!
+        //per prendere il nome dell'admin da mettere nella mail!!
+        $nome_admin= ($connessione->findAdminByEmail($_SESSION['email']))['nome']; 
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['assegna_segnalazione'])) {
             $connessione->assignAdminToSegnalazione($_POST['id_segnalazione'], $_SESSION['email']);
@@ -205,9 +202,9 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
 
     $main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);
 
-    $title = "<title>Segnalazioni di nuove accoglienze - PetMatch</title>";
-    $description = "<meta name='description' content='Pagina di gestione delle richieste di adozione per animali senza amministratore in PetMatch.'>";
-    $keywords = "<meta name='keywords' content='richieste, amministratore, animali, PetMatch'>";
+    $title = "<title>Segnalazioni di nuove accoglienze - Amministratore PetMatch</title>";
+    $description = "<meta name='description' content='Pagina di gestione delle segnalazioni per nuove accoglienze di animali effettuate dagli utenti registrati .'>";
+    $keywords = "<meta name='keywords' content='signalazioni, amministratore, animali, rifugio, accoglienze, PetMatch'>";
     $paginaHTML = str_replace('[title]', $title, $paginaHTML);
     $paginaHTML = str_replace('[description]', $description, $paginaHTML);
     $paginaHTML = str_replace('[keywords]', $keywords, $paginaHTML);
