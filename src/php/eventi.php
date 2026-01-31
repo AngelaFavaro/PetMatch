@@ -57,7 +57,7 @@ function buildEventsCards($events, $filtro, $isFromAdmin): string {
         if (!empty($e['immagine']) && file_exists($e['immagine'])) {
             $img = $e['immagine'];
         } else {
-            $img = 'assets/images/animals/defaultCane.jpg';
+            $img = 'assets/images/events/eventi-default.jpg';
         }
         $link=$isFromAdmin?'dettagli-evento':'visualizzazione-evento';
         $citta=$e['citta'];
