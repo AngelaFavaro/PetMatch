@@ -295,7 +295,7 @@ class DBAccess {
             mysqli_stmt_bind_param($stmt, 'ssi',$oggi, $emailRichiedente, $idAnimale);
         }
         
-        if($statoPrecedente === 'Da trasportare') {
+        if($statoPrecedente === 'Da trasportare' || $statoPrecedente === 'Accettata') {
             //ELIMINA IL TRASPORTO DELLA RICHIESTA SE CE NE ERA UNP
             $query2 = "DELETE FROM TRASPORTI where Email = ? AND IDanimale = ?";
             $stmt2 = mysqli_prepare($this->connection, $query2);
