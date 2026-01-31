@@ -8,13 +8,8 @@ $nameValue ='';
 $emailValue ='';
 
 function createCardEvents(DBAccess $conn){
-	$events = $conn->getLastEvents();
-
-    $mesi=[
-        1 => 'gennaio',  2 => 'febbraio', 3 => 'marzo', 4 => 'aprile',
-        5 => 'maggio',   6 => 'giugno',   7 => 'luglio', 8 => 'agosto',
-        9 => 'settembre',10 => 'ottobre', 11 => 'novembre',12 => 'dicembre'
-    ];
+    $filters['tipo'] = 'prossimi';
+	$events = $conn->getEventsFilteredPaged($filters, 4);
 
     $lastEvents = "";
     for ($i = 0 ; $i<4; $i++){
@@ -22,23 +17,23 @@ function createCardEvents(DBAccess $conn){
         if (isset($events[$i])) {
         $event = $events[$i];
         
-        $timestamp = strtotime($event["DataEvento"]);
+        $timestamp = strtotime($event["data_evento"]);
         
         $giorno = date('d', $timestamp);
         $mese = date('n', $timestamp); 
         $anno = date('Y', $timestamp);
     
-        $dataEstesa = $giorno . ' ' . $mesi[$mese] . ' ' . $anno;
+        $dataEstesa = "$giorno\\$mese\\$anno";
         $dataMobile = date('d/m/Y', $timestamp);
 
-        if (empty($event['ImgPath']) || !file_exists($event['ImgPath'])) {
-            $event['ImgPath'] = 'assets/images/events/eventi-default.jpg';
+        if (empty($event['immagine']) || !file_exists($event['immagine'])) {
+            $event['immagine'] = 'assets/images/events/eventi-default.jpg';
         }
         
-        $titolo = $event["Titolo"];
-        $img = $event["ImgPath"];
-        $citta = $event["Citta"];
-        $link = "./visualizzazione-evento?titolo=".urlencode($titolo)."&data=".urlencode($dataEstesa);
+        $titolo = htmlspecialchars($event["titolo"]);
+        $img = $event["immagine"];
+        $citta = htmlspecialchars($event["citta"]);
+        $link = "./visualizzazione-evento?titolo=".urlencode($event["titolo"])."&data=".urlencode($event["data_evento"]);
         $ariaLabel = "evento " . $titolo. ': '.$dataEstesa.', '.$citta ;
         
     } else {

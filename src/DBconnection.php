@@ -77,7 +77,7 @@ class DBAccess {
             FROM RICHIESTE_ADOZIONI ra
             JOIN UTENTI u ON u.Email = ra.Email
             JOIN ANIMALI a ON a.IDanimale = ra.IDanimale
-            JOIN UTENTI m ON m.Email = a.Email
+            LEFT JOIN UTENTI m ON m.Email = a.Email
             LEFT JOIN TRASPORTI t ON t.Email = ra.Email AND t.IDanimale = ra.IDanimale
             WHERE ra.Email = ? AND ra.IDanimale = ?
         ";
@@ -237,7 +237,7 @@ class DBAccess {
         }
 
         $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Accettata' WHERE Email = ? AND IDanimale = ?";
-
+        
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
             return false;
@@ -246,9 +246,31 @@ class DBAccess {
         mysqli_stmt_bind_param($stmt, 'si', $emailRichiedente, $idAnimale);
         $result = mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
+        if($result){
+            return $this->setRespintaOtherRequestsForAnimal($idAnimale, $emailRichiedente);
+        }else{
+            return $result;
+        }
+    }
+    
+
+    private function setRespintaOtherRequestsForAnimal($idAnimale, $acceptedEmail): bool {
+        if (!$this->connection){ //se la connessione non è aperta
+            return false;
+        }
+
+        $query = "UPDATE RICHIESTE_ADOZIONI SET Stato = 'Respinta', DataFineValutazione = ? WHERE IDanimale = ? AND Email <> ?";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if($stmt === false){
+            return false;
+        }
+        $oggi = date('Y-m-d');
+        mysqli_stmt_bind_param($stmt, 'sis', $oggi, $idAnimale, $acceptedEmail);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
         return $result;
     }
-
     public function rejectRequest($emailRichiedente, $idAnimale, $statoPrecedente): bool {
         if (!$this->connection){ //se la connessione non è aperta
             return false;
@@ -273,7 +295,7 @@ class DBAccess {
             mysqli_stmt_bind_param($stmt, 'ssi',$oggi, $emailRichiedente, $idAnimale);
         }
         
-        if($statoPrecedente === 'Da trasportare') {
+        if($statoPrecedente === 'Da trasportare' || $statoPrecedente === 'Accettata') {
             //ELIMINA IL TRASPORTO DELLA RICHIESTA SE CE NE ERA UNP
             $query2 = "DELETE FROM TRASPORTI where Email = ? AND IDanimale = ?";
             $stmt2 = mysqli_prepare($this->connection, $query2);
@@ -358,7 +380,11 @@ class DBAccess {
         mysqli_stmt_bind_param($stmt, 'ssi', $oggi, $emailRichiedente, $idAnimale);
         $result = mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
-        return $result;
+        if($result){
+            return $this->setRespintaOtherRequestsForAnimal($idAnimale, $emailRichiedente);
+        }else{
+            return $result;
+        }
     }
 
 
@@ -415,7 +441,6 @@ class DBAccess {
             $data['foto'],
             $email
         );
-
         $success = $stmt->execute();
         
         if ($success) {
@@ -494,7 +519,10 @@ class DBAccess {
         $queries = [
             "query1" => ["sql" => "SELECT COUNT(*) AS totale FROM ANIMALI WHERE Email IS NULL", "param" => null],
             "query2" => ["sql" => "SELECT COUNT(*) AS totale FROM RICHIESTE_ADOZIONI R JOIN ANIMALI A ON R.IDanimale = A.IDanimale WHERE R.Stato = 'In valutazione' AND (R.Appunti IS NULL OR R.Appunti = '') AND A.Email = ?", "param" => $email],
-            "query3" => ["sql" => "SELECT COUNT(*) AS totale FROM SEGNALAZIONI_NUOVE_ACCOGLIENZE", "param" => null],
+            "query3" => [
+                "sql" => "SELECT COUNT(*) AS totale FROM SEGNALAZIONI_NUOVE_ACCOGLIENZE WHERE EmailAmm IS NULL OR EmailAmm = ?", 
+                "param" => $email
+            ],
             "query4" => ["sql" => "SELECT COUNT(*) AS totale FROM RICHIESTE_ADOZIONI R JOIN ANIMALI A ON R.IDanimale = A.IDanimale WHERE R.Stato = 'Nuova' AND A.Email = ?", "param" => $email],
             "query5" => ["sql" => "SELECT COUNT(*) AS totale FROM RICHIESTE_ADOZIONI R JOIN ANIMALI A ON R.IDanimale = A.IDanimale LEFT JOIN TRASPORTI T ON (R.Email = T.Email AND R.IDanimale = T.IDanimale) WHERE R.Stato = 'Da trasportare' AND T.DataArrivo IS NULL AND A.Email = ?", "param" => $email]
         ];
@@ -1801,7 +1829,7 @@ class DBAccess {
     }
 
     /* ---------- ORDINAMENTO + PAGINAZIONE ---------- */
-    $query .= " ORDER BY DataEvento DESC LIMIT ? OFFSET ?";
+    $query .= " ORDER BY DataEvento ASC LIMIT ? OFFSET ?";
 
     $params[] = $limit;
     $params[] = $offset;
@@ -2489,6 +2517,29 @@ public function getAnimalArrivalDate($idAnimale): ?string {
             mysqli_stmt_close($stmt);
         }
         return $risultati;
+    }
+
+    //recupera la richiesta Accettata per un SINGOLO ANIMALE
+    public function getAcceptRequestByAnimal($idAnimale,$emailRichiedente): ?array {
+        $query = "SELECT ra.*, u.Nome as nome_richiedente, u.Cognome as cognome_richiedente, a.Nome AS nome_animale 
+                FROM RICHIESTE_ADOZIONI ra 
+                JOIN UTENTI u ON ra.Email = u.Email 
+                JOIN ANIMALI a ON ra.IDanimale = a.IDanimale
+                WHERE ra.IDanimale = ? AND ra.Stato = 'Accettata' AND ra.Email <> ?
+                ORDER BY ra.DataRichiesta DESC
+                LIMIT 1";
+        $stmt = mysqli_prepare($this->connection, $query);
+        $data = null;   
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'is', $idAnimale, $emailRichiedente);
+            mysqli_stmt_execute($stmt);
+            $res = mysqli_stmt_get_result($stmt);
+            if ($row = mysqli_fetch_assoc($res)) {
+                $data = $row;
+            }
+            mysqli_stmt_close($stmt);
+        }
+        return $data;
     }
 
     // Recupera l'elenco delle richieste per un SINGOLO ANIMALE

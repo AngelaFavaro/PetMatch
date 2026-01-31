@@ -139,15 +139,15 @@ $pagine = [
         'url' => './nuovo-evento',
         'parent' => 'visualizzazione-eventi'
     ],
-    'assegnati-a-te' => [
-        'label' => 'Assegnati a te',
-        'url' => './assegnati-a-te',
+    'animali-admin' => [
+        'label' => 'Tutti gli animali',
+        'url' => './animali-admin',
         'parent' => 'area-riservata'
     ],
     'dettagli-animale' => [
         'label' => 'Dettagli animale',
         'url' => './dettagli-animale', 
-        'parent' => 'assegnati-a-te' 
+        'parent' => 'animali-admin' 
     ],
     'modifica-evento' => [
         'label' => 'Modifica evento',
@@ -173,7 +173,7 @@ $adminMenu = [
         ['href' => './visualizzazione-eventi', 'text' => 'Eventi'],
     ],
     'animali' => [
-        ['href' => './assegnati-a-te', 'text' => 'Assegnati a te'],
+        ['href' => './animali-admin', 'text' => 'Tutti gli animali'],
         ['href' => './senza-amministratore', 'text' => 'Senza amministratore'],
         ['href' => './adottati', 'text' => 'Adottati'],
         ['href' => './nuove-accoglienze', 'text' => 'Nuove accoglienze'],
@@ -719,10 +719,17 @@ function calcolaEta(?string $dataNascita): ?string {
         $diff = $oggi->diff($nascita);
 
         if ($diff->y > 0) {
-            return $diff->y . ' anni';
+            if($diff->y === 1) {
+                return $diff->y . ' anno';
+            } else {
+                return $diff->y . ' anni';
+            }
         }
-
-        return $diff->m . ' mesi';
+        if ($diff->m > 1) {
+            return $diff->m . ' mesi';
+        } else {
+            return $diff->m . ' mese';
+        }
     } catch (Exception $e) {
         return null;
     }

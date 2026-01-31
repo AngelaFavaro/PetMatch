@@ -1,1 +1,18 @@
 \section{Database}
+\label{sec:database}
+Il database dopo la fase di ristrutturazione risulta essere costituito da 6 entità principali:
+\begin{figure}[H]
+    \centering
+    \makebox[\textwidth][c]{\includegraphics[width=1.35\textwidth]{assets/schema-er.png}}
+    \caption{Schema ER del database}
+    \label{fig:schema-er-database}
+\end{figure}
+
+Alcune considerazioni sul database:
+\begin{itemize}
+    \item Per questione di semplicità, utente normale e admin sono stati unificati in un'unica entità \texttt{Utente}, differenziata da un attributo \texttt{Ruolo}.
+    \item Abbiamo deciso, in fase di implementazione in SQL, di non esprimere i vincoli interrelazionali poichè non studiati nel nostro corso di studi. Questi vincoli sono stati gestiti a livello di logica applicativa (php). Alcuni vincoli interrelazionali sono:
+    \begin{itemize}
+        \item Un trasporto è associato ad una richiesta solo se la richiesta è in "In trasporto" e il trasporto 
+    \end{itemize}
+\end{itemize}

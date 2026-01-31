@@ -91,10 +91,10 @@ if (empty($infoUtente['ImgPath']) || !file_exists($infoUtente['ImgPath'])) {
     $infoUtente['ImgPath'] = 'assets/images/users/default-pic.png';
 }
 
-if($infoUtente['Via'] === null || $infoUtente['Citta'] === null || $infoUtente['CAP'] === null){
+if(!$infoUtente['Via'] || !$infoUtente['Citta'] || !$infoUtente['CAP']){
     $indirizzoCompleto = "<em>Sconosciuto</em>";
 }else{
-    $indirizzoCompleto = $infoUtente['Via'] . ', ' . $infoUtente['Citta'] . ' ' . $infoUtente['CAP'];
+    $indirizzoCompleto = htmlspecialchars($infoUtente['Via'], ENT_QUOTES, 'UTF-8') . ', ' . htmlspecialchars($infoUtente['Citta'], ENT_QUOTES, 'UTF-8') . ' ' . htmlspecialchars($infoUtente['CAP'], ENT_QUOTES, 'UTF-8');
 }
 
 if($infoUtente['Telefono']){
@@ -108,9 +108,9 @@ $paginaHTML = file_get_contents('./src/template/layout-admin.html');
 $main = file_get_contents('./src/template/main/admin/profilo-richiedente.html');
 $breadcrumb = getBreadcrumb('profilo-richiedente', $pagine);
 $nav = buildAdminNav($adminMenu,'./profilo-richiedente');
-$keywords = "<meta name='keywords' content='profilo richiedente, informazioni utente'>";
+$keywords = "<meta name='keywords' content='profilo, richiedente, informazioni, utente, PetMatch, amministratore'>";
 $title = "<title>Visualizza profilo candidato - PetMatch</title>";
-$description = "<meta name='description' content='Visualizza il profilo candidato per poterne gestire le richieste.'>";
+$description = "<meta name='description' content='Un amministratore visualizza il profilo del candidato all'adozione di un animale per poterne gestire le richieste.'>";
 
 $paginaHTML = str_replace('[title]', $title, $paginaHTML);
 $paginaHTML = str_replace('[description]', $description, $paginaHTML);
@@ -130,9 +130,9 @@ $paginaHTML = str_replace('[n-trasporto]', htmlspecialchars($NRequestsByStatus['
 $paginaHTML = str_replace('[imgRichiedente]', htmlspecialchars($infoUtente['ImgPath']), $paginaHTML);
 $paginaHTML = str_replace('[NomeRichiedente]', htmlspecialchars($infoUtente['Nome']), $paginaHTML);
 $paginaHTML = str_replace('[CognomeRichiedente]', htmlspecialchars($infoUtente['Cognome']), $paginaHTML);
-$paginaHTML = str_replace('[IndirizzoRichiedente]', htmlspecialchars($indirizzoCompleto), $paginaHTML);
+$paginaHTML = str_replace('[IndirizzoRichiedente]', $indirizzoCompleto, $paginaHTML);
 $paginaHTML = str_replace('[EmailRichiedente]', htmlspecialchars(($_GET['email'])), $paginaHTML);
-$paginaHTML = str_replace('[TelefonoRichiedente]', htmlspecialchars($printTelefono), $paginaHTML);
+$paginaHTML = str_replace('[TelefonoRichiedente]', $infoUtente['Telefono']?htmlspecialchars($printTelefono):'<em>Sconosciuto</em>', $paginaHTML);
 
 echo $paginaHTML;
 ?>
