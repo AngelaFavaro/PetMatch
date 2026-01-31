@@ -335,7 +335,7 @@ $paginaHTML = str_replace('[trasporto_checked]', ($NewAnimalInfo['Trasporto'] ==
 
 foreach ($NewAnimalInfo as $key => $value) {
     $val = $value ?? ''; 
-    $paginaHTML = str_replace('[' . $key . ']', htmlspecialchars($val, ENT_QUOTES, 'UTF-8'), $paginaHTML);
+    $paginaHTML = str_replace('[' . $key . ']', $val, $paginaHTML);
 }
 
 echo $paginaHTML;
