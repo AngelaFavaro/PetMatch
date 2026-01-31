@@ -284,6 +284,9 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
         $resetUrl = './animali';
     } else {
         $resetUrl = './animali-admin';
+        if (isset($_GET['assegnati'])) {
+            $resetUrl .= '?assegnati=' . urlencode($_GET['assegnati']);
+        }
     }
     if ($type !== 'tutti') {
         $resetUrl .= '?tipo=' . urlencode($type);
@@ -342,21 +345,18 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
             }
             $userEmail = $_SESSION['email'] ?? null;
             $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail,$isFromAdmin) : "<p class='errore'>$messaggioNoAnimali</p>";
-            if($filters) {
-            $params= array_merge(['tipo' => $type], $filters);
-            } else {
-                $params=$type;
-            }
+            $paginationParams = array_merge(['tipo' => $type], $filters ?? []);
+
             $linkPagine = ($pagineTotali > 1)
-        ? (
-            "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine'>
-                <ul aria-label='Pagine di navigazione'>"
-            . buildPagination($pagina, $pagineTotali, $type)
-            . "</ul>
-            </nav>"
-        )
-        : '';
-    
+                ? (
+                    "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine'>
+                        <ul aria-label='Pagine di navigazione'>"
+                    . buildPagination($pagina, $pagineTotali, $paginationParams) // <--- Passiamo l'array completo!
+                    . "</ul>
+                    </nav>"
+                )
+                : '';
+
             $connessione->closeConnection();
         }
     }
@@ -406,7 +406,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
             <!-- rotta gestita dal router -->
             
             <input type='hidden' name='tipo' value='[TYPE]'/>
-    
+            " . ($isFromAdmin && isset($_GET['assegnati']) ? "<input type='hidden' name='assegnati' value='".htmlspecialchars($_GET['assegnati'])."'/>" : "") . "
             <ul aria-label='Filtri di ricerca'>
                 <li class='capsula-filtro' id='searchName'>
                     <label for='name-animal'>Nome</label>
