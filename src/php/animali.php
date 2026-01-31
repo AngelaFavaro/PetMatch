@@ -121,7 +121,10 @@ if(isset($_GET['id'])) {
         'eta_min'       => $_GET['eta_min'] ?? '',
         'eta_max'       => $_GET['eta_max'] ?? ''
     ];
-    
+    if ($isFromAdmin && isset($_GET['assegnati'])) {
+        $rawFilters['assegnati'] = $_GET['assegnati'];
+    }
+        
     // per DB + paginazione
     
     $filters = $isPreferiti ? null : array_filter(
@@ -372,7 +375,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
         
     /* ------------------ TEMPLATE ------------------ */
     
-    
+    $assegnati = $_GET['assegnati'] ?? null;
     $linkNavAnimali = $isPreferiti ? buildNavAnimali($type, $isPreferiti) : buildNavAnimali($type, $isPreferiti,$filters);
     
     $main = '';

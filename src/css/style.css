@@ -4434,6 +4434,7 @@ div#admin-area article.note{
 }
 #dettaglio-animale.column-container{
     padding: 0;
+    max-width: 100%;
 }
 
 /* Box generico delle informazioni (Sinistra) */
