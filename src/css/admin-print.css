@@ -667,6 +667,10 @@ pre#note-text{
     display: none;
 }
 
+#admin-area #animale-richiesta .square-foto{
+    max-height: 7.5cm;
+    max-width: 11cm;
+}
 
 
 /* NAV DELLE PAGINE SOTTO */
