@@ -152,7 +152,7 @@ $cani_content = "";
 $gatti_content = "";
 $NNonAdminByType = [];
 $linkAttivi = '';
-$perPagina = 8; //8 per pagina? a me sembra un buon numero
+$perPagina = 8; 
 $tipoAttivo = $_GET['tipo'] ?? 'Cani';
 $paginaCorrente = max(1, (int)($_GET['page'] ?? 1));
 $offset = ($paginaCorrente - 1) * $perPagina;
@@ -229,7 +229,7 @@ $replaceFilters = [
 
 $main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);*/
 
-$title = "<title>Animali senza admin - PetMatch</title>";
+$title = "<title>Animali senza amministratore - PetMatch</title>";
 $description = "<meta name='description' content='Pagina di gestione delle richieste di adozione per animali senza amministratore in PetMatch.'>";
 $keywords = "<meta name='keywords' content='richieste, amministratore, animali, PetMatch'>";
 $paginaHTML = str_replace('[title]', $title, $paginaHTML);

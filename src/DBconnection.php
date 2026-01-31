@@ -295,7 +295,7 @@ class DBAccess {
             mysqli_stmt_bind_param($stmt, 'ssi',$oggi, $emailRichiedente, $idAnimale);
         }
         
-        if($statoPrecedente === 'Da trasportare') {
+        if($statoPrecedente === 'Da trasportare' || $statoPrecedente === 'Accettata') {
             //ELIMINA IL TRASPORTO DELLA RICHIESTA SE CE NE ERA UNP
             $query2 = "DELETE FROM TRASPORTI where Email = ? AND IDanimale = ?";
             $stmt2 = mysqli_prepare($this->connection, $query2);
@@ -441,7 +441,6 @@ class DBAccess {
             $data['foto'],
             $email
         );
-
         $success = $stmt->execute();
         
         if ($success) {
@@ -520,7 +519,10 @@ class DBAccess {
         $queries = [
             "query1" => ["sql" => "SELECT COUNT(*) AS totale FROM ANIMALI WHERE Email IS NULL", "param" => null],
             "query2" => ["sql" => "SELECT COUNT(*) AS totale FROM RICHIESTE_ADOZIONI R JOIN ANIMALI A ON R.IDanimale = A.IDanimale WHERE R.Stato = 'In valutazione' AND (R.Appunti IS NULL OR R.Appunti = '') AND A.Email = ?", "param" => $email],
-            "query3" => ["sql" => "SELECT COUNT(*) AS totale FROM SEGNALAZIONI_NUOVE_ACCOGLIENZE", "param" => null],
+            "query3" => [
+                "sql" => "SELECT COUNT(*) AS totale FROM SEGNALAZIONI_NUOVE_ACCOGLIENZE WHERE EmailAmm IS NULL OR EmailAmm = ?", 
+                "param" => $email
+            ],
             "query4" => ["sql" => "SELECT COUNT(*) AS totale FROM RICHIESTE_ADOZIONI R JOIN ANIMALI A ON R.IDanimale = A.IDanimale WHERE R.Stato = 'Nuova' AND A.Email = ?", "param" => $email],
             "query5" => ["sql" => "SELECT COUNT(*) AS totale FROM RICHIESTE_ADOZIONI R JOIN ANIMALI A ON R.IDanimale = A.IDanimale LEFT JOIN TRASPORTI T ON (R.Email = T.Email AND R.IDanimale = T.IDanimale) WHERE R.Stato = 'Da trasportare' AND T.DataArrivo IS NULL AND A.Email = ?", "param" => $email]
         ];
@@ -1827,7 +1829,7 @@ class DBAccess {
     }
 
     /* ---------- ORDINAMENTO + PAGINAZIONE ---------- */
-    $query .= " ORDER BY DataEvento DESC LIMIT ? OFFSET ?";
+    $query .= " ORDER BY DataEvento ASC LIMIT ? OFFSET ?";
 
     $params[] = $limit;
     $params[] = $offset;

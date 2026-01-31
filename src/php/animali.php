@@ -61,7 +61,12 @@ if(isset($_GET['id'])) {
         
         
         
+    // if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_POST['vedi_miei'])) {
+    //     //url corrente preso con _url_ + ?assegnati=miei
         
+    //     exit;
+
+    // }
         
         
     
@@ -91,14 +96,22 @@ if(isset($_GET['id'])) {
     if($isPreferiti) {
         $titolo.=' preferiti';
     }else if($isFromAdmin) {
-        $titolo='Animali assegnati a te';
+        if(isset($_GET['assegnati']) && $_GET['assegnati']=='tutti')
+            $titolo='Tutti gli animali disponibili';
+        else
+            $titolo='Animali assegnati a te disponibili';
     }
     $messaggioNoAnimali = $isPreferiti? 'Non hai ancora salvato nessun animale.': ($isFromAdmin ? 'Non ci sono animali assegnati a te.' : 'Non abbiamo ancora animali disponibili.');
     $assignedButton='';
     if($isAdmin&&!$isFromAdmin) {
-        $assignedButton="<a href='assegnati-a-te' class='brown-button' id='btn-assegnati-a-te' >Assegnati a te</a>";
+        $assignedButton="<a href='animali-admin' class='brown-button' id='btn-assegnamento' >Assegnati a te</a>";
+    }else if($isAdmin&& $isFromAdmin){
+        if(isset($_GET['assegnati']) && $_GET['assegnati']=='tutti')
+            $assignedButton='<form method="get" action="animali-admin"><button type="submit" id="toggle-assegnazione" name="assegnati" value="miei" class="orange-button">Vedi miei</button></form>';
+        else{
+            $assignedButton='<form method="get" action="animali-admin"><button type="submit" id="toggle-assegnazione" name="assegnati" value="tutti" class="orange-button">Vedi tutti</button></form>';
+        }
     }
-    
         
     /* ------------------ FILTRI GET ------------------ */
     $rawFilters = [
@@ -108,7 +121,10 @@ if(isset($_GET['id'])) {
         'eta_min'       => $_GET['eta_min'] ?? '',
         'eta_max'       => $_GET['eta_max'] ?? ''
     ];
-    
+    if ($isFromAdmin && isset($_GET['assegnati'])) {
+        $rawFilters['assegnati'] = $_GET['assegnati'];
+    }
+        
     // per DB + paginazione
     
     $filters = $isPreferiti ? null : array_filter(
@@ -267,7 +283,10 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
     if(!$isFromAdmin) {
         $resetUrl = './animali';
     } else {
-        $resetUrl = './assegnati-a-te';
+        $resetUrl = './animali-admin';
+        if (isset($_GET['assegnati'])) {
+            $resetUrl .= '?assegnati=' . urlencode($_GET['assegnati']);
+        }
     }
     if ($type !== 'tutti') {
         $resetUrl .= '?tipo=' . urlencode($type);
@@ -319,25 +338,25 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
                 $pagina = $pagineTotali;
                 $offset = ($pagina - 1) * $perPagina;
             }
-            
-            $animali = $isFromAdmin ? $connessione->getAssignedAnimalsFilteredPaged($type, $filters, $perPagina, $offset,$adminEmail) : $connessione->getAnimalsFilteredPaged($type, $filters, $perPagina, $offset);
+            if(isset($_GET['assegnati']) && $_GET['assegnati']=='tutti'){ //prende anche animali della pagina user ma non importa perchè l'else lo gestisce
+                $animali = $isFromAdmin ? $connessione->getAnimalsFilteredPaged($type, $filters, $perPagina, $offset) : $connessione->getAnimalsFilteredPaged($type, $filters, $perPagina, $offset);
+            }else{
+                $animali = $isFromAdmin ? $connessione->getAssignedAnimalsFilteredPaged($type, $filters, $perPagina, $offset,$adminEmail) : $connessione->getAnimalsFilteredPaged($type, $filters, $perPagina, $offset);
+            }
             $userEmail = $_SESSION['email'] ?? null;
             $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail,$isFromAdmin) : "<p class='errore'>$messaggioNoAnimali</p>";
-            if($filters) {
-            $params= array_merge(['tipo' => $type], $filters);
-            } else {
-                $params=$type;
-            }
+            $paginationParams = array_merge(['tipo' => $type], $filters ?? []);
+
             $linkPagine = ($pagineTotali > 1)
-        ? (
-            "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine'>
-                <ul aria-label='Pagine di navigazione'>"
-            . buildPagination($pagina, $pagineTotali, $type)
-            . "</ul>
-            </nav>"
-        )
-        : '';
-    
+                ? (
+                    "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine'>
+                        <ul aria-label='Pagine di navigazione'>"
+                    . buildPagination($pagina, $pagineTotali, $paginationParams) // <--- Passiamo l'array completo!
+                    . "</ul>
+                    </nav>"
+                )
+                : '';
+
             $connessione->closeConnection();
         }
     }
@@ -356,7 +375,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
         
     /* ------------------ TEMPLATE ------------------ */
     
-    
+    $assegnati = $_GET['assegnati'] ?? null;
     $linkNavAnimali = $isPreferiti ? buildNavAnimali($type, $isPreferiti) : buildNavAnimali($type, $isPreferiti,$filters);
     
     $main = '';
@@ -383,11 +402,11 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
     $main = str_replace('[BANNERACCEDI]', $banneraccedi, $main);
     $stringaFiltri='';
     if (!$isPreferiti) {
-        $stringaFiltri="<form class='filtri' id='form-ricerca' method='get' action=".($isFromAdmin ? './assegnati-a-te' : './animali').">
+        $stringaFiltri="<form class='filtri' id='form-ricerca' method='get' action=".($isFromAdmin ? './animali-admin' : './animali').">
             <!-- rotta gestita dal router -->
             
             <input type='hidden' name='tipo' value='[TYPE]'/>
-    
+            " . ($isFromAdmin && isset($_GET['assegnati']) ? "<input type='hidden' name='assegnati' value='".htmlspecialchars($_GET['assegnati'])."'/>" : "") . "
             <ul aria-label='Filtri di ricerca'>
                 <li class='capsula-filtro' id='searchName'>
                     <label for='name-animal'>Nome</label>
@@ -454,8 +473,8 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
     $keywords = "<meta name='keywords' content='animali, nome, taglia, sesso, età'>";
     
     
-    $nav = $isPreferiti ? buildNav($userMenu, './preferiti') : ($isFromAdmin ? buildAdminNav($adminMenu, './assegnati-a-te') : buildNav($userMenu, './animali'));
-    $breadcrumb = $isPreferiti ? getBreadcrumb('preferiti', $pagine) : ($isFromAdmin ? getBreadcrumb('assegnati-a-te', $pagine) : getBreadcrumb('animali', $pagine));
+    $nav = $isPreferiti ? buildNav($userMenu, './preferiti') : ($isFromAdmin ? buildAdminNav($adminMenu, './animali-admin') : buildNav($userMenu, './animali'));
+    $breadcrumb = $isPreferiti ? getBreadcrumb('preferiti', $pagine) : ($isFromAdmin ? getBreadcrumb('animali-admin', $pagine) : getBreadcrumb('animali', $pagine));
     
     if(!$isFromAdmin) {
         $paginaHTML = str_replace(

@@ -8,6 +8,7 @@
     --bgcolor: #FFF6D7;
     --navButton: #FFF6D7;
     --logolink: #FFF6D7;
+    --bgtablecells: #E4D4BA;
     --txtcolor: #481515;
     --light-txtcolor: #FFF6D7;
     --cat-txtcolor: #FFF6D7;
@@ -34,6 +35,7 @@
     --selectTypeAnimal: #E4D4BA;
     --limitecaratterecolor: #5e4232;
     
+    --darkMode-bgtablecells: #5B2E25;
     --darkMode-limitecaratterecolor: #481515;
     --darkMdode-selectTypeAnimal: #b79378;
     --darkMode-text-deletebutton: #ba4d3b;
@@ -82,6 +84,7 @@
 }
 
 :root:has(input#theme-toggle:checked){
+    --bgtablecells: var(--darkMode-bgtablecells);
     --limitecaratterecolor : var(--darkMode-limitecaratterecolor);
     --darklinkcolor: var(--darkMode--darklinkcolor);
     --selectTypeAnimal: var(--darkMdode-selectTypeAnimal);
@@ -673,9 +676,11 @@ li.capsula-filtro input:focus{
 
 #introduction-lavora-con-noi a{
     color:var(--darklinkcolor);
-    font-weight: 500;
 }
 
+#introduction-lavora-con-noi a:visited{
+    color:var(--visitedcolor);
+}
 
 #come-diventare-volontario {
     background-color: var(--greencolor); 
@@ -739,8 +744,12 @@ li.capsula-filtro input:focus{
 }
 
 #contatto-sostenitore a {
-    color: var(--txtcolor);
+    color: var(--darklinkcolor);
     text-decoration: underline;
+}
+
+#contatto-sostenitore a:visited{
+    color:var(--darklinkcolor);
 }
 
 #contatto-sostenitore p,
@@ -2553,7 +2562,6 @@ cursor: pointer;
     width: 100%;
     height: 10em;
     /* display: block; */
-    min-width: 30em;
     padding-right: 1em;
     background-color: var(--darkbgcolor);
     /* border: 0.1em solid var(--darkbgcolor); */
@@ -2571,7 +2579,7 @@ cursor: pointer;
     border-radius: 0.5em;
     list-style: none;
     flex: 1 1 45%;
-    /* max-width: 47%; */
+    max-width: 49%;
     height: 10em;
     /* display: block; */
     background-color: var(--darkbgcolor);
@@ -2609,6 +2617,10 @@ cursor: pointer;
     object-fit: contain;
 }
 
+#visualizzazione-evento .evento .data-evento img{
+    margin-bottom:-0.2em;
+}
+
 #eventi .evento .posizione-evento img {
     float: left;
 }
@@ -2633,7 +2645,6 @@ cursor: pointer;
     display: flex;
 }
  #visualizzazione-evento .evento .data-evento{
-
     gap: 0.2em;
     margin-right: 0.6em;
     margin-top: 0.4em;
@@ -2650,6 +2661,7 @@ cursor: pointer;
 }
 #visualizzazione-evento .evento h2 {
     font-size: 1em;
+    word-break: break-all;
     margin: 0.5em auto 0.5em 0;
 }
  
@@ -3623,11 +3635,16 @@ button[name="show-dialog"].button-cancel img{
 
 #orari-chi-siamo table#tabella-chi-siamo thead {
     background-color: var(--headercolor);
-    color: var(--bgcolor);
+    color: var(--light-txtcolor);
+}
+
+#orari-chi-siamo table#tabella-chi-siamo thead th{
+    border-bottom: 1px solid var(--headervisitedlink);
+
 }
 
 #orari-chi-siamo table#tabella-chi-siamo tbody td {
-    background-color: var(--darkbgcolor);
+    background-color: var(--bgtablecells);
     color: var(--txtcolor);
     border-bottom: 1px solid var(--headervisitedlink);
 }
@@ -3638,6 +3655,7 @@ button[name="show-dialog"].button-cancel img{
     margin-right: auto;
     width: 33.333%;
 }
+
 
 #orari-chi-siamo table#tabella-chi-siamo {
     border: 1px solid var(--headervisitedlink);
@@ -3831,9 +3849,7 @@ body#admin-body #richieste .filtri button{
 
 body#admin-body #animali .filtri .capsula-filtro,
 body#admin-body #richieste .filtri .capsula-filtro{
-    /* margin-left: auto; */
     margin-right: 0;
-    /* gap:0; */
     flex:0 0 fit-content;
 }
 
@@ -3907,7 +3923,13 @@ ul#statistics-list li{
     text-decoration: none;
     font-weight: normal;
 }
-
+#to-do-list li:hover{
+    background-color: var(--buttoncolor-hover); 
+    transition: background-color 0.3s ease;
+}
+#to-do-list li:hover a{
+    color: var(--hovertext-form-button);
+}
 p.query-type{
     font-size: 0.9em;
     line-height: normal;
@@ -4068,9 +4090,11 @@ a.pencil {
     flex-wrap: wrap;
     align-items: flex-start;
 }
-
+.header-info + .generic-info-container img{
+    flex: 0 0 20%;
+}
 .header-info + .generic-info-container .text-details{
-    width: 40%;
+    flex: 1 1 60%;
 }
 
 .header-info + .generic-info-container:has(.edit-mode){
@@ -4410,6 +4434,7 @@ div#admin-area article.note{
 }
 #dettaglio-animale.column-container{
     padding: 0;
+    max-width: 100%;
 }
 
 /* Box generico delle informazioni (Sinistra) */
@@ -4512,6 +4537,10 @@ h2+#animale-richiesta .generic-info-container img.square-foto{
 #admin-area h2+#animale-richiesta .generic-info-container img.square-foto + .text-details{
     width: auto;
     padding-left: 0;
+}
+
+#informazioni-admin dd.admin-email{
+    word-break: break-all;
 }
 
 
@@ -4766,7 +4795,9 @@ td.col-dettagli a:hover img{
 } */
 
 /*================== ANIMALI ASSEGNATI A TE ADMIN  ==================*/
-
+div#admin-area #toggle-assegnazione{
+    margin: 0em 0em 0em auto;
+}
 div#admin-area .container{
     max-width: none;
 }
@@ -5799,8 +5830,6 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
 }
 
 #come-funziona #comeSiAdotta .testo {
-    text-align: right;
-    /* margin: 2em; */
     margin-left: 0;
     flex: 1 1 70%;
     justify-content: flex-start;
@@ -5808,7 +5837,41 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
 
 #come-funziona #comeSiAdotta .testo a{
     color: var(--linkcolor);
-    /* z-index: ; */
+}
+
+#come-funziona #comeSiAdotta .testo a:visited{
+    color: var(--visitedcolor);
+}
+
+a#insta-link:visited{
+    color: var(--linkcolor);
+}
+
+#come-funziona #comeSiAdotta p{
+    margin-bottom: 1em;
+}
+
+footer address a.email:visited,
+#come-funziona #comeSiAdotta address a.email:visited{
+    color: var(--linkcolor);
+}
+
+#come-funziona #invitoLavoro a.brown-button:visited{
+    color:var(--visitedcolor);
+}
+
+#come-funziona .testo a,
+#come-funziona #provAnimali a{
+    color: var(--txtcolor);
+}
+
+#come-funziona .testo a:visited,
+#come-funziona #provAnimali a:visited{
+    color: var(--headervisitedlink);
+}
+
+#come-funziona #provAnimali a.tel:visited{
+    color: var(--txtcolor);
 }
 
 #come-funziona #comeSiAdotta .testo ul {
@@ -5892,11 +5955,6 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     margin: 4em 0em;
 }
 
-#come-funziona #provAnimali a {
-    color: var(--txtcolor);
-    text-decoration: underline;
-}
-
 #come-funziona #invitoLavoro {
     margin-top: 3em;
     background-color: var(--bgform);
@@ -5967,16 +6025,6 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     flex: 1 1 20%;
     min-width: 1em;
     padding-top: 2em;
-}
-
-#trasporto {
-    background-color: var(--headercolor);
-    width: 100vw; 
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 0.7em 0; 
-    color: var(--light-txtcolor);
 }
 
 #trasporto > div:first-child {

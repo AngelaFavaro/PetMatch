@@ -21,6 +21,11 @@ $url=$isAdmin?'dettagli-evento':'visualizzazione-evento';
 $titoloGET = $_GET['titolo'] ?? null;
 $dataGET   = $_GET['data'] ?? null;
 
+if(!$titoloGET || !$dataGET){
+    header("Location: ./eventi");
+    exit;
+}
+
 $classCollaboratori='';
 if($isAdmin) {
     $classCollaboratori="class='collaboratori'";
@@ -69,18 +74,18 @@ function buildEventsCards($events): string {
         $altriEventi .= "<li>
                     <article class='evento'>
                         <!-- Immagine dell'evento -->
-                        <img class='immagine-evento' src=$img alt=''>
-                        <h2 id='evento-titolo-$titolo'>$titolo</h2>
+                        <img class='immagine-evento' src='$img' alt=''>
+                        <h2>$titolo</h2>
                         
                         <!-- Data dell'evento -->
                         <p class='data-evento'>
                             <!-- icona decorativa -->
                             <img src='assets/icons/calendar.svg' alt='' aria-hidden='true' class='icon-calendar'>
                             <!-- data semantica -->
-                            <time datetime=$data>$data</time>
+                            <time datetime='".$e['data_evento']."'>$data</time>
                         </p>
                         <div class='dettagli-evento-bottone'>
-                        <a href='visualizzazione-evento?titolo=".urlencode($titolo)."&data=".urlencode($e['data_evento'])."'>Vedi dettagli</a>
+                        <a href='visualizzazione-evento?titolo=".urlencode($e['titolo'])."&data=".urlencode($e['data_evento'])."'>Vedi dettagli</a>
                     </div>
                     </article>
                 </li>
@@ -114,28 +119,29 @@ function buildMainevent(array $dettagliEvento, int $isAdmin=0): string {
 
         // 3. Creazione del blocco HTML (con le variabili ora piene!)
         $html = "<div id='mainEvent' [COLLABORATORI]>
-        <div id='evento'>
-        <div class='edit-btn-container'>
+        <div id='evento'>";
+        if ($isAdmin) {
+        $html .="<div class='edit-btn-container'>
                 <form method='post'>
                     <button type='submit' name='show-dialog' class='button-cancel'>
                         <img src='assets/icons/delete-trash.svg' alt='' />Elimina evento
                     </button>
                 </form>";
+            if ($date) {
+                $dataEvento = DateTime::createFromFormat('Y-m-d', $date);
+                $oggi = new DateTime('today');
 
-        if ($isAdmin && $date) {
-            $dataEvento = DateTime::createFromFormat('Y-m-d', $date);
-            $oggi = new DateTime('today');
-
-            if ($dataEvento && $dataEvento > $oggi) {
-                $html.="
-
-
+                if ($dataEvento && $dataEvento > $oggi) {
+                    $html.="
                 <a class='orange-button' href='modifica-evento?titolo=$titolo&data=$date'>Modifica<span class='sr-only'> scheda evento</span></a>
                 ";
             }
         }
+        $html .="</div>";
+        }
+
+        
         $html.="
-        </div>
         <img class='square-foto' id='foto-animale' src='$img' alt='foto del luogo per evento  $titolo'>
 
         <dialog [openDialog] class='overlay-content'>
