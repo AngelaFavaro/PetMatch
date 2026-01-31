@@ -36,10 +36,10 @@ $routes = [
     'registrati' => [
         'file' => __DIR__ . '/src/php/registrati.php'
     ],
-   'visualizzazione-animale' => [
+    'visualizzazione-animale' => [
         'file' => __DIR__ . '/src/php/visualizzazione-animale.php'
     ],
-   'visualizzazione-evento' => [
+    'visualizzazione-evento' => [
         'file' => __DIR__ . '/src/php/visualizzazione-evento.php'
     ],    
     'preferiti' => [
@@ -92,9 +92,6 @@ $routes = [
     ],
     'visualizzazione-eventi' => [
         'file' => __DIR__ . '/src/php/admin/visualizzazione-eventi.php'
-    ],
-    'visualizzazione-animale' => [
-        'file' => __DIR__ . '/src/php/visualizzazione-animale.php'
     ],
     'dettagli-evento' => [
         'file' => __DIR__ . '/src/php/admin/dettagli-evento.php'
