@@ -4,7 +4,6 @@ include './src/DBconnection.php';
 use DB\DBAccess;
 session_start();
 
-// 1. Controllo Accesso
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
     if(isset($_GET['id-animale'])){
         header("Location: ./visualizzazione-animale?=".urlencode($_GET['id-animale']));
@@ -14,7 +13,6 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
     exit;
 }
 
-// 2. Parametri e Inizializzazione
 $idAnimale = $_GET['id-animale'] ?? null;
 $emailLoggato = $_SESSION['email'] ?? '';
 $fromEmail = $_GET['from_email'] ?? null; 
@@ -67,9 +65,68 @@ function createAnimalRequestList(array $richieste): string {
     return '<div id="start-requests" class="requests-container">' . $htmlOutput . '</div>';
 }
 
+function buildAnimalButtons(int $idAnimale, array $richiesta, string $emailLoggato, ?string $from, ?string $fromEmail, array $pagine): array {
+    $isOwner = (isset($richiesta['EmailAdmin']) && $richiesta['EmailAdmin'] === $emailLoggato);
+    
+    $buttons = [
+        'modifica' => '',
+        'elimina' => '',
+        'assegnazione' => ''
+    ];
+
+    if ($isOwner) {
+        $params = ["id-animale" => $idAnimale];
+        if ($from) $params['from'] = $from;
+        if ($fromEmail) $params['from_email'] = $fromEmail;
+        $urlModifica = $pagine['modifica-animale']['url'] . "?" . http_build_query($params);
+    
+        $buttons['modifica'] = '
+            <div class="edit-btn-container">
+                <a href="' . e($urlModifica) . '" class="orange-button">
+                    Modifica
+                </a>
+            </div>';
+        
+        $buttons['elimina'] = '
+            <form method="post">
+                <button type="submit" name="show-dialog" class="button-cancel">
+                    <img src="./assets/icons/delete-trash.svg" alt="" />Elimina animale
+                </button>
+            </form>';
+        
+        $buttons['assegnazione'] = '
+            <form method="post">
+                <button type="submit" name="delete-assignment" class="orange-button">Toglimi dall\'assegnazione</button>
+            </form>';
+    } else {
+        $buttons['elimina'] = '<p class="read-only-badge">Sola lettura: non sei l\'amministratore assegnato.</p>';
+    }
+    
+    return $buttons;
+}
+
+function handleAnimalActions(DBAccess $conn, int $idAnimale): void {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-assignment'])) {
+        if ($conn->removeAdminAssignment($idAnimale)) {
+            $conn->closeConnection();
+            header("Location: ./assegnati-a-te");
+            exit;
+        }
+    }
+    
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-animale'])) {
+        deleteStoredFile($conn->getFotoAnimalById($idAnimale));    
+        if ($conn->deleteAnimal($idAnimale)) {
+            $conn->closeConnection();
+            header("Location: ./assegnati-a-te");
+            exit;
+        }
+    }
+}
+
 $connessione = new DBAccess();
 $connessioneOK = $connessione->openDBConnection();
-$richiesta = null; 
+$richiesta = null;
 $btnModifica = '';
 $btnEliminaHTML = '';
 $btnAssegnazione = '';
@@ -80,71 +137,13 @@ if ($connessioneOK) {
     $richiesta = $connessione->getAnimalById($idAnimale);
 
     if ($richiesta) {
-        $isOwner = (isset($richiesta['EmailAdmin']) && $richiesta['EmailAdmin'] === $emailLoggato);
-        // --- GESTIONE AZIONI POST ---
-        // if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-assignment'])) {
-        //     if ($isOwner) {
-        //         if ($connessione->removeAdminAssignment($idAnimale)) {
-        //             $connessione->closeConnection();
-        //             header("Location: ./senza-amministratore");
-        //              exit;
-        //         }
-        //     } 
-        // }
+        handleAnimalActions($connessione, $idAnimale);
 
-        // // --- GENERAZIONE URL E BOTTONI ---
-        // $urlModifica = $pagine['modifica-animale']['url'] . "?id-animale=" . urlencode($idAnimale);
-        // if ($from) $urlModifica .= "&from=" . urlencode($from);
-        // if ($fromEmail) $urlModifica .= "&from_email=" . urlencode($fromEmail);
+        $buttons = buildAnimalButtons($idAnimale, $richiesta, $emailLoggato, $from, $fromEmail, $pagine);
+        $btnModifica = $buttons['modifica'];
+        $btnEliminaHTML = $buttons['elimina'];
+        $btnAssegnazione = $buttons['assegnazione'];
 
-        if ($isOwner) {
-            $params = ["id-animale" => $idAnimale];
-            if ($from) $params['from'] = $from;
-            if ($fromEmail) $params['from_email'] = $fromEmail;
-            $urlModifica = $pagine['modifica-animale']['url'] . "?" . http_build_query($params);
-        
-            // Tasto Modifica
-            $btnModifica = '
-                <div class="edit-btn-container">
-                    <a href="' . e($urlModifica) . '" class="orange-button">
-                        Modifica
-                    </a>
-                </div>';
-            
-            $btnEliminaHTML = '
-                <form method="post">
-                    <button type="submit" name="show-dialog" class="button-cancel">
-                        <img src="./assets/icons/delete-trash.svg" alt="" />Elimina animale
-                    </button>
-                </form>';
-            
-            $btnAssegnazione = '
-                <form method="post">
-                    <button type="submit" name="delete-assignment" class="orange-button">Toglimi dall\'assegnazione</button>
-                </form>';
-
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-assignment'])) {
-                if ($connessione->removeAdminAssignment($idAnimale)) {
-                    $connessione->closeConnection();
-                    header("Location: ./animali-admin");
-                    exit;
-                }
-            }
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-animale'])) {
-                    deleteStoredFile($connessione->getFotoAnimalById($idAnimale));    
-                if ($connessione->deleteAnimal($idAnimale)) {
-                    $connessione->closeConnection();
-                    header("Location: ./animali-admin");
-                    exit;
-                }
-            }
-        } else {
-            $btnModifica = '';
-            $btnEliminaHTML = '<p class="read-only-badge">Sola lettura: non sei l\'amministratore assegnato.</p>';
-            $btnAssegnazione = '';
-        }
-
-        // Dati Richieste e Conteggi
         $elencoRichiesteDati = $connessione->getAnimalRequestsId($idAnimale);
         $listRequestHTML = empty($elencoRichiesteDati) ? "<p>Nessuna richiesta per questo animale.</p>" : createAnimalRequestList($elencoRichiesteDati);
         $NRequestsByStatus = $connessione->getNRequestByStatusAnimal($idAnimale);
@@ -156,22 +155,23 @@ if (!$richiesta) {
     die("Errore: Animale non trovato o ID non valido.");
 }
 
-// 5. CARICAMENTO LAYOUT E SOSTITUZIONI
 $breadcrumb = getBreadcrumb('dettagli-animale', $pagine);
 $paginaHTML = loadTemplate('./src/template/layout-admin.html');
 $main = loadTemplate('./src/template/main/admin/dettagli-animale.html');
 
 $title = '<title>Dettagli ' . e($richiesta['Nome'] ?? 'Animale') . ' - Admin PetMatch</title>';
-$description = '<meta name="description" content="Visualizzazione dettagliata dell\'animale">';
+$description = '<meta name="description" content="Visualizzazione dettagliata per amministratori di un animale in PetMatch">';
+$keywords = "<meta name='keywords' content='amministratore, dettaglio, animale, PetMatch'>";
 
 // Navigazione attiva
 $activeNav = $fromEmail ? 'richieste-adozione' : ($from === 'senza-admin' ? 'senza-amministratore' : 'animali-admin');
 $nav = buildAdminNav($adminMenu, $activeNav);
-// Sostituzioni Header
+
 $paginaHTML = str_replace(['[breadcrumb]', '[title]', '[nav]', '[description]', '[keywords]'], 
                          [$breadcrumb, $title, $nav, $description, ""], 
                          $paginaHTML);
-// Sostituzioni Main (Info Base)
+
+
 $main = str_replace('[nomeAnimale]', e($richiesta['Nome'] ?? 'N/D'), $main);
 $imgPath = $richiesta['ImgPath'] ?? '';
 if (!$imgPath || !file_exists($imgPath)) {
@@ -201,11 +201,9 @@ $condizioni = ($richiesta['CondizioniMediche'] === null || $richiesta['Condizion
 $main = str_replace('[condizioniMediche]', $condizioni, $main);
 
 $urlModifica = $pagine['modifica-animale']['url'] . "?id-animale=" . urlencode($idAnimale);
-
 if ($from) {
     $urlModifica .= "&from=" . urlencode($from);
 }
-
 if (isset($_GET['from_email'])) {
     $urlModifica .= "&from_email=" . urlencode($_GET['from_email']);
 }
@@ -214,16 +212,14 @@ $main = str_replace('[pulsanti-modifica-animale]', $btnModifica, $main);
 $main = str_replace('[pulsante-elimina-animale]', $btnEliminaHTML, $main); 
 $main = str_replace('[pulsante-assegnazione]', $btnAssegnazione, $main);
 
-// Conteggi Tab e Lista Richieste
+
 $main = str_replace([
     '[n-nuove]', '[n-valutazione]', '[n-accettate]', '[n-respinte]', '[n-annullate]', '[n-trasporto]'
 ], [
     $NRequestsByStatus['Nuova'] ?? 0, $NRequestsByStatus['In valutazione'] ?? 0, $NRequestsByStatus['Accettata'] ?? 0,
     $NRequestsByStatus['Respinta'] ?? 0, $NRequestsByStatus['Annullata'] ?? 0, $NRequestsByStatus['Da trasportare'] ?? 0
 ], $main);
-
 $main = str_replace('[elencoRichieste]', $listRequestHTML, $main);
-
 $showModal = $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['show-dialog']);
 $main = str_replace('[openDialog]', ($showModal ? 'open' : ''), $main);
 
