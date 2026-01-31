@@ -43,7 +43,7 @@ article{
     margin-bottom: 1cm;
 }
 
-a:not(#logo-link):not(.pencil):not([href^="mailto:"])::after {
+a:not(#logo-link):not(.pencil):not([href^="mailto:"])::after::not(.currentLinkPagination) {
     content: " [" attr(href) "]";
     margin-left: 0.4em;
     overflow-wrap: break-word; 
@@ -771,3 +771,41 @@ pre#note-text{
 #admin-area #container-animal-details .text-details dd {
     display: flex;
 }
+
+/* --------------------EVENTI---------------- */
+
+
+#admin-body article.card,
+#admin-body .evento{
+    padding:0.3cm;
+    border:1px solid var(--lightborder);
+    height:100%;
+    border-radius: 0.1cm;
+    text-align: left;
+}
+
+
+#admin-body .cards-container:has(article.card) li,
+#admin-body .cards-container:has(.evento) li{
+    flex-grow: 1;
+    justify-content: space-between;
+    flex: 0 0 100%;
+    display: flex;
+    list-style: none;
+    box-sizing: border-box;
+    flex-direction: column;
+    margin-bottom: -0.8cm;
+}
+
+
+
+#admin-body .evento img.immagine-evento{
+    max-height: 3cm;
+    max-width: 4cm;
+    margin: 0 0.5cm 0.3cm 0;
+    padding-right: 0;
+}
+
+.currentLinkPagination li{
+   display: none;
+ }
