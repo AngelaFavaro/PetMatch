@@ -723,3 +723,49 @@ pre#note-text{
 #animali .next-page-links .currentLinkPagination, #eventi .next-page-links .currentLinkPagination {
     justify-content: center;
 }
+
+
+/*----------------------------DETTAGLI ANIMALE ADMIN------------------------------ */
+#admin-area #animale-detailed-container .button-cancel{
+    margin-bottom: 0.4cm;
+}
+#admin-area #animale-detailed-container .button-cancel img{
+    display: none;
+}
+/* #admin-area #animale-detailed-container #description-info-container{
+
+} */
+#animale-detailed-container {
+    display: flex;
+    flex-direction: column; 
+}
+
+#animale-detailed-container .generic-info-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#container-animal-details {
+    display: flex;
+    flex-direction: row; 
+    margin-top: 0.4cm;
+    align-items: center;
+}
+
+.description-info-container {
+    margin-top: 0.4cm;
+}
+
+#admin-area #animale-detailed-container .square-foto{
+
+    max-height: 8cm;
+    max-width: 11cm;
+}
+
+
+#container-animal-details .text-details {
+    margin-left: 0.5cm;}
+
+#container-animal-details .text-details dd {
+    display: flex;
+}
