@@ -3,10 +3,6 @@ use DB\DBAccess;
 require_once './src/utils.php';
 require_once './src/DBconnection.php';
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 if(isset($_GET['id'])) {
     require './src/php/visualizzazione-animale.php';
 }else{
@@ -458,19 +454,19 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
     
         if($isFromAdmin) {
             $title = '<title>Animali assegnati a te - PetMatch</title>';
-            $description = '<meta name="description" content="Animali assegnati a te in adozione su PetMatch">';
+            $description = '<meta name="description" content="Visualizzazione lista di animali assegnati ad un amministratore in adozione su PetMatch">';
     
         }else{
             $title = '<title>Animali - PetMatch</title>';
-            $description = '<meta name="description" content="Animali in adozione su PetMatch">';
+            $description = '<meta name="description" content="Visualizzazione degli animali in adozione su PetMatch">';
         }
     }else{
         $main = str_replace('[FILTRI]', $stringaFiltri, $main);
         $title = '<title>Animali preferiti - PetMatch</title>';
-        $description = '<meta name="description" content="i tuoi animali preferiti in adozione su PetMatch">';
+        $description = '<meta name="description" content="Visualizzazione degli animali preferiti preferiti per un utente in adozione su PetMatch">';
     
     }
-    $keywords = "<meta name='keywords' content='animali, nome, taglia, sesso, età'>";
+    $keywords = "<meta name='keywords' content='animali, nome, taglia, sesso, età, adozione, PetMatch, colore, pelo, cane, gatto, piccione'>";
     
     
     $nav = $isPreferiti ? buildNav($userMenu, './preferiti') : ($isFromAdmin ? buildAdminNav($adminMenu, './animali-admin') : buildNav($userMenu, './animali'));

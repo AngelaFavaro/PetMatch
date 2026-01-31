@@ -2,10 +2,6 @@
 require_once './src/utils.php';
 require_once './src/DBconnection.php';
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 use DB\DBAccess;
 
 $idAnimale = $_GET['id'] ?? null;
@@ -19,7 +15,6 @@ $infoUtente = null; // Variabile per dati utente
 
 $infoAggiuntive = '';
 
-// Variabili per il form (inizializzate vuote o con default)
 $messaggiErrore = [
     'general' => '',
     'lettera' => '',
@@ -35,11 +30,6 @@ $valLettera = '';
 $valTrasporto = '';
 $editAddressPermission = false;
 
-//messaggio per laura quando andrà a mettere tutte le funzioni fuori dalla connessione db:
-//dato che ho messo il form dentro un details per poterlo aprire con un pulsante, mi serve che se ci sono degli errori
-//allora me lo apre, potrei farlo con js ma se lo disattivi allora potrebbe non essere per NIENTE intuitivo (io non
-//stavo capendo perché non andava), quindi questo mi serve per modificare un placeholder, se è true allora metto open sul
-//details, altrimenti no
 $openDetails = false;
 
 function handleAdoptionRequest(
@@ -64,9 +54,6 @@ function handleAdoptionRequest(
         'generic' => ''
     ];
 
-    /* =====================================================
-       RECUPERO ERRORI E INPUT DA SESSIONE (POST → REDIRECT)
-       ===================================================== */
     if (isset($_SESSION['form_status']) && $_SESSION['form_status'] === 'error') {
 
         $savedErrors = $_SESSION['form_errors'] ?? [];
@@ -87,9 +74,6 @@ function handleAdoptionRequest(
         unset($_SESSION['form_status'], $_SESSION['form_errors'], $_SESSION['form_inputs']);
     }
 
-    /* ==========================
-       GESTIONE SUBMIT FORM
-       ========================== */
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit-adoption-request'])) {
 
         $lettera = trim($_POST['lettera-presentazione'] ?? '');
@@ -106,7 +90,6 @@ function handleAdoptionRequest(
 
         $errors = [];
 
-        /* ========= VALIDAZIONE ========= */
 
         if (strlen($lettera) < 10) {
             $errors['lettera'] = "La lettera di presentazione è troppo breve.";
@@ -181,9 +164,6 @@ function handleAdoptionRequest(
         exit;
     }
 
-    /* ==========================
-       PRECARICAMENTO DA DB
-       ========================== */
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         $valVia   = $infoUtente['Via']? htmlspecialchars($infoUtente['Via'], ENT_QUOTES, 'UTF-8') : $valVia;
         $valCitta   = $infoUtente['Citta']? htmlspecialchars($infoUtente['Citta'], ENT_QUOTES, 'UTF-8') : $valCitta;
@@ -230,7 +210,6 @@ function handleFavorites(
         saveGuestFavorites($preferiti);
     }
 
-    // ===== AJAX =====
     if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
         strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
 
@@ -242,15 +221,9 @@ function handleFavorites(
         exit;
     }
 
-    // ===== FALLBACK (no JS) =====
     header("Location: " . $_SERVER['REQUEST_URI']);
     exit;
 }
-
-
-
-
-
 
 
 
@@ -275,7 +248,6 @@ if ($connection->openDBConnection()) {
             $inPreferiti = in_array($idAnimale, $guestFavs);
         }
         
-        // ... (Tuoi assegnamenti variabili animale) ...
         $nome = htmlspecialchars($dettagliAnimale['nome']);
         $sesso = $dettagliAnimale['sesso'] === 'M' ? 'Maschio' : 'Femmina';
         $eta = $dettagliAnimale['eta'];
@@ -295,10 +267,8 @@ if ($connection->openDBConnection()) {
         }
         if ($utenteAccesso) {
             
-            // Recupero info utente base per popolare il form (se non è un POST di errore)
             $infoUtente = $connection->getUserInfo($emailUtente);            
 
-            // GESTIONE POST RICHIESTA ADOZIONE
             $messaggiErrore = handleAdoptionRequest(
             $connection,
             $emailUtente,
@@ -312,45 +282,33 @@ if ($connection->openDBConnection()) {
             $openDetails
             );
 
-            // Stato richiesta attuale
             $richiesta = $connection->getRequestStatus($emailUtente, $idAnimale);
 
             $richiestaData = $connection->getAnimalArrivalDate($idAnimale);
             $connection->closeConnection();
-            $dataArrivo = ''; 
-
-            
+            $dataArrivo = '';    
         }
         
-        
-        // ... (Variabili preferiti visuali) ...
-        $classePreferito = $inPreferiti ? 'is-favorite' : 'not-favorite';
+                $classePreferito = $inPreferiti ? 'is-favorite' : 'not-favorite';
         $heartNormal = $inPreferiti ? 'active-like.svg' : 'inactive-like.svg';
         $heartHover = $inPreferiti ? 'inactive-like.svg' : 'active-like.svg';
         $statusPreferiti = $inPreferiti ? 'Rimuovi dai preferiti' : 'Aggiungi ai preferiti';
         
-        // Gestione Immagine finale
          if (!empty($dettagliAnimale['imgPath']) && file_exists($dettagliAnimale['imgPath'])) {
             $img = $dettagliAnimale['imgPath'];
         } else {
             $img = ($dettagliAnimale['tipo']==='Cane') ? 'assets/images/animals/defaultCane.jpg' : 'assets/images/animals/defaultGatto.jpg';
         }
-
-        // 2. GESTIONE POST PREFERITI
-
-        // 3. GESTIONE LOGICA UTENTE LOGGATO (Info e Form Adozione)
         
         if(isset($richiestaData) && !empty($richiestaData)){
     $dataArrivo =  date("d/m/Y", strtotime($richiestaData));
     } else $dataArrivo="non ancora stabilita";
 } else {
-    // Gestione errore connessione DB
     $messaggiErrore['generic'] = "<p class='error'>Impossibile completare l'operazione, riprova più tardi.</p>";
 }
 
 
 
-// DEFINIZIONE CONTENUTO PAGINA (Form o Stato)
 $contenutoPagina = "";
 $statoRichiesta = "";
 $contattaci="";
@@ -364,7 +322,6 @@ if (!$utenteAccesso) {
     $infoAggiuntive='info-aggiuntive-separate';
 } else if (($richiesta === false || $richiesta === null) && $isAdmin === false) {
     $contattaci="<a href='mailto:matchpet48@gmail.com' target='_blank' class='brown-button' id='contatta-il-rifugio'>Contatta il rifugio</a>";
-    // FORM ADOZIONE
     $infoAggiuntive='info-aggiuntive-separate';
     $readonlyAttr = $editAddressPermission ? '' : 'readonly';
     $messaggioAddress= $editAddressPermission ? "<p>Il profilo utente verrà aggiornato con l'indirizzo inserito.</p>" : "<p>Il profilo utente non può essere aggiornato con un nuovo indirizzo perché hai almeno una richiesta di adozione con l'animale in trasporto</p>";
@@ -431,10 +388,10 @@ if (!$utenteAccesso) {
                                 <input type='checkbox' id='trasporto' name='trasporto' [trasporto-richiesto]/>
                                 <label for='trasporto'>
                                     <p class='checkbox-title'>Voglio il trasporto dell’animale a casa</p>
-                                    <p class='checkbox-description'>Spuntando la casella, verrà programmato il trasporto dell’animale. Ci si prende la responsibilità di essere presenti nel domicilio indicato alla data che verrà comunicata per email.</p>
+                                    <p class='checkbox-description'>Spuntando la casella, verrà programmato il trasporto dell’animale. Ci si prende la responsabilità di essere presenti nel domicilio indicato alla data che verrà comunicata per mail.</p>
                                 </label>
                             </div>
-                            <button class='orange-button' name='submit-adoption-request' type='submit'>Invia il Form</button>
+                            <button class='orange-button' name='submit-adoption-request' type='submit'>Invia il modulo</button>
                         </fieldset>
                     </form>
                 </div>
@@ -442,7 +399,6 @@ if (!$utenteAccesso) {
         </div>
     </div>";
 
-    // Replacement Placeholders nel Form
     $contenutoPagina = str_replace('[VALORE_LETTERA]', $valLettera, $contenutoPagina);
     $contenutoPagina = str_replace('[via-utente]', $valVia, $contenutoPagina);
     $contenutoPagina = str_replace('[citta-utente]', $valCitta, $contenutoPagina);
@@ -469,8 +425,7 @@ if (!$utenteAccesso) {
                         <p> Hai una richiesta di adozione pendente per questo animale, attendi che ti venga comunicato l’esito! </p>
                         <p> Qualche problema o domanda? Valuta di contattarci </p>
                     </div>
-                <a href='mailto:matchpet48@gmail.com' class='brown-button' id='contatta-il-rifugio'>Contatta il rifugio</a> "
-;   
+                <a href='mailto:matchpet48@gmail.com' class='brown-button' id='contatta-il-rifugio'>Contatta il rifugio</a> ";   
                 break;
 
         }
@@ -499,8 +454,7 @@ if (!$utenteAccesso) {
                         <p> Data di arrivo: <span class='enfatizzato'>$dataArrivo</span> </p> 
                         <p> Qualche problema o domanda? Valuta di contattarci </p>
                     </div>
-                    <a href='mailto:matchpet48@gmail.com' class='brown-button' id='contatta-il-rifugio'>Contatta il rifugio</a> 
-                ";
+                    <a href='mailto:matchpet48@gmail.com' class='brown-button' id='contatta-il-rifugio'>Contatta il rifugio</a> ";
                 break;
         }
         case 'Respinta':{
@@ -530,16 +484,13 @@ if (!$utenteAccesso) {
                     <a href='mailto:matchpet48@gmail.com' class='brown-button' id='contatta-il-rifugio'>Contatta il rifugio</a> 
                 ";
                 break;
-
         }
-        
         default:
         {    
             $infoAggiuntive='info-aggiuntive-separate';
             $contenutoPagina = ''; }
     }
 }
-// COSTRUZIONE BLOCCHI HTML
 
 $CARDANIMALE1 = "
     <img id='foto-animale' class='square-foto' src='$img' alt='Foto di $nome' />  
@@ -580,12 +531,11 @@ $CARDANIMALE2 = $infoAggiuntive==='info-aggiuntive-separate' ? "
 </div>";
 
 
-// PAGE RENDERING
 $paginaHTML = file_get_contents('./src/template/layout.html');
 
 $title = "<title>$nome - PetMatch</title>";
-$description = "<meta name='description' content='Scheda di $nome disponibile per adozione'>";
-$keywords = "<meta name='keywords' content='$nome, adozione, PetMatch, $razza'>";
+$description = "<meta name='description' content='Scheda dell'animale: $nome, disponibile per adozione'>";
+$keywords = "<meta name='keywords' content='$nome, adozione, PetMatch, $razza, animali, rofugio'>";
 $breadcrumb = getBreadcrumb('visualizzazione-animale', $pagine);
 $nav = buildNav($userMenu, './visualizzazione-animale');
 $main = file_get_contents('./src/template/main/visualizzazione-animale.html');
