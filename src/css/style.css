@@ -673,9 +673,11 @@ li.capsula-filtro input:focus{
 
 #introduction-lavora-con-noi a{
     color:var(--darklinkcolor);
-    font-weight: 500;
 }
 
+#introduction-lavora-con-noi a:visited{
+    color:var(--visitedcolor);
+}
 
 #come-diventare-volontario {
     background-color: var(--greencolor); 
@@ -739,8 +741,12 @@ li.capsula-filtro input:focus{
 }
 
 #contatto-sostenitore a {
-    color: var(--txtcolor);
+    color: var(--darklinkcolor);
     text-decoration: underline;
+}
+
+#contatto-sostenitore a:visited{
+    color:var(--darklinkcolor);
 }
 
 #contatto-sostenitore p,
@@ -5799,8 +5805,6 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
 }
 
 #come-funziona #comeSiAdotta .testo {
-    text-align: right;
-    /* margin: 2em; */
     margin-left: 0;
     flex: 1 1 70%;
     justify-content: flex-start;
@@ -5808,7 +5812,41 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
 
 #come-funziona #comeSiAdotta .testo a{
     color: var(--linkcolor);
-    /* z-index: ; */
+}
+
+#come-funziona #comeSiAdotta .testo a:visited{
+    color: var(--visitedcolor);
+}
+
+a#insta-link:visited{
+    color: var(--linkcolor);
+}
+
+#come-funziona #comeSiAdotta p{
+    margin-bottom: 1em;
+}
+
+footer address a.email:visited,
+#come-funziona #comeSiAdotta address a.email:visited{
+    color: var(--linkcolor);
+}
+
+#come-funziona #invitoLavoro a.brown-button:visited{
+    color:var(--visitedcolor);
+}
+
+#come-funziona .testo a,
+#come-funziona #provAnimali a{
+    color: var(--txtcolor);
+}
+
+#come-funziona .testo a:visited,
+#come-funziona #provAnimali a:visited{
+    color: var(--headervisitedlink);
+}
+
+#come-funziona #provAnimali a.tel:visited{
+    color: var(--txtcolor);
 }
 
 #come-funziona #comeSiAdotta .testo ul {
@@ -5892,11 +5930,6 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     margin: 4em 0em;
 }
 
-#come-funziona #provAnimali a {
-    color: var(--txtcolor);
-    text-decoration: underline;
-}
-
 #come-funziona #invitoLavoro {
     margin-top: 3em;
     background-color: var(--bgform);
@@ -5967,16 +6000,6 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     flex: 1 1 20%;
     min-width: 1em;
     padding-top: 2em;
-}
-
-#trasporto {
-    background-color: var(--headercolor);
-    width: 100vw; 
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 0.7em 0; 
-    color: var(--light-txtcolor);
 }
 
 #trasporto > div:first-child {
