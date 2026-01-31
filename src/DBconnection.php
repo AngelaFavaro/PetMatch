@@ -441,7 +441,6 @@ class DBAccess {
             $data['foto'],
             $email
         );
-
         $success = $stmt->execute();
         
         if ($success) {
@@ -1830,7 +1829,7 @@ class DBAccess {
     }
 
     /* ---------- ORDINAMENTO + PAGINAZIONE ---------- */
-    $query .= " ORDER BY DataEvento DESC LIMIT ? OFFSET ?";
+    $query .= " ORDER BY DataEvento ASC LIMIT ? OFFSET ?";
 
     $params[] = $limit;
     $params[] = $offset;

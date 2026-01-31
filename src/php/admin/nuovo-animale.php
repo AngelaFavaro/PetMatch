@@ -144,6 +144,7 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
                 'taglia' => $taglia,
                 'sesso' => $sesso_db,
                 'dataNascita' => $dataNascita,
+                'famiglia' => $famiglia,
                 'pelo' => $pelo,
                 'colore' => mb_convert_case($colore, MB_CASE_TITLE, "UTF-8"),
                 'carattere' => trim($carattere),      
@@ -335,7 +336,7 @@ $paginaHTML = str_replace('[trasporto_checked]', ($NewAnimalInfo['Trasporto'] ==
 
 foreach ($NewAnimalInfo as $key => $value) {
     $val = $value ?? ''; 
-    $paginaHTML = str_replace('[' . $key . ']', htmlspecialchars($val, ENT_QUOTES, 'UTF-8'), $paginaHTML);
+    $paginaHTML = str_replace('[' . $key . ']', $val, $paginaHTML);
 }
 
 echo $paginaHTML;
