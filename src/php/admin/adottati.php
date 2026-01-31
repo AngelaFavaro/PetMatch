@@ -150,8 +150,8 @@ function renderAnimalContent(string $tipo, array $animaliAdottati, string $NAdop
 
     $main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);
 
-    $title = "<title>Animali adottati - <span lang='en'>PetMatch</span></title>";
-    $description = "<meta name='description' content='Pagina degli amministratori in cui visualizzano gli animali che sono stati adottati in <span lang='en'>PetMatch</span>.'>";
+    $title = "<title>Animali adottati - PetMatch</title>";
+    $description = "<meta name='description' content='Pagina degli amministratori in cui visualizzano gli animali che sono stati adottati in PetMatch.'>";
     $keywords = "<meta name='keywords' content='amministratore, animali, adottati, PetMatch'>";
     $paginaHTML = str_replace('[title]', $title, $paginaHTML);
     $paginaHTML = str_replace('[description]', $description, $paginaHTML);
