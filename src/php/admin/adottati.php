@@ -15,7 +15,7 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo cont
 }
  
 function renderAnimalContent(string $tipo, array $animaliAdottati, string $NAdoptedAnimal): string {
-    $tipoMinuscoloPlurale = ($tipo === 'Cane') ? 'cani' : 'gatti'; //fa un po caca ma va bene per ora
+    $tipoMinuscoloPlurale = ($tipo === 'Cane') ? 'cani' : 'gatti'; 
 
     if (($NAdoptedAnimal ?? 0) == 0) {
         return '<p role="status" class="nessun-risultato-message">Nessun ' . $tipoMinuscoloPlurale . ' adottato.</p>';
@@ -52,16 +52,16 @@ function renderAnimalContent(string $tipo, array $animaliAdottati, string $NAdop
                     <td data-title="Chiusura adozione"> <time datetime="' . htmlspecialchars($animaleAdottato['data_chiusura']) . '">' . htmlspecialchars(date('d/m/Y', strtotime($animaleAdottato['data_chiusura']))) . '</time></td>
                     <td data-title="Admin">' . $nome_cognome_admin . '</td>
                     <td class="col-dettagli"><a href="richieste-adozione?email=' . htmlspecialchars($animaleAdottato['email_adottante']) . '&id-animale=' . htmlspecialchars($animaleAdottato['id_animale']) . '" class="brown-button">Dettagli richiesta</a></td>';
-                $html .='</tr>';
-            }
-        }else{
-            $html .= '
-                <tr>
-                    <td colspan="6" class="nessun-risultato-message" >Nessun ' . $tipo . ' trovato con i filtri selezionati.</td>
-                </tr>
-            ';
-        
+            $html .='</tr>';
         }
+    }else{
+        $html .= '
+            <tr>
+                <td colspan="6" class="nessun-risultato-message" >Nessun ' . $tipo . ' trovato con i filtri selezionati.</td>
+            </tr>
+        ';
+    
+    }
 
     $html .= '
         </tbody>
@@ -77,9 +77,8 @@ function renderAnimalContent(string $tipo, array $animaliAdottati, string $NAdop
 
     $cani_content = "";
     $gatti_content = "";
+    $NAdoptedAnimals = ['Cane' => 0, 'Gatto' => 0];
     $linkAttivi = '';
-    $NSegnalazioniCani = '';
-    $NSegnalazioniGatti = '';
     $perPagina = 8; 
     $tipoAttivo = $_GET['tipo'] ?? 'Cani';
     $paginaCorrente = max(1, (int)($_GET['page'] ?? 1));
@@ -87,7 +86,7 @@ function renderAnimalContent(string $tipo, array $animaliAdottati, string $NAdop
     $connessione = new DBAccess();
     $filtroCorrente = (isset($_GET['assegnate']) && $_GET['assegnate'] !== '') ? $_GET['assegnate'] : 'tutte';
     $connessioneOK = $connessione->openDBConnection();
-    $NAdoptedAnimals = ['Cane' => 0, 'Gatto' => 0];
+
     if ($connessioneOK) {
         $NAdoptedAnimals = $connessione->getNAdoptedAnimals(); 
 
@@ -100,7 +99,6 @@ function renderAnimalContent(string $tipo, array $animaliAdottati, string $NAdop
             $filtroCorrente,
             ($filtroCorrente === 'mie' || $filtroCorrente === 'non-mie') ? $_SESSION['email'] : null
         );
-        
         $connessione->closeConnection();
     }
 
