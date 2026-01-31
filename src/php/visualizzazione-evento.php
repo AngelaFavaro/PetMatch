@@ -114,28 +114,29 @@ function buildMainevent(array $dettagliEvento, int $isAdmin=0): string {
 
         // 3. Creazione del blocco HTML (con le variabili ora piene!)
         $html = "<div id='mainEvent' [COLLABORATORI]>
-        <div id='evento'>
-        <div class='edit-btn-container'>
+        <div id='evento'>";
+        if ($isAdmin) {
+        $html .="<div class='edit-btn-container'>
                 <form method='post'>
                     <button type='submit' name='show-dialog' class='button-cancel'>
                         <img src='assets/icons/delete-trash.svg' alt='' />Elimina evento
                     </button>
                 </form>";
+            if ($date) {
+                $dataEvento = DateTime::createFromFormat('Y-m-d', $date);
+                $oggi = new DateTime('today');
 
-        if ($isAdmin && $date) {
-            $dataEvento = DateTime::createFromFormat('Y-m-d', $date);
-            $oggi = new DateTime('today');
-
-            if ($dataEvento && $dataEvento > $oggi) {
-                $html.="
-
-
+                if ($dataEvento && $dataEvento > $oggi) {
+                    $html.="
                 <a class='orange-button' href='modifica-evento?titolo=$titolo&data=$date'>Modifica<span class='sr-only'> scheda evento</span></a>
                 ";
             }
         }
+        $html .="</div>";
+        }
+
+        
         $html.="
-        </div>
         <img class='square-foto' id='foto-animale' src='$img' alt='foto del luogo per evento  $titolo'>
 
         <dialog [openDialog] class='overlay-content'>
