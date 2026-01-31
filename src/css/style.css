@@ -2617,6 +2617,10 @@ cursor: pointer;
     object-fit: contain;
 }
 
+#visualizzazione-evento .evento .data-evento img{
+    margin-bottom:-0.2em;
+}
+
 #eventi .evento .posizione-evento img {
     float: left;
 }
@@ -2641,7 +2645,6 @@ cursor: pointer;
     display: flex;
 }
  #visualizzazione-evento .evento .data-evento{
-
     gap: 0.2em;
     margin-right: 0.6em;
     margin-top: 0.4em;
@@ -2658,6 +2661,7 @@ cursor: pointer;
 }
 #visualizzazione-evento .evento h2 {
     font-size: 1em;
+    word-break: break-all;
     margin: 0.5em auto 0.5em 0;
 }
  
@@ -3919,7 +3923,13 @@ ul#statistics-list li{
     text-decoration: none;
     font-weight: normal;
 }
-
+#to-do-list li:hover{
+    background-color: var(--buttoncolor-hover); 
+    transition: background-color 0.3s ease;
+}
+#to-do-list li:hover a{
+    color: var(--hovertext-form-button);
+}
 p.query-type{
     font-size: 0.9em;
     line-height: normal;
@@ -4424,6 +4434,7 @@ div#admin-area article.note{
 }
 #dettaglio-animale.column-container{
     padding: 0;
+    max-width: 100%;
 }
 
 /* Box generico delle informazioni (Sinistra) */
@@ -4784,7 +4795,9 @@ td.col-dettagli a:hover img{
 } */
 
 /*================== ANIMALI ASSEGNATI A TE ADMIN  ==================*/
-
+div#admin-area #toggle-assegnazione{
+    margin: 0em 0em 0em auto;
+}
 div#admin-area .container{
     max-width: none;
 }

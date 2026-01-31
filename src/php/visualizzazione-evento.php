@@ -21,6 +21,11 @@ $url=$isAdmin?'dettagli-evento':'visualizzazione-evento';
 $titoloGET = $_GET['titolo'] ?? null;
 $dataGET   = $_GET['data'] ?? null;
 
+if(!$titoloGET || !$dataGET){
+    header("Location: ./eventi");
+    exit;
+}
+
 $classCollaboratori='';
 if($isAdmin) {
     $classCollaboratori="class='collaboratori'";
