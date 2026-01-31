@@ -6,7 +6,7 @@ use mysqli_warning;
 class DBAccess {
 
 	private const HOST_DB = "localhost"; 
-	/* */
+
 	private const DATABASE_NAME = "acanazza"; //qui devi mettere le tue credenziali di login
 	private const USERNAME = "acanazza";
 	private const PASSWORD = "meiSeeQueN4their"; //quella dentro il file  pwd_db_2526.txt
@@ -30,7 +30,7 @@ class DBAccess {
 		mysqli_close($this->connection);
 	}
 
-    //qui funzioni per fare query
+    //FUNZIONI PER FARE QUERY
 
 	/**
 	 * Restituisce i dettagli di una richiesta di adozione (utente + animale).
@@ -190,28 +190,6 @@ class DBAccess {
         return $result;
     }
 
-    // public function setArrivalDate($emailRichiedente, $idAnimale, $dataArrivo): bool {
-    //     if (!$this->connection){ //se la connessione non è aperta
-    //         return false;
-    //     }
-
-    //     $query = "UPDATE TRASPORTI SET DataArrivo = ? WHERE Email = ? AND IDanimale = ?";
-
-    //     $stmt = mysqli_prepare($this->connection, $query);
-    //     if($stmt === false){
-    //         return false;
-    //     }
-
-    //     mysqli_stmt_bind_param($stmt, 'ssi', $dataArrivo, $emailRichiedente, $idAnimale);
-    //     $result = mysqli_stmt_execute($stmt);
-    //     //se le righe modificate sono 0, significa che non esisteva il trasporto, lo aggiungo
-    //     if(mysqli_stmt_affected_rows($stmt) === 0){
-    //         mysqli_stmt_close($stmt);
-    //         return $result && $this->addTransport($emailRichiedente, $idAnimale, $dataArrivo);
-    //     }
-    //     mysqli_stmt_close($stmt);
-    //     return $result;
-    // }
     public function startEvaluation($emailRichiedente, $idAnimale): bool {
         if (!$this->connection){ //se la connessione non è aperta
             return false;
@@ -253,7 +231,6 @@ class DBAccess {
         }
     }
     
-
     private function setRespintaOtherRequestsForAnimal($idAnimale, $acceptedEmail): bool {
         if (!$this->connection){ //se la connessione non è aperta
             return false;
@@ -296,7 +273,7 @@ class DBAccess {
         }
         
         if($statoPrecedente === 'Da trasportare' || $statoPrecedente === 'Accettata') {
-            //ELIMINA IL TRASPORTO DELLA RICHIESTA SE CE NE ERA UNP
+            //ELIMINA IL TRASPORTO DELLA RICHIESTA SE CE NE ERA UNO
             $query2 = "DELETE FROM TRASPORTI where Email = ? AND IDanimale = ?";
             $stmt2 = mysqli_prepare($this->connection, $query2);
             if($stmt2 === false){
@@ -349,7 +326,6 @@ class DBAccess {
             return false;
         }
 
-        // Insert into TRASPORTI
         $queryTransport = "INSERT INTO TRASPORTI (Email, IDanimale) VALUES (?, ?)";
         $stmtTransport = mysqli_prepare($this->connection, $queryTransport);
         if($stmtTransport === false){
@@ -387,8 +363,6 @@ class DBAccess {
         }
     }
 
-
-	
     public function updateNote($emailRichiedente, $idAnimale, $note): bool {
         if (!$this->connection){ //se la connessione non è aperta
             return false;
@@ -1613,7 +1587,6 @@ class DBAccess {
             $types .= 'i';
         }
 
-        /* ---------- QUERY ---------- */
         $query = "
             SELECT a.Nome, a.Sesso, a.DataNascita, a.ImgPath, a.Tipo, a.Colore, a.IDanimale AS Id
             FROM ANIMALI a
@@ -1704,8 +1677,6 @@ class DBAccess {
         return $exists;
     }
 
-
-
     function getLastEvents(): array {
         $events = [];
         $query = "SELECT Titolo, DataEvento, ImgPath, Citta FROM EVENTI 
@@ -1756,443 +1727,418 @@ class DBAccess {
     }  
     public function getEventsFilteredPaged(array $filters, int $limit, int $offset=0): array {
 
-    if (!$this->connection) return [];
+        if (!$this->connection) return [];
 
-    $where = [];
-    $params = [];
-    $types = '';
+        $where = [];
+        $params = [];
+        $types = '';
 
-    /* ---------- FILTRO TITOLO ---------- */
-    if (!empty($filters['search'])) {
-        $where[] = 'Titolo LIKE ?';
-        $params[] = '%' . $filters['search'] . '%';
-        $types .= 's';
-    }
-
-    /* ---------- FILTRO DATA EVENTO (MIN) ---------- */
-    if (!empty($filters['data_inizio'])) {
-        $where[] = 'DataEvento >= ?';
-        $params[] = $filters['data_inizio'];
-        $types .= 's';
-    }
-
-    /* ---------- FILTRO DATA EVENTO (MAX) ---------- */
-    if (!empty($filters['data_fine'])) {
-        $where[] = 'DataEvento <= ?';
-        $params[] = $filters['data_fine'];
-        $types .= 's';
-    }
-
-    /* ---------- FILTRO CITTÀ ---------- */
-    if (!empty($filters['citta'])) {
-        $where[] = 'Citta = ?';
-        $params[] = $filters['citta'];
-        $types .= 's';
-    }
-
-    // ---------- FILTRO TITOLO NO VISUALIZZARE ---------
-    if (!empty($filters['nomeNO'])) {
-        $where[] = 'Titolo != ?';
-        $params[] = $filters['nomeNO'];
-        $types .= 's';
-    }
-    /* ---------- FILTRO TIPO (prossimi / terminati) ---------- */
-    if (!empty($filters['tipo'])) {
-        $today = date('Y-m-d');
-
-        if ($filters['tipo'] === 'prossimi') {
-            $where[] = 'DataEvento >= ?';
-            $params[] = $today;
-            $types .= 's';
-        } elseif ($filters['tipo'] === 'terminati') {
-            $where[] = 'DataEvento < ?';
-            $params[] = $today;
+        /* ---------- FILTRO TITOLO ---------- */
+        if (!empty($filters['search'])) {
+            $where[] = 'Titolo LIKE ?';
+            $params[] = '%' . $filters['search'] . '%';
             $types .= 's';
         }
-    }
 
-    /* ---------- QUERY BASE ---------- */
-    $query = "
-        SELECT 
-            Titolo,
-            DataEvento,
-            DescrEvento,
-            ImgPath,
-            Via,
-            Citta
-        FROM EVENTI
-        WHERE 1=1
-    ";
-
-    if ($where) {
-        $query .= ' AND ' . implode(' AND ', $where);
-    }
-
-    /* ---------- ORDINAMENTO + PAGINAZIONE ---------- */
-    $query .= " ORDER BY DataEvento ASC LIMIT ? OFFSET ?";
-
-    $params[] = $limit;
-    $params[] = $offset;
-    $types .= 'ii';
-
-    $stmt = mysqli_prepare($this->connection, $query);
-    mysqli_stmt_bind_param($stmt, $types, ...$params);
-    mysqli_stmt_execute($stmt);
-
-    $res = mysqli_stmt_get_result($stmt);
-    if (!$res) return [];
-
-    $eventi = [];
-    while ($row = mysqli_fetch_assoc($res)) {
-        $eventi[] = [
-            'titolo'      => $row['Titolo'],
-            'data_evento' => $row['DataEvento'],
-            'descrizione' => $row['DescrEvento'],
-            'immagine'    => $row['ImgPath'],
-            'via'         => $row['Via'],
-            'citta'       => $row['Citta']
-        ];
-    }
-
-    mysqli_stmt_close($stmt);
-    return $eventi;
-}
-
-public function countEventsFiltered(array $filters): int {
-
-    if (!$this->connection) return 0;
-
-    $where = [];
-    $params = [];
-    $types = '';
-
-    /* ---------- FILTRO TITOLO ---------- */
-    if (!empty($filters['search'])) {
-        $where[] = 'Titolo LIKE ?';
-        $params[] = '%' . $filters['search'] . '%';
-        $types .= 's';
-    }
-
-    /* ---------- FILTRO DATA EVENTO (MIN) ---------- */
-    if (!empty($filters['data_inizio'])) {
-        $where[] = 'DataEvento >= ?';
-        $params[] = $filters['data_inizio'];
-        $types .= 's';
-    }
-
-    /* ---------- FILTRO DATA EVENTO (MAX) ---------- */
-    if (!empty($filters['data_fine'])) {
-        $where[] = 'DataEvento <= ?';
-        $params[] = $filters['data_fine'];
-        $types .= 's';
-    }
-
-    /* ---------- FILTRO CITTÀ ---------- */
-    if (!empty($filters['citta'])) {
-        $where[] = 'Citta = ?';
-        $params[] = $filters['citta'];
-        $types .= 's';
-    }
-
-    /* ---------- FILTRO TIPO (prossimi / terminati) ---------- */
-    if (!empty($filters['tipo'])) {
-        $today = date('Y-m-d');
-
-        if ($filters['tipo'] === 'prossimi') {
+        /* ---------- FILTRO DATA EVENTO (MIN) ---------- */
+        if (!empty($filters['data_inizio'])) {
             $where[] = 'DataEvento >= ?';
-            $params[] = $today;
-            $types .= 's';
-        } elseif ($filters['tipo'] === 'terminati') {
-            $where[] = 'DataEvento < ?';
-            $params[] = $today;
+            $params[] = $filters['data_inizio'];
             $types .= 's';
         }
-    }
 
-    /* ---------- QUERY COUNT ---------- */
-    $query = "SELECT COUNT(*) AS totale FROM EVENTI";
+        /* ---------- FILTRO DATA EVENTO (MAX) ---------- */
+        if (!empty($filters['data_fine'])) {
+            $where[] = 'DataEvento <= ?';
+            $params[] = $filters['data_fine'];
+            $types .= 's';
+        }
 
-    if ($where) {
-        $query .= ' WHERE ' . implode(' AND ', $where);
-    }
+        /* ---------- FILTRO CITTÀ ---------- */
+        if (!empty($filters['citta'])) {
+            $where[] = 'Citta = ?';
+            $params[] = $filters['citta'];
+            $types .= 's';
+        }
 
-    $stmt = mysqli_prepare($this->connection, $query);
+        // ---------- FILTRO TITOLO NO VISUALIZZARE ---------
+        if (!empty($filters['nomeNO'])) {
+            $where[] = 'Titolo != ?';
+            $params[] = $filters['nomeNO'];
+            $types .= 's';
+        }
+        /* ---------- FILTRO TIPO (prossimi / terminati) ---------- */
+        if (!empty($filters['tipo'])) {
+            $today = date('Y-m-d');
 
-    if ($params) {
+            if ($filters['tipo'] === 'prossimi') {
+                $where[] = 'DataEvento >= ?';
+                $params[] = $today;
+                $types .= 's';
+            } elseif ($filters['tipo'] === 'terminati') {
+                $where[] = 'DataEvento < ?';
+                $params[] = $today;
+                $types .= 's';
+            }
+        }
+
+        $query = "
+            SELECT 
+                Titolo,
+                DataEvento,
+                DescrEvento,
+                ImgPath,
+                Via,
+                Citta
+            FROM EVENTI
+            WHERE 1=1
+        ";
+
+        if ($where) {
+            $query .= ' AND ' . implode(' AND ', $where);
+        }
+
+        $query .= " ORDER BY DataEvento ASC LIMIT ? OFFSET ?";
+
+        $params[] = $limit;
+        $params[] = $offset;
+        $types .= 'ii';
+
+        $stmt = mysqli_prepare($this->connection, $query);
         mysqli_stmt_bind_param($stmt, $types, ...$params);
+        mysqli_stmt_execute($stmt);
+
+        $res = mysqli_stmt_get_result($stmt);
+        if (!$res) return [];
+
+        $eventi = [];
+        while ($row = mysqli_fetch_assoc($res)) {
+            $eventi[] = [
+                'titolo'      => $row['Titolo'],
+                'data_evento' => $row['DataEvento'],
+                'descrizione' => $row['DescrEvento'],
+                'immagine'    => $row['ImgPath'],
+                'via'         => $row['Via'],
+                'citta'       => $row['Citta']
+            ];
+        }
+
+        mysqli_stmt_close($stmt);
+        return $eventi;
     }
 
-    mysqli_stmt_execute($stmt);
-    $res = mysqli_stmt_get_result($stmt);
-    $row = mysqli_fetch_assoc($res);
+    public function countEventsFiltered(array $filters): int {
 
-    mysqli_stmt_close($stmt);
-    return (int)$row['totale'];
-}
+        if (!$this->connection) return 0;
 
+        $where = [];
+        $params = [];
+        $types = '';
 
+        /* ---------- FILTRO TITOLO ---------- */
+        if (!empty($filters['search'])) {
+            $where[] = 'Titolo LIKE ?';
+            $params[] = '%' . $filters['search'] . '%';
+            $types .= 's';
+        }
 
+        /* ---------- FILTRO DATA EVENTO (MIN) ---------- */
+        if (!empty($filters['data_inizio'])) {
+            $where[] = 'DataEvento >= ?';
+            $params[] = $filters['data_inizio'];
+            $types .= 's';
+        }
 
+        /* ---------- FILTRO DATA EVENTO (MAX) ---------- */
+        if (!empty($filters['data_fine'])) {
+            $where[] = 'DataEvento <= ?';
+            $params[] = $filters['data_fine'];
+            $types .= 's';
+        }
 
+        /* ---------- FILTRO CITTÀ ---------- */
+        if (!empty($filters['citta'])) {
+            $where[] = 'Citta = ?';
+            $params[] = $filters['citta'];
+            $types .= 's';
+        }
 
+        /* ---------- FILTRO TIPO (prossimi / terminati) ---------- */
+        if (!empty($filters['tipo'])) {
+            $today = date('Y-m-d');
 
+            if ($filters['tipo'] === 'prossimi') {
+                $where[] = 'DataEvento >= ?';
+                $params[] = $today;
+                $types .= 's';
+            } elseif ($filters['tipo'] === 'terminati') {
+                $where[] = 'DataEvento < ?';
+                $params[] = $today;
+                $types .= 's';
+            }
+        }
 
+        $query = "SELECT COUNT(*) AS totale FROM EVENTI";
 
+        if ($where) {
+            $query .= ' WHERE ' . implode(' AND ', $where);
+        }
 
-public function countFavourites(string $type, string $email): int {
-    if (!$this->connection) return 0;
+        $stmt = mysqli_prepare($this->connection, $query);
 
-    $params = [$email];
-    $types  = 's';
+        if ($params) {
+            mysqli_stmt_bind_param($stmt, $types, ...$params);
+        }
 
-    $where = "
-        p.Email = ?
-    ";
+        mysqli_stmt_execute($stmt);
+        $res = mysqli_stmt_get_result($stmt);
+        $row = mysqli_fetch_assoc($res);
 
-    if ($type !== 'tutti') {
-        $where .= ' AND a.Tipo = ?';
-        $params[] = $type;
-        $types   .= 's';
+        mysqli_stmt_close($stmt);
+        return (int)$row['totale'];
     }
 
-    $query = "
-        SELECT COUNT(*) AS totale
-        FROM PREFERITI p
-        INNER JOIN ANIMALI a ON p.IDanimale = a.IDanimale
-        WHERE $where
-    ";
+    public function countFavourites(string $type, string $email): int {
+        if (!$this->connection) return 0;
 
-    $stmt = mysqli_prepare($this->connection, $query);
-    if (!$stmt) {
-        return 0;
+        $params = [$email];
+        $types  = 's';
+
+        $where = "
+            p.Email = ?
+        ";
+
+        if ($type !== 'tutti') {
+            $where .= ' AND a.Tipo = ?';
+            $params[] = $type;
+            $types   .= 's';
+        }
+
+        $query = "
+            SELECT COUNT(*) AS totale
+            FROM PREFERITI p
+            INNER JOIN ANIMALI a ON p.IDanimale = a.IDanimale
+            WHERE $where
+        ";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if (!$stmt) {
+            return 0;
+        }
+
+        mysqli_stmt_bind_param($stmt, $types, ...$params);
+        mysqli_stmt_execute($stmt);
+
+        $res = mysqli_stmt_get_result($stmt);
+        $row = mysqli_fetch_assoc($res);
+
+        mysqli_stmt_close($stmt);
+
+        return (int)($row['totale'] ?? 0);
+    }
+    public function countGuestFavourites(string $type): int {
+        if (!$this->connection) return 0;
+
+        $guestFavs = getGuestFavorites();
+        if (empty($guestFavs)) {
+            return 0;
+        }
+
+        $placeholders = implode(',', array_fill(0, count($guestFavs), '?'));
+        $params = $guestFavs;
+        $types  = str_repeat('i', count($guestFavs));
+
+        $where = "
+            a.IDanimale IN ($placeholders)
+        ";
+
+        if ($type !== 'tutti') {
+            $where .= ' AND a.Tipo = ?';
+            $params[] = $type;
+            $types   .= 's';
+        }
+
+        $query = "
+            SELECT COUNT(*) AS totale
+            FROM ANIMALI a
+            WHERE $where
+        ";
+
+        $stmt = mysqli_prepare($this->connection, $query);
+        if (!$stmt) {
+            return 0;
+        }
+
+        mysqli_stmt_bind_param($stmt, $types, ...$params);
+        mysqli_stmt_execute($stmt);
+
+        $res = mysqli_stmt_get_result($stmt);
+        $row = mysqli_fetch_assoc($res);
+
+        mysqli_stmt_close($stmt);
+
+        return (int)($row['totale'] ?? 0);
     }
 
-    mysqli_stmt_bind_param($stmt, $types, ...$params);
-    mysqli_stmt_execute($stmt);
+    public function getFavouritesPaged(
+        string $type,
+        int $perPagina,
+        int $offset,
+        string $email
+    ): array {
+        if (!$this->connection) return [];
 
-    $res = mysqli_stmt_get_result($stmt);
-    $row = mysqli_fetch_assoc($res);
+        $params = [$email];
+        $types  = 's';
+        $where = 'p.Email = ?';
 
-    mysqli_stmt_close($stmt);
+        if ($type !== 'tutti') {
+            $where .= ' AND a.Tipo = ?';
+            $params[] = $type;
+            $types   .= 's';
+        }
 
-    return (int)($row['totale'] ?? 0);
-}
+        $query = "
+            SELECT
+                a.Nome,
+                a.Sesso,
+                a.Colore,
+                a.DataNascita,
+                a.ImgPath,
+                a.Tipo,
+                a.IDanimale AS Id,
+                CASE
+                    WHEN EXISTS (
+                        SELECT 1
+                        FROM RICHIESTE_ADOZIONI r
+                        WHERE r.IDanimale = a.IDanimale
+                        AND r.Stato = 'Accettata'
+                    ) THEN 1
+                    ELSE 0
+                END AS adottato
+            FROM PREFERITI p
+            INNER JOIN ANIMALI a ON p.IDanimale = a.IDanimale
+            WHERE $where
+            ORDER BY a.IDanimale ASC
+            LIMIT ? OFFSET ?
+        ";
 
+        $params[] = $perPagina;
+        $params[] = $offset;
+        $types   .= 'ii';
 
-public function countGuestFavourites(string $type): int {
-    if (!$this->connection) return 0;
+        $stmt = mysqli_prepare($this->connection, $query);
+        if (!$stmt) return [];
 
-    $guestFavs = getGuestFavorites();
-    if (empty($guestFavs)) {
-        return 0;
+        mysqli_stmt_bind_param($stmt, $types, ...$params);
+        mysqli_stmt_execute($stmt);
+
+        $res = mysqli_stmt_get_result($stmt);
+        if (!$res) return [];
+
+        $animali = [];
+        while ($row = mysqli_fetch_assoc($res)) {
+            $animali[] = [
+                'nome'     => $row['Nome'],
+                'sesso'    => $row['Sesso'],
+                'eta'      => calcolaEta($row['DataNascita']),
+                'immagine' => $row['ImgPath'],
+                'tipo'     => $row['Tipo'],
+                'id'       => $row['Id'],
+                'colore'       => $row['Colore'],
+                'adottato' => (int)$row['adottato']
+            ];
+        }
+
+        mysqli_stmt_close($stmt);
+        return $animali;
     }
 
-    // placeholder per IN (...)
-    $placeholders = implode(',', array_fill(0, count($guestFavs), '?'));
-    $params = $guestFavs;
-    $types  = str_repeat('i', count($guestFavs));
+    public function getGuestFavPaged(string $type, int $perPagina, int $offset): array
+    {
+        if (!$this->connection) return [];
 
-    $where = "
-        a.IDanimale IN ($placeholders)
-    ";
+        $guestFavs = getGuestFavorites();
+        if (empty($guestFavs)) {
+            return [];
+        }
 
-    if ($type !== 'tutti') {
-        $where .= ' AND a.Tipo = ?';
-        $params[] = $type;
-        $types   .= 's';
-    }
+        $placeholders = implode(',', array_fill(0, count($guestFavs), '?'));
+        $params = $guestFavs;
+        $types  = str_repeat('i', count($guestFavs));
+        $where = "a.IDanimale IN ($placeholders)";
 
-    $query = "
-        SELECT COUNT(*) AS totale
-        FROM ANIMALI a
-        WHERE $where
-    ";
+        if ($type !== 'tutti') {
+            $where .= " AND a.Tipo = ?";
+            $params[] = $type;
+            $types   .= 's';
+        }
 
-    $stmt = mysqli_prepare($this->connection, $query);
-    if (!$stmt) {
-        return 0;
-    }
-
-    mysqli_stmt_bind_param($stmt, $types, ...$params);
-    mysqli_stmt_execute($stmt);
-
-    $res = mysqli_stmt_get_result($stmt);
-    $row = mysqli_fetch_assoc($res);
-
-    mysqli_stmt_close($stmt);
-
-    return (int)($row['totale'] ?? 0);
-}
-
-
-public function getFavouritesPaged(
-    string $type,
-    int $perPagina,
-    int $offset,
-    string $email
-): array {
-    if (!$this->connection) return [];
-
-    $params = [$email];
-    $types  = 's';
-
-    // WHERE base
-    $where = 'p.Email = ?';
-
-    if ($type !== 'tutti') {
-        $where .= ' AND a.Tipo = ?';
-        $params[] = $type;
-        $types   .= 's';
-    }
-
-    $query = "
-        SELECT
-            a.Nome,
-            a.Sesso,
-            a.Colore,
-            a.DataNascita,
-            a.ImgPath,
-            a.Tipo,
-            a.IDanimale AS Id,
-            CASE
-                WHEN EXISTS (
+        $query = "
+            SELECT 
+                a.Nome,
+                a.Sesso,
+                a.DataNascita,
+                a.ImgPath,
+                a.Colore,
+                a.Tipo,
+                a.IDanimale AS Id,
+                EXISTS (
                     SELECT 1
                     FROM RICHIESTE_ADOZIONI r
                     WHERE r.IDanimale = a.IDanimale
-                      AND r.Stato = 'Accettata'
-                ) THEN 1
-                ELSE 0
-            END AS adottato
-        FROM PREFERITI p
-        INNER JOIN ANIMALI a ON p.IDanimale = a.IDanimale
-        WHERE $where
-        ORDER BY a.IDanimale ASC
-        LIMIT ? OFFSET ?
-    ";
+                    AND r.Stato = 'Accettata'
+                ) AS adottato
+            FROM ANIMALI a
+            WHERE $where
+            ORDER BY a.IDanimale ASC
+            LIMIT ? OFFSET ?
+        ";
 
-    $params[] = $perPagina;
-    $params[] = $offset;
-    $types   .= 'ii';
+        $params[] = $perPagina;
+        $params[] = $offset;
+        $types   .= 'ii';
 
-    $stmt = mysqli_prepare($this->connection, $query);
-    if (!$stmt) return [];
+        $stmt = mysqli_prepare($this->connection, $query);
+        if (!$stmt) return [];
 
-    mysqli_stmt_bind_param($stmt, $types, ...$params);
-    mysqli_stmt_execute($stmt);
+        mysqli_stmt_bind_param($stmt, $types, ...$params);
+        mysqli_stmt_execute($stmt);
 
-    $res = mysqli_stmt_get_result($stmt);
-    if (!$res) return [];
+        $res = mysqli_stmt_get_result($stmt);
+        if (!$res) return [];
 
-    $animali = [];
-    while ($row = mysqli_fetch_assoc($res)) {
-        $animali[] = [
-            'nome'     => $row['Nome'],
-            'sesso'    => $row['Sesso'],
-            'eta'      => calcolaEta($row['DataNascita']),
-            'immagine' => $row['ImgPath'],
-            'tipo'     => $row['Tipo'],
-            'id'       => $row['Id'],
-            'colore'       => $row['Colore'],
-            'adottato' => (int)$row['adottato']
-        ];
+        $animali = [];
+        while ($row = mysqli_fetch_assoc($res)) {
+            $animali[] = [
+                'nome'     => $row['Nome'],
+                'sesso'    => $row['Sesso'], // lasciato grezzo, lo trasformi dopo
+                'eta'      => calcolaEta($row['DataNascita']),
+                'immagine' => $row['ImgPath'],
+                'tipo'     => $row['Tipo'],
+                'id'       => $row['Id'],
+                'colore'       => $row['Colore'],
+                'adottato' => (int)$row['adottato']
+            ];
+        }
+
+        mysqli_stmt_close($stmt);
+        return $animali;
     }
-
-    mysqli_stmt_close($stmt);
-    return $animali;
-}
-
-
-public function getGuestFavPaged(string $type, int $perPagina, int $offset): array
-{
-    if (!$this->connection) return [];
-
-    $guestFavs = getGuestFavorites();
-    if (empty($guestFavs)) {
-        return [];
-    }
-
-    // placeholder per IN (...)
-    $placeholders = implode(',', array_fill(0, count($guestFavs), '?'));
-    $params = $guestFavs;
-    $types  = str_repeat('i', count($guestFavs));
-
-    // WHERE base
-    $where = "a.IDanimale IN ($placeholders)";
-
-    // filtro tipo
-    if ($type !== 'tutti') {
-        $where .= " AND a.Tipo = ?";
-        $params[] = $type;
-        $types   .= 's';
-    }
-
-    $query = "
-        SELECT 
-            a.Nome,
-            a.Sesso,
-            a.DataNascita,
-            a.ImgPath,
-            a.Colore,
-            a.Tipo,
-            a.IDanimale AS Id,
-            EXISTS (
-                SELECT 1
-                FROM RICHIESTE_ADOZIONI r
-                WHERE r.IDanimale = a.IDanimale
-                  AND r.Stato = 'Accettata'
-            ) AS adottato
-        FROM ANIMALI a
-        WHERE $where
-        ORDER BY a.IDanimale ASC
-        LIMIT ? OFFSET ?
-    ";
-
-    $params[] = $perPagina;
-    $params[] = $offset;
-    $types   .= 'ii';
-
-    $stmt = mysqli_prepare($this->connection, $query);
-    if (!$stmt) return [];
-
-    mysqli_stmt_bind_param($stmt, $types, ...$params);
-    mysqli_stmt_execute($stmt);
-
-    $res = mysqli_stmt_get_result($stmt);
-    if (!$res) return [];
-
-    $animali = [];
-    while ($row = mysqli_fetch_assoc($res)) {
-        $animali[] = [
-            'nome'     => $row['Nome'],
-            'sesso'    => $row['Sesso'], // lasciato grezzo, lo trasformi dopo
-            'eta'      => calcolaEta($row['DataNascita']),
-            'immagine' => $row['ImgPath'],
-            'tipo'     => $row['Tipo'],
-            'id'       => $row['Id'],
-            'colore'       => $row['Colore'],
-            'adottato' => (int)$row['adottato']
-        ];
-    }
-
-    mysqli_stmt_close($stmt);
-    return $animali;
-}
 
     public function insertNewEvent(array $EventValues): bool {
         if (!$this->connection){
             return false;
         }
 
-        //se uno dei due salvataggi va male, faccio rollback
         mysqli_begin_transaction($this->connection);
 
         try {
-        // 1. Inserimento nella tabella EVENTI
         $queryEvento = "INSERT INTO EVENTI (Titolo, DataEvento, DescrEvento, ImgPath, Via, Citta, DataPubblicazione) 
                         VALUES (?, ?, ?, ?, ?, ?, CURRENT_DATE())";
         
         $stmtEvento = mysqli_prepare($this->connection, $queryEvento);
-        if ($stmtEvento === false) throw new Exception("Errore prepare Eventi");
+        if ($stmtEvento === false) throw new \Exception("Errore prepare Eventi");
 
         mysqli_stmt_bind_param($stmtEvento, 'ssssss', 
             $EventValues['titolo'], 
@@ -2203,14 +2149,13 @@ public function getGuestFavPaged(string $type, int $perPagina, int $offset): arr
             $EventValues['citta']
         );
 
-        if (!mysqli_stmt_execute($stmtEvento)) throw new Exception("Errore execute Eventi");
+        if (!mysqli_stmt_execute($stmtEvento)) throw new \Exception("Errore execute Eventi");
         mysqli_stmt_close($stmtEvento);
 
-        // 2. Inserimento nella tabella ORGANIZZAZIONE
         $queryOrg = "INSERT INTO ORGANIZZAZIONE (Titolo, DataEvento, Email) VALUES (?, ?, ?)";
         
         $stmtOrg = mysqli_prepare($this->connection, $queryOrg);
-        if ($stmtOrg === false) throw new Exception("Errore prepare Organizzazione");
+        if ($stmtOrg === false) throw new \Exception("Errore prepare Organizzazione");
 
         mysqli_stmt_bind_param($stmtOrg, 'sss', 
             $EventValues['titolo'], 
@@ -2218,66 +2163,64 @@ public function getGuestFavPaged(string $type, int $perPagina, int $offset): arr
             $EventValues['email']
         );
 
-        if (!mysqli_stmt_execute($stmtOrg)) throw new Exception("Errore execute Organizzazione");
+        if (!mysqli_stmt_execute($stmtOrg)) throw new \Exception("Errore execute Organizzazione");
         mysqli_stmt_close($stmtOrg);
 
         mysqli_commit($this->connection);
         return true;
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Se qualcosa fallisce, rollback
             mysqli_rollback($this->connection);
             return false;
         }
     }
+    public function getRequestStatus(string $email, int $idAnimale): ?string {
+        $sql = "
+            SELECT Stato
+            FROM RICHIESTE_ADOZIONI
+            WHERE Email = ? AND IDanimale = ?
+            LIMIT 1
+        ";
 
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param('si', $email, $idAnimale);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-public function getRequestStatus(string $email, int $idAnimale): ?string {
-    $sql = "
-        SELECT Stato
-        FROM RICHIESTE_ADOZIONI
-        WHERE Email = ? AND IDanimale = ?
-        LIMIT 1
-    ";
+        $stato = null;
+        if ($row = $result->fetch_assoc()) {
+            $stato = $row['Stato'];
+        }
 
-    $stmt = $this->connection->prepare($sql);
-    $stmt->bind_param('si', $email, $idAnimale);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    $stato = null;
-    if ($row = $result->fetch_assoc()) {
-        $stato = $row['Stato'];
+        $stmt->close();
+        return $stato;
     }
 
-    $stmt->close();
-    return $stato;
-}
+    public function getAnimalArrivalDate($idAnimale): ?string {
+        
+        $dataArrivo = null;
+        
+        $query = "SELECT DataArrivo 
+                FROM TRASPORTI 
+                WHERE IDanimale = ?";
 
-public function getAnimalArrivalDate($idAnimale): ?string {
-    
-    $dataArrivo = null;
-    
-    $query = "SELECT DataArrivo 
-              FROM TRASPORTI 
-              WHERE IDanimale = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
 
-    $stmt = mysqli_prepare($this->connection, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'i', $idAnimale);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
 
-    if ($stmt) {
-        mysqli_stmt_bind_param($stmt, 'i', $idAnimale);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-
-        if ($row = mysqli_fetch_assoc($result)) {
-            $dataArrivo = $row['DataArrivo'];
+            if ($row = mysqli_fetch_assoc($result)) {
+                $dataArrivo = $row['DataArrivo'];
+            }
+            
+            mysqli_stmt_close($stmt);
         }
         
-        mysqli_stmt_close($stmt);
+        return $dataArrivo;
     }
-    
-    return $dataArrivo;
-}
 
     public function getAnimalDetails(int $idAnimale): ?array {
         $sql = "
@@ -2348,16 +2291,14 @@ public function getAnimalArrivalDate($idAnimale): ?string {
             return false;
         }
 
-        // inizio della transizione per l'atomicità
         mysqli_begin_transaction($this->connection);
 
         try {
-            // 1. Aggiorniamo i dati dell'evento
             $queryUpdate = "UPDATE EVENTI SET Titolo = ?, DataEvento = ?, DescrEvento = ?, ImgPath = ?, Via = ?, Citta = ?
                             WHERE Titolo = ? AND DataEvento = ?";
 
             $stmtUpdate = mysqli_prepare($this->connection, $queryUpdate);
-            if ($stmtUpdate === false) throw new Exception("Errore prepare Update");
+            if ($stmtUpdate === false) throw new \Exception("Errore prepare Update");
 
             mysqli_stmt_bind_param($stmtUpdate, 'ssssssss', 
                 $EventValues['titolo'], 
@@ -2370,14 +2311,13 @@ public function getAnimalArrivalDate($idAnimale): ?string {
                 $oldData
             );
 
-            if (!mysqli_stmt_execute($stmtUpdate)) throw new Exception("Errore execute Update");
+            if (!mysqli_stmt_execute($stmtUpdate)) throw new \Exception("Errore execute Update");
             mysqli_stmt_close($stmtUpdate);
 
-            // 2. inserisco il nuovo contributore (se non è già presente)
             $queryContrib = "INSERT IGNORE INTO ORGANIZZAZIONE (Titolo, DataEvento, Email) VALUES (?, ?, ?)";
             
             $stmtContrib = mysqli_prepare($this->connection, $queryContrib);
-            if ($stmtContrib === false) throw new Exception("Errore prepare Contributor");
+            if ($stmtContrib === false) throw new \Exception("Errore prepare Contributor");
 
             mysqli_stmt_bind_param($stmtContrib, 'sss', 
                 $EventValues['titolo'], 
@@ -2385,13 +2325,13 @@ public function getAnimalArrivalDate($idAnimale): ?string {
                 $EventValues['email']
             );
 
-            if (!mysqli_stmt_execute($stmtContrib)) throw new Exception("Errore execute Contributor");
+            if (!mysqli_stmt_execute($stmtContrib)) throw new \Exception("Errore execute Contributor");
             mysqli_stmt_close($stmtContrib);
 
             mysqli_commit($this->connection);
             return true;
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // rollback se qualcosa fallisce
             mysqli_rollback($this->connection);
             return false;
@@ -2565,7 +2505,6 @@ public function getAnimalArrivalDate($idAnimale): ?string {
         return $data;
     }
 
-
     public function deleteAccount(string $email): bool {
         if (!$this->connection){
             return false;
@@ -2610,33 +2549,32 @@ public function getAnimalArrivalDate($idAnimale): ?string {
     }
 
     public function getOrganizzatoriEvento(string $titoloEvento, string $dataEvento): array {
-    $query = "SELECT u.Nome, u.Cognome, u.Email, e.Titolo, e.DataEvento, u.ImgPath
-              FROM ORGANIZZAZIONE o
-              JOIN UTENTI u ON o.Email = u.Email
-              JOIN EVENTI e 
-                ON o.Titolo = e.Titolo 
-               AND o.DataEvento = e.DataEvento
-              WHERE o.Titolo = ?
-                AND o.DataEvento = ?";
+        $query = "SELECT u.Nome, u.Cognome, u.Email, e.Titolo, e.DataEvento, u.ImgPath
+                FROM ORGANIZZAZIONE o
+                JOIN UTENTI u ON o.Email = u.Email
+                JOIN EVENTI e 
+                    ON o.Titolo = e.Titolo 
+                AND o.DataEvento = e.DataEvento
+                WHERE o.Titolo = ?
+                    AND o.DataEvento = ?";
 
-    $stmt = mysqli_prepare($this->connection, $query);
-    $data = [];
+        $stmt = mysqli_prepare($this->connection, $query);
+        $data = [];
 
-    if ($stmt) {
-        mysqli_stmt_bind_param($stmt, 'ss', $titoloEvento, $dataEvento);
-        mysqli_stmt_execute($stmt);
-        $res = mysqli_stmt_get_result($stmt);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'ss', $titoloEvento, $dataEvento);
+            mysqli_stmt_execute($stmt);
+            $res = mysqli_stmt_get_result($stmt);
 
-        while ($row = mysqli_fetch_assoc($res)) {
-            $data[] = $row;
+            while ($row = mysqli_fetch_assoc($res)) {
+                $data[] = $row;
+            }
+
+            mysqli_stmt_close($stmt);
         }
 
-        mysqli_stmt_close($stmt);
+        return $data;
     }
-
-    return $data;
-}
-
 
     public function removeAdminAssignment($idAnimale) {
         $query = "UPDATE ANIMALI SET Email = NULL WHERE IDanimale = ?";
@@ -2650,21 +2588,20 @@ public function getAnimalArrivalDate($idAnimale): ?string {
     }
 
     public function deleteEvent(string $titolo, string $dataEvento): bool {
-    if (!$this->connection) return false;
+        if (!$this->connection) return false;
 
-    $query = "DELETE FROM EVENTI WHERE Titolo = ? AND DataEvento = ?";
-    $stmt = mysqli_prepare($this->connection, $query);
+        $query = "DELETE FROM EVENTI WHERE Titolo = ? AND DataEvento = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
 
-    if ($stmt) {
-        mysqli_stmt_bind_param($stmt, 'ss', $titolo, $dataEvento);
-        $res = mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
-        return $res;
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'ss', $titolo, $dataEvento);
+            $res = mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+            return $res;
+        }
+
+        return false;
     }
-
-    return false;
-}
-
 
 }
 
