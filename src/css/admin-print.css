@@ -550,6 +550,13 @@ article.evento {
     display: none;
 }
 
+#admin-body #content-collaborators {
+    display: flex;
+    flex-direction: row;
+    gap:1cm;
+    list-style: none;
+}
+
 /* ---------DETTAGLI RICHIESTA ADOZIONE CON NOTE-------- */
 #details-container .tabs-container{
     display: flex;
@@ -824,9 +831,9 @@ pre#note-text{
 }
 
 #admin-area #animale-detailed-container .square-foto{
-
-    max-height: 8cm;
-    max-width: 11cm;
+    max-height: 5cm;
+    max-width: 5cm;
+    object-fit:cover;
 }
 
 
