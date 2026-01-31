@@ -102,7 +102,7 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
                 $errors['dataNascita'] = "Data non valida: un animale adottabile non può avere più di 18 anni.";
             }
         }
-        if (!in_array($pelo, ['Lungo', 'Corto', 'Medio'])) $errors['pelo'] = "Seleziona tipo pelo.";
+        if (!in_array($pelo, ['Lungo', 'Corto', 'Medio', 'Senza pelo'])) $errors['pelo'] = "Seleziona tipo pelo.";
 
         if (empty($carattere)) {
             $errors['carattere'] = "Inserire una descrizione del carattere.";
@@ -311,6 +311,7 @@ $paginaHTML = str_replace('[peloVuoto_selected]', (empty($NewAnimalInfo['Pelo'])
 $paginaHTML = str_replace('[peloCorto_selected]', ($NewAnimalInfo['Pelo'] === 'Corto' ? 'selected' : ''), $paginaHTML);
 $paginaHTML = str_replace('[peloLungo_selected]', ($NewAnimalInfo['Pelo'] === 'Lungo' ? 'selected' : ''), $paginaHTML);
 $paginaHTML = str_replace('[peloMedio_selected]', ($NewAnimalInfo['Pelo'] === 'Medio' ? 'selected' : ''), $paginaHTML);
+$paginaHTML = str_replace('[peloSenza_selected]', ($NewAnimalInfo['Pelo'] === 'Senza pelo' ? 'selected' : ''), $paginaHTML);
 
 //informaizoni diverse a seconda della pagina
 if (($NewAnimalInfo['CondizioniMediche'] ?? '') === '0') {
