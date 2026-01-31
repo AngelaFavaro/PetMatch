@@ -1462,7 +1462,7 @@ class DBAccess {
 
         $this->applyFilters($type, $filters, $where, $params, $types);
 
-        $query = "SELECT COUNT(*) AS totale 
+        $query = "SELECT COUNT(DISTINCT A.IDanimale) AS totale 
                 FROM ANIMALI A 
                 LEFT JOIN RICHIESTE_ADOZIONI R ON A.IDanimale = R.IDanimale AND R.Stato = 'Accettata' 
                 $where";

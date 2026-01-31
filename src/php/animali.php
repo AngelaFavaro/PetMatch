@@ -121,8 +121,8 @@ if(isset($_GET['id'])) {
         'eta_min'       => $_GET['eta_min'] ?? '',
         'eta_max'       => $_GET['eta_max'] ?? ''
     ];
-    if ($isFromAdmin && isset($_GET['assegnati'])) {
-        $rawFilters['assegnati'] = $_GET['assegnati'];
+    if ($isFromAdmin) {
+        $rawFilters['assegnati'] =  isset($_GET['assegnati']) ? $_GET['assegnati'] : 'miei';
     }
         
     // per DB + paginazione
@@ -156,9 +156,10 @@ if(isset($_GET['id'])) {
         '[SESSO_SELECTED_EMPTY]'    => $rawFilters['sesso'] === '' ? 'selected' : '',
         '[SESSO_SELECTED_MASCHIO]' => $rawFilters['sesso'] === 'maschio' ? 'selected' : '',
         '[SESSO_SELECTED_FEMMINA]'  => $rawFilters['sesso'] === 'femmina' ? 'selected' : '',
+        '[ASSEGNATI]' => $rawFilters['assegnati'] ?? '',
     
         '[TYPE]' => htmlspecialchars($type)
-    ];
+    ];    
     
     
     /* ------------------ DB ------------------ */
@@ -283,7 +284,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
     if(!$isFromAdmin) {
         $resetUrl = './animali';
     } else {
-        $resetUrl = './animali-admin';
+        $resetUrl = "./animali-admin?".$rawFilters['assegnati'];
     }
     if ($type !== 'tutti') {
         $resetUrl .= '?tipo=' . urlencode($type);
@@ -328,7 +329,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
     } else {
         if ($connessione->openDBConnection()) {
     
-            $totale = $isFromAdmin ? $connessione->countAssignedAnimalsFiltered($type, $filters, $adminEmail) : $connessione->countAnimalsFiltered($type, $filters);
+            $totale = ($isFromAdmin && $rawFilters['assegnati']!=='tutti') ? $connessione->countAssignedAnimalsFiltered($type, $filters, $adminEmail) : $connessione->countAnimalsFiltered($type, $filters);
             $pagineTotali = max(1, ceil($totale / $perPagina));
     
             if ($pagina > $pagineTotali) {
@@ -351,7 +352,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
         ? (
             "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine'>
                 <ul aria-label='Pagine di navigazione'>"
-            . buildPagination($pagina, $pagineTotali, $type)
+            . buildPagination($pagina, $pagineTotali, $params)
             . "</ul>
             </nav>"
         )
@@ -406,6 +407,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
             <!-- rotta gestita dal router -->
             
             <input type='hidden' name='tipo' value='[TYPE]'/>
+            <input type='hidden' name='assegnati' value='[ASSEGNATI]'/>
     
             <ul aria-label='Filtri di ricerca'>
                 <li class='capsula-filtro' id='searchName'>
