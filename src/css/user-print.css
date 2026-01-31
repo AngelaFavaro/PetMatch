@@ -195,7 +195,7 @@ body footer img#logo-footer{
 }
 
 .torna-su-button,
-img[alt=""]:not(#instagram){
+img[alt=""]:not(#instagram):not(.immagine-evento){
     display: none;
 }
 
