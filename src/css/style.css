@@ -3921,6 +3921,7 @@ ul#statistics-list li{
 }
 #to-do-list li:hover{
     background-color: var(--buttoncolor-hover); 
+    transition: background-color 0.3s ease;
 }
 #to-do-list li:hover a{
     color: var(--hovertext-form-button);
