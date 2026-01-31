@@ -58,11 +58,9 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit-animal'])) { 
         $errors = [];
         
-        // Recupero e trasformazione Tipologia
         $tipologia_val = $_POST['tipologia'] ?? '';
         $tipologia = ($tipologia_val === '0') ? 'Cane' : (($tipologia_val === '1') ? 'Gatto' : '');
         
-        // Recupero campi testo
         $nome = trim($_POST['nome'] ?? '');
         $razza = trim($_POST['razza'] ?? '');
         $taglia = trim($_POST['taglia'] ?? '');
@@ -73,7 +71,6 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
         $condMediche = trim($_POST['condMediche'] ?? '');
         $famiglia = trim($_POST['famiglia'] ?? '');
         
-        // Trasporto e Sesso (M/F per il DB)
         $trasporto = isset($_POST['trasporto']) ? 1 : 0;
         $createMoreValue = isset($_POST['createMore']) ? 1 : 0;
         $sesso_val = $_POST['sesso'] ?? '';
@@ -83,7 +80,6 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
         $regexData = '/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/'; 
         $regexTxt = '/^[a-zA-Z\x{00C0}-\x{017F}\s\',]+$/u';        
         
-        // Validazione
         if (empty($tipologia)) $errors['tipologia'] = "Seleziona una tipologia.";
         if (strlen($nome) < 2 || !preg_match($regexTxt, $nome)) $errors['nome'] = "Nome non valido.";
         if (strlen($razza) < 2 || !preg_match($regexTxt, $razza)) $errors['razza'] = "Razza non valida.";
@@ -118,7 +114,6 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
         
         // Gestione Foto
         $fotoPath = $NewAnimalValues['ImgPath'] ?? '';
-
         if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK && $_FILES['foto']['name'] != "") {
         deleteStoredFile($NewAnimalValues['ImgPath']);    
         $path = uploadImage($_FILES['foto'], 'animals');
@@ -156,25 +151,21 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
             $email_loggato = $_SESSION['email'] ?? null; 
 
             if($isModified){
-                // Esegui l'update
                 $result = $conn->updateAnimal($dataDB, $_GET['id-animale']);
                 if($result){
                     unset($_SESSION['form_status_info'], $_SESSION['form_errors_info'], $_SESSION['form_inputs']);
-                    // REDIRECT alla pagina dettagli-animale usando l'ID esistente
                     header("Location: ./dettagli-animale?id-animale=" . urlencode($_GET['id-animale']));
                     exit;
                 } else {
                     $errors['generic'] = "La modifica dell'animale non è andata a buon fine, riprovare più tardi.";
                 }
             } else {
-                // Esegui l'inserimento nuovo
                 $assegna_a_me = isset($_POST['assegna_a_me']);
                 $email_da_inserire = $assegna_a_me ? $email_loggato : null;
                 $result = $conn->addAnimal($dataDB, $email_da_inserire);
     
                 if ($result) {
                     unset($_SESSION['form_status_info'], $_SESSION['form_errors_info'], $_SESSION['form_inputs']);
-                    // REDIRECT alla pagina dettagli-animale usando l'ID appena creato ($result)
                     header("Location: ./dettagli-animale?id-animale=" . urlencode($result));
                     exit;
                 } else {
@@ -187,8 +178,6 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
         $_SESSION['form_status_info'] = 'error';
         $_SESSION['form_errors_info'] = $errors;
 
-        //sanitize per redisplay, nota: lhp messo anche nelle select perché con ispeziona elemento è possibile 
-        // cambiare il calore mandato invece per le checkbox è solo 0 o 1
         $inputsToSave['Nome'] = htmlspecialchars($nome, ENT_QUOTES, 'UTF-8');
         $inputsToSave['Tipo'] = $tipologia;
         $inputsToSave['Razza'] = htmlspecialchars($razza, ENT_QUOTES, 'UTF-8');
@@ -212,8 +201,6 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
 
         //l'invio della query al db è più in alto, dov'è anche l'invio della query dell'aggiungi animale, solo
         //se anche li controllo in che caso mi trovo
-
-        //pls non modificate
         if($isModified){
             header("Location: ./modifica-animale?id-animale=" . urlencode($_GET['id-animale']));
             exit;
@@ -226,7 +213,6 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
     return $message;
 }
 
-// CONNESSIONE AL DB
 $connessione = new DBAccess();
 $messageInfoForm = [];
 if ($connessione->openDBConnection()) {
@@ -242,13 +228,12 @@ if ($connessione->openDBConnection()) {
 }
 
 
-// COSTRUZIONE PAGINA HTML
 
 $paginaHTML = file_get_contents('./src/template/layout-admin.html');
 $main = file_get_contents('./src/template/main/admin/nuovo-animale.html');
 $breadcrumb = $isModified? getBreadcrumb('modifica-animale', $pagine) : getBreadcrumb('nuovo-animale', $pagine);
 $nav =  $isModified?buildAdminNav($adminMenu,'./modifica-animale'): buildAdminNav($adminMenu,'./nuovo-animale');
-$keywords = $isModified? "<meta name='keywords' content='modifica animale'>" : "<meta name='keywords' content='aggiungi animale'>";
+$keywords = $isModified? "<meta name='keywords' content='modifica, animale, PetMatch, amministratore'>" : "<meta name='keywords' content='aggiungi, animale, PetMatch, amministratore'>";
 $title = $isModified? "<title>Modifica ".$NewAnimalInfo['Nome']." - PetMatch</title>":"<title>Aggiungi un animale - PetMatch</title>";
 $description = $isModified? "<meta name='description' content='Modifica un animale al database di PetMatch per aggiornarne la scheda.'>"
                             :"<meta name='description' content='Aggiungi un animale al database di PetMatch per poterlo visualizzare nel sito.'>";
