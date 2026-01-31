@@ -8,7 +8,7 @@ if ($paginaHTML === false) {
 
 $title = '<title>Come funziona? - PetMatch </title>';
 $description = '<meta name="description" content="Pagina per avere informazioni su come funziona il nostro sito di adozioni di PetMatch">';
-$keywords = "<meta name='keywords' content='Come funziona, come si adotta, adozioni'>";
+$keywords = "<meta name='keywords' content='Come funziona, come si adotta, adozioni, informazioni adozione, animali, PetMatch, rifugio'>";
 
 $breadcrumb = getBreadcrumb('come-funziona', $pagine);
 

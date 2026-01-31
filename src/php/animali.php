@@ -284,7 +284,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
     if(!$isFromAdmin) {
         $resetUrl = './animali';
     } else {
-        $resetUrl = "./animali-admin?".$rawFilters['assegnati'];
+        $resetUrl = "./animali-admin?".urlencode($rawFilters['assegnati']);
     }
     if ($type !== 'tutti') {
         $resetUrl .= '?tipo=' . urlencode($type);

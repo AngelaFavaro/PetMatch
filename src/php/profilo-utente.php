@@ -769,7 +769,7 @@ if ($paginaHTML === false) {
 
 
 $title = '<title>Profilo - PetMatch </title>';
-$description = '<meta name="description" content="Profilo di PetMatch">';
+$description = '<meta name="description" content="Pagina di visualizzazione e modifica profilo di PetMatch">';
 $keywords = "<meta name='keywords' content='Profilo, PetMatch, Modifica profilo, Le tue informazioni, Ultimi movimenti, Le tue richieste'>";
 $nav = buildNav($userMenu, './profilo-utente');
 

@@ -77,12 +77,12 @@ $isDisabled = ($getState == 'Nuova' || $getState == 'In valutazione')?'':'disabl
 
 $paginaHTML = file_get_contents('./src/template/layout.html');
 if ($paginaHTML === false) {
-	$paginaHTML = "<p>Errore: template layout.html non trovato o non leggibile.</p>";
+	$paginaHTML = "<p>Errore:template layout.html non trovato o non leggibile.</p>";
 }
 
 $title = '<title>Revisione richiesta - PetMatch </title>';
-$description = '<meta name="description" content="Rivedi richiesta di addozione">';
-$keywords = "<meta name='keywords' content='Adozione, La tua domanda, Stato della richiesta, Animale interessato'>";
+$description = '<meta name="description" content="Pagina dedicata alla revisione della richiesta di adozione effettuata.">';
+$keywords = "<meta name='keywords' content='Adozione, La tua domanda, Stato della richiesta, Animale interessato, richiesta, adozione, animale, rifugio, PetMatch'>";
 
 $nav = buildNav($userMenu, './revisione-richiesta');
 $footer = buildFooter($footerMenu,  './revisione-richiesta');
