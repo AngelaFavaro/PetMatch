@@ -488,6 +488,68 @@ article.evento {
     display: block; 
 }
 
+/* ------- EVENTO -------- */
+
+
+#admin-body #evento {
+    border: 1px solid var(--lightborder);
+    padding: 0.5cm;
+    break-inside: avoid;
+}
+
+#admin-body #evento img.square-foto {
+    width: 4cm;
+    height: 4cm;
+    object-fit: cover;
+    float: left;
+    margin-right: 0.5cm;
+    margin-bottom: 0.5cm;
+    border-radius: 0.2cm;
+}
+
+#admin-body #evento h1 {
+    font-size: 14pt;
+    margin-bottom: 0.3cm;
+}
+
+#admin-body #evento dt {
+    font-weight: bold;
+}
+
+#admin-body #evento dt::after {
+    content: ":\00a0";
+}
+
+#admin-body #evento dd {
+    margin-bottom: 0.3cm;
+}
+
+#descrizione-evento {
+    clear: both;
+    float: left;
+    padding-top: 0.3cm;
+    border-top: 1px solid var(--lightborder);
+    width: 100%;
+}
+
+#descrizione-evento + dd {
+    clear: both;
+}
+
+#admin-body aside.altri-eventi {
+    break-inside: avoid;
+    margin-top: 0.5cm;
+}
+
+#admin-body .altri-eventi .cards-container {
+    border: 1px solid var(--lightborder);
+    padding: 0.3cm;
+}
+
+#admin-body #evento .button-cancel img{
+    display: none;
+}
+
 /* ---------DETTAGLI RICHIESTA ADOZIONE CON NOTE-------- */
 #details-container .tabs-container{
     display: flex;
@@ -510,8 +572,8 @@ article.evento {
     padding: 0.1cm 0.3cm
 }
 #note-richiesta{
-    padding-top:0.5cm;
-}
+   clear: both;  
+    display: block;}
 
 #animale-richiesta{
     border-bottom: 1px solid var(--lightborder);
@@ -581,11 +643,13 @@ pre#note-text{
     gap: 20px;     
     padding: 20px;
     align-items: flex-start;
+    min-width: 6cm;
 }
 
-#generic-info-container img {
-    width: 15em;
-    height: 15em;
+#admin-area #generic-info-container .square-foto{
+    max-width: 5cm;
+    max-height: 5cm;
+    height: auto;
     object-fit: cover;
     border-radius: 0.5em;
 }
@@ -668,8 +732,9 @@ pre#note-text{
 }
 
 #admin-area #animale-richiesta .square-foto{
-    max-height: 7.5cm;
-    max-width: 11cm;
+    max-height: 5cm;
+    max-width: 5cm;
+    object-fit: cover;
 }
 
 
@@ -806,6 +871,3 @@ pre#note-text{
     padding-right: 0;
 }
 
-.currentLinkPagination li{
-   display: none;
- }
