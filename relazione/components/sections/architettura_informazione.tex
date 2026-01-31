@@ -28,4 +28,43 @@ Similmente, nella pagina delle nuove accoglienze, è possibile filtrare per: \te
 In entrambi i casi, l'ambiguità deriva dalla mancanza di mutua esclusività tra le classi: l'opzione (``tutte'') include gli elementi 
 già presenti nelle altre categorie specifiche.
 
+\paragraph{Pagina richieste di adozione e profilo utente}
+La pagina delle richieste di adozione adotta uno \textbf{schema organizzativo esatto}: le richieste sono classificate univocamente in categorie mutuamente 
+esclusive (\textit{nuove}, \textit{in valutazione}, \textit{da trasportare}, \textit{annullate} o \textit{respinte}), dove ogni istanza appartiene a 
+una sola classe senza sovrapposizioni.
+
+Nella sezione ``Ultimi movimenti'' del profilo utente, pur mantenendo la medesima classificazione, lo schema risulta \textbf{ambiguo} per la presenza 
+dell'opzione ``Tutti''. Nonostante tale voce rappresenti un'assenza di filtri, include elementi che appartengono ad altre classi e venendo inclusi in quest'ultima, si parla di ambiguità.
+
+Nella sezione ``Le tue richieste`` presenti nella pagina profilo utetne, viene adottato uno \textbf{schema organizzativo ambiguo}. L'ambiguità è determinata dalla presenza 
+della voce ``Tutti'', la classificazione poi viene divisa per gli stati:
+\begin{itemize}
+    \item \textbf{Aperte}: include le richieste in stato \textit{nuove} e \textit{in valutazione};
+    \item \textbf{Chiuse}: raggruppa le richieste \textit{adottate}, \textit{respinte}, \textit{annullate} e \textit{da trasportare}.
+\end{itemize}
+
+\paragraph{Pagina senza amministratore, adottati e nuove accoglienze}
+Queste pagine adottano uno \textbf{schema organizzativo esatto} basato sul tipo di animale. È possibile filtrare gli animali esclusivamente per la 
+categoria \textit{cane} o \textit{gatto}. Un animale non può chiaramente appartenere a entrambe le classi contemporaneamente.
+
+
 \subsection{Strutture organizzative}
+Il sito PetMatch integra diverse strutture organizzative per rispondere a differenti necessità di navigazione e reperimento dell'informazione.
+
+\paragraph{Struttura gerarchica}
+È la struttura della navigazione principale. Attraverso la barra di navigazione posta nell'header, l'utente può percorrere l'albero del sito partendo categorie più generali fino a 
+raggiungere le sezioni più specifiche. Questa struttura garantisce l'orientamento dell'utente tramit el'utilizzo della breadcrumb, permettendo all'utente di comprendere sempre la propria 
+posizione all'interno del sito web.
+
+\paragraph{Struttura a faccette}
+La struttura a faccette è ampiamente utilizzata per gestire i filtri relativi ad animali, eventi. 
+Sia nell'interfaccia utente che in quella amministratore, questa struttura permette di esplorare i contenuti ma filtrando simultaneamente diversi attributi 
+(specie, taglia, sesso, data, ecc.), consentendo all'utente di creare visualizzazioni personalizzate del database.
+
+\paragraph{Struttura a ipertesti}
+La struttura ipertestuale è stata fondamentale per permettere all'utente approfondimenti trasversali. Nella Home, le diverse aree del sito vengono riassunte brevemente, consigliandone
+l'approfondimento alle rispettive pagine. È da notare l'area personale dell'amministratore: qui, la lista dei task ``da completare'' funge da sistema di scorciatoie 
+ipertestuali che trasportano l'utente in sezioni specifiche con filtri già applicati, ottimizzando il flusso di lavoro e superando la rigidità della gerarchia standard.
+
+\paragraph{Struttura sequenziale}
+Non è stata adottata una struttura sequenziale all'interno del sito, in quanto non sono presenti processi lineari obbligati.
