@@ -10,12 +10,6 @@ $emailValue ='';
 function createCardEvents(DBAccess $conn){
 	$events = $conn->getLastEvents();
 
-    $mesi=[
-        1 => 'gennaio',  2 => 'febbraio', 3 => 'marzo', 4 => 'aprile',
-        5 => 'maggio',   6 => 'giugno',   7 => 'luglio', 8 => 'agosto',
-        9 => 'settembre',10 => 'ottobre', 11 => 'novembre',12 => 'dicembre'
-    ];
-
     $lastEvents = "";
     for ($i = 0 ; $i<4; $i++){
 
@@ -28,7 +22,7 @@ function createCardEvents(DBAccess $conn){
         $mese = date('n', $timestamp); 
         $anno = date('Y', $timestamp);
     
-        $dataEstesa = $giorno . ' ' . $mesi[$mese] . ' ' . $anno;
+        $dataEstesa = "$anno-$mese-$giorno";
         $dataMobile = date('d/m/Y', $timestamp);
 
         if (empty($event['ImgPath']) || !file_exists($event['ImgPath'])) {
