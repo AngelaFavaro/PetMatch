@@ -1,6 +1,6 @@
 <?php
 
-if(isset($_SESSION['admin']) && $_SESSION['admin'] !== true){
+if($_SESSION['admin'] !== true){
     if(isset($_GET['id'])){
         header("Location: ./animali?id=".urlencode($_GET['id']));
         exit; 
