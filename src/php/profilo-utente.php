@@ -291,7 +291,7 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente, $editAddr
         $hasCity    = strlen($NewUserValues['city']) > 0;
         $hasCAP     = strlen($NewUserValues['CAP']) > 0;
 
-        $modifiedAddress = !($infoUtente['Via'] === $NewUserValues['address']) && ($infoUtente['Citta'] === $NewUserValues['city']) && ($infoUtente['CAP'] === $NewUserValues['CAP']);
+        $modifiedAddress = !(($infoUtente['Via'] === $NewUserValues['address']) && ($infoUtente['Citta'] === $NewUserValues['city']) && ($infoUtente['CAP'] === $NewUserValues['CAP']));
 
         $isAllEmpty = (!$hasAddress && !$hasCity && !$hasCAP);
         $isAllFull  = ($hasAddress && $hasCity && $hasCAP);
@@ -309,6 +309,7 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente, $editAddr
             }
             
             if($isAllEmpty || ($isAllFull && $modifiedAddress)){
+                // $errors['address'] = "Ci passo.";
                 if (!$editAddress) {
                     $errors['indirizzo-totale'] = "Impossibile modificare l'indirizzo: c'è un trasporto attivo.";
                 } 

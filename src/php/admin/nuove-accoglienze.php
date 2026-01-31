@@ -102,7 +102,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="5">Totale ' . $tipoMinuscoloPlurale . ' senza admin</td>
+                    <td colspan="5">Totale ' . $tipoMinuscoloPlurale . ' segnalati</td>
                     <td>' . htmlspecialchars($NSegnalazioniByType) . '</td>
                 </tr>
             </tfoot>
@@ -205,7 +205,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
 
     $main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);
 
-    $title = "<title>Animali senza admin - PetMatch</title>";
+    $title = "<title>Segnalazioni di nuove accoglienze - PetMatch</title>";
     $description = "<meta name='description' content='Pagina di gestione delle richieste di adozione per animali senza amministratore in PetMatch.'>";
     $keywords = "<meta name='keywords' content='richieste, amministratore, animali, PetMatch'>";
     $paginaHTML = str_replace('[title]', $title, $paginaHTML);

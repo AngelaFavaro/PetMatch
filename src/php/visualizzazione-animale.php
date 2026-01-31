@@ -32,6 +32,7 @@ $valVia = '';
 $valCitta = '';
 $valCap = '';
 $valLettera = '';
+$valTrasporto = '';
 $editAddressPermission = false;
 
 //messaggio per laura quando andrà a mettere tutte le funzioni fuori dalla connessione db:
@@ -50,6 +51,7 @@ function handleAdoptionRequest(
     &$valVia,
     &$valCitta,
     &$valCap,
+    &$valTrasporto,
     &$openDetails
 ) {
 
@@ -74,10 +76,11 @@ function handleAdoptionRequest(
             $messaggiErrore[$key] = $value;
         }
 
-        $valLettera = $savedInputs['lettera'] ?? '';
-        $valVia     = $savedInputs['address'] ?? '';
-        $valCitta   = $savedInputs['city'] ?? '';
-        $valCap     = $savedInputs['cap'] ?? '';
+        $valLettera     = $savedInputs['lettera'] ?? '';
+        $valVia         = $savedInputs['address'] ?? '';
+        $valCitta       = $savedInputs['city'] ?? '';
+        $valCap         = $savedInputs['cap'] ?? '';
+        $valTrasporto   = $savedInputs['trasporto'] ?? '';
 
         $openDetails = true;
 
@@ -117,9 +120,11 @@ function handleAdoptionRequest(
         $hasCity    = $city !== '';
         $hasCAP     = $CAP !== '';
 
-        if (($hasAddress || $hasCity || $hasCAP) && !($hasAddress && $hasCity && $hasCAP)) {
+        if($trasportoRichiesto && !($hasAddress && $hasCity && $hasCAP)){
+            $errors['indirizzo_totale'] = "Se richiedi il trasporto, indica l'indirizzo.";
+        }else if (($hasAddress || $hasCity || $hasCAP) && !($hasAddress && $hasCity && $hasCAP)) {
             $errors['indirizzo_totale'] = "Indirizzo incompleto: compila tutti i campi o nessuno.";
-        } elseif ($hasAddress) {
+        } else if ($hasAddress) {
 
             if (!preg_match($regex_indirizzo, $address)) {
                 $errors['indirizzo'] = "Formato indirizzo non valido.";
@@ -168,7 +173,8 @@ function handleAdoptionRequest(
             'lettera' => $valLettera,
             'address' => $valVia,
             'city' => $valCitta,
-            'cap' => $valCap
+            'cap' => $valCap,
+            'trasporto' =>$trasportoRichiesto
         ];
 
         header("Location: animali?id=" . $idAnimale . "#content-form");
@@ -179,9 +185,9 @@ function handleAdoptionRequest(
        PRECARICAMENTO DA DB
        ========================== */
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        $valVia   = htmlspecialchars($infoUtente['Via'] ?? '', ENT_QUOTES, 'UTF-8');
-        $valCitta = htmlspecialchars($infoUtente['Citta'] ?? '', ENT_QUOTES, 'UTF-8');
-        $valCap   = htmlspecialchars($infoUtente['CAP'] ?? '', ENT_QUOTES, 'UTF-8');
+        $valVia   = $infoUtente['Via']? htmlspecialchars($infoUtente['Via'], ENT_QUOTES, 'UTF-8') : $valVia;
+        $valCitta   = $infoUtente['Citta']? htmlspecialchars($infoUtente['Citta'], ENT_QUOTES, 'UTF-8') : $valCitta;
+        $valCap   = $infoUtente['CAP']? htmlspecialchars($infoUtente['CAP'], ENT_QUOTES, 'UTF-8') : $valCap;
     }
 
     return $messaggiErrore;
@@ -302,6 +308,7 @@ if ($connection->openDBConnection()) {
             $valVia,
             $valCitta,
             $valCap,
+            $valTrasporto,
             $openDetails
             );
 
@@ -421,7 +428,7 @@ if (!$utenteAccesso) {
 
                                 <p class='error-form' id='indirizzo-incompleto'>[erroriIndirizzoTotale]</p> 
                             <div id='checkbox-trasporto-container'>
-                                <input type='checkbox' id='trasporto' name='trasporto'/>
+                                <input type='checkbox' id='trasporto' name='trasporto' [trasporto-richiesto]/>
                                 <label for='trasporto'>
                                     <p class='checkbox-title'>Voglio il trasporto dell’animale a casa</p>
                                     <p class='checkbox-description'>Spuntando la casella, verrà programmato il trasporto dell’animale. Ci si prende la responsibilità di essere presenti nel domicilio indicato alla data che verrà comunicata per email.</p>
@@ -440,6 +447,7 @@ if (!$utenteAccesso) {
     $contenutoPagina = str_replace('[via-utente]', $valVia, $contenutoPagina);
     $contenutoPagina = str_replace('[citta-utente]', $valCitta, $contenutoPagina);
     $contenutoPagina = str_replace('[cap-utente]', $valCap, $contenutoPagina);
+    $contenutoPagina = str_replace('[trasporto-richiesto]', $valTrasporto?'checked':'', $contenutoPagina);
 
     $contenutoPagina = str_replace('[ERROR_LETTERA]', $messaggiErrore['lettera'], $contenutoPagina);
     $contenutoPagina = str_replace('[erroriIndirizzo]', $messaggiErrore['indirizzo'], $contenutoPagina);
@@ -474,7 +482,7 @@ if (!$utenteAccesso) {
                 <h2> Richiesta di adozione </h2>
                     <div id='stato-richiesta'>
                         <p> Stato: <span class='enfatizzato'> in valutazione </span> </p>
-                        <p> Ti contatteremo nella mail nel tuo profilo per iniziare la tua conoscenza e valutare se sei il giusto candidato per <strong>$nome</strong> </p>
+                        <p> Ti contatteremo nell'email indicata sul tuo profilo per iniziare la tua conoscenza e valutare se sei il giusto candidato per <strong>$nome</strong> </p>
                         <p> Qualche problema o domanda? Valuta di contattarci </p>
                     </div>
                     <a href='mailto:matchpet48@gmail.com' class='brown-button' id='contatta-il-rifugio'>Contatta il rifugio</a>
