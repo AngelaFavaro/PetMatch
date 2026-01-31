@@ -732,27 +732,25 @@ pre#note-text{
 #admin-area #animale-detailed-container .button-cancel img{
     display: none;
 }
-/* #admin-area #animale-detailed-container #description-info-container{
 
-} */
-#animale-detailed-container {
+#admin-area #animale-detailed-container {
     display: flex;
     flex-direction: column; 
 }
 
-#animale-detailed-container .generic-info-container {
+#admin-area #animale-detailed-container .generic-info-container {
     display: flex;
     flex-direction: column;
 }
 
-#container-animal-details {
+#admin-area #container-animal-details {
     display: flex;
     flex-direction: row; 
     margin-top: 0.4cm;
     align-items: center;
 }
 
-.description-info-container {
+#admin-area .description-info-container {
     margin-top: 0.4cm;
 }
 
@@ -763,9 +761,9 @@ pre#note-text{
 }
 
 
-#container-animal-details .text-details {
+#admin-area #container-animal-details .text-details {
     margin-left: 0.5cm;}
 
-#container-animal-details .text-details dd {
+#admin-area #container-animal-details .text-details dd {
     display: flex;
 }
