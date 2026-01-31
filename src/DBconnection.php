@@ -441,7 +441,6 @@ class DBAccess {
             $data['foto'],
             $email
         );
-
         $success = $stmt->execute();
         
         if ($success) {

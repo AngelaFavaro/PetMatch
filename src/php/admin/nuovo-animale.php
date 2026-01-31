@@ -144,6 +144,7 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
                 'taglia' => $taglia,
                 'sesso' => $sesso_db,
                 'dataNascita' => $dataNascita,
+                'famiglia' => $famiglia,
                 'pelo' => $pelo,
                 'colore' => mb_convert_case($colore, MB_CASE_TITLE, "UTF-8"),
                 'carattere' => trim($carattere),      
