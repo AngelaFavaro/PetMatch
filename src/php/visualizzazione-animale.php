@@ -474,7 +474,7 @@ if (!$utenteAccesso) {
                 <h2> Richiesta di adozione </h2>
                     <div id='stato-richiesta'>
                         <p> Stato: <span class='enfatizzato'> in valutazione </span> </p>
-                        <p> Ti contatteremo nella mail nel tuo profilo per iniziare la tua conoscenza e valutare se sei il giusto candidato per <strong>$nome</strong> </p>
+                        <p> Ti contatteremo nell'email indicata sul tuo profilo per iniziare la tua conoscenza e valutare se sei il giusto candidato per <strong>$nome</strong> </p>
                         <p> Qualche problema o domanda? Valuta di contattarci </p>
                     </div>
                     <a href='mailto:matchpet48@gmail.com' class='brown-button' id='contatta-il-rifugio'>Contatta il rifugio</a>

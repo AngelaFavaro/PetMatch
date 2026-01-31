@@ -130,7 +130,7 @@ $paginaHTML = str_replace('[n-trasporto]', htmlspecialchars($NRequestsByStatus['
 $paginaHTML = str_replace('[imgRichiedente]', htmlspecialchars($infoUtente['ImgPath']), $paginaHTML);
 $paginaHTML = str_replace('[NomeRichiedente]', htmlspecialchars($infoUtente['Nome']), $paginaHTML);
 $paginaHTML = str_replace('[CognomeRichiedente]', htmlspecialchars($infoUtente['Cognome']), $paginaHTML);
-$paginaHTML = str_replace('[IndirizzoRichiedente]', htmlspecialchars($indirizzoCompleto), $paginaHTML);
+$paginaHTML = str_replace('[IndirizzoRichiedente]', $indirizzoCompleto, $paginaHTML);
 $paginaHTML = str_replace('[EmailRichiedente]', htmlspecialchars(($_GET['email'])), $paginaHTML);
 $paginaHTML = str_replace('[TelefonoRichiedente]', htmlspecialchars($printTelefono), $paginaHTML);
 
