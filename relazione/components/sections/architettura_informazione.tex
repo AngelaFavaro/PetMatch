@@ -1,5 +1,31 @@
 \section{Architettura dell'informazione}
 \subsection{Schemi organizzativi}
 \paragraph{Pagina animali}
-La pagina per la visualizzazione degli animali disponibili (o quelli assegnati all'amministratore, nell'area admin) mostra uno schema organizzativo ibrido: gli animali possono essere filtrati per cani o gatti ma anche per range di età, per nome (esatto), per taglia e per sesso.\\
+La pagina per la visualizzazione degli animali disponibili segue uno \textbf{schema organizzativo esatto}. Gli animali possono essere filtrati in base ai seguenti criteri:
+\begin{itemize}
+    \item specie (cani, gatti);
+    \item range di età;
+    \item nome;
+    \item taglia; 
+    \item sesso.
+\end{itemize}
+Per quanto riguarda la pagina dedicata agli amministratori, si introduce uno \textbf{schema organizzativo ambiguo}. Oltre ai filtri esatti citati in precedenza, gli animali vengono 
+classificati in base all'assegnazione: ``Assegnati all'amministratore'' e ``Tutti gli animali''. Tale schema è definito ambiguo in quanto le categorie non sono mutuamente esclusive: 
+un animale assegnato al singolo amministratore rientra in entrambe le visualizzazioni.
+\paragraph{Pagina eventi}
+La pagina per la visualizzazione degli eventi, sia lato utente che admin, adotta uno schema organizzativo basato su parametri cronologici e geografici. I filtri disponibili includono:
+\begin{itemize}
+    \item nome o città;
+    \item range di date;
+    \item stato dell'evento (futuri o terminati, funzionalità esclusiva dell'interfaccia admin).
+\end{itemize}
+
+\paragraph{Pagina adottati e nuove accoglienze}
+Nelle sezioni dedicate alla gestione degli animali adottati e delle nuove accoglienze, si adotta uno \textbf{schema organizzativo ambiguo}. 
+
+Nella pagina degli adottati, il filtro relativo all'assegnazione permette di scegliere tra: \textit{tutte}, \textit{a me} e \textit{non mie}. 
+Similmente, nella pagina delle nuove accoglienze, è possibile filtrare per: \textit{tutte}, \textit{a me} e \textit{nessuno}. 
+In entrambi i casi, l'ambiguità deriva dalla mancanza di mutua esclusività tra le classi: l'opzione (``tutte'') include gli elementi 
+già presenti nelle altre categorie specifiche.
+
 \subsection{Strutture organizzative}
