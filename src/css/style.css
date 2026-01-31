@@ -3919,7 +3919,12 @@ ul#statistics-list li{
     text-decoration: none;
     font-weight: normal;
 }
-
+#to-do-list li:hover{
+    background-color: var(--buttoncolor-hover); 
+}
+#to-do-list li:hover a{
+    color: var(--hovertext-form-button);
+}
 p.query-type{
     font-size: 0.9em;
     line-height: normal;
