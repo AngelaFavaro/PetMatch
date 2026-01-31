@@ -4086,15 +4086,11 @@ a.pencil {
     font-size: 1.5em;
     font-weight: 600;
     margin-top:0.3em;
-    background-color: var(--darkbgcolor);
+    /* background-color: var(--darkbgcolor); */
     padding: 0.3em 0.5em;
-    border-top-left-radius: 0.5em;
-    border-top-right-radius: 0.5em;
+    border: 4px solid var(--darkbgcolor);
 }
 
-/* #informazioni-admin{
-    width: 100%;
-} */
 
 .generic-info-container form{
     max-width: 90%;
