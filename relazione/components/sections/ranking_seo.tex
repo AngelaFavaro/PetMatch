@@ -9,7 +9,8 @@ Oltre ai classici fattori interni che influenzano il posizionamento, altre prati
 \paragraph{Peso delle pagine}
 Durante lo sviluppo del progetto abbiamo notato che le pagine che mostrano molte immagini risultavano molto pesanti da renderizzare. Abbiamo modificato la funzione che importa le immagini per comprimere le immagini arrivando ai 40KB prima di inserirle nel server. Le immagini perdono un po' di qualità ma per lo spazio ridotto che occupano non è un peggioramento evidente e ne risulta un miglioramento notevole nei tempi di caricamento delle pagine.\\
 Inoltre in alcune pagine con le schede a tabs (come quelle che mostrano un layout a schede nell'area amministatore) abbiamo sfruttato il \texttt{display:none} di css per nascondere il contenuto della scheda non attiva. In questo modo, il browser non scarica i dati ad ogni cambio di scheda, ma tutti in una singola volta al caricamento iniziale della pagina. \\
-Questa scelta migliora l'esperienza utente, riducendo i tempi di attesa durante la navigazione tra le schede.
+Questa scelta migliora l'esperienza utente, riducendo i tempi di attesa durante la navigazione tra le schede.\\
+Un'altra tecnica utilizzata per migliorare i tempi di caricamento è stata l'implementazione del lazy loading per le immagini.
 \subsubsection*{Lighthouse}
 Per valutare le prestazioni abbiamo utilizzato lo strumento Lighthouse integrato in Chrome DevTools.\\ I risultati mostrano ottime prestazioni. Qui di seguito sono riportati gli screenshot dei risultati delle pagine più critiche:
 \begin{figure}[H]
