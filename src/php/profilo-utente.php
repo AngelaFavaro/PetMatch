@@ -78,7 +78,7 @@ function createMovementList(DBAccess $conn, $filtro = 'all'): string {
 
                     $screenPartenza = date("Y-m-d", strtotime($richiesta['DataPartenza']));
                     $screenArrivo = date("Y-m-d", strtotime($richiesta['DataArrivo']));
-                    $statoRichiesta = '<em>'.$nomeAnimale.'</em> <strong>partità</strong> il giorno <em><time datetime = "'.$screenPartenza.'">'.$dataFormattataPartenza.'</time></em> e <strong>arriverà</strong> il giorno<em><time datetime="'.$screenArrivo.'">'.$dataFormattataArrivo.'</time>!</em>';
+                    $statoRichiesta = '<em>'.$nomeAnimale.'</em> <strong>partirà</strong> il giorno <em><time datetime = "'.$screenPartenza.'">'.$dataFormattataPartenza.'</time></em> e <strong>arriverà</strong> il giorno <em><time datetime="'.$screenArrivo.'">'.$dataFormattataArrivo.'</time>!</em>';
                     break;
                 case 'Accettata':
                     $statoRichiesta = 'Complimenti! <strong>Hai adottato</strong> con successo <em>'.$nomeAnimale.'</em>.';
