@@ -667,6 +667,10 @@ pre#note-text{
     display: none;
 }
 
+#admin-area #animale-richiesta .square-foto{
+    max-height: 7.5cm;
+    max-width: 11cm;
+}
 
 
 /* NAV DELLE PAGINE SOTTO */
@@ -722,4 +726,48 @@ pre#note-text{
 
 #animali .next-page-links .currentLinkPagination, #eventi .next-page-links .currentLinkPagination {
     justify-content: center;
+}
+
+
+/*----------------------------DETTAGLI ANIMALE ADMIN------------------------------ */
+#admin-area #animale-detailed-container .button-cancel{
+    margin-bottom: 0.4cm;
+}
+#admin-area #animale-detailed-container .button-cancel img{
+    display: none;
+}
+
+#admin-area #animale-detailed-container {
+    display: flex;
+    flex-direction: column; 
+}
+
+#admin-area #animale-detailed-container .generic-info-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#admin-area #container-animal-details {
+    display: flex;
+    flex-direction: row; 
+    margin-top: 0.4cm;
+    align-items: center;
+}
+
+#admin-area .description-info-container {
+    margin-top: 0.4cm;
+}
+
+#admin-area #animale-detailed-container .square-foto{
+
+    max-height: 8cm;
+    max-width: 11cm;
+}
+
+
+#admin-area #container-animal-details .text-details {
+    margin-left: 0.5cm;}
+
+#admin-area #container-animal-details .text-details dd {
+    display: flex;
 }

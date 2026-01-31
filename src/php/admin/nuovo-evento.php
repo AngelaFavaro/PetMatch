@@ -3,8 +3,6 @@ include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
 
-// modifica-evento?titolo=prova+con+autore&data=2026-01-31
-
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { 
     header("Location: ./eventi");
     exit;
@@ -153,8 +151,7 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
             if($isModified){
                 if($conn->updateEvent($infoDB, $oldTitle, $oldData)){
                     unset($_SESSION['form_inputs'], $_SESSION['form_errors_info']);
-                    // TO DO: mettere l'evento appena modificato
-                    header("Location: ./visualizzazione-eventi"); 
+                    header("Location: ./dettagli-evento?titolo=".urlencode($_POST['title-event'])."&data=".urlencode($_POST['day-event'])); 
                     exit;
                 }else{
                     $errors['generic'] = "La modifica dell'evento non è andato a buon fine, riprovare più tardi.";
@@ -165,7 +162,7 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
                     unset($_SESSION['form_inputs'], $_SESSION['form_errors_info']);
                     if($createMoreValue){
                         header("Location: ./nuovo-evento?createMore=1");
-                    }else header("Location: ./visualizzazione-eventi"); //TODO da modificare con l'ultimo evento creato
+                    }else header("Location: ./dettagli-evento?titolo=".urlencode($_POST['title-event'])."&data=".urlencode($_POST['day-event'])); 
                     exit;
                 } else {
                     $errors['generic'] = "L'inserimenti dell'evento non è andato a buon fine, riprovare più tardi.";
@@ -259,7 +256,7 @@ if($isModifiedEvent){
      $paginaHTML = str_replace('id="createMore-container"', 'id="ModifiedMode"', $paginaHTML);
      $paginaHTML = str_replace('[Action-modified]', 'Modifica', $paginaHTML);
      $paginaHTML = str_replace('[Action-modified-legend]', 'Modifica l\'organizzazione dell\'evento', $paginaHTML);
-     $paginaHTML = str_replace('[urlCancel]', './eventi', $paginaHTML); //TODO : modifica mettendo l'evento che si stava visualizzando
+     $paginaHTML = str_replace('[urlCancel]', './dettagli-evento?titolo='.$_GET['titolo'].'&data='.$_GET['data'], $paginaHTML);
 }else{
     $paginaHTML = str_replace('[Action-modified]', 'Aggiungi', $paginaHTML);
     $paginaHTML = str_replace('[Action-modified-legend]', 'Organizza il nuovo evento', $paginaHTML);

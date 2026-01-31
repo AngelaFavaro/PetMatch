@@ -5429,6 +5429,15 @@ nav#breadcrumb a:visited{
     max-height: 120px;
 }
 
+#richiesta-adozione input[readonly]{
+    background-color: var(--darkbgcolor);
+}
+
+#richiesta-adozione input[readonly]:focus{
+    outline: none;
+    outline-offset: none;
+}
+
 #checkbox-trasporto-container {
     display: flex;
     align-items: flex-start;
@@ -5970,7 +5979,7 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    padding: 2rem 0; 
+    padding: 0.7em 0; 
     color: var(--light-txtcolor);
 }
 
@@ -6142,7 +6151,7 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     float: left;
 }
 
-#content-collaborators .circle{
+#content-collaborators .circle-foto{
     float: left;
     width: 6em;
     height: 6em;
