@@ -2,6 +2,10 @@
 require_once './src/utils.php';
 require_once './src/DBconnection.php';
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 use DB\DBAccess;
 
 $idAnimale = $_GET['id'] ?? null;
@@ -28,6 +32,7 @@ $valVia = '';
 $valCitta = '';
 $valCap = '';
 $valLettera = '';
+$editAddressPermission = false;
 
 //messaggio per laura quando andrà a mettere tutte le funzioni fuori dalla connessione db:
 //dato che ho messo il form dentro un details per poterlo aprire con un pulsante, mi serve che se ci sono degli errori
@@ -246,6 +251,7 @@ function handleFavorites(
 $connection = new DBAccess();
 if ($connection->openDBConnection()) {
     handleFavorites($connection, $utenteAccesso, $emailUtente);
+    $editAddressPermission = $connection ->getAddressPermissionEdit($emailUtente);
 
     // 1. Recupero Dettagli Animale
     if ($idAnimale) {
@@ -353,6 +359,8 @@ if (!$utenteAccesso) {
     $contattaci="<a href='mailto:matchpet48@gmail.com' target='_blank' class='brown-button' id='contatta-il-rifugio'>Contatta il rifugio</a>";
     // FORM ADOZIONE
     $infoAggiuntive='info-aggiuntive-separate';
+    $readonlyAttr = $editAddressPermission ? '' : 'readonly';
+    $messaggioAddress= $editAddressPermission ? "<p>Il profilo utente verrà aggiornato con l'indirizzo inserito.</p>" : "<p>Il profilo utente non può essere aggiornato con un nuovo indirizzo perché hai almeno una richiesta di adozione con l'animale in trasporto</p>";
     $contenutoPagina = "
     <div class='container'>
     <p class='error-form' id='errore-db'>[erroriGenerici]</p>
@@ -377,28 +385,41 @@ if (!$utenteAccesso) {
                         </fieldset>
                         <fieldset class='fieldset-indirizzo'>
                             <legend>Indirizzo</legend>
-                            <p>Il profilo utente verrà aggiornato con l'indirizzo inserito.</p>
-                            <div>
-                                <label for='new-address'>Via e numero civico</label>
-                                <input type='text' id='new-address' name='new-address' autocomplete='street-address' 
-                                value='[via-utente]' placeholder='Via L. Da Vinci n.10' required/>
-                                <p class='error-form'>[erroriIndirizzo]</p>   
-                            </div>
-                            <div id='indirizzo-row'>
-                                <div id='citta-container'>
-                                    <label for='new-city'>Città</label>
-                                    <input type='text' id='new-city' name='new-city' autocomplete='address-level2' 
-                                    value='[citta-utente]' placeholder='Roma' required/>
-                                    <p class='error-form'>[erroriCitta]</p>
+                                $messaggioAddress
+
+                                <div>
+                                    <label for='new-address'>Via e numero civico</label>
+                                    <input type='text' id='new-address' name='new-address'
+                                        autocomplete='street-address'
+                                        value='[via-utente]'
+                                        placeholder='Via L. Da Vinci n.10'
+                                        $readonlyAttr />
+                                    <p class='error-form'>[erroriIndirizzo]</p>
                                 </div>
-                                <div id='cap-container'>
-                                    <label for='new-cap'>CAP</label>
-                                    <input type='text' id='new-cap' name='new-cap' autocomplete='postal-code' 
-                                    value='[cap-utente]' placeholder='00000' required/>
-                                    <p class='error-form'>[erroriCAP]</p>
+
+                                <div id='indirizzo-row'>
+                                    <div id='citta-container'>
+                                        <label for='new-city'>Città</label>
+                                        <input type='text' id='new-city' name='new-city'
+                                            autocomplete='address-level2'
+                                            value='[citta-utente]'
+                                            placeholder='Roma'
+                                            $readonlyAttr />
+                                        <p class='error-form'>[erroriCitta]</p>
+                                    </div>
+
+                                    <div id='cap-container'>
+                                        <label for='new-cap'>CAP</label>
+                                        <input type='text' id='new-cap' name='new-cap'
+                                            autocomplete='postal-code'
+                                            value='[cap-utente]'
+                                            placeholder='00000'
+                                            $readonlyAttr />
+                                        <p class='error-form'>[erroriCAP]</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <p class='error-form' id='indirizzo-incompleto'>[erroriIndirizzoTotale]</p>   
+
+                                <p class='error-form' id='indirizzo-incompleto'>[erroriIndirizzoTotale]</p> 
                             <div id='checkbox-trasporto-container'>
                                 <input type='checkbox' id='trasporto' name='trasporto'/>
                                 <label for='trasporto'>

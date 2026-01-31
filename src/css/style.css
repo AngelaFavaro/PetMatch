@@ -5429,6 +5429,15 @@ nav#breadcrumb a:visited{
     max-height: 120px;
 }
 
+#richiesta-adozione input[readonly]{
+    background-color: var(--darkbgcolor);
+}
+
+#richiesta-adozione input[readonly]:focus{
+    outline: none;
+    outline-offset: none;
+}
+
 #checkbox-trasporto-container {
     display: flex;
     align-items: flex-start;
