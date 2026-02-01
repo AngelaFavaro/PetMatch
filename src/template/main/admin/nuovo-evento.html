@@ -24,17 +24,19 @@
             </div> 
             <label for="desc-event">Breve descrizione dell'evento*</label>
 
-            <textarea name="desc-event" 
-                id="desc-event" 
-                placeholder="Breve descrizione"
-                maxlength="255" 
-                aria-describedby="help-counter-evento"
-                oninput="contaCaratteri(this, 'conta-corrente-evento')">[desc-event-place]</textarea>
-            <p id="help-counter-evento">
-                <span class="labelledby-element">limite caratteri</span>
-                <span class="conteggio-testo" id="conta-corrente-evento"></span>
-            </p>
-            [error-desc]
+            <div>
+                <textarea name="desc-event" 
+                    id="desc-event" 
+                    placeholder="Breve descrizione"
+                    maxlength="255" 
+                    aria-describedby="help-counter-evento"
+                    oninput="contaCaratteri(this, 'conta-corrente-evento')">[desc-event-place]</textarea>
+                <p id="help-counter-evento">
+                    <span class="labelledby-element">limite caratteri</span>
+                    <span class="conteggio-testo" id="conta-corrente-evento"></span>
+                </p>
+                [error-desc]
+            </div>
 
             <div class="split-input">
                 <div>
