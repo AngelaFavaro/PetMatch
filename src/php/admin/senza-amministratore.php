@@ -34,7 +34,7 @@ function renderCaniContent(array $CaniNonAdmin, array $NNonAdminByType): string 
                 <tbody>';
         foreach($CaniNonAdmin as $caneNonAdmin){
             //calcolo età da data di nascita
-            $eta = date_diff(date_create($caneNonAdmin['data_nascita']), date_create('today'))->y;
+            $eta = calcolaEta($caneNonAdmin['data_nascita']);
 
             $id = htmlspecialchars($caneNonAdmin['id_animale']);
             $urlDettagli = "dettagli-animale?id-animale=" . $id . "&from=senza-admin";
