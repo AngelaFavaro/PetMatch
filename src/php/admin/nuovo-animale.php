@@ -127,7 +127,7 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
             $fotoPath = $_POST['foto'];
         } 
         if (empty($fotoPath)) {
-            $errors['generic'] = "La foto dell'animale è obbligatoria per completare l'inserimento.";
+            $errors['foto'] = "La foto dell'animale è obbligatoria per completare l'inserimento.";
         }
         
 
@@ -248,7 +248,7 @@ $paginaHTML = str_replace('[main]', $main, $paginaHTML);
 
 
 
-$campi_errori = ['tipologia', 'nome', 'razza', 'taglia', 'sesso', 'dataNascita', 'pelo', 'colore', 'condMediche', 'carattere', 'famiglia'];
+$campi_errori = ['tipologia', 'nome', 'razza', 'taglia', 'sesso', 'dataNascita', 'pelo', 'colore', 'condMediche', 'carattere', 'famiglia', 'foto'];
 foreach ($campi_errori as $campo) {
     $placeholder = '[errori' . ucfirst($campo) . ']';
     // Se non c'è errore, sostituisce con stringa vuota per "pulire" l'HTML

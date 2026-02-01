@@ -4987,6 +4987,11 @@ div#admin-area #animali .filtri ul{
     width: 100%;
 }
 
+.sex-title{
+    font-weight: 550;
+    margin-top: 1.5em;
+}
+
 .sex-group {
     display: flex;
     gap: 1.5em;
@@ -5801,7 +5806,7 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
 
 #come-funziona #comeSiAdotta {
     position: relative;
-    background-color: var(--footercolor);
+    background-color: var(--darkSection);
     border-top-right-radius: 1.5em;
     border-top-left-radius: 1.5em;
     z-index: 0;

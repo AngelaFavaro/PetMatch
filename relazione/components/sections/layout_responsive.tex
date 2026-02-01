@@ -13,6 +13,9 @@ Esempi in cui il layout si adatta includono:
 \paragraph{La navbar} presenta una peculiarità interessante: sui dispositivi mobili, per ottimizzare lo spazio disponibile, la navbar si trasforma in un menù a comparsa (hamburger menu) che può essere aperto e chiuso tramite un pulsante e che rimane fissa allo scroll. 
 Inoltre la navbar nell'area generale (non amministratore) ottimizza gli spazi spostando il pulsante di cambio tema in fondo allo schermo.\\ All'uso del tab tuttavia, per ragioni di implementazione, il focus si sposta dalla navbar (che si trova in alto) al pulsante di cambio tema (in basso), per poi ritornare in alto per navigare tra gli altri link della navbar.
 \paragraph{Home}
-Alcune immagini decorative vengono nascoste con display none, per evitare di appesantire visivamente la visualizzazione su dispositivi con schermo piccolo.
+\begin{itemize}
+    \item Le immagini decorative vengono nascoste su dispositivi mobili mediante \texttt{display:none}, riducendo il carico visivo e ottimizzando lo spazio.
+    \item L'interazione con i punti della timeline cambia da hover (desktop) a tap (mobile) e il contenuto rimane visibile finché l'utente non tocca nuovamente.
+\end{itemize}
 \paragraph{Tabs}
 Le pagine che presentano schede per il cambio di visualizzazione (es. richieste di adozione nell'area amministratore) diventano un menù a tendinta su dispositivi mobili, per permettere la corretta visualizzazione, che altrimenti sarebbe compromessa dallo spazio ridotto.

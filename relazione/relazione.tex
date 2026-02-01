@@ -90,6 +90,30 @@
   \hspace{0.2cm}%
 }
 
+\usepackage[most]{tcolorbox}
+\usepackage{graphicx}
+
+% Definizione della barra di ricerca personalizzata
+\newcommand{\searchbar}[1]{%
+    \begin{tcolorbox}[
+        enhanced,
+        arc=10pt,                         % Arrotondamento angoli
+        boxrule=0.5pt,                    % Spessore bordo
+        colback=grey!50,                    % Colore sfondo
+        colframe=beige!30,                 % Colore bordo
+        width=0.8\textwidth,              % Larghezza della barra
+        left=30pt,                        % Spazio per l'icona a sinistra
+        boxsep=2pt,
+        top=4pt,
+        bottom=4pt,
+        overlay={
+            \node[anchor=west, xshift=8pt] at (frame.west) 
+            {\includegraphics[height=12pt]{assets/search.png}}; % La tua icona
+        }
+    ]
+    \textcolor{brown}{\textsf{#1}}      % Testo stile "placeholder"
+    \end{tcolorbox}
+}
 
 % ------------INIZIO DOCUMENTO--------------
 

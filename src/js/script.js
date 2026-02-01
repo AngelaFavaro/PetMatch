@@ -119,7 +119,6 @@ document.documentElement.style.scrollBehavior = 'auto';
 setTimeout(function() { document.documentElement.style.scrollBehavior = 'smooth'; }, 500);
 
 
-
 //evita di ricaricare la pagina quando di mettono i like
 document.addEventListener('DOMContentLoaded', () => {
     
@@ -181,10 +180,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-
-
 /**cambia il colore dei pulsanti per abbellimento: rende più visibile lo stato della richiesta */
 document.addEventListener('DOMContentLoaded', () => {
+    // VERIFICA STATO RICHISTA ADOZIONE
     const verificaStato = () => {
         const termini = document.querySelectorAll('#Richiesta dt'); //cerca tutti i dt dentro l'article#Richiesta (che ha lo stato)
         let statoTesto = "";
@@ -237,46 +235,51 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    
+    // VALIDAZIONE FORM AGGIUNGI ANIMALE
     
     const formAdd = document.getElementById('form-add-animal');
 
     if (formAdd) {
         formAdd.querySelectorAll('.error-form').forEach(p => {
-            if (p.textContent.trim() === "") {
-                p.style.display = 'none'; 
-            } else {
-                p.style.display = 'block'; 
-            }
+            p.style.display = p.textContent.trim() === "" ? 'none' : 'block';
         });
 
         const setError = (input, message) => {
-            const container = input.closest('div') || input.closest('fieldset');
-            if (!container) return;
-            
+            const container = input.closest('div') || input.closest('fieldset') || input.parentElement;            
             const errorElement = container.querySelector('.error-form');
+
             if (errorElement) {
                 errorElement.textContent = message;
                 errorElement.style.display = message ? 'block' : 'none';
             }
         };
 
+        // inizio i controlli dinamici sui campi
         const validateField = (field) => {
             const val = field.value.trim();
             const name = field.name;
 
-            if (name === 'nome' || name === 'razza' || name === 'colore') {
-                if (val.length < 2) return "Minimo 2 caratteri";
-                if (!/^[a-zA-ZÀ-ÿ\s',]+$/.test(val)) return "Usa solo lettere e virgole";
+            if (['nome', 'razza', 'colore'].includes(name)) {
+                if (val.length < 2) return "Inserisci minimo 2 caratteri";
+            }
+
+            if (name === 'carattere' || name === 'famiglia') {
+                if (val.length < 10) return "La descrizione deve essere di almeno 10 caratteri";
             }
             
             if (name === 'dataNascita') {
                 if (val === "") return "Data obbligatoria";
-                if (new Date(val) > new Date()) return "La data non può essere futura";
+                const dataInserita = new Date(val);
+                const oggi = new Date();
+                const limite = new Date();
+                limite.setFullYear(oggi.getFullYear() - 18);
+
+                if (dataInserita > oggi) return "La data non può essere futura";
+                if (dataInserita < limite) return "L'animale non può avere più di 18 anni";
             }
 
             if (name === 'taglia' || name === 'pelo') {
-                if (val === "" || val === null) return "Seleziona un'opzione";
+                if (!val) return "Seleziona un'opzione";            
             }
 
             if (name === 'tipologia' || name === 'sesso') {
@@ -284,21 +287,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 const isChecked = Array.from(radioGroup).some(r => r.checked);
                 if (!isChecked) return "Selezione obbligatoria";
             }
+
+            if (name === 'foto') {
+                const hiddenFoto = document.querySelector('input[type="hidden"][name="foto"]');
+                if (field.files.length === 0 && !hiddenFoto) {
+                    return "La foto è obbligatoria";
+                }
+            }
             
-            return ""; // Nessun errore
+            return "";
         };
 
         formAdd.querySelectorAll('input, textarea, select').forEach(input => {
-            const type = (input.type === 'radio' || input.tagName === 'SELECT') ? 'change' : 'blur';
+            const eventType = (input.type === 'radio' || input.tagName === 'SELECT') ? 'change' : 'blur';
             
-            input.addEventListener(type, () => {
+            input.addEventListener(eventType, () => {
                 setError(input, validateField(input));
             });
 
+            // Rimuovi errore mentre l'utente corregge
             input.addEventListener('input', () => {
-                const container = input.closest('div') || input.closest('fieldset');
-                const errorDisplay = container.querySelector('.error-form');
-                if (errorDisplay && errorDisplay.style.display === 'block') {
+                const container = input.closest('div') || input.closest('fieldset') || input.parentElement;
+                const err = container.querySelector('.error-form');
+                if (err && err.style.display === 'block') {
                     if (!validateField(input)) setError(input, "");
                 }
             });
@@ -306,82 +317,245 @@ document.addEventListener('DOMContentLoaded', () => {
 
         formAdd.addEventListener('submit', (e) => {
             let firstErrorField = null;
-            const fieldsToValidate = formAdd.querySelectorAll('input, textarea, select');
-            const validatedGroups = new Set();
+            const allInputs = formAdd.querySelectorAll('input, textarea, select');
+            const groupsChecked = new Set();
 
-            fieldsToValidate.forEach(input => {
+            allInputs.forEach(input => {
                 const name = input.name;
                 if (input.type === 'radio') {
-                    if (validatedGroups.has(name)) return;
-                    validatedGroups.add(name);
+                    if (groupsChecked.has(name)) return;
+                    groupsChecked.add(name);
                 }
 
-                const msg = validateField(input);
-                if (msg) {
-                    setError(input, msg);
+                const errorMsg = validateField(input);
+                if (errorMsg) {
+                    setError(input, errorMsg);
                     if (!firstErrorField) firstErrorField = input;
                 }
             });
 
-            if (firstErrorField) {      
-                console.log("JS ha trovato errori, ma lascio inviare al PHP...");
-                firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        });
-    }
-
-    // ========== DRAG & DROP PER FOTO ==========
-    const fileInput = document.getElementById('foto');
-    const fileLabel = document.querySelector('.file-upload-label');
-    const fileNameDisplay = document.querySelector('.file-name-display');
-
-    if (fileInput && fileLabel) {
-        // Previeni comportamento default del browser
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            fileLabel.addEventListener(eventName, (e) => {
+            if (firstErrorField) {
                 e.preventDefault();
-                e.stopPropagation();
-            }, false);
-        });
-
-        ['dragenter', 'dragover'].forEach(eventName => {
-            fileLabel.addEventListener(eventName, () => {
-                fileLabel.classList.add('drag-active');
-            }, false);
-        });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            fileLabel.addEventListener(eventName, () => {
-                fileLabel.classList.remove('drag-active');
-            }, false);
-        });
-
-        fileLabel.addEventListener('drop', (e) => {
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                fileInput.files = files;
-                updateFileName(files[0].name);
-                // Trigger validation
-                setError(fileInput, validateField(fileInput));
-            }
-        }, false);
-
-        // Mostra nome file quando scelto normalmente
-        fileInput.addEventListener('change', () => {
-            if (fileInput.files.length > 0) {
-                updateFileName(fileInput.files[0].name);
+                firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                if (firstErrorField.type === 'radio' || firstErrorField.type === 'file') {
+                   firstErrorField.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
             }
         });
 
-        function updateFileName(name) {
-            fileNameDisplay.textContent = `✓ ${name}`;
-            const infoDiv = document.querySelector('.foto-caricata-info');
-            if (infoDiv) {
-                infoDiv.textContent = `File selezionato: ${name}`;
+        // ========== DRAG & DROP PER FOTO ==========
+        const fileInput = document.getElementById('foto');
+        const fileLabel = document.querySelector('.file-upload-label');
+        const fileNameDisplay = document.querySelector('.file-name-display');
+
+        if (fileInput && fileLabel) {
+            // Previeni comportamento default del browser
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                fileLabel.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }, false);
+            });
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                fileLabel.addEventListener(eventName, () => {
+                    fileLabel.classList.add('drag-active');
+                }, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                fileLabel.addEventListener(eventName, () => {
+                    fileLabel.classList.remove('drag-active');
+                }, false);
+            });
+
+            fileLabel.addEventListener('drop', (e) => {
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    fileInput.files = files;
+                    updateFileName(files[0].name);
+                    // Trigger validation
+                    setError(fileInput, validateField(fileInput));
+                }
+            }, false);
+
+            // Mostra nome file quando scelto normalmente
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length > 0) {
+                    updateFileName(fileInput.files[0].name);
+                }
+            });
+
+            function updateFileName(name) {
+                fileNameDisplay.textContent = `✓ ${name}`;
+                const infoDiv = document.querySelector('.foto-caricata-info');
+                if (infoDiv) {
+                    infoDiv.textContent = `File selezionato: ${name}`;
+                }
             }
         }
-    }
-});
+    } 
+
+    // ========== VALIDAZIONE FORM NUOVO EVENTO ==========
+    const formEvento = document.getElementById('new-event');
+    
+    if (formEvento) {
+        formEvento.querySelectorAll('.error-form').forEach(p => {
+            p.style.display = p.textContent.trim() === "" ? 'none' : 'block';
+        });
+
+        const setErrorEvento = (input, message) => {
+            const container = input.closest('div') || input.closest('fieldset') || input.parentElement;
+            const errorElement = container.querySelector('.error-form');
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.style.display = message ? 'block' : 'none';
+            }
+        };
+
+        const validateFieldEvento = (field) => {
+            const val = field.value.trim();
+            const name = field.name;
+
+            if (name === 'title-event') {
+                if (val === "") return "Inserisci un titolo.";
+                if (val.length < 2) return "Il titolo è troppo corto.";
+                if (val.length > 40) return "Il titolo è troppo lungo.";
+            }
+
+            if (name === 'desc-event') {
+                if (val === "") return "Inserisci una descrizione.";
+                if (val.length < 5) return "La descrizione è troppo corta.";
+                if (val.length > 255) return "La descrizione è troppo lunga.";
+            }
+
+            if (name === 'address-event') {
+                if (val === "") return "Inserisci la via.";
+                if (val.length < 3) return "La via è troppo corta.";
+                if (val.length > 255) return "La via è troppo lunga.";
+                const regexIndirizzo = /^[a-zA-Z.']{3,}\s+.+\s+(?:n\.?\s?)?\d+[a-zA-Z]?$/;
+                if (!regexIndirizzo.test(val)) return "La via non è valida.";
+            }
+
+            if (name === 'city-event') {
+                if (val === "") return "Inserisci la città.";
+                if (val.length < 2) return "La città è troppo corta.";
+                if (val.length > 100) return "La città è troppo lunga.";
+                const regexCitta = /^[\p{L}\s.']{2,}$/u;
+                if (!regexCitta.test(val)) return "La città non è valida.";
+            }
+
+            if (name === 'day-event') {
+                if (val === "") return "Inserisci il giorno.";
+                const dataInserita = new Date(val);
+                const oggi = new Date();
+                oggi.setHours(0, 0, 0, 0);
+                if (dataInserita < oggi) return "L'evento non può essere nel passato.";
+            }
+
+            if (name === 'foto') {
+                const hiddenFoto = formEvento.querySelector('input[type="hidden"][name="old-foto"]');
+                if (field.files.length === 0 && !hiddenFoto) {
+                    return "Inserisci una foto.";
+                }
+            }
+
+            return "";
+        };
+
+        formEvento.querySelectorAll('input, textarea').forEach(input => {
+            console.log('Aggiungo listener a:', input.name, 'tipo:', input.type);
+            
+            const eventType = (input.type === 'file' || input.type === 'date') ? 'change' : 'blur';
+            
+            input.addEventListener(eventType, () => {
+                console.log('Evento triggerato su:', input.name, 'valore:', input.value);
+                const errorMsg = validateFieldEvento(input);
+                console.log('Errore trovato:', errorMsg);
+                setErrorEvento(input, errorMsg);
+            });
+
+            input.addEventListener('input', () => {
+                const container = input.closest('div') || input.closest('fieldset') || input.parentElement;
+                const err = container.querySelector('.error-form');
+                if (err && err.style.display === 'block') {
+                    if (!validateFieldEvento(input)) setErrorEvento(input, "");
+                }
+            });
+        });
+
+        formEvento.addEventListener('submit', (e) => {
+            let firstErrorField = null;
+            const allInputs = formEvento.querySelectorAll('input:not([type="checkbox"]), textarea');
+
+            allInputs.forEach(input => {
+                const errorMsg = validateFieldEvento(input);
+                if (errorMsg) {
+                    setErrorEvento(input, errorMsg);
+                    if (!firstErrorField) firstErrorField = input;
+                }
+            });
+
+            if (firstErrorField) {
+                e.preventDefault();
+                firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                if (firstErrorField.type === 'file') {
+                    firstErrorField.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        });
+
+        // ========== DRAG & DROP FOTO EVENTO ==========
+        const fileInputEvento = formEvento.querySelector('#foto');
+        const fileLabelEvento = formEvento.querySelector('.file-upload-label');
+        const fileNameDisplayEvento = formEvento.querySelector('.file-name-display');
+
+        if (fileInputEvento && fileLabelEvento) {
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                fileLabelEvento.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }, false);
+            });
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                fileLabelEvento.addEventListener(eventName, () => {
+                    fileLabelEvento.classList.add('drag-active');
+                }, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                fileLabelEvento.addEventListener(eventName, () => {
+                    fileLabelEvento.classList.remove('drag-active');
+                }, false);
+            });
+
+            fileLabelEvento.addEventListener('drop', (e) => {
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    fileInputEvento.files = files;
+                    updateFileNameEvento(files[0].name);
+                    setErrorEvento(fileInputEvento, validateFieldEvento(fileInputEvento));
+                }
+            }, false);
+
+            fileInputEvento.addEventListener('change', () => {
+                if (fileInputEvento.files.length > 0) {
+                    updateFileNameEvento(fileInputEvento.files[0].name);
+                }
+            });
+
+            function updateFileNameEvento(name) {
+                fileNameDisplayEvento.textContent = `✓ ${name}`;
+                const infoDiv = formEvento.querySelector('.foto-caricata-info');
+                if (infoDiv) {
+                    infoDiv.textContent = `File selezionato: ${name}`;
+                }
+            }
+        }
+    } 
+
+}); 
 
 //mette il numeri di caratteri inseriti 
 function contaCaratteri(campo, idContatore) {
