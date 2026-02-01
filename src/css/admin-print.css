@@ -887,16 +887,25 @@ pre#note-text{
     padding-right: 0;
 }
 
-/* ------------------AGGIUNGI ANIMALE ------------------- */
+/* ------------------AGGIUNGI ANIMALE E AGGIUNGI EVENTO------------------- */
 
-#form-add-animal,
- #new-event{
+#form-add-animal{
     border-radius: 0.5cm;
     border:1px solid var(--lightborder);
     margin:0.4cm auto 0 auto;
     padding: 0.3cm 0.5cm;
     display: block;
     columns: 2;
+
+    break-inside: avoid; 
+    page-break-inside: avoid;
+}
+#new-event{
+    border-radius: 0.5cm;
+    border:1px solid var(--lightborder);
+    margin:0.4cm auto 0 auto;
+    padding: 0.3cm 0.5cm;
+    display: block;
 
     break-inside: avoid; 
     page-break-inside: avoid;
@@ -915,9 +924,14 @@ pre#note-text{
     } 
 
     #form-add-animal fieldset label:not(.file-upload-label):not(.radio-card):not(.sex-option),
-    #new-event fieldset label{
+    #new-event fieldset label:not(.file-upload-label){
     font-weight:600;  
     } 
+  
+    #admin-body #nuovo-evento #new-event label{
+        display: block;
+        margin-top: 0.3cm;
+    }
 
 
 #form-add-animal fieldset .labelledby-element,
@@ -929,6 +943,7 @@ pre#note-text{
 #form-add-animal fieldset .column-container .column-user div{
     padding:0.1cm 0cm;
 } 
+
 #form-add-animal .sex-option,
 #form-add-animal .radio-card{
     border-radius: 0.2cm;
@@ -954,7 +969,8 @@ pre#note-text{
     font-family: inherit;
 }
 
-#form-add-animal fieldset #condMediche{
+#form-add-animal fieldset #condMediche,
+#new-event fieldset #desc-event{
     field-sizing: content;
     min-height: 1.2cm;
     display: block;
@@ -963,8 +979,13 @@ pre#note-text{
     font-family: inherit;
 
 }
+#form-add-animal input,
+#new-event input{
+    font-family: inherit;
+}
 
-#form-add-animal input[type="checkbox"]{
+#form-add-animal input[type="checkbox"],
+#new-event input[type="checkbox"]{
     display: inline-block;
     appearance: auto;
 }
@@ -979,12 +1000,14 @@ pre#note-text{
 #menu-admin #currentLink{
     display: none;
 }
-#form-add-animal fieldset #dataNascita {
+#form-add-animal fieldset #dataNascita,
+#new-event fieldset #day-event {
     display:inline;
 }
 #form-add-animal label + input:not(#gatto),
 #form-add-animal select,
-#form-add-animal fieldset #dataNascita{
+#form-add-animal fieldset #dataNascita,
+#new-event label + input{
     border-radius: 0.5cm;
     padding: 0.5em 1em;
     margin: 0.2em 0 0.3em 0;
@@ -994,17 +1017,19 @@ pre#note-text{
     box-sizing: border-box; 
 }
 #form-add-animal .file-upload-label #foto,
-#form-add-animal .file-upload-label .file-name-display {
-
+#form-add-animal .file-upload-label .file-name-display,
+#new-event .file-upload-label #foto,
+#new-event .file-upload-label .file-name-display{
     display: none;
 } 
-#form-add-animal .file-upload-label .file-upload-text::after{
-        content: ")";
 
-}
-#form-add-animal .file-upload-label .file-upload-text::before{
+#form-add-animal .file-upload-label .file-upload-text::before,
+#new-event .file-upload-label .file-upload-text::before{
         content: "(";
-
+}
+#form-add-animal .file-upload-label .file-upload-text::after,
+#new-event .file-upload-label .file-upload-text::after{
+        content: ")";
 }
 
 .file-upload-label .foto-caricata-info img{
@@ -1016,12 +1041,15 @@ pre#note-text{
     padding-right: 0.6cm;
 }
 
-#form-add-animal fieldset .error-form {
+#form-add-animal fieldset .error-form,
+#nuovo-evento #new-event fieldset .error-form{
     display: none;
 }
 
 #form-add-animal .form-buttons-container button,
-#form-add-animal .form-buttons-container #cancel-add-animal{
+#form-add-animal .form-buttons-container #cancel-add-animal,
+#nuovo-evento #new-event .form-buttons-container button,
+#nuovo-evento #new-event .form-buttons-container #cancel-new-event{
         border: 1px solid var(--lightborder);
         margin: 0.2cm 0 0.5cm 0;
         padding: 0.4em 1.5em;
@@ -1031,3 +1059,7 @@ pre#note-text{
         text-decoration: none;
         color:black;
     }
+
+#form-add-animal h1{
+    text-align: left;
+}
