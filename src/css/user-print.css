@@ -65,6 +65,11 @@ a:not(#logo-link):not(.pencil):not([href^="mailto:"]):not(.polaroid):not([href^=
     padding-bottom: 0.5cm;
     border-bottom: 1px solid var(--lightborder);
 }
+
+#furgoncino {
+    display: none;
+}
+
 /*==============FILTRI================ */
 
 .capsula-filtro:has(input[type="date"][value=""])::after,
