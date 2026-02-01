@@ -252,3 +252,7 @@ td.col-dettagli a,td.col-dettagli button{
     flex: none;
     width: 100%;
 }
+
+#eventi .cards-container li, #visualizzazione-evento .cards-container li{
+    max-width: 100%;
+}
