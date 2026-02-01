@@ -632,6 +632,7 @@ input[type="radio"]:focus-visible + label,
 a:focus-visible,
 button:focus-visible,
 textarea:focus-visible,
+li.card:has(a:focus-visible),
 input:focus-visible + label[for="theme-toggle"],
 input [type="checkbox"]:focus-visible{
     outline: 3px solid red;
