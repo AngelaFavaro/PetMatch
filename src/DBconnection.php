@@ -1680,25 +1680,6 @@ class DBAccess {
         return $exists;
     }
 
-    function getLastEvents(): array {
-        $events = [];
-        $query = "SELECT Titolo, DataEvento, ImgPath, Citta FROM EVENTI 
-                    ORDER BY DataEvento DESC LIMIT 4";
-
-        $stmt = mysqli_prepare($this->connection, $query);
-
-        if ($stmt) {
-            mysqli_stmt_execute($stmt);
-            $result = mysqli_stmt_get_result($stmt);
-
-            $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-            mysqli_stmt_close($stmt);
-        }
-
-        return $events;
-    }
-
 
     function getNRequestByStatusUser($email): array {
         $counts = [
