@@ -347,6 +347,13 @@ if (!$utenteAccesso) {
                             <textarea id='lettera-presentazione' name='lettera-presentazione' rows='7' cols='50' placeholder='Parlaci di te' required>[VALORE_LETTERA]</textarea>
                             <p class='error-form'>[ERROR_LETTERA]</p>
                         </fieldset>
+                            <div id='checkbox-trasporto-container'>
+                                <input type='checkbox' id='trasporto' name='trasporto' [trasporto-richiesto]/>
+                                <label for='trasporto'>
+                                    <p class='checkbox-title'>Voglio il trasporto dell’animale a casa</p>
+                                    <p class='checkbox-description'>Spuntando la casella, verrà programmato il trasporto dell’animale. Ci si prende la responsabilità di essere presenti nel domicilio indicato alla data che verrà comunicata per mail.</p>
+                                </label>
+                            </div>
                         <fieldset class='fieldset-indirizzo'>
                             <legend>Indirizzo</legend>
                                 $messaggioAddress
@@ -384,13 +391,6 @@ if (!$utenteAccesso) {
                                 </div>
 
                                 <p class='error-form' id='indirizzo-incompleto'>[erroriIndirizzoTotale]</p> 
-                            <div id='checkbox-trasporto-container'>
-                                <input type='checkbox' id='trasporto' name='trasporto' [trasporto-richiesto]/>
-                                <label for='trasporto'>
-                                    <p class='checkbox-title'>Voglio il trasporto dell’animale a casa</p>
-                                    <p class='checkbox-description'>Spuntando la casella, verrà programmato il trasporto dell’animale. Ci si prende la responsabilità di essere presenti nel domicilio indicato alla data che verrà comunicata per mail.</p>
-                                </label>
-                            </div>
                             <button class='orange-button' name='submit-adoption-request' type='submit'>Invia il modulo</button>
                         </fieldset>
                     </form>
