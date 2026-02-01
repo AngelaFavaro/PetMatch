@@ -275,20 +275,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (dataInserita < limite) return "L'animale non può avere più di 18 anni";
             }
 
-            if (name === 'taglia' || name === 'pelo') {
-                if (!val) return "Seleziona un'opzione";            
-            }
-
-            if (name === 'tipologia' || name === 'sesso') {
-                const radioGroup = document.getElementsByName(name);
-                const isChecked = Array.from(radioGroup).some(r => r.checked);
-                if (!isChecked) return "Selezione obbligatoria";
-            }
-
-            if (name === 'foto') {
-                const hiddenFoto = document.querySelector('input[type="hidden"][name="foto"]');
-                if (field.files.length === 0 && !hiddenFoto) {
-                    return "La foto è obbligatoria";
+            if (name === 'condMediche') {
+                if (val.length > 0 && val.length < 5) {
+                    return "Se inserisci le condizioni mediche, descrivi con almeno 5 caratteri";
                 }
             }
             
@@ -310,26 +299,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (!validateField(input)) setError(input, "");
                 }
             });
-        });
-
-        formAdd.addEventListener('submit', (e) => {
-            const allInputs = formAdd.querySelectorAll('input, textarea, select');
-            const groupsChecked = new Set();
-
-            allInputs.forEach(input => {
-                const name = input.name;
-                if (input.type === 'radio') {
-                    if (groupsChecked.has(name)) return;
-                    groupsChecked.add(name);
-                }
-
-                const errorMsg = validateField(input);
-                if (errorMsg) {
-                    setError(input, errorMsg);
-                    if (!firstErrorField) firstErrorField = input;
-                }
-            });
-
         });
 
         // ========== DRAG & DROP PER FOTO ==========
@@ -442,13 +411,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (dataInserita < oggi) return "L'evento non può essere nel passato.";
             }
 
-            if (name === 'foto') {
-                const hiddenFoto = formEvento.querySelector('input[type="hidden"][name="old-foto"]');
-                if (field.files.length === 0 && !hiddenFoto) {
-                    return "Inserisci una foto.";
-                }
-            }
-
             return "";
         };
 
@@ -471,19 +433,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (!validateFieldEvento(input)) setErrorEvento(input, "");
                 }
             });
-        });
-
-        formEvento.addEventListener('submit', (e) => {
-            const allInputs = formEvento.querySelectorAll('input:not([type="checkbox"]), textarea');
-
-            allInputs.forEach(input => {
-                const errorMsg = validateFieldEvento(input);
-                if (errorMsg) {
-                    setErrorEvento(input, errorMsg);
-                    if (!firstErrorField) firstErrorField = input;
-                }
-            });
-
         });
 
         // ========== DRAG & DROP FOTO EVENTO ==========

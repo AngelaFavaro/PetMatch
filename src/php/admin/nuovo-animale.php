@@ -111,6 +111,12 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
         } elseif (strlen($famiglia) < 10) {
             $errors['famiglia'] = "La descrizione della famiglia è troppo breve (minimo 10 caratteri).";
         }
+
+        if (!empty($condMediche) && trim($condMediche) !== "" && $condMediche !== "0") {
+            if (strlen(trim($condMediche)) < 5) {
+                $errors['condMediche'] = "Se inserisci le condizioni mediche, descrivi con almeno 5 caratteri.";
+            }
+        }
         
         // Gestione Foto
         $fotoPath = $NewAnimalValues['ImgPath'] ?? '';
