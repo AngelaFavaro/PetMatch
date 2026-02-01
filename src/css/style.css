@@ -4948,6 +4948,11 @@ div#admin-area #animali .filtri ul{
     width: 100%;
 }
 
+.radio-group-cg .error-form{
+    flex: 1 1 100%;
+    text-align: center;
+} 
+
 .radio-group-cg input[type="radio"] {
     opacity: 0;
 }
