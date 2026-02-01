@@ -1362,7 +1362,9 @@ details:not([open]) .popup {
     width: 55%;
     margin-left:3%;
 }
-
+#section-events > p{
+    background-color: var(--secondsection);
+}
 #events-list{
     display: flex;
     gap: 2em;
