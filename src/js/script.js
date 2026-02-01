@@ -240,9 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const formAdd = document.getElementById('form-add-animal');
 
     if (formAdd) {
-        formAdd.querySelectorAll('.error-form').forEach(p => {
-            p.style.display = p.textContent.trim() === "" ? 'none' : 'block';
-        });
+        formAdd.querySelectorAll('.error-form');
 
         const setError = (input, message) => {
             const container = input.closest('div') || input.closest('fieldset') || input.parentElement;            
@@ -250,7 +248,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (errorElement) {
                 errorElement.textContent = message;
-                errorElement.style.display = message ? 'block' : 'none';
             }
         };
 
@@ -309,7 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
             input.addEventListener('input', () => {
                 const container = input.closest('div') || input.closest('fieldset') || input.parentElement;
                 const err = container.querySelector('.error-form');
-                if (err && err.style.display === 'block') {
+                if (err) {
                     if (!validateField(input)) setError(input, "");
                 }
             });
