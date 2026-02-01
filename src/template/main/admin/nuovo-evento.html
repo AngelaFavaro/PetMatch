@@ -8,7 +8,7 @@
                     <label for="title-event">Titolo*</label>
                     <input type="text" name="title-event" id="title-event"  maxlength="40" placeholder="Titolo" 
                     aria-describedby="help-counter-titoloevento"
-                    oninput="contaCaratterilimit40(this, 'conta-corrente-titoloevento')"value="[title-event-value]"/>
+                    value="[title-event-value]"/>
                     <p id="help-counter-titoloevento">
                         <span class="labelledby-element">limite caratteri</span>
                         <span class="conteggio-testo" id="conta-corrente-titoloevento"></span>
@@ -30,7 +30,7 @@
                     placeholder="Breve descrizione"
                     maxlength="255" 
                     aria-describedby="help-counter-evento"
-                    oninput="contaCaratteri(this, 'conta-corrente-evento')">[desc-event-place]</textarea>
+                    >[desc-event-place]</textarea>
                 <p id="help-counter-evento">
                     <span class="labelledby-element">limite caratteri</span>
                     <span class="conteggio-testo" id="conta-corrente-evento"></span>
@@ -43,7 +43,6 @@
                     <label for="address-event">Via e numero civico*</label>
                     <input type="text" name="address-event" id="address-event" maxlength="255" 
                     aria-describedby="help-counter-address"
-                    oninput="contaCaratteri(this, 'conta-corrente-address')"
                     placeholder="Via Paolotti n.42" value="[address-event-value]"/>
                     <p id="help-counter-address">
                         <span class="labelledby-element">limite caratteri</span>
@@ -55,7 +54,6 @@
                     <label for="city-event">Città*</label>
                     <input type="text" name="city-event" id="city-event"  maxlength="100" placeholder="Padova" 
                     aria-describedby="help-counter-citta"
-                    oninput="contaCaratterilimit100(this, 'conta-corrente-citta')"
                     value="[city-event-value]"/>
                     <p id="help-counter-citta">
                         <span class="labelledby-element">limite caratteri</span>

@@ -3,8 +3,6 @@ include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
 
-if (session_status() === PHP_SESSION_NONE) { session_start(); }
-
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { 
     header("Location: ./eventi");
     exit;
@@ -27,9 +25,6 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
         'foto' => '', 'via' => '','citta' => '', 'existEvent' => ''
     ];
 
-    $oldTitle = $_GET['titolo'] ?? '';
-    $oldData = $_GET['data'] ?? '';
-
     if (isset($_SESSION['form_status_info']) && $_SESSION['form_status_info'] === 'error') {
         $savedErrors = $_SESSION['form_errors_info'] ?? [];
         foreach ($savedErrors as $key => $val) {
@@ -50,7 +45,6 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit-event'])) { 
         $errors = [];
-        $fotoPath = "";
         
         // Recupero campi testo
         $titoloValue = $_POST['title-event'] ?? '';
@@ -128,22 +122,27 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
         }
         
         // Gestione Foto
-        if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
+        if(isset($_FILES['foto']) && $_FILES['foto']['name'] != "") {
+            if($newEventValues['ImgPath']){
+                deleteStoredFile($newEventValues['ImgPath']);
+            } 
             $path = uploadImage($_FILES['foto'], 'events');
-            if ($path) { $fotoPath = $path; }
-        } elseif (!empty($_POST['old-foto'])) {
+            if ($path !== null) {
+                $fotoPath = $path;
+            }
+        }else if(isset($_POST['old-foto']) && !empty($_POST['old-foto'])) {
             $fotoPath = $_POST['old-foto'];
-        } else {
+        }else{
             $errors['foto'] = "Inserisci una foto.";
         }
 
         if (empty($errors)) {
             $infoDB = [
-                'titolo' => $titoloValue, 
-                'data' => $dayValue, 
-                'descrizione' => $descValue,
-                'via' => $addressValue, 
-                'citta' => $cityValue, 
+                'titolo' => $_POST['title-event'],
+                'data' => $_POST['day-event'],
+                'descrizione' => $_POST['desc-event'],
+				'via' => $_POST['address-event'],
+                'citta' => $_POST['city-event'],
                 'foto' => $fotoPath,
                 'email' => $_SESSION['email']
             ];
@@ -157,15 +156,26 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
             } else {
                 $errors['generic'] = "Errore durante il salvataggio nel database.";
             }
+
 		}
 
         $_SESSION['form_status_info'] = 'error';
         $_SESSION['form_errors_info'] = $errors;
-        $_SESSION['form_inputs'] = $_POST;
-        $_SESSION['form_inputs']['foto'] = $fotoPath;
+        $inputsToSave['title-event'] = $titoloValue; 
+        $inputsToSave['day-event'] = $dayValue; 
+        $inputsToSave['desc-event'] = $descValue; 
+        $inputsToSave['address-event'] = $addressValue; 
+        $inputsToSave['city-event'] = $cityValue; 
+        $inputsToSave['foto'] = $fotoPath; 
+        $inputsToSave['createMore'] = $createMoreValue; 
+        $_SESSION['form_inputs'] = $inputsToSave; 
 
-        $redirect = $isModified ? "./modifica-evento?titolo=".urlencode($oldTitle)."&data=".urlencode($oldData) : "./nuovo-evento";
-        header("Location: $redirect");
+        if($isModified){
+            header('Location: ./modifica-evento?titolo='.urlencode($oldTitle).'&data='.urlencode($oldData));
+        }else{
+            header("Location: ./nuovo-evento");
+        }
+
         exit;
     }
     return $message;

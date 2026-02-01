@@ -313,7 +313,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         formAdd.addEventListener('submit', (e) => {
-            let firstErrorField = null;
             const allInputs = formAdd.querySelectorAll('input, textarea, select');
             const groupsChecked = new Set();
 
@@ -331,13 +330,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            if (firstErrorField) {
-                e.preventDefault();
-                firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                if (firstErrorField.type === 'radio' || firstErrorField.type === 'file') {
-                   firstErrorField.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            }
         });
 
         // ========== DRAG & DROP PER FOTO ==========
@@ -482,7 +474,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         formEvento.addEventListener('submit', (e) => {
-            let firstErrorField = null;
             const allInputs = formEvento.querySelectorAll('input:not([type="checkbox"]), textarea');
 
             allInputs.forEach(input => {
@@ -493,13 +484,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            if (firstErrorField) {
-                e.preventDefault();
-                firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                if (firstErrorField.type === 'file') {
-                    firstErrorField.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            }
         });
 
         // ========== DRAG & DROP FOTO EVENTO ==========
@@ -606,6 +590,71 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     if(campo_colore) {
         contaCaratterilimit100(campo_colore, "conta-corrente-colore");
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    var campo_nome = document.getElementById('nome');
+    if(campo_nome) {
+        contaCaratterilimit100(campo_nome, "conta-corrente-nome");
+        
+        campo_nome.addEventListener('input', function() {
+            contaCaratterilimit100(this, "conta-corrente-nome");
+        });
+    }
+
+    var campo_razza = document.getElementById('razza');
+    if(campo_razza) {
+        contaCaratterilimit100(campo_razza, "conta-corrente-razza");
+        
+        campo_razza.addEventListener('input', function() {
+            contaCaratterilimit100(this, "conta-corrente-razza");
+        });
+    }
+
+    var campo_colore = document.getElementById('colore');
+    if(campo_colore) {
+        contaCaratterilimit100(campo_colore, "conta-corrente-colore");
+        
+        campo_colore.addEventListener('input', function() {
+            contaCaratterilimit100(this, "conta-corrente-colore");
+        });
+    }
+
+    var campo_city = document.getElementById('city-event');
+    if(campo_city) {
+        contaCaratterilimit100(campo_city, "conta-corrente-citta");
+        
+        campo_city.addEventListener('input', function() {
+            contaCaratterilimit100(this, "conta-corrente-citta");
+        });
+    }
+
+    var campo_nome = document.getElementById('address-event');
+    if(campo_nome) {
+        contaCaratteri(campo_nome, "conta-corrente-address");
+        
+        campo_nome.addEventListener('input', function() {
+            contaCaratteri(this, "conta-corrente-address");
+        });
+    }
+
+    var campo_descr = document.getElementById('desc-event');
+    if(campo_descr) {
+        contaCaratteri(campo_descr, "conta-corrente-evento");
+        
+        campo_descr.addEventListener('input', function() {
+            contaCaratteri(this, "conta-corrente-evento");
+        });
+    }
+
+    var campo_titolo = document.getElementById('title-event');
+    if(campo_titolo) {
+        contaCaratterilimit40(campo_titolo, "conta-corrente-titoloevento");
+        
+        campo_titolo.addEventListener('input', function() {
+            contaCaratterilimit40(this, "conta-corrente-titoloevento");
+        });
     }
 });
 
