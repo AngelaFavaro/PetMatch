@@ -619,21 +619,57 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    var campo_nome = document.getElementById('razza');
-    if(campo_nome) {
-        contaCaratterilimit100(campo_nome, "conta-corrente-razza");
+    var campo_razza = document.getElementById('razza');
+    if(campo_razza) {
+        contaCaratterilimit100(campo_razza, "conta-corrente-razza");
         
-        campo_nome.addEventListener('input', function() {
+        campo_razza.addEventListener('input', function() {
             contaCaratterilimit100(this, "conta-corrente-razza");
         });
     }
 
-    var campo_nome = document.getElementById('colore');
+    var campo_colore = document.getElementById('colore');
+    if(campo_colore) {
+        contaCaratterilimit100(campo_colore, "conta-corrente-colore");
+        
+        campo_colore.addEventListener('input', function() {
+            contaCaratterilimit100(this, "conta-corrente-colore");
+        });
+    }
+
+    var campo_city = document.getElementById('city-event');
+    if(campo_city) {
+        contaCaratterilimit100(campo_city, "conta-corrente-citta");
+        
+        campo_city.addEventListener('input', function() {
+            contaCaratterilimit100(this, "conta-corrente-citta");
+        });
+    }
+
+    var campo_nome = document.getElementById('address-event');
     if(campo_nome) {
-        contaCaratterilimit100(campo_nome, "conta-corrente-colore");
+        contaCaratteri(campo_nome, "conta-corrente-address");
         
         campo_nome.addEventListener('input', function() {
-            contaCaratterilimit100(this, "conta-corrente-colore");
+            contaCaratteri(this, "conta-corrente-address");
+        });
+    }
+
+    var campo_descr = document.getElementById('desc-event');
+    if(campo_descr) {
+        contaCaratteri(campo_descr, "conta-corrente-evento");
+        
+        campo_descr.addEventListener('input', function() {
+            contaCaratteri(this, "conta-corrente-evento");
+        });
+    }
+
+    var campo_titolo = document.getElementById('title-event');
+    if(campo_titolo) {
+        contaCaratterilimit40(campo_titolo, "conta-corrente-titoloevento");
+        
+        campo_titolo.addEventListener('input', function() {
+            contaCaratterilimit40(this, "conta-corrente-titoloevento");
         });
     }
 });
