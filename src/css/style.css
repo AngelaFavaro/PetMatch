@@ -217,7 +217,7 @@ main#content{
     /* min-height: 100vh; */
     flex: 1;
     padding-top: 2em;
-    padding-bottom: 2em;
+    padding-bottom: 1em;
     min-height: auto;
 }
 
@@ -379,7 +379,7 @@ button.brown-button{
     
     width: 130px;
     height: auto;
-    margin: 6% auto 0 auto;
+    margin: 3% auto 0 auto;
     text-align: center;
     color:var(--text-buttoncolor);
     text-decoration: underline;
