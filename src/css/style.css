@@ -632,6 +632,7 @@ input[type="radio"]:focus-visible + label,
 a:focus-visible,
 button:focus-visible,
 textarea:focus-visible,
+input:focus-visible + label[for="theme-toggle"],
 input [type="checkbox"]:focus-visible{
     outline: 3px solid red;
     outline-offset: 2px;
@@ -5998,16 +5999,12 @@ footer address a.email:visited,
     padding-top: 2em;
 }
 
-#trasporto {
-    background-color: var(--headercolor);
-    width: 100vw; 
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 2rem 0; 
-    color: var(--light-txtcolor);
+#checkbox-trasporto-container:has(#trasporto:checked) + .fieldset-indirizzo{
+    display: block;
 }
-
+.fieldset-indirizzo{
+    display: none;
+}
 #trasporto > div:first-child {
     display: flex;
     flex-wrap: wrap;
