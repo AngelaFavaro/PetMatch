@@ -313,7 +313,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         formAdd.addEventListener('submit', (e) => {
-            let firstErrorField = null;
             const allInputs = formAdd.querySelectorAll('input, textarea, select');
             const groupsChecked = new Set();
 
@@ -331,13 +330,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            if (firstErrorField) {
-                e.preventDefault();
-                firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                if (firstErrorField.type === 'radio' || firstErrorField.type === 'file') {
-                   firstErrorField.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            }
         });
 
         // ========== DRAG & DROP PER FOTO ==========
@@ -482,7 +474,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         formEvento.addEventListener('submit', (e) => {
-            let firstErrorField = null;
             const allInputs = formEvento.querySelectorAll('input:not([type="checkbox"]), textarea');
 
             allInputs.forEach(input => {
@@ -493,13 +484,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            if (firstErrorField) {
-                e.preventDefault();
-                firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                if (firstErrorField.type === 'file') {
-                    firstErrorField.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            }
         });
 
         // ========== DRAG & DROP FOTO EVENTO ==========
