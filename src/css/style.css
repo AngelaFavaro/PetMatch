@@ -3773,7 +3773,9 @@ button[name="show-dialog"].button-cancel img{
     margin: 2em 0 0.8em 0;
 }
 
-
+#ci-presentiamo h2, #ci-presentiamo p{
+    background-color: var(--secondsection);
+}
 #ci-presentiamo p{
     margin-bottom: 0.5em;
 }
