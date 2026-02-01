@@ -531,7 +531,6 @@ input:placeholder-shown{
     transform: scale(1.1);
 }
 
-/* 2. Il popup appare */
 details[open] .popup{
     opacity: 1;
     margin-top: 0;
@@ -957,14 +956,6 @@ header a{
     background-color: var(--bgcolor);
 }
 
-
-
-
-
-
-
-
-
 /* per admin */
 #solo-stampa{
     display: none;
@@ -1006,12 +997,6 @@ header a{
     content: none;
     display: none;
 }
-
-
-
-
-
-
 
 /* Icone sole/luna */
 #sun, #moon {
@@ -1336,7 +1321,6 @@ details:not([open]) .popup {
   }
 }
 
-/* sezione 4: eventi */
 
 #section-events{
     background-color: var(--secondsection); /* nel caso non caricasse l'immagine */
@@ -1534,8 +1518,6 @@ details:not([open]) .popup {
     margin-top:-16%;
     margin-bottom:10%;
 }
-
-
 
 /* form affidamento */
 
@@ -2042,10 +2024,8 @@ float: none;
 
 /* Lista filtri */
 
-
-
 #cancel-filter-visible{
-    color:var(--text-buttoncolor);
+    color:var(--txtcolor);
     border:2px solid var(--buttoncolor);
     padding:5px 12px;
     text-align: center;
@@ -2079,8 +2059,6 @@ float: none;
 #cancel-filter-invisible {
     display: none;
 }
-
-
 
 #animali .cards-container {
     display: flex;
@@ -2196,7 +2174,7 @@ float: none;
     font-style: italic;
 }
 
-#animali .dark-card img.immagine {
+#animali .dark-card .immagine img {
     opacity: 50%;
 }
 
@@ -2290,9 +2268,6 @@ float: none;
     display: none;
 }
 
-/* Assicurati che il form riempia tutto l'overlay */
-
-
 /* LINK NEXT PAGES */
 
 #animali .next-page-links, #eventi .next-page-links {
@@ -2363,11 +2338,6 @@ float: none;
 }
 
 
-
-
-
-
-
 /*=================PAGINA ANIMALI PREFERITI======================*/
 /* Banner */
 
@@ -2419,11 +2389,6 @@ float: none;
     margin: 0.5em;
     background-color: var(--bgcolor);
 }
-
-
-
-
-
 
 
 
@@ -2572,7 +2537,7 @@ cursor: pointer;
 }
 
 #eventi .evento:hover, #visualizzazione-evento .evento:hover {
-    border: 2px solid var(--buttoncolor-hover);
+    border: 2px solid var(--cardHover);
 }
 
 #eventi .cards-container li, #visualizzazione-evento .cards-container li{
@@ -4922,7 +4887,7 @@ div#admin-area #animali .filtri ul{
     transition: all 0.3s ease;
     
     /* COLORE QUANDO NON CLICCATO */
-    background-color: var(--bgcolor); 
+    background-color: var(--form-bg); 
     border: 0.1em solid var(--text-form); /* Circa 2px */
 }
 
@@ -5787,6 +5752,14 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
 }
 
 #come-funziona .testo address{
+    display: contents;
+}
+
+#come-funziona .testo p#contatti{
+    display: contents;
+}
+
+#come-funziona .testo p#contatti a{
     display: contents;
 }
 

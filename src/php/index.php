@@ -37,8 +37,6 @@ function createCardEvents(DBAccess $conn){
         $ariaLabel = "evento " . $titolo. ': '.$dataEstesa.', '.$citta ;
         
     } else {
-        
-        // Qui metti quello che vuoi mostrare se mancano eventi
         $titolo = "Prossimamente";
         $img = "./assets/images/eventi-default.jpg"; // Immagine di default
         $dataEstesa = ""; 
@@ -190,7 +188,7 @@ if ($paginaHTML === false) {
 
 $title = '<title lang="en">Home - PetMatch </title>';
 $description = '<meta name="description" lang="en" content="Home page di PetMatch. Il sito per trovare tra tutti gli animali il tuo match perfetto! La distanza non è un problema: organizziamo trasporti in tutta italia. Trova eventi e scopri come sostenerci. Vuoi lavorare con noi? Contattaci!">';
-$keywords = "<meta name='keywords' content='Adotta, eventi, sostenitori, trovare casa a un animale, come si adotta, adotta anche a distanza'>";
+$keywords = "<meta name='keywords' content='adotta, eventi, sostenitori, trovare casa a un animale, come si adotta, adotta anche a distanza, animale, rifugio'>";
 
 $nav = buildNav($userMenu, './home');
 
@@ -211,9 +209,6 @@ $paginaHTML = str_replace('[messaggiForm]', $messaggiForm, $paginaHTML);
 $paginaHTML = str_replace('[UltimiEventi]', $InfoEvents, $paginaHTML);
 
 // SOSTITUZIONE DEI VALORI INPUT
-// htmlspecialchars() con ENT_QUOTES converte gli apici singoli e doppi.
-// Se uno scrive: <script>alert('ciao')</script>
-// Diventa: &lt;script&gt;alert(&#039;ciao&#039;)&lt;/script&gt; -> testo innocuo
 $paginaHTML = str_replace('value="[nameValue]"', $nameValue!==''?'value="'.$nameValue.'"': '', $paginaHTML);
 $paginaHTML = str_replace('value="[emailValue]"', $emailValue!==''?'value="'.$emailValue.'"': '', $paginaHTML);
 $paginaHTML = str_replace( 'value="' . $animalValue . '"', 'value="' . $animalValue . '" checked', $paginaHTML);

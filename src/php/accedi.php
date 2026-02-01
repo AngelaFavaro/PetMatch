@@ -55,36 +55,39 @@ function checkCredential(DBAccess $conn, &$email) {
         if (empty($errors)) {
             $_SESSION['email'] = $email;
             // === MIGRAZIONE PREFERITI DA COOKIE A DB ===
-            if (isset($_COOKIE['preferiti_guest'])) {
-
-                $preferiti = json_decode($_COOKIE['preferiti_guest'], true);
-
-                if (is_array($preferiti) && !empty($preferiti)) {
-
-                    foreach ($preferiti as $idAnimale) {
-                        $idAnimale = (int)$idAnimale;
-
-                        // evita duplicati
-                        if (!$conn->isAnimalInFavorites($email, $idAnimale)) {
-                            $conn->addToFavorites($email, $idAnimale);
-                        }
-                    }
-                }
-
-                // cancella cookie dopo migrazione
-                setcookie('preferiti_guest', '', time() - 3600, '/');
-            }
-
-
+            
             $role = $conn->getRole($email);
 
             if ($role === 'Admin') {
                 $_SESSION['admin'] = true;
                 $_SESSION['ruolo'] = 'Admin';
+                if (isset($_COOKIE['preferiti_guest'])) { //cancello cookies
+                    setcookie('preferiti_guest', '', time() - 3600, '/');
+                }
                 header("Location: ./area-riservata");
             } else if($role === 'User'){
                 $_SESSION['admin'] = false;
                 $_SESSION['ruolo'] = 'User';
+                if (isset($_COOKIE['preferiti_guest'])) {
+
+                    $preferiti = json_decode($_COOKIE['preferiti_guest'], true);
+
+                    if (is_array($preferiti) && !empty($preferiti)) {
+
+                        foreach ($preferiti as $idAnimale) {
+                            $idAnimale = (int)$idAnimale;
+
+                            // evita duplicati
+                            if (!$conn->isAnimalInFavorites($email, $idAnimale)) {
+                                $conn->addToFavorites($email, $idAnimale);
+                            }
+                        }
+                    }                
+                }
+            // cancella cookie dopo migrazione
+            if (isset($_COOKIE['preferiti_guest'])) {
+                setcookie('preferiti_guest', '', time() - 3600, '/');
+            }
                 header("Location: ./profilo-utente"); 
             }
             exit;
@@ -122,8 +125,8 @@ if ($paginaHTML === false) {
 $emailToEcho   = htmlspecialchars($emailValue, ENT_QUOTES, 'UTF-8');
 
 $title = '<title>Accedi - PetMatch </title>';
-$description = '<meta name="description" content="Accedi a PetMatch">';
-$keywords = "<meta name='keywords' content='Accedi'>";
+$description = '<meta name="description" content="Pagina di accesso a PetMatch">';
+$keywords = "<meta name='keywords' content='accedi, PetMatch, login, accesso, animali, adozione'>";
 
 $nav = buildNav($userMenu, './accedi');
 $footer = buildFooter($footerMenu,  './accedi');

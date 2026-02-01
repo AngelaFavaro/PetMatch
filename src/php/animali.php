@@ -121,8 +121,8 @@ if(isset($_GET['id'])) {
         'eta_min'       => $_GET['eta_min'] ?? '',
         'eta_max'       => $_GET['eta_max'] ?? ''
     ];
-    if ($isFromAdmin && isset($_GET['assegnati'])) {
-        $rawFilters['assegnati'] = $_GET['assegnati'];
+    if ($isFromAdmin) {
+        $rawFilters['assegnati'] =  isset($_GET['assegnati']) ? $_GET['assegnati'] : 'miei';
     }
         
     // per DB + paginazione
@@ -156,14 +156,19 @@ if(isset($_GET['id'])) {
         '[SESSO_SELECTED_EMPTY]'    => $rawFilters['sesso'] === '' ? 'selected' : '',
         '[SESSO_SELECTED_MASCHIO]' => $rawFilters['sesso'] === 'maschio' ? 'selected' : '',
         '[SESSO_SELECTED_FEMMINA]'  => $rawFilters['sesso'] === 'femmina' ? 'selected' : '',
+        '[ASSEGNATI]' => $rawFilters['assegnati'] ?? '',
     
         '[TYPE]' => htmlspecialchars($type)
-    ];
+    ];    
     
     
     /* ------------------ DB ------------------ */
     $cardAnimali = '';
     $linkPagine  = '';
+
+    $totaleGatti= '';
+    $totaleCani= '';
+    $totaleAll= '';
     
     
     /* ------------------ NAV TIPO ------------------ */
@@ -196,9 +201,9 @@ if(isset($_GET['id'])) {
     
         return "
         <ul aria-label='Filtri sulla tipologia'>
-            {$item('tutti', 'Tutti')}
-            {$item('Gatto', 'Gatti')}
-            {$item('Cane', 'Cani')}
+            {$item('tutti', 'Tutti[COUNTALL]')}
+            {$item('Gatto', 'Gatti[COUNTCAT]')}
+            {$item('Cane', 'Cani[COUNTDOG]')}
         </ul>";
     }
     
@@ -218,6 +223,8 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
                 $colore = $a['colore'];
                 $adottato = isset($a['adottato']) && (int)$a['adottato'] === 1;
                 $cardClass = $adottato ? 'dark-card' : 'card';
+                $giàInteressato= $adottato ? 'Non disponibile' : '';
+                $classeInteressato= $adottato ? 'adottato' : 'interessamento';
 
                 // LOGICA LINK: Se sono in "assegnati a te" uso dettaglio-animale, altrimenti visualizzazione-animale
                 $linkDettagli = $isFromAdmin ? "dettagli-animale?id-animale=$id" : "visualizzazione-animale?id=$id";
@@ -266,7 +273,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
                         </div>";
                 }
 
-                $html .= "
+                $html .= "<p class='$classeInteressato'>$giàInteressato</p>
                             <div class='dettagli-animale-bottone'>
                                 <a href='$linkDettagli'>Vedi dettagli</a>
                             </div>
@@ -283,10 +290,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
     if(!$isFromAdmin) {
         $resetUrl = './animali';
     } else {
-        $resetUrl = './animali-admin';
-        if (isset($_GET['assegnati'])) {
-            $resetUrl .= '?assegnati=' . urlencode($_GET['assegnati']);
-        }
+        $resetUrl = "./animali-admin?".urlencode($rawFilters['assegnati']);
     }
     if ($type !== 'tutti') {
         $resetUrl .= '?tipo=' . urlencode($type);
@@ -330,8 +334,30 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
         }
     } else {
         if ($connessione->openDBConnection()) {
-    
-            $totale = $isFromAdmin ? $connessione->countAssignedAnimalsFiltered($type, $filters, $adminEmail) : $connessione->countAnimalsFiltered($type, $filters);
+            $totale = ($isFromAdmin && $rawFilters['assegnati']!=='tutti') ? $connessione->countAssignedAnimalsFiltered($type, $filters, $adminEmail) : $connessione->countAnimalsFiltered($type, $filters);
+            if($isFromAdmin) {
+                if($type!='Gatto') {
+                    $totaleGatti = '(';
+                    $totaleGatti .= ($isFromAdmin && $rawFilters['assegnati']!=='tutti') ? $connessione->countAssignedAnimalsFiltered('Gatto', $filters, $adminEmail) : $connessione->countAnimalsFiltered('Gatto', $filters);
+                    $totaleGatti .= ')';
+                } else {
+                    $totaleGatti="(".$totale.")";
+                }
+                if($type!='Cane') {
+                    $totaleCani = '(';
+                    $totaleCani .=($isFromAdmin && $rawFilters['assegnati']!=='tutti') ? $connessione->countAssignedAnimalsFiltered('Cane', $filters, $adminEmail) : $connessione->countAnimalsFiltered('Cane', $filters);
+                    $totaleCani .= ')';
+                } else {
+                    $totaleCani="(".$totale.")";
+                }
+                if($type!='tutti') {
+                    $totaleAll = '(';
+                    $totaleAll .= ($isFromAdmin && $rawFilters['assegnati']!=='tutti') ? $connessione->countAssignedAnimalsFiltered('tutti', $filters, $adminEmail) : $connessione->countAnimalsFiltered('tutti', $filters);
+                    $totaleAll .= ')';
+                } else {
+                    $totaleAll="(".$totale.")";
+                }
+            }
             $pagineTotali = max(1, ceil($totale / $perPagina));
     
             if ($pagina > $pagineTotali) {
@@ -345,18 +371,21 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
             }
             $userEmail = $_SESSION['email'] ?? null;
             $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail,$isFromAdmin) : "<p class='errore'>$messaggioNoAnimali</p>";
-            $paginationParams = array_merge(['tipo' => $type], $filters ?? []);
-
+            if($filters) {
+            $params= array_merge(['tipo' => $type], $filters);
+            } else {
+                $params=$type;
+            }
             $linkPagine = ($pagineTotali > 1)
-                ? (
-                    "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine'>
-                        <ul aria-label='Pagine di navigazione'>"
-                    . buildPagination($pagina, $pagineTotali, $paginationParams) // <--- Passiamo l'array completo!
-                    . "</ul>
-                    </nav>"
-                )
-                : '';
-
+        ? (
+            "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine'>
+                <ul aria-label='Pagine di navigazione'>"
+            . buildPagination($pagina, $pagineTotali, $params)
+            . "</ul>
+            </nav>"
+        )
+        : '';
+    
             $connessione->closeConnection();
         }
     }
@@ -406,7 +435,8 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
             <!-- rotta gestita dal router -->
             
             <input type='hidden' name='tipo' value='[TYPE]'/>
-            " . ($isFromAdmin && isset($_GET['assegnati']) ? "<input type='hidden' name='assegnati' value='".htmlspecialchars($_GET['assegnati'])."'/>" : "") . "
+            <input type='hidden' name='assegnati' value='[ASSEGNATI]'/>
+    
             <ul aria-label='Filtri di ricerca'>
                 <li class='capsula-filtro' id='searchName'>
                     <label for='name-animal'>Nome</label>
@@ -470,7 +500,10 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
         $description = '<meta name="description" content="i tuoi animali preferiti in adozione su PetMatch">';
     
     }
-    $keywords = "<meta name='keywords' content='animali, nome, taglia, sesso, età'>";
+    $main = str_replace('[COUNTALL]', $totaleAll, $main);
+    $main = str_replace('[COUNTCAT]', $totaleGatti, $main);
+    $main = str_replace('[COUNTDOG]', $totaleCani, $main);
+    $keywords = "<meta name='keywords' content='animali, nome, taglia, sesso, età, adozione, PetMatch, colore, pelo, cane, gatto'>";
     
     
     $nav = $isPreferiti ? buildNav($userMenu, './preferiti') : ($isFromAdmin ? buildAdminNav($adminMenu, './animali-admin') : buildNav($userMenu, './animali'));
