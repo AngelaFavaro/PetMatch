@@ -556,6 +556,9 @@ article.evento {
     gap:1cm;
     list-style: none;
 }
+#admin-body #content-collaborators dt::after{
+    display: none;
+}
 
 /* ---------DETTAGLI RICHIESTA ADOZIONE CON NOTE-------- */
 #details-container .tabs-container{
@@ -856,7 +859,7 @@ pre#note-text{
     text-align: left;
 }
 
-
+/* 
 #admin-body .cards-container:has(article.card) li,
 #admin-body .cards-container:has(.evento) li{
     flex-grow: 1;
@@ -868,7 +871,7 @@ pre#note-text{
     flex-direction: column;
     margin-bottom: -0.8cm;
 }
-
+ */
 
 
 #admin-body .evento img.immagine-evento{

@@ -5457,7 +5457,8 @@ nav#breadcrumb a:visited{
 }
 
 #richiesta-adozione input[readonly]{
-    background-color: var(--darkbgcolor);
+    background-color: var(--modifiedAccount);
+    color: var(--txtcolor);
 }
 
 #richiesta-adozione input[readonly]:focus{
