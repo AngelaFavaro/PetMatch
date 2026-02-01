@@ -223,6 +223,8 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
                 $colore = $a['colore'];
                 $adottato = isset($a['adottato']) && (int)$a['adottato'] === 1;
                 $cardClass = $adottato ? 'dark-card' : 'card';
+                $giàInteressato= $adottato ? 'Non disponibile' : '';
+                $classeInteressato= $adottato ? 'adottato' : 'interessamento';
 
                 // LOGICA LINK: Se sono in "assegnati a te" uso dettaglio-animale, altrimenti visualizzazione-animale
                 $linkDettagli = $isFromAdmin ? "dettagli-animale?id-animale=$id" : "visualizzazione-animale?id=$id";
@@ -271,7 +273,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
                         </div>";
                 }
 
-                $html .= "
+                $html .= "<p class='$classeInteressato'>$giàInteressato</p>
                             <div class='dettagli-animale-bottone'>
                                 <a href='$linkDettagli'>Vedi dettagli</a>
                             </div>
@@ -335,19 +337,25 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
             $totale = ($isFromAdmin && $rawFilters['assegnati']!=='tutti') ? $connessione->countAssignedAnimalsFiltered($type, $filters, $adminEmail) : $connessione->countAnimalsFiltered($type, $filters);
             if($isFromAdmin) {
                 if($type!='Gatto') {
-                    $totaleGatti = ($isFromAdmin && $rawFilters['assegnati']!=='tutti') ? $connessione->countAssignedAnimalsFiltered('Gatto', $filters, $adminEmail) : $connessione->countAnimalsFiltered('Gatto', $filters);
+                    $totaleGatti = '(';
+                    $totaleGatti .= ($isFromAdmin && $rawFilters['assegnati']!=='tutti') ? $connessione->countAssignedAnimalsFiltered('Gatto', $filters, $adminEmail) : $connessione->countAnimalsFiltered('Gatto', $filters);
+                    $totaleGatti .= ')';
                 } else {
-                    $totaleGatti=$totale;
+                    $totaleGatti="(".$totale.")";
                 }
                 if($type!='Cane') {
-                    $totaleCani = ($isFromAdmin && $rawFilters['assegnati']!=='tutti') ? $connessione->countAssignedAnimalsFiltered('Cane', $filters, $adminEmail) : $connessione->countAnimalsFiltered('Cane', $filters);
+                    $totaleCani = '(';
+                    $totaleCani .=($isFromAdmin && $rawFilters['assegnati']!=='tutti') ? $connessione->countAssignedAnimalsFiltered('Cane', $filters, $adminEmail) : $connessione->countAnimalsFiltered('Cane', $filters);
+                    $totaleCani .= ')';
                 } else {
-                    $totaleCani=$totale;
+                    $totaleCani="(".$totale.")";
                 }
                 if($type!='tutti') {
-                    $totaleAll = ($isFromAdmin && $rawFilters['assegnati']!=='tutti') ? $connessione->countAssignedAnimalsFiltered('tutti', $filters, $adminEmail) : $connessione->countAnimalsFiltered('tutti', $filters);
+                    $totaleAll = '(';
+                    $totaleAll .= ($isFromAdmin && $rawFilters['assegnati']!=='tutti') ? $connessione->countAssignedAnimalsFiltered('tutti', $filters, $adminEmail) : $connessione->countAnimalsFiltered('tutti', $filters);
+                    $totaleAll .= ')';
                 } else {
-                    $totaleAll=$totale;
+                    $totaleAll="(".$totale.")";
                 }
             }
             $pagineTotali = max(1, ceil($totale / $perPagina));
@@ -492,9 +500,9 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
         $description = '<meta name="description" content="i tuoi animali preferiti in adozione su PetMatch">';
     
     }
-    $main = str_replace('[COUNTALL]', "($totaleAll)", $main);
-    $main = str_replace('[COUNTCAT]', "($totaleGatti)", $main);
-    $main = str_replace('[COUNTDOG]', "($totaleCani)", $main);
+    $main = str_replace('[COUNTALL]', $totaleAll, $main);
+    $main = str_replace('[COUNTCAT]', $totaleGatti, $main);
+    $main = str_replace('[COUNTDOG]', $totaleCani, $main);
     $keywords = "<meta name='keywords' content='animali, nome, taglia, sesso, età, adozione, PetMatch, colore, pelo, cane, gatto'>";
     
     

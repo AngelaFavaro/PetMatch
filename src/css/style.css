@@ -2174,7 +2174,7 @@ float: none;
     font-style: italic;
 }
 
-#animali .dark-card img.immagine {
+#animali .dark-card .immagine img {
     opacity: 50%;
 }
 

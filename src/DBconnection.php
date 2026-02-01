@@ -1398,18 +1398,21 @@ class DBAccess {
         return 0;
     }
 
-    $where = 'WHERE 1=1';
+    $where = 'WHERE R.IDanimale IS NULL';
     $params = [];
     $types = '';
 
-    // Applichiamo i filtri comuni
+    // filtri comuni (Tipo, nome, taglia, ecc.)
     $this->applyFilters($type, $filters, $where, $params, $types);
 
-    $query = "SELECT COUNT(*) AS totale FROM ANIMALI A";
-
-    if (!empty($where)) {
-        $query .= " $where";
-    }
+    $query = "
+        SELECT COUNT(DISTINCT A.IDanimale) AS totale
+        FROM ANIMALI A
+        LEFT JOIN RICHIESTE_ADOZIONI R
+            ON A.IDanimale = R.IDanimale
+            AND R.Stato IN ('Accettata', 'Da trasportare')
+        $where
+    ";
 
     $stmt = mysqli_prepare($this->connection, $query);
     if ($stmt) {
@@ -1591,7 +1594,7 @@ class DBAccess {
             SELECT a.Nome, a.Sesso, a.DataNascita, a.ImgPath, a.Tipo, a.Colore, a.IDanimale AS Id
             FROM ANIMALI a
             LEFT JOIN RICHIESTE_ADOZIONI r 
-            ON a.IDanimale = r.IDanimale AND r.Stato = 'Accettata'
+            ON a.IDanimale = r.IDanimale AND r.Stato IN ('Accettata', 'Da trasportare')
             WHERE r.IDanimale IS NULL
         ";
 
@@ -2012,7 +2015,7 @@ class DBAccess {
                         SELECT 1
                         FROM RICHIESTE_ADOZIONI r
                         WHERE r.IDanimale = a.IDanimale
-                        AND r.Stato = 'Accettata'
+                        AND r.Stato IN ('Accettata', 'Da trasportare')
                     ) THEN 1
                     ELSE 0
                 END AS adottato
