@@ -531,7 +531,6 @@ input:placeholder-shown{
     transform: scale(1.1);
 }
 
-/* 2. Il popup appare */
 details[open] .popup{
     opacity: 1;
     margin-top: 0;
@@ -957,14 +956,6 @@ header a{
     background-color: var(--bgcolor);
 }
 
-
-
-
-
-
-
-
-
 /* per admin */
 #solo-stampa{
     display: none;
@@ -1006,12 +997,6 @@ header a{
     content: none;
     display: none;
 }
-
-
-
-
-
-
 
 /* Icone sole/luna */
 #sun, #moon {
@@ -1336,7 +1321,6 @@ details:not([open]) .popup {
   }
 }
 
-/* sezione 4: eventi */
 
 #section-events{
     background-color: var(--secondsection); /* nel caso non caricasse l'immagine */
@@ -1534,8 +1518,6 @@ details:not([open]) .popup {
     margin-top:-16%;
     margin-bottom:10%;
 }
-
-
 
 /* form affidamento */
 
@@ -2042,8 +2024,6 @@ float: none;
 
 /* Lista filtri */
 
-
-
 #cancel-filter-visible{
     color:var(--text-buttoncolor);
     border:2px solid var(--buttoncolor);
@@ -2079,8 +2059,6 @@ float: none;
 #cancel-filter-invisible {
     display: none;
 }
-
-
 
 #animali .cards-container {
     display: flex;
@@ -2290,9 +2268,6 @@ float: none;
     display: none;
 }
 
-/* Assicurati che il form riempia tutto l'overlay */
-
-
 /* LINK NEXT PAGES */
 
 #animali .next-page-links, #eventi .next-page-links {
@@ -2363,11 +2338,6 @@ float: none;
 }
 
 
-
-
-
-
-
 /*=================PAGINA ANIMALI PREFERITI======================*/
 /* Banner */
 
@@ -2419,11 +2389,6 @@ float: none;
     margin: 0.5em;
     background-color: var(--bgcolor);
 }
-
-
-
-
-
 
 
 

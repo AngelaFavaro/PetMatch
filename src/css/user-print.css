@@ -854,6 +854,8 @@ margin-bottom: 0.3cm;
 
 #visualizzazione-animale #info-generiche-testo dt {
     font-weight: bold;
+    float: left;
+    margin-right: 10px;
 }
 
 #visualizzazione-animale #info-aggiuntive-separate,
