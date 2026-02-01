@@ -1405,12 +1405,16 @@ class DBAccess {
     // filtri comuni (Tipo, nome, taglia, ecc.)
     $this->applyFilters($type, $filters, $where, $params, $types);
 
+    $visibilityInTransport="IN ('Accettata', 'Da trasportare')";
+        if(isset($filters['assegnati'])) {
+            $visibilityInTransport="='Accettata'";
+        }
     $query = "
         SELECT COUNT(DISTINCT A.IDanimale) AS totale
         FROM ANIMALI A
         LEFT JOIN RICHIESTE_ADOZIONI R
             ON A.IDanimale = R.IDanimale
-            AND R.Stato IN ('Accettata', 'Da trasportare')
+            AND R.Stato $visibilityInTransport
         $where
     ";
 
@@ -1589,12 +1593,16 @@ class DBAccess {
             $params[] = (int)$filters['eta_max'];
             $types .= 'i';
         }
+        $visibilityInTransport="IN ('Accettata', 'Da trasportare')";
+        if(isset($filters['assegnati'])) {
+            $visibilityInTransport="='Accettata'";
+        }
 
         $query = "
             SELECT a.Nome, a.Sesso, a.DataNascita, a.ImgPath, a.Tipo, a.Colore, a.IDanimale AS Id
             FROM ANIMALI a
             LEFT JOIN RICHIESTE_ADOZIONI r 
-            ON a.IDanimale = r.IDanimale AND r.Stato IN ('Accettata', 'Da trasportare')
+            ON a.IDanimale = r.IDanimale AND r.Stato $visibilityInTransport
             WHERE r.IDanimale IS NULL
         ";
 
