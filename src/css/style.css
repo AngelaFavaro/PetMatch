@@ -1363,7 +1363,7 @@ details:not([open]) .popup {
     width: 55%;
     margin-left:3%;
 }
-#section-events > p{
+#section-events > p, #section-events > h2,  #section-events > h3{
     background-color: var(--secondsection);
 }
 #events-list{
