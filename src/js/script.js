@@ -312,26 +312,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        formAdd.addEventListener('submit', (e) => {
-            const allInputs = formAdd.querySelectorAll('input, textarea, select');
-            const groupsChecked = new Set();
-
-            allInputs.forEach(input => {
-                const name = input.name;
-                if (input.type === 'radio') {
-                    if (groupsChecked.has(name)) return;
-                    groupsChecked.add(name);
-                }
-
-                const errorMsg = validateField(input);
-                if (errorMsg) {
-                    setError(input, errorMsg);
-                    if (!firstErrorField) firstErrorField = input;
-                }
-            });
-
-        });
-
         // ========== DRAG & DROP PER FOTO ==========
         const fileInput = document.getElementById('foto');
         const fileLabel = document.querySelector('.file-upload-label');
@@ -471,19 +451,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (!validateFieldEvento(input)) setErrorEvento(input, "");
                 }
             });
-        });
-
-        formEvento.addEventListener('submit', (e) => {
-            const allInputs = formEvento.querySelectorAll('input:not([type="checkbox"]), textarea');
-
-            allInputs.forEach(input => {
-                const errorMsg = validateFieldEvento(input);
-                if (errorMsg) {
-                    setErrorEvento(input, errorMsg);
-                    if (!firstErrorField) firstErrorField = input;
-                }
-            });
-
         });
 
         // ========== DRAG & DROP FOTO EVENTO ==========
