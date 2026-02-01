@@ -4987,6 +4987,11 @@ div#admin-area #animali .filtri ul{
     width: 100%;
 }
 
+.sex-title{
+    font-weight: 550;
+    margin-top: 1.5em;
+}
+
 .sex-group {
     display: flex;
     gap: 1.5em;
