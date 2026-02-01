@@ -165,6 +165,10 @@ if(isset($_GET['id'])) {
     /* ------------------ DB ------------------ */
     $cardAnimali = '';
     $linkPagine  = '';
+
+    $totaleGatti= '';
+    $totaleCani= '';
+    $totaleAll= '';
     
     
     /* ------------------ NAV TIPO ------------------ */
@@ -197,9 +201,9 @@ if(isset($_GET['id'])) {
     
         return "
         <ul aria-label='Filtri sulla tipologia'>
-            {$item('tutti', 'Tutti')}
-            {$item('Gatto', 'Gatti')}
-            {$item('Cane', 'Cani')}
+            {$item('tutti', 'Tutti[COUNTALL]')}
+            {$item('Gatto', 'Gatti[COUNTCAT]')}
+            {$item('Cane', 'Cani[COUNTDOG]')}
         </ul>";
     }
     
@@ -328,8 +332,24 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
         }
     } else {
         if ($connessione->openDBConnection()) {
-    
             $totale = ($isFromAdmin && $rawFilters['assegnati']!=='tutti') ? $connessione->countAssignedAnimalsFiltered($type, $filters, $adminEmail) : $connessione->countAnimalsFiltered($type, $filters);
+            if($isFromAdmin) {
+                if($type!='Gatto') {
+                    $totaleGatti = ($isFromAdmin && $rawFilters['assegnati']!=='tutti') ? $connessione->countAssignedAnimalsFiltered('Gatto', $filters, $adminEmail) : $connessione->countAnimalsFiltered('Gatto', $filters);
+                } else {
+                    $totaleGatti=$totale;
+                }
+                if($type!='Cane') {
+                    $totaleCani = ($isFromAdmin && $rawFilters['assegnati']!=='tutti') ? $connessione->countAssignedAnimalsFiltered('Cane', $filters, $adminEmail) : $connessione->countAnimalsFiltered('Cane', $filters);
+                } else {
+                    $totaleCani=$totale;
+                }
+                if($type!='tutti') {
+                    $totaleAll = ($isFromAdmin && $rawFilters['assegnati']!=='tutti') ? $connessione->countAssignedAnimalsFiltered('tutti', $filters, $adminEmail) : $connessione->countAnimalsFiltered('tutti', $filters);
+                } else {
+                    $totaleAll=$totale;
+                }
+            }
             $pagineTotali = max(1, ceil($totale / $perPagina));
     
             if ($pagina > $pagineTotali) {
@@ -472,6 +492,9 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
         $description = '<meta name="description" content="i tuoi animali preferiti in adozione su PetMatch">';
     
     }
+    $main = str_replace('[COUNTALL]', "($totaleAll)", $main);
+    $main = str_replace('[COUNTCAT]', "($totaleGatti)", $main);
+    $main = str_replace('[COUNTDOG]', "($totaleCani)", $main);
     $keywords = "<meta name='keywords' content='animali, nome, taglia, sesso, età, adozione, PetMatch, colore, pelo, cane, gatto'>";
     
     
