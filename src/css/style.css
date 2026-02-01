@@ -6010,7 +6010,18 @@ footer address a.email:visited,
 .fieldset-indirizzo{
     display: none;
 }
-#trasporto > div:first-child {
+
+#come-funziona #trasporto{
+    background-color: var(--headercolor);
+    width: 100vw; 
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2rem 0; 
+    color: var(--light-txtcolor);
+} 
+
+#come-funziona #trasporto > div:first-child {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -6019,13 +6030,13 @@ footer address a.email:visited,
     padding: 0 1em;
 }
 
-#trasporto div {
+#come-funziona #trasporto  div {
     flex: 1 1 50%;
     max-width: 100%;
     box-sizing: border-box;
 }
 
-#trasporto img {
+#come-funziona #trasporto img {
     width: 80%;
     max-width: 300px;
     margin: 1rem auto;
@@ -6033,7 +6044,7 @@ footer address a.email:visited,
     border-radius: 1em;
 }
 
-#trasporto p{
+#come-funziona #trasporto p{
     margin-top: 1em;
 }
 
