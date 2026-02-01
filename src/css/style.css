@@ -4887,7 +4887,7 @@ div#admin-area #animali .filtri ul{
     transition: all 0.3s ease;
     
     /* COLORE QUANDO NON CLICCATO */
-    background-color: var(--bgcolor); 
+    background-color: var(--form-bg); 
     border: 0.1em solid var(--text-form); /* Circa 2px */
 }
 
