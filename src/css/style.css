@@ -34,6 +34,8 @@
     --text-deletebutton: #481515;
     --selectTypeAnimal: #E4D4BA;
     --limitecaratterecolor: #5e4232;
+    --readonlybg:#E4D4BA;
+    --readonlyDarkText:#481515;
     
     --darkMode-bgtablecells: #5B2E25;
     --darkMode-limitecaratterecolor: #481515;
@@ -59,6 +61,8 @@
     --darkMode-bglink-hover: #b79378;
     --darkMode-txtclose-request: #C7B097;
     --darkMode--darklinkcolor:#C7B097;
+    --darkMode-readonlybg:#b79378;
+
 
     --successtxt:#576F30;
     --errortxt: #BA3A24;
@@ -110,6 +114,7 @@
     --visitedcolor: var(--darkMode-visitedcolorLink);
     --hover-link: var(--darkMode-hover-link);
     --darkbgcolor: var(--darkMode-darkbgcolor);
+    --readonlybg: var(--darkMode-readonlybg);
 }
 
 :root:has(input#theme-toggle:checked){
@@ -5457,8 +5462,8 @@ nav#breadcrumb a:visited{
 }
 
 #richiesta-adozione input[readonly]{
-    background-color: var(--modifiedAccount);
-    color: var(--txtcolor);
+    background-color: var(--readonlybg);
+    color: var(--readonlyDarkText);
 }
 
 #richiesta-adozione input[readonly]:focus{
