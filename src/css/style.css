@@ -2537,7 +2537,7 @@ cursor: pointer;
 }
 
 #eventi .evento:hover, #visualizzazione-evento .evento:hover {
-    border: 2px solid var(--buttoncolor-hover);
+    border: 2px solid var(--cardHover);
 }
 
 #eventi .cards-container li, #visualizzazione-evento .cards-container li{
