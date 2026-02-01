@@ -1363,6 +1363,7 @@ details:not([open]) .popup {
     width: 55%;
     margin-left:3%;
 }
+#ci-presentiamo h2, #ci-presentiamo p,
 #section-events > p, #section-events > h2,  #section-events > h3{
     background-image: linear-gradient(to right, 
         transparent 0%,
@@ -1372,6 +1373,7 @@ details:not([open]) .popup {
     );
 }
 
+#ci-presentiamo h2,
 #section-events > h2,  #section-events > h3{
     width: fit-content;
 }
@@ -3783,9 +3785,6 @@ button[name="show-dialog"].button-cancel img{
     margin: 2em 0 0.8em 0;
 }
 
-#ci-presentiamo h2, #ci-presentiamo p{
-    background-color: var(--secondsection);
-}
 #ci-presentiamo p{
     margin-bottom: 0.5em;
 }
@@ -5839,7 +5838,7 @@ footer address a.email:visited,
     color: var(--linkcolor);
 }
 
-#come-funziona #invitoLavoro a.brown-button:visited{
+#invitoLavoro a.brown-button:visited{
     color:var(--visitedcolor);
 }
 
@@ -5939,28 +5938,26 @@ footer address a.email:visited,
     margin: 4em 0em;
 }
 
-#come-funziona #invitoLavoro {
-    margin-top: 3em;
-    background-color: var(--bgform);
-    display: flex;
+#invitoLavoro {
+
+    /* border: 2px solid var(--headercolor); */
+    /* color: var(--cat-txtcolor); */
     color: var(--cat-txtcolor);
+    /* background-color: var(--secondsection); */
+    margin-top: 3em;
+    background-color: var(--secondsection);
     padding-top: 3em;
     padding-left: 5em;
     padding-right: 5em;
     padding-bottom: 2em;
     border-bottom-left-radius: 1em;
     border-bottom-right-radius: 1em;
+    /* background-color: var(--bgform); */
+    display: flex;
+    flex-wrap: wrap;
 }
 
-#come-funziona #invitoLavoro a{
-    border:none;
-}
-
-#come-funziona #invitoLavoro a.brown-button:hover{
-    color:var(--cat-txtcolor);
-}
-
-#come-funziona #invitoLavoro h2{
+#invitoLavoro h2{
     line-height: 1.5em;
 }
 
@@ -5968,43 +5965,38 @@ footer address a.email:visited,
     margin-bottom: 1em;
 }
 
-#come-funziona #invitoLavoro .testo{
+#invitoLavoro .testo{
     margin-right: 6em;
+    flex: 1 1 60%;
 }
 
-
-#come-funziona #invitoLavoro a.brown-button{
-    color: var(--linkcolor);
-    margin-left: 0;
-    width: 100%;
-}
-
-#come-funziona #invitoLavoro #quote-container {
+#invitoLavoro #quote-container {
     display: flex;
     flex-direction: column;
 }
 
-#come-funziona #invitoLavoro #quote-container blockquote img.quote {
+#invitoLavoro #quote-container blockquote img.quote {
     height: 3em;
     width: 3em;
 }
 
-#come-funziona #invitoLavoro #quote-container p{
+#invitoLavoro #quote-container p{
     margin-left: 3em;
     font-style: italic;
 }
 
-#come-funziona #invitoLavoro #quote-container blockquote img.quote#finishing-quote {
+#invitoLavoro #quote-container blockquote img.quote#finishing-quote {
     justify-self: end;
     align-self: flex-end;
 }
 
-#come-funziona #invitoLavoro #quote-container blockquote {
+#invitoLavoro #quote-container blockquote {
     display: flex;
     flex-direction: column;
+    padding: 1em;
 }
 
-#come-funziona #invitoLavoro blockquote cite{
+#invitoLavoro blockquote cite{
     align-self: flex-end;
     flex: 1 1 20%;
     min-width: 1em;
