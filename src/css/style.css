@@ -1364,8 +1364,18 @@ details:not([open]) .popup {
     margin-left:3%;
 }
 #section-events > p, #section-events > h2,  #section-events > h3{
-    background-color: var(--secondsection);
+    background-image: linear-gradient(to right, 
+        transparent 0%,
+        var(--secondsection) 5%,
+        var(--secondsection) 95%,
+        transparent 100%
+    );
 }
+
+#section-events > h2,  #section-events > h3{
+    width: fit-content;
+}
+
 #events-list{
     display: flex;
     gap: 2em;
