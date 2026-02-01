@@ -834,6 +834,7 @@ margin-bottom: 0.3cm;
     border: 1px solid var(--lightborder);
     padding: 0.5cm;
     break-inside: avoid;
+    overflow: auto;
 }
 
 #visualizzazione-animale #foto-animale {
