@@ -889,39 +889,56 @@ pre#note-text{
 
 /* ------------------AGGIUNGI ANIMALE ------------------- */
 
-#form-add-animal {
+#form-add-animal,
+ #new-event{
     border-radius: 0.5cm;
     border:1px solid var(--lightborder);
     margin:0.4cm auto 0 auto;
     padding: 0.3cm 0.5cm;
     display: block;
+    columns: 2;
 
     break-inside: avoid; 
     page-break-inside: avoid;
 }
-/* 
-#form-add-animal label:not(.radio-card):not(.sex-option):not(.file-upload-label):not(.legend-content)::after{
-        content: ":";
-} */
 
-#form-add-animal fieldset{
+#form-add-animal fieldset, #new-event fieldset{
     padding-bottom:0.3cm;
     border: none;
     text-align: left;
-}
+} 
 
-#form-add-animal fieldset legend{
-    font-weight:bold;  
+#form-add-animal fieldset legend,
+#new-event fieldset legend{
+    font-weight:600;  
+    font-size: 14pt;
+    } 
+
+    #form-add-animal fieldset label:not(.file-upload-label):not(.radio-card):not(.sex-option),
+    #new-event fieldset label{
+    font-weight:600;  
     } 
 
 
 #form-add-animal fieldset .labelledby-element,
-#form-add-animal fieldset .conteggio-testo{
+#form-add-animal fieldset .conteggio-testo,
+#new-event fieldset .labelledby-element,
+#new-event fieldset .conteggio-testo{
     display: none;}
 
 #form-add-animal fieldset .column-container .column-user div{
     padding:0.1cm 0cm;
 } 
+#form-add-animal .sex-option,
+#form-add-animal .radio-card{
+    border-radius: 0.2cm;
+    border: 1px solid var(--lightborder);
+    padding: 0.6mm 0.2cm;
+    margin-right: 0.3cm;
+}
+#form-add-animal .radio-group-cg {
+    margin-top: 0.2cm;
+}
 
 #form-add-animal input:checked+.radio-card,
 #form-add-animal .sex-option:has(input:checked){
@@ -1003,3 +1020,14 @@ pre#note-text{
     display: none;
 }
 
+#form-add-animal .form-buttons-container button,
+#form-add-animal .form-buttons-container #cancel-add-animal{
+        border: 1px solid var(--lightborder);
+        margin: 0.2cm 0 0.5cm 0;
+        padding: 0.4em 1.5em;
+        border-radius: 1.5em;
+        font-weight: 550;
+        font-size: 10pt;
+        text-decoration: none;
+        color:black;
+    }
