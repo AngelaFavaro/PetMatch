@@ -650,7 +650,7 @@ function getCardAnimal(int $idanimale, bool $isAdmin, bool $isAdopted):string{
             <div class=\'details-card-animale\'>
                 <div>
                     <div>
-                        <img src="[imgAnimale]" alt="" />';
+                        <img id="img-animale-richiesta" src="[imgAnimale]" alt="" />';
                     $html .= ($isAdopted&&!$isAdmin)?'<p class="nonDisponibile"><em>Animale adottato</em></p>':'<a href="./animali?id='.urlencode($idanimale).'" class="brown-button">Vedi animale</a>';
                     $html.='
                     </div>
@@ -667,7 +667,7 @@ function getCardAnimal(int $idanimale, bool $isAdmin, bool $isAdopted):string{
                         <dd>[TrasportoAnimale]</dd>
                     </dl>
                 </div>
-                <dl aria-label="Informazioni approfondite sull\'animale">
+                <dl aria-label="Informazioni approfondite sull\'animale" id="info-approfondite">
                     <dt>Famiglia ideale:</dt>
                     <dd>[FamigliaIdealeAnimale]</dd>
                     <dt>Condizioni mediche:</dt>

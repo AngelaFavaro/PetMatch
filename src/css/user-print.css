@@ -200,7 +200,7 @@ body footer img#logo-footer{
 }
 
 .torna-su-button,
-img[alt=""]:not(#instagram):not(.immagine-evento){
+img[alt=""]:not(#instagram):not(.immagine-evento):not(#img-animale-richiesta){
     display: none;
 }
 
@@ -1088,4 +1088,25 @@ i.fas.fa-eye::before, #accedi i.fas.fa-eye::after{
 }
 #container-form-login .orange-button{
     margin-bottom: 0.4cm;
+}
+
+/* ========== REVISIONE RICHIESTA ========== */
+#revisione-richiesta dt {
+    font-weight: bold;
+    float: left;
+    margin-right: 10px;
+}
+
+.details-card-animale #info-approfondite dt {
+    float: none;
+}
+
+img#img-animale-richiesta {
+    width: 4cm;
+    height: 4cm;
+    object-fit: cover;
+    float: right;
+    margin-left: 0.5cm;
+    margin-bottom: 0.5cm;
+    margin-top: 2cm;
 }
