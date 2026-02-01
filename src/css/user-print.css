@@ -67,7 +67,7 @@ a:not(#logo-link):not(.pencil):not([href^="mailto:"]):not(.polaroid):not([href^=
 }
 
 #furgoncino {
-    display: none;
+    width: 5cm;
 }
 
 /*==============FILTRI================ */
