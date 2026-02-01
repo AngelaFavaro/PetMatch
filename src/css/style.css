@@ -4763,7 +4763,7 @@ td.col-dettagli a:hover img{
 #admin-area #animali tbody .orange-button[name="elimina_segnalazione"]:hover, div.button-group button[type="reset"]:hover{
     background-color: transparent;
     border: 2px solid transparent;
-        border-color: var(--bgcolor);
+    border-color: transparent;
 }
 
 .nessun-risultato-message{
@@ -6007,7 +6007,8 @@ footer address a.email:visited,
 #checkbox-trasporto-container:has(#trasporto:checked) + .fieldset-indirizzo{
     display: block;
 }
-.fieldset-indirizzo{
+
+#richiesta-adozione .fieldset-indirizzo{
     display: none;
 }
 
