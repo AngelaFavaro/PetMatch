@@ -109,7 +109,7 @@ function handleAnimalActions(DBAccess $conn, int $idAnimale): void {
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-assignment'])) {
         if ($conn->removeAdminAssignment($idAnimale)) {
             $conn->closeConnection();
-            header("Location: ./assegnati-a-te");
+            header("Location: ./animali-admin");
             exit;
         }
     }
@@ -118,7 +118,7 @@ function handleAnimalActions(DBAccess $conn, int $idAnimale): void {
         deleteStoredFile($conn->getFotoAnimalById($idAnimale));    
         if ($conn->deleteAnimal($idAnimale)) {
             $conn->closeConnection();
-            header("Location: ./assegnati-a-te");
+            header("Location: ./animali-admin");
             exit;
         }
     }
@@ -171,7 +171,7 @@ $paginaHTML = str_replace(['[breadcrumb]', '[title]', '[nav]', '[description]', 
                          [$breadcrumb, $title, $nav, $description, ""], 
                          $paginaHTML);
 
-
+$main = str_replace('[idAnimale]', e($idAnimale), $main);
 $main = str_replace('[nomeAnimale]', e($richiesta['Nome'] ?? 'N/D'), $main);
 $imgPath = $richiesta['ImgPath'] ?? '';
 if (!$imgPath || !file_exists($imgPath)) {
