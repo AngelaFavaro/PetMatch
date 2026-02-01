@@ -5757,21 +5757,10 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     color: var(--txtcolor);
 }
 
-#come-funziona .testo address{
+#come-funziona .testo address, #come-funziona .testo p.contatti, #come-funziona .testo p.contatti a ,#come-funziona .testo address a{
     display: contents;
 }
 
-#come-funziona .testo p#contatti{
-    display: contents;
-}
-
-#come-funziona .testo p#contatti a{
-    display: contents;
-}
-
-#come-funziona .testo address a{
-    display: contents;
-}
 
 #come-funziona .colonne {
     display: flex;
@@ -5855,6 +5844,7 @@ footer address a.email:visited,
 
 #come-funziona #comeSiAdotta .testo ul {
     text-align: left;
+    margin-left: 2em;
 }
 
 #come-funziona #comeSiAdotta #immagini {
