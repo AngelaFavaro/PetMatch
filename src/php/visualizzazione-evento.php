@@ -168,6 +168,9 @@ function buildCollaboratorsCard($collaboratori): string {
             $name=htmlspecialchars($c['Nome']);
             $surname=htmlspecialchars($c['Cognome']);
             $profilePic=htmlspecialchars($c['ImgPath']);
+            if (empty($profilePic) || !file_exists($profilePic)) {
+                $profilePic = 'assets/images/admins/default-pic.png';
+            }
             $emailColl=htmlspecialchars($c['Email']);
             $collaboratoriCards.="<li><img src='$profilePic' class='circle-foto' alt=''> <dl class='collaborator-name'><dt>Nominativo: </dt><dd>$name $surname</dd><dt>Email:</dt><dd>$emailColl</dd></dl></li>";
         }
