@@ -45,7 +45,7 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
     if (isset($_SESSION['form_status_info']) && $_SESSION['form_status_info'] === 'error') {
         $savedErrors = $_SESSION['form_errors_info'] ?? [];
         foreach ($savedErrors as $key => $val) {
-            $message[$key] = ($key === 'generic') ? $val : "<p class='error-form'>$val</p>";
+            $message[$key] = $val;
         }
         
         $savedInputs = $_SESSION['form_inputs'] ?? [];
@@ -80,7 +80,7 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
         $regexData = '/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/'; 
         $regexTxt = '/^[a-zA-Z\x{00C0}-\x{017F}\s\',]+$/u';        
         
-        if (empty($tipologia)) $errors['tipologia'] = "Seleziona una tipologia.";
+        if (!isset($_POST['tipologia'])) $errors['tipologia'] = "Seleziona una tipologia.";
         if (strlen($nome) < 2 || !preg_match($regexTxt, $nome)) $errors['nome'] = "Nome non valido.";
         if (strlen($razza) < 2 || !preg_match($regexTxt, $razza)) $errors['razza'] = "Razza non valida.";
         if (strlen($colore) < 2 || !preg_match($regexTxt, $colore)) $errors['colore'] = "Colore non valido.";
@@ -249,6 +249,7 @@ $paginaHTML = str_replace('[main]', $main, $paginaHTML);
 
 
 $campi_errori = ['tipologia', 'nome', 'razza', 'taglia', 'sesso', 'dataNascita', 'pelo', 'colore', 'condMediche', 'carattere', 'famiglia', 'foto'];
+
 foreach ($campi_errori as $campo) {
     $placeholder = '[errori' . ucfirst($campo) . ']';
     // Se non c'è errore, sostituisce con stringa vuota per "pulire" l'HTML

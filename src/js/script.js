@@ -609,6 +609,35 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+    var campo_nome = document.getElementById('nome');
+    if(campo_nome) {
+        contaCaratterilimit100(campo_nome, "conta-corrente-nome");
+        
+        campo_nome.addEventListener('input', function() {
+            contaCaratterilimit100(this, "conta-corrente-nome");
+        });
+    }
+
+    var campo_nome = document.getElementById('razza');
+    if(campo_nome) {
+        contaCaratterilimit100(campo_nome, "conta-corrente-razza");
+        
+        campo_nome.addEventListener('input', function() {
+            contaCaratterilimit100(this, "conta-corrente-razza");
+        });
+    }
+
+    var campo_nome = document.getElementById('colore');
+    if(campo_nome) {
+        contaCaratterilimit100(campo_nome, "conta-corrente-colore");
+        
+        campo_nome.addEventListener('input', function() {
+            contaCaratterilimit100(this, "conta-corrente-colore");
+        });
+    }
+});
+
 
 // NON RICARICA LA PAGINA QUANTO PREMI LA CHECK
 document.addEventListener('DOMContentLoaded', function() {

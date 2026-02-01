@@ -13,9 +13,8 @@
                 <label for="gatto" class="radio-card">Gatto</label>
 
                 [hiddenPerTipologia]
-                <p class="error-form">[erroriTipologia]</p>
             </div>
-            
+                <p class="error-form">[erroriTipologia]</p>
         </fieldset>
 
         <fieldset>
@@ -26,7 +25,6 @@
                         <label for="nome">Nome *</label>
                         <input type="text" name="nome" id="nome" maxlength="100" placeholder="Nome" 
                         aria-describedby="help-counter-nome"
-                        oninput="contaCaratterilimit100(this, 'conta-corrente-nome')"
                         autocomplete="nome" value="[Nome]"/>
                         <p id="help-counter-nome">
                             <span class="labelledby-element">limite caratteri</span>
@@ -39,7 +37,6 @@
                         <label for="razza">Razza *</label>
                         <input type="text" name="razza" id="razza" maxlength="100" placeholder="Razza" 
                         aria-describedby="help-counter-razza"
-                        oninput="contaCaratterilimit100(this, 'conta-corrente-razza')"                        
                         autocomplete="razza" value="[Razza]"/>
                         <p id="help-counter-razza">
                             <span class="labelledby-element">limite caratteri</span>
@@ -121,7 +118,6 @@
                         <label for="colore">Colore *</label>
                         <input type="text" name="colore" id="colore" maxlength="100" placeholder="Colore" 
                         aria-describedby="help-counter-colore"
-                        oninput="contaCaratterilimit100(this, 'conta-corrente-colore')"                        
                         autocomplete="colore" value="[Colore]"/>
                         <p id="help-counter-colore">
                             <span class="labelledby-element">limite caratteri</span>

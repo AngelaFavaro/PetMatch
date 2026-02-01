@@ -391,8 +391,8 @@ if (!$utenteAccesso) {
                                 </div>
 
                                 <p class='error-form' id='indirizzo-incompleto'>[erroriIndirizzoTotale]</p> 
+                            </fieldset>
                             <button class='orange-button' name='submit-adoption-request' type='submit'>Invia il modulo</button>
-                        </fieldset>
                     </form>
                 </div>
             </div>
