@@ -1,11 +1,5 @@
 <?php
 
-/**da fare (vedi ItaVolley):
-    - array in cui vengono definite le pagine esistenti (utili per nav, footer e breadcrumb)
-    - funzione che crea la nav per admin e per utente normale (per utente è l'header)
-    - funzione che crea il footer (ossia da modificare solo la parte del link circolare alla home se l'utente è già in quella pagina)
-*/
-
 if (isset($_GET['email']) && isset($_POST['view-profile'])){
     $richiesteAdozioneHref = './richieste-adozione?email='.urlencode($_GET['email']).'&id-animale='.urlencode($_POST['id-animale']);
 }else{
@@ -236,7 +230,7 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
         </label>
     </div>
     <label for="menu-toggle-checkbox" class="menu-toggle">
-    <span class="sr-only">Apri o chiudi menu di navigazione</span> </label>
+    <span class="sr-only">Apri o chiudi menù di navigazione</span> </label>
     
     <nav id="menu-admin" aria-label="Menù">
         <a class="navigationHelp" href="#content"> Salta il menù di navigazione</a>
@@ -329,7 +323,6 @@ function buildNav(array $items, string $currentHref): string {
                 <nav aria-label="Menù principale" id="nav-osso">
                     <ul id="osso">';
     
-        // 2. parte dinamica: ciclo gli items passati come argomento
         foreach ($items as $item) {
             if($item['href'] !== './home') {
                 // Controllo se è la pagina corrente
@@ -342,7 +335,6 @@ function buildNav(array $items, string $currentHref): string {
             }
         }
     
-        // 3. Parte finale fissa (Chiusura nav, Azioni header: Tema, Preferiti, Login, Hamburger)
         $html .= '
                     </ul>
                 </nav>
@@ -642,7 +634,6 @@ function deleteStoredFile($filename) {
         return true; 
     }
 
-    // 2. Costruzione del percorso. 
     $path = dirname(__DIR__) .'/'. $filename;
 
     if (file_exists($path) && is_file($path)) {
@@ -769,10 +760,10 @@ function buildPagination(int $currentPage, int $totalPages, array|string $params
         $params = [];
     }
 
-// rimuove valori vuoti
+    // rimuove valori vuoti
     // $params = array_filter($params, fn($v) => $v !== '');
-	    if ($totalPages <= 1) return '';
-unset($params['page']);
+	if ($totalPages <= 1) return '';
+    unset($params['page']);
 
     $html = '';
 

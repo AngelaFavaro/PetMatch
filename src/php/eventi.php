@@ -1,9 +1,7 @@
 <?php
 include './src/utils.php';
 include './src/DBconnection.php';
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+
 use DB\DBAccess;
 $isAdmin=0;
 $action='eventi';
@@ -68,10 +66,8 @@ function buildEventsCards($events, $filtro, $isFromAdmin): string {
         $descrEvento=htmlspecialchars($e['descrizione']);
         $html .= "<li>
                     <article class='evento'>
-                        <!-- Immagine dell'evento -->
                         <img class='immagine-evento' src=$img alt='' />
 
-                        <!-- Posizione dell'evento -->
                         <p class='posizione-evento'>
                             <!-- icona decorativa -->
                             <img src='assets/icons/position-cat.svg' alt='' class='icon-position' />
@@ -79,8 +75,6 @@ function buildEventsCards($events, $filtro, $isFromAdmin): string {
                             $citta
                         </p>
                             
-
-                        <!-- Data dell'evento -->
                         <p class='data-evento'>
                             <!-- icona decorativa -->
                             <img src='assets/icons/calendar.svg' alt='' class='icon-calendar' />
@@ -190,19 +184,11 @@ $linkPagine=$pagineTotali>1? "<nav class='next-page-links' tabindex='-1' aria-la
     </nav>" : '';
 
 
-
-
-
-
-
 $paginaHTML = $isAdmin? file_get_contents('./src/template/layout-admin.html') : file_get_contents('./src/template/layout.html');
 $main = file_get_contents('./src/template/main/eventi.html');
 $footer = $isAdmin? '' : buildFooter($footerMenu,  './eventi');
 
-
 $main = str_replace('[EVENTI]', $eventiCards, $main);
-
-
 
 $main = str_replace('[LINKPAGINE]', $linkPagine, $main);
 
@@ -211,10 +197,10 @@ $main = str_replace('[VISIBILITA-FILTRO]', $cancelFiltriId, $main);
 $main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);
 
 $title = '<title>Eventi - PetMatch</title>';
-$description = $isAdmin? '<meta name="description" content="Organizza tutti gli eventi di PetMatch">': '<meta name="description" content="Eventi prossimi qui da PetMatch!">';
-$keywords = "<meta name='keywords' content='Prossimi eventi'>";
+$description = $isAdmin? '<meta name="description" content="Pagina di amministrazione per organizzare tutti gli eventi di PetMatch">': '<meta name="description" content="Visualizzazione degli eventi prossimi organizzati da PetMatch!">';
+$keywords = "<meta name='keywords' content='Prossimi eventi, eventi, cani, gatti, adozioni, PetMatch, rifugio'>";
 
-$nav = $isAdmin? buildAdminNav($adminMenu, './visualizzazione-eventi', $pagine) : buildNav($userMenu, './eventi');
+$nav = $isAdmin? buildAdminNav($adminMenu, './visualizzazione-eventi') :  buildNav($userMenu, './eventi');
 $breadcrumb = $isAdmin? getBreadcrumb('visualizzazione-eventi', $pagine) : getBreadcrumb('eventi', $pagine);
 
 $paginaHTML = str_replace(

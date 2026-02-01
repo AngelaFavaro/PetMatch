@@ -122,8 +122,8 @@ if ($paginaHTML === false) {
 $emailToEcho   = htmlspecialchars($emailValue, ENT_QUOTES, 'UTF-8');
 
 $title = '<title>Accedi - PetMatch </title>';
-$description = '<meta name="description" content="Accedi a PetMatch">';
-$keywords = "<meta name='keywords' content='Accedi'>";
+$description = '<meta name="description" content="Pagina di accesso a PetMatch">';
+$keywords = "<meta name='keywords' content='accedi, PetMatch, login, accesso, animali, adozione'>";
 
 $nav = buildNav($userMenu, './accedi');
 $footer = buildFooter($footerMenu,  './accedi');
