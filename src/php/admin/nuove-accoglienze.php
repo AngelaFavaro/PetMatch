@@ -53,7 +53,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                 "Attendo un tuo riscontro. Grazie!\n\n".
                 "Un caro saluto,\n" .
                 $nome_admin. "\n".
-                "Amministrazione <span lang='en'>PetMatch</span>";
+                "Amministrazione PetMatch";
 
                 $object =rawurlencode($messaggio);
                 $html .='
