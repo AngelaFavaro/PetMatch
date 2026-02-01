@@ -6006,6 +6006,16 @@ footer address a.email:visited,
     padding-top: 2em;
 }
 
+#trasporto {
+    background-color: var(--headercolor);
+    width: 100vw; 
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2rem 0; 
+    color: var(--light-txtcolor);
+}
+
 #trasporto > div:first-child {
     display: flex;
     flex-wrap: wrap;
