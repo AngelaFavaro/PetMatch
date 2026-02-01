@@ -243,40 +243,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (formAdd) {
         formAdd.querySelectorAll('.error-form').forEach(p => {
-            if (p.textContent.trim() === "") {
-                p.style.display = 'none'; 
-            } else {
-                p.style.display = 'block'; 
-            }
+            p.style.display = p.textContent.trim() === "" ? 'none' : 'block';
         });
 
         const setError = (input, message) => {
-            const container = input.closest('div') || input.closest('fieldset');
-            if (!container) return;
-            
+            const container = input.closest('div') || input.closest('fieldset') || input.parentElement;            
             const errorElement = container.querySelector('.error-form');
+
             if (errorElement) {
                 errorElement.textContent = message;
                 errorElement.style.display = message ? 'block' : 'none';
             }
         };
 
+        // inizio i controlli dinamici sui campi
         const validateField = (field) => {
             const val = field.value.trim();
             const name = field.name;
 
-            if (name === 'nome' || name === 'razza' || name === 'colore') {
+            if (['nome', 'razza', 'colore'].includes(name)) {
                 if (val.length < 2) return "Minimo 2 caratteri";
-                if (!/^[a-zA-ZÀ-ÿ\s',]+$/.test(val)) return "Usa solo lettere e virgole";
+            }
+
+            if (name === 'carattere' || name === 'famiglia') {
+                if (val.length < 10) return "La descrizione deve essere di almeno 10 caratteri";
             }
             
             if (name === 'dataNascita') {
                 if (val === "") return "Data obbligatoria";
-                if (new Date(val) > new Date()) return "La data non può essere futura";
+                const dataInserita = new Date(val);
+                const oggi = new Date();
+                const limite = new Date();
+                limite.setFullYear(oggi.getFullYear() - 18);
+
+                if (dataInserita > oggi) return "La data non può essere futura";
+                if (dataInserita < limite) return "L'animale non può avere più di 18 anni";
             }
 
             if (name === 'taglia' || name === 'pelo') {
-                if (val === "" || val === null) return "Seleziona un'opzione";
+                if (!val) return "Seleziona un'opzione";            
             }
 
             if (name === 'tipologia' || name === 'sesso') {
@@ -284,21 +289,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 const isChecked = Array.from(radioGroup).some(r => r.checked);
                 if (!isChecked) return "Selezione obbligatoria";
             }
+
+            if (name === 'foto') {
+                const hiddenFoto = document.querySelector('input[type="hidden"][name="foto"]');
+                if (field.files.length === 0 && !hiddenFoto) {
+                    return "La foto è obbligatoria";
+                }
+            }
             
-            return ""; // Nessun errore
+            return "";
         };
 
         formAdd.querySelectorAll('input, textarea, select').forEach(input => {
-            const type = (input.type === 'radio' || input.tagName === 'SELECT') ? 'change' : 'blur';
+            const eventType = (input.type === 'radio' || input.tagName === 'SELECT') ? 'change' : 'blur';
             
-            input.addEventListener(type, () => {
+            input.addEventListener(eventType, () => {
                 setError(input, validateField(input));
             });
 
+            // Rimuovi errore mentre l'utente corregge
             input.addEventListener('input', () => {
-                const container = input.closest('div') || input.closest('fieldset');
-                const errorDisplay = container.querySelector('.error-form');
-                if (errorDisplay && errorDisplay.style.display === 'block') {
+                const container = input.closest('div') || input.closest('fieldset') || input.parentElement;
+                const err = container.querySelector('.error-form');
+                if (err && err.style.display === 'block') {
                     if (!validateField(input)) setError(input, "");
                 }
             });
@@ -306,26 +319,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         formAdd.addEventListener('submit', (e) => {
             let firstErrorField = null;
-            const fieldsToValidate = formAdd.querySelectorAll('input, textarea, select');
-            const validatedGroups = new Set();
+            const allInputs = formAdd.querySelectorAll('input, textarea, select');
+            const groupsChecked = new Set();
 
-            fieldsToValidate.forEach(input => {
+            allInputs.forEach(input => {
                 const name = input.name;
                 if (input.type === 'radio') {
-                    if (validatedGroups.has(name)) return;
-                    validatedGroups.add(name);
+                    if (groupsChecked.has(name)) return;
+                    groupsChecked.add(name);
                 }
 
-                const msg = validateField(input);
-                if (msg) {
-                    setError(input, msg);
+                const errorMsg = validateField(input);
+                if (errorMsg) {
+                    setError(input, errorMsg);
                     if (!firstErrorField) firstErrorField = input;
                 }
             });
 
-            if (firstErrorField) {      
-                console.log("JS ha trovato errori, ma lascio inviare al PHP...");
+            if (firstErrorField) {
+                e.preventDefault();
                 firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                if (firstErrorField.type === 'radio' || firstErrorField.type === 'file') {
+                   firstErrorField.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
             }
         });
     }
