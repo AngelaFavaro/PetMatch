@@ -892,39 +892,69 @@ pre#note-text{
 #form-add-animal {
     border-radius: 0.5cm;
     border:1px solid var(--lightborder);
-    margin:0.8cm auto 0 auto;
+    margin:0.4cm auto 0 auto;
     padding: 0.3cm 0.5cm;
     display: block;
 
     break-inside: avoid; 
     page-break-inside: avoid;
 }
-
+/* 
 #form-add-animal label:not(.radio-card):not(.sex-option):not(.file-upload-label):not(.legend-content)::after{
         content: ":";
-}
+} */
 
 #form-add-animal fieldset{
-    padding:0.3cm;
+    padding-bottom:0.3cm;
     border: none;
+    text-align: left;
 }
-#form-add-animal label{
-text-align: left;}
+
+#form-add-animal fieldset legend{
+    font-weight:bold;  
+    } 
+
 
 #form-add-animal fieldset .labelledby-element,
 #form-add-animal fieldset .conteggio-testo{
     display: none;}
 
 #form-add-animal fieldset .column-container .column-user div{
-    padding:0.2cm 0cm;
-}
+    padding:0.1cm 0cm;
+} 
 
 #form-add-animal input:checked+.radio-card,
 #form-add-animal .sex-option:has(input:checked){
     text-decoration: underline var(--lightborder);
 }
+#form-add-animal fieldset #carattere,
+#form-add-animal fieldset #famiglia{
+    field-sizing: content;
+    min-height: 1.9cm;
+    display: block;
+    width: 100%;
+    resize: none;
+    font-family: inherit;
+}
+
 #form-add-animal fieldset #condMediche{
-    field-sizing: content;}
+    field-sizing: content;
+    min-height: 1.2cm;
+    display: block;
+    width: 100%;
+    resize: none;
+    font-family: inherit;
+
+}
+
+#form-add-animal input[type="checkbox"]{
+    display: inline-block;
+    appearance: auto;
+}
+
+#form-add-animal #check-assegna-container{
+    padding-bottom: 0.2cm;
+}
 .sr-only{
     display: none;
 }
@@ -932,9 +962,44 @@ text-align: left;}
 #menu-admin #currentLink{
     display: none;
 }
+#form-add-animal fieldset #dataNascita {
+    display:inline;
+}
+#form-add-animal label + input:not(#gatto),
+#form-add-animal select,
+#form-add-animal fieldset #dataNascita{
+    border-radius: 0.5cm;
+    padding: 0.5em 1em;
+    margin: 0.2em 0 0.3em 0;
+    width: 100%; 
+    border: 1px solid var(--lightborder);
+    font-size: 100%;
+    box-sizing: border-box; 
+}
+#form-add-animal .file-upload-label #foto,
+#form-add-animal .file-upload-label .file-name-display {
+
+    display: none;
+} 
+#form-add-animal .file-upload-label .file-upload-text::after{
+        content: ")";
+
+}
+#form-add-animal .file-upload-label .file-upload-text::before{
+        content: "(";
+
+}
 
 .file-upload-label .foto-caricata-info img{
     max-width: 4cm;
     max-height: 4cm;
     object-fit:cover;
 }
+#form-add-animal #cancel-add-animal{
+    padding-right: 0.6cm;
+}
+
+#form-add-animal fieldset .error-form {
+    display: none;
+}
+
