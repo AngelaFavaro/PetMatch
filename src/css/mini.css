@@ -984,16 +984,23 @@ body#admin-body #richieste .filtri .capsula-filtro select{
 
 /* PAGINA COME FUNZIONA */
 
-#come-funziona #invitoLavoro h2{
+#invitoLavoro h2{
     line-height: 1.2em;
+    margin-bottom: 0.5em;
 }
 
-#come-funziona #invitoLavoro .testo{
+#invitoLavoro .testo{
     margin-right: 0;
     margin-bottom: 3em;
 }
 
-#come-funziona #invitoLavoro blockquote cite{
+#invitoLavoro{
+    padding: 1em;
+    margin: 2em 0 0 0;
+    border-radius: 1em;
+}
+
+#invitoLavoro blockquote cite{
     padding: 0;
 }
 
@@ -1009,7 +1016,7 @@ body#admin-body #richieste .filtri .capsula-filtro select{
     margin:1.5em 0 1.5em 1.5em;
 }
 
-#come-funziona #invitoLavoro .testo{
+#invitoLavoro .testo{
     margin-bottom: 1em;
 }
 
