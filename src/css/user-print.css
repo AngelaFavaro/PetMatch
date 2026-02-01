@@ -826,20 +826,37 @@ margin-bottom: 0.3cm;
     display: none;
 }
 
+#visualizzazione-animale .column-container{
+    display: flex;
+    gap: 1cm;
+}
+
+#visualizzazione-animale .column-container h2{
+    border-top: none;
+}
+
+
 #visualizzazione-animale #interessamento-animale {
     break-inside: avoid;
     margin-bottom: 0.5cm;
     border: 1px solid var(--lightborder);
     padding: 0.3cm;
     text-align: center;
+    flex: 1 1 50%;
 }
 
+#visualizzazione-animale #info-aggiuntive-separate,
 #visualizzazione-animale #info-generiche {
     display: block;
     border: 1px solid var(--lightborder);
     padding: 0.5cm;
     break-inside: avoid;
     overflow: auto;
+    border-radius: 0.2cm;
+}
+
+.adozione-status:has(#compila-form-adozione[open]) #richiesta-adozione{
+    display: block;
 }
 
 #visualizzazione-animale #foto-animale {
@@ -867,7 +884,6 @@ margin-bottom: 0.3cm;
 #visualizzazione-animale #info-aggiuntive-separate,
 #visualizzazione-animale #info-aggiuntive-unite {
     break-inside: avoid;
-    margin-top: 0.5cm;
     clear: both;
     display: block;
 }
@@ -875,6 +891,17 @@ margin-bottom: 0.3cm;
 #visualizzazione-animale #info-aggiuntive-separate dt,
 #visualizzazione-animale #info-aggiuntive-unite dt {
     font-weight: bold;
+    float: left;
+    margin-right: 10px;
+}
+
+#visualizzazione-animale #info-aggiuntive-separate dt::after{
+    content: ':';
+}
+
+#visualizzazione-animale #info-aggiuntive-separate dd,
+#visualizzazione-animale #info-aggiuntive-unite dd{
+    margin-bottom: 10px;
 }
 
 #visualizzazione-animale .preferiti-form {
