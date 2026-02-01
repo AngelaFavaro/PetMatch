@@ -887,3 +887,54 @@ pre#note-text{
     padding-right: 0;
 }
 
+/* ------------------AGGIUNGI ANIMALE ------------------- */
+
+#form-add-animal {
+    border-radius: 0.5cm;
+    border:1px solid var(--lightborder);
+    margin:0.8cm auto 0 auto;
+    padding: 0.3cm 0.5cm;
+    display: block;
+
+    break-inside: avoid; 
+    page-break-inside: avoid;
+}
+
+#form-add-animal label:not(.radio-card):not(.sex-option):not(.file-upload-label):not(.legend-content)::after{
+        content: ":";
+}
+
+#form-add-animal fieldset{
+    padding:0.3cm;
+    border: none;
+}
+#form-add-animal label{
+text-align: left;}
+
+#form-add-animal fieldset .labelledby-element,
+#form-add-animal fieldset .conteggio-testo{
+    display: none;}
+
+#form-add-animal fieldset .column-container .column-user div{
+    padding:0.2cm 0cm;
+}
+
+#form-add-animal input:checked+.radio-card,
+#form-add-animal .sex-option:has(input:checked){
+    text-decoration: underline var(--lightborder);
+}
+#form-add-animal fieldset #condMediche{
+    field-sizing: content;}
+.sr-only{
+    display: none;
+}
+
+#menu-admin #currentLink{
+    display: none;
+}
+
+.file-upload-label .foto-caricata-info img{
+    max-width: 4cm;
+    max-height: 4cm;
+    object-fit:cover;
+}
