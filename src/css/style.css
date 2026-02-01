@@ -2025,7 +2025,7 @@ float: none;
 /* Lista filtri */
 
 #cancel-filter-visible{
-    color:var(--text-buttoncolor);
+    color:var(--txtcolor);
     border:2px solid var(--buttoncolor);
     padding:5px 12px;
     text-align: center;
@@ -5752,6 +5752,14 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
 }
 
 #come-funziona .testo address{
+    display: contents;
+}
+
+#come-funziona .testo p#contatti{
+    display: contents;
+}
+
+#come-funziona .testo p#contatti a{
     display: contents;
 }
 
