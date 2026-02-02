@@ -769,7 +769,7 @@ function buildPagination(int $currentPage, int $totalPages, array|string $params
 
     if ($currentPage > 1) {
         $params['page'] = $currentPage - 1;
-        $html .= '<li><a href="?' . http_build_query($params) . '" aria-label="vai alla pagina precedente"><img src="./assets/icons/arrow-sx-green.svg" alt="" /></a></li>';
+        $html .= '<li><a href="?' . http_build_query($params) . '" ><img src="./assets/icons/arrow-sx-green.svg" alt="vai alla pagina precedente" /></a></li>';
     }
 
     $maxVisible = 10;
@@ -791,7 +791,7 @@ function buildPagination(int $currentPage, int $totalPages, array|string $params
 
     if ($currentPage < $totalPages) {
         $params['page'] = $currentPage + 1;
-        $html .= '<li><a href="?' . http_build_query($params) . '" aria-label="vai alla pagina successiva"><img src="./assets/icons/arrow-dx-green.svg" alt=""/></a></li>';
+        $html .= '<li><a href="?' . http_build_query($params) . '"><img src="./assets/icons/arrow-dx-green.svg" alt="vai alla pagina successiva"/></a></li>';
     }
 
     return $html;
