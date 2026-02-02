@@ -893,10 +893,10 @@ margin-bottom: 0.3cm;
 }
 
 #visualizzazione-animale #foto-animale {
-    width: 5cm ;
-    height: 5cm ;
-    max-width: 5cm ;
-    max-height: 5cm ;
+    width: 4cm ;
+    height: 4cm ;
+    max-width: 4cm ;
+    max-height: 4cm ;
     object-fit: cover;
     flex-shrink: 0;
     float: right ;
@@ -906,19 +906,21 @@ margin-bottom: 0.3cm;
 
 #visualizzazione-animale #info-generiche-testo {
     display: block;
+    text-align: left;
 }
 
 #visualizzazione-animale #info-generiche-testo dt {
     font-weight: bold;
     float: left;
     margin-right: 10px;
+    text-align: left;
 }
 
 #visualizzazione-animale #info-aggiuntive-separate,
 #visualizzazione-animale #info-aggiuntive-unite {
     break-inside: avoid;
     clear: both;
-    display: block;
+    text-align: left;
 }
 
 #visualizzazione-animale #info-aggiuntive-separate dt,
@@ -926,6 +928,7 @@ margin-bottom: 0.3cm;
     font-weight: bold;
     float: left;
     margin-right: 10px;
+
 }
 
 #visualizzazione-animale #info-aggiuntive-separate dt::after{
@@ -935,6 +938,7 @@ margin-bottom: 0.3cm;
 #visualizzazione-animale #info-aggiuntive-separate dd,
 #visualizzazione-animale #info-aggiuntive-unite dd{
     margin-bottom: 10px;
+
 }
 
 #richiesta-adozione,
