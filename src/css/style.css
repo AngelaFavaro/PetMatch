@@ -5927,22 +5927,21 @@ footer address a.email:visited,
 }
 
 #come-funziona #comeSiAdotta #paws-containter #paw1 {
-    top: 2em;
     right: 2em;
+    top: -2em;
 }
 
 #come-funziona #comeSiAdotta #paws-containter #paw2 {
-    top: 3em;
-    right: 12em;
+    right: 14em;
 }
 
 #come-funziona #comeSiAdotta #paws-containter #paw3 {
-    top: 9em;
+    top: 5em;
     right: 8em;
 }
 
 #come-funziona #comeSiAdotta #paws-containter #paw4 {
-    top: 9em;
+    top: 6em;
     right: 20em;
 }
 
