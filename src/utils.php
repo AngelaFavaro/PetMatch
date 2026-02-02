@@ -486,7 +486,7 @@ function buildFooter(array $menuGroups, string $currentHref): string {
                         <ul class="footer-submenu">
                             <li>
                                 <address>
-                                    <a class="email" href="mailto:matchpet48@gmail.com" target="_blank">matchpet48@gmail.com</a>
+                                    <a class="email"  href="mailto:matchpet48@gmail.com" target="_blank">matchpet48@gmail.com</a>
                                 </address>
                             </li>
                             <li>
@@ -651,7 +651,7 @@ function getCardAnimal(int $idanimale, bool $isAdmin, bool $isAdopted):string{
                 <div>
                     <div>
                         <img id="img-animale-richiesta" src="[imgAnimale]" alt="" />';
-                    $html .= ($isAdopted&&!$isAdmin)?'<p class="nonDisponibile"><em>Animale adottato</em></p>':'<a href="./animali?id='.urlencode($idanimale).'" class="link-button">Vedi animale</a>';
+                    $html .= ($isAdopted&&!$isAdmin)?'<p class="nonDisponibile"><em>Animale adottato</em></p>':'<a href="./animali?id-animale='.urlencode($idanimale).'" class="link-button">Vedi animale</a>';
                     $html.='
                     </div>
                     <dl aria-label="Descizione superficiale dell\'animale">

@@ -7,7 +7,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-if(isset($_GET['id'])) {
+if(isset($_GET['id-animale'])) {
     require './src/php/visualizzazione-animale.php';
 }else{
     // QUI SI GESTISCE IL METTERE TOGLIERE NEI PREFERITI
@@ -227,7 +227,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
                 $classeInteressato= $adottato ? 'adottato' : 'interessamento';
 
                 // LOGICA LINK: Se sono in "assegnati a te" uso dettaglio-animale, altrimenti visualizzazione-animale
-                $linkDettagli = $isFromAdmin ? "dettagli-animale?id-animale=".urlencode($id) : "visualizzazione-animale?id=".urlencode($id);
+                $linkDettagli = $isFromAdmin ? "dettagli-animale?id-animale=".urlencode($id) : "animali?id-animale=".urlencode($id);
 
                 /* -------- IMMAGINE -------- */
                 if (!empty($a['immagine']) && file_exists($a['immagine'])) {
@@ -237,7 +237,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
                 }
     
                 $html .= "
-                    <li class='$cardClass' aria-labelledby='nome-animale-".htmlspecialchars($id)."'>
+                    <li class='$cardClass' aria-label='$nome'>
                         <article class='card'>
                             <div class='immagine'>
                                 <img src='".htmlspecialchars($img)."' alt='foto di $nome: un ".htmlspecialchars($a['tipo'])." di colore ".htmlspecialchars($colore)."' />                        

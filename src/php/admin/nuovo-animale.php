@@ -9,7 +9,7 @@ error_reporting(E_ALL);
 use DB\DBAccess;
 
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo controlla se esiste la variabile admin in session, la seconda controlla che sia affettivamente admin
-    header("Location: ./accedi");
+    header("Location: ./animali");
     exit;
 }
 
