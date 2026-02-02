@@ -171,9 +171,9 @@ function createNewEvent(DBAccess $conn, &$newEventValues, bool $isModified): arr
         $_SESSION['form_inputs'] = $inputsToSave; 
 
         if($isModified){
-            header('Location: ./modifica-evento?titolo='.urlencode($oldTitle).'&data='.urlencode($oldData));
+            header('Location: ./modifica-evento?titolo='.urlencode($oldTitle).'&data='.urlencode($oldData).'#new-event');
         }else{
-            header("Location: ./nuovo-evento");
+            header("Location: ./nuovo-evento#new-event");
         }
 
         exit;

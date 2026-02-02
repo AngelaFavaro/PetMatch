@@ -390,7 +390,7 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente, $editAddr
             $_SESSION['form_inputs'] = ['name' => $NewUserValues['name'], 'surname' => $NewUserValues['surname'], 
                 'address' => $NewUserValues['address'], 'city' => $NewUserValues['city'],
                 'CAP' => $NewUserValues['CAP'], 'phoneNumber' => $NewUserValues['phoneNumber'] ];
-            header("Location: ./profilo-utente?mode=edit");
+            header("Location: ./profilo-utente?mode=edit#edit-form");
             exit;
         }
     }
@@ -508,7 +508,7 @@ function editManagementAccount(DBAccess $conn, &$NewUserValues, $infoUtente): ar
             $_SESSION['form_status_management'] = 'error';
             $_SESSION['form_errors_management'] = $errors; 
             $_SESSION['form_inputs'] = ['email' => $NewUserValues['email'] ];
-            header("Location: ./profilo-utente?mode=management");
+            header("Location: ./profilo-utente?mode=management#manage-form");
             exit;
         }
     }
@@ -553,7 +553,7 @@ $htmlView =
 $htmlEdit = '
     <div class="edit-mode" id="modifica-profilo" tabindex="-1">
         <h2>Modifica il profilo</h2>
-        <form class="edit-mode" method="post" action="profilo-utente" enctype="multipart/form-data">
+        <form class="edit-mode" id="edit-form" method="post" action="profilo-utente" enctype="multipart/form-data">
             <fieldset>
                 <legend>Informazioni personali</legend>
                 <label for="new-pic">Cambia Foto</label>
@@ -619,7 +619,7 @@ $htmlEdit = '
 $htmlManagement = '
     <div class="edit-management" id="gestisci-profilo" tabindex="-1">
         <h2>Gestisci il profilo</h2>
-        <form class="edit-mode" method="post" action="profilo-utente" novalidate>
+        <form class="edit-mode" id="manage-form" method="post" action="profilo-utente" novalidate>
             <fieldset class="fieldset-edit-email">
                 <legend>Modifica email</legend>
                 <div>

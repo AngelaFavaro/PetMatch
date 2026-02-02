@@ -207,10 +207,10 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
         //l'invio della query al db è più in alto, dov'è anche l'invio della query dell'aggiungi animale, solo
         //se anche li controllo in che caso mi trovo
         if($isModified){
-            header("Location: ./modifica-animale?id-animale=" . urlencode($_GET['id-animale']));
+            header("Location: ./modifica-animale?id-animale=" . urlencode($_GET['id-animale']).'#form-add-animal');
             exit;
         }else{
-            header("Location: ./nuovo-animale");
+            header("Location: ./nuovo-animale#form-add-animal");
             exit;
         }
 
