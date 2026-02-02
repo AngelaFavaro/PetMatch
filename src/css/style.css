@@ -3195,6 +3195,10 @@ input#check-assegna:checked:before,
     margin:auto 5px auto 0;
 }
 
+#admin-info .edit-mode{
+    float:none;
+}
+
 .edit-mode h2,
 .edit-management h2{
     text-align: center;
