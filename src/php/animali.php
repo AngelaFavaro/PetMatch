@@ -169,6 +169,7 @@ if(isset($_GET['id'])) {
     $totaleGatti= '';
     $totaleCani= '';
     $totaleAll= '';
+    $resetUrl = '';
     
     
     /* ------------------ NAV TIPO ------------------ */
@@ -288,9 +289,9 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
         
     // RESET DEI FILTRI
     if(!$isFromAdmin) {
-        $resetUrl = './animali';
+        $resetUrl = 'animali';
     } else {
-        $resetUrl = "./animali-admin?".urlencode($rawFilters['assegnati']);
+        $resetUrl = "animali-admin?".urlencode($rawFilters['assegnati']);
     }
     if ($type !== 'tutti') {
         $resetUrl .= '?tipo=' . urlencode($type);
@@ -482,7 +483,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
         </form>";
         $stringaFiltri = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $stringaFiltri);
         $main = str_replace('[FILTRI]', $stringaFiltri, $main);
-        $main = str_replace('[URL-RESETFILTRI]', $resetUrl, $main);
+        
         $main = str_replace('[VISIBILITA-FILTRO]', $cancelFiltriId, $main);
     
         if($isFromAdmin) {
@@ -499,6 +500,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
         $description = '<meta name="description" content="i tuoi animali preferiti in adozione su PetMatch">';
     
     }
+    $main = str_replace('[URL-RESETFILTRI]', $resetUrl, $main);
     $main = str_replace('[COUNTALL]', $totaleAll, $main);
     $main = str_replace('[COUNTCAT]', $totaleGatti, $main);
     $main = str_replace('[COUNTDOG]', $totaleCani, $main);
