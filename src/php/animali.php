@@ -322,7 +322,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
             // <ul aria-label='Pagine di navigazione'>"
             $linkPagine = ($pagineTotali > 1)
         ? (
-            "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine'>
+            "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine' id='nav-sotto'>
                 <ul aria-label='Pagine di navigazione'>"
             . buildPagination($pagina, $pagineTotali, $type)
             . "</ul>
@@ -378,7 +378,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
             }
             $linkPagine = ($pagineTotali > 1)
         ? (
-            "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine'>
+            "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine' id='nav-sotto'>
                 <ul aria-label='Pagine di navigazione'>"
             . buildPagination($pagina, $pagineTotali, $params)
             . "</ul>
