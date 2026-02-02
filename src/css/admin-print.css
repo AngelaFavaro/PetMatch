@@ -958,6 +958,7 @@ pre#note-text{
 } 
 
 #form-add-animal fieldset label:not(.file-upload-label):not(.radio-card):not(.sex-option),
+#form-add-animal fieldset .sex-title,
 #new-event fieldset label:not(.file-upload-label){
     font-weight:600;  
 } 
