@@ -477,7 +477,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             function updateFileNameEvento(name) {
                 fileNameDisplayEvento.textContent = `✓ ${name}`;
-                const infoDiv = formEvento.querySelector('.foto-caricata-info');
+                const infoDiv = formEvento.querySelector('.foto-caricata-evento-info');
                 if (infoDiv) {
                     infoDiv.textContent = `File selezionato: ${name}`;
                 }

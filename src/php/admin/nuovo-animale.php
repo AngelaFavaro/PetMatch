@@ -281,7 +281,7 @@ if ($isModified) {
 $paginaHTML = str_replace('[urlAnnulla]', $urlAnnulla, $paginaHTML);
 
 $paginaHTML = str_replace('[infoFotoCaricata]', $fotoInfo, $paginaHTML);
-$paginaHTML = str_replace('[input-hidden-foto]', $inputHiddenFoto??'', $paginaHTML);
+$paginaHTML = str_replace('[input-hidden-foto-animale]', $inputHiddenFoto??'', $paginaHTML);
 
 $paginaHTML = str_replace('[erroriGeneric]', $messageInfoForm['generic'] ?? '', $paginaHTML);
 
