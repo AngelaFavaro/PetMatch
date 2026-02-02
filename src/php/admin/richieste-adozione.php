@@ -106,7 +106,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
             return '<p class="nessun-risultato-message">Non ci sono nuove richieste di adozione.</p>';
         }else{
             $html = '
-            <span id="sumTabellaNuove" class="navigationHelp">In questa tabella vengono elencate le nuove richieste di adozione e i loro dettagli: email utente, nome animale e data di richiesta.</span>
+            <span id="sumTabellaNuove" aria-hidden="true" class="navigationHelp">In questa tabella vengono elencate le nuove richieste di adozione e i loro dettagli: email utente, nome animale e data di richiesta.</span>
             <table aria-describedby="sumTabellaNuove">
                 <caption>Nuove Richieste di Adozione</caption>
                     <thead>
@@ -201,7 +201,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
             return '<p class="nessun-risultato-message">Non ci sono richieste di adozione da trasportare.</p>';
         }else{
             $html = '
-            <span id="sumTabellaDaTrasportare" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione da trasportare e i loro dettagli: <span lang="en">email</span> utente, nome animale, data di fine valutazione.</span>
+            <span id="sumTabellaDaTrasportare" aria-hidden="true" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione da trasportare e i loro dettagli: <span lang="en">email</span> utente, nome animale, data di fine valutazione.</span>
             <table aria-describedby="sumTabellaDaTrasportare">
             <caption>Richieste di Adozione da Trasportare</caption>
                 <thead>
@@ -252,7 +252,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
             return '<p class="nessun-risultato-message">Non ci sono richieste di adozione annullate.</p>';
         }else{
             $html = '
-            <span id="sumTabellaAnnullate" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione annullate e i loro dettagli: <span lang="en">email</span> utente, nome animale e data di annullamento.</span>
+            <span id="sumTabellaAnnullate" aria-hidden="true" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione annullate e i loro dettagli: <span lang="en">email</span> utente, nome animale e data di annullamento.</span>
                 <table aria-describedby="sumTabellaAnnullate">
                     <caption>Richieste di Adozione Annullate</caption>
                     <thead>
@@ -296,7 +296,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
             return '<p class="nessun-risultato-message">Non ci sono richieste di adozione respinte.</p>';
         }else{
             $html = '
-            <span id="sumTabellaRespinte" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione respinte e i loro dettagli: <span lang="en">email</span> utente, nome animale e data di respinta.</span>
+            <span id="sumTabellaRespinte" aria-hidden="true" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione respinte e i loro dettagli: <span lang="en">email</span> utente, nome animale e data di respinta.</span>
             <table aria-describedby="sumTabellaRespinte">
                 <caption>Richieste di Adozione Respinte</caption>
                 <thead>
