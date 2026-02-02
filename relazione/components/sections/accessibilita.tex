@@ -15,7 +15,7 @@ Questa sezione descrive le scelte specifiche dividendole in base ai principi fon
     \item le gif presenti nella timeline della home si fermano dopo pochi secondi per evitare distrazioni ma soprattutto per non creare problemi a persone che sono sensibili a stimoli visivi in movimento;
     \item la dark mode riduce l'affaticamento visivo in ambienti con scarsa illuminazione e per utenti sensibili alla luce;
     \item i filtri sono selezionabili sia tramite interfaccia grafica che tramite input testuale, migliorando l'usabilità per persone con deficit visivo;
-    \end{itemize}
+\end{itemize}
 \subsection{Comprensibile}
 \begin{itemize}
     \item abbiamo dato un significato ai pulsanti di colore diverso: quelli che fanno un'operazione al db (es. invio form) sono arancioni, mentre quelli che portano semplicemente ad una pagina diversa (interna o esterna) sono marroni;
@@ -32,6 +32,14 @@ Questa sezione descrive le scelte specifiche dividendole in base ai principi fon
 \begin{itemize}
     \item la lista di attività da completare è pensata per migliorare l'usabilità generale, ma in particolare per utenti con difficoltà cognitive (deficit di memoria a breve termine, situazionale o permanente; difficoltà organizzative; ADHD). Ogni attività è collegata a un link che porta automaticamente alla pagina corrispondente con i filtri preselezionati, riducendo il sovraccarico cognitivo. Le attività sono ordinate per priorità e il decremento del contatore fornisce un feedback gratificante al completamento;
 \end{itemize}
+\subsubsection{Convenzioni interne}
+Nel contesto del principio di comprensibilità, alcune delle convenzioni interne adottate
+\begin{itemize}
+    \item I pulsanti che hanno un certo ruolo nelle operazioni sul database sono di colore arancione. Per esempio invio form, link che portano a pagine di modifica/aggiunta di elementi (Aggiungi evento, modifica animale, ecc.). Un altro esempio sono i pulsanti delle attività da completare nell'area admin, essi infatti portano a pagine che richiedono di scaricare data dal databasae;
+    \item Alcuni link hanno le sembianze di pulsanti e se sono marroni indicano che portano a pagine interne o esterne senza modificare il database (es. contatta candidato nell'area admin);
+    \item 
+\end{itemize}
+
 \subsection{Robusto}
 Oltre a permettere una corretta visualizzazione a tutti i dispositivi (layout responsive, sezione \ref{sec:layout_responsive}) e l'uso di screen reader, altre considerazioni fatte per il principio di robustezza sono:
 \begin{itemize}
