@@ -3,10 +3,6 @@
 include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
-
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
 session_start();
 
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo controlla se esiste la variabile admin in session, la seconda controlla che sia affettivamente admin
