@@ -362,7 +362,8 @@ h1 + a.link-button{
 }
 
 
-#animali .is-favorite, #animali .not-favorite {
+#animali .is-favorite, #animali .not-favorite,
+#visualizzazione-animale .is-favorite, #visualizzazione-animale .not-favorite {
     appearance: none;
     border: none;
     background: transparent;
@@ -377,7 +378,9 @@ h1 + a.link-button{
 }
 
 #animali img.heart-normal,
-#animali img.heart-hover{
+#animali img.heart-hover, 
+#visualizzazione-animale img.heart-normal,
+#visualizzazione-animale img.heart-hover{
     position: static;
     width: 0.7cm;
     height: 0.7cm;
