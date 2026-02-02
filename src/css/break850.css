@@ -221,7 +221,12 @@ details[open] .number::after {
 }
 
 #team-img img{
-    width: 40%;
+    max-width: 40%;
+} 
+#team-img img:nth-child(2),
+#team-img img:nth-child(4),
+#team-img img:nth-child(5){
+    min-width: 9em;
 } 
 
 /* ==================ANIMALI==================*/

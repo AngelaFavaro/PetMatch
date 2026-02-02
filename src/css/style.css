@@ -3802,10 +3802,35 @@ button[name="show-dialog"].button-cancel img{
 
 #team-img img{
     width: 100%;
-    flex:0 1 30%;
+    flex:0 1 15%;
     height: auto;
-    max-height: 15em;
+    max-height: 13em;
     padding: 0;
+} 
+
+#team-img img:first-child{
+    transform: rotate(-10deg);
+} 
+
+#team-img img:nth-child(2){
+    transform: rotate(-5deg);
+    margin-top: 2em;
+} 
+
+#team-img img:nth-child(3){
+    transform: rotate(8deg);
+    max-height: 12em;
+    margin-top: 1em;
+} 
+
+#team-img img:nth-child(4){
+    transform: rotate(-6deg);
+} 
+
+#team-img img:nth-child(5){
+    transform: rotate(-4deg);
+    margin-top: 2em;
+
 } 
 
 /* ================== =========== PAGINE ADMIN================== ============*/
@@ -5927,22 +5952,21 @@ footer address a.email:visited,
 }
 
 #come-funziona #comeSiAdotta #paws-containter #paw1 {
-    top: 2em;
     right: 2em;
+    top: -2em;
 }
 
 #come-funziona #comeSiAdotta #paws-containter #paw2 {
-    top: 3em;
-    right: 12em;
+    right: 14em;
 }
 
 #come-funziona #comeSiAdotta #paws-containter #paw3 {
-    top: 9em;
+    top: 5em;
     right: 8em;
 }
 
 #come-funziona #comeSiAdotta #paws-containter #paw4 {
-    top: 9em;
+    top: 6em;
     right: 20em;
 }
 
