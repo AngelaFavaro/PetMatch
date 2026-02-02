@@ -4344,11 +4344,11 @@ div.button-group{
     margin-top: 1em;
 }
 
-div.button-group button{
+div.button-group button,div.button-group a{
     flex: 1 1 20px;
 }
 
-div.button-group button[type="reset"]{
+div.button-group a#reset-button{
     background-color: var(--darkbgcolor);
     border-width: 2px;
     border-style: solid;
