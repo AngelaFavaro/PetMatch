@@ -200,7 +200,7 @@ body footer img#logo-footer{
 }
 
 .torna-su-button,
-img[alt=""]:not(#instagram):not(.immagine-evento):not(#img-animale-richiesta){
+img[alt=""]:not(#instagram):not(.immagine-evento):not(#img-animale-richiesta):not(.heart-normal){
     display: none;
 }
 
@@ -376,8 +376,7 @@ h1 + a.link-button{
     border-top: 1px solid var(--bordercolor);
 }
 
-#animali img.heart-normal{
-    display: none;
+#animali img.heart-hover{
     display: block;
 }
 #animali img.heart-normal,
