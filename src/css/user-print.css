@@ -1213,7 +1213,7 @@ i.fas.fa-eye::before, #accedi i.fas.fa-eye::after{
 #container-form-login .db-button{
     margin-bottom: 0.4cm;
 }
-#form-login .error-form{
+#form-login .error-form, #form-signup .error-form{
     display: none;
 }
 /* ========== REVISIONE RICHIESTA ========== */
