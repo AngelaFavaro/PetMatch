@@ -486,7 +486,7 @@ function buildFooter(array $menuGroups, string $currentHref): string {
                         <ul class="footer-submenu">
                             <li>
                                 <address>
-                                    <a class="email" href="mailto:matchpet48@gmail.com" target="_blank">matchpet48@gmail.com</a>
+                                    <a class="email"  href="mailto:matchpet48@gmail.com" target="_blank">matchpet48@gmail.com</a>
                                 </address>
                             </li>
                             <li>
