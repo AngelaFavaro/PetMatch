@@ -358,16 +358,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const formEvento = document.getElementById('new-event');
     
     if (formEvento) {
-        formEvento.querySelectorAll('.error-form').forEach(p => {
-            p.style.display = p.textContent.trim() === "" ? 'none' : 'block';
-        });
 
         const setErrorEvento = (input, message) => {
             const container = input.closest('div') || input.closest('fieldset') || input.parentElement;
             const errorElement = container.querySelector('.error-form');
             if (errorElement) {
                 errorElement.textContent = message;
-                errorElement.style.display = message ? 'block' : 'none';
             }
         };
 
@@ -429,14 +425,14 @@ document.addEventListener('DOMContentLoaded', () => {
             input.addEventListener('input', () => {
                 const container = input.closest('div') || input.closest('fieldset') || input.parentElement;
                 const err = container.querySelector('.error-form');
-                if (err && err.style.display === 'block') {
+                if (err) {
                     if (!validateFieldEvento(input)) setErrorEvento(input, "");
                 }
             });
         });
 
         // ========== DRAG & DROP FOTO EVENTO ==========
-        const fileInputEvento = formEvento.querySelector('#foto');
+        const fileInputEvento = formEvento.querySelector('#new-event #foto');
         const fileLabelEvento = formEvento.querySelector('.file-upload-label');
         const fileNameDisplayEvento = formEvento.querySelector('.file-name-display');
 
@@ -477,7 +473,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             function updateFileNameEvento(name) {
                 fileNameDisplayEvento.textContent = `✓ ${name}`;
-                const infoDiv = formEvento.querySelector('.foto-caricata-info');
+                const infoDiv = formEvento.querySelector('.foto-caricata-evento-info');
                 if (infoDiv) {
                     infoDiv.textContent = `File selezionato: ${name}`;
                 }

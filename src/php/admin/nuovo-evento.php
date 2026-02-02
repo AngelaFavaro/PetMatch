@@ -271,15 +271,7 @@ foreach ($campi_errori as $placeholder => $error) {
     $placeholder = '[error-' . $placeholder . ']'; 
     $valore_errore = $messaggiForm[$error] ?? '';
     
-    if ($error === 'generic' || $error === 'existEvent') {
-        $html_errore = $valore_errore ? "<p class='error-form'>$valore_errore</p>" : '';
-    } else {
-        // Sempre presente, ma nascosto se vuoto
-        $display = $valore_errore ? 'block' : 'none';
-        $html_errore = "<p class='error-form' style='display: $display;'>$valore_errore</p>";
-    }
-    
-    $paginaHTML = str_replace($placeholder, $html_errore, $paginaHTML);
+    $paginaHTML = str_replace($placeholder, $valore_errore, $paginaHTML);
 }
 
 echo $paginaHTML;
