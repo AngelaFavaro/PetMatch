@@ -651,7 +651,7 @@ function getCardAnimal(int $idanimale, bool $isAdmin, bool $isAdopted):string{
                 <div>
                     <div>
                         <img id="img-animale-richiesta" src="[imgAnimale]" alt="" />';
-                    $html .= ($isAdopted&&!$isAdmin)?'<p class="nonDisponibile"><em>Animale adottato</em></p>':'<a href="./animali?id='.urlencode($idanimale).'" class="link-button">Vedi animale</a>';
+                    $html .= ($isAdopted&&!$isAdmin)?'<p class="nonDisponibile"><em>Animale adottato</em></p>':'<a href="./animali?id-animale='.urlencode($idanimale).'" class="link-button">Vedi animale</a>';
                     $html.='
                     </div>
                     <dl aria-label="Descizione superficiale dell\'animale">

@@ -6,7 +6,7 @@ session_start();
 
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
     if(isset($_GET['id-animale'])){
-        header("Location: ./visualizzazione-animale?=".urlencode($_GET['id-animale']));
+        header("Location: ./animali?id-animale=".$_GET['id-animale']);
     }else{
         header("Location: ./animali");
     }
