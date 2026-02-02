@@ -923,15 +923,15 @@ pre#note-text{
     font-size: 14pt;
     } 
 
-    #form-add-animal fieldset label:not(.file-upload-label):not(.radio-card):not(.sex-option),
-    #new-event fieldset label:not(.file-upload-label){
+#form-add-animal fieldset label:not(.file-upload-label):not(.radio-card):not(.sex-option),
+#new-event fieldset label:not(.file-upload-label){
     font-weight:600;  
-    } 
+} 
   
-    #admin-body #nuovo-evento #new-event label{
-        display: block;
-        margin-top: 0.3cm;
-    }
+#admin-body #nuovo-evento #new-event label{
+    display: block;
+    margin-top: 0.3cm;
+}
 
 
 #form-add-animal fieldset .labelledby-element,

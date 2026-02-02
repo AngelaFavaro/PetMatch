@@ -925,6 +925,74 @@ margin-bottom: 0.3cm;
     margin-top: 0.5cm;
 }
 
+
+/*=========== FORM RICHIESTA ANIMALE =========== */
+.adozione-status #richiesta-adozione form{
+    border-radius: 0.5cm;
+    border:1px solid var(--lightborder);
+    margin-bottom: 0.4cm;
+    padding: 0.3cm 0.5cm;
+    display: block;
+
+    break-inside: avoid; 
+    page-break-inside: avoid;
+}
+.adozione-status #richiesta-adozione form fieldset{
+    padding-bottom:0.3cm;
+    border: none;
+    text-align: left;
+} 
+
+.adozione-status #richiesta-adozione form fieldset legend{
+    font-weight:600;  
+    font-size: 14pt;
+    padding-bottom: 0.3cm;
+    } 
+
+.adozione-status #richiesta-adozione form fieldset label{
+    font-weight:600;  
+} 
+.adozione-status #richiesta-adozione form fieldset #lettera-presentazione{
+    field-sizing: content;
+    min-height: 1.9cm;
+    display: block;
+    width: 100%;
+    resize: none;
+    font-family: inherit;
+}
+.adozione-status #richiesta-adozione form input{
+    font-family: inherit;
+}
+
+.adozione-status #richiesta-adozione form #checkbox-trasporto-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.adozione-status #richiesta-adozione form .checkbox-title{
+    padding-top: 0.1cm;
+}
+.adozione-status #richiesta-adozione form input[type="checkbox"]{
+    flex: 0 0 5%;
+    appearance: auto;
+    width: 0.5cm;
+    height: 0.5cm;
+}
+.adozione-status #richiesta-adozione form .error-form{
+    display: none;
+}
+
+.adozione-status #richiesta-adozione form .orange-button{
+    border: 1px solid var(--lightborder);
+    margin: 0.2cm 0 0.5cm 0;
+    padding: 0.6em 1.5em;
+    border-radius: 1.5em;
+    font-weight: 550;
+    font-size: 10pt;
+    text-decoration: none;
+    color:black;
+}
+
 /* ==========  VISUALIZZAZIONE EVENTO ========== */
 
 #visualizzazione-evento #evento {
