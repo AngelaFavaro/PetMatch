@@ -240,9 +240,9 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
                     <li class='$cardClass' aria-labelledby='nome-animale-".htmlspecialchars($id)."'>
                         <article class='card'>
                             <div class='immagine'>
-                                <img src='".htmlspecialchars($img)."' alt='foto di $nome: un {".htmlspecialchars($a['tipo'])."} di colore {".htmlspecialchars($colore)."}' />                        
+                                <img src='".htmlspecialchars($img)."' alt='foto di $nome: un ".htmlspecialchars($a['tipo'])." di colore ".htmlspecialchars($colore)."' />                        
                             </div>
-                            <h3 class='nome' id='nome-animale-".htmlspecialchars($id)."'>$nome</h3>";
+                            <h3 class='nome'>$nome</h3>";
                 
                 if(!$adottato) {
                     $html .= "<p class='sesso-etaDesk'>$sesso - ".htmlspecialchars($eta)."</p>
