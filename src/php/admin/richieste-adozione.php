@@ -352,7 +352,6 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     
     if ($connessioneOK) {
         $richiesta = $connessione->getRequestDetails($email, $idAnimale);
-
         $NRequestsByStatus = $connessione->getNRequestByStatus($_SESSION['email'] ?? '');
         $nuove_richieste_content = renderNuoveContent($connessione, $NRequestsByStatus);
         $richieste_in_valutazione_content = renderInValutazioneContent($connessione, $NRequestsByStatus);

@@ -187,7 +187,7 @@ if ($paginaHTML === false) {
 }
 
 $title = '<title lang="en">Home - PetMatch </title>';
-$description = '<meta name="description" lang="en" content="Home page di PetMatch. Il sito per trovare tra tutti gli animali il tuo match perfetto! La distanza non è un problema: organizziamo trasporti in tutta italia. Trova eventi e scopri come sostenerci. Vuoi lavorare con noi? Contattaci!">';
+$description = '<meta name="description" lang="en" content="Home di PetMatch: trova l\'animale perfetto per te! Trasporti in tutta Italia. Scopri eventi, sostienici o unisciti al team. ">';
 $keywords = "<meta name='keywords' content='adotta, eventi, sostenitori, trovare casa a un animale, come si adotta, adotta anche a distanza, animale, rifugio'>";
 
 $nav = buildNav($userMenu, './home');

@@ -202,14 +202,9 @@ if ($connection->openDBConnection()) {
     
     if ($titoloGET && $dataGET) {
         $dettagliEvento = $connection->getInfoEvent($titoloGET, $dataGET);
-        if (!$dettagliEvento) {
-            $titoloEncoded = htmlspecialchars($titoloGET, ENT_QUOTES); 
-            $dettagliEvento = $connection->getInfoEvent($titoloEncoded, $dataGET);
-            if ($dettagliEvento) {
-                $dettagliEvento['Titolo'] = html_entity_decode($dettagliEvento['Titolo'], ENT_QUOTES);
-            } else {
-                $titoloEncoded = '';
-            }
+        if(!$dettagliEvento){
+            header("Location: ./404");
+            exit;
         }
 
         if ($dettagliEvento) {

@@ -190,7 +190,10 @@ $connessioneOK = $connessione->openDBConnection();
 
 if ($connessioneOK) {
     $richiesta = $connessione->getRequestDetails($emailRichiedente, $idAnimale);
-
+    if(!$richiesta){
+        header("Location: ./404");
+        exit;
+    }
     $richiesta = handlePostActions($connessione, $richiesta, $emailRichiedente, $idAnimale, $messaggiForm);
     $nRichiesteRichiedente =  $connessione->countActiveRequestsForUser($emailRichiedente ?? '');
     $AcceptRequestDetails = $connessione->getAcceptRequestByAnimal($idAnimale, $emailRichiedente);
@@ -202,7 +205,7 @@ if (isset($_SESSION['error_msg'])) {
     unset($_SESSION['error_msg']);
 }
 
-$title = '<title>Dettaglio richiesta di adozione  - Amministratore PetMatch </title>';
+$title = '<title>Dettaglio richiesta adozione - Amministratore PetMatch</title>';
 $description = '<meta name="description" content="Area riservata per gli amministratori in cui possono controllare nel dettaglio una richiesta di adozione ricevuta per un animale a loro assegnato">';
 $keywords = "<meta name='keywords' content='amministratore, dettaglio, richiesta, adozione, assegnato, animale, PetMatch'>";
 

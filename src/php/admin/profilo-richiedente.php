@@ -83,6 +83,10 @@ if ($connessioneOK) {
     $listRequest = createRequestList($connessione);
     $NRequestsByStatus = $connessione->getNRequestByStatusUser($_GET['email']);
     $infoUtente = $connessione->getUserInfo($_GET['email']);
+    if(!$infoUtente){
+        header("Location: ./404");
+        exit;
+    }
 }else{
 	$messaggiForm = "<p class='error-form'>Impossibile inviare la richiesta, riprova più tardi.</p>";
 }
