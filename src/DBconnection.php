@@ -399,7 +399,7 @@ class DBAccess {
         }
 
         $stmt->bind_param(
-            "ssssssssssisss",
+            "sssssssssissss",
             $data['nome'],
             $data['dataNascita'],
             $data['sesso'],
