@@ -104,12 +104,12 @@ if(isset($_GET['id'])) {
     $messaggioNoAnimali = $isPreferiti? 'Non hai ancora salvato nessun animale.': ($isFromAdmin ? 'Non ci sono animali assegnati a te.' : 'Non abbiamo ancora animali disponibili.');
     $assignedButton='';
     if($isAdmin&&!$isFromAdmin) {
-        $assignedButton="<a href='animali-admin' class='brown-button' id='btn-assegnamento' >Assegnati a te</a>";
+        $assignedButton="<a href='animali-admin' class='link-button' id='btn-assegnamento' >Assegnati a te</a>";
     }else if($isAdmin&& $isFromAdmin){
         if(isset($_GET['assegnati']) && $_GET['assegnati']=='tutti')
-            $assignedButton='<form method="get" action="animali-admin"><button type="submit" id="toggle-assegnazione" name="assegnati" value="miei" class="orange-button">Vedi miei</button></form>';
+            $assignedButton='<form method="get" action="animali-admin"><button type="submit" id="toggle-assegnazione" name="assegnati" value="miei" class="db-button">Vedi miei</button></form>';
         else{
-            $assignedButton='<form method="get" action="animali-admin"><button type="submit" id="toggle-assegnazione" name="assegnati" value="tutti" class="orange-button">Vedi tutti</button></form>';
+            $assignedButton='<form method="get" action="animali-admin"><button type="submit" id="toggle-assegnazione" name="assegnati" value="tutti" class="db-button">Vedi tutti</button></form>';
         }
     }
         
@@ -396,7 +396,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
         <p id='invito-accedi-content'>
             Accedi per sincronizzare i tuoi preferiti in tutti i tuoi dispositivi!
         </p>
-        <a class='orange-button' href='./accedi'>
+        <a class='db-button' href='./accedi'>
             Accedi
         </a>
     </section>";
@@ -477,7 +477,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
     
             <div id='content-filter-button'>
                 <a href='[URL-RESETFILTRI]' id='[VISIBILITA-FILTRO]' aria-label='elimina i filtri'>X</a>
-                <button type='submit' class='orange-button'>Applica</button>
+                <button type='submit' class='db-button'>Applica</button>
             </div>
         </form>";
         $stringaFiltri = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $stringaFiltri);

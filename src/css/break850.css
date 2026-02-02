@@ -3,28 +3,28 @@
     display: none;
 }
 
-#header-actions .white-button img{
+#header-actions .header-button img{
     display: block;
 } 
 
-#header-actions .white-button{
+#header-actions .header-button{
     width: 32px;
     height: 32px;
     position: relative;
     background-color: transparent;
 }
-#header-actions .white-button img {
+#header-actions .header-button img {
     width: 100%;
     transition: opacity 0.3s;
 }
 
-#header-actions .white-button img#account-hover-currentLink{
+#header-actions .header-button img#account-hover-currentLink{
     opacity: 1;
     position: absolute;
     top: 0; left: 0;
 }   
 
-#header-actions #currentLink.white-button{
+#header-actions #currentLink.header-button{
     outline: none;
 }
 
@@ -38,8 +38,8 @@
     top: 0; left: 0;
     opacity: 0;
 }
-#header-actions .white-button:hover #account-normal { opacity: 0; }
-#header-actions .white-button:hover #account-hover { opacity: 1; }
+#header-actions .header-button:hover #account-normal { opacity: 0; }
+#header-actions .header-button:hover #account-hover { opacity: 1; }
 
 
 #theme-switch {
@@ -232,7 +232,7 @@ details[open] .number::after {
     width: 49.4%;
 }
 
-#animali .filtri .orange-button {
+#animali .filtri .db-button {
     width: 50%;
     flex-grow: 1;
     margin: 0;
@@ -365,7 +365,7 @@ body#admin-body #animali .filtri .capsula-filtro label[for="filtro-assegnata"] +
     /* flex-wrap: nowrap; */
 }
 
-#eventi .filtri .orange-button {
+#eventi .filtri .db-button {
     text-align: center;
 }
 
@@ -388,7 +388,7 @@ body#admin-body #animali .filtri .capsula-filtro label[for="filtro-assegnata"] +
     max-width: 10em;
 }
 
-#eventi button.orange-button {
+#eventi button.db-button {
     margin: 0;
 }
 /* ==================PROFILO RICHIEDENTE==================*/
