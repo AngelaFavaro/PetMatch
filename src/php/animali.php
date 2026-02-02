@@ -156,7 +156,7 @@ if(isset($_GET['id'])) {
         '[SESSO_SELECTED_EMPTY]'    => $rawFilters['sesso'] === '' ? 'selected' : '',
         '[SESSO_SELECTED_MASCHIO]' => $rawFilters['sesso'] === 'maschio' ? 'selected' : '',
         '[SESSO_SELECTED_FEMMINA]'  => $rawFilters['sesso'] === 'femmina' ? 'selected' : '',
-        '[ASSEGNATI]' => htmlspecialchars($rawFilters['assegnati']) ?? '',
+        '[ASSEGNATI]' => (isset($rawFilters['assegnati'])&&$rawFilters['assegnati']) ? htmlspecialchars($rawFilters['assegnati']) : '',
     
         '[TYPE]' => htmlspecialchars($type)
     ];    
