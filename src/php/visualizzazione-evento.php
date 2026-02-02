@@ -69,12 +69,12 @@ function buildEventsCards($events): string {
         $titolo=htmlspecialchars($e['titolo']);
         $altriEventi .= "<li>
                     <article class='evento'>
-                        <img class='immagine-evento' src='$img' alt=''>
+                        <img class='immagine-evento' src='".htmlspecialchars($img)."' alt='' />
                         <h2>$titolo</h2>
                         
                         <p class='data-evento'>
-                            <img src='assets/icons/calendar.svg' alt='' aria-hidden='true' class='icon-calendar'>
-                            <time datetime='".$e['data_evento']."'>$data</time>
+                            <img src='assets/icons/calendar.svg' alt='' aria-hidden='true' class='icon-calendar' />
+                            <time datetime='".htmlspecialchars($e['data_evento'])."'>".htmlspecialchars($data)."</time>
                         </p>
                         <div class='dettagli-evento-bottone'>
                         <a href='visualizzazione-evento?titolo=".urlencode($e['titolo'])."&data=".urlencode($e['data_evento'])."'>Vedi dettagli</a>
@@ -99,7 +99,7 @@ function buildMainevent(array $dettagliEvento, int $isAdmin=0): string {
     $html = '';
     if($dettagliEvento) {
         $titolo = htmlspecialchars($dettagliEvento['Titolo']);
-        $luogo = htmlspecialchars($dettagliEvento['Via'] . ", " . $dettagliEvento['Citta']);
+        $luogo = htmlspecialchars($dettagliEvento['Via'] . ", " . htmlspecialchars($dettagliEvento['Citta']));
         $descrizione = htmlspecialchars($dettagliEvento['DescrEvento']);
         $date=$dettagliEvento['DataEvento'];
         
@@ -122,7 +122,7 @@ function buildMainevent(array $dettagliEvento, int $isAdmin=0): string {
 
                 if ($dataEvento && $dataEvento > $oggi) {
                     $html.="
-                <a class='db-button' href='modifica-evento?titolo=$titolo&data=$date'>Modifica<span class='sr-only'> scheda evento</span></a>
+                <a class='db-button' href='modifica-evento?titolo=$titolo&data=".htmlspecialchars($date)."'>Modifica<span class='sr-only'> scheda evento</span></a>
                 ";
             }
         }
@@ -131,7 +131,7 @@ function buildMainevent(array $dettagliEvento, int $isAdmin=0): string {
 
         
         $html.="
-        <img class='square-foto' id='foto-animale' src='$img' alt='foto del luogo per evento  $titolo'>
+        <img class='square-foto' id='foto-animale' src=".htmlspecialchars($img)." alt='foto del luogo per evento  $titolo' />
 
         <dialog [openDialog] class='overlay-content'>
                     <div class='dialog-box'>
@@ -150,7 +150,7 @@ function buildMainevent(array $dettagliEvento, int $isAdmin=0): string {
             <h1>$titolo</h1>
             <dl>
                 <dt>Luogo</dt> <dd> $luogo </dd>
-                <dt>Data</dt> <dd> $dataFormattata </dd>
+                <dt>Data</dt> <dd> ".htmlspecialchars($dataFormattata)." </dd>
                 <dt id='descrizione-evento'>Descrizione</dt> <dd>$descrizione</dd>
             </dl>
         </div>
@@ -172,7 +172,7 @@ function buildCollaboratorsCard($collaboratori): string {
                 $profilePic = 'assets/images/admins/default-pic.png';
             }
             $emailColl=htmlspecialchars($c['Email']);
-            $collaboratoriCards.="<li><img src='$profilePic' class='circle-foto' alt=''> <dl class='collaborator-name'><dt>Nominativo: </dt><dd>$name $surname</dd><dt>Email:</dt><dd>$emailColl</dd></dl></li>";
+            $collaboratoriCards.="<li><img src='".htmlspecialchars($profilePic)."' class='circle-foto' alt='' /> <dl class='collaborator-name'><dt>Nominativo: </dt><dd>$name $surname</dd><dt>Email:</dt><dd>$emailColl</dd></dl></li>";
         }
         $html="<h2>Scritto da:</h2>
             <ul id='content-collaborators' tabindex='-1' aria-label='Organizzatori evento'>
@@ -217,6 +217,8 @@ if ($connection->openDBConnection()) {
             if($isAdmin) {
                 $titoloPagina .='-area riservata';
             }
+            $dataFormattata = date("d/m/Y", strtotime($dettagliEvento['DataEvento']));
+            $luogo = htmlspecialchars($dettagliEvento['Via'] . ", " . htmlspecialchars($dettagliEvento['Citta']));
             $descrizioneMeta = "Partecipa all'evento $titolo a $luogo il $dataFormattata";
 
             $contenutoEvento = buildMainevent($dettagliEvento, $isAdmin);
