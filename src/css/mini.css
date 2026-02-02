@@ -886,6 +886,10 @@ body#lavora-con-noi {
     gap: 0.5em;
 }
 
+#visualizzazione-animale #stato-richiesta a.link-button{
+    width: 100%;
+}
+
 #visualizzazione-animale h1 + a{
     width: 100%;
 }
