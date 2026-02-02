@@ -53,6 +53,8 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
         foreach ($savedInputs as $key => $val) {
             $NewAnimalValues[$key] = $val;
         }
+
+        unset($_SESSION['form_status_info'], $_SESSION['form_errors_info'], $_SESSION['form_inputs']);
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit-animal'])) { 
