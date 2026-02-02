@@ -1853,6 +1853,10 @@ input:autofill{
 
 /*=================PAGINA ANIMALI======================*/
 
+#animali .filtri #searchName.capsula-filtro input#name-animal {
+    padding-bottom: 0.1em;
+}
+
 #animali a.link-button{
     margin:0;
     float: right;
