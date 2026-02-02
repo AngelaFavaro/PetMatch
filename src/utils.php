@@ -716,10 +716,18 @@ function calcolaEta(?string $dataNascita): ?string {
                 return $diff->y . ' anni';
             }
         }
-        if ($diff->m > 1) {
-            return $diff->m . ' mesi';
+        if($diff->m > 0){
+            if ($diff->m > 1) {
+                return $diff->m . ' mesi';
+            } else {
+                return $diff->m . ' mese';
+            }
         } else {
-            return $diff->m . ' mese';
+            if ($diff->d > 1 || $diff->d===0) {
+                return $diff->d . ' giorni';
+            } else {
+                return $diff->d . ' giorno';
+            }
         }
     } catch (Exception $e) {
         return null;
