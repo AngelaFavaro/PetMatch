@@ -1073,6 +1073,11 @@ pre#note-text{
     border: none;
 }
 
+#profilo-richiedente .tabs-container article {
+    border: none;
+    border-top: 0.5px dotted var(--bordercolor);
+}
+
 #profilo-richiedente .tabs-container .sr-only {
     display: none;
 }
