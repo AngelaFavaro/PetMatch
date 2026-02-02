@@ -202,7 +202,7 @@ if (isset($_SESSION['error_msg'])) {
     unset($_SESSION['error_msg']);
 }
 
-$title = '<title>Visualizzazione dettaglio richiesta di adozione  - Amministratore PetMatch </title>';
+$title = '<title>Dettaglio richiesta di adozione  - Amministratore PetMatch </title>';
 $description = '<meta name="description" content="Area riservata per gli amministratori in cui possono controllare nel dettaglio una richiesta di adozione ricevuta per un animale a loro assegnato.">';
 $keywords = "<meta name='keywords' content='amministratore, dettaglio, richiesta, adozione, assegnato, animale, PetMatch'>";
 
