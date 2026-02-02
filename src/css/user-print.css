@@ -852,6 +852,8 @@ margin-bottom: 0.3cm;
     font-weight: 550;
     font-size: 10pt;
     text-decoration: none;
+    display: block;
+    padding: 0.5cm auto;
 }
 
 #visualizzazione-animale .column-container{
@@ -942,9 +944,12 @@ margin-bottom: 0.3cm;
 }
 
 #richiesta-adozione,
-#compila-form-adozione,
-#contatta-rifugio {
+#compila-form-adozione{
     display: none;
+}
+
+#contatta-rifugio {
+    margin-top:1cm;
 }
 
 #visualizzazione-animale #stato-richiesta {
