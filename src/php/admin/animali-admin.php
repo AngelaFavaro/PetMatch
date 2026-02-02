@@ -3,12 +3,11 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-define('ADMIN_ANIMALI', true);
-
 if(!isset($_SESSION['admin']) || $_SESSION['admin'] !== true){
-    header("Location: ./accedi");
+    header("Location: ./animali");
     exit; 
 }
 
-require './src/php/animali.php';
+require __DIR__ . '/../animali.php';
+
 ?>

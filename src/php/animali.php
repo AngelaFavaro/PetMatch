@@ -81,17 +81,20 @@ if(isset($_GET['id-animale'])) {
         $isAdmin=1;
     }
     
-    if (defined('PAGINA_PREFERITI')) {
-        $isPreferiti=1;
-    }
-    
+    $currentUri = $_SERVER['REQUEST_URI'];
+    $isPreferiti=0;
     $isFromAdmin=0;
     $adminEmail='';
-    if (defined('ADMIN_ANIMALI')) {
+
+    if(str_contains($currentUri, 'preferiti')){
+        $isPreferiti=1;
+    }
+
+    if(str_contains($currentUri, 'animali-admin')){
         $isFromAdmin=1;
         $adminEmail=$_SESSION['email']??'';
     }
-    
+
     $titolo = 'Animali';
     if($isPreferiti) {
         $titolo.=' preferiti';
