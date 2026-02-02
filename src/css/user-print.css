@@ -66,9 +66,6 @@ a:not(#logo-link):not(.pencil):not([href^="mailto:"]):not(.polaroid):not([href^=
     border-bottom: 1px solid var(--lightborder);
 }
 
-#furgoncino {
-    width: 5cm;
-}
 
 /*==============FILTRI================ */
 
@@ -837,8 +834,17 @@ margin-bottom: 0.3cm;
 .pm-timeline-date::after{
     content: ":";
 }
-
-
+/* ---------- COME FUNZIONA ------------ */
+#come-funziona #trasporto div:has(#furgoncino){
+    display: flex;
+}
+#come-funziona #trasporto #furgoncino{
+    flex: 1 1 25%;
+    width: 4.5cm;
+    height: auto;
+    object-fit:contain;
+    margin-left:0.6cm;
+}
 
 
 /* ---------- VISUALIZZAZIONE ANIMALE ------------ */
@@ -962,10 +968,6 @@ margin-bottom: 0.3cm;
     padding: 0.3cm;
     margin-top: 0.5cm;
     text-align: left;
-}
-
-#visualizzazione-animale .container{
-    width: 99.9%;
 }
 
 
