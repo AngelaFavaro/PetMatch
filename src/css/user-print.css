@@ -1214,6 +1214,10 @@ margin-bottom: 0.3cm;
     display: none;
 }
 
+#modifica-profilo fieldset .error-form{
+    display: none;
+}
+
 /* ------ LAVORA CON NOI --------*/
 #contatto-sostenitore p,
 #contatto-sostenitore address {
