@@ -3,11 +3,12 @@
 Oltre alle scelte di design grafico , che hanno un impatto significativo sull'accessibilità e che sono state descritte nella sezione precedente, sono state adottate ulteriori misure per garantire l'accessibilità del sito web.
 Questa sezione descrive le scelte specifiche dividendole in base ai principi fondamentali delle WCAG 2.1: Percepibile, Utilizzabile, Comprensibile e Robusto (POUR).
 \subsection{Percepibile}
-\textbf{Generali:}
 \begin{itemize}
     \item font Parkinsans, progettato per facilitare la lettura anche a persone con difficoltà visive o cognitive legate alla lettura;
     \item contrasti di colori elevati tra testo e sfondo
     \item testo con allineamento a sinistra per facilitare la lettura
+    \item è stato messo aria hidden="true" sull'elemento descrittivo delle tabelle perchè abbiamo notato che altrimenti avrebbe letto due volte la descrizione: la prima volta incontrato il tag p e la seconda volta incontrando la tabella con aria-describedby;
+    \item Abbiamo inserito delle dialog e con 
 \end{itemize}
 \subsection{Utilizzabile}
 \begin{itemize}
@@ -38,7 +39,6 @@ Nel contesto del principio di comprensibilità, alcune delle convenzioni interne
 \begin{itemize}
     \item I pulsanti che hanno un certo ruolo nelle operazioni sul database sono di colore arancione. Per esempio invio form, link che portano a pagine di modifica/aggiunta di elementi (Aggiungi evento, modifica animale, ecc.). Un altro esempio sono i pulsanti delle attività da completare nell'area admin, essi infatti portano a pagine che richiedono di scaricare data dal databasae;
     \item Alcuni link hanno le sembianze di pulsanti e se sono marroni indicano che portano a pagine interne o esterne senza modificare il database (es. contatta candidato nell'area admin);
-    \item 
 \end{itemize}
 
 \subsection{Robusto}
