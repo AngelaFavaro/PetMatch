@@ -630,6 +630,7 @@ NOTA: modificare il flex se necessario annidando la classe dentro le proprie sez
 /* ==================FOCUS================== */
 input[type="radio"]:focus-visible + label,
 a:focus-visible,
+a#logo-link:focus-visible img,
 button:focus-visible,
 textarea:focus-visible,
 li.card:has(a:focus-visible),
