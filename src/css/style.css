@@ -181,11 +181,11 @@ a:visited{
     color: var(--visitedcolor);
 }
 
-a.orange-button:visited{
+a.db-button:visited{
     color: var(--text-form-button);
 }
 
-a.orange-button:hover{
+a.db-button:hover{
     color: var(--linkcolor);
 }
 
@@ -287,10 +287,10 @@ h4{
 
 /*==================PULSANTI==================*/
 #compila-form-adozione>summary,
-#currentLink.orange-button,
-a.orange-button, a.brown-button,
-button.brown-button,
-button.orange-button{
+#currentLink.db-button,
+a.db-button, a.link-button,
+button.link-button,
+button.db-button{
     display: block;
     text-align: center;
     margin: auto;
@@ -304,32 +304,32 @@ button.orange-button{
 }
 
 #compila-form-adozione>summary,
-.orange-button:hover,
-button.orange-button:hover{
+.db-button:hover,
+button.db-button:hover{
     background-color: var(--buttoncolor-hover); 
     color: var(--hovertext-form-button);
 }
 
 #compila-form-adozione>summary,
-#currentLink.orange-button,
-a.orange-button,
-button.orange-button,
-.white-button:hover{
+#currentLink.db-button,
+a.db-button,
+button.db-button,
+.header-button:hover{
     background-color: var(--buttoncolor);
     color: var(--text-form-button);
 }
 
-button.orange-button{
+button.db-button{
     cursor: pointer;
     border:none;
     font-size: 100%;
 }
 
-.orange-button:visited{
+.db-button:visited{
     color: var(--txtcolor);
 }
 
-a.brown-button, button.brown-button{
+a.link-button, button.link-button{
     background-color: var(--text-buttoncolor);
     color: var(--linkcolor);
     margin: 0.7em auto 0.7em auto;
@@ -338,25 +338,25 @@ a.brown-button, button.brown-button{
     border:1px solid var(--txtcolor);
 }
 
-a.brown-button:visited{
+a.link-button:visited{
     color: var(--visitedcolor);
 }
 
-.brown-button:hover, button.brown-button:hover,
-.brown-button:visited:hover{
+.link-button:hover, button.link-button:hover,
+.link-button:visited:hover{
     background-color:transparent; 
     color: var(--hover-link);
     cursor: pointer;
     border:1px solid transparent;
 }
 
-button.brown-button{
+button.link-button{
     border:none;
     font-family: "Parkinsans", Roboto, sans-serif;
     font-size: 1em;
 }
 
-.white-button{
+.header-button{
     display: block;
     text-align: center;
     margin: auto;
@@ -370,7 +370,7 @@ button.brown-button{
     color:var(--text-buttoncolor)
 }
 
-.white-button:visited{
+.header-button:visited{
     color:var(--text-buttoncolor);
 }
 
@@ -562,7 +562,7 @@ NOTA: modificare il flex se necessario annidando la classe dentro le proprie sez
 }
 
 /*==================ERRORE 404==================*/
-.c404 .orange-button{
+.c404 .db-button{
     margin-top:1em;
 }
 
@@ -630,6 +630,7 @@ NOTA: modificare il flex se necessario annidando la classe dentro le proprie sez
 /* ==================FOCUS================== */
 input[type="radio"]:focus-visible + label,
 a:focus-visible,
+a#logo-link:focus-visible img,
 button:focus-visible,
 textarea:focus-visible,
 li.card:has(a:focus-visible),
@@ -785,7 +786,7 @@ li.capsula-filtro input:focus{
     color:var(--text-form);
 }
 
-#layout-user #currentLink.white-button:hover{
+#layout-user #currentLink.header-button:hover{
     background-color: var(--bgcolor);
     color:var(--txtcolor);
 }
@@ -1044,16 +1045,16 @@ input:checked + #theme-switch #slider #moon { opacity: 1; }
 #preferiti:hover #heart-normal { opacity: 0; }
 #preferiti:hover #heart-hover { opacity: 1; }
 
-#header-actions .white-button{
+#header-actions .header-button{
     padding: 0.3em 1em;
 } 
 
-#header-actions .white-button img{
+#header-actions .header-button img{
     display: none;
 } 
 
-#header-actions #currentLink.white-button,
-#header-actions #currentLink.white-button:hover{
+#header-actions #currentLink.header-button,
+#header-actions #currentLink.header-button:hover{
     outline: 1px solid var(--light-txtcolor);
     background-color: var(--buttoncolor-hover);
     color:var(--light-txtcolor);
@@ -1665,7 +1666,7 @@ label {
     margin-left: 0.5em; 
 }
 
-#form-affidamento .orange-button {
+#form-affidamento .db-button {
     width: 100%;
     margin: 1.5em 0 1em 0;
     cursor: pointer;
@@ -1716,7 +1717,7 @@ input:autofill{
     padding-bottom: 1em;
 }
 
-#form-signup .orange-button{
+#form-signup .db-button{
     margin-top: 1em;
 }
 
@@ -1843,12 +1844,12 @@ input:autofill{
 
 /*=================PAGINA ANIMALI======================*/
 
-#animali a.brown-button{
+#animali a.link-button{
     margin:0;
     float: right;
 }
 /* aggiunto questo altrimenti mi si sminchiano le cose da admin */
-div#admin-area #animali a.brown-button{
+div#admin-area #animali a.link-button{
 float: none;
     display: inline-block; /* Assicura che il margine funzioni correttamente */
     margin: 0.5em;
@@ -2397,7 +2398,7 @@ float: none;
 }
 
 
-#invitoAdAccedere .white-button {
+#invitoAdAccedere .header-button {
     margin: 0.5em;
     background-color: var(--buttoncolor);
     font-style:normal;
@@ -2406,7 +2407,7 @@ float: none;
     white-space: nowrap;
 }
 
-#invitoAdAccedere .white-button:hover {
+#invitoAdAccedere .header-button:hover {
     margin: 0.5em;
     background-color: var(--bgcolor);
 }
@@ -3357,7 +3358,7 @@ input[type="file"]::file-selector-button:hover {
     width: fit-content;
 }
 
-.details-card-animale a.brown-button{
+.details-card-animale a.link-button{
     padding:0.4em 1em;
     width: 100%;
     border-radius: 2em;
@@ -4026,7 +4027,7 @@ nav#menu-admin span{
     font-weight: 700;
 }
 
-nav#menu-admin .orange-button{
+nav#menu-admin .db-button{
     margin: 0 auto 1em auto;
 }
 
@@ -4113,10 +4114,10 @@ a.pencil {
     margin-top:0.5em;
 }
 
-#submit-edit.orange-button{
+#submit-edit.db-button{
     margin: 2em 1em 0em auto;
 }
-#submit-edit.orange-button[hidden] {
+#submit-edit.db-button[hidden] {
     display: none;
 }
 
@@ -4211,11 +4212,11 @@ a.pencil {
     border: none;
     margin: 0.5em 0;
 }
-.tab-content#Richiedente .brown-button{
+.tab-content#Richiedente .link-button{
     margin: 0.5em 0em 0em auto;
 }
 
-#animale-richiesta .brown-button{
+#animale-richiesta .link-button{
     margin: 0em auto 1em 0em;
 }
 #admin-area .tabs-container h2{
@@ -4332,7 +4333,7 @@ div.button-group button[type="reset"]{
     flex-wrap: wrap;
 }
 
-#top-container a.orange-button,#top-container button.orange-button{
+#top-container a.db-button,#top-container button.db-button{
    margin: 0em 0em 0em auto;
 }
 
@@ -4401,7 +4402,7 @@ div#admin-area article.note{
 #input-note:focus {
     outline: 2px solid var(--txtcolor);
 }
-.orange-button.respinta {
+.db-button.respinta {
     background-color: var(--darkbgcolor);
     border: none;
     cursor: not-allowed;
@@ -4576,7 +4577,7 @@ h2+#animale-richiesta .generic-info-container img.square-foto{
     width: 100%;
 }
 
-#dettaglio-animale .edit-btn-container .orange-button{
+#dettaglio-animale .edit-btn-container .db-button{
     margin: 0 0 0 auto;
 }
 
@@ -4655,7 +4656,7 @@ h2+#animale-richiesta .generic-info-container img.square-foto{
     padding: 15px 20px;
 }
 
-#visualizza-richieste-animale .brown-button{
+#visualizza-richieste-animale .link-button{
     margin: 0.5em auto;
 }
 
@@ -4753,7 +4754,7 @@ td.col-dettagli a,td.col-dettagli button{
 td.col-dettagli a:hover img{
     filter: brightness(0) saturate(100%) invert(8%) sepia(45%) saturate(5833%) hue-rotate(348deg) brightness(95%) contrast(96%);
 }
-#admin-area #animali tbody .orange-button[name="elimina_segnalazione"]{
+#admin-area #animali tbody .db-button[name="elimina_segnalazione"]{
     background-color: transparent;
     border: 2px solid var(--buttoncolor);
     color:var(--txtcolor);
@@ -4761,7 +4762,7 @@ td.col-dettagli a:hover img{
     transition: 0.3s;
 }
 
-#admin-area #animali tbody .orange-button[name="elimina_segnalazione"]:hover, div.button-group button[type="reset"]:hover{
+#admin-area #animali tbody .db-button[name="elimina_segnalazione"]:hover, div.button-group button[type="reset"]:hover{
     background-color: transparent;
     border: 2px solid transparent;
     border-color: transparent;
@@ -5678,7 +5679,7 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     padding:0.5em;
 }
 
-#richiesta-adozione .orange-button {
+#richiesta-adozione .db-button {
     width: 100%;
     margin-top:1em;
 }
@@ -5849,7 +5850,7 @@ footer address a.email:visited,
     color: var(--linkcolor);
 }
 
-#invitoLavoro a.brown-button:visited{
+#invitoLavoro a.link-button:visited{
     color:var(--visitedcolor);
 }
 
@@ -6161,7 +6162,7 @@ footer address a.email:visited,
 }
 
 /* PARTE ADMIN */
-#visualizzazione-evento a.orange-button {
+#visualizzazione-evento a.db-button {
     margin-right: 0.5em;
 }
 

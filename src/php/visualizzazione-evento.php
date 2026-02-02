@@ -87,7 +87,7 @@ function buildEventsCards($events): string {
             <ul class='cards-container' id='content-animali' tabindex='-1' aria-label='Altri eventi nella zona'>
             $altriEventi
             </ul>
-            <a class='brown-button' href = './eventi'> Guarda tutti gli eventi →</a>";
+            <a class='link-button' href = './eventi'> Guarda tutti gli eventi →</a>";
     return $html;
 }
 
@@ -122,7 +122,7 @@ function buildMainevent(array $dettagliEvento, int $isAdmin=0): string {
 
                 if ($dataEvento && $dataEvento > $oggi) {
                     $html.="
-                <a class='orange-button' href='modifica-evento?titolo=$titolo&data=$date'>Modifica<span class='sr-only'> scheda evento</span></a>
+                <a class='db-button' href='modifica-evento?titolo=$titolo&data=$date'>Modifica<span class='sr-only'> scheda evento</span></a>
                 ";
             }
         }
@@ -236,7 +236,7 @@ if ($connection->openDBConnection()) {
                     <ul class='cards-container' id='content-animali' tabindex='-1' aria-label='Altri eventi nella zona'>
                     <p class='errore'>Per ora non ci sono altri eventi in programma in questa città. Ritorna tra qualche giorno a controllare</p>
                     </ul>
-                    <a class='brown-button' href = './eventi'> Guarda tutti gli eventi →</a>";
+                    <a class='link-button' href = './eventi'> Guarda tutti gli eventi →</a>";
             } else {
                 if($titoloEncoded) {
                     $collaboratori=$connection->getOrganizzatoriEvento($titoloEncoded, $dataGET);

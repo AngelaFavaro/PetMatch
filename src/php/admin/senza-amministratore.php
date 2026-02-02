@@ -51,11 +51,11 @@ function renderCaniContent(array $CaniNonAdmin, array $NNonAdminByType): string 
                         <form method="post" action="senza-amministratore" >
                             <input type="hidden" name="tipo" value="Cani"/>
                             <input type="hidden" name="id_animale" value="' . htmlspecialchars($caneNonAdmin['id_animale']) . '"/>
-                            <button type="submit" name="assegnami_animale" class="orange-button">Assegna a me<span class="sr-only"> numero' . htmlspecialchars($caneNonAdmin['id_animale']) . '</span></button>
+                            <button type="submit" name="assegnami_animale" class="db-button">Assegna a me<span class="sr-only"> numero' . htmlspecialchars($caneNonAdmin['id_animale']) . '</span></button>
                         </form>
                     </td>
                             <td class="col-dettagli">
-                        <a href="' . $urlDettagli . '" class="brown-button"> 
+                        <a href="' . $urlDettagli . '" class="link-button"> 
                             Vai all\'animale<span class="sr-only">'.htmlspecialchars($caneNonAdmin['nome_animale']).' </span>
                         </a>
                     </td>
@@ -116,11 +116,11 @@ function renderGattiContent(array $GattiNonAdmin,array $NNonAdminByType){
                         <form method="post" action="senza-amministratore" >
                             <input type="hidden" name="tipo" value="Gatti"/>
                             <input type="hidden" name="id_animale" value="' . htmlspecialchars($GattoNonAdmin['id_animale']) . '"/>
-                            <button type="submit" name="assegnami_animale" class="orange-button">Assegna a me<span class="sr-only"> numero' . htmlspecialchars($GattoNonAdmin['id_animale']) . '</span></button>
+                            <button type="submit" name="assegnami_animale" class="db-button">Assegna a me<span class="sr-only"> numero' . htmlspecialchars($GattoNonAdmin['id_animale']) . '</span></button>
                         </form>
                     </td>
                     <td class="col-dettagli">
-                        <a href="' . $urlDettagli . '" class="brown-button"> 
+                        <a href="' . $urlDettagli . '" class="link-button"> 
                             Vai all\'animale<span class="sr-only">'.htmlspecialchars($GattoNonAdmin['nome_animale']).' </span>
                         </a>
                     </td>

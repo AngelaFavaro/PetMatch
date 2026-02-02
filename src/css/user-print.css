@@ -349,7 +349,7 @@ table button{
 }
 
 #invito-accedi-content a,
-h1 + a.brown-button{
+h1 + a.link-button{
     margin:-1.5cm 0 0 auto;
     border: 1px solid var(--lightborder);
     padding: 0.3cm;
@@ -357,7 +357,7 @@ h1 + a.brown-button{
     width: fit-content;
 }
 
-#invito-accedi-content a.orange-button{
+#invito-accedi-content a.db-button{
     margin: 0 auto;
 }
 
@@ -419,7 +419,7 @@ h1 + a.brown-button{
     text-align: justify;
 }
 
-a.brown-button{
+a.link-button{
     display: block;
     text-align: right;
     padding: 0.5cm 0;
@@ -624,7 +624,7 @@ form#form-affidamento .radio-input div label{
     display: inline-block;
 }
 
-#form-affidamento .orange-button {
+#form-affidamento .db-button {
     width: 100%;
     border:1px solid var(--lightborder);
     margin: 0.3cm 0 0.5cm 0;
@@ -982,7 +982,7 @@ margin-bottom: 0.3cm;
     padding: 0.3cm;
 }
 
-#visualizzazione-evento .brown-button,
+#visualizzazione-evento .link-button,
 #visualizzazione-evento button,
 #visualizzazione-evento a.button {
     display: none;
@@ -1113,7 +1113,7 @@ i.fas.fa-eye::before, #accedi i.fas.fa-eye::after{
 #form-login legend{
     margin-bottom: 0.4cm;
 }
-#container-form-login .orange-button{
+#container-form-login .db-button{
     margin-bottom: 0.4cm;
 }
 

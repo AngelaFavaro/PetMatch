@@ -54,7 +54,7 @@ function createRequestList(DBAccess $conn): string {
         $li = '<li>
                 <article>
                     <p>'.$statoText.'</p>
-                    <a href="./richieste-adozione?email='.urlencode($emailsafe).'&id-animale='.urlencode($richiesta['IDanimale']).'" class="brown-button">Vedi richiesta</a>
+                    <a href="./richieste-adozione?email='.urlencode($emailsafe).'&id-animale='.urlencode($richiesta['IDanimale']).'" class="link-button">Vedi richiesta</a>
                 </article>
                </li>';
 

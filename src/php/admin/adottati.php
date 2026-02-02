@@ -51,7 +51,7 @@ function renderAnimalContent(string $tipo, array $animaliAdottati, string $NAdop
                     <td data-title="Email adottante">' . htmlspecialchars($animaleAdottato['email_adottante']) . '</td>
                     <td data-title="Chiusura adozione"> <time datetime="' . htmlspecialchars($animaleAdottato['data_chiusura']) . '">' . htmlspecialchars(date('d/m/Y', strtotime($animaleAdottato['data_chiusura']))) . '</time></td>
                     <td data-title="Admin">' . $nome_cognome_admin . '</td>
-                    <td class="col-dettagli"><a href="richieste-adozione?email=' . htmlspecialchars($animaleAdottato['email_adottante']) . '&id-animale=' . htmlspecialchars($animaleAdottato['id_animale']) . '" class="brown-button">Dettagli richiesta</a></td>';
+                    <td class="col-dettagli"><a href="richieste-adozione?email=' . htmlspecialchars($animaleAdottato['email_adottante']) . '&id-animale=' . htmlspecialchars($animaleAdottato['id_animale']) . '" class="link-button">Dettagli richiesta</a></td>';
             $html .='</tr>';
         }
     }else{

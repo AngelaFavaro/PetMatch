@@ -1,10 +1,10 @@
 /*==================PULSANTI==================*/
 /* PER MOBILE DEVE ESSERE MINIMO 44 xx 44 */
-.orange-button,
-.brown-button,
-.orange-button,
+.db-button,
+.link-button,
+.db-button,
 select,
-.white-button{
+.header-button{
     min-height: 44px;
 }
 
@@ -126,7 +126,7 @@ select,
 }
 
 
-#preferiti, #theme-switch, #header-actions .white-button{
+#preferiti, #theme-switch, #header-actions .header-button{
     width: 45px;
     height: 45px;
 }
@@ -489,7 +489,7 @@ h2+#animale-richiesta .generic-info-container img.square-foto{
     margin-bottom: 1em;
 }
 
-#animal-container #animale-richiesta .brown-button{
+#animal-container #animale-richiesta .link-button{
     width: 100%;
 }
 
@@ -509,7 +509,7 @@ img.circle-foto{
     margin:1em auto;
 }
 
-div#admin-area #animali tbody .brown-button{
+div#admin-area #animali tbody .link-button{
     width: 100%;
     margin: 0.5em 0;
 }
@@ -1226,7 +1226,7 @@ div#admin-area #details-container article#animale-richiesta .text-details{
     margin:0;
 }
 
-#visualizzazione-evento .edit-btn-container a.orange-button,
+#visualizzazione-evento .edit-btn-container a.db-button,
 #visualizzazione-evento .button-cancel[name="show-dialog"],
 #dettaglio-animale #animale-detailed-container button[name="show-dialog"],
 #dettaglio-animale .action-buttons-group a{

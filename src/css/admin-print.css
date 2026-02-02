@@ -206,7 +206,7 @@ nav#menu-admin #logo {
     font-weight: bold;
 }
 
-nav#menu-admin ul, nav#menu-admin button, nav#menu-admin span, nav a.orange-button{
+nav#menu-admin ul, nav#menu-admin button, nav#menu-admin span, nav a.db-button{
     display: none;
 }
 

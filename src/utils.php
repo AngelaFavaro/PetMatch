@@ -239,7 +239,7 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
         </a>
         <div id="solo-stampa" lang="en">PetMatch</div>
         ';
-        $html .= $currentHref==='./nuovo-animale' ? '<p class="orange-button" id="currentLink" href="./nuovo-animale">+ Aggiungi animale</p>' : '<a class="orange-button" href="./nuovo-animale">+ Aggiungi animale</a>';
+        $html .= $currentHref==='./nuovo-animale' ? '<p class="db-button" id="currentLink" href="./nuovo-animale">+ Aggiungi animale</p>' : '<a class="db-button" href="./nuovo-animale">+ Aggiungi animale</a>';
 
     foreach ($menuGroups as $key => $items) {
 
@@ -370,11 +370,11 @@ function buildNav(array $items, string $currentHref): string {
                             $html .='
                             <li>';
                                 if($currentHref==='./profilo-utente'){
-                                    $html.= '<p class="white-button" href="./accedi" id="currentLink">';
+                                    $html.= '<p class="header-button" href="./accedi" id="currentLink">';
                                 }else if(isset($_SESSION['email'])){
-                                    $html.= '<a class="white-button" href="./profilo-utente">';
+                                    $html.= '<a class="header-button" href="./profilo-utente">';
                                 }else{
-                                    $html.= '<a class="white-button" href="./accedi">';
+                                    $html.= '<a class="header-button" href="./accedi">';
                                 }
                                 
                                 $html .= isset($_SESSION['email']) ? '<span id="text-accedi">Profilo</span>' : '<span id="text-accedi">Accedi</span>';
@@ -651,7 +651,7 @@ function getCardAnimal(int $idanimale, bool $isAdmin, bool $isAdopted):string{
                 <div>
                     <div>
                         <img id="img-animale-richiesta" src="[imgAnimale]" alt="" />';
-                    $html .= ($isAdopted&&!$isAdmin)?'<p class="nonDisponibile"><em>Animale adottato</em></p>':'<a href="./animali?id='.urlencode($idanimale).'" class="brown-button">Vedi animale</a>';
+                    $html .= ($isAdopted&&!$isAdmin)?'<p class="nonDisponibile"><em>Animale adottato</em></p>':'<a href="./animali?id='.urlencode($idanimale).'" class="link-button">Vedi animale</a>';
                     $html.='
                     </div>
                     <dl aria-label="Descizione superficiale dell\'animale">
