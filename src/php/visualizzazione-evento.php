@@ -3,16 +3,18 @@ include './src/utils.php';
 include './src/DBconnection.php';
 
 use DB\DBAccess;
-$isAdmin=0;
-$action='visualizzazione-evento';
-if (defined('ADMIN_EVENTO')) {
-    $isAdmin=1;
-}
-if($isAdmin) {
-    $action='dettagli-evento';
-}
 
-$url=$isAdmin?'dettagli-evento':'visualizzazione-evento'; 
+$currentUri = $_SERVER['REQUEST_URI'];
+$isAdmin=0;
+
+if(str_contains($currentUri, 'dettagli-evento')){
+    if(isset($_SESSION['admin']) && $_SESSION['admin']===true){
+        $isAdmin=1;
+    }else{
+        header('Location: ./visualizzazione-evento?titolo='.$_GET['titolo']."&data=".$GET['data_evento']);
+        exit;
+    }
+}
 
 $titoloGET = $_GET['titolo'] ?? null;
 $dataGET   = $_GET['data'] ?? null;
