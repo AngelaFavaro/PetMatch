@@ -44,7 +44,7 @@ function createAnimalRequestList(array $richieste): string {
         $li = '<li class="richiesta-card">
                 <div class="card-content">
                     <p>' . ($testi[$statoAttuale] ?? "Richiesta da $nomeCandidato") . '</p>
-                    <a href="./richieste-adozione?email=' . urlencode($r['Email']) . '&id-animale=' . urlencode($r['IDanimale']) . '" class="brown-button">Vedi richiesta</a>
+                    <a href="./richieste-adozione?email=' . urlencode($r['Email']) . '&id-animale=' . urlencode($r['IDanimale']) . '" class="link-button">Vedi richiesta</a>
                 </div>
                </li>';
         if (isset($gruppi[$statoAttuale])) {
@@ -82,7 +82,7 @@ function buildAnimalButtons(int $idAnimale, array $richiesta, string $emailLogga
     
         $buttons['modifica'] = '
             <div class="edit-btn-container">
-                <a href="' . e($urlModifica) . '" class="orange-button">
+                <a href="' . e($urlModifica) . '" class="db-button">
                     Modifica
                 </a>
             </div>';
@@ -96,7 +96,7 @@ function buildAnimalButtons(int $idAnimale, array $richiesta, string $emailLogga
         
         $buttons['assegnazione'] = '
             <form method="post">
-                <button type="submit" name="delete-assignment" class="orange-button">Toglimi dall\'assegnazione</button>
+                <button type="submit" name="delete-assignment" class="db-button">Toglimi dall\'assegnazione</button>
             </form>';
     } else {
         $buttons['elimina'] = '<p class="read-only-badge">Sola lettura: non sei l\'amministratore assegnato.</p>';

@@ -69,7 +69,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                                 <form method="post" action="nuove-accoglienze">
                                     <input type="hidden" name="tipo" value="' . htmlspecialchars($tipo) . '"/>
                                     <input type="hidden" name="id_segnalazione" value="' . htmlspecialchars($animale['id_segnalazione']) . '"/>
-                                    <button type="submit" name="assegna_segnalazione" class="orange-button">Assegna a me<span class="sr-only"> numero' . htmlspecialchars($animale['id_segnalazione']) . '</span></button>
+                                    <button type="submit" name="assegna_segnalazione" class="db-button">Assegna a me<span class="sr-only"> numero' . htmlspecialchars($animale['id_segnalazione']) . '</span></button>
                                 </form>
                             </td>';
                     else{
@@ -78,10 +78,10 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                                 <form method="post" action="nuove-accoglienze">
                                     <input type="hidden" name="tipo" value="' . htmlspecialchars($tipo) . '"/>
                                     <input type="hidden" name="id_segnalazione" value="' . htmlspecialchars($animale['id_segnalazione']) . '"/>
-                                    <button type="submit" name="elimina_segnalazione" class="orange-button">Elimina<span class="sr-only"> numero' . htmlspecialchars($animale['id_segnalazione']) . '</span></button>
+                                    <button type="submit" name="elimina_segnalazione" class="db-button">Elimina<span class="sr-only"> numero' . htmlspecialchars($animale['id_segnalazione']) . '</span></button>
                                 </form>
                             </td>
-                            <td class="col-dettagli"><a href="mailto:' . htmlspecialchars($animale['email_segnalante']) . '?subject=' . $subject . '&body=' . $object . '" class="brown-button"><img src="assets/icons/mail.svg" alt="chiedi informazioni" /></a></td>';
+                            <td class="col-dettagli"><a href="mailto:' . htmlspecialchars($animale['email_segnalante']) . '?subject=' . $subject . '&body=' . $object . '" class="link-button"><img src="assets/icons/mail.svg" alt="chiedi informazioni" /></a></td>';
                     }
                     $html .='</tr>';
                 }

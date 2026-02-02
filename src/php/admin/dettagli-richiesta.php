@@ -26,14 +26,14 @@ function renderRejectRequest(array $r, $AcceptRequestDetails): string {
     if (($r['stato'] ?? '') !== 'Respinta' && ($r['stato'] ?? '') !== 'Annullata') {
         return '<form method="post">' .
             hiddenInputsFrom($r) .
-            '<button type="submit" name="scarta_richiesta" class="orange-button">Scarta richiesta</button>
+            '<button type="submit" name="scarta_richiesta" class="db-button">Scarta richiesta</button>
         </form>';
     }
     
     if (empty($AcceptRequestDetails)) {
         return '<form method="post">' .
             hiddenInputsFrom($r) .
-            '<button type="submit" name="apri_richiesta" class="orange-button">Apri richiesta</button>
+            '<button type="submit" name="apri_richiesta" class="db-button">Apri richiesta</button>
         </form>';
     }
     
@@ -48,16 +48,16 @@ function renderPulsantiAzioni(array $r): string {
     $html = '';
     if ($stato === 'Da trasportare') {
         $subject = rawurlencode('Richiesta informazioni per adozione di ' . ($r['nome-animale'] ?? ''));
-        $html = '<a href="mailto:' . ($r['email-richiedente'] ?? '') . '?subject=' . $subject . '" class="brown-button" target="_blank">Contatta candidato</a>';
+        $html = '<a href="mailto:' . ($r['email-richiedente'] ?? '') . '?subject=' . $subject . '" class="link-button" target="_blank">Contatta candidato</a>';
     } elseif ($stato === 'Nuova') {
         $html = '<form method="post">' .
             hiddenInputsFrom($r) .
-            '<button type="submit" name="inizia_valutazione" class="orange-button">Inizia valutazione</button>
+            '<button type="submit" name="inizia_valutazione" class="db-button">Inizia valutazione</button>
         </form>';
     } elseif ($stato === 'In valutazione') {
         $html = '<form method="post">' .
             hiddenInputsFrom($r) .
-            '<button type="submit" name="accetta_richiesta" class="orange-button">Accetta richiesta</button>
+            '<button type="submit" name="accetta_richiesta" class="db-button">Accetta richiesta</button>
         </form>';
     }
     return $html;
@@ -332,8 +332,8 @@ if($imTheAdmin && isset($_GET['mode']) && $_GET['mode'] === 'edit-data'){ //come
                 <input type="hidden" name="email_richiedente" value="' . htmlspecialchars($richiesta['email-richiedente']) . '"/>
                 <input type="hidden" name="id_animale" value="' . htmlspecialchars($richiesta['id-animale']) . '"/>
                 <div class="button-group">
-                <button type="reset" class="orange-button">Elimina modifica</button>
-                <button type="submit" name="salva_date_trasporto" class="orange-button">Salva date</button>
+                <button type="reset" class="db-button">Elimina modifica</button>
+                <button type="submit" name="salva_date_trasporto" class="db-button">Salva date</button>
                 </div>
             </form>
             [messaggiForm]
@@ -371,7 +371,7 @@ if($imTheAdmin && isset($_GET['mode']) && $_GET['mode'] === 'edit-data'){ //come
         if($imTheAdmin && $data_raw_arrivo !== '' && $data_raw_arrivo!==null && $data_raw_arrivo<=$data_odierna){
             $stato_trasporto .= '
                 <form method="post" action="' . $url_base . '#stato-trasporto">
-                    <button type="submit" name="trasporto_effettuato" class="orange-button">Segna trasporto come effettuato</button>
+                    <button type="submit" name="trasporto_effettuato" class="db-button">Segna trasporto come effettuato</button>
                 </form>';
         }
 
@@ -406,7 +406,7 @@ if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($ri
                         <form id="form-note" action="richieste-adozione?email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') .'" method="post">
                             <label for="input-note" class="sr-only">Modifica annotazioni:</label>
                             <textarea id="input-note" name="note" rows="4">' . htmlspecialchars($richiesta['appunti'] ?? '', ENT_QUOTES, 'UTF-8') . '</textarea>
-                            <button name="salva_annotazioni" type="submit" class="orange-button">Salva annotazioni</button>
+                            <button name="salva_annotazioni" type="submit" class="db-button">Salva annotazioni</button>
                         </form>
                     </div>
                 </article>';

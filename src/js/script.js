@@ -200,8 +200,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const statiNegativi = ['Respinta', 'Annullata'];
             
             if (statiNegativi.includes(statoTesto)) {
-                const p1 = document.querySelector('#animal-container .orange-button');
-                const p2 = document.querySelector('#details-container .orange-button');
+                const p1 = document.querySelector('#animal-container .db-button');
+                const p2 = document.querySelector('#details-container .db-button');
                 
                 [p1, p2].forEach(p => {
                     if (p) {

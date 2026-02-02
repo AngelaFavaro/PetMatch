@@ -24,14 +24,11 @@ function buildFilterNav(array $filters): string {
                 <ul aria-label="Filtri sulla tipologia">';
 
     foreach ($types as $tipo => $label) {
-        // Creiamo una copia dei filtri e aggiorniamo solo 'tipo'
         $queryFilters = $filters;
         $queryFilters['tipo'] = $tipo;
 
-        // Creiamo la query string
         $queryString = http_build_query($queryFilters);
 
-        // Se il tipo corrente è selezionato, aggiungiamo solo la classe senza link
         if (($filters['tipo'] ?? 'prossimi') === $tipo) {
             $html .= "<li class='currentType'>{$label}</li>";
         } else {
@@ -66,33 +63,28 @@ function buildEventsCards($events, $filtro, $isFromAdmin): string {
         $descrEvento=htmlspecialchars($e['descrizione']);
         $html .= "<li>
                     <article class='evento'>
-                        <img class='immagine-evento' src=$img alt='' />
+                        <img class='immagine-evento' src=".htmlspecialchars($img)." alt='' />
 
                         <p class='posizione-evento'>
-                            <!-- icona decorativa -->
                             <img src='assets/icons/position-cat.svg' alt='' class='icon-position' />
-                            <!-- data semantica -->
                             $citta
                         </p>
                             
                         <p class='data-evento'>
-                            <!-- icona decorativa -->
                             <img src='assets/icons/calendar.svg' alt='' class='icon-calendar' />
-                            <!-- data semantica -->
-                            <time datetime=$data>$data</time>
+                            <time datetime=".htmlspecialchars($e['data_evento']).">$data</time>
                         </p>
 
                         <p class='posizione-data-abbr'>
-                            $citta, $dataAbbr
+                            $citta, ".htmlspecialchars($dataAbbr)."
                         </p>
 
-                        <!-- Descrizione dell'evento -->
                         <div class='descrizione-evento'>
-                            <h2 id='evento-titolo-$titolo'>$titolo</h2>
+                            <h2>$titolo</h2>
                             <p>$descrEvento</p>
                         </div>
                         <div class='dettagli-evento-bottone'>
-                        <a href='./$link?titolo=".urlencode($titoloRaw)."&data=".$e['data_evento']."'>Vedi dettagli</a>
+                        <a href='./$link?titolo=".urlencode($titoloRaw)."&data=".htmlspecialchars($e['data_evento'])."'>Vedi dettagli $titolo</a>
                     </div>
                     </article>
                 </li>";

@@ -104,12 +104,12 @@ if(isset($_GET['id'])) {
     $messaggioNoAnimali = $isPreferiti? 'Non hai ancora salvato nessun animale.': ($isFromAdmin ? 'Non ci sono animali assegnati a te.' : 'Non abbiamo ancora animali disponibili.');
     $assignedButton='';
     if($isAdmin&&!$isFromAdmin) {
-        $assignedButton="<a href='animali-admin' class='brown-button' id='btn-assegnamento' >Assegnati a te</a>";
+        $assignedButton="<a href='animali-admin' class='link-button' id='btn-assegnamento' >Assegnati a te</a>";
     }else if($isAdmin&& $isFromAdmin){
         if(isset($_GET['assegnati']) && $_GET['assegnati']=='tutti')
-            $assignedButton='<form method="get" action="animali-admin"><button type="submit" id="toggle-assegnazione" name="assegnati" value="miei" class="orange-button">Vedi miei</button></form>';
+            $assignedButton='<form method="get" action="animali-admin"><button type="submit" id="toggle-assegnazione" name="assegnati" value="miei" class="db-button">Vedi miei</button></form>';
         else{
-            $assignedButton='<form method="get" action="animali-admin"><button type="submit" id="toggle-assegnazione" name="assegnati" value="tutti" class="orange-button">Vedi tutti</button></form>';
+            $assignedButton='<form method="get" action="animali-admin"><button type="submit" id="toggle-assegnazione" name="assegnati" value="tutti" class="db-button">Vedi tutti</button></form>';
         }
     }
         
@@ -156,7 +156,7 @@ if(isset($_GET['id'])) {
         '[SESSO_SELECTED_EMPTY]'    => $rawFilters['sesso'] === '' ? 'selected' : '',
         '[SESSO_SELECTED_MASCHIO]' => $rawFilters['sesso'] === 'maschio' ? 'selected' : '',
         '[SESSO_SELECTED_FEMMINA]'  => $rawFilters['sesso'] === 'femmina' ? 'selected' : '',
-        '[ASSEGNATI]' => $rawFilters['assegnati'] ?? '',
+        '[ASSEGNATI]' => (isset($rawFilters['assegnati'])&&$rawFilters['assegnati']) ? htmlspecialchars($rawFilters['assegnati']) : '',
     
         '[TYPE]' => htmlspecialchars($type)
     ];    
@@ -227,7 +227,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
                 $classeInteressato= $adottato ? 'adottato' : 'interessamento';
 
                 // LOGICA LINK: Se sono in "assegnati a te" uso dettaglio-animale, altrimenti visualizzazione-animale
-                $linkDettagli = $isFromAdmin ? "dettagli-animale?id-animale=$id" : "visualizzazione-animale?id=$id";
+                $linkDettagli = $isFromAdmin ? "dettagli-animale?id-animale=".urlencode($id) : "visualizzazione-animale?id=".urlencode($id);
 
                 /* -------- IMMAGINE -------- */
                 if (!empty($a['immagine']) && file_exists($a['immagine'])) {
@@ -237,16 +237,16 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
                 }
     
                 $html .= "
-                    <li class='$cardClass' aria-labelledby='nome-animale-$id'>
+                    <li class='$cardClass' aria-labelledby='nome-animale-".htmlspecialchars($id)."'>
                         <article class='card'>
                             <div class='immagine'>
-                                <img src='$img' alt='foto di $nome: un {$a['tipo']} di colore {$colore}' />                        
+                                <img src='".htmlspecialchars($img)."' alt='foto di $nome: un ".htmlspecialchars($a['tipo'])." di colore ".htmlspecialchars($colore)."' />                        
                             </div>
-                            <h3 class='nome' id='nome-animale-$id'>$nome</h3>";
+                            <h3 class='nome'>$nome</h3>";
                 
                 if(!$adottato) {
-                    $html .= "<p class='sesso-etaDesk'>$sesso - $eta</p>
-                              <p class='sesso-etaMob'>$sessoAbbr - $eta</p>";
+                    $html .= "<p class='sesso-etaDesk'>$sesso - ".htmlspecialchars($eta)."</p>
+                              <p class='sesso-etaMob'>$sessoAbbr - ".htmlspecialchars($eta)."</p>";
                 }
 
                 // Cuore preferiti: NON compare se sono un admin (indipendentemente dalla pagina)
@@ -264,7 +264,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
                     $html .= "
                         <div class='cuore'>
                             <form method='post' action='animali' class='preferiti-form'>
-                                <input type='hidden' name='id-animale-preferito' value='$id' />
+                                <input type='hidden' name='id-animale-preferito' value='".htmlspecialchars($id)."' />
                                 <button type='submit' class='$classePreferito' aria-label='$statusPreferiti'>
                                     <img class='heart-normal' src='./assets/icons/$heartNormal' alt='' />
                                     <img class='heart-hover' src='./assets/icons/$heartHover' alt='' />
@@ -275,7 +275,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
 
                 $html .= "<p class='$classeInteressato'>$giàInteressato</p>
                             <div class='dettagli-animale-bottone'>
-                                <a href='$linkDettagli'>Vedi dettagli</a>
+                                <a href='$linkDettagli'>Vedi dettagli $nome</a>
                             </div>
                         </article>
                     </li>";
@@ -396,7 +396,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
         <p id='invito-accedi-content'>
             Accedi per sincronizzare i tuoi preferiti in tutti i tuoi dispositivi!
         </p>
-        <a class='orange-button' href='./accedi'>
+        <a class='db-button' href='./accedi'>
             Accedi
         </a>
     </section>";
@@ -432,7 +432,6 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
     $stringaFiltri='';
     if (!$isPreferiti) {
         $stringaFiltri="<form class='filtri' id='form-ricerca' method='get' action=".($isFromAdmin ? './animali-admin' : './animali').">
-            <!-- rotta gestita dal router -->
             
             <input type='hidden' name='tipo' value='[TYPE]'/>
             <input type='hidden' name='assegnati' value='[ASSEGNATI]'/>
@@ -478,7 +477,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
     
             <div id='content-filter-button'>
                 <a href='[URL-RESETFILTRI]' id='[VISIBILITA-FILTRO]' aria-label='elimina i filtri'>X</a>
-                <button type='submit' class='orange-button'>Applica</button>
+                <button type='submit' class='db-button'>Applica</button>
             </div>
         </form>";
         $stringaFiltri = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $stringaFiltri);
