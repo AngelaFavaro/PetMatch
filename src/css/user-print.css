@@ -847,6 +847,9 @@ margin-bottom: 0.3cm;
 }
 
 
+#come-funziona #come-si-adotta .enlight::before{
+    content: "- ";
+}
 /* ---------- VISUALIZZAZIONE ANIMALE ------------ */
 
 
