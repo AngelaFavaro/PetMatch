@@ -921,7 +921,7 @@ pre#note-text{
 #new-event fieldset legend{
     font-weight:600;  
     font-size: 14pt;
-    } 
+} 
 
 #form-add-animal fieldset label:not(.file-upload-label):not(.radio-card):not(.sex-option),
 #new-event fieldset label:not(.file-upload-label){

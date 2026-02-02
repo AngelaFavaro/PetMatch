@@ -200,7 +200,7 @@ body footer img#logo-footer{
 }
 
 .torna-su-button,
-img[alt=""]:not(#instagram):not(.immagine-evento):not(#img-animale-richiesta){
+img[alt=""]:not(#instagram):not(.immagine-evento):not(#img-animale-richiesta):not(.heart-hover):not(.heart-normal){
     display: none;
 }
 
@@ -820,17 +820,32 @@ margin-bottom: 0.3cm;
     content: ":";
 }
 
+
+
+
 /* ---------- VISUALIZZAZIONE ANIMALE ------------ */
 
+
 #contatta-il-rifugio {
-    display: none;
+    border: 1px solid var(--lightborder);
+    margin: 0.2cm 0 0.5cm 0;
+    padding: 0.4em 1.5em;
+    border-radius: 1.5em;
+    font-weight: 550;
+    font-size: 10pt;
+    text-decoration: none;
 }
 
 #visualizzazione-animale .column-container{
     display: flex;
-    gap: 1cm;
+    gap: 0.4cm;
 }
 
+#content #visualizzazione-animale .column-container .dettagli-animale {
+    flex: 0 0 50%;
+    width: fit-content;
+    
+}
 #visualizzazione-animale .column-container h2{
     border-top: none;
 }
@@ -902,14 +917,6 @@ margin-bottom: 0.3cm;
 #visualizzazione-animale #info-aggiuntive-separate dd,
 #visualizzazione-animale #info-aggiuntive-unite dd{
     margin-bottom: 10px;
-}
-
-#visualizzazione-animale .preferiti-form {
-    display: none;
-}
-
-#visualizzazione-animale .preferiti-form button {
-    display: none;
 }
 
 #richiesta-adozione,
