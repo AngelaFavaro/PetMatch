@@ -42,7 +42,7 @@ index.php          # file di routing principale del sito web
 Le cartelle main e php raccolgono le pagine di admin in una sottocartella dedicata (\texttt{admin/}), per chiarezza e organizzazione.
 
 \subsection{I file .htaccess e index.php di routing}
-Il file \texttt{.htaccess} è utilizzato per configurare il server web Apache e gestire le regole di riscrittura degli URL. La scelta di utilizzare URL "puliti" (senza estensioni come .php o .html) è stata fatta per migliorare l'usabilità ma anche per motivi di sicurezza, in quanto nasconde la struttura interna del sito web.\\
+Il file \texttt{.htaccess} è utilizzato per configurare il server web Apache e gestire le regole di riscrittura degli URL. La scelta di utilizzare URL "puliti" (senza estensioni come .php o .html) è stata fatta per migliorare l'usabilità.\\
 Il file \texttt{index.php} funge da punto di ingresso principale per tutte le richieste al sito web. Utilizzando un sistema di routing, questo file determina quale pagina o funzionalità deve essere servita in base all'URL richiesto dall'utente. Questo approccio consente una gestione centralizzata delle richieste e facilita l'implementazione di funzionalità comuni come l'autenticazione e la gestione delle sessioni.\\
 È importante notare che non è eseguito un redirect ma un semplice require, ciò ha un significato importante: i percorsi relativi alle risorse (es. file CSS, immagini, ecc.) rimangono invariati e fanno riferimento al primo punto di accesso (il file di routing in questione) e non è necessario modificarli per ogni pagina.
 \subsection{Come avviene la costruzione delle pagine}
