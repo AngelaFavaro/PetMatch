@@ -4,7 +4,21 @@ require_once './src/DBconnection.php';
 
 use DB\DBAccess;
 
-$idAnimale = $_GET['id'] ?? null;
+
+if(!isset($_GET['id-animale'])){
+    header("Location: ./animali");
+    exit;
+}
+
+$currentUri = $_SERVER['REQUEST_URI'];
+
+if(strpos($currentUri, 'visualizzazione-animale')){
+    header("Location: ./animali?id-animale=".$_GET['id-animale']);
+    exit;
+}
+
+
+$idAnimale = $_GET['id-animale'] ?? null;
 
 $utenteAccesso = isset($_SESSION['email']);
 $emailUtente = $utenteAccesso ? $_SESSION['email'] : null;
@@ -142,7 +156,7 @@ function handleAdoptionRequest(
             );
 
             if ($success) {
-                header("Location: animali?id=" . $idAnimale);
+                header("Location: animali?id-animale=" . $idAnimale);
                 exit;
             }
 
@@ -160,7 +174,7 @@ function handleAdoptionRequest(
             'trasporto' =>$trasportoRichiesto
         ];
 
-        header("Location: animali?id=" . $idAnimale . "#content-form");
+        header("Location: animali?id-animale=" . $idAnimale . "#content-form");
         exit;
     }
 
@@ -537,7 +551,7 @@ $title = "<title>$nome - PetMatch</title>";
 $description = "<meta name='description' content='Scheda dell'animale: $nome, disponibile per adozione'>";
 $keywords = "<meta name='keywords' content='$nome, adozione, PetMatch, $razza, animali, rofugio'>";
 $breadcrumb = getBreadcrumb('visualizzazione-animale', $pagine);
-$nav = buildNav($userMenu, './visualizzazione-animale');
+$nav = buildNav($userMenu, './animali');
 $main = file_get_contents('./src/template/main/visualizzazione-animale.html');
 $footer = buildFooter($footerMenu,  './revisione-richiesta');
 
