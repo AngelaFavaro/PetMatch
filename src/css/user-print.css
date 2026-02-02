@@ -853,7 +853,8 @@ margin-bottom: 0.3cm;
     font-size: 10pt;
     text-decoration: none;
     display: block;
-    padding: 0.5cm auto;
+    text-align: center;
+ 
 }
 
 #visualizzazione-animale .column-container{
@@ -862,10 +863,11 @@ margin-bottom: 0.3cm;
 }
 
 #content #visualizzazione-animale .column-container .dettagli-animale {
-    flex: 0 0 50%;
+    flex: 1 1 50%;
     width: fit-content;
-    
+   
 }
+
 #visualizzazione-animale .column-container h2{
     border-top: none;
 }
@@ -933,7 +935,9 @@ margin-bottom: 0.3cm;
 
 }
 
-#visualizzazione-animale #info-aggiuntive-separate dt::after{
+#visualizzazione-animale #info-aggiuntive-separate dt::after,
+#visualizzazione-animale #info-aggiuntive-unite dt::after,
+#visualizzazione-animale #info-generiche-testo dt::after{
     content: ':';
 }
 
@@ -957,6 +961,11 @@ margin-bottom: 0.3cm;
     border: 1px solid var(--lightborder);
     padding: 0.3cm;
     margin-top: 0.5cm;
+    text-align: left;
+}
+
+#visualizzazione-animale .container{
+    width: 99.9%;
 }
 
 
@@ -1016,7 +1025,7 @@ margin-bottom: 0.3cm;
     display: none;
 }
 
-.adozione-status #richiesta-adozione form .orange-button{
+.adozione-status #richiesta-adozione form .db-button{
     border: 1px solid var(--lightborder);
     margin: 0.2cm 0 0.5cm 0;
     padding: 0.6em 1.5em;
