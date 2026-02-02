@@ -3802,10 +3802,35 @@ button[name="show-dialog"].button-cancel img{
 
 #team-img img{
     width: 100%;
-    flex:0 1 30%;
+    flex:0 1 15%;
     height: auto;
-    max-height: 15em;
+    max-height: 13em;
     padding: 0;
+} 
+
+#team-img img:first-child{
+    transform: rotate(-10deg);
+} 
+
+#team-img img:nth-child(2){
+    transform: rotate(-5deg);
+    margin-top: 2em;
+} 
+
+#team-img img:nth-child(3){
+    transform: rotate(8deg);
+    max-height: 12em;
+    margin-top: 1em;
+} 
+
+#team-img img:nth-child(4){
+    transform: rotate(-6deg);
+} 
+
+#team-img img:nth-child(5){
+    transform: rotate(-4deg);
+    margin-top: 2em;
+
 } 
 
 /* ================== =========== PAGINE ADMIN================== ============*/
