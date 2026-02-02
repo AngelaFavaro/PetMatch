@@ -576,6 +576,10 @@ article.evento {
 #details-container .tabs-container article{
     flex: 0 0 50%;
 }
+#top-container .link-button{
+    display: block;
+    margin-top: 0.5cm;
+}
 
 #details-container .tabs-container article h2{
     border-top: none;
@@ -646,7 +650,20 @@ pre#note-text{
     padding: 0.3cm;
     border-radius: 0.1cm;
 }
+#note-container #form-note #input-note{
+   field-sizing: content;
+    display: block;
+    resize: none;
+    font-family: inherit;
+    padding: 0.1cm;
+}
 
+#sezione-note{
+    page-break-inside: avoid;
+}
+#form-note .db-button{
+    margin-top: 0.3cm;
+}
 /* ---------DETTAGLI RICHIESTA ADOZIONE-------- */
 #button-cancel img,
 .overlay-content{
@@ -751,6 +768,10 @@ pre#note-text{
     max-height: 5cm;
     max-width: 5cm;
     object-fit: cover;
+}
+
+#details-container #Richiesta {
+    text-align: left;
 }
 
 
@@ -910,6 +931,18 @@ pre#note-text{
     break-inside: avoid; 
     page-break-inside: avoid;
 }
+#stato-trasporto{
+    border-radius: 0.5cm;
+    border:1px solid var(--lightborder);
+    margin:0.4cm auto 0 auto;
+    padding: 0.3cm 0.5cm;
+    display: block;
+    break-inside: avoid; 
+    page-break-inside: avoid;
+    padding-bottom:0.3cm;
+    text-align: left;
+} 
+
 
 #form-add-animal fieldset, #new-event fieldset{
     padding-bottom:0.3cm;
@@ -1001,7 +1034,9 @@ pre#note-text{
     display: none;
 }
 #form-add-animal fieldset #dataNascita,
-#new-event fieldset #day-event {
+#new-event fieldset #day-event,
+#stato-trasporto  #input-data-partenza, 
+#stato-trasporto  #input-data-arrivo{
     display:inline;
 }
 #form-add-animal label + input:not(#gatto),
@@ -1012,6 +1047,17 @@ pre#note-text{
     padding: 0.5em 1em;
     margin: 0.2em 0 0.3em 0;
     width: 100%; 
+    border: 1px solid var(--lightborder);
+    font-size: 100%;
+    box-sizing: border-box; 
+}
+#stato-trasporto input{
+    text-align: center;
+    margin-right: 1cm;
+}
+#stato-trasporto label + input{
+    border-radius: 0.3cm;
+    padding: 0.3em 0;
     border: 1px solid var(--lightborder);
     font-size: 100%;
     box-sizing: border-box; 
@@ -1042,7 +1088,8 @@ pre#note-text{
 }
 
 #form-add-animal fieldset .error-form,
-#nuovo-evento #new-event fieldset .error-form{
+#nuovo-evento #new-event fieldset .error-form,
+#stato-trasporto .error-form{
     display: none;
 }
 
@@ -1060,6 +1107,20 @@ pre#note-text{
         color:black;
     }
 
+    #stato-trasporto .db-button{
+        border: 1px solid var(--lightborder);
+        margin: -0.7cm 0.3cm 1cm 0;
+        padding: 0.4em 1.5em;
+        border-radius: 1.5em;
+        font-weight: 550;
+        font-size: 10pt;
+        text-decoration: none;
+        color:black;
+        float: right;    
+    }
+    #stato-trasporto{
+        padding-top: 0;
+    }
 #form-add-animal h1{
     text-align: left;
 }
