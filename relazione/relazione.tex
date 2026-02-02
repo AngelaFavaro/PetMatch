@@ -1,4 +1,4 @@
-\documentclass[a4paper, 12pt, colorlinks=true, linkcolor=orange, urlcolor=orange, citecolor=blue, hidelinks]{article}
+\documentclass[a4paper, 12pt]{article}
 \usepackage[colorlinks=true, linkcolor=black, urlcolor=black]{hyperref}
 \usepackage{svg}
 
@@ -52,6 +52,16 @@
 \definecolor{green}{HTML}{6D7541}
 \definecolor{grey}{HTML}{E4D4BA}
 
+\hypersetup{
+    colorlinks=true,      % Attiva i colori dei link
+    linkcolor=orange,     % Colore dei link interni (indice)
+    filecolor=magenta,      
+    urlcolor=orange,      % Colore degli \url
+    citecolor=blue,
+    pdftitle={Relazione di progetto},
+    pdfauthor={Linor Sadè con l'aiuto di tutto il gruppo di progetto},
+    % Aggiungi qui le altre opzioni meta...
+}
 \setmainfont{Times New Roman} %font
 \geometry{a4paper,inner=3cm,outer=3cm,top=2.5cm,bottom=2.5cm}
 \setstretch{1.5} % Interlinea
@@ -129,11 +139,12 @@
 \input{components/frontespizio}
 
 \input{components/sections/info}
+\hypersetup{linkcolor=black}
 \newpage
 \tableofcontents
 \newpage
 \pagenumbering{gobble} % Disabilita la numerazione delle pagine
-
+\hypersetup{linkcolor=orange}
 \pagenumbering{arabic}
 \pagestyle{fancy}
 \setcounter{page}{1} 

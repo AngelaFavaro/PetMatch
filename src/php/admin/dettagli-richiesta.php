@@ -48,7 +48,7 @@ function renderPulsantiAzioni(array $r): string {
     $html = '';
     if ($stato === 'Da trasportare') {
         $subject = rawurlencode('Richiesta informazioni per adozione di ' . ($r['nome-animale'] ?? ''));
-        $html = '<a href="mailto:' . ($r['email-richiedente'] ?? '') . '?subject=' . $subject . '" class="link-button" target="_blank">Contatta candidato</a>';
+        $html = '<a href="mailto:' . ($r['email-richiedente'] ?? '') . '?subject=' . $subject . '" class="link-button" target="_blank"><img src="./assets/icons/mail.svg" alt="" /> Contatta candidato</a>';
     } elseif ($stato === 'Nuova') {
         $html = '<form method="post">' .
             hiddenInputsFrom($r) .
