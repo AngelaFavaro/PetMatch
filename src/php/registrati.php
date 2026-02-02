@@ -171,14 +171,14 @@ function createNewAccount(DBAccess $conn, &$nameValue, &$surnameValue, &$emailVa
                 $_SESSION['form_status'] = 'error';
                 $_SESSION['form_errors'] = ['generic' => "Sistema momentaneamente non disponibile."];
                 $_SESSION['form_inputs'] = ['name' => $nameValue, 'surname' => $surnameValue, 'email' => $emailValue];
-                header("Location: ./registrati");
+                header("Location: ./registrati#form-signup");
                 exit;
             }
         } else {
             $_SESSION['form_status'] = 'error';
             $_SESSION['form_errors'] = $errors; 
             $_SESSION['form_inputs'] = ['name' => $nameValue, 'surname' => $surnameValue, 'email' => $emailValue];
-            header("Location: ./registrati");
+            header("Location: ./registrati#form-signup");
             exit;
         }
     }

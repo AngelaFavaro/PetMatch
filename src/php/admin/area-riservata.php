@@ -66,7 +66,7 @@ function buildInfoAdmin(): array{
 		$titolo = '<h2>Modifica le tue informazioni</h2>';
 		$html = '
 			<div id="informazioni-admin" class="edit-mode">
-				<form class="edit-mode" method="post" action="area-riservata#informazioni-admin" enctype="multipart/form-data">
+				<form class="edit-mode" id="edit-form" method="post" action="area-riservata#informazioni-admin" enctype="multipart/form-data">
 					<fieldset>
 						<legend class="sr-only">Informazioni personali</legend>
 						<div>
@@ -223,7 +223,7 @@ function editInfoAdmin(DBAccess $conn, &$NewUserValues, $adminInfo): array {
                         'surname' => $NewUserValues['surname'],
                         'phoneNumber' => $NewUserValues['phoneNumber']
                     ];
-                    header("Location: ./area-riservata?mode=edit");
+                    header("Location: ./area-riservata?mode=edit#edit-form");
                     exit;
                 }
                 $NewUserValues['profilePic'] = $uploadedPicPath;
