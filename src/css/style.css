@@ -1853,6 +1853,10 @@ input:autofill{
 
 /*=================PAGINA ANIMALI======================*/
 
+#animali .filtri #searchName.capsula-filtro input#name-animal {
+    padding-bottom: 0.1em;
+}
+
 #animali a.link-button{
     margin:0;
     float: right;
@@ -5816,7 +5820,6 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
 
 /* PAGINA COME FUNZIONA */
 #come-funziona .testo {
-    display: flex;
     flex-direction: column;
     justify-content: center;
     flex:1 1 75%;
@@ -5827,10 +5830,17 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     color: var(--txtcolor);
 }
 
-#come-funziona .testo address, #come-funziona .testo p.contatti, #come-funziona .testo p.contatti a ,#come-funziona .testo address a{
-    display: contents;
+#come-funziona .testo address{
+    margin: 0 5px;
 }
 
+#come-funziona .testo address, #come-funziona .testo p{
+    display: inline; 
+}
+
+#come-funziona .testo div{
+    margin-bottom: 1em; 
+}
 
 #come-funziona .colonne {
     display: flex;
@@ -6275,7 +6285,3 @@ footer address a.email:visited,
 #visualizzazione-evento #altri-eventi.collaboratori #content-collaborators{
     display: block;
 }
-
-/* .collaborator-name dd{
-    float: left;
-} */

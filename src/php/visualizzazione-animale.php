@@ -249,6 +249,10 @@ if ($connection->openDBConnection()) {
     // 1. Recupero Dettagli Animale
     if ($idAnimale) {
         $dettagliAnimale = $connection->getAnimalDetails($idAnimale); 
+        if(!$dettagliAnimale && $isAdmin){
+            header("Location: ./404");
+            exit;
+        }
     }
     $giàInteressato = '';
         if ($connection->hasActiveAdoptionRequest($idAnimale)) {
@@ -277,7 +281,7 @@ if ($connection->openDBConnection()) {
         if (!empty($dettagliAnimale['imgPath']) && file_exists($dettagliAnimale['imgPath'])) {
             $img = $dettagliAnimale['imgPath'];
         } else {
-            $imgPath = ($dettagliAnimale['tipo'] === 'Cane') ? 'assets/images/animals/defaultCane.jpg' : 'assets/images/animals/defaultGatto.jpg';
+            $img = ($dettagliAnimale['tipo'] === 'Cane') ? 'assets/images/animals/defaultCane.jpg' : 'assets/images/animals/defaultGatto.jpg';
         }
         if ($utenteAccesso) {
             

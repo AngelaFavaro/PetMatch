@@ -152,7 +152,8 @@ if ($connessioneOK) {
 }
 
 if (!$richiesta) {
-    die("Errore: Animale non trovato o ID non valido.");
+    header("Location: ./404");
+    exit;
 }
 
 $breadcrumb = getBreadcrumb('dettagli-animale', $pagine);

@@ -10,5 +10,4 @@ if(!isset($_SESSION['admin']) && !$_SESSION['admin'] === true){
 }
 require __DIR__ . '/../visualizzazione-evento.php';
 
-
 ?>

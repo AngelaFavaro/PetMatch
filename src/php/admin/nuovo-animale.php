@@ -227,7 +227,10 @@ if ($connessione->openDBConnection()) {
 
     if($isModified){
         $NewAnimalInfo = $connessione->getAnimalById($idAnimaleMod);
-    }
+        if(!$NewAnimalInfo)
+            header("Location: ./404");
+            exit;
+        }
     $messageInfoForm = createInfoAnimale($connessione, $NewAnimalInfo, $isModified);
 
     $connessione->closeConnection();

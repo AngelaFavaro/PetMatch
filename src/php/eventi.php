@@ -3,16 +3,23 @@ include './src/utils.php';
 include './src/DBconnection.php';
 
 use DB\DBAccess;
-$isAdmin=0;
+
 $action='eventi';
-if (defined('ADMIN_EVENTI')) {
-    $isAdmin=1;
-}
-if($isAdmin) {
-    $action='visualizzazione-eventi';
+$isAdmin=0;
+
+$currentUri = $_SERVER['REQUEST_URI'];
+
+if(str_contains($currentUri, 'visualizzazione-eventi')){
+    if (isset($_SESSION['admin'])&&isset($_SESSION['admin'])===true) {
+        $isAdmin=1;
+        $action='visualizzazione-eventi';
+    }else{
+        header("Location: ./eventi");
+        exit; 
+    }
 }
 
-$url=$isAdmin?'visualizzazione-eventi':'eventi'; 
+// $url=$isAdmin?'visualizzazione-eventi':'eventi'; 
 
 function buildFilterNav(array $filters): string {
     $types = [
