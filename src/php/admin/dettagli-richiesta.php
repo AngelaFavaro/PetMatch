@@ -190,7 +190,10 @@ $connessioneOK = $connessione->openDBConnection();
 
 if ($connessioneOK) {
     $richiesta = $connessione->getRequestDetails($emailRichiedente, $idAnimale);
-
+    if(!$richiesta){
+        header("Location: ./404");
+        exit;
+    }
     $richiesta = handlePostActions($connessione, $richiesta, $emailRichiedente, $idAnimale, $messaggiForm);
     $nRichiesteRichiedente =  $connessione->countActiveRequestsForUser($emailRichiedente ?? '');
     $AcceptRequestDetails = $connessione->getAcceptRequestByAnimal($idAnimale, $emailRichiedente);

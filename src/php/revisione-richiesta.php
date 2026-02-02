@@ -39,6 +39,10 @@ $connessione = new DBAccess();
 $connessioneOK = $connessione->openDBConnection();
 if ($connessioneOK) {
 	$infoRequest = $connessione->getAnimalRequest($_SESSION['email'],$_GET['id-animale']);
+    if($infoRequest){
+        header("Location: ./404");
+        exit; 
+    }
     $messageForm = cancelRequest($connessione);
     $getState = $connessione->getStateRequest($_SESSION['email'],$_GET['id-animale']);
     $isAdopted = $connessione->isAnimalAdopted($_GET['id-animale']);

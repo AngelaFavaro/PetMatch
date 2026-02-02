@@ -352,6 +352,10 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     
     if ($connessioneOK) {
         $richiesta = $connessione->getRequestDetails($email, $idAnimale);
+        if(!$richiesta){
+            header("Location: ./404");
+            exit;
+        }
 
         $NRequestsByStatus = $connessione->getNRequestByStatus($_SESSION['email'] ?? '');
         $nuove_richieste_content = renderNuoveContent($connessione, $NRequestsByStatus);

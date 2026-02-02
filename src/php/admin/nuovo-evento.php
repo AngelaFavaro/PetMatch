@@ -201,6 +201,10 @@ $connessioneOK = $connessione->openDBConnection();
 if ($connessioneOK) {
     if($isModifiedEvent){
         $NewEventInfo = $connessione->getInfoEvent($titoloEvento, $dataEvento);
+        if(!$NewEventInfo){
+            header("Location: ./404");
+            exit;    
+        }
     }
     $messaggiForm = createNewEvent($connessione, $NewEventInfo, $isModifiedEvent);
 }else{

@@ -249,6 +249,10 @@ if ($connection->openDBConnection()) {
     // 1. Recupero Dettagli Animale
     if ($idAnimale) {
         $dettagliAnimale = $connection->getAnimalDetails($idAnimale); 
+        if(!$dettagliAnimale && $isAdmin){
+            header("Location: ./404");
+            exit;
+        }
     }
     $giàInteressato = '';
         if ($connection->hasActiveAdoptionRequest($idAnimale)) {
