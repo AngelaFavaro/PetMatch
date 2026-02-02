@@ -281,7 +281,7 @@ if ($connection->openDBConnection()) {
         if (!empty($dettagliAnimale['imgPath']) && file_exists($dettagliAnimale['imgPath'])) {
             $img = $dettagliAnimale['imgPath'];
         } else {
-            $imgPath = ($dettagliAnimale['tipo'] === 'Cane') ? 'assets/images/animals/defaultCane.jpg' : 'assets/images/animals/defaultGatto.jpg';
+            $img = ($dettagliAnimale['tipo'] === 'Cane') ? 'assets/images/animals/defaultCane.jpg' : 'assets/images/animals/defaultGatto.jpg';
         }
         if ($utenteAccesso) {
             
