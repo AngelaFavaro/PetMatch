@@ -203,7 +203,7 @@ if (isset($_SESSION['error_msg'])) {
 }
 
 $title = '<title>Dettaglio richiesta di adozione  - Amministratore PetMatch </title>';
-$description = '<meta name="description" content="Area riservata per gli amministratori in cui possono controllare nel dettaglio una richiesta di adozione ricevuta per un animale a loro assegnato.">';
+$description = '<meta name="description" content="Area riservata per gli amministratori in cui possono controllare nel dettaglio una richiesta di adozione ricevuta per un animale a loro assegnato">';
 $keywords = "<meta name='keywords' content='amministratore, dettaglio, richiesta, adozione, assegnato, animale, PetMatch'>";
 
 $scarta_richiesta = renderRejectRequest($richiesta,$AcceptRequestDetails);

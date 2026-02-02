@@ -203,7 +203,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     $main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);
 
     $title = "<title>Segnalazioni di nuove accoglienze - Amministratore PetMatch</title>";
-    $description = "<meta name='description' content='Pagina di gestione delle segnalazioni per nuove accoglienze di animali effettuate dagli utenti registrati .'>";
+    $description = "<meta name='description' content='Pagina di gestione delle segnalazioni per nuove accoglienze di animali effettuate dagli utenti registrati'>";
     $keywords = "<meta name='keywords' content='signalazioni, amministratore, animali, rifugio, accoglienze, PetMatch'>";
     $paginaHTML = str_replace('[title]', $title, $paginaHTML);
     $paginaHTML = str_replace('[description]', $description, $paginaHTML);
