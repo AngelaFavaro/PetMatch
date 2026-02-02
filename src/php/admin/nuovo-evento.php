@@ -228,7 +228,7 @@ $fotoInfo = "";
 if (!empty($NewEventInfo['ImgPath']) && $NewEventInfo['ImgPath'] !== '../../assets/images/events/eventi-default.jpg') {
     $nomeFile = basename($NewEventInfo['ImgPath']);
     $fotoInfo = "<p class='success-form'>Immagine caricata: <strong>$nomeFile</strong></p>";
-    $fotoInfo .= "<img src='{$NewEventInfo['ImgPath']}' alt='Anteprima immagine caricata'>";
+    $fotoInfo .= "<img src='{$NewEventInfo['ImgPath']}' alt='Anteprima immagine caricata'/>";
     $inputHiddenFoto = "<input type='hidden' name='old-foto' value='{$NewEventInfo['ImgPath']}'/>";
 }
 $paginaHTML = str_replace('[foto-event-upload]', $fotoInfo, $paginaHTML);
