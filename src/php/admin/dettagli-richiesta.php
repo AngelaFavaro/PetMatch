@@ -48,7 +48,7 @@ function renderPulsantiAzioni(array $r): string {
     $html = '';
     if ($stato === 'Da trasportare') {
         $subject = rawurlencode('Richiesta informazioni per adozione di ' . ($r['nome-animale'] ?? ''));
-        $html = '<a href="mailto:' . ($r['email-richiedente'] ?? '') . '?subject=' . $subject . '" class="link-button" target="_blank">Contatta candidato</a>';
+        $html = '<a href="mailto:' . ($r['email-richiedente'] ?? '') . '?subject=' . $subject . '" class="link-button" target="_blank"><img src="./assets/icons/mail.svg" alt="" /> Contatta candidato</a>';
     } elseif ($stato === 'Nuova') {
         $html = '<form method="post">' .
             hiddenInputsFrom($r) .
@@ -202,8 +202,8 @@ if (isset($_SESSION['error_msg'])) {
     unset($_SESSION['error_msg']);
 }
 
-$title = '<title>Visualizzazione dettaglio richiesta di adozione  - Amministratore PetMatch </title>';
-$description = '<meta name="description" content="Area riservata per gli amministratori in cui possono controllare nel dettaglio una richiesta di adozione ricevuta per un animale a loro assegnato.">';
+$title = '<title>Dettaglio richiesta di adozione  - Amministratore PetMatch </title>';
+$description = '<meta name="description" content="Area riservata per gli amministratori in cui possono controllare nel dettaglio una richiesta di adozione ricevuta per un animale a loro assegnato">';
 $keywords = "<meta name='keywords' content='amministratore, dettaglio, richiesta, adozione, assegnato, animale, PetMatch'>";
 
 $scarta_richiesta = renderRejectRequest($richiesta,$AcceptRequestDetails);
@@ -319,9 +319,6 @@ if($imTheAdmin && isset($_GET['mode']) && $_GET['mode'] === 'edit-data'){ //come
         <article id="stato-trasporto" class="note">
             <div class="header-article">
                     <h2>Modifica le date del trasporto</h2>
-                    <a href="' . $url_base . '#stato-trasporto" class="pencil">
-                        <img src="./assets/icons/edit-pencil.svg" alt="Annulla modifica" />
-                    </a>
              </div>
             <form method="post" action="' . $url_base . '#stato-trasporto">
                 <label for="input-data-partenza" >Data di partenza:</label>
@@ -332,7 +329,7 @@ if($imTheAdmin && isset($_GET['mode']) && $_GET['mode'] === 'edit-data'){ //come
                 <input type="hidden" name="email_richiedente" value="' . htmlspecialchars($richiesta['email-richiedente']) . '"/>
                 <input type="hidden" name="id_animale" value="' . htmlspecialchars($richiesta['id-animale']) . '"/>
                 <div class="button-group">
-                <button type="reset" class="db-button">Elimina modifica</button>
+                <a href="' . $url_base . '#stato-trasporto" id="reset-button" class="db-button">Annulla</a>
                 <button type="submit" name="salva_date_trasporto" class="db-button">Salva date</button>
                 </div>
             </form>
@@ -398,15 +395,15 @@ if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($ri
                 <article id="sezione-note" class="note">
                     <div class="header-article">
                         <h2>'.($imTheAdmin ? 'Le tue annotazioni' : 'Annotazioni').'</h2>
-                        <a href="?email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') . '#sezione-note" id="edit-note" class="pencil" aria-label="Modifica le annotazioni">
-                            <img src="./assets/icons/edit-pencil.svg" alt="" />
-                        </a>
                     </div>
                     <div id="note-container">
                         <form id="form-note" action="richieste-adozione?email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') .'" method="post">
                             <label for="input-note" class="sr-only">Modifica annotazioni:</label>
                             <textarea id="input-note" name="note" rows="4">' . htmlspecialchars($richiesta['appunti'] ?? '', ENT_QUOTES, 'UTF-8') . '</textarea>
-                            <button name="salva_annotazioni" type="submit" class="db-button">Salva annotazioni</button>
+                            <div class="button-group">
+                                <a href="?email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') . '#sezione-note" id="reset-button" class="db-button">Annulla</a>
+                                <button name="salva_annotazioni" type="submit" class="db-button">Salva annotazioni</button>
+                            </div>
                         </form>
                     </div>
                 </article>';

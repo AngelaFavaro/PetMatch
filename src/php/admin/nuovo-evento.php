@@ -228,7 +228,7 @@ $fotoInfo = "";
 if (!empty($NewEventInfo['ImgPath']) && $NewEventInfo['ImgPath'] !== '../../assets/images/events/eventi-default.jpg') {
     $nomeFile = basename($NewEventInfo['ImgPath']);
     $fotoInfo = "<p class='success-form'>Immagine caricata: <strong>$nomeFile</strong></p>";
-    $fotoInfo .= "<img src='{$NewEventInfo['ImgPath']}' alt='Anteprima immagine caricata'>";
+    $fotoInfo .= "<img src='{$NewEventInfo['ImgPath']}' alt='Anteprima immagine caricata'/>";
     $inputHiddenFoto = "<input type='hidden' name='old-foto' value='{$NewEventInfo['ImgPath']}'/>";
 }
 $paginaHTML = str_replace('[foto-event-upload]', $fotoInfo, $paginaHTML);
@@ -271,15 +271,7 @@ foreach ($campi_errori as $placeholder => $error) {
     $placeholder = '[error-' . $placeholder . ']'; 
     $valore_errore = $messaggiForm[$error] ?? '';
     
-    if ($error === 'generic' || $error === 'existEvent') {
-        $html_errore = $valore_errore ? "<p class='error-form'>$valore_errore</p>" : '';
-    } else {
-        // Sempre presente, ma nascosto se vuoto
-        $display = $valore_errore ? 'block' : 'none';
-        $html_errore = "<p class='error-form' style='display: $display;'>$valore_errore</p>";
-    }
-    
-    $paginaHTML = str_replace($placeholder, $html_errore, $paginaHTML);
+    $paginaHTML = str_replace($placeholder, $valore_errore, $paginaHTML);
 }
 
 echo $paginaHTML;

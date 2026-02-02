@@ -9,7 +9,7 @@ error_reporting(E_ALL);
 use DB\DBAccess;
 
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo controlla se esiste la variabile admin in session, la seconda controlla che sia affettivamente admin
-    header("Location: ./accedi");
+    header("Location: ./animali");
     exit;
 }
 
@@ -53,6 +53,8 @@ function createInfoAnimale(DBAccess $conn, &$NewAnimalValues, $isModified): arra
         foreach ($savedInputs as $key => $val) {
             $NewAnimalValues[$key] = $val;
         }
+
+        unset($_SESSION['form_status_info'], $_SESSION['form_errors_info'], $_SESSION['form_inputs']);
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit-animal'])) { 
@@ -281,7 +283,7 @@ if ($isModified) {
 $paginaHTML = str_replace('[urlAnnulla]', $urlAnnulla, $paginaHTML);
 
 $paginaHTML = str_replace('[infoFotoCaricata]', $fotoInfo, $paginaHTML);
-$paginaHTML = str_replace('[input-hidden-foto]', $inputHiddenFoto??'', $paginaHTML);
+$paginaHTML = str_replace('[input-hidden-foto-animale]', $inputHiddenFoto??'', $paginaHTML);
 
 $paginaHTML = str_replace('[erroriGeneric]', $messageInfoForm['generic'] ?? '', $paginaHTML);
 

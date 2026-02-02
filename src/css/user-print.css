@@ -66,9 +66,6 @@ a:not(#logo-link):not(.pencil):not([href^="mailto:"]):not(.polaroid):not([href^=
     border-bottom: 1px solid var(--lightborder);
 }
 
-#furgoncino {
-    width: 5cm;
-}
 
 /*==============FILTRI================ */
 
@@ -200,7 +197,7 @@ body footer img#logo-footer{
 }
 
 .torna-su-button,
-img[alt=""]:not(#instagram):not(.immagine-evento):not(#img-animale-richiesta){
+img[alt=""]:not(#instagram):not(.immagine-evento):not(#img-animale-richiesta):not(.heart-normal){
     display: none;
 }
 
@@ -362,7 +359,8 @@ h1 + a.link-button{
 }
 
 
-#animali .is-favorite, #animali .not-favorite {
+#animali .is-favorite, #animali .not-favorite,
+#visualizzazione-animale .is-favorite, #visualizzazione-animale .not-favorite {
     appearance: none;
     border: none;
     background: transparent;
@@ -376,21 +374,31 @@ h1 + a.link-button{
     border-top: 1px solid var(--bordercolor);
 }
 
-#animali img.heart-normal{
-    display: none;
-    display: block;
-}
 #animali img.heart-normal,
-#animali img.heart-hover{
+#animali img.heart-hover, 
+#visualizzazione-animale img.heart-normal,
+#visualizzazione-animale img.heart-hover{
     position: static;
     width: 0.7cm;
     height: 0.7cm;
     overflow: visible;
-    margin-top: -1cm;
+    margin-top: -1.5cm;
 }
 
 #btn-assegnatamento{
     display: none;
+}
+
+#animali .card:has(.adottato) .cuore img{
+    margin-top:-0.6cm;
+}
+
+.adottato{
+    border:1px solid var(--bordercolor);
+    border-radius: 1cm;
+    padding: 0.1cm;
+    width: fit-content;
+    font-style: italic;
 }
 
 /* ============HOME=========== */
@@ -692,16 +700,23 @@ article.card,
     margin: 0 auto 0.2cm auto;
     object-fit: cover;
     display: block;
+    width: 3cm;
+    height: 3cm;
 }
 
 .evento img.immagine-evento{
     float: left;
-    max-height: 3cm;
-    max-width: 4cm;
+    height: 3cm;
+    width: 3cm;
     margin: 0 0.5cm 0.3cm 0;
     padding-right: 0;
     object-fit: cover;
     display: block;
+}
+
+.evento h2{
+    border-top: none;
+    padding-top: 0;
 }
 
 .evento p{
@@ -819,16 +834,47 @@ margin-bottom: 0.3cm;
 .pm-timeline-date::after{
     content: ":";
 }
+/* ---------- COME FUNZIONA ------------ */
+#come-funziona #trasporto div:has(#furgoncino){
+    display: flex;
+}
+#come-funziona #trasporto #furgoncino{
+    flex: 1 1 25%;
+    width: 4.5cm;
+    height: auto;
+    object-fit:contain;
+    margin-left:0.6cm;
+}
 
+
+#come-funziona #come-si-adotta .enlight::before{
+    content: "- ";
+}
 /* ---------- VISUALIZZAZIONE ANIMALE ------------ */
 
+
 #contatta-il-rifugio {
-    display: none;
+    border: 1px solid var(--lightborder);
+    margin: 0.2cm 0 0.5cm 0;
+    padding: 0.4em 1.5em;
+    border-radius: 1.5em;
+    font-weight: 550;
+    font-size: 10pt;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+ 
 }
 
 #visualizzazione-animale .column-container{
     display: flex;
-    gap: 1cm;
+    gap: 0.4cm;
+}
+
+#content #visualizzazione-animale .column-container .dettagli-animale {
+    flex: 1 1 50%;
+    width: fit-content;
+   
 }
 
 #visualizzazione-animale .column-container h2{
@@ -860,10 +906,10 @@ margin-bottom: 0.3cm;
 }
 
 #visualizzazione-animale #foto-animale {
-    width: 5cm ;
-    height: 5cm ;
-    max-width: 5cm ;
-    max-height: 5cm ;
+    width: 4cm ;
+    height: 4cm ;
+    max-width: 4cm ;
+    max-height: 4cm ;
     object-fit: cover;
     flex-shrink: 0;
     float: right ;
@@ -873,19 +919,21 @@ margin-bottom: 0.3cm;
 
 #visualizzazione-animale #info-generiche-testo {
     display: block;
+    text-align: left;
 }
 
 #visualizzazione-animale #info-generiche-testo dt {
     font-weight: bold;
     float: left;
     margin-right: 10px;
+    text-align: left;
 }
 
 #visualizzazione-animale #info-aggiuntive-separate,
 #visualizzazione-animale #info-aggiuntive-unite {
     break-inside: avoid;
     clear: both;
-    display: block;
+    text-align: left;
 }
 
 #visualizzazione-animale #info-aggiuntive-separate dt,
@@ -893,29 +941,28 @@ margin-bottom: 0.3cm;
     font-weight: bold;
     float: left;
     margin-right: 10px;
+
 }
 
-#visualizzazione-animale #info-aggiuntive-separate dt::after{
+#visualizzazione-animale #info-aggiuntive-separate dt::after,
+#visualizzazione-animale #info-aggiuntive-unite dt::after,
+#visualizzazione-animale #info-generiche-testo dt::after{
     content: ':';
 }
 
 #visualizzazione-animale #info-aggiuntive-separate dd,
 #visualizzazione-animale #info-aggiuntive-unite dd{
     margin-bottom: 10px;
-}
 
-#visualizzazione-animale .preferiti-form {
-    display: none;
-}
-
-#visualizzazione-animale .preferiti-form button {
-    display: none;
 }
 
 #richiesta-adozione,
-#compila-form-adozione,
-#contatta-rifugio {
+#compila-form-adozione{
     display: none;
+}
+
+#contatta-rifugio {
+    margin-top:1cm;
 }
 
 #visualizzazione-animale #stato-richiesta {
@@ -923,6 +970,75 @@ margin-bottom: 0.3cm;
     border: 1px solid var(--lightborder);
     padding: 0.3cm;
     margin-top: 0.5cm;
+    text-align: left;
+}
+
+
+/*=========== FORM RICHIESTA ANIMALE =========== */
+.adozione-status #richiesta-adozione form{
+    border-radius: 0.5cm;
+    border:1px solid var(--lightborder);
+    margin-bottom: 0.4cm;
+    padding: 0.3cm 0.5cm;
+    display: block;
+
+    break-inside: avoid; 
+    page-break-inside: avoid;
+}
+.adozione-status #richiesta-adozione form fieldset{
+    padding-bottom:0.3cm;
+    border: none;
+    text-align: left;
+} 
+
+.adozione-status #richiesta-adozione form fieldset legend{
+    font-weight:600;  
+    font-size: 14pt;
+    padding-bottom: 0.3cm;
+    } 
+
+.adozione-status #richiesta-adozione form fieldset label{
+    font-weight:600;  
+} 
+.adozione-status #richiesta-adozione form fieldset #lettera-presentazione{
+    field-sizing: content;
+    min-height: 1.9cm;
+    display: block;
+    width: 100%;
+    resize: none;
+    font-family: inherit;
+}
+.adozione-status #richiesta-adozione form input{
+    font-family: inherit;
+}
+
+.adozione-status #richiesta-adozione form #checkbox-trasporto-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.adozione-status #richiesta-adozione form .checkbox-title{
+    padding-top: 0.1cm;
+}
+.adozione-status #richiesta-adozione form input[type="checkbox"]{
+    flex: 0 0 5%;
+    appearance: auto;
+    width: 0.5cm;
+    height: 0.5cm;
+}
+.adozione-status #richiesta-adozione form .error-form{
+    display: none;
+}
+
+.adozione-status #richiesta-adozione form .db-button{
+    border: 1px solid var(--lightborder);
+    margin: 0.2cm 0 0.5cm 0;
+    padding: 0.6em 1.5em;
+    border-radius: 1.5em;
+    font-weight: 550;
+    font-size: 10pt;
+    text-decoration: none;
+    color:black;
 }
 
 /* ==========  VISUALIZZAZIONE EVENTO ========== */
@@ -1098,6 +1214,10 @@ margin-bottom: 0.3cm;
     display: none;
 }
 
+#modifica-profilo fieldset .error-form{
+    display: none;
+}
+
 /* ------ LAVORA CON NOI --------*/
 #contatto-sostenitore p,
 #contatto-sostenitore address {
@@ -1116,7 +1236,9 @@ i.fas.fa-eye::before, #accedi i.fas.fa-eye::after{
 #container-form-login .db-button{
     margin-bottom: 0.4cm;
 }
-
+#form-login .error-form, #form-signup .error-form{
+    display: none;
+}
 /* ========== REVISIONE RICHIESTA ========== */
 #revisione-richiesta dt {
     font-weight: bold;

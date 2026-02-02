@@ -81,7 +81,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                                     <button type="submit" name="elimina_segnalazione" class="db-button">Elimina<span class="sr-only"> numero' . htmlspecialchars($animale['id_segnalazione']) . '</span></button>
                                 </form>
                             </td>
-                            <td class="col-dettagli"><a href="mailto:' . htmlspecialchars($animale['email_segnalante']) . '?subject=' . $subject . '&body=' . $object . '" class="link-button"><img src="assets/icons/mail.svg" alt="chiedi informazioni" /></a></td>';
+                            <td class="col-dettagli"><a target="_blank" href="mailto:' . htmlspecialchars($animale['email_segnalante']) . '?subject=' . $subject . '&body=' . $object . '" class="link-button"><img src="assets/icons/mail.svg" alt="chiedi informazioni" /></a></td>';
                     }
                     $html .='</tr>';
                 }
@@ -157,14 +157,14 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     $pagineCani = (int)ceil($NSegnalazioniCani / $perPagina);
     $pagineGatti = (int)ceil($NSegnalazioniGatti / $perPagina);
     
-    $linkCani = $pagineCani>1 ? "<nav class='next-page-links' aria-label='Pagine cani'>
+    $linkCani = $pagineCani>1 ? "<nav class='next-page-links' aria-label='Pagine cani' id='nav-sotto'>
                 <ul>".buildPagination(
     ($tipoAttivo === 'Cani' ? $paginaCorrente : 1), 
     $pagineCani, 
     'Cani'
 )."</ul></nav>" : '';
 
-    $linkGatti = $pagineGatti>1 ? "<nav class='next-page-links' aria-label='Pagine gatti'>
+    $linkGatti = $pagineGatti>1 ? "<nav class='next-page-links' aria-label='Pagine gatti' id='nav-sotto'>
                 <ul>".buildPagination(
     ($tipoAttivo === 'Gatti' ? $paginaCorrente : 1), 
     $pagineGatti, 
@@ -203,7 +203,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     $main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);
 
     $title = "<title>Segnalazioni di nuove accoglienze - Amministratore PetMatch</title>";
-    $description = "<meta name='description' content='Pagina di gestione delle segnalazioni per nuove accoglienze di animali effettuate dagli utenti registrati .'>";
+    $description = "<meta name='description' content='Pagina di gestione delle segnalazioni per nuove accoglienze di animali effettuate dagli utenti registrati'>";
     $keywords = "<meta name='keywords' content='signalazioni, amministratore, animali, rifugio, accoglienze, PetMatch'>";
     $paginaHTML = str_replace('[title]', $title, $paginaHTML);
     $paginaHTML = str_replace('[description]', $description, $paginaHTML);

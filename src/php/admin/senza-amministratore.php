@@ -180,14 +180,14 @@ if ($connessioneOK) {
 $pagineCani = (int)ceil($NNonAdminByType['Cane'] / $perPagina);
 $pagineGatti = (int)ceil($NNonAdminByType['Gatto'] / $perPagina);
 
-$linkCani = $pagineCani>1 ? "<nav class='next-page-links' aria-label='Pagine cani'>
+$linkCani = $pagineCani>1 ? "<nav class='next-page-links' aria-label='Pagine cani' id='nav-sotto'>
                 <ul>".buildPagination(
     ($tipoAttivo === 'Cani' ? $paginaCorrente : 1), 
     $pagineCani, 
     'Cani'
 )."</ul></nav>" : '';
 
-$linkGatti = $pagineGatti>1 ? "<nav class='next-page-links' aria-label='Pagine gatti'>
+$linkGatti = $pagineGatti>1 ? "<nav class='next-page-links' aria-label='Pagine gatti' id='nav-sotto'>
                 <ul>".buildPagination(
     ($tipoAttivo === 'Gatti' ? $paginaCorrente : 1), 
     $pagineGatti, 

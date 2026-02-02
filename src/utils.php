@@ -486,7 +486,7 @@ function buildFooter(array $menuGroups, string $currentHref): string {
                         <ul class="footer-submenu">
                             <li>
                                 <address>
-                                    <a class="email" href="mailto:matchpet48@gmail.com" target="_blank">matchpet48@gmail.com</a>
+                                    <a class="email"  href="mailto:matchpet48@gmail.com" target="_blank">matchpet48@gmail.com</a>
                                 </address>
                             </li>
                             <li>
@@ -651,7 +651,7 @@ function getCardAnimal(int $idanimale, bool $isAdmin, bool $isAdopted):string{
                 <div>
                     <div>
                         <img id="img-animale-richiesta" src="[imgAnimale]" alt="" />';
-                    $html .= ($isAdopted&&!$isAdmin)?'<p class="nonDisponibile"><em>Animale adottato</em></p>':'<a href="./animali?id='.urlencode($idanimale).'" class="link-button">Vedi animale</a>';
+                    $html .= ($isAdopted&&!$isAdmin)?'<p class="nonDisponibile"><em>Animale adottato</em></p>':'<a href="./animali?id-animale='.urlencode($idanimale).'" class="link-button">Vedi animale</a>';
                     $html.='
                     </div>
                     <dl aria-label="Descizione superficiale dell\'animale">
@@ -769,7 +769,7 @@ function buildPagination(int $currentPage, int $totalPages, array|string $params
 
     if ($currentPage > 1) {
         $params['page'] = $currentPage - 1;
-        $html .= '<li><a href="?' . http_build_query($params) . '" aria-label="vai alla pagina precedente"><img src="./assets/icons/arrow-sx-green.svg" alt="" /></a></li>';
+        $html .= '<li><a href="?' . http_build_query($params) . '" ><img src="./assets/icons/arrow-sx-green.svg" alt="vai alla pagina precedente" /></a></li>';
     }
 
     $maxVisible = 10;
@@ -791,7 +791,7 @@ function buildPagination(int $currentPage, int $totalPages, array|string $params
 
     if ($currentPage < $totalPages) {
         $params['page'] = $currentPage + 1;
-        $html .= '<li><a href="?' . http_build_query($params) . '" aria-label="vai alla pagina successiva"><img src="./assets/icons/arrow-dx-green.svg" alt=""/></a></li>';
+        $html .= '<li><a href="?' . http_build_query($params) . '"><img src="./assets/icons/arrow-dx-green.svg" alt="vai alla pagina successiva"/></a></li>';
     }
 
     return $html;

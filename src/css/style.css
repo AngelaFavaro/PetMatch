@@ -1644,8 +1644,17 @@ legend {
     box-sizing: border-box; 
 }
 
+#eventi .navigationHelp,
 #animali .navigationHelp{
     color:var(--txtcolor);
+}
+
+a.navigationHelp[href="#nav-sotto"]{
+    display: none;
+}
+
+main:has(nav#nav-sotto) a.navigationHelp[href="#nav-sotto"]{
+    display: block;
 }
 
 #animali label + input::placeholder,
@@ -3195,6 +3204,10 @@ input#check-assegna:checked:before,
     margin:auto 5px auto 0;
 }
 
+#admin-info .edit-mode{
+    float:none;
+}
+
 .edit-mode h2,
 .edit-management h2{
     text-align: center;
@@ -4340,11 +4353,11 @@ div.button-group{
     margin-top: 1em;
 }
 
-div.button-group button{
+div.button-group button,div.button-group a{
     flex: 1 1 20px;
 }
 
-div.button-group button[type="reset"]{
+div.button-group a#reset-button{
     background-color: var(--darkbgcolor);
     border-width: 2px;
     border-style: solid;
@@ -4812,6 +4825,12 @@ div#admin-area #toggle-assegnazione{
 div#admin-area .container{
     max-width: none;
 }
+
+div#admin-area #animali.container{
+    max-width: 1200px;
+}
+
+
 div#admin-area .container#animali .filtri ul{
     justify-content: normal;
 }
@@ -5170,7 +5189,7 @@ div#admin-area #animali .filtri ul{
     transition: all 0.3s ease;
 }
 #form-add-animal textarea{
-    height: 10.2em;
+    height: 11.3em;
 }
 
 #new-event textarea{
