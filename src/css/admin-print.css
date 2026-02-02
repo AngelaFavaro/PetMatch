@@ -1236,3 +1236,7 @@ pre#note-text{
 #profilo-richiedente #visualizza-richieste-richiedente {
     flex: 0 0 50%;
 }
+
+#informazioni-admin .edit-mode fieldset label::after{
+    content: ": ";
+}
