@@ -98,7 +98,7 @@ function renderGattiContent(array $GattiNonAdmin,array $NNonAdminByType){
             <tbody>';
 
         foreach($GattiNonAdmin as $GattoNonAdmin){
-            $eta = date_diff(date_create($GattoNonAdmin['data_nascita']), date_create('today'))->y;
+            $eta = calcolaEta($GattoNonAdmin['data_nascita']);
 
             $id = htmlspecialchars($GattoNonAdmin['id_animale']);
             $urlDettagli = "dettagli-animale?id-animale=" . $id . "&from=senza-admin";
