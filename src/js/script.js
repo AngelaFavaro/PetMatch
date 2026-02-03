@@ -182,59 +182,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /**cambia il colore dei pulsanti per abbellimento: rende più visibile lo stato della richiesta */
 document.addEventListener('DOMContentLoaded', () => {
-    // VERIFICA STATO RICHISTA ADOZIONE
-    const verificaStato = () => {
-        const termini = document.querySelectorAll('#Richiesta dt'); //cerca tutti i dt dentro l'article#Richiesta (che ha lo stato)
-        let statoTesto = "";
-
-        termini.forEach(dt => {
-            if (dt.textContent.trim() === 'Stato richiesta') { //cerca il dt che contiene "Stato richiesta"
-                const ddValue = dt.nextElementSibling; //prende il dd successivo per estrerre il valore
-                if (ddValue) {
-                    statoTesto = ddValue.textContent.trim();
-                }
-            }
-        });
-
-        if (statoTesto !== "" && statoTesto !== '[stato]') {
-            const statiNegativi = ['Respinta', 'Annullata'];
-            
-            if (statiNegativi.includes(statoTesto)) {
-                const p1 = document.querySelector('#animal-container .db-button');
-                const p2 = document.querySelector('#details-container .db-button');
-                
-                [p1, p2].forEach(p => {
-                    if (p) {
-                        p.classList.add('respinta');
-                        p.setAttribute('aria-disabled', 'true'); // per accessibilità, indica che il pulsante è disabilitato (così è comprensibile anche ad uno screen reader)
-                    }
-                });
-            }
-        }
-    };
-    
-    verificaStato();
-
-    /* --- modifica la data di arrivo TO DO DA MODIFICARE--- */
-    const btnEditDate = document.getElementById('btn-attiva-modifica');
-    const dateText = document.getElementById('data-text');
-    const formDate = document.getElementById('form-data');
-    const inputDate = document.getElementById('input-data');
-
-    if (btnEditDate && dateText && formDate && inputDate) {
-        btnEditDate.addEventListener('click', () => {
-            dateText.classList.add('hidden');
-            formDate.classList.remove('hidden');
-            if (typeof inputDate.showPicker === 'function') inputDate.showPicker();
-            inputDate.focus();
-        });
-
-        formDate.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-        });
-    }
-
     // VALIDAZIONE FORM AGGIUNGI ANIMALE
     
     const formAdd = document.getElementById('form-add-animal');
