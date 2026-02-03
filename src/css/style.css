@@ -4531,6 +4531,18 @@ a.pencil img {
     border-color: var(--darkbgcolor);
 }
 
+
+#contatta-il-rifugio, #contatta-richiedente{
+    align-items: center;
+    display: inline-flex;
+}
+#contatta-il-rifugio img, #contatta-richiedente img{
+    display: block;
+    margin-right: 0.5em;
+}
+/* ============================================================
+   SEZIONE TABS E FILTRI (RICHIESTE)
+   ============================================================ */
 #dettaglio-animale .tabs-container legend {
     font-size: 1.5em;
     font-weight: bold;
