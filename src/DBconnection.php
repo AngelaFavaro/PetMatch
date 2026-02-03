@@ -487,7 +487,6 @@ class DBAccess {
     }
 
     function createAdminTasks($email): array {
-        // che bella questa funzione
         $tasks = [0, 0, 0, 0, 0];
 
         $queries = [
@@ -2104,7 +2103,7 @@ class DBAccess {
         while ($row = mysqli_fetch_assoc($res)) {
             $animali[] = [
                 'nome'     => $row['Nome'],
-                'sesso'    => $row['Sesso'], // lasciato grezzo, lo trasformi dopo
+                'sesso'    => $row['Sesso'], 
                 'eta'      => calcolaEta($row['DataNascita']),
                 'immagine' => $row['ImgPath'],
                 'tipo'     => $row['Tipo'],
@@ -2518,7 +2517,7 @@ class DBAccess {
     public function deleteAnimal(int $idAnimale): bool {
         if (!$this->connection) return false;
 
-        // 1. Eliminiamo prima le richieste associate (se presenti)
+        // Eliminiamo prima le richieste associate (se presenti)
         $queryRichieste = "DELETE FROM RICHIESTE WHERE IDanimale = ?";
         $stmtR = mysqli_prepare($this->connection, $queryRichieste);
         if ($stmtR) {
@@ -2527,7 +2526,7 @@ class DBAccess {
             mysqli_stmt_close($stmtR);
         }
 
-        // 2. Ora possiamo eliminare l'animale in sicurezza
+        // poi possiamo eliminare l'animale in sicurezza
         $queryAnimale = "DELETE FROM ANIMALI WHERE IDanimale = ?";
         $stmtA = mysqli_prepare($this->connection, $queryAnimale);
         if ($stmtA) {

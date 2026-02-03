@@ -246,7 +246,7 @@ if ($connection->openDBConnection()) {
     handleFavorites($connection, $utenteAccesso, $emailUtente);
     $editAddressPermission = $connection ->getAddressPermissionEdit($emailUtente);
 
-    // 1. Recupero Dettagli Animale
+    
     if ($idAnimale) {
         $dettagliAnimale = $connection->getAnimalDetails($idAnimale); 
         if(!$dettagliAnimale && $isAdmin){

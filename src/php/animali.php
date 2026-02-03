@@ -11,7 +11,7 @@ if(isset($_GET['id-animale'])) {
         $idAnimale = (int)$_POST['id-animale-preferito'];
     
         if (isset($_SESSION['email'])) {
-            // Utente LOGGATO → DB
+            
             $email = $_SESSION['email'];
     
             $conn = new DBAccess();
@@ -54,15 +54,6 @@ if(isset($_GET['id-animale'])) {
         header("Location: $redirect");
         exit;
     }
-        
-        
-        
-    // if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_POST['vedi_miei'])) {
-    //     //url corrente preso con _url_ + ?assegnati=miei
-        
-    //     exit;
-
-    // }
         
         
     
@@ -318,8 +309,6 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
                 $animali = $connessione->getGuestFavPaged($type, $perPagina, $offset);
             }
             $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail,$isFromAdmin) : "<p class='errore'>$messaggioNoAnimali</p>";
-            // $linkPagine = "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine'>
-            // <ul aria-label='Pagine di navigazione'>"
             $linkPagine = ($pagineTotali > 1)
         ? (
             "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine' id='nav-sotto'>

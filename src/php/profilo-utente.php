@@ -309,7 +309,7 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente, $editAddr
             }
             
             if($isAllEmpty || ($isAllFull && $modifiedAddress)){
-                // $errors['address'] = "Ci passo.";
+                
                 if (!$editAddress) {
                     $errors['indirizzo-totale'] = "Impossibile modificare l'indirizzo: c'è un trasporto attivo.";
                 } 
