@@ -4584,8 +4584,7 @@ h2+#animale-richiesta .generic-info-container img.square-foto{
     right: 0;
 }
 
-#sezione-note a#edit-note img,
-.edit-admin-info img {
+a.pencil img {
     height: auto;
     width: 3em;
     transition: transform 0.2s ease;
@@ -4595,7 +4594,7 @@ h2+#animale-richiesta .generic-info-container img.square-foto{
     border:2px solid transparent;
 }
 
-#sezione-note a#edit-note img:hover{
+#sezione-note a#edit-note img:hover, #stato-trasporto a.pencil img:hover {
     border-color: var(--txtcolor);
 }
 
