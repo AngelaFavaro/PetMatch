@@ -932,7 +932,7 @@ class DBAccess {
                     FROM RICHIESTE_ADOZIONI R
                     JOIN ANIMALI A ON R.IDanimale = A.IDanimale
                     JOIN UTENTI U_Adottante ON R.Email = U_Adottante.Email
-                    RIGHT JOIN UTENTI U_Admin ON A.Email = U_Admin.Email
+                    LEFT JOIN UTENTI U_Admin ON A.Email = U_Admin.Email
                     WHERE R.Stato = 'Accettata' 
                     AND A.Tipo = ? 
                     $filterQuery
