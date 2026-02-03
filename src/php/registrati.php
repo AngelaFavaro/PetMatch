@@ -135,7 +135,7 @@ function createNewAccount(DBAccess $conn, &$nameValue, &$surnameValue, &$emailVa
             $errors['password'] = "La password non rispetta i criteri richiesti o non coincide.";
         }
 
-        /* AZIONI */
+        
         if (empty($errors)) {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $insertResult = $conn->insertNewUser($email, $name, $surname, $hashedPassword);

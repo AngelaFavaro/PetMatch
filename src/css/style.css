@@ -192,7 +192,6 @@ a.db-button:hover{
 
 .container{
     max-width: 1200px;
-    /* max-height: 100%; */
     margin: auto;
     padding-left:1em;
     padding-right:1em;
@@ -205,7 +204,6 @@ div#admin-area .container{
 
 html, body {
     max-width: 100%;
-    /* overflow-x: hidden; */
 }
 body{
     display: flex;
@@ -214,7 +212,6 @@ body{
 }
 
 main#content{
-    /* min-height: 100vh; */
     flex: 1;
     padding-top: 2em;
     padding-bottom: 1em;
@@ -244,25 +241,20 @@ strong{
 }
 
 
-/* se troppo grandi per altre pagine allora avvisate linor prima di trovare altre soluzioni */
 h1{
     font-size: 2em; 
-    /* font-size: 2.7em;  */
     line-height: normal;
 }
 h2{
     font-size: 1.8em; 
-    /* font-size: 2.3em;  */
     line-height: 1.3;
 }
 h3{
     font-size: 1.3em;
-    /* line-height: 1.3; */
 }
 
 h4{
     font-size: 1.1em;
-    /* line-height: 1.3; */
 }
 
 .error-form + p{
@@ -498,7 +490,6 @@ input:placeholder-shown{
     transition: 0.3s;
 }
 
-/* opzionale: popup interattivi con la timeline */
 
 .popup {
     position: absolute;
@@ -514,9 +505,9 @@ input:placeholder-shown{
     text-align: left;
     pointer-events: none;
     
-    /* Stato iniziale: Nascosto */
+    /* stato iniziale: nascosto */
     opacity: 0;
-    margin-top: 10px; /* Per animazione salita */
+    margin-top: 10px; /* per animazione salita */
     transition: 0.3s;
 }
 
@@ -543,7 +534,6 @@ details[open] .popup{
 }
 
 /*==================FLEX COLUMNS AND GRID==================*/
-/* mettere un div con questo come contenutore */
 .column-container{
     max-width: 1200px;
     width: 100%;
@@ -555,8 +545,6 @@ details[open] .popup{
     padding-left: 1em;
 }
 
-/* usare un div con questa classe nei contenuti su cui porre il flex
-NOTA: modificare il flex se necessario annidando la classe dentro le proprie sezioni */
 .column-user {
     flex: 1 1 45%;
 }
@@ -1136,9 +1124,9 @@ footer .container + div a:visited{
 
 #grass {
     width: 100%;
-    height: 60px; /*altezza fissa dell'erba*/
-    background-image: url('../../assets/images/grass.svg'); /* immagine dell'erba */
-    background-size: auto 100%; /* da tenere assolutamente altrimenti si taglia */
+    height: 60px; 
+    background-image: url('../../assets/images/grass.svg'); 
+    background-size: auto 100%; 
 }
 
 .social-media-links a{
@@ -1149,14 +1137,12 @@ footer .container + div a:visited{
 
 #copyright{
     text-align: center;
-    /* font-weight: 400; */
     padding:1em;
     display: block;
     /* sono 12px, il minimo per l'accessibilità */
     font-size: 0.85rem; 
     color: var(--light-txtcolor);
-    /* font-size: 0.9em; */
-    /* margin-bottom: 1em; */
+
 }
 /* ================== =========== PAGINE Utente================== ============*/
 /* ================== HOME ==================*/
@@ -1300,9 +1286,8 @@ details:not([open]) .popup {
 .static-gif {
     height: 0;
     width: 0;
-    opacity: 0; /* Parte invisibile */
+    opacity: 0; /* parte invisibile */
     
-    /* Appare dopo 5 secondi */
     animation: showStatic 0s linear 3s forwards;
 }
 
@@ -1314,7 +1299,7 @@ details:not([open]) .popup {
 
 @keyframes showStatic {
   to {
-    opacity: 1; /* Diventa visibile e copre la GIF */
+    opacity: 1; /* diventa visibile e copre la GIF */
     height: auto;
     width: 100%;
     padding-bottom: 1.5em;
@@ -1323,7 +1308,7 @@ details:not([open]) .popup {
 
 @keyframes stopShow {
   to {
-    opacity: 0; /* Diventa visibile e copre la GIF */
+    opacity: 0; /* diventa visibile e copre la GIF */
     height: 0;
     width: 0;
   }
@@ -1331,7 +1316,7 @@ details:not([open]) .popup {
 
 
 #section-events{
-    background-color: var(--secondsection); /* nel caso non caricasse l'immagine */
+    background-color: var(--secondsection); 
     background-image: 
         linear-gradient(to bottom, transparent 70%, var(--secondsection) 98%),
         url('../../assets/images/cat-bg.svg');
@@ -1393,7 +1378,6 @@ details:not([open]) .popup {
     display: block;
     position: absolute;
     width: 100%;
-    /* overflow: hidden; */
     top:-23%;
     height: 100px;
     background-image: url('../../assets/images/rope.svg');
@@ -1425,9 +1409,9 @@ details:not([open]) .popup {
     display: block;
     width: 100%;
     
-    white-space: nowrap;      /* Impedisce di andare a capo */
-    overflow: hidden;         /* Nasconde l'eccesso */
-    text-overflow: ellipsis;  /* Aggiunge i puntini ... */
+    white-space: nowrap;      
+    overflow: hidden;        
+    text-overflow: ellipsis;  /* aggiunge i puntini ... */
 }
 
 #events-list .polaroid p{
@@ -1621,7 +1605,6 @@ fieldset {
 legend {
     padding-top:1em;
     font-weight: 500;
-    /* text-align: center; */
     font-size: 1.1em;
     width: 100%;
 }
@@ -1697,10 +1680,6 @@ label {
 
 body:has(#signup), body:has(#login) {
     background-color: var(--bgform);
-    /* dopo aver aggiustato il footer
-    le ho commentate perchè altrimenti si rompeva tutto */
-    /* margin: -110px 0 -30px 0; */
-    /* padding: 110px 0 30px 0; */
     background-image: url('../../assets/images/bg-pow.svg');
     background-repeat: repeat;
     background-size: contain;
@@ -1861,10 +1840,9 @@ input:autofill{
     margin:0;
     float: right;
 }
-/* aggiunto questo altrimenti mi si sminchiano le cose da admin */
 div#admin-area #animali a.link-button{
 float: none;
-    display: inline-block; /* Assicura che il margine funzioni correttamente */
+    display: inline-block; /* per assicurarsi che il margine funzioni correttamente */
     margin: 0.5em;
 }
 #animali h1{
@@ -1902,27 +1880,22 @@ float: none;
     padding: 0.5em;
     height: 2.5em;
     align-items: center;
-    /* margin: 0.5em; */
 }
 
 #animali .filtri .capsula-filtro .eta-range {
-    /* display:contents; */
     display: flex;
     justify-content: center;
     gap: 0.2em;
 }
 
 #animali .filtri #searchEta.capsula-filtro {
-    /* display:contents; */
     max-width: 12em;
     display:flex;
 }
 
 
 #animali .filtri #searchName.capsula-filtro, #eventi .filtri #searchName.capsula-filtro {
-    /* display:contents; */
     background-color: var(--darkbgcolor);
-    /* border-color: var(--placeholderDarker-text); */
 }
 
 #animali .filtri #searchName.capsula-filtro input, #eventi .filtri #searchName.capsula-filtro input {
@@ -1930,7 +1903,6 @@ float: none;
     display: flex;
     color:var(--textDarkinput);
     min-width: 3em;
-    /* display:contents; */
     background-color: var(--darkbgcolor);
     width: 100%;
     height: 100%;
@@ -1997,7 +1969,6 @@ float: none;
 #animali #nav-animali-type{
     margin-top: 1.5em;
     clear:right;
-    /* clear: both; */
 }
 
 
@@ -2127,7 +2098,6 @@ float: none;
         background-color 0.3s ease,
         border-color 0.3s ease,
         box-shadow 0.3s ease;
-        /* border: 0.3 ease; */ 
 }
 
 
@@ -2137,7 +2107,6 @@ float: none;
 }
 
 #animali li.card article, #animali li.dark-card article {
-    /* width: 11em; */
     height: 16em;
     overflow: hidden;
     align-items: center;
@@ -2147,7 +2116,6 @@ float: none;
     height: 65%;
     width: 100%;
     align-content: center;
-    /* overflow: hidden; */
     box-sizing: border-box;
     position: relative;
     border-bottom: 1px solid var(--text-buttoncolor);
@@ -2155,7 +2123,7 @@ float: none;
 
 #animali .card .immagine img, #animali .dark-card .immagine img {
     display: block;
-    width: 100%;               /* immagine occupa tutta la larghezza */
+    width: 100%;               
     height: 100%;             
     object-fit: cover;
     
@@ -2168,11 +2136,9 @@ float: none;
     float: left;
     clear: left;
     width: 80%;
-    /* padding-right: 65%; */
     font-weight: bold;
-    /* height: 40px; */
-    white-space: nowrap;      /* testo su una sola riga */
-    overflow: hidden;         /* taglia il testo che esce dal box */
+    white-space: nowrap;      
+    overflow: hidden;         
     text-overflow: ellipsis;  /* aggiunge "..." alla fine */
 }
 
@@ -2192,7 +2158,6 @@ float: none;
 }
 
 #animali .card .interessamento {
-    float: right;   /* non serve più */
     clear: left;
     padding-right: 0.5em;
     padding-top: 1px;
@@ -2218,10 +2183,7 @@ float: none;
 #animali .is-favorite,
 #animali .not-favorite, #preferiti .is-favorite, #preferiti .not-favorite,
 #visualizzazione-animale .is-favorite, #visualizzazione-animale .not-favorite{
-    /* float:right; */
-    /* margin-left: 50%; */
     position: relative;
-    /* top: 0.5em; */
     right: 0.5em;
     width: 2em;      /* dimensione pulsante */
     height: 2em;
@@ -2238,10 +2200,7 @@ float: none;
 #visualizzazione-animale .is-favorite img, #visualizzazione-animale .not-favorite img{
     position: absolute;
     top: 0;
-    /* left: 0; */
     right: 0;
-    /* width: 100%;
-    height: 100%; */
     width: 32px;
     height: 32px;
     transition: opacity 0.3s ease;
@@ -2254,8 +2213,7 @@ float: none;
 #visualizzazione-animale .is-favorite .heart-hover,
 #visualizzazione-animale .not-favorite .heart-hover{
     opacity: 0;
-    /* margin-left: auto; */
-    /* float: right; */
+
 }
 
 #animali .card .cuore {
@@ -2279,9 +2237,8 @@ float: none;
     opacity: 0;
 }
 
-/* Assicurati che la card sia riferimento per il posizionamento */
 .cards-container li.card, .cards-container li.dark-card {
-    position: relative; /* fondamentale per l'overlay */
+    position: relative; 
     width: 11em;
 }
 
@@ -2341,7 +2298,6 @@ float: none;
     text-align: center;
     display: flex;
     justify-content: center;
-    /* font-size: 1.3em; */
 }
 
 #animali .next-page-links li a:hover, #eventi .next-page-links li a:hover{
@@ -2378,7 +2334,7 @@ float: none;
 
 #invitoAdAccedere {
     width: 100%;
-    background-color:var(--darkbgcolor); /* cambia colore a piacere */
+    background-color:var(--darkbgcolor);
     color: var(--txtcolor);
 
     display: flex;
@@ -2453,7 +2409,6 @@ float: none;
 }
 
 #eventi .filtri .capsula-filtro .data-range {
-    /* display:contents; */
     display: flex;
     justify-content: center;
     gap: 0.2em;
@@ -2502,7 +2457,6 @@ float: none;
 }
 
 #eventi .filtri .capsula-filtro #cityFilter {
-    /* display: flex; */
     min-width: 0em;
     background-color: var(--bgcolor);
     flex-grow: 1;
@@ -2510,7 +2464,6 @@ float: none;
 }
 
 #eventi .filtri .capsula-filtro #cityFilter #city-suggestions {
-    /* display: flex; */
     min-width: 0em;
     background-color: var(--bgcolor);
     flex-grow: 1;
@@ -2561,12 +2514,9 @@ cursor: pointer;
     list-style: none;
     width: 100%;
     height: 10em;
-    /* display: block; */
     padding-right: 1em;
     background-color: var(--darkbgcolor);
-    /* border: 0.1em solid var(--darkbgcolor); */
     border-radius: 0.5em;
-    /* margin: 0.2em; */
     border: 2px solid var(--darkbgcolor);
     transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -2581,7 +2531,6 @@ cursor: pointer;
     flex: 1 1 45%;
     max-width: 49%;
     height: 10em;
-    /* display: block; */
     background-color: var(--darkbgcolor);
     margin: 0.5em;
 }
@@ -2594,8 +2543,6 @@ cursor: pointer;
    padding-right: 2em;
    object-fit: cover;
    min-width: 8em;
-   /* margin-right: 2em; */
-   /* display: flex; */
 }
 
 #visualizzazione-evento .evento img.immagine-evento {
@@ -2613,7 +2560,6 @@ cursor: pointer;
     padding: 0em;
     height: 1.5em;
     width: 1.5em;
-    /* margin-right: 0.2em; */
     object-fit: contain;
 }
 
@@ -2676,7 +2622,7 @@ cursor: pointer;
 
 #eventi .evento .descrizione-evento p {
     margin: 0;
-    max-height: 4.2em;
+    max-height: 4.4em;
     overflow: hidden;
     position: relative;
 }
@@ -2790,7 +2736,6 @@ flex: 1 0 100%;
     border-left: 1px solid var(--txtcolor); 
     border-right: 1px solid var(--txtcolor); 
     border-bottom:0;
-    /* border-bottom: 1px solid var(--bgcolor); */
     border-radius: 0.5em 0.5em 0 0;
     font-weight: bold;
     z-index: 1;
@@ -3150,7 +3095,7 @@ input#check-assegna:checked,
     height: 15px;
     top:4px;
     left:4px;
-    /* icona dlla v */
+    /* icona della v */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
     background-size: contain;
     background-repeat: no-repeat;
@@ -3170,7 +3115,7 @@ input#check-assegna::before,
     height: 15px;
     top:4px;
     left:4px;
-    /* icona dlla v */
+    /* icona della v */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
     background-size: contain;
     background-repeat: no-repeat;
@@ -3186,7 +3131,7 @@ input#check-assegna::before,
     height: 13px;
     top:3px;
     left:3px;
-    /* icona dlla v */
+    /* icona della v */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
     background-size: contain;
     background-repeat: no-repeat;
@@ -3413,7 +3358,6 @@ input[type="file"]::file-selector-button:hover {
 
 /* POPUP */
 
-/* Nascondi la checkbox tecnica */
 .popup-checkbox {
     display: none;
 }
@@ -3431,8 +3375,8 @@ dialog[open].overlay-content {
 }
 
 dialog::backdrop {
-    background-color: rgba(0, 0, 0, 0.6); /* Oscura il resto del sito */
-    backdrop-filter: blur(2px);          /* Effetto sfocato opzionale molto moderno */
+    background-color: rgba(0, 0, 0, 0.6); 
+    backdrop-filter: blur(2px);         
 }
 
 
@@ -3681,7 +3625,6 @@ button[name="show-dialog"].button-cancel img{
 #orari-chi-siamo table#tabella-chi-siamo tbody th {
     background-color: var(--headervisitedlink);
     color: var(--bgcolor);
-    /* text-align: left; */
 }
 
 /* Sezione 2 Chi Siamo */
@@ -3932,8 +3875,8 @@ ul#to-do-list li, ul#statistics-list li{
     padding: 1.8em 1.2em 1.2em 1.2em;
     border-radius: 1.2em;
     font-weight: 600;
-    margin: 0em 1em; /*spazio orizzontale*/
-    margin-bottom: 1em; /*se vanno a capo hanno un po' di spazio*/
+    margin: 0em 1em; 
+    margin-bottom: 1em; 
     flex: 1 1 100px;
 }
 
@@ -3961,7 +3904,6 @@ ul#statistics-list li{
 p.query-type{
     font-size: 0.9em;
     line-height: normal;
-    /* margin: 0 1em; */
 }
 p.n-query{
     font-size:2em;
@@ -3973,10 +3915,9 @@ p.n-query{
 .mobile-toggle-container,
 #mobile-account-normal,
 #mobile-account-hover
-{ display: none; } /* Nascondi tasto su desktop */
+{ display: none; } /* nascondi tasto su desktop */
 
 header:has(#menu-admin) {
-    /* display: flex; */
     flex:0 0 20%;
     flex-direction: column;
     transition: 0.3s;
@@ -3997,9 +3938,7 @@ nav#menu-admin li a {
 body#admin-body main {
     background-color: var(--bgcolor);
     overflow: hidden;
-    /* margin-left:20%; */
     flex: 0 0 80%;
-    /* min-height: 100vh; */
 }
 
 nav#menu-admin #logo {
@@ -4020,7 +3959,6 @@ nav#menu-admin li {
 nav#menu-admin li a{
   text-decoration: none;
   font-weight: normal;
-  /* font-size: 1.1em; */
 }
 
 nav#menu-admin button.logout-btn:hover{
@@ -4041,7 +3979,6 @@ nav#menu-admin li a:hover{
 
 nav#menu-admin li#currentLink{
     background-color: var(--bgcolor);
-    /*color: var(--txtcolor);*/
     font-weight: 600;
 }
 nav#menu-admin li a:visited{
@@ -4049,7 +3986,6 @@ nav#menu-admin li a:visited{
 }
 
 nav#menu-admin li:hover{
-    /* background-color: var(--darkbgcolor); */
     outline: 2px solid var(--navButton);
     border-radius: 2em 0em 0em 2em;
 }
@@ -4080,7 +4016,6 @@ nav#menu-admin ul{
 }
 
 nav#menu-admin a#logout{
-    /* margin-top: 14em; */
     margin-top: auto;
 }
 div#row2{
@@ -4094,7 +4029,7 @@ div#row2 article{
 }
 #admin-info {
     display: flex;
-    flex-direction: column; /* Mette la testata SOPRA e le info SOTTO */
+    flex-direction: column; /* Mette la testata sopra e le info sotto */
 }
 
 #admin-info:has(button){
@@ -4138,7 +4073,6 @@ a.pencil {
     font-size: 1.5em;
     font-weight: 600;
     margin-top:0.3em;
-    /* background-color: var(--darkbgcolor); */
     padding: 0.3em 0.5em;
     border: 4px solid var(--darkbgcolor);
 }
@@ -4206,7 +4140,6 @@ a.pencil {
     width: 9em;
     height: 9em;
     object-fit: cover;
-    /* clip-path: square(50%); */
 }
 
 .text-details{
@@ -4226,7 +4159,7 @@ a.pencil {
 }
 
 #admin-area #richieste select{
-    background-position: right 0em center; /* Destra, un po' staccata dal bordo, centrata verticale */
+    background-position: right 0em center; 
 }
 
 
@@ -4298,9 +4231,6 @@ em#note-richiesta{
     display: block; /* per centrare*/
 }
 
-
-/* todo mamma mia linor, modifica sta roba che diventa illeggibile (devi
-modificare div#admin-area article che è più specifico di #details-container article quindi hai dovuto scriverlo così) */
 div#admin-area #details-container article{
     flex: 1 1 200px;
     gap: 1em;
@@ -4343,7 +4273,6 @@ div#admin-area article#animale-richiesta {
 
 div#admin-area div#animal-container{
     flex: 1 1 250px;
-    /* min-width: 250px; */
     max-width: 100%;
 }
 
@@ -4470,7 +4399,7 @@ div#admin-area article.note{
     border: 0.1em solid var(--txtcolor);
     border-radius: 0.5em;
     padding: 1em 1.5em 1.5em 1.5em;
-    flex: 1 1 55%; /* Aumentato leggermente per dare spazio al contenuto affiancato */
+    flex: 1 1 55%; 
     min-width: 25em;
 }
 
@@ -4508,7 +4437,6 @@ div#admin-area article.note{
 #dettaglio-animale .generic-info-container {
     flex-direction: row;
     align-items: center;
-    /* position: relative; */
 }
 
 #container-animal-details{
@@ -4574,7 +4502,7 @@ h2+#animale-richiesta .generic-info-container img.square-foto{
 
 
 #dettaglio-animale .text-details {
-    flex: 1; /* Il testo occupa lo spazio rimanente accanto alla foto */
+    flex: 1; /* il testo occupa lo spazio rimanente accanto alla foto */
 }
 
 /* Pulsante Matita (Modifica) */
@@ -4613,7 +4541,7 @@ a.pencil img {
     font-size: 1.5em;
     font-weight: bold;
     margin-bottom: 0.8em;
-    padding: 0; /* Titolo attaccato al margine sinistro */
+    padding: 0; /* titolo attaccato al margine sinistro */
     display: block;
     width: 100%;
 }
@@ -4652,7 +4580,7 @@ a.pencil img {
 
 /* RESET COLORI TENDINA APERTA */
 #dettaglio-animale .tabs-container option {
-    background-color: var(--bgcolor); /* Sfondo della lista aperta diverso dalla tendina chiusa */
+    background-color: var(--bgcolor); /* sfondo della lista aperta diverso dalla tendina chiusa */
     color: var(--txtcolor);
 }
 
@@ -4789,7 +4717,6 @@ td.col-dettagli a:hover img{
 td.col-dettagli a,td.col-dettagli button{
     margin: 0.5em;
     width: fit-content;
-    /* min-width: 10.5em; */
 }
 
 td.col-dettagli a:hover img{
@@ -4816,10 +4743,6 @@ td.col-dettagli a:hover img{
     display: block;
 }
 
-/* l'ho tolto perché la riga non era cliccabile */
-/* tr:hover {
-    background-color: var(--darkbgcolor);          
-} */
 
 /*================== ANIMALI ASSEGNATI A TE ADMIN  ==================*/
 div#admin-area #toggle-assegnazione{
@@ -4844,7 +4767,6 @@ div#admin-area #animali .filtri ul{
 
 /*================== FILTRI  ==================*/
 .tab-content .filtri ul{
-    /* margin: 1em; */
     justify-content: flex-end;
 }
 
@@ -4944,27 +4866,24 @@ div#admin-area #animali .filtri ul{
     line-height: 1.5;
 }
 
-/* Stile del quadratino personalizzato */
 #check-assegna {
     appearance: none;
-    width: 1.4em;  /* Circa 22px */
-    height: 1.4em; /* Circa 22px */
+    width: 1.4em;  
+    height: 1.4em; 
     cursor: pointer;
     position: relative;
-    border-radius: 0.25em; /* Circa 4px */
+    border-radius: 0.25em; 
     transition: all 0.3s ease;
     
-    /* COLORE QUANDO NON CLICCATO */
     background-color: var(--form-bg); 
-    border: 0.1em solid var(--text-form); /* Circa 2px */
+    border: 0.1em solid var(--text-form); 
 }
 
-/* Effetto al passaggio del mouse */
+
 #check-assegna:hover {
     border-color: var(--buttoncolor-hover);
 }
 
-/* COLORE QUANDO CLICCATO */
 #check-assegna:checked {
     background-color: var(--buttoncolor); 
     border-color: var(--buttoncolor);
@@ -4974,12 +4893,12 @@ div#admin-area #animali .filtri ul{
 #check-assegna:checked::after {
     content: '';
     position: absolute;
-    left: 0.375em;    /* Circa 6px */
-    top: 0.125em;     /* Circa 2px */
-    width: 0.375em;   /* Circa 6px */
-    height: 0.6875em; /* Circa 11px */
+    left: 0.375em;    
+    top: 0.125em;    
+    width: 0.375em;   
+    height: 0.6875em; 
     border: solid #ffffff;
-    border-width: 0 0.1875em 0.1875em 0; /* Spessore spunta circa 3px */
+    border-width: 0 0.1875em 0.1875em 0; 
     transform: rotate(45deg);
 }
 
@@ -5036,7 +4955,6 @@ div#admin-area #animali .filtri ul{
 #form-add-animal p+p.sex-title,
 #form-edit-animal p+p.sex-title {
     font-weight: 550;
-    /* display: inline-block; */
     margin-top: 1.5em;
     width: 100%;
 }
@@ -5125,12 +5043,6 @@ div#admin-area #animali .filtri ul{
     padding: 0.5em;
 }
 
-/* #form-add-animal input[type="text"]:focus,
-#form-add-animal input[type="date"]:focus {
-    outline: none;
-    border-color: var(--buttoncolor);
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.1);
-} */
 
 #richiesta-adozione .checkbox-description,
 #richiesta-adozione input::placeholder,
@@ -5149,18 +5061,6 @@ div#admin-area #animali .filtri ul{
    SELECT (TAGLIA E PELO)
    ======================================== */
 #form-add-animal select {
-    /* display: block;
-    width: 100%;
-    padding: 0.5em;
-    border: 1px solid var(--text-buttoncolor);
-    border-radius: 2em;
-    font-size: 1em;
-    background-color: var(--bgcolor);
-    color: var(--buttoncolor-hover);
-    cursor: pointer;
-    /* appearance: none; */
-    /* transition: all 0.3s ease;
-    font-family: "Parkinsans", Roboto, sans serif; */ 
     padding:0.5em 2em 0.5em 0.5em;
     background-color: var(--form-bg);
     border-radius: 2em;
@@ -5198,14 +5098,6 @@ div#admin-area #animali .filtri ul{
 #new-event textarea{
     height: 7em;
 }
-
-/* #form-add-animal textarea:focus {
-    background-color: var(--bgcolor);
-    outline: none;
-    border-color: var(--buttoncolor-hover);
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.1);
-} */
-
 
 .file-upload-label {
     display: block;
@@ -5266,7 +5158,6 @@ div#admin-area #animali .filtri ul{
     text-align: center;
 }
 
-/* Info foto caricata */
 .foto-caricata-info {
     margin-top: 0.5em;
     font-size: 0.9em;
@@ -5452,7 +5343,6 @@ nav#breadcrumb{
     font-weight: 400;
     position: relative;
     z-index: 10;
-    /* transition: background-color 0.4s ease; */
 }
 
 nav#breadcrumb a{
@@ -5549,10 +5439,10 @@ nav#breadcrumb a:visited{
 }
 
 #visualizzazione-animale .preferiti-form{
-    float: right;          /* Spinge il cuore a destra, il testo gli girerà intorno */
-    position: relative;    /* Resetta position absolute */
-    top: auto;             /* Resetta top */
-    right: auto;           /* Resetta right */
+    float: right;          
+    position: relative;    /* resetta position absolute */
+    top: auto;             
+    right: auto;           
     
     display: flex;        
     justify-content: end;
@@ -5586,6 +5476,10 @@ nav#breadcrumb a:visited{
 #visualizzazione-animale #info-aggiuntive-unite{
         display: flow-root;
         margin-top: 1em;
+}
+
+#visualizzazione-animale #stato-richiesta a.link-button{
+    margin: 0 auto 0 0;
 }
 
 #info-aggiuntive-separate dl dd{
@@ -5651,10 +5545,10 @@ nav#breadcrumb a:visited{
     background-size: contain;
     padding: 1.5em 2em;
     display: none;
-    overflow: hidden; /*mi serve per fare l'animazione in js, lasciatemelo pls*/
+    overflow: hidden; /*per fare l'animazione in js*/
 }
 
-/* anche questa mi serve per il js, non toccare */
+/* anche questa serve per il js */
 #richiesta-adozione.bg-active {
     background-image: url('../../assets/images/bg-pow.svg');
     background-repeat: repeat;
@@ -5666,14 +5560,12 @@ nav#breadcrumb a:visited{
     cursor: pointer;
 }
 
-/* questo mi serve per la freccetta personalizzata */
+/* questo serve per la freccetta personalizzata */
 #compila-form-adozione>summary {
     position: relative;
     padding-left: 3em; 
 }
 
-/* sto mettendo la freccia da un'altra parte rispetto ai bottoni della timeline, non riesco a riutilizzarlo 
-angelac*/
 #compila-form-adozione > summary::before {
     content: '';
     display: block;
@@ -5690,7 +5582,7 @@ angelac*/
     transition: transform 0.3s ease; 
     pointer-events: none; 
 }
-/* gira la freccia, anche questo non riutilizzabile per il top che c'è nell'altro */
+
 #compila-form-adozione[open] > summary::before{
     transform: translateY(-30%) rotate(225deg);
 }
@@ -5845,7 +5737,6 @@ div:has(#compila-form-adozione[open]) + #richiesta-adozione{
     display: flex;
     align-items: stretch;
     gap: 0.2em;
-    /* object-fit: cover; */
 }
 
 #come-funziona h2{
@@ -5935,8 +5826,6 @@ footer address a.email:visited,
 
 #come-funziona #comeSiAdotta #immagini img{
     flex: 1 1 50%;
-    /* height: 10em; */
-    /* object-fit: cover; */
     position: relative;
     border-radius: 1em;
 
@@ -5951,19 +5840,14 @@ footer address a.email:visited,
 }
 
 #come-funziona #comeSiAdotta #immagini img#dog{
-    /* justify-self: center; */
     align-self: end;
-    /* transform: rotate(5deg); */
     bottom: 0.5em;
     right: 2em;
-    /* max-width: 10em; */
     z-index: 0;
     margin-bottom: 10%;
 }
 #come-funziona #comeSiAdotta #immagini img#cat{
-    /* transform: rotate(-10deg); */
     top: 0.5em;
-    /* left: 3em; */
     z-index: 1;
     margin-top: 10%;
 }
@@ -6004,10 +5888,7 @@ footer address a.email:visited,
 
 #invitoLavoro {
 
-    /* border: 2px solid var(--headercolor); */
-    /* color: var(--cat-txtcolor); */
     color: var(--cat-txtcolor);
-    /* background-color: var(--secondsection); */
     margin-top: 3em;
     background-color: var(--secondsection);
     padding-top: 3em;
@@ -6016,7 +5897,6 @@ footer address a.email:visited,
     padding-bottom: 2em;
     border-bottom-left-radius: 1em;
     border-bottom-right-radius: 1em;
-    /* background-color: var(--bgform); */
     display: flex;
     flex-wrap: wrap;
 }
@@ -6173,13 +6053,10 @@ footer address a.email:visited,
     list-style: none;
     width: 100%;
     height: 10em;
-    /* display: block; */
     min-width: 20em;
     padding-right: 1em;
     background-color: var(--darkbgcolor);
-    /* border: 0.1em solid var(--darkbgcolor); */
     border-radius: 0.5em;
-    /* margin: 0.2em; */
     border: 2px solid var(--darkbgcolor);
     transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -6222,7 +6099,6 @@ footer address a.email:visited,
 #visualizzazione-evento #altri-eventi #content-collaborators {
     list-style-type: none;
     display: flex;
-    /* flex-direction: column; */
     gap: 0.5em;
     flex-wrap: wrap;
 }
