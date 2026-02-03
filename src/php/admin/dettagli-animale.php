@@ -2,7 +2,6 @@
 include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
-session_start();
 
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
     if(isset($_GET['id-animale'])){
@@ -24,7 +23,12 @@ if (!$idAnimale) {
 }
 
 function createAnimalRequestList(array $richieste): string {
-    $stati = ['Nuova', 'In valutazione', 'Accettata', 'Respinta', 'Annullata', 'Da trasportare'];
+    $stati = ['Nuova', 
+              'In valutazione', 
+              'Accettata', 
+              'Respinta', 
+              'Annullata', 
+              'Da trasportare'];
     $gruppi = array_fill_keys($stati, '');
 
      foreach ($richieste as $r) {
@@ -164,12 +168,11 @@ $title = '<title>Dettagli ' . e($richiesta['Nome'] ?? 'Animale') . ' - Admin Pet
 $description = '<meta name="description" content="Visualizzazione dettagliata per amministratori di un animale in PetMatch">';
 $keywords = "<meta name='keywords' content='amministratore, dettaglio, animale, PetMatch'>";
 
-// Navigazione attiva
 $activeNav = $fromEmail ? 'richieste-adozione' : ($from === 'senza-admin' ? 'senza-amministratore' : 'animali-admin');
 $nav = buildAdminNav($adminMenu, $activeNav);
 
 $paginaHTML = str_replace(['[breadcrumb]', '[title]', '[nav]', '[description]', '[keywords]'], 
-                         [$breadcrumb, $title, $nav, $description, ""], 
+                         [$breadcrumb, $title, $nav, $description, $keywords], 
                          $paginaHTML);
 
 $main = str_replace('[idAnimale]', e($idAnimale), $main);
