@@ -9,7 +9,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $url = $_GET['url'] ?? 'home';
 
 /**
- * legendina di definizione delle rotte.
+ * legenda di definizione delle rotte.
  * 'file' => il percorso fisico dello script
  * 'params' => parametri di default se non presenti nell'URL
  * 'required_params' => parametri che DEVONO esserci, altrimenti scatta il 404

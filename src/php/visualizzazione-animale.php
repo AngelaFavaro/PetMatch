@@ -516,7 +516,7 @@ if (!$utenteAccesso) {
 }
 
 $CARDANIMALE1 = "
-    <img id='foto-animale' class='square-foto' src='$img' alt='Foto di $nome' />  
+    <img id='foto-card' class='square-foto' src='$img' alt='Foto di $nome' />  
     <div id= 'info-generiche-testo'>";
     $CARDANIMALE1 .= ($isAdmin)?'':"
                 <form method='post' action='' class='preferiti-form'>

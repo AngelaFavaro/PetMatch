@@ -357,7 +357,7 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente, $editAddr
             'profilePic' =>'',
         ];
 
-        /* AZIONI */
+        
         if (empty($errors)) {
 
             //la foto del profilo avrà sempre qualcosa anche se non si selezionano immagini, bisogna controllarlo con empty

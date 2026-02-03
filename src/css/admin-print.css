@@ -887,20 +887,6 @@ pre#note-text{
     text-align: left;
 }
 
-/* 
-#admin-body .cards-container:has(article.card) li,
-#admin-body .cards-container:has(.evento) li{
-    flex-grow: 1;
-    justify-content: space-between;
-    flex: 0 0 100%;
-    display: flex;
-    list-style: none;
-    box-sizing: border-box;
-    flex-direction: column;
-    margin-bottom: -0.8cm;
-}
- */
-
 
 #admin-body .evento img.immagine-evento{
     max-height: 3cm;

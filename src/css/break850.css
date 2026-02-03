@@ -241,7 +241,6 @@ details[open] .number::after {
     width: 50%;
     flex-grow: 1;
     margin: 0;
-    /* max-width: 6em; */
 }
 
 #animali .filtri #content-filter-button {
@@ -274,7 +273,6 @@ body#admin-body #animali .filtri .capsula-filtro label[for="filtro-assegnata"] +
 }
 
 #animali .filtri #searchEta.capsula-filtro  {
-    /* display:contents; */
     max-width: 16em;
     display:flex;
 }
@@ -285,12 +283,6 @@ body#admin-body #animali .filtri .capsula-filtro label[for="filtro-assegnata"] +
     flex: 0 0 28%;
     padding:6px 12px;
 }
-
-/* #animali #content-filter-button{
-    width: 100%;
-    flex: 1 1 100%;
-    gap:2%;
-} */
 
 #animali #content-filter-button a{
     width: 100%;
@@ -335,8 +327,6 @@ body#admin-body #animali .filtri .capsula-filtro label[for="filtro-assegnata"] +
 
 #animali li.card, #animali li.dark-card {
     cursor: pointer;
-    /* width: 45.5%; */
-    /* max-width: 15em; */
     flex-grow: 1;
     height: 15em;
     margin: 0.5em;
@@ -345,7 +335,6 @@ body#admin-body #animali .filtri .capsula-filtro label[for="filtro-assegnata"] +
 }
 
 #animali li.card article, #animali li.dark-card article {
-    /* width: 9em; */
     height: 15em;
     overflow: hidden;
     margin:auto;
@@ -362,12 +351,10 @@ body#admin-body #animali .filtri .capsula-filtro label[for="filtro-assegnata"] +
     display:flex;
     align-items: center;
     justify-content: center;
-    /* flex-direction: column; */
 }
 
 #eventi .filtri ul {
     display: contents;
-    /* flex-wrap: nowrap; */
 }
 
 #eventi .filtri .db-button {
@@ -412,7 +399,6 @@ body#admin-body #animali .filtri .capsula-filtro label[for="filtro-assegnata"] +
 }
 
 #trasporto div {
-    /* Occupa tutto lo spazio disponibile di default (mobile) */
     flex: 1 1 100%; 
     max-width: 100%;
     box-sizing: border-box;
