@@ -4531,6 +4531,13 @@ a.pencil img {
     border-color: var(--darkbgcolor);
 }
 
+#contatta-il-rifugio.link-button{
+    display: block;
+}
+
+#contatta-il-rifugio.link-button img{
+    float: left;
+}
 
 #contatta-il-rifugio, #contatta-richiedente{
     align-items: center;
