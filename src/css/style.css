@@ -2622,7 +2622,7 @@ cursor: pointer;
 
 #eventi .evento .descrizione-evento p {
     margin: 0;
-    max-height: 4.2em;
+    max-height: 4.4em;
     overflow: hidden;
     position: relative;
 }
