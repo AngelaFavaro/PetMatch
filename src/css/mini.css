@@ -395,6 +395,11 @@ nav#menu-admin li{
     display: none;
 }
 
+body#admin-body main:has(#form-add-animal),
+body#admin-body main:has(#nuovo-evento){
+    background-color: var(--form-bg);
+}
+
 nav#menu-admin{
     padding-top: 0;
     width: 100%;
@@ -559,7 +564,7 @@ div#admin-area article#query h2{
 #nuovo-evento {
     min-height: 100vh;
     display: block; 
-    background-color: var(--bgcolor); 
+    background-color: var(--form-bg); 
     padding: 0;
     margin: 0;
 }
@@ -572,7 +577,7 @@ div#admin-area article#query h2{
 #form-add-animal,
 #form-edit-animal,
 #new-event {
-    background-color: var(--bgcolor);
+    background-color: var(--form-bg);
     width: 100%;
     margin: 0;
     padding: 1.5em; 
