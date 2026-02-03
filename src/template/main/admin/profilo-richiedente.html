@@ -1,0 +1,53 @@
+<div id="profilo-richiedente">
+    <section>
+        <h1>Profilo richiedente</h1>
+        <div class ="column-container">
+            <article id="visualizza-richieste-richiedente">
+                <section class="tabs-container">
+                    <fieldset>
+                        <label class="no-visible" for="tab1">Nuove</label>
+                        <label class="no-visible" for="tab2">In valutazione</label>
+                        <label class="no-visible" for="tab3">Accettate</label>
+                        <label class="no-visible" for="tab4">Respinte</label>
+                        <label class="no-visible" for="tab5">Annullate</label>
+                        <label class="no-visible" for="tab6">Da trasportare</label>
+                        <legend id="title-richieste">Richieste</legend>
+                        <select id="filtri-richieste" name="tab-group" aria-label="Selezionare la tipologia di richieste che si vuole visualizzare:">
+                            <option value="tab1">Nuove ([n-nuove])</option>
+                            <option value="tab2">In valutazione ([n-valutazione])</option>
+                            <option value="tab3">Accettate ([n-accettate])</option>
+                            <option value="tab4">Respinte ([n-respinte])</option>
+                            <option value="tab5">Annullate ([n-annullate])</option>
+                            <option value="tab6">Da trasportare ([n-trasporto])</option>
+                        </select>
+
+                        <input class="no-visible" aria-hidden="true" type="radio" id="tab1" name="tab-group"/>
+                        <input class="no-visible" aria-hidden="true" type="radio" id="tab2" name="tab-group"/>
+                        <input class="no-visible" aria-hidden="true" type="radio" id="tab3" name="tab-group"/>
+                        <input class="no-visible" aria-hidden="true" type="radio" id="tab4" name="tab-group"/>
+                        <input class="no-visible" aria-hidden="true" type="radio" id="tab5" name="tab-group"/>
+                        <input class="no-visible" aria-hidden="true" type="radio" id="tab6" name="tab-group"/>
+                    </fieldset>
+                    [elencoRichieste]
+                    <a href="#filtri-richieste" class="sr-only">Torna al filtro richieste</a>
+                </section>
+            </article>
+            <article id="visualizza-richiedente">
+                <h2>Informazioni utente</h2>
+                <img src="[imgRichiedente]" class="circle-foto" alt="foto profilo richiedente" />
+                <dl>
+                    <dt>Nome: </dt>
+                    <dd>[NomeRichiedente]</dd>
+                    <dt>Cognome: </dt>
+                    <dd>[CognomeRichiedente]</dd>
+                    <dt lang="en">Email: </dt>
+                    <dd>[EmailRichiedente]</dd>
+                    <dt>Indirizzo: </dt>
+                    <dd>[IndirizzoRichiedente]</dd>
+                    <dt>Telefono: </dt>
+                    <dd>[TelefonoRichiedente]</dd>
+                </dl>
+            </article>
+        </div>
+    </section>
+</div>

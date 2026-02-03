@@ -1,0 +1,41 @@
+<div id="eventi" class="container">
+    <h1>[TitoloEventi]</h1>
+
+    <a id="new-event-button" class="db-button" href="./nuovo-evento">+ Aggiungi un evento</a>
+
+    [nav-admin-events]
+    
+
+    <a class="navigationHelp" href="#nav-sotto">Salta alla navigazione delle pagine</a>
+    <form class="filtri" method="get" action="[ACTION]">
+        [TYPEFILTER]
+        <ul aria-label="Filtri di ricerca">
+            <li class="capsula-filtro" id="searchName">
+                <label for="search">Cerca</label>
+                <input type="text" id="search" name="search" value="[NAME]" placeholder="Per nome o città..."/>
+            </li>
+
+            <li class="capsula-filtro" id="searchData" >     
+                <div class="data-range">
+                    <label for="date">Data</label>
+                    <input id="date" type="date" name="data_inizio" value="[DATA_INIZIO]" placeholder="Da" min="0" aria-label="Data minima"/>
+                    <span aria-hidden=true>–</span>
+                    <input type="date" name="data_fine" value="[DATA_FINE]" placeholder="A" min="0" aria-label="Data massima"/>
+                </div>
+            </li>
+        </ul>
+    
+        <div id="content-filter-button">
+            <a href="[ACTION]" id="[VISIBILITA-FILTRO]" aria-label="elimina i filtri">X</a>
+            <button type="submit" class="db-button">Cerca</button>
+        </div>
+    </form>
+
+    <section>
+        <ul class="cards-container" tabindex="-1" aria-label="Eventi in programma">
+            [EVENTI]
+        </ul>
+    </section>
+
+    [LINKPAGINE]
+</div>

@@ -3,7 +3,6 @@ DROP TABLE IF EXISTS SEGNALAZIONI_NUOVE_ACCOGLIENZE;
 DROP TABLE IF EXISTS TRASPORTI;
 DROP TABLE IF EXISTS RICHIESTE_ADOZIONI;
 DROP TABLE IF EXISTS PREFERITI;
-DROP TABLE IF EXISTS FOTO;
 DROP TABLE IF EXISTS ANIMALI;
 DROP TABLE IF EXISTS ORGANIZZAZIONE;
 DROP TABLE IF EXISTS EVENTI;
@@ -20,29 +19,35 @@ CREATE TABLE UTENTI (
     Citta VARCHAR(100),
     CAP VARCHAR(5),
     Ruolo VARCHAR(5) NOT NULL,
-    ImgPath VARCHAR(512) DEFAULT 'assets/images/users/default-pic.png'
+    ImgPath VARCHAR(512) DEFAULT 'assets/images/users/default-pic.png',
     CHECK (Ruolo IN ('Admin','User')),
     CHECK (
-        (Via IS NULL AND Citta IS NULL AND CAP IS NULL)
+        (Ruolo = 'Admin' AND Via IS NULL AND Citta IS NULL AND CAP IS NULL)
         OR
-        (Via IS NOT NULL AND Citta IS NOT NULL AND CAP IS NOT NULL)
+        (Ruolo = 'User' AND (
+            (Via IS NULL AND Citta IS NULL AND CAP IS NULL)
+            OR
+            (Via IS NOT NULL AND Citta IS NOT NULL AND CAP IS NOT NULL)
+        ))
     )
 );
 
 -- EVENTI
 CREATE TABLE EVENTI (
-    Titolo VARCHAR(255) NOT NULL,
+    Titolo VARCHAR(40) NOT NULL,
     DataPubblicazione DATE NOT NULL,
     DataEvento DATE NOT NULL,
     DescrEvento TEXT NOT NULL,
-    ImgPath VARCHAR(512) NOT NULL, -- Già presente, rinominato per coerenza
+    ImgPath VARCHAR(512) NOT NULL,
     PRIMARY KEY (Titolo, DataEvento),
+    Via VARCHAR(255) NOT NULL,
+    Citta VARCHAR(100) NOT NULL
     CHECK (DataEvento >= DataPubblicazione)
 );
 
 -- ORGANIZZAZIONE
 CREATE TABLE ORGANIZZAZIONE(
-    Titolo VARCHAR(255) NOT NULL,
+    Titolo VARCHAR(40) NOT NULL,
     DataEvento DATE NOT NULL,
     Email VARCHAR(255) NOT NULL,
     PRIMARY KEY (Titolo, DataEvento, Email),
@@ -78,13 +83,6 @@ CREATE TABLE ANIMALI(
     CHECK (DataRegistrazione >= DataNascita)
 );
 
--- FOTO (Galleria multi immagine per ogni animale, per ora non la usiamo, se ne abbiamo bisogno è pronta)
-CREATE TABLE FOTO(
-    Path VARCHAR(512) PRIMARY KEY,
-    IDanimale INT NOT NULL,
-    FOREIGN KEY (IDanimale) REFERENCES ANIMALI (IDanimale) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
 -- PREFERITI
 CREATE TABLE PREFERITI(
     Email VARCHAR(255) NOT NULL,
@@ -110,20 +108,21 @@ CREATE TABLE RICHIESTE_ADOZIONI(
     FOREIGN KEY (IDanimale) REFERENCES ANIMALI (IDanimale) ON DELETE CASCADE ON UPDATE CASCADE,
     CHECK (Stato IN ('Nuova', 'In valutazione','Da trasportare','Accettata', 'Respinta', 'Annullata')),
     CHECK (DataFineValutazione IS NULL OR DataFineValutazione >= DataRichiesta),
-    CHECK (DataFineValutazione IS NULL OR DataInizioValutazione IS NULL OR DataFineValutazione >= DataInizioValutazione)
+    CHECK (DataFineValutazione IS NULL OR DataInizioValutazione IS NULL OR DataFineValutazione >= DataInizioValutazione),
+    CHECK (
+        (Stato <> 'Nuova') OR
+        (Stato = 'Nuova' AND DataInizioValutazione IS NULL AND DataFineValutazione IS NULL)
+    )
 );
 
 -- TRASPORTI
-CREATE TABLE TRASPORTI(
+CREATE TABLE TRASPORTI (
     ID INT AUTO_INCREMENT PRIMARY KEY,
-    Email VARCHAR(255) NULL,
-    IDanimale INT NULL,
-    Via VARCHAR(255) NOT NULL,
-    Citta VARCHAR(100) NOT NULL,
-    CAP VARCHAR(5) NOT NULL,
-    DataArrivo DATE NOT NULL,
-    DataPartenza DATE NOT NULL,
-    CHECK (DataArrivo >= DataPartenza),
+    Email VARCHAR(255),
+    IDanimale INT,
+    DataArrivo DATE,
+    DataPartenza DATE,
+    CHECK (DataArrivo IS NULL OR DataArrivo >= DataPartenza),
     FOREIGN KEY (Email, IDanimale) REFERENCES RICHIESTE_ADOZIONI (Email, IDanimale) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
@@ -132,13 +131,10 @@ CREATE TABLE SEGNALAZIONI_NUOVE_ACCOGLIENZE (
     ID INT AUTO_INCREMENT PRIMARY KEY, 
     NominativoRichiedente VARCHAR(255) NOT NULL,
     DataRichiesta DATETIME DEFAULT CURRENT_TIMESTAMP,
+    TipoAnimale VARCHAR(5) NOT NULL,
     EmailAmm VARCHAR(255),
     EmailRichiedente VARCHAR(255) NOT NULL,
-    FOREIGN KEY (EmailAmm) REFERENCES UTENTI (Email) ON DELETE SET NULL ON UPDATE CASCADE
+    FOREIGN KEY (EmailAmm) REFERENCES UTENTI (Email) ON DELETE SET NULL ON UPDATE CASCADE,
+
+    CHECK (TipoAnimale IN ('Gatto','Cane'))
 );
-
-
-
-INSERT INTO `ANIMALI` (`IDanimale`, `Nome`, `DataNascita`, `DataRegistrazione`, `Sesso`, `Tipo`, `Colore`, `Pelo`, `Taglia`, `Razza`, `DescrFamiglia`, `DescrComportamentale`, `CondizioniMediche`, `Trasporto`, `ImgPath`, `Email`) VALUES
-(1, 'Shaker', '2014-07-15', '2025-12-30', 'M', 'Cane', 'Bianco, Marrone', 'Corto', 'Piccolo', 'Jack russell terrier', 'molto molto calma...molto calma', 'Morde quando non gli dai la pizza, morde quando esci di case, distrugge tutti i giochi, le cucce e le coperte, trema sempre, ha sempre bisogno di coccole (gli piacciono i piedi), penso sia pazzo per colpa della famiglia precedente', NULL, 1, 'assets/images/animals/bobo.png', ''),
-(4, 'Test', '2024-01-01', '2025-12-31', 'M', 'Gatto', 'Nero', 'Corto', 'Piccolo', 'Europeo', 'Test family', 'Test behavior', 'Sano', 0, 'assets/images/animals/animals_1767198281_ffa86946.png', '');

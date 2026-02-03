@@ -3,19 +3,29 @@
     display: none;
 }
 
-#header-actions .white-button img{
+#header-actions .header-button img{
     display: block;
 } 
 
-#header-actions .white-button{
+#header-actions .header-button{
     width: 32px;
     height: 32px;
     position: relative;
     background-color: transparent;
 }
-#header-actions .white-button img {
+#header-actions .header-button img {
     width: 100%;
     transition: opacity 0.3s;
+}
+
+#header-actions .header-button img#account-hover-currentLink{
+    opacity: 1;
+    position: absolute;
+    top: 0; left: 0;
+}   
+
+#header-actions #currentLink.header-button{
+    outline: none;
 }
 
 #account-normal{
@@ -28,9 +38,8 @@
     top: 0; left: 0;
     opacity: 0;
 }
-#header-actions .white-button:hover #account-normal { opacity: 0; }
-#header-actions .white-button:hover #account-hover { opacity: 1; }
-
+#header-actions .header-button:hover #account-normal { opacity: 0; }
+#header-actions .header-button:hover #account-hover { opacity: 1; }
 
 
 #theme-switch {
@@ -58,14 +67,29 @@
     display: none;
 }
 
-#timeline::before {
+/* ==================HOME==================*/
+
+#events-list::before{
+    top:-20%;
+}
+
+#events-list{
+    margin-top: 8%;
+}
+
+#events-list .polaroid p{
+    margin:0 auto; 
+}
+
+#timeline::before,
+#pm-timeline::before{
     top: 0em; 
     bottom: 4.5em; 
     margin:auto;
     width: 2px;
     height: auto;
     max-height: 550px;
-    background-image: linear-gradient(to top, var(--buttoncolor) 50%, transparent 50%);
+    background-image: linear-gradient(to top, var(--timeline-line) 50%, transparent 50%);
     background-size: 100% 20px;
 }
 
@@ -77,7 +101,8 @@ details[open] .number::after {
     top: 1em;
 }
 
-#timeline {
+#timeline,
+#pm-timeline {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -85,7 +110,8 @@ details[open] .number::after {
     padding: 0;
 }
 
-#timeline::before {
+#timeline::before,
+#pm-timeline::before {
     max-height: none; 
 }
 
@@ -142,27 +168,239 @@ details[open] .number::after {
     margin-top:1.3em;
 }
 
-#section-events img.polaroid,
-#events-list .polaroid:last-child{
+#form-affidamento {
+    margin:2em auto 0.1em auto;
+    padding: 0em 2em;
+    flex: 1 0 40%;
+    border-radius: 2.1em;
+}
+
+#container-form-affidamento{
+    padding: 0;
+    background-image: none;
+    overflow:hidden;
+}
+
+:root:has(input#theme-toggle:checked) #container-form-affidamento{
+    background-image: none;
+}
+/* ==================CHI SIAMO==================*/
+
+#pm-timeline li{
+    margin-bottom: 1.5em;
+}
+
+#pm-timeline li span{
+    background-color: var(--bgcolor);
+    padding: 0;
+}
+
+
+#chi-siamo-img{
     display: none;
 }
 
-#section-events p{
-    display: block;
-    margin:1em 0 1em 0;
+#chi-siamo2-img{
+    display: none;
+}
+
+#chi-siamo3-img{
+    display: none;
+}
+
+#third-chapter-chi-siamo{
+    margin: 0;
+}
+
+#chi-siamo3-content{
+    padding: 0;
+}
+
+#ci-presentiamo{
+    padding: 1em;
+}
+
+#team-img img{
+    max-width: 40%;
+} 
+#team-img img:nth-child(2),
+#team-img img:nth-child(4),
+#team-img img:nth-child(5){
+    min-width: 9em;
+} 
+
+/* ==================ANIMALI==================*/
+
+
+#animali .filtri #searchSex.capsula-filtro,
+#animali .filtri #searchSize.capsula-filtro{
+    width: 49.4%;
+}
+
+#animali .filtri .db-button {
+    width: 50%;
+    flex-grow: 1;
+    margin: 0;
+}
+
+#animali .filtri #content-filter-button {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+body#admin-body #animali .filtri .capsula-filtro {
+    width: 100%;
+    flex: 1 1 100%;
+}
+
+body#admin-body #animali .filtri .capsula-filtro label[for="filtro-assegnata"] + select{
+    padding: 0.5em 4.5em;
+}
+
+#animali .filtri {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0.5em;
+    justify-content: flex-start; /* centra le capsule nella riga */
+}
+
+#animali .filtri ul {
+    display: contents;
+}
+
+#animali .filtri #searchEta.capsula-filtro  {
+    max-width: 16em;
+    display:flex;
+}
+
+
+#cancel-filter-visible{
+    border-radius: 1em;
+    flex: 0 0 28%;
+    padding:6px 12px;
+}
+
+#animali #content-filter-button a{
     width: 100%;
 }
 
-#events-list .polaroid:first-child,
-#events-list .polaroid:nth-child(3)
-{
-    margin-top: -2%;
+#animali #content-filter-button button{
+    flex: 1 1 100%;
 }
 
-#events-list .polaroid:nth-child(2){
-    transform: rotate(0deg);
+#visualizzazione-animale .preferiti-form img,
+#animali .is-favorite img,
+#animali .not-favorite img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 44px;
+    height: 44px;
+    transition: none;
 }
 
-#events-list .polaroid:nth-child(3){
-    transform: rotate(-10deg);
+#animali .card .nome, #animali .dark-card .nome{
+    padding:0.8em 1.5em 0 0.5em;
+    margin:0 0 0.5em 0;
+    font-size: 1.1em;
+    width: 90%;
+}
+
+#animali .card .sesso-etaMob, #animali .dark-card .sesso-etaMob{
+    padding:0 0 0 0.5em;
+    display: inline;
+}
+
+#animali .card .sesso-etaMob abbr, #animali .dark-card .sesso-etaMob abbr{
+    text-decoration: none;
+    border-bottom: none;
+    cursor: inherit;
+}
+
+#animali .card .sesso-etaDesk, #animali .dark-card .sesso-etaDesk{
+    display: none;
+}
+
+#animali li.card, #animali li.dark-card {
+    cursor: pointer;
+    flex-grow: 1;
+    height: 15em;
+    margin: 0.5em;
+    overflow: hidden;
+    
+}
+
+#animali li.card article, #animali li.dark-card article {
+    height: 15em;
+    overflow: hidden;
+    margin:auto;
+}
+
+/* ==================LAVORA CON NOI==================*/
+
+#contatto-sostenitore {
+    margin-bottom:0em;
+}
+
+/*===================PAGINA EVENTI==================*/
+#eventi .filtri {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#eventi .filtri ul {
+    display: contents;
+}
+
+#eventi .filtri .db-button {
+    text-align: center;
+}
+
+#eventi .filtri #content-filter-button {
+    display: flex;
+    flex-grow: 1;
+    margin: 0.5em;
+    justify-content: center;
+}
+
+#eventi #content-filter-button button {
+    flex: 1 1 100%;
+    min-width: 5em;
+    max-width: 10em;
+}
+
+#eventi #cancel-filter-visible {
+    height:auto;
+    padding:0.5em;
+    max-width: 10em;
+}
+
+#eventi button.db-button {
+    margin: 0;
+}
+/* ==================PROFILO RICHIEDENTE==================*/
+#profilo-richiedente #visualizza-richiedente{
+    margin-bottom: 4em;
+}
+
+/* ======================PAGINA COME FUNZIONA====================== */
+
+#come-funziona #invitoLavoro {
+    flex-direction: column;
+    color: var(--bgcolor);
+    padding: 2em;
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+}
+
+#trasporto div {
+    flex: 1 1 100%; 
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0em 2em;
 }

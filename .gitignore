@@ -1,1 +1,12 @@
 .vscode/
+*.aux
+*.lof
+*.log
+*.synctex.gz
+*.synctex
+*.run.xml
+*.out
+*.toc
+*.xmpi
+*.run
+*.bcf

@@ -2,75 +2,48 @@
 include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
-$_SESSION['user'] = 'lindorlinor@gmail.com';
 
 
-
-function displayDateItalianFormat(string $dateStr): string {
-    $timestamp = strtotime($dateStr);
-    if ($timestamp === false) {
-        return '';
-    }
-    return date('d/m/Y', $timestamp);
-}
-/**
- * Escape stringa per output HTML serve a prevenire XSS ossia Cross Site Scripting ossia l'inserimento di codice malevolo in pagine web visualizzate da altri utenti
- */
-function e(string $s): string {
-    return htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { 
+    header("Location: ./accedi");
+    exit;
 }
 
 /**
- * Ritorna "Sì" o "No" in base a valore booleano/intero
+ * Renderizza il blocco "scarta/apri richiesta"
  */
-function siNo($val): string {
-    return ($val === 1 || $val === '1' || $val === true) ? 'Sì' : 'No';
-}
-
-/**
- * Genera gli input nascosti usati nei form (id_animale + email_richiedente)
- */
-function hiddenInputsFrom(array $r): string {
-    $id = e($r['id-animale'] ?? '');
-    $email = e($r['email-richiedente'] ?? '');
-    return '<input type="hidden" name="id_animale" value="' . $id . '">
-            <input type="hidden" name="email_richiedente" value="' . $email . '">';
-}
-
-/**
- * Rende il blocco "scarta/apri richiesta"
- */
-function renderRejectRequest(array $r): string {
+function renderRejectRequest(array $r, $AcceptRequestDetails): string {
     if (($r['stato'] ?? '') !== 'Respinta' && ($r['stato'] ?? '') !== 'Annullata') {
-        return '<form method="POST">' .
-            hiddenInputsFrom($r) .
-            '<button type="submit" name="scarta_richiesta" class="orange-button">Scarta richiesta</button>
+        return '<form method="post">' .
+            '<button type="submit" name="scarta_richiesta" class="db-button">Scarta richiesta</button>
         </form>';
     }
-    return '<form method="POST">' .
-        hiddenInputsFrom($r) .
-        '<button type="submit" name="apri_richiesta" class="orange-button">Apri richiesta</button>
-    </form>';
+    
+    if (empty($AcceptRequestDetails)) {
+        return '<form method="post">' .
+            '<button type="submit" name="apri_richiesta" class="db-button">Apri richiesta</button>
+        </form>';
+    }
+    
+    return '';
 }
 
 /**
- * Rende i pulsanti di azione in base allo stato della richiesta
+ * Renderizza i pulsanti di azione in base allo stato della richiesta
  */
 function renderPulsantiAzioni(array $r): string {
     $stato = $r['stato'] ?? '';
     $html = '';
     if ($stato === 'Da trasportare') {
         $subject = rawurlencode('Richiesta informazioni per adozione di ' . ($r['nome-animale'] ?? ''));
-        $html = '<a href="mailto:' . ($r['email-richiedente'] ?? '') . '?subject=' . $subject . '" class="orange-button" target="_blank">Contatta candidato</a>';
+        $html = '<a href="mailto:' . ($r['email-richiedente'] ?? '') . '?subject=' . $subject . '" class="link-button" target="_blank" id="contatta-richiedente" ><img src="./assets/icons/mail.svg" alt="" /> Contatta candidato<span class="sr-only"> via mail<span></a>';
     } elseif ($stato === 'Nuova') {
-        $html = '<form method="POST">' .
-            hiddenInputsFrom($r) .
-            '<button type="submit" name="inizia_valutazione" class="orange-button">Inizia valutazione</button>
+        $html = '<form method="post">' .
+            '<button type="submit" name="inizia_valutazione" class="db-button">Inizia valutazione</button>
         </form>';
     } elseif ($stato === 'In valutazione') {
-        $html = '<form method="POST">' .
-            hiddenInputsFrom($r) .
-            '<button type="submit" name="accetta_richiesta" class="orange-button">Accetta richiesta</button>
+        $html = '<form method="post">' .
+            '<button type="submit" name="accetta_richiesta" class="db-button">Accetta richiesta</button>
         </form>';
     }
     return $html;
@@ -90,170 +63,140 @@ function buildDateInfo(array $r): array {
 	if(($r['stato'] ?? '') === 'In valutazione') {
 		$dataInizio = '<dt>Data inizio valutazione</dt><dd><time datetime="' . ($r['data_inizio_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_inizio_valutazione'] ?? '') . '</time></dd>';
 	}
-	if(($r['stato'] ?? '') === 'Annullata') {
-		$dataInizio = '<dt>Data inizio valutazione</dt><dd><time datetime="' . ($r['data_inizio_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_inizio_valutazione'] ?? '') . '</time></dd>';
-		$dataRifiuto = '<dt>Data annullamento</dt><dd><time datetime="' . ($r['data_fine_valutazione'] ?? '') . '">' . displayDateItalianFormat($r['data_fine_valutazione'] ?? '') . '</time></dd>';
+	if(($r['stato'] ?? '') === 'Annullata' || ($r['stato'] ?? '') === 'Respinta' || ($r['stato'] ?? '') === 'Accettata') {
+        $dataInizio = '';
+        $dataRifiuto = '';
+        if (($r['data_inizio_valutazione'] ?? '') !== '') {
+            $dataInizio = '<dt>Data inizio valutazione</dt><dd><time datetime="' . $r['data_inizio_valutazione'] . '">' . displayDateItalianFormat($r['data_inizio_valutazione']) . '</time></dd>';
+        } else {
+            $dataInizio = '<dt>Data inizio valutazione</dt><dd>Non presente</dd>';
+        }
+        if (($r['data_fine_valutazione'] ?? '') !== '') {
+            $dataRifiuto = '<dt>Data fine valutazione</dt><dd><time datetime="' . $r['data_fine_valutazione'] . '">' . displayDateItalianFormat($r['data_fine_valutazione']) . '</time></dd>';
+        } else {
+            $dataRifiuto = '<dt>Data fine valutazione</dt><dd>Non presente</dd>';
+        }
 	}
     return [$dataInizio, $dataFine, $dataRifiuto];
 }
 
 /**
- * Gestione delle azioni POST che modificano lo stato (eseguono redirect)
+ * Gestione delle azioni POST che modificano lo stato 
  */
-function handlePostActions(DBAccess $conn, array $r, string $email, int $idAnimale): array {
+function handlePostActions(DBAccess $conn, array $r, string $emailRichiedente, int $idAnimale, &$messaggiForm): array {
     
 
     if (isset($_POST['inizia_valutazione'])) {
-        $conn->startEvaluation($email, $idAnimale);
-        header("Location: richieste-adozione?email=$email&id-animale=$idAnimale");
+        $conn->startEvaluation($emailRichiedente, $idAnimale);
+        header("Location: richieste-adozione?email=$emailRichiedente&id-animale=$idAnimale");
         exit;
     }
 
-    // Accetta richiesta (potrebbe impostare da trasportare)
     if (isset($_POST['accetta_richiesta'])) {
         if ($r['trasporto-richiesta'] == 1) {
-            $conn->setToTransport($email, $idAnimale);
-            $r = $conn->getRequestDetails($email, $idAnimale);
+            $conn->setToTransport($emailRichiedente, $idAnimale);
+            $r = $conn->getRequestDetails($emailRichiedente, $idAnimale);
         } else {
-            $conn->acceptRequest($email, $idAnimale);
+            $conn->acceptRequest($emailRichiedente, $idAnimale);
         }
-        header("Location: richieste-adozione?email=$email&id-animale=$idAnimale");
+        header("Location: richieste-adozione?email=$emailRichiedente&id-animale=$idAnimale");
         exit;
     }
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['salva_note'])) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['salva_annotazioni'])) {
         $note = trim($_POST['note'] ?? '');
-        $conn->updateNote($email, $idAnimale, $note);
+        $conn->updateNote($emailRichiedente, $idAnimale, $note);
+        header("Location: richieste-adozione?email=$emailRichiedente&id-animale=$idAnimale");
         exit;
     }
 
-    // Scarta richiesta
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['scarta_richiesta'])) {
-        $conn->rejectRequest($email, $idAnimale,$r['stato']);
-        $r = $conn->getRequestDetails($email, $idAnimale);
-        header("Location: richieste-adozione?email=$email&id-animale=$idAnimale");
+        $conn->rejectRequest($emailRichiedente, $idAnimale,$r['stato']);
+        $r = $conn->getRequestDetails($emailRichiedente, $idAnimale);
+        header("Location: richieste-adozione?email=$emailRichiedente&id-animale=$idAnimale");
         exit;
     }
 
-    // Apri richiesta (riapre richiesta respinta)
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['apri_richiesta'])) {
-        $conn->openRequest($email, $idAnimale);
-        header("Location: richieste-adozione?email=$email&id-animale=$idAnimale");
+        $conn->openRequest($emailRichiedente, $idAnimale);
+        header("Location: richieste-adozione?email=$emailRichiedente&id-animale=$idAnimale");
         exit;
     }
 
-	if (isset($_POST['salva_data_arrivo'])) {
-		$newDate = $_POST['data_arrivo'];
-		$conn->setArrivalDate($email, $idAnimale, $newDate);
-        $r = $conn->getRequestDetails($email, $idAnimale);
-		header("Location: richieste-adozione?email=$email&id-animale=$idAnimale");
-		exit;
-	}
+	if (isset($_POST['salva_date_trasporto'])) {
+        $dataPartenza = $_POST['data_partenza'];
+        $dataArrivo = $_POST['data_arrivo'];
+        $dataFineValutazione = $r['data_fine_valutazione'] ?? null; 
 
-  /* -------------------- SCRIPT DI TEST INSERIMENTO REALE -------------------- */
-
-   /* if (isset($_POST['esegui_test_caricamento'])) {
-        
-        // 1. CHIAMATA A UPLOAD IMAGE (gestisce il file fisico)
-        // 'foto_test' è il nome del campo nel form qui sotto
-        $imgPathGenerato = uploadImage($_FILES['foto_test'], 'animals');
-
-        if ($imgPathGenerato) {
-            $dbTest = new DBAccess();
-            if ($dbTest->openDBConnection()) {
-                
-                // 2. DATI DA INSERIRE NEL DB
-                $testData = [
-                    'nome' => 'Test',
-                    'data_nascita' => '2024-01-01',
-                    'data_reg' => date('Y-m-d'),
-                    'sesso' => 'M',
-                    'tipo' => 'Gatto',
-                    'colore' => 'Nero',
-                    'pelo' => 'Corto',
-                    'taglia' => 'Piccolo',
-                    'razza' => 'Europeo',
-                    'descr_famiglia' => 'Test family',
-                    'descr_comportamento' => 'Test behavior',
-                    'medico' => 'Sano',
-                    'trasporto' => 0,
-                    'imgPath' => $imgPathGenerato, // Il percorso restituito da uploadImage
-                    'email_admin' => 'lindorlinor@gmail.com'
-                ];
-
-                // 3. INSERIMENTO NEL DATABASE
-                $idNuovo = $dbTest->addAnimal($testData);
-                
-                if ($idNuovo) {
-                    echo "<div style='background:green; color:white; padding:10px;'>SUCCESSO! ID: $idNuovo | File: $imgPathGenerato</div>";
-                } else {
-                    echo "<div style='background:red; color:white; padding:10px;'>ERRORE DB</div>";
-                }
-                $dbTest->closeConnection();
+        if ($dataFineValutazione !== null) {
+            $dataFineValutazioneFormatted = date('Y-m-d', strtotime($dataFineValutazione));
+            if ($dataPartenza < $dataFineValutazioneFormatted) {
+                $_SESSION['error_msg'] = "<em class='error' role='alert' aria-live='polite'>La data di partenza non può essere precedente alla data di fine valutazione (" . displayDateItalianFormat($dataFineValutazioneFormatted) . ").</em>";
+                header("Location: richieste-adozione?email=" . urlencode($emailRichiedente) . "&id-animale=" . urlencode($idAnimale) . "&mode=edit-data#stato-trasporto");
+                exit;
             }
-        } else {
-            echo "<div style='background:orange; padding:10px;'>ERRORE UPLOAD: Controlla permessi cartella o estensione file.</div>";
         }
-    }
 
-    // FORM DI TEST DA VISUALIZZARE IN CIMA ALLA PAGINA
-    echo '
-    <section style="border: 2px dashed #ccc; padding: 10px; margin: 20px;">
-        <h3>Test Rapido Inserimento Animale + Immagine</h3>
-        <form method="POST" enctype="multipart/form-data">
-            <input type="file" name="foto_test" required>
-            <button type="submit" name="esegui_test_caricamento">Carica e Inserisci nel DB</button>
-        </form>
-    </section>';*/
-/* -------------------------------------------------------------------------- */
+        $conn->setTransportDates($emailRichiedente, $idAnimale, $dataPartenza, $dataArrivo);
+        header("Location: richieste-adozione?email=" . urlencode($emailRichiedente) . "&id-animale=" . urlencode($idAnimale));
+        exit;
+    }
+    if (isset($_POST['trasporto_effettuato'])) {
+        $conn->markTransportCompleted($emailRichiedente, $idAnimale);
+        $r = $conn->getRequestDetails($emailRichiedente, $idAnimale);
+        header("Location: richieste-adozione?email=$emailRichiedente&id-animale=$idAnimale");
+        exit;
+    }
 
     return $r;
 }
 
-function controlAccess(): bool{
-	//controlla se l'utente è loggato e se è un admin
-	if(!isset($_SESSION['user']) || $_SESSION['role'] !== 'admin'){
-		return false;
-	}
-	return true;
-}
-
 function imTheAdmin($r): bool{
-	if(($r['email-admin'] ?? '') === ($_SESSION['user'] ?? '')){
+	if(($r['email-admin'] ?? '') === ($_SESSION['email'] ?? '')){
 		return true;
 	}
 	return false;
 }
-/* -------------------- inizio script -------------------- */
 
 $paginaHTML = loadTemplate('./src/template/layout-admin.html', '<p>Errore: template layout.html non trovato o non leggibile.</p>');
 
-$email = $_GET['email'];
+$emailRichiedente = $_GET['email'];
 $idAnimale = $_GET['id-animale'];
 
 $richiesta = [];
 $dataRichiestaRespinta = '';
 $dataInizioValutazione = '';
 $dataFineValutazione = '';
+$nRichiesteRichiedente = '';
+$noteTrasportoRichiesta = '';
+$AcceptRequestDetails = '';
+$messaggiForm = '';
 $connessione = new DBAccess();
 $connessioneOK = $connessione->openDBConnection();
 
 if ($connessioneOK) {
-    $richiesta = $connessione->getRequestDetails($email, $idAnimale);
-
-    // Gestione POST centralizzata (esegue redirect dove necessario)
-    $richiesta = handlePostActions($connessione, $richiesta, $email, $idAnimale);
-
+    $richiesta = $connessione->getRequestDetails($emailRichiedente, $idAnimale);
+    if(!$richiesta){
+        header("Location: ./404");
+        exit;
+    }
+    $richiesta = handlePostActions($connessione, $richiesta, $emailRichiedente, $idAnimale, $messaggiForm);
+    $nRichiesteRichiedente =  $connessione->countActiveRequestsForUser($emailRichiedente ?? '');
+    $AcceptRequestDetails = $connessione->getAcceptRequestByAnimal($idAnimale, $emailRichiedente);
     $connessione->closeConnection();
 }
 
-$title = '<title>Area riservata admin - PetMatch </title>';
-$description = '<meta name="description" content="Area riservata per gli amministratori di PetMatch">';
-$keywords = "";
+if (isset($_SESSION['error_msg'])) {
+    $messaggiForm = $_SESSION['error_msg'];
+    unset($_SESSION['error_msg']);
+}
 
-// Preparazione parti dinamiche
-$scarta_richiesta = renderRejectRequest($richiesta);
-$nav = buildAdminNav($adminMenu,'./richieste-adozione');
+$title = '<title>Dettaglio richiesta adozione - Amministratore PetMatch</title>';
+$description = '<meta name="description" content="Area riservata per gli amministratori in cui possono controllare nel dettaglio una richiesta di adozione ricevuta per un animale a loro assegnato">';
+$keywords = "<meta name='keywords' content='amministratore, dettaglio, richiesta, adozione, assegnato, animale, PetMatch'>";
+
+$scarta_richiesta = renderRejectRequest($richiesta,$AcceptRequestDetails);
+$nav = buildAdminNav($adminMenu,'./dettagli-richiesta');
 $breadcrumb = getBreadcrumb('dettagli-richiesta', $pagine);
 $main = loadTemplate('./src/template/main/admin/dettagli-richiesta.html');
 
@@ -264,29 +207,50 @@ $paginaHTML = str_replace('[keywords]', $keywords, $paginaHTML);
 $paginaHTML = str_replace('[description]', $description, $paginaHTML);
 
 $di_chi = '';
-if(!imTheAdmin($richiesta)){
-	$di_chi = '<h2>Richiesta di adozione assegnata a '.e($richiesta['nome-admin'] ?? '').' '.e($richiesta['cognome-admin'] ?? '').'</h2>';
+$imTheAdmin = imTheAdmin($richiesta);
+if(!$imTheAdmin){
+    if (($richiesta['nome-admin'] ?? '') === '' && ($richiesta['cognome-admin'] ?? '') === '') {
+        $di_chi = '<h2 id="responsabile">Nessun responsabile al momento</h2>';
+    } else {
+        $di_chi = '<h2 id="responsabile">Responsabile: '.e($richiesta['nome-admin'] ?? '').' '.e($richiesta['cognome-admin'] ?? '').'</h2>';
+    }
 }
 $main = str_replace('[di chi]', $di_chi, $main);
 $dataRichiesta='<time datetime="' . ($richiesta['data-richiesta'] ?? '') . '">' . displayDateItalianFormat($richiesta['data-richiesta'] ?? '') . '</time>';
 
 $main = str_replace('[data]', $dataRichiesta, $main);
 $main = str_replace('[contenutoLettera]', e($richiesta['lettera-di-presentazione'] ?? ''), $main);
-$main = str_replace('[paginaAnimale]', './animale?id=' . e($richiesta['id-animale'] ?? ''), $main);
-$main = str_replace('[paginaRichiedente]', './profilo-utente?email=' . e($richiesta['email-richiedente'] ?? ''), $main);
+
+$urlDettaglioAnimale = './dettagli-animale?id-animale=' . e($richiesta['id-animale'] ?? '');
+$main = str_replace('[paginaAnimale]', $urlDettaglioAnimale, $main);
+
+$main = str_replace('[paginaRichiedente]', './profilo-richiedente?email=' . urlencode($_GET['email']) ?? '', $main);
 $main = str_replace('[trasporto]', siNo($richiesta['trasporto-richiesta'] ?? 0), $main);
-$main = str_replace('[scarta-richiesta]', $scarta_richiesta, $main);
+$main = str_replace('[scarta-richiesta]', $imTheAdmin?$scarta_richiesta:'', $main);
 $main = str_replace('[stato]', e($richiesta['stato'] ?? ''), $main);
 $main = str_replace('[nome]', e($richiesta['nome-richiedente'] ?? ''), $main);
-$main = str_replace('[imgPath]', e($richiesta['imgPath'] ?? ''), $main);
+if(!$richiesta['imgPath'] || !file_exists($richiesta['imgPath'])){
+    $main = str_replace('[imgPath]', './assets/images/users/default-pic.png', $main);
+}else{
+    $main = str_replace('[imgPath]', e($richiesta['imgPath']), $main);
+}
 $main = str_replace('[cognome]', e($richiesta['cognome-richiedente'] ?? ''), $main);
 //telefono e indirizzo sono opzionali
-if($richiesta['telefono-richiedente'] ?? ''){
-    $telefono_richiedente='<dt>Telefono</dt><dd>' . $richiesta['telefono-richiedente']. '</dd>';
+if($richiesta['telefono-richiedente'] !== null){
+    $telefonoGrezzo = $richiesta['telefono-richiedente'];
+    $numero = substr($telefonoGrezzo, -10);
+    $prefisso = substr($telefonoGrezzo, 0, -10);
+    $printTelefono = trim($prefisso . ' ' . $numero);
+
+    $telefono_richiedente='<dt>Telefono</dt><dd>' . $printTelefono. '</dd>';
+}else{
+        $telefono_richiedente='<dt>Telefono</dt><dd> <em>Sconosciuto</em> </dd>';
 }
+
+$indirizzo_richiedente='';
+
 $main = str_replace('[telefono-richiedente]', $telefono_richiedente, $main);
 $main = str_replace('[email]', e($richiesta['email-richiedente'] ?? ''), $main);
-$indirizzo_richiedente='';
 if($richiesta['trasporto-richiesta']===1 && $richiesta['indirizzo-richiedente']){
     $indirizzo_richiedente='<dt>Indirizzo</dt><dd>' . $richiesta['indirizzo-richiedente']. '</dd>';
 }elseif($richiesta['trasporto-richiesta']===1 && !$richiesta['indirizzo-richiedente']){
@@ -294,15 +258,33 @@ if($richiesta['trasporto-richiesta']===1 && $richiesta['indirizzo-richiedente'])
     $indirizzo_richiedente='<dt class="data-error">Indirizzo</dt><dd>MANCANTE</dd>'; //
 }
 $main = str_replace('[indirizzo-richiedente]', $indirizzo_richiedente, $main);
+$main = str_replace('[idAnimale]', e($richiesta['id-animale'] ?? ''), $main);
 $main = str_replace('[nomeAnimale]', e($richiesta['nome-animale'] ?? ''), $main);
-$main = str_replace('[animalImgPath]', e($richiesta['animalImgPath'] ?? ''), $main);
-$main = str_replace('[sessoAnimale]', e($richiesta['sesso-animale'] ?? ''), $main);
-$main = str_replace('[etaAnimale]', e($richiesta['eta-animale'] ?? ''), $main);
+
+if(!$richiesta['animalImgPath'] || !file_exists($richiesta['animalImgPath'])){
+    if($richiesta['tipo_animale'] === 'Gatto'){
+        $main = str_replace('[animalImgPath]', './assets/images/animals/defaultGatto.jpg', $main);
+    }else{
+        $main = str_replace('[animalImgPath]', './assets/images/animals/defaultCane.jpg', $main);
+    }
+}else{
+    $main = str_replace('[animalImgPath]', e($richiesta['animalImgPath']), $main);
+}
+
+if($richiesta['sesso-animale'] === 'F')
+    $main = str_replace('[sessoAnimale]', 'Femmina', $main);
+elseif($richiesta['sesso-animale'] === 'M')
+    $main = str_replace('[sessoAnimale]', 'Maschio', $main);
+
+
+$dataNascita = $richiesta['data-nascita'] ?? null;
+$testoEta = $dataNascita ? formattaEta($dataNascita) : 'Età sconosciuta';
+
+$main = str_replace('[etaAnimale]', e($testoEta), $main);
 $main = str_replace('[razzaAnimale]', e($richiesta['razza-animale'] ?? ''), $main);
 $main = str_replace('[trasportoAnimale]', siNo($richiesta['trasporto-animale'] ?? 0), $main);
 $main = str_replace('[famigliaIdeale]', e($richiesta['famiglia-ideale'] ?? ''), $main);
 
-// Se non ci sono condizioni mediche, mostra "Nessuna"
 if (empty($richiesta['condizioni-mediche'])) {
     $main = str_replace('[condizioniMediche]', 'Nessuna', $main);
 } else {
@@ -312,59 +294,136 @@ if (empty($richiesta['condizioni-mediche'])) {
 list($dataInizioValutazione, $dataFineValutazione,$dataRichiestaRespinta) = buildDateInfo($richiesta);
 
 $stato_trasporto = '';
-if($richiesta['data-arrivo']===NULL){
-    $richiesta['data-arrivo'] = 'Ancora nessuna, impostane una';
-}
-if (($richiesta['stato'] ?? '') === 'Da trasportare') {
-    $stato_trasporto = '
-    <article id="stato-trasporto">
-        <p>
-            <strong>Data di arrivo:</strong> 
-            <time datetime="' . $richiesta['data-arrivo'] . '" id="data-text">' . displayDateItalianFormat($richiesta['data-arrivo']) . '</time>
+$email_url = urlencode($richiesta['email-richiedente'] ?? '');
+$id_url = urlencode($richiesta['id-animale'] ?? '');
+$url_base = "?email=$email_url&id-animale=$id_url";
 
-            <form id="form-data" class="hidden">
-                <label for="input-data">Nuova data di arrivo:</label>
-                <input type="date" name="data_arrivo" id="input-data" 
-                    value="' . $richiesta['data-arrivo'] . '">
-                <button type="submit" class="sr-only" aria-label="Modifica la data di arrivo"></button>
+if (($richiesta['stato'] ?? '') === 'Da trasportare') {
+    
+if($imTheAdmin && isset($_GET['mode']) && $_GET['mode'] === 'edit-data'){ //come per le annotazioni, proteggo anche il mode per evitare che dall'url un altro admin possa arrivarci (non è sufficiente togliere solo il pulsante)
+        $data_per_input_arrivo = ($richiesta['data-arrivo'] === null) ? '' : date('Y-m-d', strtotime($richiesta['data-arrivo']));
+        $data_per_input_partenza = ($richiesta['data-partenza'] === null) ? '' : date('Y-m-d', strtotime($richiesta['data-partenza']));
+
+        $stato_trasporto .= '
+        <article id="stato-trasporto" class="note">
+            <div class="header-article">
+                    <h2>Modifica le date del trasporto</h2>
+             </div>
+            <form method="post" action="' . $url_base . '#stato-trasporto">
+                <label for="input-data-partenza" >Data di partenza:</label>
+                <input type="date" name="data_partenza" id="input-data-partenza" value="' . $data_per_input_partenza . '"/>
+                <label for="input-data-arrivo" >Data di arrivo:</label>
+                <input type="date" name="data_arrivo" id="input-data-arrivo" value="' . $data_per_input_arrivo . '"/>
+                
+                <input type="hidden" name="email_richiedente" value="' . htmlspecialchars($richiesta['email-richiedente']) . '"/>
+                <input type="hidden" name="id_animale" value="' . htmlspecialchars($richiesta['id-animale']) . '"/>
+                <div class="button-group">
+                <a href="' . $url_base . '#stato-trasporto" id="reset-button" class="db-button">Annulla</a>
+                <button type="submit" name="salva_date_trasporto" class="db-button">Salva date</button>
+                </div>
             </form>
-        </p>
-        <a href="#" id="btn-attiva-modifica" class="edit-btn">
-            <img src="./assets/icons/edit-pencil.svg" alt="Modifica la data">
-        </a>
-    </article>';
+            [messaggiForm]
+        </article>';
+    } else {
+        $data_raw_arrivo = $richiesta['data-arrivo'] ?? '';
+        $data_raw_partenza = $richiesta['data-partenza'] ?? '';
+        
+        if(($data_raw_partenza === '' || $data_raw_partenza === null) && ($data_raw_arrivo !== '' || $data_raw_arrivo !== null)){
+            $contenuto_data_arrivo = 'Ancora nessuna data di arrivo impostata.';
+            $contenuto_data_partenza = 'Ancora nessuna data di partenza impostata.';
+        } else {
+            $contenuto_data_arrivo = '<time datetime="' . $data_raw_arrivo . '">' . displayDateItalianFormat($data_raw_arrivo) . '</time>';
+            $contenuto_data_partenza = '<time datetime="' . $data_raw_partenza . '">' . displayDateItalianFormat($data_raw_partenza) . '</time>';
+        }
+
+        $stato_trasporto .= '
+            <article id="stato-trasporto" class="note">
+                <div class="header-article">
+                    <h2>Informazioni sul trasporto</h2>' . 
+                    ($imTheAdmin ? '
+                    <a href="' . $url_base . '&mode=edit-data#stato-trasporto" class="pencil">
+                        <img src="./assets/icons/edit-pencil.svg" alt="Modifica date di trasporto" />
+                    </a>' : '') . '
+                </div>
+                <dl>
+                    <dt>Data di partenza</dt>
+                    <dd>' . $contenuto_data_partenza . '</dd>
+                    <dt>Data di arrivo</dt>
+                    <dd>' . $contenuto_data_arrivo . '</dd>
+                </dl>';
+
+        $data_odierna = date('Y-m-d');
+        
+        if($imTheAdmin && $data_raw_arrivo !== '' && $data_raw_arrivo!==null && $data_raw_arrivo<=$data_odierna){
+            $stato_trasporto .= '
+                <form method="post" action="' . $url_base . '#stato-trasporto">
+                    <button type="submit" name="trasporto_effettuato" class="db-button">Segna trasporto come effettuato</button>
+                </form>';
+        }
+
+        $stato_trasporto .= '</article>';
+    }
 }
+
 
 $main = str_replace('[stato-trasporto]', $stato_trasporto, $main);
 $main = str_replace('[dataInizioValutazione]', $dataInizioValutazione, $main);
 $main = str_replace('[dataFineValutazione]', $dataFineValutazione, $main);
 $main = str_replace('[dataRichiestaRespinta]', $dataRichiestaRespinta, $main);
-$main = str_replace('[pulsanti-azioni-richiesta]', renderPulsantiAzioni($richiesta), $main);
+$main = str_replace('[pulsanti-azioni-richiesta]', $imTheAdmin?renderPulsantiAzioni($richiesta):'', $main);
 
-// Annotazioni
+
+// Controllo se mostrare la sezione: 
+// Stato non Nuova/Annullata OPPURE (Stato Annullata E appunti non vuoti)
 $annotazioni = '';
 if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($richiesta['stato']==='Annullata' && ($richiesta['appunti'] !== '' || $richiesta['appunti'] !== NULL))){
+    $annotazioni = '';
 
-    $annotazioni = '
-    <div class="note">
-        <div class="header-note">
-            <h2>LE TUE ANNOTAZIONI</h2>
-            <a type="button" id="edit-note" class="edit-btn" aria-label="Modifica le annotazioni">
-                <img src="./assets/icons/edit-pencil.svg" alt="" aria-hidden="true">
-            </a>
-        </div>
-
-        <div id="note-container">
-            <p id="note-text">' . e($richiesta['appunti'] ?? '') . '</p>
-
-            <form id="form-note" class="hidden">
-                <label for="input-note" class="sr-only">Modifica annotazioni:</label>
-                <textarea id="input-note" name="note" rows="4">' . e($richiesta['appunti'] ?? '') . '</textarea>
-                <button type="submit" class="sr-only">Salva annotazioni</button>
-            </form>
-        </div>
-    </div>';
+    if ($imTheAdmin && isset($_GET['mode']) && $_GET['mode'] === 'note') { //proteggo anche il mode per evitare che dall'url un altro admin possa arrivarci (non è sufficiente togliere solo il pulsante)
+        $annotazioni .= '
+                <article id="sezione-note" class="note">
+                    <div class="header-article">
+                        <h2>'.($imTheAdmin ? 'Le tue annotazioni' : 'Annotazioni').'</h2>
+                    </div>
+                    <div id="note-container">
+                        <form id="form-note" action="richieste-adozione?email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') .'" method="post">
+                            <label for="input-note" class="sr-only">Modifica annotazioni:</label>
+                            <textarea id="input-note" name="note" rows="4">' . htmlspecialchars($richiesta['appunti'] ?? '', ENT_QUOTES, 'UTF-8') . '</textarea>
+                            <div class="button-group">
+                                <a href="?email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') . '#sezione-note" id="reset-button" class="db-button">Annulla</a>
+                                <button name="salva_annotazioni" type="submit" class="db-button">Salva annotazioni</button>
+                            </div>
+                        </form>
+                    </div>
+                </article>';
+    }else{
+        if($richiesta['appunti'] === '' || $richiesta['appunti'] === NULL){
+            $richiesta['appunti'] = 'Non hai ancora preso appunti per questa richiesta.';
+        }
+        $annotazioni.= '
+            <article id="sezione-note" class="note">
+                <div class="header-article">
+                    <h2>'.($imTheAdmin ? 'Le tue annotazioni' : 'Annotazioni').'</h2>' . 
+                    ($imTheAdmin ? '
+                    <a href="?mode=note&email=' . urlencode($richiesta['email-richiedente'] ?? '') . '&id-animale=' . urlencode($richiesta['id-animale'] ?? '') . '#sezione-note" id="edit-note" class="pencil" aria-label="Modifica le annotazioni">
+                        <img src="./assets/icons/edit-pencil.svg" alt="" />
+                    </a>' : '') . '
+                </div>
+                <div id="note-container">
+                    <pre id="note-text">' . e($richiesta['appunti'] ?? '') . '</pre>
+                </div>
+            </article>';
+    }
 }
+if($richiesta['trasporto-richiesta']!==$richiesta['trasporto-animale'] && $richiesta['trasporto-richiesta']===1){
+    $noteTrasportoRichiesta = '
+                    <em id="note-richiesta">Il richiedente ha richiesto il trasporto dell\'animale, ma l\'animale non è idoneo al trasporto.</em>';
+
+}
+$main = str_replace('[messaggiForm]', $messaggiForm, $main);
+$main = str_replace('[note-trasporto-richiesta]', $noteTrasportoRichiesta, $main);
+$main = str_replace('[note-su-richieste-richiedente]', $nRichiesteRichiedente==0?'':($nRichiesteRichiedente==1?'<em id="note-richiesta">Ha un\'altra richiesta attiva</em>':'<em id="note-richiesta">Ha altre <strong>'.$nRichiesteRichiedente.'</strong> richieste attive</em>'), $main);
+$main = str_replace('[note-su-richieste-animale]', $AcceptRequestDetails ? '<em id="note-richiesta">'.$AcceptRequestDetails['nome_richiedente'].' '.$AcceptRequestDetails['cognome_richiedente'].' ha adottato questo animale</em> ' : '', $main);
 $main = str_replace('[annotazioni]', $annotazioni, $main);
 
 $main = str_replace('[descrizioneCaratteriale]', e($richiesta['descrizione-caratteriale'] ?? ''), $main);

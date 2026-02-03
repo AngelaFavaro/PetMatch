@@ -33,29 +33,43 @@ if (isset($_SESSION['email'])) {//se non sono loggato rimando alla pagina di acc
 
 $infoRequest = "";
 $messageForm = "";
+$isAdopted = false;
 //connesisone al DB
 $connessione = new DBAccess();
 $connessioneOK = $connessione->openDBConnection();
 if ($connessioneOK) {
 	$infoRequest = $connessione->getAnimalRequest($_SESSION['email'],$_GET['id-animale']);
+    if(!$infoRequest){
+        header("Location: ./404");
+        exit; 
+    }
     $messageForm = cancelRequest($connessione);
     $getState = $connessione->getStateRequest($_SESSION['email'],$_GET['id-animale']);
+    $isAdopted = $connessione->isAnimalAdopted($_GET['id-animale']);
 }else{
 	$messageForm['generic'] = "<p class='error'>Impossibile completare l'operazione, riprova più tardi.</p>";
 }
 
-$fineRichiesta = $infoRequest['DataFineValutazione']?'<dt>Data fine valutazione:</dt><dd>'.date("d/m/Y", strtotime($infoRequest['DataFineValutazione'])).'</dd>':'';
 
-if($infoRequest['DataNascita']){
-    $nascita = new DateTime($infoRequest['DataNascita']);
-    $oggi = new DateTime();
-    $differenza = $oggi->diff($nascita);
-    $etaAnimale = $differenza->y;
+if($infoRequest['DataFineValutazione']) $screenFineValutazione= date("Y-m-d", strtotime($infoRequest['DataFineValutazione']));
+
+$fineRichiesta = $infoRequest['DataFineValutazione']?'<dt>Data fine valutazione:</dt><dd><time datetime="'.$screenFineValutazione.'">'.date("d/m/Y", strtotime($infoRequest['DataFineValutazione'])).'</time></dd>':'';
+
+if (empty($infoRequest['ImgPath']) || !file_exists($infoRequest['ImgPath'])) {
+    $infoRequest['ImgPath'] = $infoRequest['tipo']=='Cane'? 'assets/images/animals/defaultCane.jpg':'assets/images/animals/defaultGatto.jpg';
 }
 
-if($infoRequest['DataPartenza'] && $infoRequest['DataPartenza']){
-    $dataPartenza = '<dt>Data di partenza:</dt><dd><em>'.strtotime($infoRequest['DataPartenza']).'</em></dd>';
-    $dataArrivo = '<dt>Data di partenza:</dt><dd><em>'.strtotime($infoRequest['DataArrivo']).'</em></dd>';
+if($infoRequest['DataNascita']){
+    $etaAnimale = calcolaEta($infoRequest['DataNascita']);
+}
+
+if($infoRequest['DataPartenza'] && $infoRequest['DataArrivo']){
+
+    $screenArrivo = date("Y-m-d", strtotime($infoRequest['DataArrivo']));
+    $screenPartenza = date("Y-m-d", strtotime($infoRequest['DataPartenza']));
+
+    $dataPartenza = '<dt>Data di partenza:</dt><dd><em><time datetime="'.$screenPartenza.'">'. date("d/m/Y",strtotime($infoRequest['DataPartenza'])).'</time></em></dd>';
+    $dataArrivo = '<dt>Data di partenza:</dt><dd><em><time datetime="'.$screenPartenza.'">'. date("d/m/Y",strtotime($infoRequest['DataArrivo'])).'</time></em></dd>';
 }else{
     $dataPartenza = '';
     $dataArrivo = '';
@@ -67,15 +81,15 @@ $isDisabled = ($getState == 'Nuova' || $getState == 'In valutazione')?'':'disabl
 
 $paginaHTML = file_get_contents('./src/template/layout.html');
 if ($paginaHTML === false) {
-	$paginaHTML = "<p>Errore: template layout.html non trovato o non leggibile.</p>";
+	$paginaHTML = "<p>Errore:template layout.html non trovato o non leggibile.</p>";
 }
 
 $title = '<title>Revisione richiesta - PetMatch </title>';
-$description = '<meta name="description" content="Rivedi richiesta di addozione">';
-$keywords = "";
+$description = '<meta name="description" content="Pagina dedicata alla revisione della richiesta di adozione effettuata.">';
+$keywords = "<meta name='keywords' content='Adozione, La tua domanda, Stato della richiesta, Animale interessato, richiesta, adozione, animale, rifugio, PetMatch'>";
 
-$nav = buildUserNav($userMenu, './revisione-richiesta', $_SESSION['email'] ?? false);
-$footer = file_get_contents('./src/template/partials/footer.html');
+$nav = buildNav($userMenu, './revisione-richiesta');
+$footer = buildFooter($footerMenu,  './revisione-richiesta');
 
 $breadcrumb = getBreadcrumb('revisione-richiesta', $pagine);
 
@@ -89,28 +103,36 @@ $paginaHTML = str_replace('[nav]', $nav, $paginaHTML);
 $paginaHTML = str_replace('[main]', $main, $paginaHTML);
 $paginaHTML = str_replace('[footer]', $footer, $paginaHTML);
 
-$paginaHTML = str_replace('[cardAnimal]', getCardAnimal(), $paginaHTML);
+$paginaHTML = str_replace('[cardAnimal]', getCardAnimal($_GET['id-animale'], $_SESSION['admin'], $isAdopted), $paginaHTML);
 
 $paginaHTML = str_replace('[isDisabled]', $isDisabled, $paginaHTML);
 $paginaHTML = str_replace('[messaggiForm]', $messageForm, $paginaHTML);
-$paginaHTML = str_replace('[imgAnimale]', $infoRequest['ImgPath'], $paginaHTML);
-$paginaHTML = str_replace('[nomeAnimale]', $infoRequest['NomeAnimale'], $paginaHTML);
-$paginaHTML = str_replace('[dataRichiesta]', date("d/m/Y", strtotime($infoRequest['DataRichiesta'])), $paginaHTML);
-$paginaHTML = str_replace('[StatoRichiesta]', $infoRequest['Stato'], $paginaHTML);
-$paginaHTML = str_replace('[DataInizio]', $infoRequest['DataInizioValutazione']? date("d/m/Y", strtotime($infoRequest['DataInizioValutazione'])):'<em>La richiesta non è ancora stata presa in carico.</em>', $paginaHTML);
+$paginaHTML = str_replace('[imgAnimale]', htmlspecialchars($infoRequest['ImgPath'], ENT_QUOTES, 'UTF-8'), $paginaHTML);
+$paginaHTML = str_replace('[nomeAnimale]', htmlspecialchars($infoRequest['NomeAnimale'], ENT_QUOTES, 'UTF-8'), $paginaHTML);
+
+$screenRichiesta= date("Y-m-d", strtotime($infoRequest['DataRichiesta']));
+if($infoRequest['DataInizioValutazione']) $screenInizioValutazione= date("Y-m-d", strtotime($infoRequest['DataInizioValutazione']));
+
+$paginaHTML = str_replace('[dataRichiesta]', '<time datetime ="'.$screenRichiesta.'">'.date("d/m/Y", strtotime($infoRequest['DataRichiesta'])).'</time>', $paginaHTML);
+$paginaHTML = str_replace('[StatoRichiesta]', htmlspecialchars($infoRequest['Stato'], ENT_QUOTES, 'UTF-8'), $paginaHTML);
+$paginaHTML = str_replace('[DataInizio]', $infoRequest['DataInizioValutazione']? '<time datetime ="'.$screenInizioValutazione.'">'.date("d/m/Y", strtotime($infoRequest['DataInizioValutazione'])):'</time><em>La richiesta non è ancora stata presa in carico.</em>', $paginaHTML);
 $paginaHTML = str_replace('[DataFineRichiesta]', $fineRichiesta, $paginaHTML);
 $paginaHTML = str_replace('[dataPartenza]', $dataPartenza, $paginaHTML);
 $paginaHTML = str_replace('[dataArrivo]', $dataArrivo, $paginaHTML);
-$paginaHTML = str_replace('[letteraPresentazione]', $infoRequest['LetteraPresentazione'], $paginaHTML);
+$paginaHTML = str_replace('[letteraPresentazione]', htmlspecialchars($infoRequest['LetteraPresentazione'], ENT_QUOTES, 'UTF-8'), $paginaHTML);
 $paginaHTML = str_replace('[richiestaTrasporto]', $infoRequest['Trasporto']?'Si':'No', $paginaHTML);
-$paginaHTML = str_replace('[RazzaAnimale]', $infoRequest['Razza'], $paginaHTML);
+$paginaHTML = str_replace('[RazzaAnimale]', htmlspecialchars($infoRequest['Razza'], ENT_QUOTES, 'UTF-8'), $paginaHTML);
 $paginaHTML = str_replace('[SessoAnimale]', $infoRequest['Sesso']=='M'?'Maschio':'Femmina', $paginaHTML);
-$paginaHTML = str_replace('[EtàAnimale]', $etaAnimale, $paginaHTML);
+$paginaHTML = str_replace('[EtàAnimale]', htmlspecialchars($etaAnimale, ENT_QUOTES, 'UTF-8'), $paginaHTML);
 $paginaHTML = str_replace('[TrasportoAnimale]', $infoRequest['TrasportoAnimale']?'Si':'No', $paginaHTML);
-$paginaHTML = str_replace('[FamigliaIdealeAnimale]', $infoRequest['DescrFamiglia'], $paginaHTML);
-$paginaHTML = str_replace('[CondizioniMedicheAnimale]', $infoRequest['CondizioniMediche']?$infoRequest['CondizioniMediche']:'Sano', $paginaHTML);
-$paginaHTML = str_replace('[DescrizioneCaratterialeAnimale]', $infoRequest['DescrComportamentale'], $paginaHTML);
+$paginaHTML = str_replace('[FamigliaIdealeAnimale]', htmlspecialchars($infoRequest['DescrFamiglia'], ENT_QUOTES, 'UTF-8'), $paginaHTML);
+$paginaHTML = str_replace('[CondizioniMedicheAnimale]', $infoRequest['CondizioniMediche']?htmlspecialchars($infoRequest['CondizioniMediche'], ENT_QUOTES, 'UTF-8'):'Sano', $paginaHTML);
+$paginaHTML = str_replace('[DescrizioneCaratterialeAnimale]', htmlspecialchars($infoRequest['DescrComportamentale'], ENT_QUOTES, 'UTF-8'), $paginaHTML);
 
+$showModal = $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['show-dialog']);
+$closeModal = $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['close-dialog']);
+$paginaHTML = str_replace('[openDialog]', $showModal?'open':'', $paginaHTML);
+$paginaHTML = str_replace('[openDialog]', $closeModal?'':'', $paginaHTML);
 
 echo $paginaHTML;
 ?>

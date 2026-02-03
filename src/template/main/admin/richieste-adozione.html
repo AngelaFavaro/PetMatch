@@ -1,133 +1,55 @@
 <div id="admin-area">
     <h1>Richieste di adozione</h1>
 
-    <nav class="tab tab-mini" aria-label="Tipi di richieste di adozione">
-        <button class="tablinks active" onclick="openTab(event, 'Nuove')"><h2>NUOVE ([n-nuove])</h2></button>
-        <button class="tablinks" onclick="openTab(event, 'InValutazione')"><h2>IN VALUTAZIONE ([n-in-valutazione])</h2></button>
-        <button class="tablinks" onclick="openTab(event, 'DaTrasportare')"><h2>DA TRASPORTARE ([n-da-trasportare])</h2></button>
-        <button class="tablinks" onclick="openTab(event, 'Annullate')"><h2>ANNULLATE ([n-annullate])</h2></button>
-        <button class="tablinks" onclick="openTab(event, 'Respinte')"><h2>RESPINTE ([n-respinte])</h2></button>
-    </nav>
-    
-    <article class="tab-richieste tabcontent" id="Nuove">
-        <span id="sumTabellaNuove" class="navigationHelp">In questa tabella vengono elencate le nuove richieste di adozione e i loro dettagli: email utente, nome animale e data di richiesta.</span>
-        <table aria-describedby="sumTabellaNuove">
-            <caption>Nuove Richieste di Adozione</caption>
+    <div id="richieste" class="tabs-container tab-mini" aria-label="Tipi di richieste di adozione">
+        [tabs-richieste-adozione]
+        <article class="tab-content tab1">
+            [contenuto-nuove-richieste]
+        </article>
+        
+        <article class="tab-content tab2">
+            <form class="filtri" method="get" action="richieste-adozione" >
+                <input type="hidden" name="stato" value="In valutazione">
+                <ul aria-label="Filtri di ricerca">
+                    <li class="capsula-filtro" >
+                        <label for="filtro-appunti">Appunti</label>
+                        <select name="appunti" id="filtro-appunti">
+                            <option value="" [APPUNTI_SELECTED_TUTTI]>Tutti</option>
+                            <option value="1" [APPUNTI_SELECTED_SI]>Sì</option>
+                            <option value="0" [APPUNTI_SELECTED_NO]>No</option>
+                        </select>
+                    </li>
+                </ul>
+                <button type="submit" class="db-button">Applica</button>
+            </form>
+            [contenuto-in-valutazione-richieste]
+        </article>
+        
+        <article class="tab-content tab3">
+            <form class="filtri" method="get" action="richieste-adozione" >
+                <input type="hidden" name="stato" value="Da trasportare">
+                <ul aria-label="Filtri di ricerca">
+                    <li class="capsula-filtro" >
+                        <label for="filtro-trasporto">Trasporto</label>
+                        <select name="trasporto" id="filtro-trasporto">
+                            <option value="" [TRASPORTO_SELECTED_TUTTI]>Tutti</option>
+                            <option value="1" [TRASPORTO_SELECTED_ORGANIZZATO]>Organizzato</option>
+                            <option value="0" [TRASPORTO_SELECTED_DA_ORGANIZZARE]>Da organizzare</option>
+                        </select>
+                    </li>
+                </ul>
+                <button type="submit" class="db-button">Applica</button>
+            </form>
+            <span class="print-only"></span>
+            [contenuto-da-trasportare-richieste]
+        </article>
 
-                <thead>
-                    <tr>
-                        <th scope="col">ANIMALE</th>
-                        <th scope="col">UTENTE</th>
-                        <th scope="col">DATA RICHIESTA</th>
-                        <!-- forse ci va un'altra colonna per il button dettagli, per ora la metto poi capisco come gestire -->
-                        <th scope="col" class="col-dettagli">Dettagli</th>
-                    </tr>
-                </thead>
-                [tbody-nuove-richieste]
-                <tfoot>
-                    <tr>
-                        <td colspan="3">Totale nuove richieste</td>
-                        <td>[n-nuove]</td>
-                    </tr>
-                </tfoot>
-        </table>
-    </article>
-    
-    <article id="InValutazione" class="tabcontent tab-richieste">
-        <!-- come quella delle nuove richieste ma email richiedente, animale, data accettazione,  appunti (si o no), button dettagli -->
-         <span id="sumTabellaInValutazione" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione in valutazione e i loro dettagli: email utente, nome animale, data di inizio valutazione e presenza di appunti.</span>
-        <table aria-describedby="sumTabellaInValutazione">
-            <caption>Richieste di Adozione in Valutazione</caption>
+        <article class="tab-content tab4">
+            [contenuto-annullate-richieste]
+        </article>
 
-                <thead>
-                    <tr>
-                        <th scope="col">ANIMALE</th>
-                        <th scope="col">UTENTE</th>
-                        <th scope="col">DATA INIZIO VALUTAZIONE</th>
-                        <th scope="col">APPUNTI</th>
-                        <!-- forse ci va un'altra colonna per il button dettagli, per ora la metto poi capisco come gestire -->
-                        <th scope="col" class="col-dettagli">Dettagli</th>
-                    </tr>
-                </thead>
-                [tbody-in-valutazione-richieste]
-                <tfoot>
-                    <tr>
-                        <td colspan="4">Totale richieste in valutazione</td>
-                        <td>[n-in-valutazione]</td>
-                    </tr>
-                </tfoot>
-        </table>
-    </article>
-    
-    <article id="DaTrasportare" class="tabcontent tab-richieste">
-        <span id="sumTabellaDaTrasportare" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione da trasportare e i loro dettagli: email utente, nome animale, data di fine valutazione.</span>
-        <table aria-describedby="sumTabellaDaTrasportare">
-            <caption>Richieste di Adozione da Trasportare</caption>
-
-                <thead>
-                    <tr>
-                        <th scope="col">ANIMALE</th>
-                        <th scope="col">UTENTE</th>
-                        <th scope="col">DATA ACCETTAZIONE</th>
-                        <th scope="col">DATA ARRIVO</th>
-                        <!-- forse ci va un'altra colonna per il button dettagli, per ora la metto poi capisco come gestire -->
-                        <th scope="col" class="col-dettagli">Dettagli</th>
-                    </tr>
-                </thead>
-                [tbody-da-trasportare-richieste]
-                <tfoot>
-                    <tr>
-                        <td colspan="4">Totale richieste da trasportare</td>
-                        <td>[n-da-trasportare]</td>
-                    </tr>
-                </tfoot>
-        </table>
-    </article>
-
-    <article id="Annullate" class="tabcontent tab-richieste">
-        <span id="sumTabellaAnnullate" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione annullate e i loro dettagli: email utente, nome animale e data di annullamento.</span>
-        <table aria-describedby="sumTabellaAnnullate">
-            <caption>Richieste di Adozione Annullate</caption>
-
-                <thead>
-                    <tr>
-                        <th scope="col">ANIMALE</th>
-                        <th scope="col">UTENTE</th>
-                        <th scope="col">DATA ANNULLAMENTO</th>
-                        <!-- forse ci va un'altra colonna per il button dettagli, per ora la metto poi capisco come gestire -->
-                        <th scope="col" class="col-dettagli">Dettagli</th>
-                    </tr>
-                </thead>
-                [tbody-annullate-richieste]
-                <tfoot>
-                    <tr>
-                        <td colspan="3">Totale richieste annullate</td>
-                        <td>[n-annullate]</td>
-                    </tr>
-                </tfoot>
-        </table>
-    </article>
-
-    <article id="Respinte" class="tabcontent tab-richieste">
-        <span id="sumTabellaRespinte" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione respinte e i loro dettagli: email utente, nome animale e data di respinta.</span>
-        <table aria-describedby="sumTabellaRespinte">
-            <caption>Richieste di Adozione Respinte</caption>
-
-                <thead>
-                    <tr>
-                        <th scope="col">ANIMALE</th>
-                        <th scope="col">UTENTE</th>
-                        <!-- forse ci va un'altra colonna per il button dettagli, per ora la metto poi capisco come gestire -->
-                        <th scope="col" class="col-dettagli">Dettagli</th>
-                    </tr>
-                </thead>
-                [tbody-respinte-richieste]
-                <tfoot>
-                    <tr>
-                        <td colspan="2">Totale richieste respinte</td>
-                        <td>[n-respinte]</td>
-                    </tr>
-                </tfoot>
-        </table>
-    </article>
+        <article class="tab-content tab5">
+            [contenuto-respinte-richieste]
+        </article>
+    </div>
 </div>

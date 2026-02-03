@@ -3,8 +3,6 @@ include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
 
-// $_SESSION['email'] = 'angelacanazza2005@gmail.com';
-
 //se non sono loggato rimando alla pagina di login
 if (!isset($_SESSION['email'])) {
     header("Location: ./accedi");
@@ -19,12 +17,25 @@ $filtroCorrenteRichieste = 'all';
 $tabAvvisi= 'checked';
 $tabRichieste= '';
 if (isset($_GET['state-avvisi'])) {
-    $filtroCorrenteAvvisi = htmlspecialchars($_GET['state-avvisi']);
+    $filtroCorrenteAvvisi = urldecode($_GET['state-avvisi']);
 }
 else if (isset($_GET['state-richieste'])) {
-    $filtroCorrenteRichieste = htmlspecialchars($_GET['state-richieste']);
+    $filtroCorrenteRichieste = urldecode($_GET['state-richieste']);
     $tabAvvisi= '';
     $tabRichieste= 'checked';
+}
+
+function deleteAccount(DBAccess $conn){
+    if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-account'])) { 
+        $risultato = $conn->deleteAccount($_SESSION['email']);
+        if($risultato){
+            logout();
+            header('Location: ./accedi');
+            exit;
+        }else{
+            die("La query di eliminazione è fallita.");
+        }
+    } 
 }
 
 function checkRole(DBAccess $conn) {
@@ -55,12 +66,19 @@ function createMovementList(DBAccess $conn, $filtro = 'all'): string {
 
             $nomeAnimale = htmlspecialchars($richiesta['NomeAnimale']);
 
+
+
             switch($richiesta['Stato']){
                 case 'In valutazione':
                     $statoRichiesta = 'La tua richesta di adozione per <em>'.$nomeAnimale.'</em> è in <strong>valutazione.</strong>';
                     break;
                 case 'Da trasportare':
-                    $statoRichiesta = '<em>'.$nomeAnimale.'</em> partità il giorno <em>'.$richiesta['DataPartenza'].'</em> e arriverà il giorno<em>'.$richiesta['DataArrivo'].'</em>!';
+                    $dataFormattataPartenza= date("d/m/Y", strtotime($richiesta['DataPartenza']));
+                    $dataFormattataArrivo= date("d/m/Y", strtotime($richiesta['DataArrivo']));
+
+                    $screenPartenza = date("Y-m-d", strtotime($richiesta['DataPartenza']));
+                    $screenArrivo = date("Y-m-d", strtotime($richiesta['DataArrivo']));
+                    $statoRichiesta = '<em>'.$nomeAnimale.'</em> <strong>partirà</strong> il giorno <em><time datetime = "'.$screenPartenza.'">'.$dataFormattataPartenza.'</time></em> e <strong>arriverà</strong> il giorno <em><time datetime="'.$screenArrivo.'">'.$dataFormattataArrivo.'</time>!</em>';
                     break;
                 case 'Accettata':
                     $statoRichiesta = 'Complimenti! <strong>Hai adottato</strong> con successo <em>'.$nomeAnimale.'</em>.';
@@ -69,18 +87,19 @@ function createMovementList(DBAccess $conn, $filtro = 'all'): string {
                     $statoRichiesta = 'Siamo spiacenti di informarti che la tua richiesta di adozione per <em>'.$nomeAnimale.'</em> è stata <strong>respinta.</strong>';
                     break;
                 case 'Annullata':   
-                    $statoRichiesta = 'Hai annullato la tua richiesta di adozione per <em>'.$nomeAnimale.'</em>.';
+                    $statoRichiesta = 'Hai <strong>annullato</strong> la richiesta di adozione per <em>'.$nomeAnimale.'</em>.';
                     break;
                 case 'Nuova':
-                    $statoRichiesta = 'La tua richiesta di adozione per <em>'.$nomeAnimale.'</em> è stata inviata con successo e sarà valutata a breve.';
+                    $statoRichiesta = 'La tua richiesta di adozione per <em>'.$nomeAnimale.'</em> è stata <strong>inviata</strong> con successo e sarà valutata a breve.';
                     break;
             }
 
-            // TODO: il link "Vedi animale" deve portare alla pagina di dettaglio dell'animale, da fare quando la pagina sarà pronta
             $listaMovimenti .= '<li>
                 <article>
-                    <p>'.$statoRichiesta.'</p>
-                    <a href="">Vedi animale</a>
+                    <p>'.$statoRichiesta.'</p>';
+                    $listaMovimenti .= $conn->isAnimalAdopted($richiesta['IDanimale'])?'<p class="nonDisponibile"><em>Animale adottato</em></p>':
+                    '<a href="./animali?id-animale='.urlencode($richiesta['IDanimale']).'">Vedi animale</a>';
+            $listaMovimenti.='        
                 </article>
             </li>';
         }
@@ -128,7 +147,6 @@ function createRequestList(DBAccess $conn, $filtro = 'all'): string {
                     break;
             }
 
-            // TODO: il vai alla richiesta deve portare ad una pagina che ancora non c'è
             $listaRichieste .= $statoRichiesta.'</p>
                     <a href="./revisione-richiesta?id-animale='.$richiesta['IDanimale'].'">Vai alla richiesta</a>
                 </article>
@@ -155,7 +173,7 @@ $NewUserManagement = [
     'Newpassword' => ''
 ];
 
-function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente): array {
+function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente, $editAddress, $removeAddress): array {
 	
 	$message = [
         'generic' => '',
@@ -237,7 +255,7 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente): array {
         $surname = mb_convert_case($surname, MB_CASE_TITLE, "UTF-8");
         $address = mb_convert_case($address, MB_CASE_TITLE, "UTF-8");
         $city = mb_convert_case($city, MB_CASE_TITLE, "UTF-8");
-        $phoneNumber = preg_replace('/[^0-9]/', '', $phoneNumber); // rimuove tutti i caratteri non numerici
+        $phoneNumber = str_replace(' ','', $phoneNumber); // rimuove tutti i caratteri non numerici
 
         // Sanitizzazione per redisplay
         $NewUserValues['name'] = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
@@ -251,7 +269,7 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente): array {
         $errors = [];
 
         $regexNome = "/^(?=.*[\p{L}]{2})[\p{L}\s']+$/u"; 
-        $regexPhone = "/^[0-9]{10}$/";
+        $regexPhone = "/^(\+[0-9]{1,3}\s?)[0-9]{10}$/";
         $regex_indirizzo = '/^[a-zA-Z\.\']{3,}\s+.+\s+(?:n\.?\s?)?\d+[a-zA-Z]?$/';
         $regex_citta = '/^[a-zA-Z\s\.\']{2,}$/';
         $regex_cap = '/^\d{5}$/';
@@ -269,55 +287,91 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente): array {
             $errors['surname'] = "Il cognome contiene caratteri non validi.";
         }
 
-        if(strlen($NewUserValues['address']) === 0){
-            $NewUserValues['address'] = null;
-        }else if (strlen($NewUserValues['address']) < 3) {
-            $errors['address'] = "L'indirizzo è troppo corto.";
-        } elseif (!preg_match($regex_indirizzo, $NewUserValues['address'])) {
-            $errors['address'] = "L'indirizzo non è valido.";
-        }
+        $hasAddress = strlen($NewUserValues['address']) > 0;
+        $hasCity    = strlen($NewUserValues['city']) > 0;
+        $hasCAP     = strlen($NewUserValues['CAP']) > 0;
 
-        if(strlen($NewUserValues['city']) === 0){
-            $NewUserValues['city'] = null;
-        }else if (strlen($NewUserValues['city']) < 2) {
-            $errors['city'] = "La città è troppo corta.";
-        } elseif (!preg_match($regex_citta, $NewUserValues['city'])) {
-            $errors['city'] = "La città contiene caratteri non validi.";
-        }
+        $modifiedAddress = !(($infoUtente['Via'] === $NewUserValues['address']) && ($infoUtente['Citta'] === $NewUserValues['city']) && ($infoUtente['CAP'] === $NewUserValues['CAP']));
 
-        if(strlen($NewUserValues['CAP']) === 0){
-            $NewUserValues['CAP'] = null;
-        }else if (!preg_match($regex_cap, $NewUserValues['CAP'])) {
-            $errors['CAP'] = "Il CAP non è valido.";
-        }
+        $isAllEmpty = (!$hasAddress && !$hasCity && !$hasCAP);
+        $isAllFull  = ($hasAddress && $hasCity && $hasCAP);
+        $isPartial  = !($isAllEmpty || $isAllFull);
 
-        $hasAddress = ($NewUserValues['address'] !== null);
-        $hasCity    = ($NewUserValues['city'] !== null);
-        $hasCAP     = ($NewUserValues['CAP'] !== null);
+        if ($isPartial) {
+             $errors['indirizzo-totale'] = "L'indirizzo è incompleto: devi compilare Via, Città e CAP insieme o lasciarli tutti vuoti.";
+        } 
+        else {
+            
+            if ($isAllEmpty) {
+                if (!$removeAddress) { 
+                    $errors['indirizzo-totale'] = "Impossibile rimuovere l'indirizzo: ci sono richieste di adozioni aperte.";
+                }
+            }
+            
+            if($isAllEmpty || ($isAllFull && $modifiedAddress)){
+                
+                if (!$editAddress) {
+                    $errors['indirizzo-totale'] = "Impossibile modificare l'indirizzo: c'è un trasporto attivo.";
+                } 
+                else {
+                    if(strlen($NewUserValues['address']) === 0){
+                        $NewUserValues['address'] = null;
+                    }else if (strlen($NewUserValues['address']) < 3) {
+                        $errors['address'] = "L'indirizzo è troppo corto.";
+                    } elseif (!preg_match($regex_indirizzo, $NewUserValues['address'])) {
+                        $errors['address'] = "L'indirizzo non è valido.";
+                    }
 
-        if (!($hasAddress === $hasCity && $hasCity === $hasCAP)) {
-            $errors['indirizzo-totale'] = "L'indirizzo è incompleto: devi compilare Via, Città e CAP insieme o lasciarli tutti vuoti.";
+                    if(strlen($NewUserValues['city']) === 0){
+                        $NewUserValues['city'] = null;
+                    }else if (strlen($NewUserValues['city']) < 2) {
+                        $errors['city'] = "La città è troppo corta.";
+                    } elseif (!preg_match($regex_citta, $NewUserValues['city'])) {
+                        $errors['city'] = "La città contiene caratteri non validi.";
+                    }
+
+                    if(strlen($NewUserValues['CAP']) === 0){
+                        $NewUserValues['CAP'] = null;
+                    }else if (!preg_match($regex_cap, $NewUserValues['CAP'])) {
+                        $errors['CAP'] = "Il CAP non è valido.";
+                    }
+                }
+            }
         }
+        
+
 
         if(strlen($NewUserValues['phoneNumber']) === 0){
             $NewUserValues['phoneNumber'] = null;
-        }else if (strlen($NewUserValues['phoneNumber']) !== 10 || !preg_match($regexPhone, $NewUserValues['phoneNumber'])) {
+        }else if (strlen($NewUserValues['phoneNumber']) >= 14 || !preg_match($regexPhone, $NewUserValues['phoneNumber'])) {
             $errors['phoneNumber'] = "Il numero di telefono non è valido.";
         }
 
-        /* AZIONI */
+        $valueforDB = [
+            'name' => $name,
+            'surname' => $surname,
+            'phoneNumber' => $phoneNumber,
+            'address' => $address,
+            'city' => $city,
+            'CAP' => $CAP,
+            'profilePic' =>'',
+        ];
+
+        
         if (empty($errors)) {
 
             //la foto del profilo avrà sempre qualcosa anche se non si selezionano immagini, bisogna controllarlo con empty
-            if(isset($_FILES['new-pic']) && !empty($_FILES['new-pic']['name']) && $_POST['delete-pic'] !== 'on'){
-                $NewUserValues['profilePic'] = uploadImage($_FILES['new-pic'], 'users');
-            }else if($_POST['delete-pic'] === 'on'){
-                $NewUserValues['profilePic'] = null;
+            if(isset($_FILES['new-pic']) && !empty($_FILES['new-pic']['name']) && !isset($_POST['delete-pic'])){
+                $risultato = deleteStoredFile($infoUtente['ImgPath'],);
+                $valueforDB['profilePic'] = uploadImage($_FILES['new-pic'], 'users');
+            }else if(isset($_POST['delete-pic'])){
+                deleteStoredFile($infoUtente['ImgPath']);
+                $valueforDB['profilePic'] = null;
             }else{
-                $NewUserValues['profilePic'] = $infoUtente['ImgPath']; 
+                $valueforDB['profilePic'] = $infoUtente['ImgPath']; 
             }
 
-            $EditResult = $conn->updateUserInfo($_SESSION['email'], $NewUserValues);
+            $EditResult = $conn->updateUserInfo($_SESSION['email'], $valueforDB);
             
             if (!$EditResult){
                 $_SESSION['form_status_info'] = 'error';
@@ -336,7 +390,7 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente): array {
             $_SESSION['form_inputs'] = ['name' => $NewUserValues['name'], 'surname' => $NewUserValues['surname'], 
                 'address' => $NewUserValues['address'], 'city' => $NewUserValues['city'],
                 'CAP' => $NewUserValues['CAP'], 'phoneNumber' => $NewUserValues['phoneNumber'] ];
-            header("Location: ./profilo-utente?mode=edit");
+            header("Location: ./profilo-utente?mode=edit#edit-form");
             exit;
         }
     }
@@ -395,7 +449,7 @@ function editManagementAccount(DBAccess $conn, &$NewUserValues, $infoUtente): ar
         $errors = [];
 
         $regexEmail = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,10})$/i";
-        $regexPassword = "/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@+?\/,.\-$_=])[a-zA-Z0-9!@+?\/,.\-$_=]{8,32}$/";
+        $regexPassword = '/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@+?\/,.\-$_=])[a-zA-Z0-9!@+?\/,.\-$_=]{8,32}$/';
 
         /* VALIDAZIONE CAMPI */
 
@@ -421,15 +475,22 @@ function editManagementAccount(DBAccess $conn, &$NewUserValues, $infoUtente): ar
             $errors['password'] = "La nuova password deve essere diversa dalla vecchia.";
         }
 
+        $valueForDB = [
+            'email' => '',
+            'Newpassword' => '',
+        ];
+
         /* AZIONI */
         if (empty($errors)) {
             if(strlen($newPassword) !== 0){
-                $NewUserValues['Newpassword'] = password_hash($newPassword, PASSWORD_DEFAULT);
+                $valueForDB['Newpassword'] = password_hash($newPassword, PASSWORD_DEFAULT);
             }else{
-                $NewUserValues['Newpassword'] = $infoUtente['Password'];
+                $valueForDB['Newpassword'] = $infoUtente['Password'];
             }
 
-            $EditResult = $conn->updateUserManagement($_SESSION['email'], $NewUserValues);
+            $valueForDB['email'] = $_POST['new-email'];
+
+            $EditResult = $conn->updateUserManagement($_SESSION['email'], $valueForDB);
             
             if ($EditResult) {
 				$_SESSION['email'] = $email;
@@ -447,7 +508,7 @@ function editManagementAccount(DBAccess $conn, &$NewUserValues, $infoUtente): ar
             $_SESSION['form_status_management'] = 'error';
             $_SESSION['form_errors_management'] = $errors; 
             $_SESSION['form_inputs'] = ['email' => $NewUserValues['email'] ];
-            header("Location: ./profilo-utente?mode=management");
+            header("Location: ./profilo-utente?mode=management#manage-form");
             exit;
         }
     }
@@ -455,22 +516,6 @@ function editManagementAccount(DBAccess $conn, &$NewUserValues, $infoUtente): ar
     return $message;
 }
 
-function logout(){
-    $_SESSION = [];
-    
-    if (ini_get("session.use_cookies")) {
-        $params = session_get_cookie_params();
-        setcookie(session_name(), '', time() - 42000,
-            $params["path"], $params["domain"],
-            $params["secure"], $params["httponly"]
-        );
-    }
-    
-    session_destroy();
-    
-    header("Location: ./home");
-    exit;
-}
 
 if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])){ logout();}
 
@@ -478,106 +523,108 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])){ logout();}
 // --- HTML VISUALIZZAZIONE ---
 
 $htmlView =
-'<aside class="view-mode">
+'<article class="view-mode">
     <span>
-        <h2>Le tue informazioni</h2>
-        <a href="?mode=management" aria-label="Gestione dell\'account">
+        <h2>Le tue informazioni</h2>';
+        $htmlView .= $_SESSION['email']==='user'?'':'
+        <a href="?mode=management#gestisci-profilo" aria-label="Gestione dell\'account">
             <img src="./assets/icons/setting.svg" alt="" class="normal-icon"/>
             <img src="./assets/icons/setting-hover.svg" alt="" class="hover-icon"/>
-        </a>
+        </a>';
+    $htmlView .='
     </span>
     <img src="[imgPath]" alt="foto profilo" class="circle-foto"/>
-    <a href="?mode=edit" class="edit-profile-link">
-       <p>Modifica profilo</p> <img src="./assets/icons/edit-pencil.svg" alt=""></a>
-    <dl aria-label="informazioni dell\'utente">
+    <a href="?mode=edit#modifica-profilo" class="edit-profile-link">
+       <p aria-hidden=true>Modifica profilo</p> <img src="./assets/icons/edit-pencil.svg" alt="" /></a>
+    <dl aria-label="informazioni dell\'utente" id="user-information">
         <dt>Nome: </dt> <dd>[nome-utente]</dd>
         <dt>Cognome: </dt> <dd>[cognome-utente]</dd>
         <dt>Indirizzo: </dt> <dd>[indirizzo-utente]</dd>
         <dt>Email: </dt> <dd>[email-utente]</dd>
         <dt>Telefono: </dt> <dd>[telefono-utente-view]</dd>
     </dl>
-    <form action="./profilo-utente" method="POST">
-        <button type="submit" name="logout" class="logout-btn">Esci</button>
+    <form action="./profilo-utente" method="post">
+        <button type="submit" name="logout" class="logout-btn">Disconnettiti</button>
     </form>
-</aside>';
+</article>';
 
 // --- HTML MODIFICA ---
 
 $htmlEdit = '
-    <div class="edit-mode">
+    <div class="edit-mode" id="modifica-profilo" tabindex="-1">
         <h2>Modifica il profilo</h2>
-        <form class="edit-mode" method="POST" action="profilo-utente" enctype="multipart/form-data">
+        <form class="edit-mode" id="edit-form" method="post" action="profilo-utente" enctype="multipart/form-data">
             <fieldset>
                 <legend>Informazioni personali</legend>
+                <label for="new-pic">Cambia Foto</label>
+                <img src="[imgPath]" alt="Foto" id="foto-profilo" class="circle-foto" />
                 <div>
-                    <label for="new-pic">Cambia Foto</label>
-                    <input type="file" id="new-pic" name="new-pic" accept="image/*" aria-label="carica la tua foto profilo.">
+                    <input type="file" id="new-pic" name="new-pic" accept=".jpg, .jpeg, .png" aria-label="carica la tua foto profilo."/>
                     <label class="checkbox-container-pic" for="delete-pic">
-                        <input type="checkbox" id="delete-pic" name="delete-pic">
+                        <input type="checkbox" id="delete-pic" name="delete-pic"/>
                         Rimuovi foto profilo
                     </label>
                 </div>
                 <div>
                     <label for="new-name">Nome*</label>
-                    <input type="text" id="new-name" name="new-name" autocomplete="name" value="[nome-utente]" placeholder="Nome">
+                    <input type="text" id="new-name" name="new-name" maxlength="100" autocomplete="name" value="[nome-utente]" placeholder="Nome"/>
                     <p class="error-form">[erroriNome]</p>
                 </div>
                 <div>
                     <label for="new-surname">Cognome*</label>
-                    <input type="text" id="new-surname" name="new-surname" autocomplete="family-name" value="[cognome-utente]" placeholder="Cognome">
+                    <input type="text" id="new-surname" name="new-surname" maxlength="100" autocomplete="family-name" value="[cognome-utente]" placeholder="Cognome"/>
                     <p class="error-form">[erroriCognome]</p>
                 </div>
                 <div class="edit-number">
-                    <label for="new-number">Telefono</label>
+                    <label for="new-number">Telefono con prefisso</label>
                     <div>
-                        <span>+39 </span>
-                        <input type="tel" id="new-number" name="new-number" autocomplete="tel" value="[telefono-utente]" placeholder="000 000 0000">
+                        <input type="tel" id="new-number" name="new-number" maxlength="15" autocomplete="tel" value="[telefono-utente]" placeholder="+39 000 000 0000"/>
                     </div>
                     <p class="error-form">[erroriTelefono]</p>
                 </div>
             </fieldset>
             <fieldset class="fieldset-indirizzo">
                 <legend>Indirizzo</legend>
-                    <p class="hidden-indirizzo">Tutti i campi dell\'indirizzo devono essere completi, altrimenti nessuno.</p>
+                    <p>Tutti i campi dell\'indirizzo devono essere completi, altrimenti nessuno.</p>
                     <div>
                         <label for="new-address">Via e numero civico</label>
-                        <input type="text" id="new-address" name="new-address" autocomplete="street-address" 
-                        value="[via-utente]" placeholder="Via L. Da Vinci n.10" aria-label="Tutti i campi dell\'indirizzo devono essere completi, altrimenti nessuno.">
+                        <input type="text" id="new-address" name="new-address" maxlength="255" autocomplete="street-address" 
+                        value="[via-utente]" placeholder="Via Paolotti n.42" aria-label="Tutti i campi dell\'indirizzo devono essere completi, altrimenti nessuno."/>
                         <p class="error-form">[erroriIndirizzo]</p>
                     </div>
                     <div>
                         <label for="new-city">Città</label>
-                        <input type="text" id="new-city" name="new-city" autocomplete="address-level2" 
-                        value="[citta-utente]" placeholder="Roma">
+                        <input type="text" id="new-city" name="new-city" maxlength="100" autocomplete="address-level2" 
+                        value="[citta-utente]" placeholder="Padova"/>
                         <p class="error-form">[erroriCitta]</p>
                     </div>
                     <div>
                         <label for="new-cap">CAP</label>
-                        <input type="text" id="new-cap" name="new-cap" autocomplete="postal-code" 
-                        value="[cap-utente]" placeholder="00000">
+                        <input type="text" id="new-cap" name="new-cap" maxlength="5" autocomplete="postal-code" 
+                        value="[cap-utente]" placeholder="00000"/>
                         <p class="error-form">[erroriCAP]</p>
                         <p class="error-form">[erroriIndirizzoTotale]</p>
                     </div>
             </fieldset>
             [messaggiForm]
-            <span>
+            <div>
                 <a href="profilo-utente" class="cancel-edit">Annulla</a>
                 <button type="submit" name="edit-profile">Salva</button>
-            </span>
+            </div>
         </form>
     </div>';
 
 // --- HTML GESTIONE ---
 
 $htmlManagement = '
-    <div class="edit-management">
+    <div class="edit-management" id="gestisci-profilo" tabindex="-1">
         <h2>Gestisci il profilo</h2>
-        <form class="edit-mode" method="POST" action="profilo-utente" novalidate>
+        <form class="edit-mode" id="manage-form" method="post" action="profilo-utente" novalidate>
             <fieldset class="fieldset-edit-email">
                 <legend>Modifica email</legend>
                 <div>
                     <label for="new-email">Email*</label>
-                    <input type="email" id="new-email" name="new-email" autocomplete="email" value="[email-utente]" placeholder="esempio@gmail.com">
+                    <input type="email" id="new-email" name="new-email" maxlength="255" autocomplete="email" value="[email-utente]" placeholder="esempio@gmail.com"/>
                     <p class="error-form">[erroriEmail]</p>
                 </div> 
             </fieldset>
@@ -588,7 +635,7 @@ $htmlManagement = '
                     <input type="password" id="old-pw" name="old-pw" placeholder="Vecchia password" 
                     onpaste="return false;" 
                     oncopy="return false;"
-                    autocomplete="off">
+                    autocomplete="off"/>
                     <i class="fas fa-eye"></i>
                 </div>
                 <label for="new-pw">Nuova password</label>
@@ -596,7 +643,7 @@ $htmlManagement = '
                     <input type="password" id="new-pw" name="new-pw" placeholder="Nuova password"
                     onpaste="return false;" 
                     oncopy="return false;"
-                    autocomplete="off">
+                    autocomplete="off"/>
                     <i class="fas fa-eye"></i>
                 </div>
                 <label for="new-pw-Confirmed">Conferma la password</label>
@@ -604,7 +651,7 @@ $htmlManagement = '
                     <input type="password" id="new-pw-Confirmed" name="new-pw-Confirmed" placeholder="Conferma la password"
                     onpaste="return false;" 
                     oncopy="return false;"
-                    autocomplete="off">
+                    autocomplete="off"/>
                     <i class="fas fa-eye"></i>
                 </div>
             </fieldset>
@@ -616,15 +663,35 @@ $htmlManagement = '
                     <li>Almeno un numero</li>
                     <li>Una lettera maiuscola</li>
                     <li>Una lettera minuscola</li>
-                    <li>Almenu un carattere speciale (! @ + ? / , - . $ _ =)</li>
+                    <li>Almeno un carattere speciale (! @ + ? / , - . $ _ =)</li>
                 </ul>
             </p>
-            <span>
+            <div>
                 <a href="profilo-utente" class="cancel-edit">Annulla</a>
                 <button type="submit" name="edit-profile-management">Salva</button>
-            </span>
+            </div>
         </form>
-    </div>';
+
+        [ButtonEliminaProfilo]
+
+        <dialog [openDialog] class="overlay-content">
+                <div class="dialog-box">
+                    <h3 id="modal-title">Eliminazione profilo</h3>
+                    <p id="modal-desc">L\'eliminazione è <strong>irreversibile</strong>, vuoi continuare?</p>
+                    
+                    <div class="dialog-buttons">
+                        <form method="post" action="#user-info">
+                            <button type="submit" name="close-dialog" class="button-cancel">No, annulla</button>
+                        </form>
+                        
+                        <form method="post">
+                            <button type="submit" name="delete-account" >Si, elimina</button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
+        
+        </div>';
 
 if (isset($_GET['mode']) && $_GET['mode'] === 'edit') {
     $contenutoScelto = $htmlEdit;
@@ -640,9 +707,12 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'edit') {
 
 
 
+
 $infoUtente = null;
 $listaAvvisi = "";
 $listaRichieste = "";
+$editAddressPermission = false;
+$removeAddressPermission = false;
 
 //connesisone al DB
 $connessione = new DBAccess();
@@ -650,33 +720,46 @@ $connessioneOK = $connessione->openDBConnection();
 if ($connessioneOK) {
 	if (isset($_SESSION['email'])) {
         checkRole($connessione);
+        $editAddressPermission = $connessione ->getAddressPermissionEdit($_SESSION['email']);
+        $removeAddressPermission = $connessione ->getAddressPermissionRemove($_SESSION['email']);
         $infoUtente = $connessione->getUserInfo($_SESSION['email']);
         $listaAvvisi = createMovementList($connessione, $filtroCorrenteAvvisi);
         $listaRichieste = createRequestList($connessione, $filtroCorrenteRichieste);
-        $messageInfoForm = editInfoAccount($connessione, $NewUserInfo, $infoUtente);
+        $messageInfoForm = editInfoAccount($connessione, $NewUserInfo, $infoUtente, $editAddressPermission, $removeAddressPermission);
         $messageManagementForm = editManagementAccount($connessione, $NewUserManagement, $infoUtente);
+        deleteAccount($connessione);
     }else{
-        header("Location: ./login"); 
+        header("Location: ./accedi"); 
         exit;
     }
     $connessione->closeConnection();
     $messaggiGenerici = $messageInfoForm['generic'] . $messageManagementForm['generic'];
 }else{
-	header("Location: ./404");
     exit;    
+}
+
+if (empty($infoUtente['ImgPath']) || !file_exists($infoUtente['ImgPath'])) {
+    $infoUtente['ImgPath'] = 'assets/images/users/default-pic.png';
 }
 
 //se non riesco a prendere le info dell'utente rimando alla pagina di login, vuol dire che l'utente non era nel db 
 // (impossibile ma meglio essere sicuri)
 if ($infoUtente == null) {
-    header("Location: ./login"); 
+    header("Location: ./accedi"); 
     exit;
 }
 
-if($infoUtente['Via'] === null || $infoUtente['Citta'] === null || $infoUtente['CAP'] === null){
+if(!$infoUtente['Via'] || !$infoUtente['Citta'] || !$infoUtente['CAP']){
     $indirizzoCompleto = "<em>Sconosciuto</em>";
 }else{
-    $indirizzoCompleto = $infoUtente['Via'] . ', ' . $infoUtente['Citta'] . ' ' . $infoUtente['CAP'];
+    $indirizzoCompleto = htmlspecialchars($infoUtente['Via'], ENT_QUOTES, 'UTF-8') . ', ' . htmlspecialchars($infoUtente['Citta'], ENT_QUOTES, 'UTF-8') . ' ' . htmlspecialchars($infoUtente['CAP'], ENT_QUOTES, 'UTF-8');
+}
+
+if($infoUtente['Telefono']){
+    $telefonoGrezzo = htmlspecialchars($infoUtente['Telefono'], ENT_QUOTES, 'UTF-8');
+    $numero = substr($telefonoGrezzo, -10);
+    $prefisso = substr($telefonoGrezzo, 0, -10);
+    $printTelefono = trim($prefisso . ' ' . $numero);
 }
 
 $paginaHTML = file_get_contents('./src/template/layout.html');
@@ -686,12 +769,11 @@ if ($paginaHTML === false) {
 
 
 $title = '<title>Profilo - PetMatch </title>';
-$description = '<meta name="description" content="Profilo di PetMatch">';
-$keywords = "";
+$description = '<meta name="description" content="Pagina di visualizzazione e modifica profilo di PetMatch">';
+$keywords = "<meta name='keywords' content='Profilo, PetMatch, Modifica profilo, Le tue informazioni, Ultimi movimenti, Le tue richieste'>";
+$nav = buildNav($userMenu, './profilo-utente');
 
-$nav = buildUserNav($userMenu, './profilo-utente',$_SESSION['email'] ?? false);
-
-$footer = file_get_contents('./src/template/partials/footer.html');
+$footer = buildFooter($footerMenu,  './profilo-utente');
 
 $breadcrumb = getBreadcrumb('profilo-utente', $pagine);
 
@@ -725,18 +807,30 @@ $paginaHTML = str_replace('[erroriTelefono]', $messageInfoForm['phoneNumber'], $
 $paginaHTML = str_replace('[messaggiForm]', $messaggiGenerici, $paginaHTML);
 $paginaHTML = str_replace('[erroriIndirizzoTotale]', $messageInfoForm['indirizzo-totale'], $paginaHTML);
 
-$paginaHTML = str_replace('[imgPath]', $infoUtente['ImgPath'] ? $infoUtente['ImgPath'] : './assets/images/users/default-pic.png', $paginaHTML);
-$paginaHTML = str_replace('[nome-utente]', $NewUserInfo['name'] ? $NewUserInfo['name'] : $infoUtente['Nome'], $paginaHTML);
-$paginaHTML = str_replace('[cognome-utente]', $NewUserInfo['surname'] ? $NewUserInfo['surname'] : $infoUtente['Cognome'], $paginaHTML);
+$paginaHTML = str_replace('[imgPath]', $infoUtente['ImgPath'] ? htmlspecialchars($infoUtente['ImgPath'], ENT_QUOTES, 'UTF-8') : './assets/images/users/default-pic.png', $paginaHTML);
+$paginaHTML = str_replace('[nome-utente]', $NewUserInfo['name'] ? $NewUserInfo['name'] : htmlspecialchars($infoUtente['Nome'], ENT_QUOTES, 'UTF-8'), $paginaHTML);
+$paginaHTML = str_replace('[cognome-utente]', $NewUserInfo['surname'] ? $NewUserInfo['surname'] : htmlspecialchars($infoUtente['Cognome'], ENT_QUOTES, 'UTF-8'), $paginaHTML);
 $paginaHTML = str_replace('[indirizzo-utente]', $indirizzoCompleto, $paginaHTML);
 $paginaHTML = str_replace('[email-utente]', $NewUserManagement['email'] ? $NewUserManagement['email'] : $_SESSION['email'], $paginaHTML);
-$paginaHTML = str_replace('[via-utente]', $NewUserInfo['address'] ? $NewUserInfo['address'] : $infoUtente['Via'], $paginaHTML);
-$paginaHTML = str_replace('[citta-utente]', $NewUserInfo['city'] ? $NewUserInfo['city'] : $infoUtente['Citta'], $paginaHTML);
-$paginaHTML = str_replace('[cap-utente]', $NewUserInfo['CAP'] ? $NewUserInfo['CAP'] : $infoUtente['CAP'], $paginaHTML);
-$paginaHTML = str_replace('[telefono-utente]', $NewUserInfo['phoneNumber'] ? $NewUserInfo['phoneNumber'] : $infoUtente['Telefono'], $paginaHTML);
-$paginaHTML = str_replace('[telefono-utente-view]', $infoUtente['Telefono'] ? '+39 ' . $infoUtente['Telefono'] : "<em>Sconosciuto</em>", $paginaHTML);
+$paginaHTML = str_replace('[via-utente]', $NewUserInfo['address'] ? $NewUserInfo['address'] : htmlspecialchars($infoUtente['Via'], ENT_QUOTES, 'UTF-8')??'', $paginaHTML);
+$paginaHTML = str_replace('[citta-utente]', $NewUserInfo['city'] ? $NewUserInfo['city'] : htmlspecialchars($infoUtente['Citta'], ENT_QUOTES, 'UTF-8')??'', $paginaHTML);
+$paginaHTML = str_replace('[cap-utente]', $NewUserInfo['CAP'] ? $NewUserInfo['CAP'] : htmlspecialchars($infoUtente['CAP'], ENT_QUOTES, 'UTF-8')??'', $paginaHTML);
+$paginaHTML = str_replace('[telefono-utente]', $NewUserInfo['phoneNumber'] ? $NewUserInfo['phoneNumber'] : htmlspecialchars($infoUtente['Telefono'], ENT_QUOTES, 'UTF-8')??'', $paginaHTML);
+$paginaHTML = str_replace('[telefono-utente-view]', $infoUtente['Telefono'] ? $printTelefono : "<em>Sconosciuto</em>", $paginaHTML);
 $paginaHTML = str_replace('[footer]', $footer, $paginaHTML);
 
-echo $paginaHTML;
+$paginaHTML = str_replace('[ButtonEliminaProfilo]', $_SESSION['email']==='user'?'':'   
+            <form method="post" action="#user-info">
+                <button type="submit" name="show-dialog" class="button-cancel">Elimina profilo</button>
+            </form>', $paginaHTML);
 
+
+ 
+$showModal = $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['show-dialog']);
+$closeModal = $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['close-dialog']);
+$paginaHTML = str_replace('[openDialog]', $showModal?'open':'', $paginaHTML);
+$paginaHTML = str_replace('[openDialog]', $closeModal?'':'', $paginaHTML);
+
+
+echo $paginaHTML;
 ?>

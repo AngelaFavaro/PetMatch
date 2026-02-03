@@ -1,0 +1,96 @@
+<div id="nuovo-evento">
+    <form method="post" id="new-event" enctype="multipart/form-data" novalidate>
+        <h1>[Action-modified] un evento</h1>
+        <fieldset>
+            <legend>[Action-modified-legend]</legend>
+            <div class="split-input">
+                <div>
+                    <label for="title-event">Titolo*</label>
+                    <input type="text" name="title-event" id="title-event"  maxlength="40" placeholder="Titolo" 
+                    aria-describedby="help-counter-titoloevento"
+                    value="[title-event-value]"/>
+                    <p id="help-counter-titoloevento">
+                        <span class="labelledby-element">limite caratteri</span>
+                        <span class="conteggio-testo" id="conta-corrente-titoloevento"></span>
+                    </p>
+                    [error-title]
+                </div>
+                <div>
+                    <label for="day-event">Data*</label>
+                    <input type="date" name="day-event" id="day-event" placeholder="dd-mm-YYYY" value="[day-event-value]"/>
+                    [error-day]
+                </div>
+                [error-existEvent]
+            </div> 
+            <label for="desc-event">Breve descrizione dell'evento*</label>
+
+            <div>
+                <textarea name="desc-event" 
+                    id="desc-event" 
+                    placeholder="Breve descrizione"
+                    maxlength="255" 
+                    aria-describedby="help-counter-evento"
+                    >[desc-event-place]</textarea>
+                <p id="help-counter-evento">
+                    <span class="labelledby-element">limite caratteri</span>
+                    <span class="conteggio-testo" id="conta-corrente-evento"></span>
+                </p>
+                [error-desc]
+            </div>
+
+            <div class="split-input">
+                <div>
+                    <label for="address-event">Via e numero civico*</label>
+                    <input type="text" name="address-event" id="address-event" maxlength="255" 
+                    aria-describedby="help-counter-address"
+                    placeholder="Via Paolotti n.42" value="[address-event-value]"/>
+                    <p id="help-counter-address">
+                        <span class="labelledby-element">limite caratteri</span>
+                        <span class="conteggio-testo" id="conta-corrente-address"></span>
+                    </p>
+                    [error-address]
+                </div>
+                <div>
+                    <label for="city-event">Città*</label>
+                    <input type="text" name="city-event" id="city-event"  maxlength="100" placeholder="Padova" 
+                    aria-describedby="help-counter-citta"
+                    value="[city-event-value]"/>
+                    <p id="help-counter-citta">
+                        <span class="labelledby-element">limite caratteri</span>
+                        <span class="conteggio-testo" id="conta-corrente-citta"></span>
+                    </p>
+                    [error-city]
+                </div>
+            </div> 
+
+            <div id="foto-container">
+                <span id="label-foto">Seleziona una foto*</span>
+                <label for="foto" class="file-upload-label">
+                    <span class="file-upload-text">Importa un immagine o trascinala</span>
+                    <span class="file-name-display"></span>
+                    <input type="file" id="foto" name="foto" accept=".jpg, .jpeg, .png"/>
+                    <div class="foto-caricata-info">
+                        [foto-event-upload]
+                    </div>
+                </label>
+                [error-foto]
+            </div>
+
+            [input-hidden-foto]
+            
+        </fieldset>
+        
+        <p class="error-form">[error-generic]</p>
+        <div id="createMore-container">
+            <label for="createMore">Aggiungine altri
+                <input type="checkbox" name="createMore" id="createMore" [checkCreateMore]/>
+            </label> 
+        </div>
+        
+        <div class="form-buttons-container">
+            <a href="[urlCancel]" id="cancel-new-event">Annulla</a>
+            <button type="submit" name="submit-event">Salva</button>
+        </div>
+
+    </form>
+</div>

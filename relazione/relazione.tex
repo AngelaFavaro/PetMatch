@@ -1,0 +1,174 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[colorlinks=true, linkcolor=black, urlcolor=black]{hyperref}
+\usepackage{svg}
+
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{bookmark}
+\usepackage{hyperref}
+\hypersetup{
+  pdfauthor={Linor Sadè con l'aiuto di tutto il gruppo di progetto},
+  pdftitle={Relazione di progetto petmatch},
+  pdfsubject={Se stai leggendo questa descrizione significa che stai guardando i metadati del PDF! Oppure il .tex pfff. Guarda che abbiamo messo anche le keywords eh! vedi tutto con il comando pdfinfo relazione.pdf},
+  pdfkeywords={relazione, petmatch, animali, adozione, progetto, tecweb, unipd, accattivante e accessibile, informatica, gaggi}
+}
+
+\usepackage[italian]{babel} % Language
+%package per Font
+\usepackage{fontspec}
+
+% ---------------------------------
+
+\usepackage{comment}
+
+
+%tabelle
+\usepackage[table]{xcolor} 
+\usepackage{booktabs} 
+\usepackage{array}
+\usepackage{graphicx}
+
+\usepackage{fancyhdr}   % intestazioni e piè di pagina
+\usepackage{geometry} %per l'interlinea
+\usepackage{setspace} %per i margini
+\usepackage{ragged2e} %per il giustificato
+\usepackage{enumitem} % per personalizzare gli elenchi (noitmsep)
+\usepackage{ragged2e} % per definire i rientri di paragrafo
+\usepackage{changepage}
+
+\usepackage{float} % serve per la [H] nelle figure, non so se mi servirà
+\usepackage{caption} % per le caption delle figure
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\usepackage[framemethod=TikZ]{mdframed}
+% ---------------------------------------------------
+
+%definisco i colori che uso
+\definecolor{brown}{HTML}{481515} % intestazione marrone
+\definecolor{beige}{HTML}{FFF6D7}  % celle giallino chiaro
+\definecolor{orange}{HTML}{EA654C}
+\definecolor{green}{HTML}{6D7541}
+\definecolor{grey}{HTML}{E4D4BA}
+
+\hypersetup{
+    colorlinks=true,      % Attiva i colori dei link
+    linkcolor=orange,     % Colore dei link interni (indice)
+    filecolor=magenta,      
+    urlcolor=orange,      % Colore degli \url
+    citecolor=blue,
+    pdftitle={Relazione di progetto petmatch},
+    pdfauthor={Linor Sadè con l'aiuto di tutto il gruppo di progetto},
+    % Aggiungi qui le altre opzioni meta...
+}
+\setmainfont{Times New Roman} %font
+\geometry{a4paper,inner=3cm,outer=3cm,top=2.5cm,bottom=2.5cm}
+\setstretch{1.5} % Interlinea
+\captionsetup{font={small,stretch=1.5}} %setup specifico per le section, non so se mi servirà
+
+\makeatletter
+  \renewcommand\large{\@setfontsize\large{13pt}{16pt}} % cambia la grandezza del font large, in 13 pt (così ci stanno i nomi nella pagina del frontespizio)
+\makeatother
+
+\pagestyle{fancy} % per attivare le intestazioni e piè di pagina personalizzate
+\setlength{\headheight}{25pt}  % lunghezza dell'intestazione per non sovrapporre il testo
+\fancyhead[L]{\includegraphics[height=1.2cm]{assets/header-logo.png}}
+\fancyhead[R]{\textbf{PetMatch}}
+\fancyfoot[C]{%
+  \makebox[0pt][c]{\includegraphics[height=1.8cm]{assets/paw.png}}%
+  \makebox[0pt][c]{\raisebox{0.3cm}{\textcolor{white}{\Large{\textbf{\thepage}}}}}%
+}
+
+\setlist{nosep} % non voglio l'interlinea extra negli elenchiiiiiiiiiiiiiiiii
+
+
+% Comando per inserire una pagina bianca senza numerazione (ma viene contata)
+\newcommand{\paginaBianca}{
+  \clearpage             % chiude la pagina corrente
+  \thispagestyle{empty}  % rimuove intestazione/piede pagina
+  \mbox{}                 % forza contenuto minimo sulla pagina
+  \clearpage             % chiude la pagina bianca e riprende la numerazione
+}
+
+% Coimando per il quadratino colorato usato dentro le tabelle dei colori
+% Utilizzo: \cbox{nomecolore}
+\newcommand{\cbox}[1]{%
+  \setlength{\fboxrule}{1pt}% Spessore bordo
+  \setlength{\fboxsep}{0pt}% Rimuove il padding (il "vuoto" tra bordo e contenuto)
+  \fcolorbox{black}{#1}{\textcolor{#1}{\rule{0.3cm}{0.3cm}}}%
+  \hspace{0.2cm}%
+}
+
+\usepackage[most]{tcolorbox}
+\usepackage{graphicx}
+
+% Definizione della barra di ricerca personalizzata
+\newcommand{\searchbar}[1]{%
+    \begin{tcolorbox}[
+        enhanced,
+        arc=10pt,                         % Arrotondamento angoli
+        boxrule=0.5pt,                    % Spessore bordo
+        colback=grey!50,                    % Colore sfondo
+        colframe=beige!30,                 % Colore bordo
+        width=0.8\textwidth,              % Larghezza della barra
+        left=30pt,                        % Spazio per l'icona a sinistra
+        boxsep=2pt,
+        top=4pt,
+        bottom=4pt,
+        overlay={
+            \node[anchor=west, xshift=8pt] at (frame.west) 
+            {\includegraphics[height=12pt]{assets/search.png}}; % La tua icona
+        }
+    ]
+    \textcolor{brown}{\textsf{#1}}      % Testo stile "placeholder"
+    \end{tcolorbox}
+}
+
+% ------------INIZIO DOCUMENTO--------------
+
+\begin{document}
+
+\justifying
+
+\pagenumbering{gobble} % Disabilita la numerazione delle pagine
+\pagestyle{empty}
+
+
+
+\input{components/frontespizio}
+
+\input{components/sections/info}
+\hypersetup{linkcolor=black}
+\newpage
+\tableofcontents
+\newpage
+\pagenumbering{gobble} % Disabilita la numerazione delle pagine
+\hypersetup{linkcolor=orange}
+\pagenumbering{arabic}
+\pagestyle{fancy}
+\setcounter{page}{1} 
+\input{components/sections/abstract}
+\newpage
+\input{components/sections/funzionalita}
+\input{components/sections/profilazione}
+\input{components/sections/attrazione_utenti.tex}
+\input{components/sections/design_grafico}
+\input{components/sections/accessibilita}
+\input{components/sections/architettura_informazione}
+\input{components/sections/layout_responsive}
+\input{components/sections/ranking_seo}
+\input{components/sections/test}
+\newpage
+\input{components/sections/database}
+
+\input{components/sections/configurazione_del_sistema}
+\input{components/sections/divisione_del_lavoro}
+
+\paginaBianca
+\pagenumbering{gobble} % Disabilita la numerazione delle pagine
+\pagestyle{empty}
+\input{components/ringraziamenti}
+
+\end{document}
+

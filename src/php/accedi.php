@@ -42,8 +42,6 @@ function checkCredential(DBAccess $conn, &$email) {
 
         $email = mb_strtolower($email, "UTF-8");
 
-        $email   = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
-
         $errors = '';
 
         //controllo le credenziali
@@ -56,14 +54,40 @@ function checkCredential(DBAccess $conn, &$email) {
         // Azioni
         if (empty($errors)) {
             $_SESSION['email'] = $email;
-
+            // === MIGRAZIONE PREFERITI DA COOKIE A DB ===
+            
             $role = $conn->getRole($email);
 
             if ($role === 'Admin') {
                 $_SESSION['admin'] = true;
+                $_SESSION['ruolo'] = 'Admin';
+                if (isset($_COOKIE['preferiti_guest'])) { //cancello cookies
+                    setcookie('preferiti_guest', '', time() - 3600, '/');
+                }
                 header("Location: ./area-riservata");
             } else if($role === 'User'){
                 $_SESSION['admin'] = false;
+                $_SESSION['ruolo'] = 'User';
+                if (isset($_COOKIE['preferiti_guest'])) {
+
+                    $preferiti = json_decode($_COOKIE['preferiti_guest'], true);
+
+                    if (is_array($preferiti) && !empty($preferiti)) {
+
+                        foreach ($preferiti as $idAnimale) {
+                            $idAnimale = (int)$idAnimale;
+
+                            // evita duplicati
+                            if (!$conn->isAnimalInFavorites($email, $idAnimale)) {
+                                $conn->addToFavorites($email, $idAnimale);
+                            }
+                        }
+                    }                
+                }
+            // cancella cookie dopo migrazione
+            if (isset($_COOKIE['preferiti_guest'])) {
+                setcookie('preferiti_guest', '', time() - 3600, '/');
+            }
                 header("Location: ./profilo-utente"); 
             }
             exit;
@@ -72,7 +96,7 @@ function checkCredential(DBAccess $conn, &$email) {
             $_SESSION['form_status'] = 'error';
             $_SESSION['form_errors'] = ['generic' => $errors];
             $_SESSION['form_inputs'] = ['email' => $email];
-            header("Location: ./accedi");
+            header("Location: ./accedi#form-login");
             exit;
         }
     }   
@@ -98,12 +122,14 @@ if ($paginaHTML === false) {
 	$paginaHTML = "<p>Errore: template layout.html non trovato o non leggibile.</p>";
 }
 
-$title = '<title>Accedi - PetMatch </title>';
-$description = '<meta name="description" content="Accedi a PetMatch">';
-$keywords = "";
+$emailToEcho   = htmlspecialchars($emailValue, ENT_QUOTES, 'UTF-8');
 
-$nav = buildUserNav($userMenu, './accedi', $_SESSION['email'] ?? false);
-$footer = file_get_contents('./src/template/partials/footer.html');
+$title = '<title>Accedi - PetMatch </title>';
+$description = '<meta name="description" content="Pagina di accesso a PetMatch">';
+$keywords = "<meta name='keywords' content='accedi, PetMatch, login, accesso, animali, adozione'>";
+
+$nav = buildNav($userMenu, './accedi');
+$footer = buildFooter($footerMenu,  './accedi');
 
 $breadcrumb = getBreadcrumb('accedi', $pagine);
 
@@ -116,7 +142,7 @@ $paginaHTML = str_replace('[breadcrumb]', $breadcrumb, $paginaHTML);
 $paginaHTML = str_replace('[nav]', $nav, $paginaHTML);
 $paginaHTML = str_replace('[main]', $main, $paginaHTML);
 
-$paginaHTML = str_replace('[emailValue]', $emailValue, $paginaHTML);
+$paginaHTML = str_replace('[emailValue]', $emailToEcho, $paginaHTML);
 $paginaHTML = str_replace('[erroriLogin]', $messageForm, $paginaHTML);
 
 $paginaHTML = str_replace('[footer]', $footer, $paginaHTML);

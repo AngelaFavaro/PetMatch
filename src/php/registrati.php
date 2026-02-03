@@ -100,27 +100,31 @@ function createNewAccount(DBAccess $conn, &$nameValue, &$surnameValue, &$emailVa
 
         $regexNome = "/^(?=.*[\p{L}]{2})[\p{L}\s']+$/u"; 
         $regexEmail = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,10})$/i";
-        $regexPassword = "/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@+?\/,.\-$_=])[a-zA-Z0-9!@+?\/,.\-$_=]{8,32}$/";
+        $regexPassword = "/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@+?\/,.\-\$_=])[a-zA-Z0-9!@+?\/,.\-\$_=]{8,32}$/";
 
         /* VALIDAZIONE CAMPI */
         if (strlen($name) < 2) {
             $errors['name'] = "Il nome è troppo corto.";
-        } elseif (!preg_match($regexNome, $name)) {
+        } else if (!preg_match($regexNome, $name)) {
             $errors['name'] = "Il nome contiene caratteri non validi.";
+        }else if(strlen($name)>100){ 
+            $errors['surname'] = "Il nome è troppo lungo.";
         }
 
         if (strlen($surname) < 2) {
             $errors['surname'] = "Il cognome è troppo corto.";
-        } elseif (!preg_match($regexNome, $surname)) {
+        } else if (!preg_match($regexNome, $surname)) {
             $errors['surname'] = "Il cognome contiene caratteri non validi.";
+        }else if(strlen($surname)>100){ 
+            $errors['surname'] = "Il cognome è troppo lungo.";
         }
 
         if (!preg_match($regexEmail, $email)) {
             $errors['email'] = "Formato email non valido.";
-        } else {
-            if($conn->checkEmailExists($email)){ 
-                $errors['email'] = "L'email è già in uso.";
-            }
+        } else if($conn->checkEmailExists($email)){ 
+            $errors['email'] = "L'email è già in uso.";
+        }else if(strlen($emailValue)>255){
+            $errors['email'] = "L'email è troppo lunga.";
         }
 
         if (strlen($password) < 8 || strlen($confirmPassword) < 8   ) {
@@ -131,7 +135,7 @@ function createNewAccount(DBAccess $conn, &$nameValue, &$surnameValue, &$emailVa
             $errors['password'] = "La password non rispetta i criteri richiesti o non coincide.";
         }
 
-        /* AZIONI */
+        
         if (empty($errors)) {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $insertResult = $conn->insertNewUser($email, $name, $surname, $hashedPassword);
@@ -140,20 +144,41 @@ function createNewAccount(DBAccess $conn, &$nameValue, &$surnameValue, &$emailVa
 				$_SESSION['email'] = $email;
 				$_SESSION['admin'] = false;
 
+                // === MIGRAZIONE PREFERITI DA COOKIE A DB ===
+            if (isset($_COOKIE['preferiti_guest'])) {
+
+                $preferiti = json_decode($_COOKIE['preferiti_guest'], true);
+
+                if (is_array($preferiti) && !empty($preferiti)) {
+
+                    foreach ($preferiti as $idAnimale) {
+                        $idAnimale = (int)$idAnimale;
+
+                        // evita duplicati
+                        if (!$conn->isAnimalInFavorites($email, $idAnimale)) {
+                            $conn->addToFavorites($email, $idAnimale);
+                        }
+                    }
+                }
+
+                // cancella cookie dopo migrazione
+                setcookie('preferiti_guest', '', time() - 3600, '/');
+            }
+
                 header("Location: ./profilo-utente"); 
                 exit;
             } else {
                 $_SESSION['form_status'] = 'error';
                 $_SESSION['form_errors'] = ['generic' => "Sistema momentaneamente non disponibile."];
                 $_SESSION['form_inputs'] = ['name' => $nameValue, 'surname' => $surnameValue, 'email' => $emailValue];
-                header("Location: ./registrati");
+                header("Location: ./registrati#form-signup");
                 exit;
             }
         } else {
             $_SESSION['form_status'] = 'error';
             $_SESSION['form_errors'] = $errors; 
             $_SESSION['form_inputs'] = ['name' => $nameValue, 'surname' => $surnameValue, 'email' => $emailValue];
-            header("Location: ./registrati");
+            header("Location: ./registrati#form-signup");
             exit;
         }
     }
@@ -178,12 +203,12 @@ if ($connessioneOK) {
 
 
 $title = '<title>Registrati - PetMatch </title>';
-$description = '<meta name="description" content="Registrati su PetMatch">';
-$keywords = "";
+$description = '<meta name="description" content="Pagina di registrazione su PetMatch">';
+$keywords = "<meta name='keywords' content='registrati, PetMatch, profilo, adozioni, animali '>";
 
-$nav = buildUserNav($userMenu, './registrati', $_SESSION['email'] ?? false);
+$nav = buildNav($userMenu, './registrati');
 
-$footer = file_get_contents('./src/template/partials/footer.html');
+$footer = buildFooter($footerMenu,  './registrati');
 
 $breadcrumb = getBreadcrumb('registrati', $pagine);
 

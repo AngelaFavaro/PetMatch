@@ -1,3 +1,5 @@
+/* ================== HOME ==================*/
+
 #paw-1, #paw-2, #paw-3, #paw-4 {
     display: none;
 }
@@ -44,8 +46,8 @@
     margin:0;
 }
 
-#sponsor + .container a{
-    margin-top:1em;
+#section-sponsor + .container a{
+    margin-top:-2em;
 }
 
 
@@ -55,70 +57,151 @@
 
 /* non in mini perchè le tabelle non si vedono bene */
 
+#admin-area .tabs-container#richieste .tab-content{
+    margin:auto;
+}
 
+div#admin-area table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+}
 
-
-table, tbody, tr {
+div#admin-area table, div#admin-area tbody,div#admin-area tr {
 	border:none;
     border-radius: 0;
 }
 
-td,th {
+div#admin-area td,div#admin-area th {
 	border-top:none;
 }
 
 
-th{
+div#admin-area th{
 	background-color: var(--darkbgcolor);
 }
 
-thead {
+div#admin-area thead {
 	display: none;
 }
 
-tfoot th{
+div#admin-area tfoot th{
 	display:none;
 }
 
-tr, th, td {
+div#admin-area tfoot td{
+    padding:0.5em 1em;
+    float: left;
+}
+
+div#admin-area tr, div#admin-area th, div#admin-area td {
     display: block;
 }
 
+div#admin-area tbody td {
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: break-word; 
+    padding: 0.3em 0.2em 0.2em 0.2em;
+    border-bottom: 1px solid var(--borderTable);
+}
+div#admin-area tbody td, div#admin-area tbody th {
+    padding: 0.2em 1em;
+    text-align: left;
+    border-bottom: 1px solid var(--darkbgcolor);
+}
+#richieste .capsula-filtro select#filtro-appunti{
+    padding-right: 2em;
+}
+
+#richieste .capsula-filtro{
+    margin:auto;
+}
+
+tbody th{
+    padding: 0.3em;
+    border: none;
+}
 
 /* mette il th del thead nelle celle che descrivono quel contenuto*/
-/* cambio mettendo anche il titolo nella  */
+
 th[data-title]:before, td[data-title]:not(.presAss):before {
     content: attr(data-title) ":\00A0";
     font-weight: bold;
 }
 
-
-
-/* td.col-dettagli a{
-    display: inline;
-} */
-
-
-.tab-mini{
-    display: block;
-    /* width: 100%; */
+thead + tbody tr td.col-dettagli{
+    padding: 0;
 }
 
-.tab-mini button{
+tbody tr:last-child th, tbody tr:last-child td {
+    padding: 0.2em 1em;
+    border-bottom: 1px solid var(--darkbgcolor);
+}
+
+td.col-dettagli a,td.col-dettagli button{
+    margin: 0.5em 0em 0.5em auto;
+}
+
+/* select per la mobile */
+#mobile-select{
+    display: block;
     width: 100%;
+    height: 50px;
+    background-color: var(--buttoncolor);
+    text-align: center;
+    margin: auto;
+    border-radius: 2em;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-decoration: none;
+    border:1px solid var(--buttoncolor);
+    color:var(--text-form);
+}
+
+#animali #mobile-select{
+    margin-bottom: 1em;
+}
+
+#mobile-select option{
+    background-color: var(--form-bg);
+}
+
+#animali .filtri, #eventi .filtri, #richieste .filtri{
+    flex-wrap: wrap;
+}
+
+
+/* per i tab: questa regola serve perchè altrimenti si vedono anche gli article che sono stati selezionati con i radio button (schermo più grande) */
+/* per l'input: gli input a vista non si vedono ma hanno sr-only, devono proprio sparire e quindi è necessaria questa regola */
+/* per le label: altrimenti si vedono le tabs */
+.tabs-container input, .tabs-container#richieste label,.tabs-container#animali label,
+.tabs-container#richieste #tab1:checked  ~ .tab-content:nth-of-type(1),
+.tabs-container#richieste #tab2:checked  ~ .tab-content:nth-of-type(2), 
+.tabs-container#richieste #tab3:checked  ~ .tab-content:nth-of-type(3),
+.tabs-container#richieste #tab4:checked  ~ .tab-content:nth-of-type(4),
+.tabs-container#richieste #tab5:checked  ~ .tab-content:nth-of-type(5),
+.tabs-container#animali #tab1:checked  ~ .tab-content:nth-of-type(1),
+.tabs-container#animali #tab2:checked  ~ .tab-content:nth-of-type(2){
+    display: none;
+}
+
+.tabs-container#animali .filtri label,.tabs-container#richieste .filtri label{
     display: block;
 }
 
-.tab-mini button.active{
-    border: 1px solid var(--txtcolor);
-    /* border: none; */
-    border-radius: 1em 1em 0em 0em ;
-    background-color: var(--darkbgcolor);
+#richieste:has(#mobile-select option[value="tab1"]:checked)  .tab-content.tab1,
+#richieste:has(#mobile-select option[value="tab2"]:checked) .tab-content.tab2,
+#richieste:has(#mobile-select option[value="tab3"]:checked) .tab-content.tab3,
+#richieste:has(#mobile-select option[value="tab4"]:checked) .tab-content.tab4,
+#richieste:has(#mobile-select option[value="tab5"]:checked) .tab-content.tab5,
+#animali:has(#mobile-select option[value="tab1"]:checked)  .tab-content.tab1,
+#animali:has(#mobile-select option[value="tab2"]:checked) .tab-content.tab2{
+    display: block;
+    margin:0 auto;
 }
 
-td.col-dettagli a{
-    margin: 0.5em 0.5em 0.5em auto;
-}
+
 
 
 /* ================== LOGIN ==================*/
@@ -129,4 +212,42 @@ td.col-dettagli a{
 #login .container .column-container{
     width: 70%;
 
+}
+
+/* ==========PAGINA COME FUNZIONA ============== */
+
+#come-funziona #comeSiAdotta {
+    margin-top: 2.5em;
+}
+#come-funziona #comeSiAdotta #paws-containter img {
+    display: none;
+}
+/* ==========INFORMAZIONI ANIMALE============== */
+#dettaglio-animale .generic-info-container .text-details{
+    width: 100%;
+    column-count: 2;
+}
+
+#dettaglio-animale .action-buttons-group{
+    display: block;
+    margin-top: 1em;
+}
+
+#dettaglio-animale .action-buttons-group .text-details{
+    margin-left: 0;
+}
+
+#dettaglio-animale .generic-info-container img.square-foto{
+    margin: auto;
+    display: block;
+    margin-bottom: 1em;
+}
+
+#visualizzazione-evento .collaboratori#altri-eventi {
+    flex: none;
+    width: 100%;
+}
+
+#eventi .cards-container li, #visualizzazione-evento .cards-container li{
+    max-width: 100%;
 }
