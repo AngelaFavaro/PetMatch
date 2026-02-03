@@ -4386,9 +4386,7 @@ div#admin-area article.note{
 }
 
 /*================= DETTAGLI ANIMALI ADMIN ==================*/
-/* ============================================================
-   STRUTTURA PRINCIPALE (LAYOUT)
-   ============================================================ */
+
 #dettaglio-animale {
     display: flex;
     gap: 2em;
@@ -4399,7 +4397,6 @@ div#admin-area article.note{
     max-width: 100%;
 }
 
-/* Box generico delle informazioni (Sinistra) */
 #dettaglio-animale article#animale-detailed-container {
     border: 0.1em solid var(--txtcolor);
     border-radius: 0.5em;
@@ -4420,7 +4417,6 @@ div#admin-area article.note{
     border-color: transparent;
 }
 
-/* Box delle richieste (Destra) */
 #dettaglio-animale #content-manage {
     flex: 1 1 35%;
     margin-top: 2em;
@@ -4436,9 +4432,6 @@ div#admin-area article.note{
     border: none;
 }
 
-/* ============================================================
-   SEZIONE INFO ANIMALE (FOTO E TESTO AFFIANCATI)
-   ============================================================ */
 #dettaglio-animale .generic-info-container {
     flex-direction: row;
     align-items: center;
@@ -4507,10 +4500,9 @@ h2+#animale-richiesta .generic-info-container img.square-foto{
 
 
 #dettaglio-animale .text-details {
-    flex: 1; /* il testo occupa lo spazio rimanente accanto alla foto */
+    flex: 1; 
 }
 
-/* Pulsante Matita (Modifica) */
 #dettaglio-animale .edit-btn-container {
     position: relative;
     top: 0;
@@ -4555,7 +4547,7 @@ a.pencil img {
     font-size: 1.5em;
     font-weight: bold;
     margin-bottom: 0.8em;
-    padding: 0; /* titolo attaccato al margine sinistro */
+    padding: 0; 
     display: block;
     width: 100%;
 }
@@ -4569,7 +4561,6 @@ a.pencil img {
     margin-bottom: 1em;
 }
 
-/* Fieldset - ALLINEAMENTO SOTTO AL TITOLO */
 #dettaglio-animale .tabs-container fieldset {
     display: flex;
     flex-direction: column; 
@@ -4592,15 +4583,11 @@ a.pencil img {
     margin-bottom: 1em;
 }
 
-/* RESET COLORI TENDINA APERTA */
 #dettaglio-animale .tabs-container option {
-    background-color: var(--bgcolor); /* sfondo della lista aperta diverso dalla tendina chiusa */
+    background-color: var(--bgcolor); 
     color: var(--txtcolor);
 }
 
-/* ============================================================
-   LISTA CARD RICHIESTE E RESET
-   ============================================================ */
 #visualizza-richieste-animale .tabs-container,
 #visualizza-richieste-animale .tabs-container fieldset,
 #visualizza-richieste-animale .tabs-container ul {
@@ -4625,14 +4612,12 @@ a.pencil img {
     border: none;
 }
 
-/* Selettore specifico per non intaccare altre liste del sito */
 #visualizza-richieste-animale .tab-content {
     list-style-type: none;
     padding: 0;
     margin: 20px 0;
 }
 
-/* Stile della card specifica per questa sezione */
 #visualizza-richieste-animale .richiesta-card {
     border-radius: 12px;
     margin-bottom: 12px;
@@ -4648,10 +4633,6 @@ a.pencil img {
     color: var(--txtcolor);
     font-size: 1rem;
 }
-
-
-/* Gestione visibilità Tab tramite i radio button */
-/*#visualizza-richieste-animale .tab-content { display: none; }*/
 
 #anim-tab1:checked ~ #start-requests .content-tab1,
 #anim-tab2:checked ~ #start-requests .content-tab2,
@@ -4809,9 +4790,6 @@ div#admin-area #animali .filtri ul{
     color:var(--text-form);
 }
 
-/* ========================================
-   CONTAINER PRINCIPALE
-   ======================================== */
 #admin-area-aggiungi,
 #nuovo-evento {
     margin-top:-6em;
@@ -4827,9 +4805,6 @@ div#admin-area #animali .filtri ul{
     background-size: contain;
 }
 
-/* ========================================
-   FORM BASE
-   ======================================== */
 #form-add-animal,
 #new-event {
     background-color: var(--form-bg);
@@ -4864,14 +4839,12 @@ div#admin-area #animali .filtri ul{
     margin-top:1.5em;
 }
 
-/* Reset del fieldset */
 #fieldset-assegnazione {
     border: none;
     padding: 0;
     margin: 1em 0; 
 }
 
-/* Allineamento della legend */
 .legend-content {
     display: inline-flex;
     align-items: center;
@@ -4903,7 +4876,6 @@ div#admin-area #animali .filtri ul{
     border-color: var(--buttoncolor);
 }
 
-/* Il segno di spunta bianco */
 #check-assegna:checked::after {
     content: '';
     position: absolute;
@@ -4916,9 +4888,6 @@ div#admin-area #animali .filtri ul{
     transform: rotate(45deg);
 }
 
-/* ========================================
-   RADIO BUTTONS - TIPOLOGIA Animali
-   ======================================== */
 .radio-group-cg {
     display: flex;
     flex-direction: row;
@@ -4963,9 +4932,6 @@ div#admin-area #animali .filtri ul{
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* ========================================
-   RADIO BUTTONS - SESSO
-   ======================================== */
 #form-add-animal p+p.sex-title,
 #form-edit-animal p+p.sex-title {
     font-weight: 550;
@@ -5000,9 +4966,6 @@ div#admin-area #animali .filtri ul{
     margin:0;
 }
 
-/* ========================================
-   LABELS
-   ======================================== */
 #form-add-animal label,
 #new-event label,
 #form-add-animal #label-foto,
@@ -5027,9 +4990,6 @@ div#admin-area #animali .filtri ul{
     margin-left: 0.5em;
 }
 
-/* ========================================
-   INPUT TEXT E DATE
-   ======================================== */
 #form-add-animal input[type="text"],
 #form-add-animal input[type="date"],
 #new-event input[type="text"],
@@ -5071,9 +5031,6 @@ div#admin-area #animali .filtri ul{
     font-size: 0.9em;
 }
 
-/* ========================================
-   SELECT (TAGLIA E PELO)
-   ======================================== */
 #form-add-animal select {
     padding:0.5em 2em 0.5em 0.5em;
     background-color: var(--form-bg);
@@ -5087,9 +5044,6 @@ div#admin-area #animali .filtri ul{
 
 }
 
-/* ========================================
-   TEXTAREA
-   ======================================== */
 #richiesta-adozione textarea,
 #form-add-animal textarea,
 #new-event textarea {
@@ -5200,9 +5154,6 @@ div#admin-area #animali .filtri ul{
     text-align: center;
 }
 
-/* ========================================
-   MESSAGGI DI ERRORE
-   ======================================== */
 .error-form {
     color: var(--errortxt);
     font-size: 0.9em;
