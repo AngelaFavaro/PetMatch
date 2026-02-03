@@ -912,7 +912,6 @@ class DBAccess {
 
         foreach ($tipi as $tipo) {
             $offset = ($tipo === 'Cane') ? $offCani : $offGatti;
-            
             $filterQuery = "";
             if ($filtro === 'mie') {
                 $filterQuery = " AND A.Email = ? ";
