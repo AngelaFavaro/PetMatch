@@ -4231,9 +4231,6 @@ em#note-richiesta{
     display: block; /* per centrare*/
 }
 
-
-/* todo mamma mia linor, modifica sta roba che diventa illeggibile (devi
-modificare div#admin-area article che è più specifico di #details-container article quindi hai dovuto scriverlo così) */
 div#admin-area #details-container article{
     flex: 1 1 200px;
     gap: 1em;
