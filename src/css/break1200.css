@@ -124,7 +124,7 @@ tbody th{
 }
 
 /* mette il th del thead nelle celle che descrivono quel contenuto*/
-/* cambio mettendo anche il titolo nella  */
+
 th[data-title]:before, td[data-title]:not(.presAss):before {
     content: attr(data-title) ":\00A0";
     font-weight: bold;
@@ -135,9 +135,6 @@ thead + tbody tr td.col-dettagli{
 }
 
 tbody tr:last-child th, tbody tr:last-child td {
-    /* border-bottom: 1px solid var(--txtcolor); */
-    /* padding: 0.3em 0.2em 0.2em 0.2em;
-    border-bottom: 1px solid var(--borderTable); */
     padding: 0.2em 1em;
     border-bottom: 1px solid var(--darkbgcolor);
 }
@@ -218,8 +215,6 @@ td.col-dettagli a,td.col-dettagli button{
 }
 
 /* ==========PAGINA COME FUNZIONA ============== */
-
-/* PAGINA COME FUNZIONA */
 
 #come-funziona #comeSiAdotta {
     margin-top: 2.5em;

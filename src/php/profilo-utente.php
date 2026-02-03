@@ -309,7 +309,7 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente, $editAddr
             }
             
             if($isAllEmpty || ($isAllFull && $modifiedAddress)){
-                // $errors['address'] = "Ci passo.";
+                
                 if (!$editAddress) {
                     $errors['indirizzo-totale'] = "Impossibile modificare l'indirizzo: c'è un trasporto attivo.";
                 } 
@@ -357,7 +357,7 @@ function editInfoAccount(DBAccess $conn, &$NewUserValues, $infoUtente, $editAddr
             'profilePic' =>'',
         ];
 
-        /* AZIONI */
+        
         if (empty($errors)) {
 
             //la foto del profilo avrà sempre qualcosa anche se non si selezionano immagini, bisogna controllarlo con empty

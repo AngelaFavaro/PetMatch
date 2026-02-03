@@ -86,7 +86,7 @@ function buildEventsCards($events): string {
 ";
     }
     $html="<h2>Altri eventi nella zona</h2>
-            <ul class='cards-container' id='content-animali' tabindex='-1' aria-label='Altri eventi nella zona'>
+            <ul class='cards-container' tabindex='-1' aria-label='Altri eventi nella zona'>
             $altriEventi
             </ul>
             <a class='link-button' href = './eventi'> Guarda tutti gli eventi →</a>";
@@ -133,7 +133,7 @@ function buildMainevent(array $dettagliEvento, int $isAdmin=0): string {
 
         
         $html.="
-        <img class='square-foto' id='foto-animale' src=".htmlspecialchars($img)." alt='foto del luogo per evento  $titolo' />
+        <img class='square-foto' id='foto-card' src=".htmlspecialchars($img)." alt='foto del luogo per evento $titolo' />
 
         <dialog [openDialog] class='overlay-content'>
                     <div class='dialog-box'>
@@ -232,7 +232,7 @@ if ($connection->openDBConnection()) {
                 }
                 $eventi = $connection->getEventsFilteredPaged($citta, 3);
                 $Aside=$eventi?buildEventsCards($eventi) : "<h2>Altri eventi nella zona</h2>
-                    <ul class='cards-container' id='content-animali' tabindex='-1' aria-label='Altri eventi nella zona'>
+                    <ul class='cards-container' tabindex='-1' aria-label='Altri eventi nella zona'>
                     <p class='errore'>Per ora non ci sono altri eventi in programma in questa città. Ritorna tra qualche giorno a controllare</p>
                     </ul>
                     <a class='link-button' href = './eventi'> Guarda tutti gli eventi →</a>";

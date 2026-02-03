@@ -200,10 +200,7 @@ $noNav = [
 ];
 
 
-/**
- * Carica un file e ritorna un fallback in caso di errore
- * TO DO qui sarebbe utile inserire come path default il layout base ma prima bisognerebbe unificare i layout di admin e utente normale
- */
+
 function loadTemplate(string $path, string $default = ''): string {
     $content = @file_get_contents($path);
     return $content === false ? $default : $content;
@@ -760,7 +757,7 @@ function saveGuestFavorites(array $ids): void {
 function buildPagination(int $currentPage, int $totalPages, array|string $params = []): string {
     // NORMALIZZA FILTRI
     if (is_string($params) && $params !== '') {
-        // stringa semplice → tipo
+        
         $params = ['tipo' => $params];
     }
 

@@ -246,7 +246,7 @@ if ($connection->openDBConnection()) {
     handleFavorites($connection, $utenteAccesso, $emailUtente);
     $editAddressPermission = $connection ->getAddressPermissionEdit($emailUtente);
 
-    // 1. Recupero Dettagli Animale
+    
     if ($idAnimale) {
         $dettagliAnimale = $connection->getAnimalDetails($idAnimale); 
         if(!$dettagliAnimale && $isAdmin){
@@ -516,7 +516,7 @@ if (!$utenteAccesso) {
 }
 
 $CARDANIMALE1 = "
-    <img id='foto-animale' class='square-foto' src='$img' alt='Foto di $nome' />  
+    <img id='foto-card' class='square-foto' src='$img' alt='Foto di $nome' />  
     <div id= 'info-generiche-testo'>";
     $CARDANIMALE1 .= ($isAdmin)?'':"
                 <form method='post' action='' class='preferiti-form'>

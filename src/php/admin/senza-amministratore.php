@@ -211,24 +211,6 @@ $main = renderNNonAdminByType($NNonAdminByType, $main);
 $main = str_replace('[LINKPAGINE-CANI]', $linkCani, $main);
 $main = str_replace('[LINKPAGINE-GATTI]', $linkGatti, $main);
 
-/* ---- da completare quando aggiungerò i filtri (SE)---*/
-/*$rawFilters = [
-    'appunti'   => $_GET['appunti'] ?? '',
-    'trasporto' => $_GET['trasporto'] ?? '',
-];
-
-
-$replaceFilters = [
-    '[APPUNTI_SELECTED_TUTTI]'   => $rawFilters['appunti'] === '' ? 'selected' : '',
-    '[APPUNTI_SELECTED_SI]' => $rawFilters['appunti'] === '1' ? 'selected' : '',
-    '[APPUNTI_SELECTED_NO]'   => $rawFilters['appunti'] === '0' ? 'selected' : '',
-    '[TRASPORTO_SELECTED_TUTTI]' => $rawFilters['trasporto'] === '' ? 'selected' : '',
-    '[TRASPORTO_SELECTED_ORGANIZZATO]' => $rawFilters['trasporto'] === '1' ? 'selected' : '',
-    '[TRASPORTO_SELECTED_DA_ORGANIZZARE]'   => $rawFilters['trasporto'] === '0' ? 'selected' : '',
-];
-
-$main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);*/
-
 $title = "<title>Animali senza amministratore - PetMatch</title>";
 $description = "<meta name='description' content='Pagina di gestione delle richieste di adozione per animali senza amministratore in PetMatch.'>";
 $keywords = "<meta name='keywords' content='richieste, amministratore, animali, PetMatch'>";
