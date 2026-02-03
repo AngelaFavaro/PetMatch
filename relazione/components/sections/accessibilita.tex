@@ -21,7 +21,7 @@ Questa sezione descrive le scelte specifiche dividendole in base ai principi fon
 \subsection{Comprensibile}
 \begin{itemize}
     \item abbiamo dato un significato ai pulsanti di colore diverso: quelli che fanno un'operazione al db (es. invio form) sono arancioni, mentre quelli che portano semplicemente ad una pagina diversa (interna o esterna) sono marroni;
-    \item i pulsanti a icona hanno sempre il medesimo risultato una volta cliccati. Per esempio li click (o tap) all'icona di modifica nel profilo utente normale e amministratore la modifica direttamente nella pagina. Invece nella pagina di dettaglio animale è stato usato un pulsante arancione che riporta ad una pagina simile a quella per aggiungere l'animale ma con i campi precompilati pronti per la modifica.
+    \item i pulsanti a icona hanno sempre il medesimo risultato una volta cliccati. Per esempio li click (o tap) all'icona di modifica nel profilo utente normale e amministratore, apre la modifica direttamente nella pagina. Invece nella pagina di dettaglio animale è stato usato un pulsante arancione che riporta ad una pagina simile a quella per aggiungere l'animale ma con i campi precompilati pronti per la modifica.
     \item la timeline (o elenco numerato) delle fasi di adozione è simile a quella usata nella pagina chi siamo ma con la differenza che non presenta l'icona a V che indica l'interazione con la stessa;
     \item le polaroid presenti in chi siamo non sono dei link e non sono neanche interattive. Per rendere evidente la differenza rispetto alla sezione degli eventi nella homepage, le polaroid sono attaccate con del nastro adesivo stilizzato invece che con delle mollette;
     \item i numeri grandi sono scritti in forma estesa (es. 5 mila invece di 5.000) per migliorare la leggibilità, specialmente per i lettori più giovani;
@@ -37,8 +37,9 @@ Questa sezione descrive le scelte specifiche dividendole in base ai principi fon
 \subsubsection{Convenzioni interne}
 Nel contesto del principio di comprensibilità, alcune delle convenzioni interne adottate
 \begin{itemize}
-    \item I pulsanti che hanno un certo ruolo nelle operazioni sul database sono di colore arancione. Per esempio invio form, link che portano a pagine di modifica/aggiunta di elementi (Aggiungi evento, modifica animale, ecc.). Un altro esempio sono i pulsanti delle attività da completare nell'area admin, essi infatti portano a pagine che richiedono di scaricare data dal databasae;
+    \item I pulsanti che hanno un certo ruolo nelle operazioni sul database sono di colore arancione. Per esempio invio form, link che portano a pagine di modifica/aggiunta di elementi (Aggiungi evento, modifica animale, ecc.). Un altro esempio sono i pulsanti delle attività da completare nell'area admin, essi infatti portano a pagine che richiedono di scaricare dati dal databasae;
     \item Alcuni link hanno le sembianze di pulsanti e se sono marroni indicano che portano a pagine interne o esterne senza modificare il database (es. contatta candidato nell'area admin);
+    \item I pulsanti con icona a matita ricaricano la pagina inserendo un form precompilato per la modifica. Se la modifica richiede invece una pagina diversa, è stato usato un pulsante arancione con un link che porta alla pagina di modifica (es. modifica animale nell'area admin);
 \end{itemize}
 
 \subsection{Robusto}
