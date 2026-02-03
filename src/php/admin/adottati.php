@@ -13,7 +13,7 @@ function renderAnimalContent(string $tipo, array $animaliAdottati, string $NAdop
     $tipoMinuscoloPlurale = ($tipo === 'Cane') ? 'cani' : 'gatti'; 
 
     if (($NAdoptedAnimal ?? 0) == 0) {
-        return '<p role="status" class="nessun-risultato-message">Nessun ' . $tipoMinuscoloPlurale . ' adottato.</p>';
+        return '<p role="status" class="nessun-risultato-message">Nessun ' . strtolower($tipo) . ' adottato.</p>';
     }
 
     $idTabella = "sumTabella" . $tipo;
@@ -52,7 +52,7 @@ function renderAnimalContent(string $tipo, array $animaliAdottati, string $NAdop
     }else{
         $html .= '
             <tr>
-                <td colspan="6" class="nessun-risultato-message" >Nessun ' . $tipo . ' trovato con i filtri selezionati.</td>
+                <td colspan="6" class="nessun-risultato-message" >Nessun ' . strtolower($tipo) . ' trovato con i filtri selezionati.</td>
             </tr>
         ';
     
@@ -62,7 +62,7 @@ function renderAnimalContent(string $tipo, array $animaliAdottati, string $NAdop
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="6">Totale ' . $tipoMinuscoloPlurale . ' adottati</td>
+                <td colspan="6">Totale ' . strtolower($tipo) . ' adottati</td>
                 <td>' . htmlspecialchars($NAdoptedAnimal) . '</td>
             </tr>
         </tfoot>
