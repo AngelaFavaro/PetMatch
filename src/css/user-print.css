@@ -852,7 +852,7 @@ margin-bottom: 0.3cm;
 }
 /* ---------- VISUALIZZAZIONE ANIMALE ------------ */
 
-
+#stato-richiesta a.link-button,
 #contatta-il-rifugio {
     border: 1px solid var(--lightborder);
     margin: 0.2cm 0 0.5cm 0;
@@ -863,7 +863,6 @@ margin-bottom: 0.3cm;
     text-decoration: none;
     display: block;
     text-align: center;
- 
 }
 
 #visualizzazione-animale .column-container{

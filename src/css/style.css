@@ -5589,6 +5589,10 @@ nav#breadcrumb a:visited{
         margin-top: 1em;
 }
 
+#visualizzazione-animale #stato-richiesta a.link-button{
+    margin: 0 auto 0 0;
+}
+
 #info-aggiuntive-separate dl dd{
     margin-bottom: 0.5em;
 }

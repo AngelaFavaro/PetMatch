@@ -39,7 +39,7 @@ $connessione = new DBAccess();
 $connessioneOK = $connessione->openDBConnection();
 if ($connessioneOK) {
 	$infoRequest = $connessione->getAnimalRequest($_SESSION['email'],$_GET['id-animale']);
-    if($infoRequest){
+    if(!$infoRequest){
         header("Location: ./404");
         exit; 
     }
