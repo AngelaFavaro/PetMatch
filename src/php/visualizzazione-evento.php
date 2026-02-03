@@ -133,7 +133,7 @@ function buildMainevent(array $dettagliEvento, int $isAdmin=0): string {
 
         
         $html.="
-        <img class='square-foto' id='foto-card' src=".htmlspecialchars($img)." alt='foto del luogo per evento $titolo' />
+        <img class='square-foto' id='foto-card' src=".htmlspecialchars($img)." />
 
         <dialog [openDialog] class='overlay-content'>
                     <div class='dialog-box'>
