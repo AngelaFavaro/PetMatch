@@ -141,7 +141,7 @@ class DBAccess {
 		
 	}
 
-    /** trova per un determinato user il numero richieste attive-1 dove attive significa non concluse, non annullate, non respinte
+    /** trova per un determinato user il numero richieste attive dove attive significa non concluse, non annullate, non respinte
      */
     public function countActiveRequestsForUser($email): int {
         if (!$this->connection){
