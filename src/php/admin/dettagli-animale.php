@@ -212,8 +212,12 @@ $main = str_replace('[pulsante-assegnazione]', $btnAssegnazione, $main);
 $main = str_replace([
     '[n-nuove]', '[n-valutazione]', '[n-accettate]', '[n-respinte]', '[n-annullate]', '[n-trasporto]'
 ], [
-    $NRequestsByStatus['Nuova'] ?? 0, $NRequestsByStatus['In valutazione'] ?? 0, $NRequestsByStatus['Accettata'] ?? 0,
-    $NRequestsByStatus['Respinta'] ?? 0, $NRequestsByStatus['Annullata'] ?? 0, $NRequestsByStatus['Da trasportare'] ?? 0
+    $NRequestsByStatus['Nuova'] ?? 0, 
+    $NRequestsByStatus['In valutazione'] ?? 0, 
+    $NRequestsByStatus['Accettata'] ?? 0,
+    $NRequestsByStatus['Respinta'] ?? 0, 
+    $NRequestsByStatus['Annullata'] ?? 0, 
+    $NRequestsByStatus['Da trasportare'] ?? 0
 ], $main);
 $main = str_replace('[elencoRichieste]', $listRequestHTML, $main);
 $showModal = $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['show-dialog']);
