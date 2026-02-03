@@ -265,7 +265,7 @@ h4{
 
 #form-signup + p a,
 #form-login + p a{
-    color:var(--darklinkcolor);
+    color:var(--headerlink);
     font-weight: 500;
 }
 
