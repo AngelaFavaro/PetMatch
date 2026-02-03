@@ -442,6 +442,7 @@ if (!$utenteAccesso) {
                         <p> Stato: <span class='enfatizzato'> richiesta pendente </span> </p>
                         <p> Hai una richiesta di adozione pendente per questo animale, attendi che ti venga comunicato l’esito! </p>
                         <p> Qualche problema o domanda? Valuta di contattarci </p>
+                        <a class='link-button' href='./revisione-richiesta?id-animale=".$_GET['id-animale']."'>vai alla richiesta</a>
                     </div>
                 <a href='mailto:matchpet48@gmail.com' class='link-button' id='contatta-il-rifugio'>Contatta il rifugio</a> ";   
                 break;
@@ -457,6 +458,7 @@ if (!$utenteAccesso) {
                         <p> Stato: <span class='enfatizzato'> in valutazione </span> </p>
                         <p> Ti contatteremo nell'email indicata sul tuo profilo per iniziare la tua conoscenza e valutare se sei il giusto candidato per <strong>$nome</strong> </p>
                         <p> Qualche problema o domanda? Valuta di contattarci </p>
+                        <a class='link-button' href='./revisione-richiesta?id-animale=".$_GET['id-animale']."'>vai alla richiesta</a>
                     </div>
                     <a href='mailto:matchpet48@gmail.com' class='link-button' id='contatta-il-rifugio'>Contatta il rifugio</a>
                 ";
@@ -471,6 +473,7 @@ if (!$utenteAccesso) {
                         <p>  Stato: <span class='enfatizzato'> pronto per il trasporto </span> </p>
                         <p> Data di arrivo: <span class='enfatizzato'>$dataArrivo</span> </p> 
                         <p> Qualche problema o domanda? Valuta di contattarci </p>
+                        <a class='link-button' href='./revisione-richiesta?id-animale=".$_GET['id-animale']."'>vai alla richiesta</a>
                     </div>
                     <a href='mailto:matchpet48@gmail.com' class='link-button' id='contatta-il-rifugio'>Contatta il rifugio</a> ";
                 break;
@@ -484,6 +487,7 @@ if (!$utenteAccesso) {
                         <p>  Stato:  <span class='enfatizzato'>rifiutata </span> </p>
                         <p> Ci dispiace informati che la tua richiesta di adozione di <strong> $nome </strong> è stata rifiutata. </p> 
                         <p> Qualche problema o domanda? Valuta di contattarci </p>
+                        <a class='link-button' href='./revisione-richiesta?id-animale=".$_GET['id-animale']."'>vai alla richiesta</a>
                     </div>
                     <a href='mailto:matchpet48@gmail.com' class='link-button' id='contatta-il-rifugio'>Contatta il rifugio</a> 
                ";
@@ -498,6 +502,7 @@ if (!$utenteAccesso) {
                         <p>  Stato: <span class='enfatizzato'> annullata </span> </p>
                         <p> Hai annullato la richiesta di adozione per <strong> $nome </strong>.</p> 
                         <p> Qualche problema o domanda? Valuta di contattarci  </p>
+                        <a class='link-button' href='./revisione-richiesta?id-animale=".$_GET['id-animale']."'>vai alla richiesta</a>
                     </div>
                     <a href='mailto:matchpet48@gmail.com' class='link-button' id='contatta-il-rifugio'>Contatta il rifugio</a> 
                 ";

@@ -9,30 +9,18 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
     exit;
 }
 
-/** DA TOGLIERE, NON NECESSARIO TODO
- * Genera gli input nascosti usati nei form (id_animale + email_richiedente)
-*/
-function hiddenInputsFrom(array $r): string {
-    $id = e($r['id-animale'] ?? '');
-    $email = e($r['email-richiedente'] ?? '');
-    return '<input type="hidden" name="id_animale" value="' . $id . '"/>
-            <input type="hidden" name="email_richiedente" value="' . $email . '"/>';
-}
-
 /**
  * Renderizza il blocco "scarta/apri richiesta"
  */
 function renderRejectRequest(array $r, $AcceptRequestDetails): string {
     if (($r['stato'] ?? '') !== 'Respinta' && ($r['stato'] ?? '') !== 'Annullata') {
         return '<form method="post">' .
-            hiddenInputsFrom($r) .
             '<button type="submit" name="scarta_richiesta" class="db-button">Scarta richiesta</button>
         </form>';
     }
     
     if (empty($AcceptRequestDetails)) {
         return '<form method="post">' .
-            hiddenInputsFrom($r) .
             '<button type="submit" name="apri_richiesta" class="db-button">Apri richiesta</button>
         </form>';
     }
@@ -51,12 +39,10 @@ function renderPulsantiAzioni(array $r): string {
         $html = '<a href="mailto:' . ($r['email-richiedente'] ?? '') . '?subject=' . $subject . '" class="link-button" target="_blank"><img src="./assets/icons/mail.svg" alt="" /> Contatta candidato</a>';
     } elseif ($stato === 'Nuova') {
         $html = '<form method="post">' .
-            hiddenInputsFrom($r) .
             '<button type="submit" name="inizia_valutazione" class="db-button">Inizia valutazione</button>
         </form>';
     } elseif ($stato === 'In valutazione') {
         $html = '<form method="post">' .
-            hiddenInputsFrom($r) .
             '<button type="submit" name="accetta_richiesta" class="db-button">Accetta richiesta</button>
         </form>';
     }

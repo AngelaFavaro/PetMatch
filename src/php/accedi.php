@@ -96,7 +96,7 @@ function checkCredential(DBAccess $conn, &$email) {
             $_SESSION['form_status'] = 'error';
             $_SESSION['form_errors'] = ['generic' => $errors];
             $_SESSION['form_inputs'] = ['email' => $email];
-            header("Location: ./accedi");
+            header("Location: ./accedi#form-login");
             exit;
         }
     }   
