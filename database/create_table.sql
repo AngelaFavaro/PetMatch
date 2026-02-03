@@ -116,7 +116,6 @@ CREATE TABLE RICHIESTE_ADOZIONI(
 );
 
 -- TRASPORTI
--- aggiornamento: ho tolto la via etc e ho messo dataarrivo e datapartenza nullable
 CREATE TABLE TRASPORTI (
     ID INT AUTO_INCREMENT PRIMARY KEY,
     Email VARCHAR(255),

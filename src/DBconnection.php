@@ -7,9 +7,9 @@ class DBAccess {
 
 	private const HOST_DB = "localhost"; 
 
-	private const DATABASE_NAME = "acanazza"; //qui devi mettere le tue credenziali di login
+	private const DATABASE_NAME = "acanazza";
 	private const USERNAME = "acanazza";
-	private const PASSWORD = "meiSeeQueN4their"; //quella dentro il file  pwd_db_2526.txt
+	private const PASSWORD = "meiSeeQueN4their";
 
 	private $connection;
 

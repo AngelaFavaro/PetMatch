@@ -137,6 +137,8 @@
 :root:has(input#theme-toggle:checked) #menu-admin #logo,
 :root:has(input#theme-toggle:checked) .pencil img,
 :root:has(input#theme-toggle:checked) #account-normal,
+:root:has(input#theme-toggle:checked) #contatta-il-rifugio:hover img,
+:root:has(input#theme-toggle:checked) #contatta-richiedente:hover img,
 :root:has(input#theme-toggle:checked) #introduction-home img{
     filter: brightness(0) saturate(100%) invert(79%) sepia(17%) saturate(541%) hue-rotate(346deg) brightness(92%) contrast(88%);
 }
@@ -4546,6 +4548,10 @@ a.pencil img {
 #contatta-il-rifugio img, #contatta-richiedente img{
     display: block;
     margin-right: 0.5em;
+}
+
+#contatta-il-rifugio:hover img, #contatta-richiedente:hover img{
+    filter: brightness(0) saturate(100%) invert(18%) sepia(34%) saturate(1637%) hue-rotate(329deg) brightness(93%) contrast(92%); 
 }
 /* ============================================================
    SEZIONE TABS E FILTRI (RICHIESTE)
