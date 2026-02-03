@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         formDate.addEventListener('submit', (e) => {
             e.preventDefault();
-            // Qui chiameresti la tua funzione sendData()
+            
         });
     }
 

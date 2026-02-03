@@ -161,7 +161,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
                 </thead>
                 <tbody>';
 
-            // mi sento così intelligente dopo aver cambiato il mio if elseif if in una sola riga, lascio questo commento per ricordarmelo
+            
             $richieste = $conn->getInEvaluationRequests($_SESSION['email'] ?? '',$_GET['appunti'] ?? null);
 
             if(!empty($richieste)){

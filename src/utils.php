@@ -760,7 +760,7 @@ function saveGuestFavorites(array $ids): void {
 function buildPagination(int $currentPage, int $totalPages, array|string $params = []): string {
     // NORMALIZZA FILTRI
     if (is_string($params) && $params !== '') {
-        // stringa semplice → tipo
+        
         $params = ['tipo' => $params];
     }
 

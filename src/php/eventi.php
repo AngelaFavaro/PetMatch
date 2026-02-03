@@ -19,7 +19,6 @@ if(str_contains($currentUri, 'visualizzazione-eventi')){
     }
 }
 
-// $url=$isAdmin?'visualizzazione-eventi':'eventi'; 
 
 function buildFilterNav(array $filters): string {
     $types = [
@@ -132,7 +131,7 @@ $filtersPercity = [
     'tipo'       => $_GET['tipo']?? 'prossimi'
 ];
 
-$replaceFilters = [ //DA CAMBIARE
+$replaceFilters = [ 
     '[NAME]' => htmlspecialchars($filtersPerTitle['search']),
     '[DATA_INIZIO]' => htmlspecialchars($filtersPerTitle['data_inizio']),
     '[DATA_FINE]' => htmlspecialchars($filtersPerTitle['data_fine']),
@@ -191,7 +190,7 @@ $main = str_replace('[EVENTI]', $eventiCards, $main);
 
 $main = str_replace('[LINKPAGINE]', $linkPagine, $main);
 
-// $main = str_replace('[URL-RESETFILTRI]', $resetUrl, $main);
+
 $main = str_replace('[VISIBILITA-FILTRO]', $cancelFiltriId, $main);
 $main = str_replace(array_keys($replaceFilters), array_values($replaceFilters), $main);
 
