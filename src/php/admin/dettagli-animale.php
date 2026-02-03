@@ -2,7 +2,6 @@
 include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
-session_start();
 
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
     if(isset($_GET['id-animale'])){
@@ -24,7 +23,12 @@ if (!$idAnimale) {
 }
 
 function createAnimalRequestList(array $richieste): string {
-    $stati = ['Nuova', 'In valutazione', 'Accettata', 'Respinta', 'Annullata', 'Da trasportare'];
+    $stati = ['Nuova', 
+              'In valutazione', 
+              'Accettata', 
+              'Respinta', 
+              'Annullata', 
+              'Da trasportare'];
     $gruppi = array_fill_keys($stati, '');
 
      foreach ($richieste as $r) {
@@ -164,18 +168,17 @@ $title = '<title>Dettagli ' . e($richiesta['Nome'] ?? 'Animale') . ' - Admin Pet
 $description = '<meta name="description" content="Visualizzazione dettagliata per amministratori di un animale in PetMatch">';
 $keywords = "<meta name='keywords' content='amministratore, dettaglio, animale, PetMatch'>";
 
-// Navigazione attiva
 $activeNav = $fromEmail ? 'richieste-adozione' : ($from === 'senza-admin' ? 'senza-amministratore' : 'animali-admin');
 $nav = buildAdminNav($adminMenu, $activeNav);
 
 $paginaHTML = str_replace(['[breadcrumb]', '[title]', '[nav]', '[description]', '[keywords]'], 
-                         [$breadcrumb, $title, $nav, $description, ""], 
+                         [$breadcrumb, $title, $nav, $description, $keywords], 
                          $paginaHTML);
 
 $main = str_replace('[idAnimale]', e($idAnimale), $main);
 $main = str_replace('[nomeAnimale]', e($richiesta['Nome'] ?? 'N/D'), $main);
 $imgPath = $richiesta['ImgPath'] ?? '';
-if (!$imgPath || !file_exists($imgPath)) {
+if (empty($imgPath) || !file_exists($imgPath)) {
     $imgPath = (isset($richiesta['Tipo']) && $richiesta['Tipo'] === 'Gatto') 
                ? './assets/images/animals/defaultGatto.jpg' 
                : './assets/images/animals/defaultCane.jpg';
@@ -196,18 +199,10 @@ $main = str_replace('[trasportoAnimale]', siNo($richiesta['Trasporto'] ?? 0), $m
 $main = str_replace('[famigliaIdeale]', e($richiesta['DescrFamiglia'] ?? 'N/D'), $main);
 $main = str_replace('[descrizioneCaratteriale]', e($richiesta['DescrComportamentale'] ?? 'N/D'), $main);
 
-$condizioni = ($richiesta['CondizioniMediche'] === null || $richiesta['CondizioniMediche'] === '0' || empty(trim($richiesta['CondizioniMediche']))) 
+$condizioni = (empty(trim($richiesta['CondizioniMediche'] ?? '')) || $richiesta['CondizioniMediche'] === '0') 
     ? '<em class="no-data">Nessuna</em>' 
     : e($richiesta['CondizioniMediche']);
 $main = str_replace('[condizioniMediche]', $condizioni, $main);
-
-$urlModifica = $pagine['modifica-animale']['url'] . "?id-animale=" . urlencode($idAnimale);
-if ($from) {
-    $urlModifica .= "&from=" . urlencode($from);
-}
-if (isset($_GET['from_email'])) {
-    $urlModifica .= "&from_email=" . urlencode($_GET['from_email']);
-}
 
 $main = str_replace('[pulsanti-modifica-animale]', $btnModifica, $main);
 $main = str_replace('[pulsante-elimina-animale]', $btnEliminaHTML, $main); 
@@ -217,8 +212,12 @@ $main = str_replace('[pulsante-assegnazione]', $btnAssegnazione, $main);
 $main = str_replace([
     '[n-nuove]', '[n-valutazione]', '[n-accettate]', '[n-respinte]', '[n-annullate]', '[n-trasporto]'
 ], [
-    $NRequestsByStatus['Nuova'] ?? 0, $NRequestsByStatus['In valutazione'] ?? 0, $NRequestsByStatus['Accettata'] ?? 0,
-    $NRequestsByStatus['Respinta'] ?? 0, $NRequestsByStatus['Annullata'] ?? 0, $NRequestsByStatus['Da trasportare'] ?? 0
+    $NRequestsByStatus['Nuova'] ?? 0, 
+    $NRequestsByStatus['In valutazione'] ?? 0, 
+    $NRequestsByStatus['Accettata'] ?? 0,
+    $NRequestsByStatus['Respinta'] ?? 0, 
+    $NRequestsByStatus['Annullata'] ?? 0, 
+    $NRequestsByStatus['Da trasportare'] ?? 0
 ], $main);
 $main = str_replace('[elencoRichieste]', $listRequestHTML, $main);
 $showModal = $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['show-dialog']);

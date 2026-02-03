@@ -332,14 +332,14 @@ $statoRichiesta = "";
 $contattaci="";
 
 if (!$utenteAccesso) {
-    $contattaci="<a href='mailto:matchpet48@gmail.com' target='_blank' class='link-button' id='contatta-il-rifugio'>Contatta il rifugio</a>";
+    $contattaci="<a href='mailto:matchpet48@gmail.com' target='_blank' class='link-button' id='contatta-il-rifugio' ><img src='./assets/icons/mail.svg' alt='' /> Contatta il rifugio</a>";
     $contenutoPagina = "
     <aside id='contatta-rifugio'>
         <p> Vuoi adottare questo animale? <a href='./registrati'>Registrati</a> o <a href='./accedi'>accedi</a> se hai già un profilo e manda una richiesta!</p>
     </aside>";
     $infoAggiuntive='info-aggiuntive-separate';
 } else if (($richiesta === false || $richiesta === null) && $isAdmin === false) {
-    $contattaci="<a href='mailto:matchpet48@gmail.com' target='_blank' class='link-button' id='contatta-il-rifugio'>Contatta il rifugio</a>";
+    $contattaci="<a href='mailto:matchpet48@gmail.com' target='_blank' class='link-button' id='contatta-il-rifugio' ><img src='./assets/icons/mail.svg' alt='' /> Contatta il rifugio</a>";
     $infoAggiuntive='info-aggiuntive-separate';
     $readonlyAttr = $editAddressPermission ? '' : 'readonly';
     $messaggioAddress= $editAddressPermission ? "<p>Il profilo utente verrà aggiornato con l'indirizzo inserito.</p>" : "<p>Il profilo utente non può essere aggiornato con un nuovo indirizzo perché hai almeno una richiesta di adozione con l'animale in trasporto</p>";
@@ -444,7 +444,7 @@ if (!$utenteAccesso) {
                         <p> Qualche problema o domanda? Valuta di contattarci </p>
                         <a class='link-button' href='./revisione-richiesta?id-animale=".$_GET['id-animale']."'>vai alla richiesta</a>
                     </div>
-                <a href='mailto:matchpet48@gmail.com' class='link-button' id='contatta-il-rifugio'>Contatta il rifugio</a> ";   
+                <a href='mailto:matchpet48@gmail.com' class='link-button' id='contatta-il-rifugio' ><img src='./assets/icons/mail.svg' alt='' /> Contatta il rifugio</a> ";   
                 break;
 
         }
@@ -460,7 +460,7 @@ if (!$utenteAccesso) {
                         <p> Qualche problema o domanda? Valuta di contattarci </p>
                         <a class='link-button' href='./revisione-richiesta?id-animale=".$_GET['id-animale']."'>vai alla richiesta</a>
                     </div>
-                    <a href='mailto:matchpet48@gmail.com' class='link-button' id='contatta-il-rifugio'>Contatta il rifugio</a>
+                    <a href='mailto:matchpet48@gmail.com' class='link-button' id='contatta-il-rifugio' ><img src='./assets/icons/mail.svg' alt='' /> Contatta il rifugio</a>
                 ";
                 break;
             }
@@ -475,7 +475,7 @@ if (!$utenteAccesso) {
                         <p> Qualche problema o domanda? Valuta di contattarci </p>
                         <a class='link-button' href='./revisione-richiesta?id-animale=".$_GET['id-animale']."'>vai alla richiesta</a>
                     </div>
-                    <a href='mailto:matchpet48@gmail.com' class='link-button' id='contatta-il-rifugio'>Contatta il rifugio</a> ";
+                    <a href='mailto:matchpet48@gmail.com' class='link-button' id='contatta-il-rifugio' ><img src='./assets/icons/mail.svg' alt='' /> Contatta il rifugio</a> ";
                 break;
         }
         case 'Respinta':{
@@ -489,7 +489,7 @@ if (!$utenteAccesso) {
                         <p> Qualche problema o domanda? Valuta di contattarci </p>
                         <a class='link-button' href='./revisione-richiesta?id-animale=".$_GET['id-animale']."'>vai alla richiesta</a>
                     </div>
-                    <a href='mailto:matchpet48@gmail.com' class='link-button' id='contatta-il-rifugio'>Contatta il rifugio</a> 
+                    <a href='mailto:matchpet48@gmail.com' class='link-button' id='contatta-il-rifugio' ><img src='./assets/icons/mail.svg' alt='' /> Contatta il rifugio</a> 
                ";
                 break;
         }
@@ -504,7 +504,7 @@ if (!$utenteAccesso) {
                         <p> Qualche problema o domanda? Valuta di contattarci  </p>
                         <a class='link-button' href='./revisione-richiesta?id-animale=".$_GET['id-animale']."'>vai alla richiesta</a>
                     </div>
-                    <a href='mailto:matchpet48@gmail.com' class='link-button' id='contatta-il-rifugio'>Contatta il rifugio</a> 
+                    <a href='mailto:matchpet48@gmail.com' class='link-button' id='contatta-il-rifugio' ><img src='./assets/icons/mail.svg' alt='' />Contatta il rifugio</a> 
                 ";
                 break;
         }

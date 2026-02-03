@@ -1,7 +1,6 @@
 <?php
 
 use DB\DBAccess;
-session_start();
 
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { //il primo controlla se esiste la variabile admin in session, la seconda controlla che sia affettivamente admin
     header("Location: ./accedi");
