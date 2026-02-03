@@ -2,7 +2,6 @@
 include './src/utils.php';
 include './src/DBconnection.php';
 use DB\DBAccess;
-session_start();
 
 //il primo controlla se esiste la variabile admin in session, la seconda controlla che sia affettivamente admin
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) { 
