@@ -917,7 +917,7 @@ class DBAccess {
             if ($filtro === 'mie') {
                 $filterQuery = " AND A.Email = ? ";
             } elseif ($filtro === 'non-mie') {
-                $filterQuery = " AND A.Email <> ? OR A.Email IS NULL "; //questo OR serve per includere anche gli animali adottati che non hano più admin (es admin viene elimimato, la segnalazione rimane) TODO in realtà è da controllare se è effettivamente così da db
+                $filterQuery = " AND (A.Email <> ? OR A.Email IS NULL) "; //questo OR serve per includere anche gli animali adottati che non hano più admin (es admin viene elimimato, la segnalazione rimane) TODO in realtà è da controllare se è effettivamente così da db
             }
 
             $query = "SELECT 
@@ -932,7 +932,7 @@ class DBAccess {
                     FROM RICHIESTE_ADOZIONI R
                     JOIN ANIMALI A ON R.IDanimale = A.IDanimale
                     JOIN UTENTI U_Adottante ON R.Email = U_Adottante.Email
-                    RIGHT JOIN UTENTI U_Admin ON A.Email = U_Admin.Email
+                    LEFT JOIN UTENTI U_Admin ON A.Email = U_Admin.Email
                     WHERE R.Stato = 'Accettata' 
                     AND A.Tipo = ? 
                     $filterQuery
