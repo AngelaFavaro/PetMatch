@@ -3536,7 +3536,12 @@ button[name="show-dialog"].button-cancel img{
 }
 
 /* ================== CHI SIAMO ==================*/
-
+#orari-chi-siamo p{
+    display: inline;
+}
+#orari-chi-siamo address{
+    display: inline;
+}
 #second-chapter-chi-siamo{
     margin-top: 1em;
 }
