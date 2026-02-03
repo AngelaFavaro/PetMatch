@@ -912,12 +912,11 @@ class DBAccess {
 
         foreach ($tipi as $tipo) {
             $offset = ($tipo === 'Cane') ? $offCani : $offGatti;
-            
             $filterQuery = "";
             if ($filtro === 'mie') {
                 $filterQuery = " AND A.Email = ? ";
             } elseif ($filtro === 'non-mie') {
-                $filterQuery = " AND A.Email <> ? OR A.Email IS NULL "; //questo OR serve per includere anche gli animali adottati che non hano più admin (es admin viene elimimato, la segnalazione rimane) TODO in realtà è da controllare se è effettivamente così da db
+                $filterQuery = " AND (A.Email <> ? OR A.Email IS NULL) "; //questo OR serve per includere anche gli animali adottati che non hano più admin (es admin viene elimimato, la segnalazione rimane) TODO in realtà è da controllare se è effettivamente così da db
             }
 
             $query = "SELECT 
