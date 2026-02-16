@@ -304,6 +304,15 @@ body#admin-body #breadcrumb{
     text-overflow: ellipsis;  /* aggiunge "..." alla fine */
 }
 
+#animali .not-favorite:hover .heart-hover,
+#animali .not-favorite .heart-normal:hover + .heart-hover{
+    opacity: 0;
+}
+
+#animali .not-favorite:hover .heart-normal{
+    opacity: 1;
+}
+
 #animali #nav-animali-type ul, #nav-event-type ul {
     display: flex;
     list-style: none;
