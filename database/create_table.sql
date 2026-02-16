@@ -39,9 +39,9 @@ CREATE TABLE EVENTI (
     DataEvento DATE NOT NULL,
     DescrEvento TEXT NOT NULL,
     ImgPath VARCHAR(512) NOT NULL,
-    PRIMARY KEY (Titolo, DataEvento),
     Via VARCHAR(255) NOT NULL,
-    Citta VARCHAR(100) NOT NULL
+    Citta VARCHAR(100) NOT NULL, -- Aggiunta virgola qui
+    PRIMARY KEY (Titolo, DataEvento),
     CHECK (DataEvento >= DataPubblicazione)
 );
 
@@ -73,9 +73,7 @@ CREATE TABLE ANIMALI(
     Trasporto TINYINT(1) NOT NULL,
     ImgPath VARCHAR(512) NOT NULL,
     Email VARCHAR(255),
-
     FOREIGN KEY (Email) REFERENCES UTENTI (Email) ON DELETE SET NULL ON UPDATE CASCADE,
-
     CHECK (Sesso IN ('F','M')),
     CHECK (Tipo IN ('Gatto','Cane')),
     CHECK ((Pelo IN ('Corto','Medio','Lungo')) OR (Pelo = 'Senza pelo' AND Tipo = 'Gatto')),
@@ -135,6 +133,5 @@ CREATE TABLE SEGNALAZIONI_NUOVE_ACCOGLIENZE (
     EmailAmm VARCHAR(255),
     EmailRichiedente VARCHAR(255) NOT NULL,
     FOREIGN KEY (EmailAmm) REFERENCES UTENTI (Email) ON DELETE SET NULL ON UPDATE CASCADE,
-
     CHECK (TipoAnimale IN ('Gatto','Cane'))
 );

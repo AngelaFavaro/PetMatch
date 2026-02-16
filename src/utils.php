@@ -777,7 +777,7 @@ function buildPagination(int $currentPage, int $totalPages, array|string $params
         $html .= '<li><a href="?' . http_build_query($params) . '" ><img src="./assets/icons/arrow-sx-green.svg" alt="vai alla pagina precedente" /></a></li>';
     }
 
-    $maxVisible = 10;
+    $maxVisible = 5;
     $start = max(1, $currentPage - 4);
     $end = min($totalPages, $start + $maxVisible - 1);
 

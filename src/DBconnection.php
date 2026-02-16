@@ -9,7 +9,7 @@ class DBAccess {
 
 	private const DATABASE_NAME = "acanazza";
 	private const USERNAME = "acanazza";
-	private const PASSWORD = "meiSeeQueN4their";
+	private const PASSWORD = "Vie0or7aZ0uchaey";
 
 	private $connection;
 
