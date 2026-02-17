@@ -379,6 +379,7 @@ body#admin-body{
     position: fixed;
     height: 7em;
     padding: 2.5em 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 nav#menu-admin li{
@@ -1068,6 +1069,7 @@ body#admin-body #richieste .filtri .capsula-filtro{
     width: 50%;
     flex: 1 1 55%;
     margin:auto;
+    margin-top:0.5em;
 }
 
 body#admin-body #richieste .filtri .capsula-filtro label{
