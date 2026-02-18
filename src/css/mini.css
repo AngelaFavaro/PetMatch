@@ -382,6 +382,10 @@ body#admin-body{
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
+#admin-body li#currentLink{
+    color:var(--txtcolor);
+}
+
 nav#menu-admin li{
     padding:0.8em 1.3em;
 }
