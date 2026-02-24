@@ -135,8 +135,8 @@ if(isset($_GET['id-animale'])) {
     // Il placeholder rimane fisso
     $replaceFilters = [
         '[NAME]' => htmlspecialchars($rawFilters['name-animal']),
-        '[ETA_MIN]' => htmlspecialchars($rawFilters['eta_min']),
-        '[ETA_MAX]' => htmlspecialchars($rawFilters['eta_max']),
+        'value=\'[ETA_MIN]\'' => $rawFilters['eta_min']?'value=\''.htmlspecialchars($rawFilters['eta_min']).'\'':'',
+        'value=\'[ETA_MAX]\'' => $rawFilters['eta_max']?'value=\''.htmlspecialchars($rawFilters['eta_max']).'\'':'',
     
         '[TAGLIA_SELECTED_EMPTY]'   => $rawFilters['taglia'] === '' ? 'selected' : '',
         '[TAGLIA_SELECTED_PICCOLA]' => $rawFilters['taglia'] === 'Piccolo' ? 'selected' : '',
@@ -208,7 +208,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
             foreach ($animali as $a) {
                 $nome  = htmlspecialchars($a['nome']);
                 $sesso = $a['sesso'] === 'M' ? 'Maschio' : 'Femmina';
-                $sessoAbbr = $a['sesso'] === 'M' ? '<abbr title="Maschio" aria-label="Maschio">M</abbr>' : '<abbr title="Femmina" aria-label="Femmina">F</abbr>';
+                $sessoAbbr = $a['sesso'] === 'M' ? '<abbr title="Maschio">M</abbr>' : '<abbr title="Femmina">F</abbr>';
                 $eta = $a['eta'];
                 $id  = $a['id'];
                 $colore = $a['colore'];
@@ -451,13 +451,13 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
                 </li>
     
                 <li class='capsula-filtro' id='searchEta'>
-                    <label>Età</label>
+                    <label for=\"eta-min\">Età</label>
                     <div class='eta-range'>
-                        <input type='number' name='eta_min' 
+                        <input type='number' name='eta_min' id='eta_min'
                             value='[ETA_MIN]' 
                             placeholder='Da' min='0' aria-label='Età minima'/>
                         <span aria-hidden=true>–</span>
-                        <input type='number' name='eta_max' 
+                        <input type='number' name='eta_max' id='eta_max'
                             value='[ETA_MAX]' 
                             placeholder='A' min='0' aria-label='Età massima'/>
                     </div>

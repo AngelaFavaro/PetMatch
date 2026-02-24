@@ -69,7 +69,7 @@ function buildEventsCards($events, $filtro, $isFromAdmin): string {
         $descrEvento=htmlspecialchars($e['descrizione']);
         $html .= "<li>
                     <article class='evento'>
-                        <img class='immagine-evento' src=".htmlspecialchars($img)." alt='' />
+                        <img class='immagine-evento' src='".htmlspecialchars($img)."' alt='' />
 
                         <p class='posizione-evento'>
                             <img src='assets/icons/position-cat.svg' alt='' class='icon-position' />
