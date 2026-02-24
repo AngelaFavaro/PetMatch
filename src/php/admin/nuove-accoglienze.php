@@ -194,7 +194,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
     ];
 
     $replaceFilters = [
-        '[ASSEGNATE_SELECTED_TUTTI]'   => $rawFilters['assegnate'] === 'tutte' ? 'selected' : '',
+        '[ASSEGNATE_SELECTED_TUTTE]'   => $rawFilters['assegnate'] === 'tutte' ? 'selected' : '',
         '[ASSEGNATE_SELECTED_MIE]'     => $rawFilters['assegnate'] === 'mie' ? 'selected' : '',
         '[ASSEGNATE_SELECTED_NESSUNO]' => $rawFilters['assegnate'] === 'nessuno' ? 'selected' : '',
     ];
