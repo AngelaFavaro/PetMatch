@@ -236,7 +236,7 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
         </a>
         <div id="solo-stampa" lang="en">PetMatch</div>
         ';
-        $html .= $currentHref==='./nuovo-animale' ? '<p class="db-button" id="currentLink" href="./nuovo-animale">+ Aggiungi animale</p>' : '<a class="db-button" href="./nuovo-animale">+ Aggiungi animale</a>';
+        $html .= $currentHref==='./nuovo-animale' ? '<p class="db-button" id="currentLink">+ Aggiungi animale</p>' : '<a class="db-button" href="./nuovo-animale">+ Aggiungi animale</a>';
 
     foreach ($menuGroups as $key => $items) {
 
@@ -777,8 +777,8 @@ function buildPagination(int $currentPage, int $totalPages, array|string $params
         $html .= '<li><a href="?' . http_build_query($params) . '" ><img src="./assets/icons/arrow-sx-green.svg" alt="vai alla pagina precedente" /></a></li>';
     }
 
-    $maxVisible = 10;
-    $start = max(1, $currentPage - 4);
+    $maxVisible = 4;
+    $start = $currentPage==1?1:$currentPage-1;
     $end = min($totalPages, $start + $maxVisible - 1);
 
     if ($end - $start + 1 < $maxVisible) {

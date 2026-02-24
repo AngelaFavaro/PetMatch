@@ -1,0 +1,90 @@
+\section{Design grafico}
+\subsection{Palette di colori}
+I colori tentano di richiamare quelli tipici degli animali domestici, con tonalità calde e accoglienti.
+La palette principale, in modalità giorno (\textit{light mode}), include:
+\paragraph{Per l'accessibilità}:
+le seguenti informazioni sono state verificate utilizzando diversi strumenti, in ultimo il tool \textit{Color Contrast} di Silktide.
+\begin{center}
+\setcounter{table}{1} 
+\begin{tabular}{|p{4.5cm}|p{4.5cm}|p{2cm}|p{2.5cm}|}
+\hline
+\rowcolor{brown}
+\color{white}\textbf{Colore 1} & 
+\color{white}\textbf{Colore 2} & 
+\color{white}\textbf{Contrasto} & 
+\color{white}\textbf{Accessibilità} \\
+\hline
+\rowcolor{beige} \cbox{beige} Beige (\#FFF6D7) & \cbox{brown} Marrone (\#481515) & 13.93:1 & Raggiunto AA e AAA \\
+\hline
+\rowcolor{beige} \cbox{beige} Beige (\#FFF6D7) & \cbox{orange} Arancione (\#EA654C) & 3.00:1 & Zona grigia (*) \\
+\hline
+\rowcolor{beige} \cbox{beige} Beige (\#FFF6D7) & \cbox{green} Verde (\#6D7541) & 4.55:1 & Raggiunto AA \\
+\hline
+\rowcolor{beige} \cbox{brown} Marrone (\#481515) & \cbox{orange} Arancione (\#EA654C) & 4.65:1 & Raggiunto AA \\
+\hline
+\rowcolor{beige} \cbox{brown} Marrone (\#481515) & \cbox{green} Verde (\#6D7541) & 3.06:1 & Zona grigia (*) \\
+\hline
+\rowcolor{beige} \cbox{grey} Grigio (\#E4D4BA) & \cbox{brown} Marrone (\#481515) & 10.35:1& Raggiunto AA e AAA\\
+\hline
+\end{tabular}
+\captionof{table}{Verifiche di contrasto colori. NOTA: Non sono riportate le combinazioni di colori che non sono state usate come testo e background insieme o tra link visitato e non visitato.}
+\end{center}
+\begin{adjustwidth}{1cm}{1cm}
+    \textmd{(*) A causa di limiti troppo stringenti delle WCAG, trovare un contrasto sufficiente tra testo, link non visitato e link visitato risulta quasi impossibile dunque abbiamo sottolineato tutti i link per sopperire ad eventuali problemi di contrasto.}
+\end{adjustwidth}
+Poichè ci siamo concentrate sull'accessibilità della palette nella modalità light mode, la dark mode (che rispecchia una scelta dell'utente, per quanto possibile) è stata progettata cercando di mantenere un buon contrasto tra gli elementi, tuttavia non è assicurato che tutte le combinazioni di colori rispettino gli standard di accessibilità.
+\subsection{Font}
+Il carattere tipografico selezionato per questo progetto è Parkinsans, un font sans geometrico e moderno, reperibile gratuitamente sulla piattaforma Google Fonts al seguente link \href{https://fonts.google.com/specimen/Parkinsans}{fonts.google.com/Parkinsans}.\\
+Per le pagine di stampa abbiamo optato per un comune font serif, Times New Roman, per facilitare la lettura su carta stampata.
+\paragraph{Verifiche di accessibilità di Parkinsans:}
+\begin{itemize}
+    \item controllo apertura delle lettere (e, c, a);
+    \item controllo legature tra caratteri (qp, db, rn);
+    \item controllo differenza tra lettere simili (iIl1, oO0);
+    \item controllo spaziatura tra parole.
+\end{itemize}
+\begin{adjustwidth}{1cm}{1cm}
+    \centering
+    \includegraphics[width=0.8\textwidth]{assets/esempio_parkinsans.png}
+\end{adjustwidth}
+\subsection{Scelte stilistiche nella divisione utente / amministratore}
+\begin{mdframed}[
+    backgroundcolor=gray!15,
+    linecolor=none,
+    leftmargin=-3cm,
+    rightmargin=-3cm,
+    innerleftmargin=4cm,
+    innerrightmargin=4cm,
+    innertopmargin=10pt,
+    innerbottommargin=10pt
+]
+\textmd{In generale nella sezione admin abbiamo rilassato alcune best practice di accessibilità, questo perchè l'area amministratore non è destinata ad un pubblico generico.}\\
+\end{mdframed}
+\begin{mdframed}[
+    backgroundcolor=gray!15,
+    linecolor=none,
+    leftmargin=-3cm,
+    rightmargin=-3cm,
+    innerleftmargin=4cm,
+    innerrightmargin=4cm,
+    innertopmargin=10pt,
+    innerbottommargin=10pt
+]
+\textmd{Il logo di PetMatch è stato realizzato senza l'ausilio di strumenti di intelligenza artificiale, utilizzando esclusivamente inventiva personale e software di grafica vettoriale.}
+\end{mdframed}
+\subsection{Le immagini}
+\textbf{Le illustrazioni} tentano di essere inclusive rappresentando persone di diverse etnie, generi di età e anche persone con mobilità ridotta. \\
+\textbf{Altre immagini} sono state reperite da siti web che offrono immagini gratuite e libere da diritti d'autore come \url{https://it.freepik.com/}. \\
+Infine è presente un'immagine generata dall'intelligenza artificiale, specificamente nella sezione "Come funziona". Per trasparenza è visibile un piccolo watermark nell'angolo in basso a destra dell'immagine, che indica il contenuto generato da AI.\\
+\begin{mdframed}[
+    backgroundcolor=gray!15,
+    linecolor=none,
+    leftmargin=-3cm,
+    rightmargin=-3cm,
+    innerleftmargin=4cm,
+    innerrightmargin=4cm,
+    innertopmargin=10pt,
+    innerbottommargin=10pt
+]
+\textmd{Le illustrazioni sono state create senza l'ausilio di strumenti di intelligenza artificiale, utilizzando esclusivamente inventiva personale e software di grafica.}
+\end{mdframed}

@@ -1,0 +1,21 @@
+\section{Layout responsive e flessibile}
+\label{sec:layout_responsive}
+Per permettere una corretta visualizzazione a tutti i dispositivi utilizzati dagli utenti (principio \textit{Robust}) il sito web è stato progettato con un layout \textbf{responsive e flessibile}.
+Questo viene fatto utilizzando un layout a variabilità controllata (uso di punti di rottura) ma anche utilizzando unità di misura relative (es. percentuali, em, rem) invece di unità fisse (es. pixel) per definire le dimensioni degli elementi della pagina.\\
+Un chiaro esempio di approccio usato è l'uso di \textit{flex} che permette di adattare pagine visualizzabili da desktop a schermi più piccoli come quelli dei dispositivi mobili.\\
+Esempi in cui il layout si adatta includono:
+\begin{itemize}
+    \item \textbf{footer}: per gli elementi al suo interno che si dispongono in colonna o in riga a seconda della larghezza dello schermo;
+    \item \textbf{pagina animali}: sia nei filtri che nella griglia di visualizzazione degli animali.
+    \item \textbf{dettagli animali}: sia per utente normale che per amministratore.
+    \item \textbf{area personale}: sia per utente normale che per amministratore.
+\end{itemize}
+\paragraph{La navbar} presenta una peculiarità interessante: sui dispositivi mobili, per ottimizzare lo spazio disponibile, la navbar si trasforma in un menù a comparsa (hamburger menu) che può essere aperto e chiuso tramite un pulsante e che rimane fissa allo scroll. 
+Inoltre la navbar nell'area generale (non amministratore) ottimizza gli spazi spostando il pulsante di cambio tema in fondo allo schermo.\\ All'uso del tab tuttavia, per ragioni di implementazione, il focus si sposta dalla navbar (che si trova in alto) al pulsante di cambio tema (in basso), per poi ritornare in alto per navigare tra gli altri link della navbar.
+\paragraph{Home}
+\begin{itemize}
+    \item Le immagini decorative vengono nascoste su dispositivi mobili mediante \texttt{display:none}, riducendo il carico visivo e ottimizzando lo spazio.
+    \item L'interazione con i punti della timeline cambia da hover (desktop) a tap (mobile) e il contenuto rimane visibile finché l'utente non tocca nuovamente.
+\end{itemize}
+\paragraph{Tabs}
+Le pagine che presentano schede per il cambio di visualizzazione (es. richieste di adozione nell'area amministratore) diventano un menù a tendinta su dispositivi mobili, per permettere la corretta visualizzazione, che altrimenti sarebbe compromessa dallo spazio ridotto.

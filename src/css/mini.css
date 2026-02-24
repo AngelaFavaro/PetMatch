@@ -304,6 +304,15 @@ body#admin-body #breadcrumb{
     text-overflow: ellipsis;  /* aggiunge "..." alla fine */
 }
 
+#animali .not-favorite:hover .heart-hover,
+#animali .not-favorite .heart-normal:hover + .heart-hover{
+    opacity: 0;
+}
+
+#animali .not-favorite:hover .heart-normal{
+    opacity: 1;
+}
+
 #animali #nav-animali-type ul, #nav-event-type ul {
     display: flex;
     list-style: none;
@@ -370,6 +379,11 @@ body#admin-body{
     position: fixed;
     height: 7em;
     padding: 2.5em 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+#admin-body li#currentLink{
+    color:var(--txtcolor);
 }
 
 nav#menu-admin li{
@@ -393,6 +407,11 @@ nav#menu-admin li{
 
 #admin-body header:has(#menu-toggle-checkbox:checked) + main{
     display: none;
+}
+
+body#admin-body main:has(#form-add-animal),
+body#admin-body main:has(#nuovo-evento){
+    background-color: var(--form-bg);
 }
 
 nav#menu-admin{
@@ -559,7 +578,7 @@ div#admin-area article#query h2{
 #nuovo-evento {
     min-height: 100vh;
     display: block; 
-    background-color: var(--bgcolor); 
+    background-color: var(--form-bg); 
     padding: 0;
     margin: 0;
 }
@@ -572,7 +591,7 @@ div#admin-area article#query h2{
 #form-add-animal,
 #form-edit-animal,
 #new-event {
-    background-color: var(--bgcolor);
+    background-color: var(--form-bg);
     width: 100%;
     margin: 0;
     padding: 1.5em; 
@@ -1054,6 +1073,7 @@ body#admin-body #richieste .filtri .capsula-filtro{
     width: 50%;
     flex: 1 1 55%;
     margin:auto;
+    margin-top:0.5em;
 }
 
 body#admin-body #richieste .filtri .capsula-filtro label{
