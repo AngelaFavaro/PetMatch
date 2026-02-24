@@ -4232,7 +4232,7 @@ dt.data-error, .data-error+ dd{
     align-items: flex-start;
 }
 
-em#note-richiesta{
+em.note-richiesta{
     margin-top: 1em;
     text-align: center;
     display: block; /* per centrare*/

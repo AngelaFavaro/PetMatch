@@ -592,7 +592,7 @@ article.evento {
     border-radius: 0.3cm;
     padding: 0.1cm 0.3cm
 }
-#note-richiesta{
+.note-richiesta{
    clear: both;  
     display: block;}
 

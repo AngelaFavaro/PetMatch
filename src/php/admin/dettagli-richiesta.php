@@ -36,7 +36,7 @@ function renderPulsantiAzioni(array $r): string {
     $html = '';
     if ($stato === 'Da trasportare') {
         $subject = rawurlencode('Richiesta informazioni per adozione di ' . ($r['nome-animale'] ?? ''));
-        $html = '<a href="mailto:' . ($r['email-richiedente'] ?? '') . '?subject=' . $subject . '" class="link-button" target="_blank" id="contatta-richiedente" ><img src="./assets/icons/mail.svg" alt="" /> Contatta candidato<span class="sr-only"> via mail<span></a>';
+        $html = '<a href="mailto:' . ($r['email-richiedente'] ?? '') . '?subject=' . $subject . '" class="link-button" target="_blank" id="contatta-richiedente" ><img src="./assets/icons/mail.svg" alt="" /> Contatta candidato<span class="sr-only"> via mail</span></a>';
     } elseif ($stato === 'Nuova') {
         $html = '<form method="post">' .
             '<button type="submit" name="inizia_valutazione" class="db-button">Inizia valutazione</button>
@@ -417,13 +417,13 @@ if(($richiesta['stato']!=='Annullata' && $richiesta['stato']!=='Nuova'  )|| ($ri
 }
 if($richiesta['trasporto-richiesta']!==$richiesta['trasporto-animale'] && $richiesta['trasporto-richiesta']===1){
     $noteTrasportoRichiesta = '
-                    <em id="note-richiesta">Il richiedente ha richiesto il trasporto dell\'animale, ma l\'animale non è idoneo al trasporto.</em>';
+                    <em class="note-richiesta">Il richiedente ha richiesto il trasporto dell\'animale, ma l\'animale non è idoneo al trasporto.</em>';
 
 }
 $main = str_replace('[messaggiForm]', $messaggiForm, $main);
 $main = str_replace('[note-trasporto-richiesta]', $noteTrasportoRichiesta, $main);
-$main = str_replace('[note-su-richieste-richiedente]', $nRichiesteRichiedente==0?'':($nRichiesteRichiedente==1?'<em id="note-richiesta">Ha un\'altra richiesta attiva</em>':'<em id="note-richiesta">Ha altre <strong>'.$nRichiesteRichiedente.'</strong> richieste attive</em>'), $main);
-$main = str_replace('[note-su-richieste-animale]', $AcceptRequestDetails ? '<em id="note-richiesta">'.$AcceptRequestDetails['nome_richiedente'].' '.$AcceptRequestDetails['cognome_richiedente'].' ha adottato questo animale</em> ' : '', $main);
+$main = str_replace('[note-su-richieste-richiedente]', $nRichiesteRichiedente==0?'':($nRichiesteRichiedente==1?'<em class="note-richiesta">Ha un\'altra richiesta attiva</em>':'<em class="note-richiesta">Ha altre <strong>'.$nRichiesteRichiedente.'</strong> richieste attive</em>'), $main);
+$main = str_replace('[note-su-richieste-animale]', $AcceptRequestDetails ? '<em class="note-richiesta">'.$AcceptRequestDetails['nome_richiedente'].' '.$AcceptRequestDetails['cognome_richiedente'].' ha adottato questo animale</em> ' : '', $main);
 $main = str_replace('[annotazioni]', $annotazioni, $main);
 
 $main = str_replace('[descrizioneCaratteriale]', e($richiesta['descrizione-caratteriale'] ?? ''), $main);
