@@ -36,9 +36,9 @@
         <button type="submit" name="show-dialog" class="button-cancel" [isDisabled]>Annulla richiesta</button>
     </form>
 
-    <dialog [openDialog] class="overlay-content">
+    <dialog [openDialog] class="overlay-content" aria-labelledby="modal-title">
         <div class="dialog-box">
-            <h3 id="modal-title">Sei sicuro?</h3>
+            <p id="modal-title" aria-hidden="true"><strong>Sei sicuro?</strong></p>
             <p>L'annullamento della richiesta per <em>[nomeAnimale]</em> è <strong>irreversibile</strong>.</p>
             
             <div class="dialog-buttons">

@@ -8,9 +8,9 @@
                     [pulsanti-modifica-animale]
                 </div>
 
-                <dialog [openDialog] class="overlay-content">
+                <dialog [openDialog] class="overlay-content" aria-labelledby="modal-title">
                     <div class="dialog-box">
-                        <h3 id="modal-title">Conferma eliminazione</h3>
+                        <p id="modal-title" aria-hidden="true"><strong>Conferma eliminazione</strong></p>
                         <p>L'eliminazione di <strong>[nomeAnimale]</strong> è <strong>irreversibile</strong>. Vuoi continuare?</p>
                         <div class="dialog-buttons">
                             <form method="post">
