@@ -236,7 +236,7 @@ function buildAdminNav(array $menuGroups, string $currentHref): string {
         </a>
         <div id="solo-stampa" lang="en">PetMatch</div>
         ';
-        $html .= $currentHref==='./nuovo-animale' ? '<p class="db-button" id="currentLink" href="./nuovo-animale">+ Aggiungi animale</p>' : '<a class="db-button" href="./nuovo-animale">+ Aggiungi animale</a>';
+        $html .= $currentHref==='./nuovo-animale' ? '<p class="db-button" id="currentLink">+ Aggiungi animale</p>' : '<a class="db-button" href="./nuovo-animale">+ Aggiungi animale</a>';
 
     foreach ($menuGroups as $key => $items) {
 
