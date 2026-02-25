@@ -256,7 +256,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
                         <div class='cuore'>
                             <form method='post' action='animali' class='preferiti-form'>
                                 <input type='hidden' name='id-animale-preferito' value='".htmlspecialchars($id)."' />
-                                <button type='submit' class='$classePreferito' aria-label='$statusPreferiti'>
+                                <button type='submit' class='$classePreferito' aria-label='$statusPreferiti $nome'>
                                     <img class='heart-normal' src='./assets/icons/$heartNormal' alt='' />
                                     <img class='heart-hover' src='./assets/icons/$heartHover' alt='' />
                                 </button>

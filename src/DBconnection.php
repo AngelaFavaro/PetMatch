@@ -1547,68 +1547,24 @@ class DBAccess {
 
         if (!$this->connection) return [];
 
-        $where = [];
+        $where = "WHERE r.IDanimale IS NULL";
         $params = [];
         $types = '';
 
-        /* ---------- FILTRO TIPO ---------- */
-        if ($type !== 'tutti') {
-            $where[] = 'Tipo = ?';
-            $params[] = $type;
-            $types .= 's';
-        }
-
-        /* ---------- FILTRO NOME ---------- */
-        if (!empty($filters['name-animal'])) {
-            $where[] = 'Nome LIKE ?';
-            $params[] = '%' . $filters['name-animal'] . '%';
-            $types .= 's';
-        }
-
-        /* ---------- FILTRO TAGLIA ---------- */
-        if (!empty($filters['taglia'])) {
-            $where[] = 'Taglia = ?';
-            $params[] = $filters['taglia'];
-            $types .= 's';
-        }
-
-        /* ---------- FILTRO SESSO ---------- */
-        if (!empty($filters['sesso'])) {
-            $where[] = 'Sesso = ?';
-            $params[] = strtoupper(substr($filters['sesso'], 0, 1)); // M / F
-            $types .= 's';
-        }
-
-        /* ---------- FILTRO ETÀ ---------- */
-        if (!empty($filters['eta_min'])) {
-            $where[] = 'TIMESTAMPDIFF(YEAR, DataNascita, CURDATE()) >= ?';
-            $params[] = (int)$filters['eta_min'];
-            $types .= 'i';
-        }
-
-        if (!empty($filters['eta_max'])) {
-            $where[] = 'TIMESTAMPDIFF(YEAR, DataNascita, CURDATE()) <= ?';
-            $params[] = (int)$filters['eta_max'];
-            $types .= 'i';
-        }
+        $this->applyFilters($type, $filters, $where, $params, $types);
         $visibilityInTransport="IN ('Accettata', 'Da trasportare')";
         if(isset($filters['assegnati'])) {
             $visibilityInTransport="='Accettata'";
         }
 
         $query = "
-            SELECT a.Nome, a.Sesso, a.DataNascita, a.ImgPath, a.Tipo, a.Colore, a.IDanimale AS Id
-            FROM ANIMALI a
+            SELECT A.Nome, A.Sesso, A.DataNascita, A.ImgPath, A.Tipo, A.Colore, A.IDanimale AS Id
+            FROM ANIMALI A
             LEFT JOIN RICHIESTE_ADOZIONI r 
-            ON a.IDanimale = r.IDanimale AND r.Stato $visibilityInTransport
-            WHERE r.IDanimale IS NULL
+            ON A.IDanimale = r.IDanimale AND r.Stato $visibilityInTransport
+            $where
+            ORDER BY Id ASC LIMIT ? OFFSET ?
         ";
-
-        if ($where) {
-            $query .= ' AND ' . implode(' AND ', $where);
-        }
-
-        $query .= " ORDER BY Id ASC LIMIT ? OFFSET ?";
 
         $params[] = $limit;
         $params[] = $offset;

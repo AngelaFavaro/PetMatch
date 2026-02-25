@@ -787,7 +787,7 @@ function buildPagination(int $currentPage, int $totalPages, array|string $params
 
     for ($i = $start; $i <= $end; $i++) {
         if ($i === $currentPage) {
-            $html .= '<li class="currentLinkPagination" aria-label="pagina attuale">'.$i.'</li>';
+            $html .= '<li class="currentLinkPagination" aria-label="pagina attuale numero '.$i.'">'.$i.'</li>';
         } else {
             $params['page'] = $i;
             $html .= '<li><a href="?' . http_build_query($params) . '" aria-label="vai alla pagina '.$i.'">'.$i.'</a></li>';
