@@ -2,18 +2,17 @@
 \subsection{NVDA}
 L'uso di NVDA ci ha permesso di identificare problemi che altrimenti non avremmo notato, qui di seguito vengono riportati i problemi riscontrati e le soluzioni adottate:
 \begin{itemize}
-    \item Le dialog si chiudevano automaticamente quando il tab raggiungeva un elemento al di fuori della dialog.\\
-    \textit{Soluzione:} abbiamo utilizzato javascript per limitare la chiusura della dialog solo al click della x.
+    \item Le dialog non limitavano il perimetro del focus, che poteva raggiungere elementi esterni.\\
+    \textit{Soluzione:} abbiamo implementato, tramite JavaScript, una gestione del focus che limita la navigazione dell’utente all’interno della dialog, impedendo di raggiungere elementi esterni fino alla sua chiusura.
     \item Nelle tabelle il contenuto descrittivo, associato alla tabella tramite l'attributo aria-describedby, veniva letto due volte.\\
     \textit{Soluzione:} abbiamo aggiunto l'attributo aria-hidden al tag che contiene la descrizione, in questo modo il contenuto descrittivo viene letto solo una volta incontrato l'attributo aria-describedby.
 \end{itemize}
 
 \subsection{Total Validator}
-Total Validator ci ha permesso di identificare errori di sintassi HTML e errori di accessibilità. Abbiamo svolto i test due volte: la prima volta durante lo sviluppo, per scoprire errori prima che venissero propagati, e la seconda volta a fine sviluppo, per assicurarci che non ci fossero errori residui.\\
+Total Validator ci ha permesso di identificare errori di sintassi HTML e errori di accessibilità. Abbiamo svolto i test due volte: la prima volta durante lo sviluppo, per scoprire errori prima che venissero propagati, e la seconda volta a fine sviluppo, per assicurarci che non ci fossero errori residui.
 \subsection{Test vari con Silktide}
-L'uso dell'estensione Silktide, reperibile gratiutamente su Chrome al seguente link \url{https://chromewebstore.google.com/detail/mpobacholfblmnpnfbiomjkecoojakah?utm_source=item-share-cb}, è stata utilizzata solo per simulare l'esperienza di utenti con specifiche disabilità visive, come il datonismo e la cataratta oppure per simulare utenti con disabilità cognitive come la dislessia.\\
-Inoltre Silktide si è dimostrato utile anche per rendere evidenti caratteristiche strutturali come la gerarchia dei titoli e l'ordine del focus, che altrimenti avremmo dovuto verificare manualmente e con forse scarsa efficacia.\\
-
+L'uso dell'estensione Silktide, reperibile gratiutamente su Chrome al seguente link \url{https://chromewebstore.google.com/detail/mpobacholfblmnpnfbiomjkecoojakah?utm_source=item-share-cb}, è stata utilizzata solo per simulare l'esperienza di utenti con specifiche disabilità visive, come il datonismo e la cataratta, oppure per simulare utenti con disabilità cognitive come la dislessia.\\
+Inoltre Silktide si è dimostrato utile anche per rendere evidenti caratteristiche strutturali come la gerarchia dei titoli e l'ordine del focus, che altrimenti avremmo dovuto verificare manualmente e con scarsa efficacia.
 \subsection{Lighthouse}
 Lighthouse è uno strumento di Google che ci ha permesso di valutare le prestazioni. Il suo uso è stato fondamentale per accorgerci del problema del peso delle immagini, che rallentava notevolmente il caricamento del sito.\\
 Dopo i test con lighthouse, di cui ora riportiamo gli ottimi risultati di una pagina critica, abbiamo deciso di ridurre il peso delle immagini cambiando la funzione di upload in modo tale che il peso delle immagini venga compresso a meno di 40KB.\\
