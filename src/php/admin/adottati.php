@@ -62,7 +62,7 @@ function renderAnimalContent(string $tipo, array $animaliAdottati, string $NAdop
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="6">Totale ' . strtolower($tipo) . ' adottati</td>
+                <td colspan="6">Totale ' . strtolower($tipoMinuscoloPlurale) . ' adottati</td>
                 <td>' . htmlspecialchars($NAdoptedAnimal) . '</td>
             </tr>
         </tfoot>
