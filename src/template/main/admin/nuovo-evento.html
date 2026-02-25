@@ -17,7 +17,7 @@
                 </div>
                 <div>
                     <label for="day-event">Data*</label>
-                    <input type="date" name="day-event" id="day-event" placeholder="dd-mm-YYYY" value="[day-event-value]"/>
+                    <input type="date" name="day-event" id="day-event" value="[day-event-value]"/>
                     [error-day]
                 </div>
                 [error-existEvent]
@@ -68,11 +68,11 @@
                 <label for="foto" class="file-upload-label">
                     <span class="file-upload-text">Importa un immagine o trascinala</span>
                     <span class="file-name-display"></span>
-                    <input type="file" id="foto" name="foto" accept=".jpg, .jpeg, .png"/>
-                    <div class="foto-caricata-info">
-                        [foto-event-upload]
-                    </div>
+                    <input type="file" id="foto" name="foto" accept=".jpg,.jpeg,.png"/>
                 </label>
+                <div class="foto-caricata-info">
+                    [foto-event-upload]
+                </div>
                 [error-foto]
             </div>
 
