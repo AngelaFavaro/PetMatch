@@ -63,7 +63,7 @@ function createAnimalRequestList(array $richieste): string {
         if (empty($content)) {
             $content = '<li class="empty-message">Nessuna richiesta in questo stato.</li>';
         }
-        $htmlOutput .= '<ul class="tab-content content-tab' . $i . '" aria-label="Richieste di tipo: ' . $stato . '">' . $content . '</ul>';
+        $htmlOutput .= '<ul class="tab-content content-tab' . $i . '" aria-label="Richieste di tipo: ' . $stato . '" >' . $content . '</ul>';
         $i++;
     }
     return '<div id="start-requests" class="requests-container">' . $htmlOutput . '</div>';

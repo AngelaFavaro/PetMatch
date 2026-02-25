@@ -59,24 +59,15 @@
                         <legend id="title-richieste-animale">Richieste per questo animale</legend>
                         
                         <select id="filtri-richieste-animale" name="tab-group-select" 
-                                aria-label="Selezionare la tipologia di richieste che si vuole visualizzare:"
-                                onchange="document.getElementById(this.value).checked = true;">
-                            <option value="anim-tab1">Nuove ([n-nuove])</option>
-                            <option value="anim-tab2">In valutazione ([n-valutazione])</option>
-                            <option value="anim-tab3">Accettate ([n-accettate])</option>
-                            <option value="anim-tab4">Respinte ([n-respinte])</option>
-                            <option value="anim-tab5">Annullate ([n-annullate])</option>
-                            <option value="anim-tab6">Da trasportare ([n-trasporto])</option>
+                                aria-label="Selezionare la tipologia di richieste che si vuole visualizzare:">
+                            <option id="anim-tab1">Nuove ([n-nuove])</option>
+                            <option id="anim-tab2">In valutazione ([n-valutazione])</option>
+                            <option id="anim-tab3">Accettate ([n-accettate])</option>
+                            <option id="anim-tab4">Respinte ([n-respinte])</option>
+                            <option id="anim-tab5">Annullate ([n-annullate])</option>
+                            <option id="anim-tab6">Da trasportare ([n-trasporto])</option>
                         </select>
                     </fieldset>
-    
-                    <input class="no-visible" aria-hidden="true" type="radio" id="anim-tab1" name="anim-tab-group" checked/>
-                    <input class="no-visible" aria-hidden="true" type="radio" id="anim-tab2" name="anim-tab-group"/>
-                    <input class="no-visible" aria-hidden="true" type="radio" id="anim-tab3" name="anim-tab-group"/>
-                    <input class="no-visible" aria-hidden="true" type="radio" id="anim-tab4" name="anim-tab-group"/>
-                    <input class="no-visible" aria-hidden="true" type="radio" id="anim-tab5" name="anim-tab-group"/>
-                    <input class="no-visible" aria-hidden="true" type="radio" id="anim-tab6" name="anim-tab-group"/>
-    
                     [elencoRichieste]
                 </section>
             </article>

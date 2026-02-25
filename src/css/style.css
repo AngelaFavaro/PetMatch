@@ -4401,6 +4401,20 @@ div#admin-area article.note{
 
 /*================= DETTAGLI ANIMALI ADMIN ==================*/
 
+#visualizza-richieste-animale .tab-content{
+    display: none;
+}
+
+#visualizza-richieste-animale :has(#anim-tab1:checked) .content-tab1,
+#visualizza-richieste-animale :has(#anim-tab2:checked) .content-tab2,
+#visualizza-richieste-animale :has(#anim-tab3:checked) .content-tab3,
+#visualizza-richieste-animale :has(#anim-tab4:checked) .content-tab4,
+#visualizza-richieste-animale :has(#anim-tab5:checked) .content-tab5,
+#visualizza-richieste-animale :has(#anim-tab6:checked) .content-tab6
+{
+    display: block;
+}
+
 #dettaglio-animale {
     display: flex;
     gap: 2em;
