@@ -1247,17 +1247,33 @@ class DBAccess {
             return false;
         }
 
+        $nome = $newUserInfo['name'] !== '' ? $newUserInfo['name'] : null;
+        $cognome = $newUserInfo['surname'] !== '' ? $newUserInfo['surname'] : null;
+        $telefono = $newUserInfo['phoneNumber'] !== '' ? $newUserInfo['phoneNumber'] : null;
+        $via = $newUserInfo['address'] !== '' ? $newUserInfo['address'] : null;
+        $citta = $newUserInfo['city'] !== '' ? $newUserInfo['city'] : null;
+        $cap = $newUserInfo['CAP'] !== '' ? $newUserInfo['CAP'] : null;
+        $imgPath = $newUserInfo['profilePic']!== '' ? $newUserInfo['profilePic'] : null;
+
         $query = "UPDATE UTENTI SET Nome = ?, Cognome = ?, 
-        Telefono = ?, Via = ?, Citta = ?, CAP = ?, ImgPath = ? WHERE Email = ?";
+                Telefono = ?, Via = ?, Citta = ?, CAP = ?, ImgPath = ? WHERE Email = ?";
 
         $stmt = mysqli_prepare($this->connection, $query);
         if($stmt === false){
             return false;
         }
 
-        mysqli_stmt_bind_param($stmt, 'ssssssss',  $newUserInfo['name'], $newUserInfo['surname'], 
-        $newUserInfo['phoneNumber'], $newUserInfo['address'], $newUserInfo['city'], 
-        $newUserInfo['CAP'], $newUserInfo['profilePic'], $email);
+        mysqli_stmt_bind_param($stmt, 'ssssssss', 
+            $nome, 
+            $cognome, 
+            $telefono, 
+            $via, 
+            $citta, 
+            $cap, 
+            $imgPath, 
+            $email
+        );
+
         $result = mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
         return $result;
@@ -2221,7 +2237,7 @@ class DBAccess {
         $stmt = mysqli_prepare($this->connection, $query);
 
         if ($stmt) {
-            mysqli_stmt_bind_param($stmt, "ssss", $via, $citta, $cap, $email);        // "ssss" sta per string (Via), string (Citta), string (CAP), string (Email)
+            mysqli_stmt_bind_param($stmt, "ssss", $via, $citta, $cap, $email);
 
             $risultato = mysqli_stmt_execute($stmt);
             
