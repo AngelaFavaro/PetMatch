@@ -200,11 +200,8 @@ if(isset($_GET['id-animale'])) {
     
     
     /* ------------------ CARD ANIMALI ------------------ */
-function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = false): string {
+function buildAnimalCards(DBAccess $conn, array $animali, ?string $email, bool $isFromAdmin = false): string {
         $html = '';
-        $conn = new DBAccess();
-    
-        if ($conn->openDBConnection()) {
             foreach ($animali as $a) {
                 $nome  = htmlspecialchars($a['nome']);
                 $sesso = $a['sesso'] === 'M' ? 'Maschio' : 'Femmina';
@@ -256,7 +253,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
                         <div class='cuore'>
                             <form method='post' action='animali' class='preferiti-form'>
                                 <input type='hidden' name='id-animale-preferito' value='".htmlspecialchars($id)."' />
-                                <button type='submit' class='$classePreferito' aria-label='$statusPreferiti'>
+                                <button type='submit' class='$classePreferito' aria-label='$statusPreferiti $nome'>
                                     <img class='heart-normal' src='./assets/icons/$heartNormal' alt='' />
                                     <img class='heart-hover' src='./assets/icons/$heartHover' alt='' />
                                 </button>
@@ -271,8 +268,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
                         </article>
                     </li>";
             }
-            $conn->closeConnection();
-        }
+        
         return $html;
     }
     
@@ -308,7 +304,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
             } else {
                 $animali = $connessione->getGuestFavPaged($type, $perPagina, $offset);
             }
-            $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail,$isFromAdmin) : "<p class='errore'>$messaggioNoAnimali</p>";
+            $cardAnimali = $animali ? buildAnimalCards($connessione, $animali, $userEmail,$isFromAdmin) : "<p class='errore'>$messaggioNoAnimali</p>";
             $linkPagine = ($pagineTotali > 1)
         ? (
             "<nav class='next-page-links' tabindex='-1' aria-label='Tutte le pagine' id='nav-sotto'>
@@ -359,7 +355,7 @@ function buildAnimalCards(array $animali, ?string $email, bool $isFromAdmin = fa
                 $animali = $isFromAdmin ? $connessione->getAssignedAnimalsFilteredPaged($type, $filters, $perPagina, $offset,$adminEmail) : $connessione->getAnimalsFilteredPaged($type, $filters, $perPagina, $offset);
             }
             $userEmail = $_SESSION['email'] ?? null;
-            $cardAnimali = $animali ? buildAnimalCards($animali, $userEmail,$isFromAdmin) : "<p class='errore'>$messaggioNoAnimali</p>";
+            $cardAnimali = $animali ? buildAnimalCards($connessione, $animali, $userEmail,$isFromAdmin) : "<p class='errore'>$messaggioNoAnimali</p>";
             if($filters) {
             $params= array_merge(['tipo' => $type], $filters);
             } else {
