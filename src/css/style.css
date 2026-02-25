@@ -3544,9 +3544,18 @@ button[name="show-dialog"].button-cancel img{
 #orari-chi-siamo p{
     display: inline;
 }
-#orari-chi-siamo address{
-    display: inline;
+#orari-chi-siamo table caption{
+    position: static;
+    font-size: 1.8em; 
+    line-height: 1.3;
+    width: fit-content;
+    height: fit-content;
+    font-weight: bold;
+    margin:auto;
+    margin-bottom: 0.3em;
+    color:var(--txtcolor);
 }
+
 #second-chapter-chi-siamo{
     margin-top: 1em;
 }
