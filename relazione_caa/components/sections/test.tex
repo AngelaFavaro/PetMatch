@@ -14,9 +14,9 @@ Total Validator ci ha permesso di identificare errori di sintassi HTML e errori 
 L'uso dell'estensione Silktide, reperibile gratiutamente su Chrome al seguente link \url{https://chromewebstore.google.com/detail/mpobacholfblmnpnfbiomjkecoojakah?utm_source=item-share-cb}, è stata utilizzata solo per simulare l'esperienza di utenti con specifiche disabilità visive, come il datonismo e la cataratta oppure per simulare utenti con disabilità cognitive come la dislessia.\\
 Inoltre Silktide si è dimostrato utile anche per rendere evidenti caratteristiche strutturali come la gerarchia dei titoli e l'ordine del focus, che altrimenti avremmo dovuto verificare manualmente e con forse scarsa efficacia.\\
 
-\subsection{Test con Lighthouse}
+\subsection{Lighthouse}
 Lighthouse è uno strumento di Google che ci ha permesso di valutare le prestazioni. Il suo uso è stato fondamentale per accorgerci del problema del peso delle immagini, che rallentava notevolmente il caricamento del sito.\\
-Dopo i test con lighthouse, di cui ora riportiamo gli ottimi risultati di una pagina critica, abbiamo deciso di ridurre il peso delle immagini cambiando la funzione di upload per ridurne il peso di quelle che vengono caricate dagli utenti (amministratori o non) a meno di 40KB.\\
+Dopo i test con lighthouse, di cui ora riportiamo gli ottimi risultati di una pagina critica, abbiamo deciso di ridurre il peso delle immagini cambiando la funzione di upload in modo tale che il peso delle immagini venga compresso a meno di 40KB.\\
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.4\textwidth]{assets/lighthouse-animali.png}
