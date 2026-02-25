@@ -115,7 +115,7 @@ if($infoRequest['DataInizioValutazione']) $screenInizioValutazione= date("Y-m-d"
 
 $paginaHTML = str_replace('[dataRichiesta]', '<time datetime ="'.$screenRichiesta.'">'.date("d/m/Y", strtotime($infoRequest['DataRichiesta'])).'</time>', $paginaHTML);
 $paginaHTML = str_replace('[StatoRichiesta]', htmlspecialchars($infoRequest['Stato'], ENT_QUOTES, 'UTF-8'), $paginaHTML);
-$paginaHTML = str_replace('[DataInizio]', $infoRequest['DataInizioValutazione']? '<time datetime ="'.$screenInizioValutazione.'">'.date("d/m/Y", strtotime($infoRequest['DataInizioValutazione'])):'</time><em>La richiesta non è ancora stata presa in carico.</em>', $paginaHTML);
+$paginaHTML = str_replace('[DataInizio]', $infoRequest['DataInizioValutazione']? '<time datetime ="'.$screenInizioValutazione.'">'.date("d/m/Y", strtotime($infoRequest['DataInizioValutazione'])):'</time><em>La richiesta non è stata valutata.</em>', $paginaHTML);
 $paginaHTML = str_replace('[DataFineRichiesta]', $fineRichiesta, $paginaHTML);
 $paginaHTML = str_replace('[dataPartenza]', $dataPartenza, $paginaHTML);
 $paginaHTML = str_replace('[dataArrivo]', $dataArrivo, $paginaHTML);
