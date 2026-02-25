@@ -3183,7 +3183,10 @@ div#admin-area input[type="file"]{
     border:1px solid var(--text-form);
     border-radius: 2em;
     cursor: pointer;
-    padding: 0.3em;
+    padding: 0.3em 0.5em ;
+    width: 100%;
+    text-wrap: initial;
+
 }
 
 input[type="file"]::file-selector-button {

@@ -146,7 +146,7 @@ if(isset($_GET['id-animale']) && isset($_GET['email']) ) {
             return '<p class="nessun-risultato-message">Non ci sono richieste di adozione in valutazione.</p>';
         }else{
             $html = '
-            <span id="sumTabellaInValutazione" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione in valutazione e i loro dettagli: <span lang="en">email</span> utente, nome animale, data di inizio valutazione e presenza di appunti.</span>
+            <span id="sumTabellaInValutazione" aria-hidden="true" class="navigationHelp">In questa tabella vengono elencate le richieste di adozione in valutazione e i loro dettagli: <span lang="en">email</span> utente, nome animale, data di inizio valutazione e presenza di appunti.</span>
             <table aria-describedby="sumTabellaInValutazione">
                 <caption>Richieste di Adozione in Valutazione</caption>
                 <thead>

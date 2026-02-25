@@ -42,9 +42,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete-evento'])) {
             exit;
         }
     } else {
-        $errore="<dialog open class='overlay-content'>
+        $errore="<dialog open class='overlay-content' aria-labelledby='modal-title'>
                     <div class='dialog-box'>
-                        <h3 id='modal-title'>Errore di connessione</h3>
+                        <p id='modal-title' aria-hidden='true'><strong>Errore di connessione</strong></p>
                         <p>L'eliminazione di <strong>".htmlspecialchars($titoloGET)."</strong> è <strong>fallita</strong>. Riprovare più tardi</p>
                         <div class='dialog-buttons'>
                             <form method='post'>
@@ -124,7 +124,7 @@ function buildMainevent(array $dettagliEvento, int $isAdmin=0): string {
 
                 if ($dataEvento && $dataEvento > $oggi) {
                     $html.="
-                <a class='db-button' href='modifica-evento?titolo=$titolo&data=".htmlspecialchars($date)."'>Modifica<span class='sr-only'> scheda evento</span></a>
+                <a class='db-button' href='modifica-evento?titolo=".urlencode($dettagliEvento['Titolo'])."&data=".urlencode($date)."'>Modifica<span class='sr-only'> scheda evento</span></a>
                 ";
             }
         }
@@ -133,11 +133,11 @@ function buildMainevent(array $dettagliEvento, int $isAdmin=0): string {
 
         
         $html.="
-        <img class='square-foto' id='foto-card' src=".htmlspecialchars($img)." />
+        <img class='square-foto' id='foto-card' src='".htmlspecialchars($img)."' alt='' />
 
-        <dialog [openDialog] class='overlay-content'>
+        <dialog [openDialog] class='overlay-content' aria-labelledby='modal-title'>
                     <div class='dialog-box'>
-                        <h3 id='modal-title'>Conferma eliminazione</h3>
+                        <p id='modal-title' aria-hidden='true'><strong>Conferma eliminazione</strong></p>
                         <p>L'eliminazione di <strong>$titolo</strong> è <strong>irreversibile</strong>. Vuoi continuare?</p>
                         <div class='dialog-buttons'>
                             <form method='post'>

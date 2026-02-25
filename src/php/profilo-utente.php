@@ -674,9 +674,9 @@ $htmlManagement = '
 
         [ButtonEliminaProfilo]
 
-        <dialog [openDialog] class="overlay-content">
+        <dialog [openDialog] class="overlay-content" aria-labelledby="modal-title">
                 <div class="dialog-box">
-                    <h3 id="modal-title">Eliminazione profilo</h3>
+                    <p id="modal-title" aria-hidden="true"><strong>Eliminazione profilo</strong></p>
                     <p id="modal-desc">L\'eliminazione è <strong>irreversibile</strong>, vuoi continuare?</p>
                     
                     <div class="dialog-buttons">
