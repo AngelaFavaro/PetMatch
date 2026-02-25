@@ -26,7 +26,7 @@
                         <label for="nome">Nome *</label>
                         <input type="text" name="nome" id="nome" maxlength="100" placeholder="Nome" 
                         aria-describedby="help-counter-nome"
-                        autocomplete="nome" value="[Nome]"/>
+                        autocomplete="off" value="[Nome]"/>
                         <p id="help-counter-nome">
                             <span class="labelledby-element">limite caratteri</span>
                             <span class="conteggio-testo" id="conta-corrente-nome"></span>
@@ -38,7 +38,7 @@
                         <label for="razza">Razza *</label>
                         <input type="text" name="razza" id="razza" maxlength="100" placeholder="Razza" 
                         aria-describedby="help-counter-razza"
-                        autocomplete="razza" value="[Razza]"/>
+                        autocomplete="off" value="[Razza]"/>
                         <p id="help-counter-razza">
                             <span class="labelledby-element">limite caratteri</span>
                             <span class="conteggio-testo" id="conta-corrente-razza"></span>
@@ -78,11 +78,11 @@
                         <label for="foto" class="file-upload-label">
                             <span class="file-upload-text">Importa un immagine o trascinala</span>
                             <span class="file-name-display"></span>
-                            <input type="file" id="foto" name="foto" accept=".jpg, .jpeg, .png"/>
-                            <div class="foto-caricata-info">
-                                [infoFotoCaricata]
-                            </div>
+                            <input type="file" id="foto" name="foto" accept=".jpg,.jpeg,.png"/>
                         </label>
+                        <div class="foto-caricata-info">
+                           [infoFotoCaricata]
+                        </div>
                         [input-hidden-foto-animale]
                         <p class="error-form">[erroriFoto]</p>
                     </div>
@@ -99,7 +99,7 @@
                 <div class="column-user">
                     <div>
                         <label for="dataNascita">Data di Nascita *</label>
-                        <input type="date" name="dataNascita" id="dataNascita" autocomplete="Data di nascita" value="[DataNascita]"/>
+                        <input type="date" name="dataNascita" id="dataNascita" autocomplete="off" value="[DataNascita]"/>
                         <p class="error-form">[erroriDataNascita]</p>
                     </div>
 
@@ -119,7 +119,7 @@
                         <label for="colore">Colore *</label>
                         <input type="text" name="colore" id="colore" maxlength="100" placeholder="Colore" 
                         aria-describedby="help-counter-colore"
-                        autocomplete="colore" value="[Colore]"/>
+                        autocomplete="off" value="[Colore]"/>
                         <p id="help-counter-colore">
                             <span class="labelledby-element">limite caratteri</span>
                             <span class="conteggio-testo" id="conta-corrente-colore"></span>
