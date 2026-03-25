@@ -1,4 +1,11 @@
-# PetMatch
+<div align="center">
+
+# 🐱 PetMatch 🐶
+
+Progetto per il corso di Tecnologie Web con valutazione 29/30.
+
+</div>
+
 ## Abstract
 
 Il sito web è destinato a un rifugio impegnato a dare una nuova casa agli animali, occupandosi della gestione delle disponibilità fino al trasporto alla sede concordata.
